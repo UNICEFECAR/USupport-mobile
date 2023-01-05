@@ -1,0 +1,29 @@
+{
+  "name": "usupport-mobile",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "expo start --dev-client",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "web": "expo start --web"
+  },
+  "dependencies": {
+    "@expo-google-fonts/nunito": "^0.2.2",
+    "expo": "~47.0.9",
+    "expo-font": "~11.0.1",
+    "expo-linear-gradient": "~12.0.1",
+    "expo-splash-screen": "~0.17.5",
+    "expo-status-bar": "~1.4.2",
+    "react": "18.1.0",
+    "react-native": "0.70.5",
+    "react-native-svg": "13.4.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.9"
+  },
+  "private": true,
+  "overrides": {
+    "qs": "6.7.3"
+  }
+}
