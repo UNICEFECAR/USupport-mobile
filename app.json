@@ -3,8 +3,7 @@
     "name": "USupport-mobile",
     "slug": "USupport-mobile",
     "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ]
+    "assetBundlePatterns": ["**/*"],
+    "jsEngine": "hermes"
   }
 }

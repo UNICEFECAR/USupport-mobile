@@ -83,7 +83,7 @@ def reactNativeRoot = new File(["node", "--print", "require.resolve('react-nativ
 
 project.ext.react = [
     entryFile: ["node", "-e", "require('expo/scripts/resolveAppEntry')", projectRoot, "android"].execute(null, rootDir).text.trim(),
-    enableHermes: (findProperty('expo.jsEngine') ?: "jsc") == "hermes",
+    enableHermes: true,
     hermesCommand: new File(["node", "--print", "require.resolve('react-native/package.json')"].execute(null, rootDir).text.trim()).getParentFile().getAbsolutePath() + "/sdks/hermesc/%OS-BIN%/hermesc",
     cliPath: "${reactNativeRoot}/cli.js",
     composeSourceMapsPath: "${reactNativeRoot}/scripts/compose-source-maps.js",
@@ -126,7 +126,7 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  * on project.ext.react, JavaScript will not be compiled to Hermes Bytecode
  * and the benefits of using Hermes will therefore be sharply reduced.
  */
-def enableHermes = project.ext.react.get("enableHermes", false);
+def enableHermes = project.ext.react.get("enableHermes", true);
 
 /**
  * Architectures to build native code for.

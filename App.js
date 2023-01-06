@@ -1,9 +1,9 @@
 import React, { useCallback } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 
-import AppText from "./src/components/AppText";
+import { AppText } from "#components";
 
 import {
   useFonts,
@@ -16,7 +16,7 @@ import {
 } from "@expo-google-fonts/nunito";
 
 import LinearGradient from "./src/components/LinearGradient";
-import appStyles from "./src/appStyles";
+import { appStyles } from "#styles";
 
 export default function App() {
   let [loaded, error] = useFonts({
@@ -43,6 +43,7 @@ export default function App() {
   if (!loaded) {
     return null;
   }
+
   return (
     <View onLayout={onLayoutRootView} style={styles.container}>
       <LinearGradient gradient={appStyles.gradientSecondary3}>

@@ -1,9 +1,9 @@
 import React from "react";
 import { Text, StyleSheet } from "react-native";
 
-import appStyles from "../appStyles";
+import { appStyles } from "#styles";
 
-const AppText = ({ style, namedStyle, children, ...rest }) => {
+export const AppText = ({ style, namedStyle, children, ...rest }) => {
   return (
     <Text style={[style, styles.text, styles[namedStyle]]} {...rest}>
       {children}
@@ -11,7 +11,6 @@ const AppText = ({ style, namedStyle, children, ...rest }) => {
   );
 };
 
-// define your styles
 const styles = StyleSheet.create({
   text: {
     color: appStyles.colorGray66768d,
@@ -43,6 +42,3 @@ const styles = StyleSheet.create({
     lineHeight: 18,
   },
 });
-
-//make this component available to the app
-export default AppText;
