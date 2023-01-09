@@ -3,9 +3,9 @@ import { Text, StyleSheet } from "react-native";
 
 import { appStyles } from "#styles";
 
-export const AppText = ({ style, namedStyle, children, ...rest }) => {
+export const AppText = ({ style, namedStyle, children, ...props }) => {
   return (
-    <Text style={[style, styles.text, styles[namedStyle]]} {...rest}>
+    <Text style={[style, styles.text, styles[namedStyle]]} {...props}>
       {children}
     </Text>
   );

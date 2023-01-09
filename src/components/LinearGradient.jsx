@@ -4,13 +4,13 @@ import { LinearGradient as ExpoLinearGradient } from "expo-linear-gradient";
 import { calcGradientDegrees } from "../utils";
 
 // create a component
-const LinearGradient = ({ children, gradient, ...rest }) => {
+const LinearGradient = ({ children, gradient, ...props }) => {
   return (
     <ExpoLinearGradient
       {...calcGradientDegrees(gradient.degrees)}
       colors={gradient.colors}
       locations={gradient.locations.map((x) => x / 100)}
-      {...rest}
+      {...props}
     >
       {children}
     </ExpoLinearGradient>

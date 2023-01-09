@@ -4,9 +4,9 @@ import { AppButton, Icon } from "#components";
 
 import { appStyles } from "#styles";
 
-export const ButtonWithIcon = ({ iconName, ...rest }) => {
+export const ButtonWithIcon = ({ iconName, ...props }) => {
   return (
-    <AppButton style={styles.btn} {...rest}>
+    <AppButton style={styles.btn} {...props}>
       <Icon name={iconName} size={"md"} color={appStyles.colorWhite_ff} />
     </AppButton>
   );

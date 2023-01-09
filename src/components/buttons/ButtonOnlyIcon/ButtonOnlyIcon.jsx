@@ -8,14 +8,14 @@ export const ButtonOnlyIcon = ({
   iconName = "phone-emergency",
   iconSize = "xl",
   style,
-  ...rest
+  ...props
 }) => {
   return (
     <Pressable
       style={({ pressed }) => {
         return [style, styles.btn, pressed && styles.pressed];
       }}
-      {...rest}
+      {...props}
     >
       <Icon name={iconName} size={iconSize} color={appStyles.colorWhite_ff} />
     </Pressable>

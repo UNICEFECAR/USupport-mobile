@@ -8,10 +8,10 @@ export const AppButton = ({
   type = "primary",
   color = "green",
   size,
-  text,
+  label,
   disabled = false,
   children,
-  ...rest
+  ...props
 }) => {
   return (
     <Pressable
@@ -27,7 +27,7 @@ export const AppButton = ({
         ];
       }}
       disabled={disabled}
-      {...rest}
+      {...props}
     >
       {children}
       <Text
@@ -42,7 +42,7 @@ export const AppButton = ({
           type === "ghost" && color === "purple" && styles.btnTextGhostPurple,
         ]}
       >
-        {text}
+        {label}
       </Text>
     </Pressable>
   );
