@@ -10,24 +10,26 @@ export const AppButton = ({
   size,
   text,
   disabled = false,
+  children,
   ...rest
 }) => {
   return (
     <Pressable
       style={({ pressed }) => {
         return [
-          style,
           styles.btn,
           styles[color],
           styles[type],
           styles[size],
           disabled && styles.disabled,
           pressed && styles[color + "Pressed" + type],
+          style,
         ];
       }}
       disabled={disabled}
       {...rest}
     >
+      {children}
       <Text
         style={[
           styles.btnText,
