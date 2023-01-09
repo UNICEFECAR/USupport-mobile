@@ -4,15 +4,26 @@ import { Icon } from "#components";
 
 import { appStyles } from "#styles";
 
-export const ButtonSelector = ({ label, iconName, avatar, ...props }) => {
+export const ButtonSelector = ({
+  label,
+  iconName,
+  avatar,
+  disabled,
+  ...props
+}) => {
   const [isPressed, setIsPressed] = useState(false);
 
   return (
     <Pressable
       style={({ pressed }) => {
         setIsPressed(pressed);
-        return [styles.btn, pressed && styles.btnPressed];
+        return [
+          styles.btn,
+          pressed && styles.btnPressed,
+          disabled && styles.btnDisabled,
+        ];
       }}
+      disabled={disabled}
       {...props}
     >
       <View style={styles.textContainer}>
@@ -54,6 +65,10 @@ const styles = StyleSheet.create({
 
   btnPressed: {
     borderColor: appStyles.colorPrimaryPressed_0c5f7a,
+  },
+
+  btnDisabled: {
+    opacity: 0.4,
   },
 
   avatar: {
