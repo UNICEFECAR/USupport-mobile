@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { AppButton, Icon } from "#components";
+
 import { appStyles } from "#styles";
 
 export const ButtonWithIcon = ({ iconName, ...rest }) => {
