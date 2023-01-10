@@ -77,22 +77,41 @@ export default {
     colors: ["rgba(255, 255, 255, 0)", "#ffffff"],
   },
 
-  shadow: {
-    shadowColor: "#000",
+  shadow1: {
+    shadowColor: "#684dfd1a",
     shadowOffset: {
-      width: 0,
+      width: 1,
       height: 1,
     },
-    shadowOpacity: 0.18,
-    shadowRadius: 1.0,
+    shadowOpacity: 0.57,
+    shadowRadius: 5,
 
-    elevation: 1,
+    elevation: 23,
   },
 
-  shadowOne: "rgba(104, 77, 253, 0.1)",
-  shadowTwo: "rgba(104, 77, 253, 0.2)",
-  shadowThree: "rgba(104, 77, 253, 0.3)",
-  shadowFour: "rgba(104,77,253,0.4)",
+  shadow2: {
+    shadowColor: "#684dfd33",
+    shadowOffset: {
+      width: 1,
+      height: 2,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 5,
+
+    elevation: 23,
+  },
+
+  shadow3: {
+    shadowColor: "#684dfd4d",
+    shadowOffset: {
+      width: 4,
+      height: 1,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 7,
+
+    elevation: 23,
+  },
 
   overlay: "rgba(102, 118, 141, 0.5)",
 };
