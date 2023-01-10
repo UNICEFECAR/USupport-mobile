@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { StyleSheet, View } from "react-native";
 import appStyles from "../../styles/appStyles";
 import {
@@ -70,11 +71,12 @@ import {
   IconCheckBoxCheck,
 } from "./assets/sprite";
 
-export const Icon = ({
-  name,
-  size = "md",
-  color = appStyles.colorBlack_37,
-}) => {
+/**
+ * Icon
+ *
+ * Icon component used to render different icons from the sprite file
+ */
+export const Icon = ({ name, size, color }) => {
   let icon;
 
   switch (name) {
@@ -303,3 +305,28 @@ const styles = StyleSheet.create({
     height: 40,
   },
 });
+
+Icon.PropTypes = {
+  /**
+   * The name of the icon to display.
+   **/
+  name: PropTypes.string.isRequired,
+
+  /**
+   * The size of the icon.
+   * @default 'md'
+   * @type 'sm' | 'md' | 'lg' | 'xl'
+   * */
+  size: PropTypes.oneOf(["sm", "md", "lg", "xl"]),
+
+  /**
+   * The color of the icon.
+   * @default appStyles.colorBlack_37
+   **/
+  color: PropTypes.string,
+};
+
+Icon.defaultProps = {
+  size: "md",
+  color: appStyles.colorBlack_37,
+};

@@ -1,16 +1,24 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { StyleSheet, Pressable, Text } from "react-native";
 
 import { appStyles } from "#styles";
 
+/**
+ * AppButton
+ *
+ * Base Button component
+ *
+ * @return {jsx}
+ */
 export const AppButton = ({
-  style,
-  type = "primary",
-  color = "green",
+  type,
+  color,
   size,
   label,
-  disabled = false,
+  disabled,
   children,
+  style,
   ...props
 }) => {
   return (
@@ -51,7 +59,6 @@ export const AppButton = ({
 // define your styles
 const styles = StyleSheet.create({
   btn: {
-    minWidth: 168,
     paddingHorizontal: 16,
     paddingVertical: 4,
     backgroundColor: appStyles.colorPrimary_20809e,
@@ -103,6 +110,10 @@ const styles = StyleSheet.create({
     minWidth: 148,
   },
 
+  md: {
+    minWidth: 168,
+  },
+
   lg: {
     minWidth: "100%",
     paddingHorizontal: 24,
@@ -139,3 +150,45 @@ const styles = StyleSheet.create({
     color: appStyles.colorSecondary_9749fa,
   },
 });
+
+AppButton.propTypes = {
+  /**
+   * Button type
+   * @default: primary
+   **/
+  type: PropTypes.oneOf(["primary", "secondary", "ghost"]),
+
+  /**
+   * Button color
+   * @default: green
+   **/
+  color: PropTypes.oneOf(["green", "purple"]),
+
+  /**
+   * Button size
+   * @default: md
+   * */
+  size: PropTypes.oneOf(["sm", "md", "lg"]),
+
+  /**
+   *Label to render in the Button component
+   * */
+  label: PropTypes.string,
+
+  /**
+   * Disables the button
+   * @default: false
+   * */
+  disabled: PropTypes.bool,
+
+  /**
+   * Additional classes to add to the checkbox wrapper
+   * */
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+};
+
+AppButton.defaultProps = {
+  type: "primary",
+  size: "md",
+  disabled: false,
+};

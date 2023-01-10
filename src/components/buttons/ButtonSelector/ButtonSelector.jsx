@@ -1,14 +1,23 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { StyleSheet, Pressable, Text, View, Image } from "react-native";
 import { Icon } from "#components";
 
 import { appStyles } from "#styles";
 
+/**
+ * ButtonSelector
+ *
+ * ButtonSelector component
+ *
+ * @return {jsx}
+ */
 export const ButtonSelector = ({
   label,
   iconName,
   avatar,
   disabled,
+  style,
   ...props
 }) => {
   const [isPressed, setIsPressed] = useState(false);
@@ -21,6 +30,7 @@ export const ButtonSelector = ({
           styles.btn,
           pressed && styles.btnPressed,
           disabled && styles.btnDisabled,
+          style,
         ];
       }}
       disabled={disabled}
@@ -102,3 +112,39 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
+
+ButtonSelector.propTypes = {
+  /**
+   * Label to render in the ButtonSelector component
+   */
+  label: PropTypes.string,
+
+  /**
+   * Name of the left icon to render
+   */
+  iconName: PropTypes.string,
+
+  /**
+   * URL to the image that needs to be displayed
+   */
+  avatar: PropTypes.string,
+
+  /**
+   * Is the button disabled?
+   */
+  disabled: PropTypes.bool,
+
+  /**
+   * Additional styles to pass
+   * */
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+
+  /**
+   * Additional props to pass
+   **/
+  props: PropTypes.object,
+};
+
+ButtonSelector.defaultProps = {
+  disabled: false,
+};
