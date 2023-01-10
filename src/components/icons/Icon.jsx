@@ -67,6 +67,7 @@ import {
   IconCommunity,
   IconSelfCare,
   IconTherapy,
+  IconCheckBoxCheck,
 } from "./assets/sprite";
 
 export const Icon = ({
@@ -271,6 +272,9 @@ export const Icon = ({
       break;
     case "therapy":
       icon = <IconTherapy color={color} />;
+      break;
+    case "checkbox-check":
+      icon = <IconCheckBoxCheck color={color} />;
       break;
     default:
       icon = null;
