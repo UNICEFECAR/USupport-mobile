@@ -18,7 +18,7 @@ export const ButtonSelector = ({
   label,
   iconName,
   avatar,
-  disabled,
+  disabled = false,
   style,
   ...props
 }) => {
@@ -147,8 +147,4 @@ ButtonSelector.propTypes = {
    * Additional props to pass
    **/
   props: PropTypes.object,
-};
-
-ButtonSelector.defaultProps = {
-  disabled: false,
 };
