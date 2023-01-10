@@ -17,7 +17,7 @@ export default {
   colorGray_ea: "#eaeaea",
   colorGray_92989b: "#92989b",
   colorGray_a6b4b8: "#a6b4b8",
-  colorGray66768d: "#66768d",
+  colorGray_66768d: "#66768d",
   colorGray_344054: "#344054",
 
   colorGreen_54cfd9: "#54cfd9",
