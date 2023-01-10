@@ -16,7 +16,7 @@ export const RadioButton = ({
   setIsChecked,
   label,
   style,
-  disabled,
+  disabled = false,
   ...props
 }) => {
   return (
@@ -124,8 +124,4 @@ RadioButton.propTypes = {
    * Additional props to pass to the checkbox
    **/
   props: PropTypes.object,
-};
-
-RadioButton.defaultProps = {
-  disabled: false,
 };
