@@ -1,7 +1,8 @@
 import React from "react";
 import { PropTypes } from "prop-types";
 import { StyleSheet } from "react-native";
-import { AppButton, Icon } from "#components";
+import { Icon } from "../../icons/Icon";
+import { AppButton } from "../AppButton";
 
 import { appStyles } from "#styles";
 
