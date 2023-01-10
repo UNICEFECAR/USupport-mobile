@@ -76,7 +76,11 @@ import {
  *
  * Icon component used to render different icons from the sprite file
  */
-export const Icon = ({ name, size, color }) => {
+export const Icon = ({
+  name,
+  size = "md",
+  color = appStyles.colorBlack_37,
+}) => {
   let icon;
 
   switch (name) {
@@ -306,7 +310,7 @@ const styles = StyleSheet.create({
   },
 });
 
-Icon.PropTypes = {
+Icon.propTypes = {
   /**
    * The name of the icon to display.
    **/
@@ -324,9 +328,4 @@ Icon.PropTypes = {
    * @default appStyles.colorBlack_37
    **/
   color: PropTypes.string,
-};
-
-Icon.defaultProps = {
-  size: "md",
-  color: appStyles.colorBlack_37,
 };
