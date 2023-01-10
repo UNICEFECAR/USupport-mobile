@@ -16,7 +16,7 @@ export const RadioButton = ({
   setIsChecked,
   label,
   style,
-  disabled = false,
+  disabled,
   ...props
 }) => {
   return (

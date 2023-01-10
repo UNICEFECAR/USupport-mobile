@@ -16,7 +16,7 @@ export const CheckBox = ({
   isChecked,
   setIsChecked,
   label,
-  disabled = false,
+  disabled,
   style,
   ...props
 }) => {
