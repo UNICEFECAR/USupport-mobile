@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { StyleSheet, Pressable } from "react-native";
-import { Icon } from "#components";
+import { Icon } from "../../icons/Icon";
 
 import { appStyles } from "#styles";
 
@@ -16,7 +16,12 @@ export const ButtonOnlyIcon = ({ iconName, iconSize, style, ...props }) => {
   return (
     <Pressable
       style={({ pressed }) => {
-        return [style, styles.btn, pressed && styles.pressed];
+        return [
+          appStyles.shadow1,
+          styles.btn,
+          pressed && styles.pressed,
+          style,
+        ];
       }}
       {...props}
     >
