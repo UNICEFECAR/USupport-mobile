@@ -1,15 +1,23 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { StyleSheet, TouchableWithoutFeedback, View, Text } from "react-native";
 import { Icon } from "#components";
 
 import { appStyles } from "#styles";
 
+/**
+ * CheckBox
+ *
+ * CheckBox component
+ *
+ * @return {jsx}
+ */
 export const CheckBox = ({
   isChecked,
   setIsChecked,
   label,
-  style,
   disabled = false,
+  style,
   ...props
 }) => {
   return (
@@ -85,3 +93,40 @@ const styles = StyleSheet.create({
     color: appStyles.colorBlue_3d527b,
   },
 });
+
+CheckBox.propTypes = {
+  /**
+   * Is the checkbox checked
+   **/
+  isChecked: PropTypes.bool,
+
+  /**
+   * Function to set the checkbox checked state
+   **/
+  setIsChecked: PropTypes.func,
+
+  /**
+   * Label for the checkbox if needed
+   **/
+  label: PropTypes.string,
+
+  /**
+   * If the checkbox is disabled
+   *
+   **/
+  disabled: PropTypes.bool,
+
+  /**
+   * Additional classes to add to the checkbox wrapper
+   * */
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+
+  /**
+   * Additional props to pass to the checkbox
+   **/
+  props: PropTypes.object,
+};
+
+CheckBox.defaultProps = {
+  disabled: false,
+};
