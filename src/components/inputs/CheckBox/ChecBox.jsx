@@ -2,15 +2,29 @@ import React from "react";
 import { StyleSheet, TouchableWithoutFeedback, View, Text } from "react-native";
 import { Icon } from "#components";
 
-import appStyles from "../../../styles/appStyles";
+import { appStyles } from "#styles";
 
-export const CheckBox = ({ isChecked, setIsChecked, label, style }) => {
+export const CheckBox = ({
+  isChecked,
+  setIsChecked,
+  label,
+  style,
+  disabled = false,
+  ...props
+}) => {
   return (
     <TouchableWithoutFeedback
       onPress={() => setIsChecked(!isChecked)}
       hitSlop={{ top: 7, bottom: 7, left: 7, right: 7 }}
+      disabled={disabled}
+      {...props}
     >
-      <View style={styles.checkboxWrapper}>
+      <View
+        style={[
+          styles.checkboxWrapper,
+          disabled && styles.checkboxWrapperDisabled,
+        ]}
+      >
         <View style={[styles.checkbox, style, isChecked && styles.checked]}>
           {isChecked && (
             <Icon
@@ -35,6 +49,10 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
+  },
+
+  checkboxWrapperDisabled: {
+    opacity: 0.4,
   },
 
   checkbox: {
