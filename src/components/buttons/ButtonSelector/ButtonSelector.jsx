@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { StyleSheet, Pressable, Text, View, Image } from "react-native";
-import { Icon } from "#components";
+import { Icon } from "../../icons/Icon";
+
+import DropShadow from "react-native-drop-shadow";
 
 import { appStyles } from "#styles";
 
@@ -25,15 +27,17 @@ export const ButtonSelector = ({
   return (
     <Pressable
       style={({ pressed }) => {
-        setIsPressed(pressed);
         return [
           styles.btn,
           pressed && styles.btnPressed,
           disabled && styles.btnDisabled,
+          appStyles.shadow3,
           style,
         ];
       }}
       disabled={disabled}
+      onPressIn={() => setIsPressed(true)}
+      onPressOut={() => setIsPressed(false)}
       {...props}
     >
       <View style={styles.textContainer}>
@@ -60,7 +64,7 @@ export const ButtonSelector = ({
 // define your styles
 const styles = StyleSheet.create({
   btn: {
-    backgroundColor: "transparent",
+    backgroundColor: appStyles.colorWhite_ff,
     borderColor: "transparent",
     borderWidth: 1,
     borderRadius: 24,
