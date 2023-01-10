@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { StyleSheet, TouchableWithoutFeedback, View, Text } from "react-native";
-import { Icon } from "#components";
+import { Icon } from "../../icons/Icon";
 
 import { appStyles } from "#styles";
 
@@ -16,7 +16,7 @@ export const CheckBox = ({
   isChecked,
   setIsChecked,
   label,
-  disabled,
+  disabled = false,
   style,
   ...props
 }) => {
@@ -125,8 +125,4 @@ CheckBox.propTypes = {
    * Additional props to pass to the checkbox
    **/
   props: PropTypes.object,
-};
-
-CheckBox.defaultProps = {
-  disabled: false,
 };
