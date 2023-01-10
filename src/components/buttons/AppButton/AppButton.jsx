@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { StyleSheet, Pressable, Text } from "react-native";
 
@@ -12,19 +12,22 @@ import { appStyles } from "#styles";
  * @return {jsx}
  */
 export const AppButton = ({
-  type,
-  color,
-  size,
+  type = "primary",
+  color = "green",
+  size = "md",
   label,
-  disabled,
+  disabled = false,
   children,
   style,
   ...props
 }) => {
+  const [isPressed, setIsPressed] = useState(false);
+
   return (
     <Pressable
       style={({ pressed }) => {
         return [
+          appStyles.shadow1,
           styles.btn,
           styles[color],
           styles[type],
@@ -35,6 +38,8 @@ export const AppButton = ({
         ];
       }}
       disabled={disabled}
+      onPressIn={() => setIsPressed(true)}
+      onPressOut={() => setIsPressed(false)}
       {...props}
     >
       {children}
@@ -48,6 +53,10 @@ export const AppButton = ({
             styles.btnTextSecondaryPurple,
           type === "ghost" && styles.btnTextGhost,
           type === "ghost" && color === "purple" && styles.btnTextGhostPurple,
+          isPressed && styles.btnTextPressed,
+          isPressed &&
+            (type === "secondary" || type === "ghost") &&
+            styles[color + "Pressed" + "Text"],
         ]}
       >
         {label}
@@ -66,6 +75,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "transparent",
   },
 
   disabled: {
@@ -82,7 +93,6 @@ const styles = StyleSheet.create({
   },
 
   greenPressedsecondary: {
-    borderWidth: 1,
     borderColor: appStyles.colorPrimaryPressed_0c5f7a,
   },
 
@@ -149,6 +159,18 @@ const styles = StyleSheet.create({
   btnTextGhostPurple: {
     color: appStyles.colorSecondary_9749fa,
   },
+
+  btnTextPressed: {
+    fontFamily: "Nunito_800ExtraBold",
+  },
+
+  greenPressedText: {
+    color: appStyles.colorPrimaryPressed_0c5f7a,
+  },
+
+  purplePressedText: {
+    color: appStyles.colorSecondaryPressed_7f2ee5,
+  },
 });
 
 AppButton.propTypes = {
@@ -185,10 +207,4 @@ AppButton.propTypes = {
    * Additional classes to add to the checkbox wrapper
    * */
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-};
-
-AppButton.defaultProps = {
-  type: "primary",
-  size: "md",
-  disabled: false,
 };
