@@ -80,6 +80,7 @@ export const Icon = ({
   name,
   size = "md",
   color = appStyles.colorBlack_37,
+  style,
 }) => {
   let icon;
 
@@ -287,7 +288,7 @@ export const Icon = ({
       break;
   }
 
-  return <View style={styles[size]}>{icon}</View>;
+  return <View style={[styles[size], style]}>{icon}</View>;
 };
 
 const styles = StyleSheet.create({
@@ -328,4 +329,9 @@ Icon.propTypes = {
    * @default appStyles.colorBlack_37
    **/
   color: PropTypes.string,
+
+  /**
+   * Additional styles to apply to the icon.
+   **/
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
