@@ -22,7 +22,7 @@ export const CheckBox = ({
 }) => {
   return (
     <TouchableWithoutFeedback
-      onPress={() => setIsChecked(!isChecked)}
+      onPress={() => setIsChecked()}
       hitSlop={{ top: 7, bottom: 7, left: 7, right: 7 }}
       disabled={disabled}
       {...props}
