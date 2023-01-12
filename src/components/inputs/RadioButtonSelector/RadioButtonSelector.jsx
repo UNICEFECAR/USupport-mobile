@@ -14,7 +14,7 @@ import { RadioButton } from "../RadioButton/RadioButton";
 export const RadioButtonSelector = ({ style, ...props }) => {
   return (
     <Box style={[style, styles.radioButtonSelector]} boxShadow={2}>
-      <RadioButton label="Da ti go Nabiq" {...props} />
+      <RadioButton {...props} />
     </Box>
   );
 };
@@ -34,7 +34,7 @@ RadioButtonSelector.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 
   /**
-   * Additional props to pass to the component
+   * Additional props to pass to the RadioButton component
    * */
   props: PropTypes.object,
 };
