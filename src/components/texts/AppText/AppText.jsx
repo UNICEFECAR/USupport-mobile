@@ -3,9 +3,18 @@ import { Text, StyleSheet } from "react-native";
 
 import { appStyles } from "#styles";
 
-export const AppText = ({ style, namedStyle, children, ...props }) => {
+export const AppText = ({
+  style,
+  namedStyle,
+  isBold = false,
+  children,
+  ...props
+}) => {
   return (
-    <Text style={[style, styles.text, styles[namedStyle]]} {...props}>
+    <Text
+      style={[style, styles.text, styles[namedStyle], isBold && styles.bold]}
+      {...props}
+    >
       {children}
     </Text>
   );
@@ -13,7 +22,7 @@ export const AppText = ({ style, namedStyle, children, ...props }) => {
 
 const styles = StyleSheet.create({
   text: {
-    color: appStyles.colorGray66768d,
+    color: appStyles.colorGray_66768d,
     fontSize: 16,
     fontFamily: "Nunito_400Regular",
     lineHeight: 24,
@@ -40,5 +49,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: "Nunito_400Regular",
     lineHeight: 18,
+  },
+  bold: {
+    fontFamily: "Nunito_700Bold",
   },
 });
