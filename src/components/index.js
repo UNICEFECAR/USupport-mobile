@@ -4,3 +4,6 @@ export * from "./icons";
 export * from "./inputs";
 export * from "./errors";
 export * from "./boxes";
+export * from "./wrappers";
+export * from "./dropdowns";
+export * from "./headings";
