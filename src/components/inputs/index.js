@@ -7,4 +7,5 @@ export * from "./CheckBoxSelector";
 export * from "./RadioButtonSelector";
 export * from "./RadioButtonSelectorGroup";
 export * from "./CheckBoxSelectorGroup";
+export * from "./CheckBoxGroup";
 // export * from "./Textarea";
