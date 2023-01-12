@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import { StyleSheet, Pressable, Text, View, Image } from "react-native";
 import { Icon } from "../../icons/Icon";
 
-import DropShadow from "react-native-drop-shadow";
-
 import { appStyles } from "#styles";
 
 /**
