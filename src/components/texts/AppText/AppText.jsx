@@ -12,7 +12,7 @@ export const AppText = ({
 }) => {
   return (
     <Text
-      style={[style, styles.text, styles[namedStyle], isBold && styles.bold]}
+      style={[styles.text, styles[namedStyle], isBold && styles.bold, style]}
       {...props}
     >
       {children}
