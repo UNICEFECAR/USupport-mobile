@@ -5,6 +5,8 @@ PODS:
     - ExpoModulesCore
   - EXConstants (14.0.2):
     - ExpoModulesCore
+  - EXErrorRecovery (4.0.1):
+    - ExpoModulesCore
   - EXFileSystem (15.1.1):
     - ExpoModulesCore
   - EXFont (11.0.1):
@@ -20,6 +22,8 @@ PODS:
   - ExpoModulesCore (1.0.4):
     - React-Core
     - ReactCommon/turbomodule/core
+  - EXSecureStore (12.0.0):
+    - ExpoModulesCore
   - EXSplashScreen (0.17.5):
     - ExpoModulesCore
     - React-Core
@@ -35,6 +39,10 @@ PODS:
   - glog (0.3.5)
   - hermes-engine (0.70.5)
   - libevent (2.1.12)
+  - lottie-ios (3.4.1)
+  - lottie-react-native (5.1.4):
+    - lottie-ios (~> 3.4.0)
+    - React-Core
   - RCT-Folly (2021.07.22.00):
     - boost
     - DoubleConversion
@@ -363,6 +371,7 @@ DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - EXApplication (from `../node_modules/expo-application/ios`)
   - EXConstants (from `../node_modules/expo-constants/ios`)
+  - EXErrorRecovery (from `../node_modules/expo-error-recovery/ios`)
   - EXFileSystem (from `../node_modules/expo-file-system/ios`)
   - EXFont (from `../node_modules/expo-font/ios`)
   - Expo (from `../node_modules/expo`)
@@ -370,12 +379,15 @@ DEPENDENCIES:
   - ExpoLinearGradient (from `../node_modules/expo-linear-gradient/ios`)
   - ExpoLocalization (from `../node_modules/expo-localization/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
+  - EXSecureStore (from `../node_modules/expo-secure-store/ios`)
   - EXSplashScreen (from `../node_modules/expo-splash-screen/ios`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - hermes-engine (from `../node_modules/react-native/sdks/hermes/hermes-engine.podspec`)
   - libevent (~> 2.1.12)
+  - lottie-ios (from `../node_modules/lottie-ios`)
+  - lottie-react-native (from `../node_modules/lottie-react-native`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
@@ -422,6 +434,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-application/ios"
   EXConstants:
     :path: "../node_modules/expo-constants/ios"
+  EXErrorRecovery:
+    :path: "../node_modules/expo-error-recovery/ios"
   EXFileSystem:
     :path: "../node_modules/expo-file-system/ios"
   EXFont:
@@ -436,6 +450,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-localization/ios"
   ExpoModulesCore:
     :path: "../node_modules/expo-modules-core"
+  EXSecureStore:
+    :path: "../node_modules/expo-secure-store/ios"
   EXSplashScreen:
     :path: "../node_modules/expo-splash-screen/ios"
   FBLazyVector:
@@ -446,6 +462,10 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   hermes-engine:
     :podspec: "../node_modules/react-native/sdks/hermes/hermes-engine.podspec"
+  lottie-ios:
+    :path: "../node_modules/lottie-ios"
+  lottie-react-native:
+    :path: "../node_modules/lottie-react-native"
   RCT-Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
   RCTRequired:
@@ -512,6 +532,7 @@ SPEC CHECKSUMS:
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
   EXApplication: 034b1c40a8e9fe1bff76a1e511ee90dff64ad834
   EXConstants: 3c86653c422dd77e40d10cbbabb3025003977415
+  EXErrorRecovery: ae43433feb0608a64dc5b1c8363b3e7769a9ea24
   EXFileSystem: 60602b6eefa6873f97172c684b7537c9760b50d6
   EXFont: 319606bfe48c33b5b5063fb0994afdc496befe80
   Expo: 5523a4835730104a301caeac1e68dad095a9dfff
@@ -519,6 +540,7 @@ SPEC CHECKSUMS:
   ExpoLinearGradient: b40c2133ad57ae105b1b12a319e314463c817f6b
   ExpoLocalization: e202d1e2a4950df17ac8d0889d65a1ffd7532d7e
   ExpoModulesCore: 8211c89bcc3ba86e2d02c54b1d31f1fa81acb6de
+  EXSecureStore: daec0117c922a67c658cb229152a9e252e5c1750
   EXSplashScreen: 3e989924f61a8dd07ee4ea584c6ba14be9b51949
   FBLazyVector: affa4ba1bfdaac110a789192f4d452b053a86624
   FBReactNativeSpec: fe8b5f1429cfe83a8d72dc8ed61dc7704cac8745
@@ -526,6 +548,8 @@ SPEC CHECKSUMS:
   glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
   hermes-engine: 7fe5fc6ef707b7fdcb161b63898ec500e285653d
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
+  lottie-ios: 016449b5d8be0c3dcbcfa0a9988469999cd04c5d
+  lottie-react-native: b702fab740cdb952a8e2354713d3beda63ff97b0
   RCT-Folly: 0080d0a6ebf2577475bda044aa59e2ca1f909cda
   RCTRequired: 21229f84411088e5d8538f21212de49e46cc83e2
   RCTTypeSafety: 62eed57a32924b09edaaf170a548d1fc96223086
