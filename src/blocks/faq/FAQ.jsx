@@ -1,7 +1,8 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { useQuery } from "@tanstack/react-query";
-import { View } from "react-native";
+import { useTranslation } from "react-i18next";
+
 import { CollapsibleFAQ, Block, Heading, Loading, AppText } from "#components";
 
 import { useEventListener } from "#hooks";
@@ -16,10 +17,7 @@ import { localStorage, adminSvc, cmsSvc } from "#services";
  * @return {jsx}
  */
 export const FAQ = () => {
-  // const { i18n, t } = useTranslation("faq");
-  const t = (t) => t;
-  const i18n = { language: "en" };
-
+  const { i18n, t } = useTranslation("faq");
   //--------------------- Country Change Event Listener ----------------------//
   const [currentCountry, setCurrentCountry] = useState();
   useEffect(() => {
@@ -78,12 +76,7 @@ export const FAQ = () => {
   return (
     <Block>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Heading
-          heading={"FAQ"}
-          subheading={
-            "Here you can find answers to frequently asked questions."
-          }
-        />
+        <Heading heading={t("heading")} subheading={t("subheading")} />
         <View style={styles.faqContainer}>
           {isFaqLoading && FAQsData?.length ? (
             <Loading style={styles.loading} />
@@ -93,7 +86,7 @@ export const FAQ = () => {
           {((!FAQsData?.length && !isFaqLoading && isFAQsFetched) ||
             faqIdsQuery.data?.length === 0) && (
             <AppText style={styles.noResultText} namedStyle="h3">
-              {"No results"}
+              {t("no_results")}
             </AppText>
           )}
         </View>

@@ -13,6 +13,8 @@ PODS:
     - ExpoModulesCore
   - Expo (47.0.9):
     - ExpoModulesCore
+  - ExpoClipboard (4.0.1):
+    - ExpoModulesCore
   - ExpoKeepAwake (11.0.1):
     - ExpoModulesCore
   - ExpoLinearGradient (12.0.1):
@@ -375,6 +377,7 @@ DEPENDENCIES:
   - EXFileSystem (from `../node_modules/expo-file-system/ios`)
   - EXFont (from `../node_modules/expo-font/ios`)
   - Expo (from `../node_modules/expo`)
+  - ExpoClipboard (from `../node_modules/expo-clipboard/ios`)
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
   - ExpoLinearGradient (from `../node_modules/expo-linear-gradient/ios`)
   - ExpoLocalization (from `../node_modules/expo-localization/ios`)
@@ -442,6 +445,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-font/ios"
   Expo:
     :path: "../node_modules/expo"
+  ExpoClipboard:
+    :path: "../node_modules/expo-clipboard/ios"
   ExpoKeepAwake:
     :path: "../node_modules/expo-keep-awake/ios"
   ExpoLinearGradient:
@@ -536,6 +541,7 @@ SPEC CHECKSUMS:
   EXFileSystem: 60602b6eefa6873f97172c684b7537c9760b50d6
   EXFont: 319606bfe48c33b5b5063fb0994afdc496befe80
   Expo: 5523a4835730104a301caeac1e68dad095a9dfff
+  ExpoClipboard: 334921ae215b4be261e393e6fdd9050025008a20
   ExpoKeepAwake: 69b59d0a8d2b24de9f82759c39b3821fec030318
   ExpoLinearGradient: b40c2133ad57ae105b1b12a319e314463c817f6b
   ExpoLocalization: e202d1e2a4950df17ac8d0889d65a1ffd7532d7e
