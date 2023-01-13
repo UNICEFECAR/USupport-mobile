@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 
 import { Icon } from "../../icons";
 import { AppText } from "../../texts";
@@ -14,12 +14,13 @@ export const Heading = ({
   return (
     <>
       <View style={styles.container}>
-        <Icon
-          style={styles.backArrow}
-          name="arrow-chevron-back"
-          color={appStyles.colorPrimary_20809e}
-          onPress={handleGoBack}
-        />
+        <TouchableOpacity onPress={handleGoBack}>
+          <Icon
+            style={styles.backArrow}
+            name="arrow-chevron-back"
+            color={appStyles.colorPrimary_20809e}
+          />
+        </TouchableOpacity>
         <AppText namedStyle="h3">{heading}</AppText>
         <View style={styles.button}>{buttonComponent}</View>
       </View>
@@ -39,7 +40,6 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   backArrow: {
-    marginLeft: 8,
     marginRight: 16,
   },
   button: {
