@@ -7,3 +7,6 @@ export * from "./boxes";
 export * from "./wrappers";
 export * from "./dropdowns";
 export * from "./headings";
+export * from "./collapsibles";
+export * from "./separators";
+// export * from "./activities";
