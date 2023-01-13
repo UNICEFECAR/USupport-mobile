@@ -9,5 +9,6 @@ export * from "./dropdowns";
 export * from "./headings";
 export * from "./collapsibles";
 export * from "./separators";
-// export * from "./activities";
 export * from "./loaders";
+export * from "./blocks";
+// export * from "./activities";
