@@ -50,7 +50,10 @@ export const Collapsible = ({ heading, content, style }) => {
     <View style={style}>
       <TouchableOpacity onPress={() => handleCollapsibleClick()}>
         <View style={[styles.heading]}>
-          <AppText namedStyle="h3" style={isExpanded && styles.headingExpanded}>
+          <AppText
+            namedStyle="h3"
+            style={[styles.headingText, isExpanded && styles.headingExpanded]}
+          >
             {heading}
           </AppText>
           <Animated.View style={arrowIconStyles}>
@@ -78,7 +81,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 12,
-    width: appStyles.screenWidth,
+    width: "100%",
+  },
+
+  headingText: {
+    maxWidth: "80%",
   },
 
   content: {

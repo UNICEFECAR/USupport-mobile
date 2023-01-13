@@ -1,1 +1,1 @@
-export * from "./Screen.jsx";
+export * from "./Screen";

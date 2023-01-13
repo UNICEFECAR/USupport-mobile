@@ -13,6 +13,7 @@ module.exports = function (api) {
             "#blocks": ["./src/blocks/index"],
             "#services": ["./src/services/index"],
             "#hooks": ["./src/hooks/index"],
+            "#screens": ["./src/screens/index"],
             "#utils": ["./src/utils/index"],
           },
           extensions: [
