@@ -7,12 +7,19 @@ export const AppText = ({
   style,
   namedStyle,
   isBold = false,
+  isSemibold = false,
   children,
   ...props
 }) => {
   return (
     <Text
-      style={[styles.text, styles[namedStyle], isBold && styles.bold, style]}
+      style={[
+        styles.text,
+        styles[namedStyle],
+        isBold && styles.bold,
+        isSemibold && styles.semibold,
+        style,
+      ]}
       {...props}
     >
       {children}
@@ -52,5 +59,8 @@ const styles = StyleSheet.create({
   },
   bold: {
     fontFamily: "Nunito_700Bold",
+  },
+  semibold: {
+    fontFamily: "Nunito_600SemiBold",
   },
 });
