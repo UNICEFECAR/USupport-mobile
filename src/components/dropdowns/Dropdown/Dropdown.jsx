@@ -1,6 +1,11 @@
 //import liraries
 import React, { useState } from "react";
-import { View, StyleSheet, TouchableWithoutFeedback } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  ScrollView,
+} from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -17,32 +22,37 @@ export const Dropdown = ({
     { value: "2", label: "Option 2", selected: false },
     { value: "3", label: "Option 3", selected: false },
     { value: "4", label: "Option 4", selected: false },
+    { value: "5", label: "Option 5", selected: false },
+    { value: "6", label: "Option 6", selected: false },
+    { value: "7", label: "Option 7", selected: false },
   ],
   selected,
   setSelected = () => {},
   errorMessage,
   placeholder = "Select",
   disabled,
+  style,
 }) => {
-  const dropdownHeight = useSharedValue(48);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const dropdownHeight = useSharedValue(0);
   const dropdownStyles = useAnimatedStyle(() => ({
-    position: "absolute",
+    // position: "absolute",
     top: 0,
     width: "90%",
-    borderWidth: 1,
+    borderWidth: isOpen ? 1 : 0,
     borderRadius: 30,
     borderColor: "#E0E0E0",
     height: dropdownHeight.value,
     borderTopWidth: 0,
+    transform: [{ translateY: -48 }],
   }));
 
-  const arrowRotation = useSharedValue(0);
+  const arrowRotation = useSharedValue(180);
   const arrowIconStyles = useAnimatedStyle(() => ({
     paddingRight: 15,
     transform: [{ rotateX: `${arrowRotation.value}deg` }],
   }));
-
-  const [isOpen, setIsOpen] = useState(false);
 
   const selectedLabel =
     options.find((option) => option.value === selected)?.label || "";
@@ -59,20 +69,20 @@ export const Dropdown = ({
 
   const handleDropdownClick = () => {
     if (isOpen) {
-      dropdownHeight.value = withTiming(48, { delay: 100 });
-      arrowRotation.value = withTiming(0, { delay: 100 });
+      dropdownHeight.value = withTiming(0, { delay: 100 });
+      arrowRotation.value = withTiming(180, { delay: 100 });
       setTimeout(() => {
         setIsOpen(!isOpen);
       }, 250);
     } else {
       setIsOpen(true);
-      dropdownHeight.value = withTiming(150, { delay: 100 });
-      arrowRotation.value = withTiming(180, { delay: 100 });
+      dropdownHeight.value = withTiming(180, { delay: 100 });
+      arrowRotation.value = withTiming(0, { delay: 100 });
     }
   };
 
   return (
-    <View style={styles.dropdown}>
+    <View style={[styles.dropdown, style]}>
       <TouchableWithoutFeedback onPress={handleDropdownClick}>
         <View
           style={[
@@ -93,7 +103,7 @@ export const Dropdown = ({
         </View>
       </TouchableWithoutFeedback>
 
-      <Animated.ScrollView
+      <Animated.View
         style={[
           dropdownStyles,
           isOpen && {
@@ -102,19 +112,20 @@ export const Dropdown = ({
           },
         ]}
       >
-        {options.map((option, index) => (
-          <AppText
-            style={[styles.dropdownOption]}
-            onPress={() => handleChooseOption(option.value)}
-            key={index}
-            namedStyle="text"
-            isBold={option.value === selected}
-          >
-            {option.label}
-          </AppText>
-        ))}
-        <View style={{ paddingBottom: 60 }} />
-      </Animated.ScrollView>
+        <ScrollView>
+          {options.map((option, index) => (
+            <AppText
+              style={styles.dropdownOption}
+              onPress={() => handleChooseOption(option.value)}
+              key={index}
+              namedStyle="text"
+              isBold={option.value === selected}
+            >
+              {option.label}
+            </AppText>
+          ))}
+        </ScrollView>
+      </Animated.View>
     </View>
   );
 };

@@ -32,9 +32,10 @@ export const Heading = ({
 
 const styles = StyleSheet.create({
   container: {
+    alignItems: "center",
     flexDirection: "row",
     justifyContent: "flex-start",
-    alignItems: "center",
+    paddingBottom: 16,
     width: "100%",
   },
   backArrow: {
