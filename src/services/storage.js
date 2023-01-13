@@ -24,4 +24,4 @@ const removeItem = async (key) => {
   }
 };
 
-export { setItem, getItem, removeItem };
+export default { setItem, getItem, removeItem };

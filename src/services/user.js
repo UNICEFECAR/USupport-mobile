@@ -5,8 +5,8 @@ import localStorage from "./storage";
 
 const API_ENDPOINT = `${VITE_API_ENDPOINT}/v1/user`;
 
-function getUserID() {
-  const token = localStorage.getItem("token");
+async function getUserID() {
+  const token = await localStorage.getItem("token");
   if (!token) return null;
   const decoded = jwtDecode(token);
   return decoded.sub;
@@ -156,11 +156,12 @@ async function getWorkWithCategories() {
 }
 
 async function createProvider(data) {
+  const countryID = await localStorage.getItem("country_id");
   const password = data.password;
   delete data.password;
   const response = await http.post(`${API_ENDPOINT}/provider/signup`, {
     userType: "provider",
-    countryID: localStorage.getItem("country_id"),
+    countryID,
     password,
     providerData: data,
   });
