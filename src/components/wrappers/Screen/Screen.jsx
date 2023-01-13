@@ -86,5 +86,5 @@ const styles = StyleSheet.create({
     right: 16,
     zIndex: 999,
   },
-  spiralImage: { width: "100%", position: "absolute", bottom: 0, zIndex: 999 },
+  spiralImage: { width: "100%", position: "absolute", bottom: 0, zIndex: -1 },
 });
