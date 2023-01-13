@@ -1,9 +1,7 @@
 import React, { useCallback } from "react";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { StyleSheet, View } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
-
-import { AppText } from "#components";
 
 import {
   useFonts,
@@ -15,8 +13,12 @@ import {
   Nunito_800ExtraBold,
 } from "@expo-google-fonts/nunito";
 
-import LinearGradient from "./src/components/LinearGradient";
-import { appStyles } from "#styles";
+// import { RegisterAnonymous } from "./src/screens/RegisterAnonymous/RegisterAnonymous";
+
+// Create a react-query client
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { refetchOnWindowFocus: false } },
+});
 
 export default function App() {
   let [loaded, error] = useFonts({
@@ -45,14 +47,9 @@ export default function App() {
   }
 
   return (
-    <View onLayout={onLayoutRootView} style={styles.container}>
-      <LinearGradient gradient={appStyles.gradientSecondary3}>
-        <AppText namedStyle="h2">
-          The quick brown fox jumps over the lazy dog
-        </AppText>
-      </LinearGradient>
-      <StatusBar style="auto" />
-    </View>
+    <QueryClientProvider client={queryClient}>
+      {/* <RegisterAnonymous /> */}
+    </QueryClientProvider>
   );
 }
 
@@ -60,7 +57,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
   },
 });
