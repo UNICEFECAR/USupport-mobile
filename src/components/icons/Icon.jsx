@@ -69,6 +69,8 @@ import {
   IconSelfCare,
   IconTherapy,
   IconCheckBoxCheck,
+  IconCopy,
+  IconWarning,
 } from "./assets/sprite";
 
 /**
@@ -76,12 +78,7 @@ import {
  *
  * Icon component used to render different icons from the sprite file
  */
-export const Icon = ({
-  name,
-  size = "md",
-  color = appStyles.colorBlack_37,
-  style,
-}) => {
+export const Icon = ({ name, size = "md", color, style }) => {
   let icon;
 
   switch (name) {
@@ -282,6 +279,12 @@ export const Icon = ({
       break;
     case "checkbox-check":
       icon = <IconCheckBoxCheck color={color} />;
+      break;
+    case "copy":
+      icon = <IconCopy color={color} />;
+      break;
+    case "warning":
+      icon = <IconWarning color={color} />;
       break;
     default:
       icon = null;

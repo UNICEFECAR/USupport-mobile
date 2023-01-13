@@ -930,7 +930,7 @@ const IconGooglePlay = ({}) => {
   );
 };
 
-const IconAppStore = ({}) => {
+const IconAppStore = () => {
   return (
     <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 33 33" fill="none">
       <Path
@@ -1020,6 +1020,49 @@ const IconCheckBoxCheck = ({ color }) => {
   );
 };
 
+const IconCopy = ({ color = "#9749FA" }) => {
+  return (
+    <Svg
+      id="icon-copy"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+    >
+      <G clipPath="url(#clip0_1799_42030)">
+        <Path
+          d="M7 7V4C7 3.73478 7.10536 3.48043 7.29289 3.29289C7.48043 3.10536 7.73478 3 8 3H20C20.2652 3 20.5196 3.10536 20.7071 3.29289C20.8946 3.48043 21 3.73478 21 4V18C21 18.2652 20.8946 18.5196 20.7071 18.7071C20.5196 18.8946 20.2652 19 20 19H17V22C17 22.552 16.55 23 15.993 23H4.007C3.87513 23.0008 3.7444 22.9755 3.62232 22.9256C3.50025 22.8757 3.38923 22.8022 3.29566 22.7093C3.20208 22.6164 3.12779 22.5059 3.07705 22.3841C3.02632 22.2624 3.00013 22.1319 3 22L3.003 8C3.003 7.448 3.453 7 4.01 7H7ZM5.003 9L5 21H15V9H5.003ZM9 7H17V17H19V5H9V7Z"
+          fill={color}
+        />
+      </G>
+      <Defs>
+        <ClipPath id="clip0_1799_42030">
+          <Rect width="24" height="24" fill="white" />
+        </ClipPath>
+      </Defs>
+    </Svg>
+  );
+};
+
+const IconWarning = ({ color = "#EB5757" }) => {
+  return (
+    <Svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="22"
+      viewBox="0 0 22 22"
+      fill="none"
+    >
+      <Path
+        d="M10.9997 6.83301V10.9997M10.9997 14.333V14.7497M20.1663 10.9997C20.1663 16.0623 16.0623 20.1663 10.9997 20.1663C5.93706 20.1663 1.83301 16.0623 1.83301 10.9997C1.83301 5.93706 5.93706 1.83301 10.9997 1.83301C16.0623 1.83301 20.1663 5.93706 20.1663 10.9997Z"
+        stroke={color}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
+  );
+};
+
 export {
   IconFilter,
   IconPhoneEmergency,
@@ -1087,4 +1130,6 @@ export {
   IconSelfCare,
   IconTherapy,
   IconCheckBoxCheck,
+  IconCopy,
+  IconWarning,
 };
