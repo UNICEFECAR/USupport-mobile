@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, TextInput, View, Text } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 import { Error } from "../../errors/Error";
+import { AppText } from "../../texts/AppText/AppText";
 
 import { appStyles } from "#styles";
 
@@ -17,6 +18,7 @@ export const Input = ({
   disabled = false,
   errorMessage,
   isPassword = false,
+  isTextarea = false,
   preInput,
   children,
   style,
@@ -33,9 +35,9 @@ export const Input = ({
       ]}
     >
       {label && (
-        <Text namedStyle="text" style={styles.label}>
+        <AppText namedStyle="text" style={styles.label}>
           {label}
-        </Text>
+        </AppText>
       )}
       <View
         style={[
@@ -43,11 +45,12 @@ export const Input = ({
           appStyles.shadow2,
           errorMessage && styles.inputError,
           isFocused && styles.inputFocused,
+          isTextarea && styles.textarea,
         ]}
       >
         {preInput && preInput}
         <TextInput
-          style={styles.textInput}
+          style={[styles.textInput, isTextarea && styles.inputTextarea]}
           {...props}
           editable={!disabled}
           selectTextOnFocus={!disabled}
@@ -69,7 +72,6 @@ export const Input = ({
 const styles = StyleSheet.create({
   inputWrapper: {
     width: 343,
-    height: 50,
     display: "flex",
     textAlign: "left",
   },
@@ -92,6 +94,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
+  textarea: {
+    borderRadius: 32,
+  },
+
   inputFocused: {
     borderColor: appStyles.colorSecondary_9749fa,
   },
@@ -102,8 +108,11 @@ const styles = StyleSheet.create({
 
   textInput: {
     width: "95%",
-    height: 24,
     color: appStyles.colorBlack_37,
+  },
+
+  inputTextarea: {
+    height: 120,
   },
 
   label: {
@@ -134,6 +143,12 @@ Input.propTypes = {
    * @default false
    * */
   isPassword: PropTypes.bool,
+
+  /**
+   * Is the input a textarea
+   * @default false
+   * */
+  isTextarea: PropTypes.bool,
 
   /**
    * Pre input component
