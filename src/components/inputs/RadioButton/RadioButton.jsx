@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, TouchableWithoutFeedback, View, Text } from "react-native";
+import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
+import { AppText } from "../../texts/AppText/AppText";
 
 import { appStyles } from "#styles";
 
@@ -36,9 +37,9 @@ export const RadioButton = ({
           {isChecked && <View style={styles.radio} />}
         </View>
         {label && (
-          <Text style={[styles.text, isChecked && styles.textChecked]}>
+          <AppText namedStyle="text" style={[isChecked && styles.textChecked]}>
             {label}
-          </Text>
+          </AppText>
         )}
       </View>
     </TouchableWithoutFeedback>
@@ -79,13 +80,6 @@ const styles = StyleSheet.create({
     height: 8,
     backgroundColor: appStyles.colorSecondary_9749fa,
     borderRadius: 4,
-  },
-
-  text: {
-    fontSize: 16,
-    lineHeight: 24,
-    fontFamily: "Nunito_400Regular",
-    color: appStyles.colorGray_66768d,
   },
 
   textChecked: {
