@@ -22,6 +22,9 @@ export const Input = ({
   preInput,
   children,
   style,
+  onBlur,
+  onFocus,
+  onChange,
   ...props
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -44,23 +47,29 @@ export const Input = ({
           styles.input,
           appStyles.shadow2,
           errorMessage && styles.inputError,
-          isFocused && styles.inputFocused,
           isTextarea && styles.textarea,
+          isFocused && !errorMessage && styles.inputFocused,
         ]}
       >
         {preInput && preInput}
         <TextInput
           style={[styles.textInput, isTextarea && styles.inputTextarea]}
-          {...props}
           editable={!disabled}
           selectTextOnFocus={!disabled}
-          secureTextEntry={isPassword}
+          secureTextEntry={false}
           placeholderTextColor={appStyles.colorGray_92989b}
           autoCorrect={false}
           autoCapitalize={false}
-          autoComplete={false}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
+          onChangeText={(value) => onChange(value)}
+          onFocus={() => {
+            setIsFocused(true);
+            onFocus && onFocus();
+          }}
+          onBlur={(e) => {
+            setIsFocused(false);
+            onBlur && onBlur(e);
+          }}
+          {...props}
         />
         {children && children}
       </View>
