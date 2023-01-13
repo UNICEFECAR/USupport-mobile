@@ -8,6 +8,13 @@ import { useEventListener } from "#hooks";
 
 import { localStorage, adminSvc, cmsSvc } from "#services";
 
+/**
+ * FAQ
+ *
+ * FAQ block
+ *
+ * @return {jsx}
+ */
 export const FAQ = () => {
   // const { i18n, t } = useTranslation("faq");
   const t = (t) => t;
