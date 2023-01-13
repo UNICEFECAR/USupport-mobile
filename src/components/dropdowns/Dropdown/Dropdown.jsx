@@ -17,6 +17,7 @@ import { AppText } from "../../texts";
 import { Icon } from "../../icons";
 
 export const Dropdown = ({
+  label,
   options = [
     { value: "1", label: "Option", selected: false },
     { value: "2", label: "Option 2", selected: false },
@@ -39,7 +40,7 @@ export const Dropdown = ({
   const dropdownStyles = useAnimatedStyle(() => ({
     // position: "absolute",
     top: 0,
-    width: "90%",
+    width: "100%",
     borderWidth: isOpen ? 1 : 0,
     borderRadius: 30,
     borderColor: "#E0E0E0",
@@ -83,35 +84,24 @@ export const Dropdown = ({
 
   return (
     <View style={[styles.dropdown, style]}>
+      {label && (
+        <AppText namedStyle="text" style={styles.label}>
+          {label}
+        </AppText>
+      )}
+
       <TouchableWithoutFeedback onPress={handleDropdownClick}>
-        <View
-          style={[
-            styles.container,
-            {
-              borderColor: isOpen
-                ? appStyles.colorSecondary_9749fa
-                : "transparent",
-            },
-          ]}
-        >
+        <View style={[styles.container, isOpen && styles.containerOpen]}>
           <AppText style={styles.selectedOption}>
             {selected ? selectedLabel : placeholder}
           </AppText>
           <Animated.View style={arrowIconStyles}>
-            <Icon name="arrow-chevron-up" />
+            <Icon name="arrow-chevron-up" color={appStyles.colorBlack_37} />
           </Animated.View>
         </View>
       </TouchableWithoutFeedback>
 
-      <Animated.View
-        style={[
-          dropdownStyles,
-          isOpen && {
-            padding: 10,
-            paddingTop: 48 + 5,
-          },
-        ]}
-      >
+      <Animated.View style={[dropdownStyles, isOpen && styles.dropdownOpen]}>
         <ScrollView>
           {options.map((option, index) => (
             <AppText
@@ -135,9 +125,19 @@ const styles = StyleSheet.create({
     width: "100%",
     position: "relative",
     justifyContent: "center",
-    alignItems: "center",
     ...appStyles.shadow2,
   },
+
+  dropdownOpen: {
+    padding: 10,
+    paddingTop: 48 + 5,
+  },
+
+  label: {
+    color: appStyles.colorBlue_3d527b,
+    fontFamily: "Nunito_600SemiBold",
+  },
+
   container: {
     alignItems: "center",
     backgroundColor: "white",
@@ -148,12 +148,20 @@ const styles = StyleSheet.create({
     height: 48,
     justifyContent: "space-between",
     position: "relative",
-    width: "90%",
+    width: "100%",
     zIndex: 2,
+    marginTop: 4,
+    borderColor: "transparent",
   },
+
+  containerOpen: {
+    borderColor: appStyles.colorSecondary_9749fa,
+  },
+
   selectedOption: {
     paddingLeft: 16,
   },
+
   dropdownOption: {
     paddingVertical: 5,
   },
