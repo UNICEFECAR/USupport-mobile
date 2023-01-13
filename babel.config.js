@@ -10,6 +10,10 @@ module.exports = function (api) {
           alias: {
             "#components": ["./src/components/index"],
             "#styles": ["./src/styles/index"],
+            "#blocks": ["./src/blocks/index"],
+            "#services": ["./src/services/index"],
+            "#hooks": ["./src/hooks/index"],
+            "#utils": ["./src/utils/index"],
           },
           extensions: [
             ".ios.js",
