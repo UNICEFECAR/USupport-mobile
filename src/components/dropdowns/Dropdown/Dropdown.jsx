@@ -15,6 +15,7 @@ import Animated, {
 import { appStyles } from "#styles";
 import { AppText } from "../../texts";
 import { Icon } from "../../icons";
+import { Error } from "../../errors/Error";
 
 export const Dropdown = ({
   label,
@@ -91,7 +92,13 @@ export const Dropdown = ({
       )}
 
       <TouchableWithoutFeedback onPress={handleDropdownClick}>
-        <View style={[styles.container, isOpen && styles.containerOpen]}>
+        <View
+          style={[
+            styles.container,
+            isOpen && styles.containerOpen,
+            errorMessage && styles.containerError,
+          ]}
+        >
           <AppText style={styles.selectedOption}>
             {selected ? selectedLabel : placeholder}
           </AppText>
@@ -116,6 +123,8 @@ export const Dropdown = ({
           ))}
         </ScrollView>
       </Animated.View>
+
+      {errorMessage && !disabled && <Error message={errorMessage} />}
     </View>
   );
 };
@@ -152,6 +161,10 @@ const styles = StyleSheet.create({
     zIndex: 2,
     marginTop: 4,
     borderColor: "transparent",
+  },
+
+  containerError: {
+    borderColor: appStyles.colorRed_eb5757,
   },
 
   containerOpen: {
