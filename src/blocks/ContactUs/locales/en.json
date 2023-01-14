@@ -1,0 +1,21 @@
+{
+  "heading": "Contact us",
+  "subheading": "Here you can report any technical issues.",
+  "issue": "Issue",
+  "issue_placeholder": "Select an issue",
+  "issue_error": "Please select an issue",
+  "message": "Message",
+  "message_placeholder": "Your message to us",
+  "message_error": "Please enter your message",
+  "button": "Send Message",
+
+  "modal_title": "Your message was successfully sent",
+  "modal_text": "We will get back to you as soon as possible",
+  "modal_cta_label": "Go back to Home",
+
+  "contact_reason_1": "Information about USupport",
+  "contact_reason_2": "Technical problem",
+  "contact_reason_3": "Join the network of providers",
+  "contact_reason_4": "Partnerships",
+  "contact_reason_5": "Other"
+}

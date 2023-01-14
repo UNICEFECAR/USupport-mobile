@@ -1,7 +1,7 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
-import { FAQ } from "./src/blocks/locales.js";
+import { FAQ, ContactUs } from "./src/blocks/locales.js";
 import { FAQ as FAQPage } from "./src/screens/locales.js";
 // Page,
 // Login,
@@ -62,7 +62,7 @@ const resources = {
   en: {
     // Blocks
     // page: Page.en,
-    // "contact-us-block": ContactUs.en,
+    "contact-us-block": ContactUs.en,
     // "notification-preferences": NotificationPreferences.en,
     // login: Login.en,
     // "privacy-policy": PrivacyPolicy.en,
