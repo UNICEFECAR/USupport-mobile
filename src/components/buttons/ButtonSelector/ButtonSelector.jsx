@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, Pressable, Text, View, Image } from "react-native";
+import { StyleSheet, Pressable, Text, View } from "react-native";
 import { Icon } from "../../icons/Icon";
+import { Avatar } from "../../avatars/Avatar";
 
 import { appStyles } from "#styles";
 
@@ -47,9 +48,7 @@ export const ButtonSelector = ({
             style={styles.leftIcon}
           />
         )}
-        {!iconName && avatar && (
-          <Image style={styles.avatar} source={avatar} alt="avatar" />
-        )}
+        {!iconName && avatar && <Avatar style={styles.avatar} image={avatar} />}
         <Text style={[styles.text, isPressed && styles.textPressed]}>
           {label}
         </Text>
@@ -84,11 +83,7 @@ const styles = StyleSheet.create({
   },
 
   avatar: {
-    width: 32,
-    height: 32,
-    borderRadius: 100,
     marginRight: 8,
-    objectFit: "cover",
   },
 
   leftIcon: {

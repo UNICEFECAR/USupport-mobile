@@ -11,4 +11,5 @@ export * from "./collapsibles";
 export * from "./separators";
 export * from "./loaders";
 export * from "./blocks";
+export * from "./avatars";
 // export * from "./activities";
