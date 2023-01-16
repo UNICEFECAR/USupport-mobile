@@ -96,11 +96,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "transparent",
     borderRadius: 53,
-    width: "100%",
+    width: "97%",
     marginTop: 4,
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
+    alignSelf: "center",
   },
 
   textarea: {
@@ -117,6 +118,7 @@ const styles = StyleSheet.create({
 
   textInput: {
     width: "95%",
+    height: 24,
     color: appStyles.colorBlack_37,
   },
 
