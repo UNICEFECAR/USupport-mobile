@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   },
 
   disabled: {
-    opacity: 0.4,
+    opacity: 0.6,
   },
 
   //Pressed states:
