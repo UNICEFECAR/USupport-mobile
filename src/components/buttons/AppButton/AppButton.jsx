@@ -204,7 +204,7 @@ AppButton.propTypes = {
   disabled: PropTypes.bool,
 
   /**
-   * Additional classes to add to the checkbox wrapper
+   * Additional styles for the component
    * */
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
