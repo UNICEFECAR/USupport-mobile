@@ -70,7 +70,6 @@ const styles = StyleSheet.create({
   screenBackground: { backgroundColor: appStyles.colorWhite_ff },
   screenChildren: {
     flex: 1,
-    // paddingHorizontal: 16,
   },
   radialGradient: {
     position: "absolute",
