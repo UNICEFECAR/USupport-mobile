@@ -141,6 +141,7 @@ const styles = StyleSheet.create({
   dropdownsContainer: {
     flex: 1,
     justifyContent: "flex-end",
+    zIndex: 2,
   },
   flexGrow: { flexGrow: 1 },
 });
