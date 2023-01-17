@@ -30,7 +30,7 @@ export const ButtonSelector = ({
           styles.btn,
           pressed && styles.btnPressed,
           disabled && styles.btnDisabled,
-          appStyles.shadow3,
+          appStyles.shadow2,
           style,
         ];
       }}
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    width: "92%",
+    width: "96%",
     maxWidth: 420,
     paddingHorizontal: 16,
     paddingVertical: 8,
