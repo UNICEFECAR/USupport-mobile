@@ -1,7 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { StyleSheet, View } from "react-native";
+
 import appStyles from "../../styles/appStyles";
+
 import {
   IconFilter,
   IconPhoneEmergency,
@@ -71,6 +73,8 @@ import {
   IconCheckBoxCheck,
   IconCopy,
   IconWarning,
+  IconExit,
+  IconMood,
 } from "./assets/sprite";
 
 /**
@@ -285,6 +289,12 @@ export const Icon = ({ name, size = "md", color, style }) => {
       break;
     case "warning":
       icon = <IconWarning color={color} />;
+      break;
+    case "exit":
+      icon = <IconExit color={color} />;
+      break;
+    case "mood":
+      icon = <IconMood color={color} />;
       break;
     default:
       icon = null;
