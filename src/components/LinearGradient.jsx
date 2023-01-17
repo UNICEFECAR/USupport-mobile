@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { LinearGradient as ExpoLinearGradient } from "expo-linear-gradient";
-import { calcGradientDegrees } from "../utils";
+import { calcGradientDegrees } from "#utils";
 
 // create a component
 const LinearGradient = ({ children, gradient, ...props }) => {

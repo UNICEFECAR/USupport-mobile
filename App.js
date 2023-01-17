@@ -1,7 +1,8 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { StyleSheet, View } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
+import { NavigationContainer } from "@react-navigation/native";
 
 import {
   useFonts,
@@ -13,7 +14,8 @@ import {
   Nunito_800ExtraBold,
 } from "@expo-google-fonts/nunito";
 
-// import { RegisterAnonymous } from "./src/screens/RegisterAnonymous/RegisterAnonymous";
+import { AuthNavigation, AppNavigation } from "#navigation";
+import { localStorage } from "#services";
 
 // Create a react-query client
 const queryClient = new QueryClient({
@@ -29,6 +31,14 @@ export default function App() {
     Nunito_700Bold,
     Nunito_800ExtraBold,
   });
+
+  const [token, setToken] = useState();
+
+  useEffect(() => {
+    localStorage.getItem("token").then((jwtToken) => {
+      setToken(jwtToken);
+    });
+  }, []);
 
   // Hide the splash screen when the fonts finish loading
   const onLayoutRootView = useCallback(async () => {
@@ -47,9 +57,13 @@ export default function App() {
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
-      {/* <RegisterAnonymous /> */}
-    </QueryClientProvider>
+    <NavigationContainer>
+      <QueryClientProvider client={queryClient}>
+        <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+          {token ? <AppNavigation /> : <AuthNavigation />}
+        </View>
+      </QueryClientProvider>
+    </NavigationContainer>
   );
 }
 

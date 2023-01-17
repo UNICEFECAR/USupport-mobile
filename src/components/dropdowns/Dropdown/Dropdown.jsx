@@ -17,6 +17,8 @@ import { AppText } from "../../texts";
 import { Icon } from "../../icons";
 import { Error } from "../../errors/Error";
 
+const DROPDOWN_HEADING_HEIGHT = 48;
+
 export const Dropdown = ({
   label,
   options = [
@@ -39,15 +41,18 @@ export const Dropdown = ({
 
   const dropdownHeight = useSharedValue(0);
   const dropdownStyles = useAnimatedStyle(() => ({
-    // position: "absolute",
-    top: 0,
+    position: "absolute",
+    top: 75,
     width: "100%",
     borderWidth: isOpen ? 1 : 0,
     borderRadius: 30,
     borderColor: "#E0E0E0",
     height: dropdownHeight.value,
     borderTopWidth: 0,
-    transform: [{ translateY: -48 }],
+    transform: [{ translateY: -DROPDOWN_HEADING_HEIGHT }],
+    backgroundColor: "white",
+    // zIndex: 1001,
+    // elevation: 200,
   }));
 
   const arrowRotation = useSharedValue(180);
@@ -74,7 +79,7 @@ export const Dropdown = ({
       dropdownHeight.value = withTiming(0, { delay: 100 });
       arrowRotation.value = withTiming(180, { delay: 100 });
       setTimeout(() => {
-        setIsOpen(!isOpen);
+        setIsOpen(false);
       }, 250);
     } else {
       setIsOpen(true);
@@ -110,6 +115,9 @@ export const Dropdown = ({
 
       <Animated.View style={[dropdownStyles, isOpen && styles.dropdownOpen]}>
         <ScrollView>
+          <TouchableWithoutFeedback onPress={handleDropdownClick}>
+            <View style={{ height: DROPDOWN_HEADING_HEIGHT + 5 }} />
+          </TouchableWithoutFeedback>
           {options.map((option, index) => (
             <AppText
               style={styles.dropdownOption}
@@ -133,14 +141,16 @@ const styles = StyleSheet.create({
   dropdown: {
     width: "93%",
     maxWidth: 420,
+    alignSelf: "center",
     position: "relative",
     justifyContent: "center",
+    // zIndex: 999,
     ...appStyles.shadow2,
   },
 
   dropdownOpen: {
     padding: 10,
-    paddingTop: 48 + 5,
+    // paddingTop: DROPDOWN_HEADING_HEIGHT + 5,
   },
 
   label: {
@@ -155,7 +165,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     elevation: 5,
     flexDirection: "row",
-    height: 48,
+    height: DROPDOWN_HEADING_HEIGHT,
     justifyContent: "space-between",
     position: "relative",
     width: "100%",

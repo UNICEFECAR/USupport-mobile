@@ -1,0 +1,19 @@
+{
+  "heading": "Register with email",
+  "email_label": "Email",
+  "email_placeholder": "user@mail.com",
+  "password_label": "Password",
+  "password_placeholder": "Enter your password",
+  "email_error": "Please enter a valid email",
+  "password_error": "Password should contain at least 8 characters, 1 uppercase letter, 1 lowercase letter and 1 number",
+  "nickname_label": "Nickname",
+  "nickname_placeholder": "Enter your nickname",
+  "nickname_error": "Nickname is required",
+  "terms_agreement_text_1": "I agree with the",
+  "terms_agreement_text_2": "Privacy Policy",
+  "terms_agreement_text_3": "and",
+  "terms_agreement_text_4": "Terms of Conditions",
+  "register_button": "Register",
+  "paragraph": "Or register with:",
+  "login_button_label": "I already have an account"
+}

@@ -1,0 +1,18 @@
+{
+  "heading": "Register anonymously",
+  "subheading": "You will be register anonymously so we will not link this account to phisical person in any way.",
+  "access_code": "Your anonymous access code is",
+  "nickname_label": "Nickname *",
+  "nickname_placeholder": "Enter your nickname",
+  "nickname_error": "Nickname is required",
+  "paragraph_1": "Your anonymous access code is",
+  "password_label": "Password *",
+  "terms_agreement_text_1": "I agree with the",
+  "terms_agreement_text_2": "Privacy Policy",
+  "terms_agreement_text_3": "and",
+  "terms_agreement_text_4": "Terms of Conditions",
+  "password_error": "Password should contain at least 8 characters, 1 uppercase letter, 1 lowercase letter and 1 number",
+  "register_button_label": "Register",
+  "login_button_label": "I already have an account",
+  "copy_text": "Copy and save or write down your anonymous code, if you lose it you cannot get access to your account anymore"
+}

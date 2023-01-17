@@ -1,7 +1,14 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
-import { FAQ, ContactUs, PrivacyPolicy } from "./src/blocks/locales.js";
+import {
+  FAQ,
+  ContactUs,
+  PrivacyPolicy,
+  RegisterEmail,
+  RegisterAnonymous,
+  Welcome,
+} from "./src/blocks/locales.js";
 import { FAQ as FAQPage } from "./src/screens/locales.js";
 // Page,
 // Login,
@@ -66,8 +73,10 @@ const resources = {
     // "notification-preferences": NotificationPreferences.en,
     // login: Login.en,
     "privacy-policy": PrivacyPolicy.en,
-    // welcome: Welcome.en,
+    welcome: Welcome.en,
     faq: FAQ.en,
+    "register-email": RegisterEmail.en,
+    "register-anonymous": RegisterAnonymous.en,
     // "forgot-password": ForgotPassword.en,
     // "reset-password": ResetPassword.en,
     // "edit-profile-details": EditProfileDetails.en,
