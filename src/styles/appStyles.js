@@ -1,8 +1,10 @@
-import { Dimensions } from "react-native";
+import { Dimensions, Platform } from "react-native";
 
 export default {
   screenWidth: Dimensions.get("window").width,
   screenHeight: Dimensions.get("window").height,
+
+  platform: Platform.OS,
 
   // Colors
   colorPrimary_20809e: "#20809e",
