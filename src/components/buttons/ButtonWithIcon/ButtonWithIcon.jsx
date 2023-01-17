@@ -16,7 +16,12 @@ import { appStyles } from "#styles";
 export const ButtonWithIcon = ({ iconName, ...props }) => {
   return (
     <AppButton style={styles.btn} {...props}>
-      <Icon name={iconName} size={"md"} color={appStyles.colorWhite_ff} />
+      <Icon
+        name={iconName}
+        size={"md"}
+        color={appStyles.colorWhite_ff}
+        style={styles.icon}
+      />
     </AppButton>
   );
 };
@@ -31,9 +36,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
+
+  icon: {
+    marginRight: 8,
+  },
 });
 
-ButtonWithIcon.PropTypes = {
+ButtonWithIcon.propTypes = {
   /**
    * Icon name
    *  */
