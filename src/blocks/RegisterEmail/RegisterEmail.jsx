@@ -26,7 +26,7 @@ import { validateProperty, validate } from "#utils";
 import { userSvc, localStorage } from "#services";
 import { useError } from "#hooks";
 
-export const RegisterEmail = () => {
+export const RegisterEmail = ({ navigation }) => {
   const { t } = useTranslation("register-email");
   const navigate = () => {};
   const queryClient = useQueryClient();
@@ -96,7 +96,7 @@ export const RegisterEmail = () => {
         userSvc.transformUserData(userData)
       );
 
-      navigate("/register/about-you");
+      navigation.navigate("RegisterAboutYou");
     },
     onError: (error) => {
       setIsSubmitting(false);
@@ -118,12 +118,12 @@ export const RegisterEmail = () => {
   };
 
   const handleLoginRedirect = () => {
-    navigate("/login");
+    navigation.navigate("Login");
   };
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1, paddingTop: 30 }}
+      style={styles.keyboardAvoidingView}
       behavior={Platform.OS === "ios" ? "padding" : null}
     >
       <Block style={styles.flexGrow}>
@@ -191,6 +191,7 @@ export const RegisterEmail = () => {
 };
 
 const styles = StyleSheet.create({
+  keyboardAvoidingView: { flex: 1, paddingTop: 30 },
   input: {
     marginBottom: 22,
   },
