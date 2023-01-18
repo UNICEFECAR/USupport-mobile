@@ -6,7 +6,7 @@ import { AppText } from "../../texts/AppText/AppText";
 
 import { appStyles } from "#styles";
 
-import placeholder from "../../../assets/SpecialistPlaceholderImage.png";
+import { AMAZON_S3_BUCKET } from "@env";
 
 /**
  * ProfilePicturePreview
@@ -23,8 +23,7 @@ export const ProfilePicturePreview = ({
   imageFile,
   style,
 }) => {
-  // const imageSrc = imageFile ? imageFile : AMAZON_S3_BUCKET + "/" + image;
-  const imageSrc = placeholder;
+  const imageSrc = imageFile ? imageFile : AMAZON_S3_BUCKET + "/" + image;
 
   return (
     <View style={[styles.container, style]}>
