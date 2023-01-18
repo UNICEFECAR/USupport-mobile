@@ -23,7 +23,9 @@ export const ProfilePicturePreview = ({
   imageFile,
   style,
 }) => {
-  const imageSrc = imageFile ? imageFile : AMAZON_S3_BUCKET + "/" + image;
+  const imageSrc = imageFile
+    ? imageFile
+    : { uri: AMAZON_S3_BUCKET + "/" + (image || "default") };
 
   return (
     <View style={[styles.container, style]}>
