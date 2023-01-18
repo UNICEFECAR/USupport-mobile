@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { composeInitialProps, useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, View } from "react-native";
 import Joi from "joi";
 
