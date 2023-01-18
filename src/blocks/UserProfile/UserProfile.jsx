@@ -31,7 +31,7 @@ export const UserProfile = ({ navigation }) => {
 
   const [displayName, setDisplayName] = useState("");
 
-  isTmpUser = false;
+  const isTmpUser = false;
   const clientQueryArray = useGetClientData(isTmpUser ? false : true);
   const clientData = isTmpUser ? {} : clientQueryArray[0].data;
 
