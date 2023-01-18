@@ -77,7 +77,6 @@ export const RegisterEmail = ({ navigation }) => {
     // If the mutation succeeds, get the data returned
     // from the server, and put it in the cache
     onSuccess: (response) => {
-      console.log(response, "response");
       const { user: userData, token: tokenData } = response.data;
       const { token, expiresIn, refreshToken } = tokenData;
 

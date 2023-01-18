@@ -122,7 +122,6 @@ export const RegisterAnonymous = ({ navigation }) => {
   };
 
   const handleBlur = (field, value) => {
-    console.log(field, value);
     validateProperty(field, value, schema, setErrors);
   };
 
