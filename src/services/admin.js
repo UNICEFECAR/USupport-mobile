@@ -1,8 +1,8 @@
 import http from "./http";
 import localStorage from "./storage";
-import { VITE_API_ENDPOINT } from "@env";
+import { API_URL_ENDPOINT } from "@env";
 
-const API_ENDPOINT = `${VITE_API_ENDPOINT}/v1/admin`;
+const API_ENDPOINT = `${API_URL_ENDPOINT}/v1/admin`;
 const API_ENDPOINT_COUNTRIES_FAQ = API_ENDPOINT + "/country/faqs";
 const API_ENDPOINT_COUNTRIES_SOS_CENTERS =
   API_ENDPOINT + "/country/sos-centers";

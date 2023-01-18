@@ -1,8 +1,8 @@
 import http from "./http";
 
-import { VITE_CMS_API_URL } from "@env";
+import { CMS_API_URL_ENDPOINT } from "@env";
 
-const CMS_API_URL = `${VITE_CMS_API_URL}`;
+const CMS_API_URL = `${CMS_API_URL_ENDPOINT}`;
 
 const articlesEndpoint = CMS_API_URL + "/articles";
 const ageGroupsEndpoint = CMS_API_URL + "/age-groups";
