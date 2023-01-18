@@ -80,9 +80,7 @@ const styles = StyleSheet.create({
     opacity: 0.4,
   },
 
-  avatar: {
-    marginRight: 8,
-  },
+  avatar: {},
 
   leftIcon: {
     paddingVertical: 4,
