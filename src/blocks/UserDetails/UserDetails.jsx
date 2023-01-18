@@ -1,21 +1,22 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useTranslation } from "react-i18next";
+import { composeInitialProps, useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, View } from "react-native";
 import Joi from "joi";
 
 import {
-  Block,
-  Heading,
-  ProfilePicturePreview,
   AccessToken,
-  Input,
-  Dropdown,
-  Error,
   AppButton,
   AppText,
-  Toggle,
+  Block,
   ButtonWithIcon,
+  Dropdown,
+  Error,
+  Heading,
+  Input,
+  Loading,
+  ProfilePicturePreview,
+  Toggle,
 } from "#components";
 
 import { appStyles } from "#styles";
@@ -23,6 +24,7 @@ import { appStyles } from "#styles";
 import { useGetClientData, useUpdateClientData } from "#hooks";
 
 import { localStorage, clientSvc } from "#services";
+import { validate, validateProperty } from "#utils";
 
 /**
  * UserDetails
@@ -44,7 +46,8 @@ export const UserDetails = ({
 
   const countriesData = queryClient.getQueryData(["countries"]);
 
-  const [clientDataQuery, oldData, setClientData] = useGetClientData();
+  const [clientDataQuery, clientData, oldData, setClientData] =
+    useGetClientData();
   const [canSaveChanges, setCanSaveChanges] = useState(false);
   const [errors, setErrors] = useState({});
 
@@ -61,8 +64,6 @@ export const UserDetails = ({
   };
   const [schema, setSchema] = useState(Joi.object(defaultSchema));
   const [schemaObject, setSchemaObject] = useState(defaultSchema);
-
-  const clientData = clientDataQuery.data;
 
   useEffect(() => {
     if (!clientDataQuery.isLoading && clientDataQuery.isSuccess) {
@@ -139,26 +140,39 @@ export const UserDetails = ({
     { label: t("place_of_living_rural"), value: "rural" },
   ];
 
-  const country = localStorage.getItem("country");
-  const selectedCountry = countriesData?.find((c) => c.value === country);
-  const minAge = selectedCountry?.minAge;
-  const maxAge = selectedCountry?.maxAge;
+  const [ages, setAges] = useState();
+  useEffect(() => {
+    if (countriesData) {
+      localStorage.getItem("country").then((country) => {
+        const selectedCountry = countriesData?.find((c) => c.value === country);
+        const minAge = selectedCountry?.minAge;
+        const maxAge = selectedCountry?.maxAge;
+        setAges({
+          minAge,
+          maxAge,
+        });
+      });
+    }
+  }, [countriesData]);
+
   // Create an array of year objects from year 1900 to current year
   const getYearsOptions = useCallback(() => {
     const currentYear = new Date().getFullYear();
     const years = [];
-    for (
-      let year = currentYear - maxAge;
-      year <= currentYear - minAge;
-      year++
-    ) {
-      years.push({ label: year.toString(), value: year });
+    if (ages) {
+      for (
+        let year = currentYear - ages.maxAge;
+        year <= currentYear - ages.minAge;
+        year++
+      ) {
+        years.push({ label: year.toString(), value: year });
+      }
+      return years.reverse();
     }
-    return years.reverse();
-  }, [countriesData]);
+    return [];
+  }, [countriesData, ages]);
 
   const onUpdateSuccess = () => {
-    toast(t("success_message"));
     setIsProcessing(false);
   };
   const onUpdateError = (error) => {
@@ -265,149 +279,165 @@ export const UserDetails = ({
       : !canSaveChanges;
 
   return (
-    <Block>
-      <ScrollView showsVerticalScrollIndicator={false}>
+    <Block style={{ flex: 1 }}>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        showsVerticalScrollIndicator={false}
+      >
         <Heading heading={t("heading")} handleGoBack={handleGoBack} />
-        <ProfilePicturePreview
-          image={clientData.image}
-          handleDeleteClick={openDeletePictureBackdrop}
-          handleChangeClick={openUploadPictureModal}
-          changePhotoText={t("change_photo")}
-          style={styles.profilePicturePreview}
-        />
-        {clientData.accessToken ? (
-          <AccessToken
-            accessToken={clientData.accessToken}
-            accessTokenLabel={t("access_token")}
-            classes="user-details__grid-item__access-token"
-            style={styles.accessToken}
-          />
-        ) : null}
-
-        <View style={[styles.inputsContainer, styles.zIndex3]}>
-          <Input
-            value={clientData.name}
-            label={t("name")}
-            onChange={(e) => handleChange("name", e.currentTarget.value)}
-            placeholder={t("name_placeholder")}
-            style={styles.input}
-          />
-
-          <Input
-            value={clientData.surname}
-            label={t("surname")}
-            onChange={(e) => handleChange("surname", e.currentTarget.value)}
-            placeholder={t("surname_placeholder")}
-            style={styles.input}
-          />
-
-          <Input
-            value={clientData.nickname}
-            label={t("nickname")}
-            onChange={(e) => handleChange("nickname", e.currentTarget.value)}
-            onBlur={handleNicknameBlur}
-            placeholder={t("nickname_placeholder")}
-            errorMessage={errors.nickname}
-            style={styles.input}
-          />
-
-          <Input
-            label={t("email")}
-            value={clientData.email}
-            onChange={(e) => handleChange("email", e.currentTarget.value)}
-            onBlur={handleEmailBlur}
-            placeholder={t("email_placeholder")}
-            errorMessage={errors.email}
-            style={styles.input}
-          />
-
-          <Dropdown
-            options={sexOptions}
-            selected={clientData.sex}
-            setSelected={(option) => handleChange("sex", option)}
-            label={t("sex")}
-            style={[styles.input, styles.zIndex5]}
-          />
-
-          <Dropdown
-            options={getYearsOptions()}
-            selected={clientData.yearOfBirth}
-            setSelected={(option) => handleChange("yearOfBirth", option)}
-            label={t("year_of_birth")}
-            style={[styles.input, styles.zIndex4]}
-          />
-
-          <Dropdown
-            options={urbanRuralOptions}
-            selected={clientData.urbanRural}
-            setSelected={(option) => handleChange("urbanRural", option)}
-            label={t("living_place")}
-            style={[styles.input, styles.zIndex3]}
-          />
-        </View>
-
-        {errors.submit ? <Error message={errors.submit} /> : null}
-
-        <View style={styles.buttonContainer}>
-          <AppButton
-            label={t("button_text")}
-            size="lg"
-            onClick={handleSave}
-            disabled={isSaveDisabled || isProcessing}
-          />
-
-          <AppButton
-            type="secondary"
-            label={t("button_secondary_text")}
-            size="lg"
-            disabled={!canSaveChanges}
-            onClick={handleDiscard}
-            style={styles.button}
-          />
-        </View>
-
-        <View style={styles.privacyPolicyContainer}>
-          <AppText style={styles.privacyPolicyText}>{t("privacy")}</AppText>
-
-          <View style={styles.toggleContainer}>
-            <AppText namedStyle="smallText">{t("consent")}</AppText>
-            <Toggle
-              isToggled={dataProcessing ? true : false}
-              handleToggle={handleToggleClick}
-            />
+        {clientDataQuery.isLoading || !clientData ? (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+            }}
+          >
+            <Loading style={{ alignSelf: "center" }} />
           </View>
-        </View>
+        ) : (
+          <>
+            <ProfilePicturePreview
+              image={clientData.image}
+              handleDeleteClick={openDeletePictureBackdrop}
+              handleChangeClick={openUploadPictureModal}
+              changePhotoText={t("change_photo")}
+              style={styles.profilePicturePreview}
+            />
+            {clientData.accessToken ? (
+              <AccessToken
+                accessToken={clientData.accessToken}
+                accessTokenLabel={t("access_token")}
+                classes="user-details__grid-item__access-token"
+                style={styles.accessToken}
+              />
+            ) : null}
 
-        <View>
-          <AppButton
-            type="ghost"
-            label={t("change_password")}
-            onClick={openDataProcessingBackdrop}
-            size="lg"
-            style={styles.textButton}
-          />
-          <ButtonWithIcon
-            iconName="circle-actions-close"
-            iconSize="md"
-            size="lg"
-            iconColor={appStyles.colorPrimary_20809e}
-            label={t("logout")}
-            type="ghost"
-            onClick={handleLogout}
-            style={styles.textButton}
-          />
-          <ButtonWithIcon
-            iconName={"circle-actions-close"}
-            iconSize={"md"}
-            size="lg"
-            iconColor={"#eb5757"}
-            color={"red"}
-            label={t("delete_account")}
-            type={"ghost"}
-            onClick={openDeleteAccountBackdrop}
-            style={styles.textButton}
-          />
-        </View>
+            <View style={[styles.inputsContainer, styles.zIndex3]}>
+              <Input
+                value={clientData.name}
+                label={t("name")}
+                onChange={(value) => handleChange("name", value)}
+                placeholder={t("name_placeholder")}
+                style={styles.input}
+              />
+
+              <Input
+                value={clientData.surname}
+                label={t("surname")}
+                onChange={(value) => handleChange("surname", value)}
+                placeholder={t("surname_placeholder")}
+                style={styles.input}
+              />
+
+              <Input
+                value={clientData.nickname}
+                label={t("nickname")}
+                onChange={(value) => handleChange("nickname", value)}
+                onBlur={handleNicknameBlur}
+                placeholder={t("nickname_placeholder")}
+                errorMessage={errors.nickname}
+                style={styles.input}
+              />
+
+              <Input
+                label={t("email")}
+                value={clientData.email}
+                onChange={(value) => handleChange("email", value)}
+                onBlur={handleEmailBlur}
+                placeholder={t("email_placeholder")}
+                errorMessage={errors.email}
+                style={styles.input}
+              />
+
+              <Dropdown
+                options={sexOptions}
+                selected={clientData.sex}
+                setSelected={(option) => handleChange("sex", option)}
+                label={t("sex")}
+                style={[styles.input, styles.zIndex5]}
+              />
+
+              <Dropdown
+                options={getYearsOptions()}
+                selected={clientData.yearOfBirth}
+                setSelected={(option) => handleChange("yearOfBirth", option)}
+                label={t("year_of_birth")}
+                style={[styles.input, styles.zIndex4]}
+              />
+
+              <Dropdown
+                options={urbanRuralOptions}
+                selected={clientData.urbanRural}
+                setSelected={(option) => handleChange("urbanRural", option)}
+                label={t("living_place")}
+                style={[styles.input, styles.zIndex3]}
+              />
+            </View>
+
+            {errors.submit ? <Error message={errors.submit} /> : null}
+
+            <View style={styles.buttonContainer}>
+              <AppButton
+                label={t("button_text")}
+                size="lg"
+                onPress={handleSave}
+                disabled={isSaveDisabled || isProcessing}
+              />
+
+              <AppButton
+                type="secondary"
+                label={t("button_secondary_text")}
+                size="lg"
+                disabled={!canSaveChanges}
+                onPress={handleDiscard}
+                style={styles.button}
+              />
+            </View>
+
+            <View style={styles.privacyPolicyContainer}>
+              <AppText style={styles.privacyPolicyText}>{t("privacy")}</AppText>
+
+              <View style={styles.toggleContainer}>
+                <AppText namedStyle="smallText">{t("consent")}</AppText>
+                <Toggle
+                  isToggled={dataProcessing ? true : false}
+                  handleToggle={handleToggleClick}
+                />
+              </View>
+            </View>
+
+            <View>
+              <AppButton
+                type="ghost"
+                label={t("change_password")}
+                onClick={openDataProcessingBackdrop}
+                size="lg"
+                style={styles.textButton}
+              />
+              <ButtonWithIcon
+                iconName="circle-actions-close"
+                iconSize="md"
+                size="lg"
+                iconColor={appStyles.colorPrimary_20809e}
+                label={t("logout")}
+                type="ghost"
+                onClick={handleLogout}
+                style={styles.textButton}
+              />
+              <ButtonWithIcon
+                iconName={"circle-actions-close"}
+                iconSize={"md"}
+                size="lg"
+                iconColor={"#eb5757"}
+                color={"red"}
+                label={t("delete_account")}
+                type={"ghost"}
+                onClick={openDeleteAccountBackdrop}
+                style={styles.textButton}
+              />
+            </View>
+          </>
+        )}
       </ScrollView>
     </Block>
   );
