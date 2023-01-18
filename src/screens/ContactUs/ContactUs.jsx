@@ -9,10 +9,10 @@ import { Screen } from "#components";
  *
  * @returns {JSX.Element}
  */
-export const ContactUs = () => {
+export const ContactUs = ({ navigation }) => {
   return (
     <Screen>
-      <ContactUsBlock />
+      <ContactUsBlock navigation={navigation} />
     </Screen>
   );
 };

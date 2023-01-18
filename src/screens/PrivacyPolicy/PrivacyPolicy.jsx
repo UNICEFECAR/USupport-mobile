@@ -9,10 +9,10 @@ import { PrivacyPolicy as PrivacyPolicyBlock } from "#blocks";
  *
  * @returns {JSX.Element}
  */
-export const PrivacyPolicy = () => {
+export const PrivacyPolicy = ({ navigation }) => {
   return (
     <Screen>
-      <PrivacyPolicyBlock />
+      <PrivacyPolicyBlock navigation={navigation} />
     </Screen>
   );
 };

@@ -19,7 +19,7 @@ import { localStorage, cmsSvc } from "#services";
  *
  * @return {jsx}
  */
-export const PrivacyPolicy = () => {
+export const PrivacyPolicy = ({ navigation }) => {
   const { i18n, t } = useTranslation("privacy-policy");
 
   //--------------------- Country Change Event Listener ----------------------//
@@ -55,10 +55,14 @@ export const PrivacyPolicy = () => {
     isFetched: isPoliciesFetched,
   } = useQuery(["policies", currentCountry, i18n.language], getPolicies);
 
+  const handleGoBack = () => {
+    navigation.goBack();
+  };
+
   return (
     <Block>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Heading heading={t("heading")} />
+        <Heading heading={t("heading")} handleGoBack={handleGoBack} />
 
         <View style={styles.privacyContainer}>
           {policiesData && <Markdown style={styles}>{policiesData}</Markdown>}
