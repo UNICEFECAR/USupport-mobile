@@ -20,7 +20,6 @@ export const CheckBoxSelectorGroup = ({
 }) => {
   const handleSelect = (value) => {
     let newOptions = [...options];
-    console.log(value);
 
     newOptions = newOptions.map((option) => {
       if (option.value === value) {

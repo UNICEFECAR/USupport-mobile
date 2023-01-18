@@ -15,7 +15,6 @@ import { appStyles } from "#styles";
 export const CheckBoxGroup = ({ label, options, setOptions, style }) => {
   const handleSelect = (value) => {
     let newOptions = [...options];
-    console.log(value);
 
     newOptions = newOptions.map((option) => {
       if (option.value === value) {
