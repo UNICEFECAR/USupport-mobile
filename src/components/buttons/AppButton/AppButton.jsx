@@ -27,7 +27,7 @@ export const AppButton = ({
     <Pressable
       style={({ pressed }) => {
         return [
-          appStyles.shadow1,
+          type === "secondary" ? appStyles.shadow2 : appStyles.shadow1,
           styles.btn,
           styles[color],
           styles[type],
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
 
   //Size:
   sm: {
-    minWidth: 148,
+    maxWidth: 148,
   },
 
   md: {
