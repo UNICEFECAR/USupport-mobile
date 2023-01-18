@@ -9,6 +9,7 @@ export default function useGetClientData(enabled = true) {
   const queryClient = useQueryClient();
   const oldData = queryClient.getQueryData({ queryKey: ["client-data"] });
   const [clientData, setClientData] = useState(oldData || null);
+  const [oldDataCopy, setOldDataCopy] = useState(oldData || null);
   const fetchClientData = async () => {
     const res = await clientSvc.getClientData();
 
@@ -33,6 +34,7 @@ export default function useGetClientData(enabled = true) {
     enabled,
     onSuccess: (data) => {
       const dataCopy = JSON.parse(JSON.stringify(data));
+      setOldDataCopy(dataCopy);
       setClientData({ ...dataCopy });
     },
     staleTime: Infinity,
@@ -40,9 +42,9 @@ export default function useGetClientData(enabled = true) {
 
   const update = (data) => {
     queryClient.setQueryData(["client-data"], data);
+    setClientData(data);
   };
-
-  return [clientDataQuery, clientData, update];
+  return [clientDataQuery, clientData, oldDataCopy, update];
 }
 
 export { useGetClientData };

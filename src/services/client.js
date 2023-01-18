@@ -1,7 +1,7 @@
 import http from "./http";
-import { VITE_API_ENDPOINT } from "@env";
+import { API_URL_ENDPOINT } from "@env";
 
-const API_ENDPOINT = `${VITE_API_ENDPOINT}/v1/client`;
+const API_ENDPOINT = `${API_URL_ENDPOINT}/v1/client`;
 
 async function getClientData() {
   const response = await http.get(`${API_ENDPOINT}/`);

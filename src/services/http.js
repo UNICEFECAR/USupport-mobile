@@ -2,8 +2,8 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 import localStorage from "./storage";
 import { log } from "./log";
-import { VITE_API_ENDPOINT, VITE_CMS_API_URL } from "@env";
-const API_ENDPOINT = `${VITE_API_ENDPOINT}/v1/user`;
+import { API_URL_ENDPOINT, CMS_API_URL } from "@env";
+const API_ENDPOINT = `${API_URL_ENDPOINT}/v1/user`;
 
 // On every request add the JWT token, language and country to the headers
 axios.interceptors.request.use(async (config) => {
@@ -14,7 +14,7 @@ axios.interceptors.request.use(async (config) => {
 
   const requestURI = axios.getUri(config) || "VITE CMS API URL";
 
-  if (!requestURI.includes(VITE_CMS_API_URL)) {
+  if (!requestURI.includes(CMS_API_URL)) {
     const token = await localStorage.getItem("token");
     config.headers["Authorization"] = `Bearer ${token}`;
   }

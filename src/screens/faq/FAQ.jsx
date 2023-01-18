@@ -9,10 +9,10 @@ import { FAQ as FAQBlock } from "#blocks";
  *
  * @returns {JSX.Element}
  */
-export const FAQ = () => {
+export const FAQ = ({ navigation }) => {
   return (
     <Screen>
-      <FAQBlock />
+      <FAQBlock navigation={navigation} />
     </Screen>
   );
 };

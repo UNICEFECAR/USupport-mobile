@@ -57,6 +57,7 @@ export const AppButton = ({
           isPressed &&
             (type === "secondary" || type === "ghost") &&
             styles[color + "Pressed" + "Text"],
+          color === "red" && styles.btnTextRed,
         ]}
       >
         {label}
@@ -125,7 +126,8 @@ const styles = StyleSheet.create({
   },
 
   lg: {
-    minWidth: "100%",
+    width: "96%",
+    maxWidth: 420,
     paddingHorizontal: 24,
     paddingVertical: 13,
     borderRadius: 40,
@@ -171,6 +173,10 @@ const styles = StyleSheet.create({
   purplePressedText: {
     color: appStyles.colorSecondaryPressed_7f2ee5,
   },
+
+  btnTextRed: {
+    color: appStyles.colorRed_eb5757,
+  },
 });
 
 AppButton.propTypes = {
@@ -184,7 +190,7 @@ AppButton.propTypes = {
    * Button color
    * @default: green
    **/
-  color: PropTypes.oneOf(["green", "purple"]),
+  color: PropTypes.oneOf(["green", "purple", "red"]),
 
   /**
    * Button size

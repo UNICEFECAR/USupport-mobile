@@ -1,9 +1,9 @@
 import http from "./http";
 import jwtDecode from "jwt-decode";
-import { VITE_API_ENDPOINT } from "@env";
+import { API_URL_ENDPOINT } from "@env";
 import localStorage from "./storage";
 
-const API_ENDPOINT = `${VITE_API_ENDPOINT}/v1/user`;
+const API_ENDPOINT = `${API_URL_ENDPOINT}/v1/user`;
 
 async function getUserID() {
   const token = await localStorage.getItem("token");

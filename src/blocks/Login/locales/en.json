@@ -1,0 +1,11 @@
+{
+     "heading": "Welcome back",
+  "email_label": "Email / Access Token",
+  "email_placeholder": "Enter you email or access token",
+  "password_label": "Password",
+  "password_placeholder": "Enter your password",
+  "forgot_password_label": "I forgot my password",
+  "login_label": "Login",
+  "paragraph": "Or login with:",
+  "register_button_label": "I don’t have an account"
+}

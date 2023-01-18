@@ -40,7 +40,7 @@ Avatar.propTypes = {
   /**
    * Image url
    */
-  image: PropTypes.string,
+  image: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 
   /**
    * Size of the avatar

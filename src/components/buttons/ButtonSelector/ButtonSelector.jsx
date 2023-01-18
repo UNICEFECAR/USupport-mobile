@@ -30,7 +30,7 @@ export const ButtonSelector = ({
           styles.btn,
           pressed && styles.btnPressed,
           disabled && styles.btnDisabled,
-          appStyles.shadow3,
+          appStyles.shadow2,
           style,
         ];
       }}
@@ -41,12 +41,9 @@ export const ButtonSelector = ({
     >
       <View style={styles.textContainer}>
         {iconName && (
-          <Icon
-            name={iconName}
-            color="#A6B4B8"
-            size="md"
-            style={styles.leftIcon}
-          />
+          <View style={styles.leftIcon}>
+            <Icon name={iconName} color="#A6B4B8" size="md" />
+          </View>
         )}
         {!iconName && avatar && <Avatar style={styles.avatar} image={avatar} />}
         <Text style={[styles.text, isPressed && styles.textPressed]}>
@@ -69,7 +66,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    width: 343,
+    width: "96%",
+    maxWidth: 420,
     paddingHorizontal: 16,
     paddingVertical: 8,
   },
@@ -82,13 +80,10 @@ const styles = StyleSheet.create({
     opacity: 0.4,
   },
 
-  avatar: {
-    marginRight: 8,
-  },
+  avatar: {},
 
   leftIcon: {
     paddingVertical: 4,
-    paddingRight: 10,
   },
 
   text: {

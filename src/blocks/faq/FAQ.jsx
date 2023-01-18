@@ -16,7 +16,7 @@ import { localStorage, adminSvc, cmsSvc } from "#services";
  *
  * @return {jsx}
  */
-export const FAQ = () => {
+export const FAQ = ({ navigation }) => {
   const { i18n, t } = useTranslation("faq");
   //--------------------- Country Change Event Listener ----------------------//
   const [currentCountry, setCurrentCountry] = useState();
@@ -73,10 +73,18 @@ export const FAQ = () => {
     enabled: !faqIdsQuery.isLoading && faqIdsQuery.data?.length > 0,
   });
 
+  const handleGoBack = () => {
+    navigation.goBack();
+  };
+
   return (
     <Block>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Heading heading={t("heading")} subheading={t("subheading")} />
+        <Heading
+          heading={t("heading")}
+          subheading={t("subheading")}
+          handleGoBack={handleGoBack}
+        />
         <View style={styles.faqContainer}>
           {isFaqLoading && FAQsData?.length ? (
             <Loading style={styles.loading} />

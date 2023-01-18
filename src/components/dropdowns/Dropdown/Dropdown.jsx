@@ -139,8 +139,9 @@ export const Dropdown = ({
 
 const styles = StyleSheet.create({
   dropdown: {
-    alignSelf: "center",
     width: "96%",
+    maxWidth: 420,
+    alignSelf: "center",
     position: "relative",
     justifyContent: "center",
     // zIndex: 999,

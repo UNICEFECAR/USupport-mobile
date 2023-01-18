@@ -22,7 +22,7 @@ const initialData = {
  *
  * @return {jsx}
  */
-export const ContactUs = () => {
+export const ContactUs = ({ navigation }) => {
   // const navigate = useNavigate();
   const { t } = useTranslation("contact-us-block");
   const [data, setData] = useState({ ...initialData });
@@ -114,9 +114,17 @@ export const ContactUs = () => {
     }
   };
 
+  const handleGoBack = () => {
+    navigation.goBack();
+  };
+
   return (
     <Block>
-      <Heading heading={t("heading")} subheading={t("subheading")} />
+      <Heading
+        heading={t("heading")}
+        subheading={t("subheading")}
+        handleGoBack={handleGoBack}
+      />
       <Dropdown
         label={t("issue")}
         style={styles.dropdown}

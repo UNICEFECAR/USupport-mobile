@@ -10,4 +10,5 @@ export { default as providerSvc } from "./provider.js";
 export { default as messageSvc } from "./message.js";
 export { default as notificationsSvc } from "./notifications.js";
 export { default as localStorage } from "./storage.js";
+export { default as Context } from "./context.js";
 export * from "./log.js";

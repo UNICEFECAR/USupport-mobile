@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  KeyboardAvoidingView,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, KeyboardAvoidingView, ScrollView } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -83,7 +77,6 @@ export const RegisterEmail = ({ navigation }) => {
     // If the mutation succeeds, get the data returned
     // from the server, and put it in the cache
     onSuccess: (response) => {
-      console.log(response, "response");
       const { user: userData, token: tokenData } = response.data;
       const { token, expiresIn, refreshToken } = tokenData;
 

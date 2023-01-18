@@ -13,10 +13,15 @@ import { appStyles } from "#styles";
  *
  * @return {jsx}
  */
-export const ButtonWithIcon = ({ iconName, ...props }) => {
+export const ButtonWithIcon = ({
+  iconName,
+  iconColor = appStyles.colorWhite_ff,
+  style,
+  ...props
+}) => {
   return (
-    <AppButton style={styles.btn} {...props}>
-      <Icon name={iconName} size={"md"} color={appStyles.colorWhite_ff} />
+    <AppButton style={[styles.btn, style]} {...props}>
+      <Icon name={iconName} size={"md"} color={iconColor} style={styles.icon} />
     </AppButton>
   );
 };
@@ -29,15 +34,24 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+  },
+
+  icon: {
+    marginRight: 8,
   },
 });
 
-ButtonWithIcon.PropTypes = {
+ButtonWithIcon.propTypes = {
   /**
    * Icon name
    *  */
   iconName: PropTypes.string.isRequired,
+
+  /**
+   * Icon color
+   * @default appStyles.colorWhite_ff
+   * */
+  iconColor: PropTypes.string,
 
   /**
    * Additional props to pass
