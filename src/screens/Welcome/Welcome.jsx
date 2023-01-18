@@ -3,7 +3,7 @@ import React from "react";
 import { Screen } from "#components";
 import { Welcome as WelcomeBlock } from "#blocks";
 
-export const Welcome = () => {
+export const Welcome = ({ navigation }) => {
   return (
     <Screen
       hasEmergencyButton={false}
@@ -23,7 +23,7 @@ export const Welcome = () => {
         </>
       }
     >
-      <WelcomeBlock />
+      <WelcomeBlock navigation={navigation} />
     </Screen>
   );
 };

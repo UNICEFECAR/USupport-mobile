@@ -14,7 +14,7 @@ import { AppText, AppButton, Block, Dropdown } from "#components";
 import { languageSvc, countrySvc, localStorage } from "#services";
 import { appStyles } from "#styles";
 
-export function Welcome() {
+export function Welcome({ navigation }) {
   const { t, i18n } = useTranslation("welcome");
   const navigate = () => {};
   const [selectedCountry, setSelectedCountry] = useState(null);
@@ -85,7 +85,8 @@ export function Welcome() {
 
     i18n.changeLanguage(language);
 
-    navigate("/register-preview");
+    //TODO: Change that to navigate to RegisterPreview
+    navigation.navigate("Login");
   };
 
   return (
