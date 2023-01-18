@@ -1,0 +1,19 @@
+{
+  "heading": "Your profile",
+  "subheading": "Here you can find all the information you need for your profile and account settings.",
+  "button_label": "Logout",
+
+  "first_group_heading": "Profile details",
+  "guest": "Guest",
+  "second_group_heading": "Application settings",
+  "rate_share": "Rate and share",
+  "other": "Other",
+  "notifications_settings_button_label": "Notification settings",
+  "rate_us_button_label": "Give us a rating",
+  "share_button_label": "Share the application",
+  "contact_us_button_label": "Contact us",
+  "privacy_policy_button_label": "Privacy Policy",
+  "FAQ_button_label": "FAQ",
+  "mood_tracker_button_label": "Mood tracker",
+  "passcoode_and_biometrics_button_label": "Passcode and biometrics"
+}
