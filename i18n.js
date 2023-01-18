@@ -8,8 +8,8 @@ import {
   RegisterEmail,
   RegisterAnonymous,
   Welcome,
-  // UserProfile,
-  // UserDetails,
+  UserProfile,
+  UserDetails,
   Login,
 } from "./src/blocks/locales.js";
 import { FAQ as FAQPage } from "./src/screens/locales.js";
@@ -77,8 +77,8 @@ const resources = {
     login: Login.en,
     "privacy-policy": PrivacyPolicy.en,
     welcome: Welcome.en,
-    // "user-profile": UserProfile.en,
-    // "user-details": UserDetails.en,
+    "user-profile": UserProfile.en,
+    "user-details": UserDetails.en,
     // welcome: Welcome.en,
     faq: FAQ.en,
     "register-email": RegisterEmail.en,
