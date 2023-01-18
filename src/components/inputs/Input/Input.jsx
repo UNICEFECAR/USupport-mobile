@@ -80,7 +80,7 @@ export const Input = ({
 
 const styles = StyleSheet.create({
   inputWrapper: {
-    width: "93%",
+    width: "96%",
     maxWidth: 420,
     display: "flex",
     textAlign: "left",
