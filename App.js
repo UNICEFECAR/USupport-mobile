@@ -15,7 +15,8 @@ import {
 } from "@expo-google-fonts/nunito";
 
 import { AuthNavigation, AppNavigation } from "#navigation";
-import { localStorage } from "#services";
+import { localStorage, Context } from "#services";
+import { UserDetails, UserProfile } from "#screens";
 
 // Create a react-query client
 const queryClient = new QueryClient({
@@ -33,6 +34,8 @@ export default function App() {
   });
 
   const [token, setToken] = useState();
+
+  // localStorage.setItem("token", "");
 
   useEffect(() => {
     localStorage.getItem("token").then((jwtToken) => {
@@ -57,13 +60,15 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <QueryClientProvider client={queryClient}>
-        <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-          {token ? <AppNavigation /> : <AuthNavigation />}
-        </View>
-      </QueryClientProvider>
-    </NavigationContainer>
+    <Context.Provider value={{ setToken }}>
+      <NavigationContainer>
+        <QueryClientProvider client={queryClient}>
+          <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+            {token ? <AppNavigation /> : <AuthNavigation />}
+          </View>
+        </QueryClientProvider>
+      </NavigationContainer>
+    </Context.Provider>
   );
 }
 
