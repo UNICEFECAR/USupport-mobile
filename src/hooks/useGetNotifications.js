@@ -9,7 +9,6 @@ export const useGetNotifications = () => {
 
     data.forEach((notification) => {
       const content = notification.content || {};
-      console.log(content.time);
       formattedData.push({
         notificationId: notification.notification_id,
         userId: notification.user_id,
