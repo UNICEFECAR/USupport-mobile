@@ -14,3 +14,4 @@ export * from "./blocks";
 export * from "./avatars";
 export * from "./cards";
 export * from "./policies";
+export * from "./tabs";
