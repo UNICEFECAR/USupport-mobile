@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   View,
   StyleSheet,
   KeyboardAvoidingView,
   ScrollView,
+  TouchableOpacity,
 } from "react-native";
 import { useMutation, useQuery } from "@tanstack/react-query";
-// import * as Clipboard from "expo-clipboard";
+import { useTranslation } from "react-i18next";
+import * as Clipboard from "expo-clipboard";
+import { showMessage } from "react-native-flash-message";
+
 import "fast-text-encoding";
 import Joi from "joi";
 
@@ -21,16 +25,19 @@ import {
   Loading,
   Screen,
   TermsAgreement,
+  TransparentModal,
 } from "#components";
-import { userSvc, localStorage } from "#services";
+
+import { userSvc, localStorage, Context } from "#services";
 import { validate, validateProperty } from "#utils";
 import { useError } from "#hooks";
-import { useTranslation } from "react-i18next";
+import { appStyles } from "#styles";
 
 export const RegisterAnonymous = ({ navigation }) => {
   const { t } = useTranslation("register-anonymous");
-  const navigate = () => {};
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
 
+  const { setToken } = useContext(Context);
   const schema = Joi.object({
     password: Joi.string()
       .pattern(new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}"))
@@ -62,11 +69,14 @@ export const RegisterAnonymous = ({ navigation }) => {
   const { data: userAccessToken, isLoading: userAccessTokenIsLoading } =
     useQuery(["access-token"], fetchUserAccessToken, {
       cacheTime: 0,
+      // onSucces: (data) => console.log(data, "data"),
     });
 
   const register = async () => {
     const countryID = await localStorage.getItem("country_id");
+    console.log(countryID);
     if (!countryID) {
+      console.log("No country id");
       navigate("/");
     }
     return await userSvc.signUp({
@@ -81,19 +91,26 @@ export const RegisterAnonymous = ({ navigation }) => {
   };
 
   const registerMutation = useMutation(register, {
-    onSuccess: (response) => {
+    onSuccess: async (response) => {
       const { token: tokenData } = response.data;
       const { token, expiresIn, refreshToken } = tokenData;
 
-      localStorage.setItem("token", token);
-      localStorage.setItem("token-expires-in", expiresIn);
-      localStorage.setItem("refresh-token", refreshToken);
+      const tokenPromise = localStorage.setItem("token", token);
+      const tokenExpiresInPromise = localStorage.setItem(
+        "token-expires-in",
+        expiresIn
+      );
+      const refreshTokenPromise = localStorage.setItem(
+        "refresh-token",
+        refreshToken
+      );
 
-      navigate("/register/support", {
-        state: {
-          hideGoBackArrow: false,
-        },
-      });
+      await Promise.all([
+        tokenPromise,
+        tokenExpiresInPromise,
+        refreshTokenPromise,
+      ]);
+      setToken(token);
     },
     onError: (error) => {
       const { message: errorMessage } = useError(error);
@@ -104,7 +121,6 @@ export const RegisterAnonymous = ({ navigation }) => {
       setIsSubmitting(false);
     },
   });
-
   const handleRegister = async () => {
     if (!isSubmitting) {
       setIsSubmitting(true);
@@ -130,13 +146,56 @@ export const RegisterAnonymous = ({ navigation }) => {
   };
 
   const copyToClipboard = async () => {
-    // await Clipboard.setStringAsync(userAccessToken);
+    await Clipboard.setStringAsync(userAccessToken);
+    showMessage({
+      message: "Succesfully copied the code",
+      type: "success",
+      autoHide: true,
+      hideStatusBar: true,
+      titleStyle: {
+        textAlign: "center",
+        alignSelf: "center",
+      },
+      style: {
+        backgroundColor: appStyles.colorGreen_7ec680,
+        borderBottomColor: appStyles.colorGreen_54cfd9,
+        borderBottomWidth: 1,
+        zIndex: 999,
+      },
+    });
   };
 
   const canContinue =
     data.password && data.isPrivacyAndTermsSelected && data.nickname;
+
   return (
     <Screen hasEmergencyButton={false}>
+      <TransparentModal
+        heading={t("modal_heading")}
+        isOpen={isConfirmationModalOpen}
+        handleClose={() => setIsConfirmationModalOpen(false)}
+      >
+        {userAccessToken && (
+          <View style={styles.copyCodeContainer}>
+            <AppText namedStyle="h3">{userAccessToken}</AppText>
+            <TouchableOpacity onPress={copyToClipboard}>
+              <Icon style={styles.copyIcon} name="copy" />
+            </TouchableOpacity>
+          </View>
+        )}
+        <View style={styles.warningContainer}>
+          <Icon style={styles.warningIcon} name="warning" />
+          <AppText namedStyle="text">{t("modal_copy_text")}</AppText>
+        </View>
+        <AppButton
+          label={t("modal_button_label")}
+          size="lg"
+          style={{ marginTop: 24 }}
+          onPress={handleRegister}
+          disabled={isSubmitting}
+        />
+      </TransparentModal>
+
       <KeyboardAvoidingView
         style={styles.keyboardAvoidingView}
         behavior={Platform.OS === "ios" ? "padding" : null}
@@ -150,7 +209,9 @@ export const RegisterAnonymous = ({ navigation }) => {
               {userAccessToken ? (
                 <View style={styles.copyCodeContainer}>
                   <AppText namedStyle="h3">{userAccessToken}</AppText>
-                  <Icon style={styles.copyIcon} name="copy" />
+                  <TouchableOpacity onPress={copyToClipboard}>
+                    <Icon style={styles.copyIcon} name="copy" />
+                  </TouchableOpacity>
                 </View>
               ) : (
                 <View
@@ -210,7 +271,7 @@ export const RegisterAnonymous = ({ navigation }) => {
               label={t("register_button_label")}
               style={styles.button}
               size="lg"
-              onPress={handleRegister}
+              onPress={() => setIsConfirmationModalOpen(true)}
             />
             <AppButton
               label={t("login_button_label")}
