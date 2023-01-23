@@ -32,7 +32,7 @@ export const Tabs = ({ options, handleSelect, style }) => {
       return options
         ? options.map((option, index) => {
             if (index >= NO_OPTIONS_TO_RENDER) {
-              return;
+              return null;
             }
             return (
               <TouchableWithoutFeedback
@@ -44,6 +44,7 @@ export const Tabs = ({ options, handleSelect, style }) => {
                         setIsMoreOptionSelected(false);
                       }
                 }
+                key={index}
               >
                 <View
                   style={[
@@ -51,7 +52,6 @@ export const Tabs = ({ options, handleSelect, style }) => {
                     option.isSelected && styles.tabSelected,
                     option.isInactive && styles.tabInactive,
                   ]}
-                  key={index}
                 >
                   <AppText style={styles.tabText}>{option.label}</AppText>
                 </View>
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingBottom: 10,
-    paddingLeft: 16,
+    paddingHorizontal: 16,
   },
   tab: {
     paddingVertical: 4,
