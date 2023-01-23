@@ -1,5 +1,6 @@
 import React from "react";
 import { TouchableOpacity, View, StyleSheet } from "react-native";
+import { AppText } from "../../texts/AppText/AppText";
 
 import { appStyles } from "#styles";
 
@@ -26,11 +27,14 @@ const styles = StyleSheet.create({
   label: {
     borderWidth: 1,
     borderColor: appStyles.colorPrimary_20809e,
+    borderRadius: 16,
     paddingVertical: 4,
     paddingHorizontal: 16,
-    width: "fit-content",
+    display: "flex",
+    width: "auto",
     textAlign: "center",
     justifyContent: "center",
+    alignSelf: "flex-start",
   },
   text: { color: appStyles.colorPrimary_20809e },
 });
