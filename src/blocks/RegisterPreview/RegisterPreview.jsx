@@ -59,6 +59,7 @@ export const RegisterPreview = ({ navigation }) => {
             onPress={() => handleRedirect("Login")}
           />
         }
+        handleGoBack={() => navigation.goBack()}
       />
 
       <View style={styles.imageContainer}>

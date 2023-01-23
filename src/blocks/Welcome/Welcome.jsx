@@ -85,8 +85,7 @@ export function Welcome({ navigation }) {
 
     i18n.changeLanguage(language);
 
-    //TODO: Change that to navigate to RegisterPreview
-    navigation.navigate("Login");
+    navigation.push("RegisterPreview");
   };
 
   return (
