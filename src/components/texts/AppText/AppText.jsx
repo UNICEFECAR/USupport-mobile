@@ -29,6 +29,8 @@ export const AppText = ({
 
 const styles = StyleSheet.create({
   text: {
+    flexWrap: "wrap",
+    flexShrink: 1,
     color: appStyles.colorGray_66768d,
     fontSize: 16,
     fontFamily: "Nunito_400Regular",
