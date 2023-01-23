@@ -2,10 +2,10 @@ import React from "react";
 import { Screen } from "#components";
 import { RegisterEmail as RegisterEmailBlock } from "#blocks";
 
-export const RegisterEmail = () => {
+export const RegisterEmail = ({ navigation }) => {
   return (
     <Screen hasEmergencyButton={false}>
-      <RegisterEmailBlock />
+      <RegisterEmailBlock navigation={navigation} />
     </Screen>
   );
 };

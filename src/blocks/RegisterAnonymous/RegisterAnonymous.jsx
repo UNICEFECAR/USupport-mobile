@@ -203,7 +203,11 @@ export const RegisterAnonymous = ({ navigation }) => {
       >
         <Block style={{ flex: 1, flexGrow: 1 }}>
           <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            <Heading heading={t("heading")} subheading={t("subheading")} />
+            <Heading
+              heading={t("heading")}
+              subheading={t("subheading")}
+              handleGoBack={() => navigation.goBack()}
+            />
             <View style={styles.codeContainer}>
               <AppText isSemibold>{t("access_code")}</AppText>
               {userAccessToken ? (
