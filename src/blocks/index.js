@@ -8,3 +8,8 @@ export * from "./UserProfile";
 export * from "./UserDetails";
 export * from "./Login";
 export * from "./MascotHeadingBlock";
+export * from "./InformationalPortal";
+export * from "./GiveSuggestion";
+export * from "./Articles";
+export * from "./ArticleView";
+export * from "./ArticlesDashboard";
