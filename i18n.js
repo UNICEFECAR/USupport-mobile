@@ -12,6 +12,7 @@ import {
   UserDetails,
   Login,
   RegisterPreview,
+  RegisterAboutYou,
 } from "./src/blocks/locales.js";
 import { FAQ as FAQPage } from "./src/screens/locales.js";
 
@@ -28,6 +29,7 @@ const resources = {
     "register-email": RegisterEmail.en,
     "register-anonymous": RegisterAnonymous.en,
     "register-preview": RegisterPreview.en,
+    "register-about-you": RegisterAboutYou.en,
 
     // Screens
     "faq-page": FAQPage.en,

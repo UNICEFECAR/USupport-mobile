@@ -8,3 +8,4 @@ export * as UserProfile from "./UserProfile/locales";
 export * as UserDetails from "./UserDetails/locales";
 export * as Login from "./Login/locales";
 export * as RegisterPreview from "./RegisterPreview/locales";
+export * as RegisterAboutYou from "./RegisterAboutYou/locales";
