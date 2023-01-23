@@ -11,8 +11,17 @@ import {
   UserProfile,
   UserDetails,
   Login,
+  InformationalPortal,
+  GiveSuggestion,
+  Articles,
+  ArticlesDashboard,
 } from "./src/blocks/locales.js";
-import { FAQ as FAQPage } from "./src/screens/locales.js";
+import {
+  FAQ as FAQPage,
+  InformationalPortal as InformationalPortalScreen,
+  Articles as ArticlesScreen,
+  ArticleInformation,
+} from "./src/screens/locales.js";
 // Page,
 // Login,
 // NotificationPreferences,
@@ -83,6 +92,11 @@ const resources = {
     faq: FAQ.en,
     "register-email": RegisterEmail.en,
     "register-anonymous": RegisterAnonymous.en,
+    "information-portal": InformationalPortal.en,
+    "give-suggestion": GiveSuggestion.en,
+    articles: Articles.en,
+    "article-information": ArticleInformation.en,
+    "articles-dashboard": ArticlesDashboard.en,
     // "forgot-password": ForgotPassword.en,
     // "reset-password": ResetPassword.en,
     // "edit-profile-details": EditProfileDetails.en,
@@ -98,7 +112,9 @@ const resources = {
     // dashboard: Dashboard.en,
     // notifications: Notifications.en,
 
-    // // Pages
+    //  Screens
+    "informational-portal-screen": InformationalPortalScreen.en,
+    "articles-screen": ArticlesScreen.en,
     // "not-found-page": NotFoundPage.en,
     // "contact-us-page": ContactUsPage.en,
     // "notification-preferences-page": NotificationPreferencesPage.en,
