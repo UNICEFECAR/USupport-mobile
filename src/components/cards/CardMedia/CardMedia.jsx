@@ -7,6 +7,8 @@ import { AppButton } from "../../buttons/AppButton/AppButton";
 
 import { appStyles } from "#styles";
 
+import articlePlaceholder from "../../../assets/articlePlaceholder.png";
+
 /**
  * CardMedia
  *
@@ -25,7 +27,7 @@ export const CardMedia = ({
   return (
     <View style={[appStyles.shadow2, styles.cardMedia, style]}>
       <Image
-        source={image ? image : "https://picsum.photos/343/400"}
+        source={image ? { uri: image } : articlePlaceholder}
         style={styles.image}
       />
       <View style={styles.textContainer}>
@@ -45,9 +47,7 @@ export const CardMedia = ({
           label="Read more"
           size="sm"
           style={styles.readMoreButton}
-          onPress={() => {
-            onPress && onPress();
-          }}
+          onPress={onPress}
         />
       </View>
     </View>
@@ -63,10 +63,13 @@ const styles = StyleSheet.create({
     ...appStyles.shadow2,
     borderWidth: 1,
     borderColor: "transparent",
+    alignSelf: "center",
   },
   image: {
     width: "100%",
     height: 160,
+    borderTopRightRadius: 24,
+    borderTopLeftRadius: 24,
   },
   textContainer: {
     padding: 16,
