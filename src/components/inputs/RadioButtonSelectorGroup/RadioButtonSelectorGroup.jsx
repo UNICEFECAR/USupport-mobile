@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { RadioButtonSelector } from "../RadioButtonSelector/RadioButtonSelector";
+import { AppText } from "../../texts/AppText/AppText";
 
 import { appStyles } from "#styles";
 
@@ -42,9 +43,9 @@ export const RadioButtonSelectorGroup = ({
   return (
     <View style={[style]}>
       {label && (
-        <Text namedStyle="text" style={styles.text}>
+        <AppText namedStyle="text" style={styles.text}>
           {label}
-        </Text>
+        </AppText>
       )}
       {renderAllOptions()}
     </View>
@@ -55,6 +56,7 @@ const styles = StyleSheet.create({
   text: {
     color: appStyles.colorBlue_3d527b,
     marginBottom: 4,
+    fontFamily: "Nunito_600SemiBold",
   },
 
   radioButtonSelector: {
