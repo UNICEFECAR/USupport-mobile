@@ -29,6 +29,11 @@ function getDayOfTheWeek(date) {
   }
 }
 
+/**
+ * Get the date in the format dd.mm.yy
+ * @param {Date} date
+ * @returns {String}
+ */
 function getDateView(date) {
   const newDate = new Date(date);
   const day = newDate.getDate();
