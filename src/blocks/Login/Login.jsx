@@ -88,7 +88,7 @@ export const Login = ({ navigation }) => {
   };
 
   const handleRegisterRedirect = () => {
-    navigate("/register-preview");
+    navigation.navigate("RegisterPreview");
   };
 
   return (
