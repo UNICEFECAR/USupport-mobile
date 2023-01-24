@@ -13,6 +13,7 @@ import {
   Login,
   RegisterPreview,
   RegisterAboutYou,
+  RegisterSupport,
 } from "./src/blocks/locales.js";
 import { FAQ as FAQPage } from "./src/screens/locales.js";
 
@@ -30,6 +31,7 @@ const resources = {
     "register-anonymous": RegisterAnonymous.en,
     "register-preview": RegisterPreview.en,
     "register-about-you": RegisterAboutYou.en,
+    "register-support": RegisterSupport.en,
 
     // Screens
     "faq-page": FAQPage.en,

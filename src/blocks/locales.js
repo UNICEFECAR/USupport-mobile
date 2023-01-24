@@ -9,3 +9,4 @@ export * as UserDetails from "./UserDetails/locales";
 export * as Login from "./Login/locales";
 export * as RegisterPreview from "./RegisterPreview/locales";
 export * as RegisterAboutYou from "./RegisterAboutYou/locales";
+export * as RegisterSupport from "./RegisterSupport/locales";

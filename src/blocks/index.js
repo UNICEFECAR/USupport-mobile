@@ -9,3 +9,4 @@ export * from "./UserDetails";
 export * from "./Login";
 export * from "./RegisterPreview";
 export * from "./RegisterAboutYou";
+export * from "./RegisterSupport";
