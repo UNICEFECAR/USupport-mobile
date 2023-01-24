@@ -1,0 +1,56 @@
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import { useTranslation } from "react-i18next";
+
+import { Block, AppText, ProviderOverview } from "#components";
+
+/**
+ * SelectProvider
+ *
+ * SelectProvider block
+ *
+ * @returns {JSX.Element}
+ */
+export const SelectProvider = ({ providers, navigation }) => {
+  const { t } = useTranslation("select-provider");
+
+  const handleProviderClick = (provider) => {
+    navigate(`/provider-overview?provider-id=${provider.providerDetailId}`);
+  };
+
+  const renderProviders = () => {
+    if (providers?.length === 0) return <AppText>{t("no_match")}</AppText>;
+    return providers?.map((provider, index) => {
+      return (
+        <ProviderOverview
+          provider={provider}
+          name={provider.name}
+          patronym={provider.patronym}
+          surname={provider.surname}
+          specializations={provider.specializations.map((x) => t(x))}
+          price={provider.consultationPrice}
+          t={t}
+          earliestAvailableSlot={provider.earliestAvailableSlot}
+          onClick={() => handleProviderClick(provider)}
+          image={provider.image}
+          freeLabel={t("free")}
+          key={index}
+        />
+      );
+    });
+  };
+
+  return (
+    <Block>
+      <View style={styles.providersContainer}>{renderProviders()}</View>
+    </Block>
+  );
+};
+
+const styles = StyleSheet.create({
+  providersContainer: {
+    display: "flex",
+    alignItems: "center",
+    paddingVertical: 32,
+  },
+});

@@ -14,8 +14,12 @@ import {
   RegisterPreview,
   RegisterAboutYou,
   RegisterSupport,
+  SelectProvider,
 } from "./src/blocks/locales.js";
-import { FAQ as FAQPage } from "./src/screens/locales.js";
+import {
+  FAQ as FAQPage,
+  SelectProvider as SelectProviderScreen,
+} from "./src/screens/locales.js";
 
 const resources = {
   en: {
@@ -32,9 +36,11 @@ const resources = {
     "register-preview": RegisterPreview.en,
     "register-about-you": RegisterAboutYou.en,
     "register-support": RegisterSupport.en,
+    "select-provider": SelectProvider.en,
 
     // Screens
     "faq-page": FAQPage.en,
+    "select-provider-screen": SelectProviderScreen.en,
   },
 };
 
