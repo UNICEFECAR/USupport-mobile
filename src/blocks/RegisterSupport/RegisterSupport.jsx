@@ -8,6 +8,7 @@ import {
   Heading,
   RadioButtonSelectorGroup,
   AppButton,
+  TransparentModal,
 } from "#components";
 
 import { clientSvc } from "#services";
@@ -90,9 +91,9 @@ export const RegisterSupport = ({ navigation }) => {
 
   const handleContinue = () => {
     if (data === "yes" && hasGivenPermission?.current) {
-      navigate("/select-provider");
+      navigation.navigate("SelectProvider");
     } else {
-      navigate("/dashboard");
+      navigation.navigate("Dashboard");
     }
   };
 
@@ -119,6 +120,19 @@ export const RegisterSupport = ({ navigation }) => {
           onClick={() => handleContinue()}
         />
       </View>
+      <TransparentModal
+        heading={t("modal_heading")}
+        text={t("modal_paragraph")}
+        isOpen={isModalOpen}
+        handleClose={closeModal}
+        ctaLabel={t("modal_cta_1")}
+        ctaHandleClick={handleGivePermission}
+        isCtaDisabled={isSubmitting}
+        secondaryCtaLabel={t("modal_cta_2")}
+        secondaryCtaType="secondary"
+        secondaryCtaHandleClick={closeModal}
+        errorMessage={submitError}
+      />
     </Block>
   );
 };
