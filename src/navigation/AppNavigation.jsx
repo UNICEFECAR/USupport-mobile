@@ -7,6 +7,9 @@ import {
   UserDetails,
   PrivacyPolicy,
   ContactUs,
+  PlatformRating,
+  SelectProvider,
+  ProviderOverview,
 } from "#screens";
 
 const Stack = createStackNavigator();
@@ -19,6 +22,9 @@ export const AppNavigation = () => {
       <Stack.Screen name="FAQ" component={FAQ} />
       <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
       <Stack.Screen name="ContactUs" component={ContactUs} />
+      <Stack.Screen name="PlatformRating" component={PlatformRating} />
+      <Stack.Screen name="SelectProvider" component={SelectProvider} />
+      <Stack.Screen name="ProviderOverview" component={ProviderOverview} />
     </Stack.Navigator>
   );
 };

@@ -1,0 +1,33 @@
+{
+  "button_label": "Schedule consultation",
+
+  "earliest_slot_label": "Earliest available slot for consultation",
+  "languages_label": "Languages",
+  "education_label": "Education",
+  "work_with_label": "Specialties",
+  "specializations_label": "Specializations",
+  "done_consultations_label": "Overall done consultations",
+  "description_label": "About me",
+  "edit_details": "Edit details",
+  "change_password": "Change password",
+  "delete_account": "Delete account",
+  "no_available_slot": "There is no available slot",
+  "consultations": "consultations",
+
+  "psychologist": "Psychologist",
+  "psychiatrist": "Psychiatrist",
+  "psychotherapist": "Psychotherapist",
+
+  "addiction": "Addiction",
+  "stress": "Stress",
+  "burnout": "Burnout",
+  "eating_disorder": "Eating disorder",
+  "depression": "Depression",
+  "anxiety": "Anxiety",
+  "panic_attack": "Panic attack",
+  "relationship": "Relationship",
+  "personal_development": "Personal development",
+  "video_label": "Video representation",
+
+  "hour_consultation": "for 1 hour consultation"
+}

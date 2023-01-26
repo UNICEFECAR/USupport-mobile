@@ -14,8 +14,10 @@ import { Block, AppText, ProviderOverview } from "#components";
 export const SelectProvider = ({ providers, navigation }) => {
   const { t } = useTranslation("select-provider");
 
-  const handleProviderClick = (provider) => {
-    navigate(`/provider-overview?provider-id=${provider.providerDetailId}`);
+  const handleProviderClick = (providerId) => {
+    navigation.push("ProviderOverview", {
+      providerId: providerId,
+    });
   };
 
   const renderProviders = () => {
@@ -31,7 +33,7 @@ export const SelectProvider = ({ providers, navigation }) => {
           price={provider.consultationPrice}
           t={t}
           earliestAvailableSlot={provider.earliestAvailableSlot}
-          onClick={() => handleProviderClick(provider)}
+          onPress={() => handleProviderClick(provider.providerDetailId)}
           image={provider.image}
           freeLabel={t("free")}
           key={index}
