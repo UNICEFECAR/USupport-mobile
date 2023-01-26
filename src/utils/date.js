@@ -46,4 +46,22 @@ function getDateView(date) {
   }.${year}`;
 }
 
-export { getDayOfTheWeek, getDateView, ONE_HOUR, FIVE_MINUTES };
+/**
+ * Get time from Date object
+ * @param {Date} date
+ * @returns {String} in hh:mm format
+ */
+const getTimeFromDate = (date) => {
+  return date.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
+
+export {
+  getDayOfTheWeek,
+  getDateView,
+  getTimeFromDate,
+  ONE_HOUR,
+  FIVE_MINUTES,
+};
