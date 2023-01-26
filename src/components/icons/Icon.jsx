@@ -75,6 +75,8 @@ import {
   IconWarning,
   IconExit,
   IconMood,
+  IconMailAdmin,
+  IconDollar,
 } from "./assets/sprite";
 
 /**
@@ -295,6 +297,12 @@ export const Icon = ({ name, size = "md", color, style }) => {
       break;
     case "mood":
       icon = <IconMood color={color} />;
+      break;
+    case "mail-admin":
+      icon = <IconMailAdmin color={color} />;
+      break;
+    case "dollar":
+      icon = <IconDollar color={color} />;
       break;
     default:
       icon = null;
