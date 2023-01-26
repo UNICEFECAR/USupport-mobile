@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 
 import { Avatar } from "../../avatars/Avatar/Avatar";
 import { Icon } from "../../icons/Icon";
@@ -31,7 +31,7 @@ export const ProviderOverview = ({
   deleteLabel,
   earliestAvailableSlot,
   earliestAvailableSlotLabel,
-  onClick,
+  onPress,
   t,
   handleEdit,
   handleDelete,
@@ -68,57 +68,60 @@ export const ProviderOverview = ({
   };
 
   return (
-    <View
-      style={[styles.providerOverview, { ...appStyles.shadow2 }]}
-      classes={["provider-overview"].join(" ")}
-    >
-      <Avatar image={{ uri: imageURI }} size="md" />
-      <View style={styles.content}>
-        <View style={styles.textContent}>
-          <View style={styles.textContainer}>
-            <View style={styles.nameContainer}>
-              <AppText style={styles.nameText}>{displayName}</AppText>
-              <View
-                style={styles.priceBadge}
-                className={[
-                  !price &&
-                    "provider-overview__content__text-content__name-container__price-badge--free",
-                ].join(" ")}
-              >
-                <AppText namedStyle="smallText" style={styles.priceBadgeText}>
-                  {price || freeLabel}
-                </AppText>
+    <TouchableOpacity onPress={onPress} style={styles.touchableOpacity}>
+      <View
+        style={[styles.providerOverview, { ...appStyles.shadow2 }]}
+        classes={["provider-overview"].join(" ")}
+      >
+        <Avatar image={{ uri: imageURI }} size="md" />
+        <View style={styles.content}>
+          <View style={styles.textContent}>
+            <View style={styles.textContainer}>
+              <View style={styles.nameContainer}>
+                <AppText style={styles.nameText}>{displayName}</AppText>
+                <View
+                  style={styles.priceBadge}
+                  className={[
+                    !price &&
+                      "provider-overview__content__text-content__name-container__price-badge--free",
+                  ].join(" ")}
+                >
+                  <AppText namedStyle="smallText" style={styles.priceBadgeText}>
+                    {price || freeLabel}
+                  </AppText>
+                </View>
+              </View>
+            </View>
+            <AppText namedStyle="smallText" style={styles.typesText}>
+              {t("earliest_available_slot")}
+            </AppText>
+            <View style={styles.dateContainer}>
+              <Icon
+                name="calendar"
+                size="sm"
+                color={appStyles.colorGray_66768d}
+                style={styles.calendarIcon}
+              />
+              <View className="consultation__content__text-container__date-container__text">
+                <AppText namedStyle="smallText">{dateText}</AppText>
+                <AppText namedStyle="smallText">{timeText}</AppText>
               </View>
             </View>
           </View>
-          <AppText namedStyle="smallText" style={styles.typesText}>
-            {t("earliest_available_slot")}
-          </AppText>
-          <View style={styles.dateContainer}>
+          <View>
             <Icon
-              name="calendar"
-              size="sm"
-              color={appStyles.colorGray_66768d}
-              style={styles.calendarIcon}
+              name="arrow-chevron-forward"
+              color={appStyles.colorPrimary_20809e}
             />
-            <View className="consultation__content__text-container__date-container__text">
-              <AppText namedStyle="smallText">{dateText}</AppText>
-              <AppText namedStyle="smallText">{timeText}</AppText>
-            </View>
           </View>
         </View>
-        <View>
-          <Icon
-            name="arrow-chevron-forward"
-            color={appStyles.colorPrimary_20809e}
-          />
-        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
+  touchableOpacity: { width: "100%", alignItems: "center" },
   providerOverview: {
     display: "flex",
     flexDirection: "row",
