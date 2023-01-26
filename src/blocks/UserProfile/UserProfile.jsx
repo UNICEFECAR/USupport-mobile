@@ -114,7 +114,7 @@ export const UserProfile = ({ navigation }) => {
           <ButtonSelector
             label={t("rate_us_button_label")}
             iconName="star"
-            // onClick={() => handleRedirect("/share-platform")}
+            onPress={() => handleRedirect("PlatformRating")}
             style={[styles.buttonSelector, styles.buttonSelectorFirstInGroup]}
           />
           <ButtonSelector

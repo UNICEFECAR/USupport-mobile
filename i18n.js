@@ -15,10 +15,14 @@ import {
   RegisterAboutYou,
   RegisterSupport,
   SelectProvider,
+  ProviderOverview,
+  PlatformRating,
 } from "./src/blocks/locales.js";
 import {
   FAQ as FAQPage,
   SelectProvider as SelectProviderScreen,
+  ProviderOverview as ProviderOverviewScreen,
+  PlatformRating as PlatformRatingScreen,
 } from "./src/screens/locales.js";
 
 const resources = {
@@ -37,10 +41,14 @@ const resources = {
     "register-about-you": RegisterAboutYou.en,
     "register-support": RegisterSupport.en,
     "select-provider": SelectProvider.en,
+    "provider-overview": ProviderOverview.en,
+    "platform-rating": PlatformRating.en,
 
     // Screens
     "faq-page": FAQPage.en,
     "select-provider-screen": SelectProviderScreen.en,
+    "provider-overview-scren": ProviderOverviewScreen.en,
+    "platfrom-rating-screen": PlatformRatingScreen.en,
   },
 };
 

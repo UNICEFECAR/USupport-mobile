@@ -11,3 +11,6 @@ export * from "./RegisterPreview";
 export * from "./RegisterAboutYou";
 export * from "./RegisterSupport";
 export * from "./SelectProvider";
+export * from "./ProviderOverview";
+export * from "./ProviderDetails";
+export * from "./PlatformRating";
