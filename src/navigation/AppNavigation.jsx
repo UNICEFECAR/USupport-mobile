@@ -10,6 +10,7 @@ import {
   PlatformRating,
   SelectProvider,
   ProviderOverview,
+  SharePlatform,
 } from "#screens";
 
 const Stack = createStackNavigator();
@@ -25,6 +26,7 @@ export const AppNavigation = () => {
       <Stack.Screen name="PlatformRating" component={PlatformRating} />
       <Stack.Screen name="SelectProvider" component={SelectProvider} />
       <Stack.Screen name="ProviderOverview" component={ProviderOverview} />
+      <Stack.Screen name="SharePlatform" component={SharePlatform} />
     </Stack.Navigator>
   );
 };

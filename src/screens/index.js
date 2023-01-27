@@ -12,3 +12,4 @@ export * from "./RegisterSupport";
 export * from "./SelectProvider";
 export * from "./ProviderOverview";
 export * from "./PlatformRating";
+export * from "./SharePlatform";

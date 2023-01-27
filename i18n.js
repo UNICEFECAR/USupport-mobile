@@ -17,12 +17,14 @@ import {
   SelectProvider,
   ProviderOverview,
   PlatformRating,
+  SharePlatform,
 } from "./src/blocks/locales.js";
 import {
   FAQ as FAQPage,
   SelectProvider as SelectProviderScreen,
   ProviderOverview as ProviderOverviewScreen,
   PlatformRating as PlatformRatingScreen,
+  SharePlatform as SharePlatformScreen,
 } from "./src/screens/locales.js";
 
 const resources = {
@@ -43,12 +45,14 @@ const resources = {
     "select-provider": SelectProvider.en,
     "provider-overview": ProviderOverview.en,
     "platform-rating": PlatformRating.en,
+    "share-platform": SharePlatform.en,
 
     // Screens
     "faq-page": FAQPage.en,
     "select-provider-screen": SelectProviderScreen.en,
     "provider-overview-scren": ProviderOverviewScreen.en,
     "platfrom-rating-screen": PlatformRatingScreen.en,
+    "share-platform-screen": SharePlatformScreen.en,
   },
 };
 

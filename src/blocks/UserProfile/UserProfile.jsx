@@ -120,7 +120,7 @@ export const UserProfile = ({ navigation }) => {
           <ButtonSelector
             label={t("share_button_label")}
             iconName="share"
-            // onClick={() => handleRedirect("/share-platform")}
+            onPress={() => handleRedirect("SharePlatform")}
             style={styles.buttonSelector}
           />
         </View>

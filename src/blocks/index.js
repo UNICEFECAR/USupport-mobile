@@ -14,3 +14,4 @@ export * from "./SelectProvider";
 export * from "./ProviderOverview";
 export * from "./ProviderDetails";
 export * from "./PlatformRating";
+export * from "./SharePlatform";
