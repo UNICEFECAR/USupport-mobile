@@ -6,6 +6,14 @@ export default {
 
   platform: Platform.OS,
 
+  //Fonts
+  fontLight: "Nunito_300Light",
+  fontRegular: "Nunito_400Regular",
+  fontMedium: "Nunito_500Medium",
+  fontSemiBold: "Nunito_600SemiBold",
+  fontBold: "Nunito_700Bold",
+  fontExtraBold: "Nunito_800ExtraBold",
+
   // Colors
   colorPrimary_20809e: "#20809e",
   colorPrimaryPressed_156f8c: "#156f8c",
