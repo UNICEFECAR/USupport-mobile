@@ -104,7 +104,7 @@ export const UserProfile = ({ navigation }) => {
           <ButtonSelector
             label={t("notifications_settings_button_label")}
             iconName="notification"
-            // onClick={() => handleRedirect("/notification-preferences")}
+            onPress={() => handleRedirect("NotificationPreferences")}
             style={styles.buttonSelector}
           />
         </View>
