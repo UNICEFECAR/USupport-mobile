@@ -15,3 +15,4 @@ export * from "./ProviderOverview";
 export * from "./ProviderDetails";
 export * from "./PlatformRating";
 export * from "./SharePlatform";
+export * from "./NotificationPreferences";

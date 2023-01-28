@@ -11,6 +11,7 @@ import {
   SelectProvider,
   ProviderOverview,
   SharePlatform,
+  NotificationPreferences,
 } from "#screens";
 
 const Stack = createStackNavigator();
@@ -27,6 +28,10 @@ export const AppNavigation = () => {
       <Stack.Screen name="SelectProvider" component={SelectProvider} />
       <Stack.Screen name="ProviderOverview" component={ProviderOverview} />
       <Stack.Screen name="SharePlatform" component={SharePlatform} />
+      <Stack.Screen
+        name="NotificationPreferences"
+        component={NotificationPreferences}
+      />
     </Stack.Navigator>
   );
 };

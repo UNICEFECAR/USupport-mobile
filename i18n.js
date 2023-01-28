@@ -18,6 +18,7 @@ import {
   ProviderOverview,
   PlatformRating,
   SharePlatform,
+  NotificationPreferences,
 } from "./src/blocks/locales.js";
 import {
   FAQ as FAQPage,
@@ -25,6 +26,7 @@ import {
   ProviderOverview as ProviderOverviewScreen,
   PlatformRating as PlatformRatingScreen,
   SharePlatform as SharePlatformScreen,
+  NotificationPreferences as NotificationPreferencesScreen,
 } from "./src/screens/locales.js";
 
 const resources = {
@@ -46,6 +48,7 @@ const resources = {
     "provider-overview": ProviderOverview.en,
     "platform-rating": PlatformRating.en,
     "share-platform": SharePlatform.en,
+    "notification-preferences": NotificationPreferences.en,
 
     // Screens
     "faq-page": FAQPage.en,
@@ -53,6 +56,7 @@ const resources = {
     "provider-overview-scren": ProviderOverviewScreen.en,
     "platfrom-rating-screen": PlatformRatingScreen.en,
     "share-platform-screen": SharePlatformScreen.en,
+    "notification-preferences-screen": NotificationPreferencesScreen.en,
   },
 };
 

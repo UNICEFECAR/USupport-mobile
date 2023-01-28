@@ -13,3 +13,4 @@ export * from "./SelectProvider";
 export * from "./ProviderOverview";
 export * from "./PlatformRating";
 export * from "./SharePlatform";
+export * from "./NotificationPreferences";
