@@ -19,6 +19,7 @@ import {
   PlatformRating,
   SharePlatform,
   NotificationPreferences,
+  SOSCenter,
 } from "./src/blocks/locales.js";
 import {
   FAQ as FAQPage,
@@ -27,6 +28,7 @@ import {
   PlatformRating as PlatformRatingScreen,
   SharePlatform as SharePlatformScreen,
   NotificationPreferences as NotificationPreferencesScreen,
+  SOSCenter as SOSCenterScreen,
 } from "./src/screens/locales.js";
 
 const resources = {
@@ -49,6 +51,7 @@ const resources = {
     "platform-rating": PlatformRating.en,
     "share-platform": SharePlatform.en,
     "notification-preferences": NotificationPreferences.en,
+    "sos-center": SOSCenter.en,
 
     // Screens
     "faq-page": FAQPage.en,
@@ -57,6 +60,7 @@ const resources = {
     "platfrom-rating-screen": PlatformRatingScreen.en,
     "share-platform-screen": SharePlatformScreen.en,
     "notification-preferences-screen": NotificationPreferencesScreen.en,
+    "sos-center-screen": SOSCenterScreen.en,
   },
 };
 

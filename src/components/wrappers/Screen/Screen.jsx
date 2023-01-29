@@ -7,6 +7,7 @@ import {
   StatusBar,
   Image,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import { ButtonOnlyIcon } from "../../buttons";
 import { appStyles } from "#styles";
@@ -23,10 +24,13 @@ export function Screen({
   hasEmergencyButton = true,
   hasSpiralBackground = true,
 }) {
+  const navigation = useNavigation();
+
   const colorList = [
     { offset: "0%", color: "#ebe0ff", opacity: "0.55" },
     { offset: "100%", color: "#ebe0ff", opacity: "0" },
   ];
+
   return (
     <SafeAreaView
       style={[
@@ -53,7 +57,7 @@ export function Screen({
       {hasEmergencyButton && (
         <ButtonOnlyIcon
           style={styles.emergencyButton}
-          onPress={() => console.log("Must be implemented")}
+          onPress={() => navigation.push("SOSCenter")}
         />
       )}
       {outsideComponent}

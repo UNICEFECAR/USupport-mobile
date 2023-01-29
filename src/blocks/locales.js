@@ -15,3 +15,4 @@ export * as ProviderOverview from "./ProviderOverview/locales";
 export * as PlatformRating from "./PlatformRating/locales";
 export * as SharePlatform from "./SharePlatform/locales";
 export * as NotificationPreferences from "./NotificationPreferences/locales";
+export * as SOSCenter from "./SOSCenter/locales";

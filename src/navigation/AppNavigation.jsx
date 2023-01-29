@@ -12,6 +12,7 @@ import {
   ProviderOverview,
   SharePlatform,
   NotificationPreferences,
+  SOSCenter,
 } from "#screens";
 
 const Stack = createStackNavigator();
@@ -32,6 +33,7 @@ export const AppNavigation = () => {
         name="NotificationPreferences"
         component={NotificationPreferences}
       />
+      <Stack.Screen name="SOSCenter" component={SOSCenter} />
     </Stack.Navigator>
   );
 };
