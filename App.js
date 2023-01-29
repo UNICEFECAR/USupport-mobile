@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { StyleSheet, View } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer } from "@react-navigation/native";
+import FlashMessage from "react-native-flash-message";
 
 import {
   useFonts,
@@ -16,7 +17,6 @@ import {
 
 import { AuthNavigation, AppNavigation } from "#navigation";
 import { localStorage, Context } from "#services";
-import { UserDetails, UserProfile } from "#screens";
 
 // Create a react-query client
 const queryClient = new QueryClient({
@@ -66,6 +66,7 @@ export default function App() {
           <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
             {token ? <AppNavigation /> : <AuthNavigation />}
           </View>
+          <FlashMessage position="top" />
         </QueryClientProvider>
       </NavigationContainer>
     </Context.Provider>

@@ -121,7 +121,10 @@ export const RegisterEmail = ({ navigation }) => {
     >
       <Block style={styles.flexGrow}>
         <ScrollView contentContainerStyle={styles.flexGrow}>
-          <Heading heading={t("heading")} />
+          <Heading
+            heading={t("heading")}
+            handleGoBack={() => navigation.goBack()}
+          />
           <Input
             label={t("email_label")}
             style={styles.input}

@@ -3,10 +3,10 @@ import { RegisterAnonymous as RegisterAnonymousBlock } from "#blocks";
 
 import { Screen } from "#components";
 
-export const RegisterAnonymous = () => {
+export const RegisterAnonymous = ({ navigation }) => {
   return (
     <Screen hasEmergencyButton={false}>
-      <RegisterAnonymousBlock />
+      <RegisterAnonymousBlock navigation={navigation} />
     </Screen>
   );
 };

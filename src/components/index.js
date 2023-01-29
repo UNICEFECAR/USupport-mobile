@@ -16,3 +16,5 @@ export * from "./cards";
 export * from "./policies";
 export * from "./tabs";
 export * from "./labels";
+export * from "./modals";
+export * from "./carousels";
