@@ -5,6 +5,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer } from "@react-navigation/native";
 import FlashMessage from "react-native-flash-message";
 import { StripeProvider } from "@stripe/stripe-react-native";
+
 import { STRIPE_PUBLIC_KEY } from "@env";
 
 import {
@@ -19,7 +20,6 @@ import {
 
 import { AuthNavigation, AppNavigation } from "#navigation";
 import { localStorage, Context } from "#services";
-import { CheckoutScreen } from "#screens";
 
 // Create a react-query client
 const queryClient = new QueryClient({
@@ -71,11 +71,10 @@ export default function App() {
       <Context.Provider value={{ setToken }}>
         <NavigationContainer>
           <QueryClientProvider client={queryClient}>
-            {/* <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+            <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
               {token ? <AppNavigation /> : <AuthNavigation />}
             </View>
-            <FlashMessage position="top" /> */}
-            <CheckoutScreen />
+            <FlashMessage position="top" />
           </QueryClientProvider>
         </NavigationContainer>
       </Context.Provider>
