@@ -61,6 +61,14 @@ async function addMoodTrack(date, mood) {
   return response;
 }
 
+async function sendInformationPortalSuggestion(suggestion) {
+  const response = await http.post(
+    `${API_ENDPOINT}/information-portal-suggestion`,
+    { suggestion }
+  );
+  return response;
+}
+
 const exportedFunctions = {
   addMoodTrack,
   getClientData,
@@ -71,6 +79,7 @@ const exportedFunctions = {
   changeImage,
   changeDataProcessingAgreement,
   getAllConsultations,
+  sendInformationPortalSuggestion,
 };
 
 export default exportedFunctions;

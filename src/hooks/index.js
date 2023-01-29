@@ -29,3 +29,5 @@ export * from "./useLeaveConsultation.js";
 export * from "./useGetNotifications.js";
 export * from "./useMarkNotificationsAsRead.js";
 export * from "./useCheckHasUnreadNotifications.js";
+export * from "./useSendInformationPortalSuggestion.js";
+export * from "./useAddPlatformRating.js";

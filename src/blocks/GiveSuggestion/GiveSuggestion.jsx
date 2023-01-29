@@ -5,7 +5,9 @@ import Joi from "joi";
 
 import { Block, AppText, Textarea, AppButton } from "#components";
 
-import { validate } from "#utils";
+import { validate, showToast } from "#utils";
+
+import { useSendInformationPortalSuggestion } from "#hooks";
 
 const initialData = {
   suggestion: "",
@@ -38,12 +40,19 @@ export const GiveSuggestion = () => {
     }
   }, [data]);
 
-  const handleModalSuccessCtaClick = () => {
-    window.location.reload(false);
-    window.scrollTo(0, 0);
-  };
-
   const closeSuccessModal = () => setIsSuccessModalOpen(false);
+
+  const onError = (error) => toast(error);
+  const onSuccess = () => {
+    setIsSubmitting(false);
+    setIsSuccessModalOpen(true);
+    showToast({ message: "success" });
+    setData(initialData);
+  };
+  const sendSuggestionMutation = useSendInformationPortalSuggestion(
+    onError,
+    onSuccess
+  );
 
   const handleChange = (field, value) => {
     setData({
@@ -56,11 +65,7 @@ export const GiveSuggestion = () => {
     if (!isSubmitting) {
       if ((await validate(data, schema, setErrors)) === null) {
         setIsSubmitting(true);
-        setTimeout(() => {
-          //TODO: send request to country administrator
-          setIsSubmitting(false);
-          setIsSuccessModalOpen(true);
-        }, 500);
+        sendSuggestionMutation.mutate(data.suggestion);
       }
     }
   };
