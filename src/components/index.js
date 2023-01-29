@@ -17,3 +17,4 @@ export * from "./policies";
 export * from "./modals";
 export * from "./carousels";
 export * from "./ratings";
+export * from "./tabs";
