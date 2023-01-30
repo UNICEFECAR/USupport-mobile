@@ -129,4 +129,11 @@ export default {
   },
 
   overlay: "rgba(102, 118, 141, 0.5)",
+  springConfig: {
+    damping: 80,
+    overshootClamping: true,
+    restDisplacementThreshold: 0.1,
+    restSpeedThreshold: 0.1,
+    stiffness: 200,
+  },
 };
