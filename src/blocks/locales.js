@@ -7,3 +7,8 @@ export * as Welcome from "./Welcome/locales.js";
 export * as UserProfile from "./UserProfile/locales";
 export * as UserDetails from "./UserDetails/locales";
 export * as Login from "./Login/locales";
+export * as InformationalPortal from "./InformationalPortal/locales";
+export * as GiveSuggestion from "./GiveSuggestion/locales";
+export * as Articles from "./Articles/locales";
+export * as ArticleView from "./ArticleView";
+export * as ArticlesDashboard from "./ArticlesDashboard/locales";

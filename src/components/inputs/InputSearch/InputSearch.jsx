@@ -40,7 +40,7 @@ export const InputSearch = ({ onChange, ...props }) => {
   return (
     <Input
       preInput={preInput}
-      onChange={(newValue) => handleInputChange(newValue.currentTarget.value)}
+      onChange={(newValue) => handleInputChange(newValue)}
       {...props}
     />
   );
