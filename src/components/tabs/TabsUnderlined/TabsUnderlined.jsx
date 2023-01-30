@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 
 import { AppText } from "../../texts/AppText/AppText";
 import { appStyles } from "#styles";
@@ -12,7 +12,7 @@ import { appStyles } from "#styles";
  *
  * @return {jsx}
  */
-export const TabsUnderlined = ({ options, handleSelect }) => {
+export const TabsUnderlined = ({ style, options, handleSelect }) => {
   const renderAllOptions = () => {
     if (options) {
       return options
@@ -24,7 +24,11 @@ export const TabsUnderlined = ({ options, handleSelect }) => {
                 key={index}
               >
                 <View
-                  style={[styles.tab, option.isSelected && styles.tabSelected]}
+                  style={[
+                    styles.tab,
+                    option.isSelected && styles.tabSelected,
+                    option.isInactive && styles.tabDisabled,
+                  ]}
                 >
                   <AppText
                     namedStyle="h3"
@@ -43,7 +47,9 @@ export const TabsUnderlined = ({ options, handleSelect }) => {
     }
   };
 
-  return <View style={styles.tabsUnderlined}>{renderAllOptions()}</View>;
+  return (
+    <View style={[styles.tabsUnderlined, style]}>{renderAllOptions()}</View>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -53,21 +59,24 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   tab: {
-    paddingVertical: 12,
+    paddingVertical: 10,
     borderBottomWidth: 2,
     borderBottomColor: "transparent",
   },
   tabSelected: {
     borderBottomColor: appStyles.colorPrimary_20809e,
   },
+  tabDisabled: {
+    opacity: 0.4,
+  },
   label: {
-    marginHorizontal: 10,
+    marginHorizontal: 12,
     fontFamily: appStyles.fontMedium,
     color: appStyles.colorGray_66768d,
   },
   labelSelected: {
-    fontFamily: appStyles.fontBold,
     color: appStyles.colorPrimary_20809e,
+    fontFamily: appStyles.fontBold,
   },
 });
 
@@ -81,4 +90,9 @@ TabsUnderlined.propTypes = {
    *handleSelect function to be called when an option is selected
    **/
   handleSelect: PropTypes.func,
+
+  /**
+   * style to be applied to the component
+   * */
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
