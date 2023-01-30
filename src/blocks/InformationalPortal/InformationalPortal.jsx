@@ -190,7 +190,7 @@ export const InformationalPortal = ({ navigation }) => {
         </View>
       ) : null}
 
-      {!mostReadArticlesLoading && mostReadArticles.length > 0 ? (
+      {!mostReadArticlesLoading && mostReadArticles?.length > 0 ? (
         <View style={styles.articlesContainer}>
           {mostReadArticles?.map((article, index) => {
             return (

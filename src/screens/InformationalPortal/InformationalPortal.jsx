@@ -1,6 +1,12 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { View, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 
 import { Screen, AppText } from "#components";
 import {
@@ -34,13 +40,18 @@ export const InformationalPortal = ({ navigation }) => {
 
   return (
     <Screen style={styles.screen}>
-      <ScrollView>
-        <MascotHeadingBlock image={mascotHappyPurple}>
-          {heading}
-        </MascotHeadingBlock>
-        <InformationalPortalBlock navigation={navigation} />
-        <GiveSuggestion />
-      </ScrollView>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "position" : null}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 20}
+      >
+        <ScrollView>
+          <MascotHeadingBlock image={mascotHappyPurple}>
+            {heading}
+          </MascotHeadingBlock>
+          <InformationalPortalBlock navigation={navigation} />
+          <GiveSuggestion />
+        </ScrollView>
+      </KeyboardAvoidingView>
     </Screen>
   );
 };

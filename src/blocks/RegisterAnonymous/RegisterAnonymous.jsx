@@ -147,7 +147,7 @@ export const RegisterAnonymous = ({ navigation }) => {
 
   const copyToClipboard = async () => {
     await Clipboard.setStringAsync(userAccessToken);
-    showToast({ message: t(copy_success) });
+    showToast({ message: t("copy_success") });
   };
 
   const canContinue =
@@ -181,12 +181,12 @@ export const RegisterAnonymous = ({ navigation }) => {
         />
       </TransparentModal>
 
-      <KeyboardAvoidingView
-        style={styles.keyboardAvoidingView}
-        behavior={Platform.OS === "ios" ? "padding" : null}
-        enabled
-      >
-        <Block style={{ flex: 1, flexGrow: 1 }}>
+      <Block style={{ flex: 1, flexGrow: 1 }}>
+        <KeyboardAvoidingView
+          style={styles.keyboardAvoidingView}
+          behavior={Platform.OS === "ios" ? "padding" : null}
+          enabled
+        >
           <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
             <Heading
               heading={t("heading")}
@@ -269,8 +269,8 @@ export const RegisterAnonymous = ({ navigation }) => {
               onPress={handleLoginRedirect}
             />
           </ScrollView>
-        </Block>
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+      </Block>
     </Screen>
   );
 };

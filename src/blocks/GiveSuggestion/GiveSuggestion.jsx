@@ -71,7 +71,7 @@ export const GiveSuggestion = () => {
   };
 
   return (
-    <Block>
+    <Block style={styles.block}>
       <AppText namedStyle="h3">{t("heading")}</AppText>
       <AppText style={styles.subheading}>{t("subheading")}</AppText>
       <Textarea
@@ -86,6 +86,7 @@ export const GiveSuggestion = () => {
 };
 
 const styles = StyleSheet.create({
+  block: { paddingBottom: 30 },
   subheading: { marginTop: 16 },
   textArea: { marginVertical: 16 },
 });
