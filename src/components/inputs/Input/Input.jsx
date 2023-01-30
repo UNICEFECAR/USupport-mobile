@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
 
   label: {
     color: appStyles.colorBlue_3d527b,
-    fontFamily: "Nunito_600SemiBold",
+    fontFamily: appStyles.fontSemiBold,
   },
 });
 
