@@ -16,3 +16,8 @@ export * as PlatformRating from "./PlatformRating/locales";
 export * as SharePlatform from "./SharePlatform/locales";
 export * as NotificationPreferences from "./NotificationPreferences/locales";
 export * as SOSCenter from "./SOSCenter/locales";
+export * as InformationalPortal from "./InformationalPortal/locales";
+export * as GiveSuggestion from "./GiveSuggestion/locales";
+export * as Articles from "./Articles/locales";
+export * as ArticleView from "./ArticleView";
+export * as ArticlesDashboard from "./ArticlesDashboard/locales";

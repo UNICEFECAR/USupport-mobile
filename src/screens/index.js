@@ -15,3 +15,7 @@ export * from "./PlatformRating";
 export * from "./SharePlatform";
 export * from "./NotificationPreferences";
 export * from "./SOSCenter";
+export * from "./InformationalPortal";
+export * from "./Articles";
+export * from "./ArticleInformation";
+export * from "./Dashboard";

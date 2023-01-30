@@ -20,6 +20,10 @@ import {
   SharePlatform,
   NotificationPreferences,
   SOSCenter,
+  InformationalPortal,
+  GiveSuggestion,
+  Articles,
+  ArticlesDashboard,
 } from "./src/blocks/locales.js";
 import {
   FAQ as FAQPage,
@@ -29,6 +33,9 @@ import {
   SharePlatform as SharePlatformScreen,
   NotificationPreferences as NotificationPreferencesScreen,
   SOSCenter as SOSCenterScreen,
+  InformationalPortal as InformationalPortalScreen,
+  Articles as ArticlesScreen,
+  ArticleInformation,
 } from "./src/screens/locales.js";
 
 const resources = {
@@ -54,6 +61,13 @@ const resources = {
     "sos-center": SOSCenter.en,
 
     // Screens
+    "information-portal": InformationalPortal.en,
+    "give-suggestion": GiveSuggestion.en,
+    articles: Articles.en,
+    "article-information": ArticleInformation.en,
+    "articles-dashboard": ArticlesDashboard.en,
+    "informational-portal-screen": InformationalPortalScreen.en,
+    "articles-screen": ArticlesScreen.en,
     "faq-page": FAQPage.en,
     "select-provider-screen": SelectProviderScreen.en,
     "provider-overview-scren": ProviderOverviewScreen.en,
