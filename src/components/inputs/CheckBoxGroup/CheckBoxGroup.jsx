@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { CheckBox } from "../CheckBox/CheckBox";
+import { AppText } from "../../texts/AppText/AppText";
 
 import { appStyles } from "#styles";
 
@@ -37,6 +38,7 @@ export const CheckBoxGroup = ({ label, options, setOptions, style }) => {
             label={option.label}
             disabled={option.isDisabled}
             key={index}
+            style={styles.option}
           />
         );
       })
@@ -46,9 +48,9 @@ export const CheckBoxGroup = ({ label, options, setOptions, style }) => {
   return (
     <View style={[styles.checkBoxGroup, style]}>
       {label && (
-        <Text namedStyle="text" style={styles.text}>
+        <AppText namedStyle="text" style={styles.text}>
           {label}
-        </Text>
+        </AppText>
       )}
       <View style={styles.optionsContainer}>{renderAllOptions()}</View>
     </View>
@@ -57,15 +59,14 @@ export const CheckBoxGroup = ({ label, options, setOptions, style }) => {
 
 const styles = StyleSheet.create({
   checkBoxGroup: {},
-
   text: {
     color: appStyles.colorBlue_3d527b,
+    fontFamily: appStyles.fontSemiBold,
   },
-
   optionsContainer: {
     flexDirection: "column",
-    marginTop: 12,
   },
+  option: { marginTop: 12 },
 });
 
 CheckBoxGroup.propTypes = {
