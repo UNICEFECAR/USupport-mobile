@@ -10,10 +10,11 @@ export const Heading = ({
   subheading,
   handleGoBack,
   buttonComponent,
+  style,
 }) => {
   return (
     <>
-      <View style={styles.container}>
+      <View style={[styles.container, style]}>
         <TouchableOpacity onPress={handleGoBack}>
           <Icon
             style={styles.backArrow}
