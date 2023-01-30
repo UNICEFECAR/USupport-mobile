@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import {
   View,
   ScrollView,
@@ -7,7 +8,6 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import PropTypes from "prop-types";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -218,3 +218,81 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+Backdrop.propTypes = {
+  /**
+   * Is the backdrop/modal open
+   */
+  isOpen: PropTypes.bool.isRequired,
+
+  /**
+   * Function to be called when the backdrop/modal is closed
+   */
+  onClose: PropTypes.func.isRequired,
+
+  /**
+   * Additional classes to be added to the backdrop/modal
+   */
+  classes: PropTypes.string,
+
+  /**
+   * Heading of the backdrop/modal
+   */
+  heading: PropTypes.string,
+
+  /**
+   * Label of the CTA button
+   * */
+  ctaLabel: PropTypes.string,
+
+  /**
+   * Function to be called when the CTA button is clicked
+   * */
+  ctaHandleClick: PropTypes.func,
+
+  /**
+   * If the CTA button is disabled
+   */
+  isCtaDisabled: PropTypes.bool,
+
+  /**
+   * If the secondary CTA button is disabled
+   */
+  isSecondaryCtaDisabled: PropTypes.bool,
+
+  /**
+   * If true and the CTA button is disabled, a loading spinner will be shown instead
+   */
+  showLoadingIfDisabled: PropTypes.bool,
+
+  /**
+   * Label of the secondary CTA button
+   */
+  secondaryCtaLabel: PropTypes.string,
+
+  /**
+   * Function to be called when the secondary CTA button is clicked
+   */
+  secondaryCtaHandleClick: PropTypes.func,
+
+  /**
+   * Type of the secondary CTA button
+   */
+  secondaryCtaType: PropTypes.oneOf([
+    "primary",
+    "secondary",
+    "ghost",
+    "text",
+    "link",
+  ]),
+
+  /**
+   * Error message to be displayed
+   */
+  errorMessage: PropTypes.string,
+
+  /**
+   * Children to be rendered in the backdrop/modal
+   */
+  children: PropTypes.node,
+};
