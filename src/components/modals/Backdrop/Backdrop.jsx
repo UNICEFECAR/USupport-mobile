@@ -78,18 +78,7 @@ export const Backdrop = ({
 
   const Overlay = () => (
     <TouchableWithoutFeedback onPress={handleCloseBackdrop}>
-      <View
-        style={{
-          height: appStyles.screenHeight,
-          backgroundColor: appStyles.overlay,
-          position: "absolute",
-          zIndex: 2,
-          top: "-50%",
-          left: 0,
-          right: 0,
-          bottom: 0,
-        }}
-      />
+      <View style={styles.overlay} />
     </TouchableWithoutFeedback>
   );
   return (
@@ -135,7 +124,7 @@ export const Backdrop = ({
             {errorMessage ? <Error message={errorMessage} /> : null}
             {ctaLabel &&
               (isCtaDisabled && showLoadingIfDisabled ? (
-                <Loading padding="2rem" size="md" />
+                <Loading />
               ) : (
                 <AppButton
                   label={ctaLabel}
@@ -147,13 +136,7 @@ export const Backdrop = ({
               ))}
             {secondaryCtaLabel &&
               (isSecondaryCtaDisabled && showLoadingIfDisabled ? (
-                <View
-                  style={{
-                    minHeight: 100,
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
+                <View style={styles.secondButtonLoadingContainer}>
                   <Loading />
                 </View>
               ) : (
@@ -175,6 +158,16 @@ export const Backdrop = ({
 };
 
 const styles = StyleSheet.create({
+  overlay: {
+    height: appStyles.screenHeight,
+    backgroundColor: appStyles.overlay,
+    position: "absolute",
+    zIndex: 2,
+    top: "-50%",
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
   backdrop: {
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
@@ -218,5 +211,10 @@ const styles = StyleSheet.create({
   },
   secondButton: {
     marginTop: 16,
+  },
+  secondButtonLoadingContainer: {
+    minHeight: 100,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
