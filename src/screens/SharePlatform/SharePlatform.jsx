@@ -1,5 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { ScrollView } from "react-native";
 
 import { Screen, Heading, Block } from "#components";
 import { SharePlatform as SharePlatformBlock } from "#blocks";
@@ -16,14 +17,16 @@ export const SharePlatform = ({ navigation }) => {
 
   return (
     <Screen>
-      <Block>
-        <Heading
-          heading={t("heading")}
-          subheading={t("subheading")}
-          handleGoBack={() => navigation.goBack()}
-        />
-      </Block>
-      <SharePlatformBlock />
+      <ScrollView>
+        <Block>
+          <Heading
+            heading={t("heading")}
+            subheading={t("subheading")}
+            handleGoBack={() => navigation.goBack()}
+          />
+        </Block>
+        <SharePlatformBlock />
+      </ScrollView>
     </Screen>
   );
 };
