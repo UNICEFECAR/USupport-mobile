@@ -36,6 +36,7 @@ export const Backdrop = ({
   text,
   ctaLabel,
   ctaHandleClick,
+  closeBackdropOnCtaClick = false,
   isCtaDisabled,
   isSecondaryCtaDisabled,
   secondaryCtaLabel,
@@ -76,6 +77,13 @@ export const Backdrop = ({
     onClose();
   };
 
+  const handleClick = () => {
+    ctaHandleClick();
+    if (closeBackdropOnCtaClick) {
+      handleCloseBackdrop();
+    }
+  };
+
   const Overlay = () => (
     <TouchableWithoutFeedback onPress={handleCloseBackdrop}>
       <View style={styles.overlay} />
@@ -99,11 +107,14 @@ export const Backdrop = ({
               />
             </TouchableOpacity>
           </View>
-          <AppText style={styles.subheading}>{text}</AppText>
+          <View>
+            <AppText style={styles.subheading}>{text}</AppText>
+          </View>
 
           <ScrollView
             contentContainerStyle={{
               flexGrow: 1,
+              paddingTop: 32,
               paddingBottom: buttonsContainerHeight * 2,
             }}
           >
@@ -129,7 +140,7 @@ export const Backdrop = ({
                 <AppButton
                   label={ctaLabel}
                   disabled={isCtaDisabled}
-                  onClick={ctaHandleClick}
+                  onPress={handleClick}
                   color={ctaColor}
                   size="lg"
                 />
@@ -142,7 +153,7 @@ export const Backdrop = ({
               ) : (
                 <AppButton
                   label={secondaryCtaLabel}
-                  onClick={secondaryCtaHandleClick}
+                  onPress={secondaryCtaHandleClick}
                   disabled={isSecondaryCtaDisabled}
                   size="lg"
                   type={secondaryCtaType}
@@ -194,6 +205,7 @@ const styles = StyleSheet.create({
   },
   subheading: {
     marginTop: 24,
+    width: "100%",
   },
   icon: {
     position: "absolute",
@@ -231,9 +243,9 @@ Backdrop.propTypes = {
   onClose: PropTypes.func.isRequired,
 
   /**
-   * Additional classes to be added to the backdrop/modal
-   */
-  classes: PropTypes.string,
+   * Additional styles for the component
+   * */
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 
   /**
    * Heading of the backdrop/modal

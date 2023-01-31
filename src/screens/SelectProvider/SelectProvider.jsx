@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, View } from "react-native";
 
-import { Screen, Heading, Block, AppButton, Loading } from "#components";
+import { Screen, Heading, Block, Loading, ButtonWithIcon } from "#components";
 import { SelectProvider as SelectProviderBlock } from "#blocks";
+import { FilterProviders } from "#backdrops";
 import { useGetProvidersData } from "#hooks";
 
 /**
@@ -93,7 +94,14 @@ export const SelectProvider = ({ navigation }) => {
             heading={t("heading")}
             subheading={t("subheading")}
             buttonComponent={
-              <AppButton size="sm" color="purple" label={t("button_label")} />
+              <ButtonWithIcon
+                size="sm"
+                color="purple"
+                label={t("button_label")}
+                iconName="filter"
+                iconSize="sm"
+                onPress={handleFilterClick}
+              />
             }
             handleGoBack={() => navigation.goBack()}
           />
@@ -109,6 +117,11 @@ export const SelectProvider = ({ navigation }) => {
           />
         )}
       </ScrollView>
+      <FilterProviders
+        isOpen={isFilterOpen}
+        onClose={(data) => handleFilterSave(data)}
+        navigation={navigation}
+      />
     </Screen>
   );
 };

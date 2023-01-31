@@ -24,6 +24,7 @@ import {
   GiveSuggestion,
   Articles,
   ArticlesDashboard,
+  Consultations,
 } from "./src/blocks/locales.js";
 import {
   FAQ as FAQPage,
@@ -36,7 +37,9 @@ import {
   InformationalPortal as InformationalPortalScreen,
   Articles as ArticlesScreen,
   ArticleInformation,
+  Consultations as ConsultationsScreen,
 } from "./src/screens/locales.js";
+import { FilterProviders } from "./src/backdrops/locales.js";
 
 const resources = {
   en: {
@@ -59,6 +62,7 @@ const resources = {
     "share-platform": SharePlatform.en,
     "notification-preferences": NotificationPreferences.en,
     "sos-center": SOSCenter.en,
+    consultations: Consultations.en,
 
     // Screens
     "information-portal": InformationalPortal.en,
@@ -75,6 +79,10 @@ const resources = {
     "share-platform-screen": SharePlatformScreen.en,
     "notification-preferences-screen": NotificationPreferencesScreen.en,
     "sos-center-screen": SOSCenterScreen.en,
+    "consultations-screen": ConsultationsScreen.en,
+
+    // Backdrops
+    "filter-providers": FilterProviders.en,
   },
 };
 
