@@ -23,3 +23,4 @@ export * from "./GiveSuggestion";
 export * from "./Articles";
 export * from "./ArticleView";
 export * from "./ArticlesDashboard";
+export * from "./Consultations";

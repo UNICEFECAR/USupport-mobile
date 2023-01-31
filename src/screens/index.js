@@ -19,3 +19,4 @@ export * from "./InformationalPortal";
 export * from "./Articles";
 export * from "./ArticleInformation";
 export * from "./Dashboard";
+export * from "./Consultations";

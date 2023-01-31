@@ -8,3 +8,4 @@ export * as SOSCenter from "./SOSCenter/locales";
 export * as InformationalPortal from "./InformationalPortal/locales";
 export * as Articles from "./Articles/locales";
 export * as ArticleInformation from "./ArticleInformation/locales";
+export * as Consultations from "./Consultations/locales";

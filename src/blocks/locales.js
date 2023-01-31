@@ -21,3 +21,4 @@ export * as GiveSuggestion from "./GiveSuggestion/locales";
 export * as Articles from "./Articles/locales";
 export * as ArticleView from "./ArticleView";
 export * as ArticlesDashboard from "./ArticlesDashboard/locales";
+export * as Consultations from "./Consultations/locales";

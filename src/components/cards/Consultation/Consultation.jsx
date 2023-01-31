@@ -37,8 +37,6 @@ export const Consultation = ({
     consultation;
 
   const renderIn = "client";
-
-  console.log(consultation);
   //   const isPast = consultation
   //     ? new Date(timestamp).getTime() < new Date().getTime()
   //     : false;
@@ -69,8 +67,6 @@ export const Consultation = ({
     buttonLabel = renderIn === "client" ? t("edit") : t("cancel_consultation");
     buttonAction = renderIn === "client" ? "edit" : "cancel";
   }
-
-  console.log(buttonAction);
 
   const startHour = startDate.getHours();
   const endHour = endDate.getHours();
@@ -103,7 +99,6 @@ export const Consultation = ({
   const handleCancel = () => {
     handleCancelConsultation(consultation);
   };
-  console.log(suggested, overview, renderIn);
   return (
     <TouchableOpacity onPress={onPress} style={styles.touchableOpacity}>
       <View

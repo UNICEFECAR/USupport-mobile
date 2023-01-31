@@ -17,6 +17,7 @@ import {
   Articles,
   ArticleInformation,
   Dashboard,
+  Consultations,
 } from "#screens";
 
 const Stack = createStackNavigator();
@@ -24,6 +25,7 @@ const Stack = createStackNavigator();
 export const AppNavigation = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Consultations" component={Consultations} />
       <Stack.Screen
         name="InformationalPortal"
         component={InformationalPortal}
