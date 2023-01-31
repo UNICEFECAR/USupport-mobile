@@ -39,7 +39,10 @@ import {
   ArticleInformation,
   Consultations as ConsultationsScreen,
 } from "./src/screens/locales.js";
-import { FilterProviders } from "./src/backdrops/locales.js";
+import {
+  FilterProviders,
+  ConfirmConsultation,
+} from "./src/backdrops/locales.js";
 
 const resources = {
   en: {
@@ -83,6 +86,7 @@ const resources = {
 
     // Backdrops
     "filter-providers": FilterProviders.en,
+    "confirm-consultation": ConfirmConsultation.en,
   },
 };
 

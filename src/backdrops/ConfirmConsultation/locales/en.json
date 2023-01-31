@@ -1,0 +1,5 @@
+{
+    "heading": "Your appointment was booked",
+    "ctaLabel": "Continue",
+    "text": "for {{startDate}}th of {{month}} {{year}} for the slot from {{startTime}} to {{endTime}}. You can change it at any time through the app."
+}
