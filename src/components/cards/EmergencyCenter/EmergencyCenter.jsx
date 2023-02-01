@@ -1,8 +1,8 @@
-import React from "react";
-import { View, StyleSheet, Image } from "react-native";
+import React, { useCallback } from "react";
+import { View, StyleSheet, Image, Linking } from "react-native";
 
-import { AppText } from "../../texts/AppText/AppText";
-import { AppButton } from "#components";
+import { AppText } from "../../texts";
+import { AppButton } from "../../buttons";
 
 import { appStyles } from "#styles";
 
@@ -31,6 +31,18 @@ export const EmergencyCenter = ({
     }
   };
 
+  const handlePress = (link, isPhone = false) => {
+    if (isPhone) {
+      if (Platform.OS === "android") {
+        Linking.openURL("tel:+777721772");
+      } else {
+        Linking.openURL("tel://+777721772");
+      }
+    } else {
+      Linking.openURL(link);
+    }
+  };
+
   return (
     <View style={[styles.emergencyCenter, style]}>
       {image && (
@@ -50,7 +62,7 @@ export const EmergencyCenter = ({
             color="purple"
             size="sm"
             label={btnLabelCall}
-            onPress={() => handleClick("phone")}
+            onPress={() => handlePress("phone", true)}
           />
         ) : null}
         {link ? (
@@ -58,7 +70,7 @@ export const EmergencyCenter = ({
             color="purple"
             size="sm"
             label={btnLabelLink}
-            onPress={() => handleClick("link")}
+            onPress={() => handlePress("https://staging.usupport.online/")}
           />
         ) : null}
       </View>
