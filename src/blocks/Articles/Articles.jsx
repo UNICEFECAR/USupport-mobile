@@ -5,11 +5,8 @@ import { useQuery } from "@tanstack/react-query";
 import { FlashList } from "@shopify/flash-list";
 
 import { Block, InputSearch, Tabs, CardMedia, AppText } from "#components";
-
 import { localStorage, adminSvc, cmsSvc } from "#services";
-
 import { useDebounce, useEventListener } from "#hooks";
-
 import { destructureArticleData } from "#utils";
 import { appStyles } from "#styles";
 
@@ -232,7 +229,6 @@ export const Articles = ({
   }, [articles]);
 
   const getMoreArticles = async () => {
-    console.log("call");
     if (!articles) return;
     let ageGroupId = "";
     if (ageGroups) {
@@ -332,7 +328,6 @@ export const Articles = ({
               paddingBottom: 200,
             }}
           />
-          <View style={{ height: 50, backgroundColor: "red" }} />
         </View>
         {!articles?.length &&
         !isArticlesLoading &&
