@@ -16,6 +16,7 @@ export default function useGetAllConsultations(enabled = true) {
         image: consultation.provider_image,
         timestamp: new Date(consultation.time).getTime(),
         status: consultation.status,
+        price: consultation.price,
       });
     }
     return formattedData;

@@ -15,7 +15,7 @@ export const EditConsultation = ({
 }) => {
   const { t } = useTranslation("edit-consultation");
 
-  const { providerName, timestamp, image } = consultation;
+  const { providerName, timestamp, image, price } = consultation;
 
   const imageUrl = image || "default";
   const startDate = new Date(timestamp);
@@ -45,6 +45,7 @@ export const EditConsultation = ({
         endDate={endDate}
         providerName={providerName}
         providerImage={imageUrl}
+        price={price}
         classes="edit-consultation__provider-consultation"
         t={t}
       />

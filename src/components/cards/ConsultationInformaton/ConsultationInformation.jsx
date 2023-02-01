@@ -24,6 +24,7 @@ export const ConsultationInformation = ({
   endDate,
   providerName,
   providerImage = specialistPlaceholder,
+  price = "Free",
   style,
   t,
 }) => {
@@ -42,15 +43,28 @@ export const ConsultationInformation = ({
 
   return (
     <View style={[styles.container, style]}>
-      <Avatar image={imageUrl && { uri: imageUrl }} size="md" />
-      <View style={styles.content}>
-        <AppText style={styles.nameText}>{providerName}</AppText>
-        <View style={styles.dateContainer}>
-          <Icon name="calendar" size="sm" color={appStyles.colorGray_66768d} />
-          <View style={styles.dateContainerContent}>
-            <AppText namedStyle="smallText">{dateText}</AppText>
-            <AppText namedStyle="smallText">{timeText}</AppText>
+      <View style={styles.inormationContainer}>
+        <Avatar image={imageUrl && { uri: imageUrl }} size="md" />
+        <View style={styles.content}>
+          <AppText style={styles.nameText}>{providerName}</AppText>
+          <View style={styles.dateContainer}>
+            <Icon
+              name="calendar"
+              size="sm"
+              color={appStyles.colorGray_66768d}
+            />
+            <View style={styles.dateContainerContent}>
+              <AppText namedStyle="smallText">{dateText}</AppText>
+              <AppText namedStyle="smallText">{timeText}</AppText>
+            </View>
           </View>
+        </View>
+      </View>
+      <View style={styles.priceBadgeContainer}>
+        <View style={styles.priceBadge}>
+          <AppText namedStyle="smallText" style={styles.priceBadgeText}>
+            {price || "Free"}
+          </AppText>
         </View>
       </View>
     </View>
@@ -58,7 +72,18 @@ export const ConsultationInformation = ({
 };
 
 const styles = StyleSheet.create({
-  container: { flexDirection: "row", alignItems: "center", padding: 16 },
+  container: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 16,
+    width: "100%",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+  },
+  inormationContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
   content: { marginLeft: 16 },
   nameText: {
     color: appStyles.colorBlue_3d527b,
@@ -66,6 +91,18 @@ const styles = StyleSheet.create({
   },
   dateContainer: { flexDirection: "row", alignItems: "center", marginTop: 4 },
   dateContainerContent: { marginLeft: 6 },
+  priceBadge: {
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: appStyles.colorPurple_dac3f6,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 16,
+  },
+  priceBadgeText: {
+    color: appStyles.colorSecondary_9749fa,
+  },
 });
 
 ConsultationInformation.propTypes = {
