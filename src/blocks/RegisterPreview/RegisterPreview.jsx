@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { StyleSheet, View, Image } from "react-native";
 
 import {
@@ -10,7 +11,8 @@ import {
   AppText,
 } from "#components";
 
-import { appStyles } from "#styles";
+import { userSvc, localStorage, Context } from "#services";
+import { useError } from "#hooks";
 
 /**
  * RegisterPreview
@@ -21,6 +23,35 @@ import { appStyles } from "#styles";
  */
 export const RegisterPreview = ({ navigation }) => {
   const { t } = useTranslation("register-preview");
+  const [error, setErrror] = useState();
+  const queryClient = useQueryClient();
+
+  const tmpLogin = async () => {
+    const res = await userSvc.tmpLogin();
+    return res.data;
+  };
+
+  const { setToken } = useContext(Context);
+
+  const tmpLoginMutation = useMutation(tmpLogin, {
+    onSuccess: async (data) => {
+      const { token, expiresIn, refreshToken } = data.token;
+      await localStorage.setItem("token", token);
+      localStorage.setItem("expires-in", expiresIn);
+      localStorage.setItem("refresh-token", refreshToken);
+
+      queryClient.setQueryData(
+        ["client-data"],
+        userSvc.transformUserData(data)
+      );
+
+      setToken(token);
+    },
+    onError: (error) => {
+      const { message: errorMessage } = useError(error);
+      setErrror(errorMessage);
+    },
+  });
 
   const carouselItems = [
     {
@@ -45,6 +76,10 @@ export const RegisterPreview = ({ navigation }) => {
   );
 
   const handleRedirect = (redirectTo) => {
+    if (redirectTo === "Guest") {
+      tmpLoginMutation.mutate();
+      return;
+    }
     navigation.push(redirectTo);
   };
 
