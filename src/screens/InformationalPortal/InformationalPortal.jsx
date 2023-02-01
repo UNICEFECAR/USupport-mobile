@@ -8,10 +8,8 @@ import {
   InformationalPortal as InformationalPortalBlock,
   GiveSuggestion,
 } from "#blocks";
-
+import { mascotHappyPurple } from "#assets";
 import { appStyles } from "#styles";
-
-import mascotHappyPurple from "../../assets/mascot-happy-purple.png";
 
 /**
  * InformationPortal
