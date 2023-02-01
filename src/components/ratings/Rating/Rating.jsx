@@ -31,7 +31,6 @@ export const Rating = ({
         initialStarsState.push("star");
       }
     }
-    console.log("initialStarsState", initialStarsState);
     setInitialStarsState(initialStarsState);
     setStars(initialStarsState);
   }, [rating, maxStars]);
