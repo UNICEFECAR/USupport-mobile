@@ -1,0 +1,13 @@
+{
+  "welcome": "Welcome back {{clientName}}!",
+  "no_registration_heading": "You are using the app without registration",
+  "no_registration_subheading": "To use all the features of the app you need to have an anonymous or regular account.",
+  "create_account_button": "Create an account",
+  "next_consultation": "Next consultation:",
+  "change_button_label": "Change",
+  "accept_button_label": "Accept consultation",
+  "join_button_label": "Join",
+  "schedule_button_label": "Schedule",
+  "live_label": "Now",
+  "no_consultations": "Currently you do not have upcoming consultations"
+}

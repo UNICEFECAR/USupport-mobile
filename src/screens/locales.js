@@ -9,3 +9,5 @@ export * as InformationalPortal from "./InformationalPortal/locales";
 export * as Articles from "./Articles/locales";
 export * as ArticleInformation from "./ArticleInformation/locales";
 export * as Consultations from "./Consultations/locales";
+export * as Dashboard from "./Dashboard/locales";
+export * as Passcode from "./Passcode/locales";

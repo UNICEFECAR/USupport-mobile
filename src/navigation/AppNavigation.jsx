@@ -18,6 +18,7 @@ import {
   ArticleInformation,
   Dashboard,
   Consultations,
+  Passcode,
 } from "#screens";
 
 const Stack = createStackNavigator();
@@ -25,14 +26,14 @@ const Stack = createStackNavigator();
 export const AppNavigation = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Consultations" component={Consultations} />
+      <Stack.Screen name="Dashboard" component={Dashboard} />
       <Stack.Screen
         name="InformationalPortal"
         component={InformationalPortal}
       />
-      <Stack.Screen name="Dashboard" component={Dashboard} />
-      <Stack.Screen name="Articles" component={Articles} />
       <Stack.Screen name="UserProfile" component={UserProfile} />
+      <Stack.Screen name="Consultations" component={Consultations} />
+      <Stack.Screen name="Articles" component={Articles} />
       <Stack.Screen name="UserDetails" component={UserDetails} />
       <Stack.Screen name="FAQ" component={FAQ} />
       <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
@@ -47,6 +48,7 @@ export const AppNavigation = () => {
       />
       <Stack.Screen name="SOSCenter" component={SOSCenter} />
       <Stack.Screen name="ArticleInformation" component={ArticleInformation} />
+      <Stack.Screen name="Passcode" component={Passcode} />
     </Stack.Navigator>
   );
 };

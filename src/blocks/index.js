@@ -24,3 +24,5 @@ export * from "./Articles";
 export * from "./ArticleView";
 export * from "./ArticlesDashboard";
 export * from "./Consultations";
+export * from "./ConsultationsDashboard";
+export * from "./Passcode";

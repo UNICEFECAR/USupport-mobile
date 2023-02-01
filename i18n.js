@@ -25,6 +25,8 @@ import {
   Articles,
   ArticlesDashboard,
   Consultations,
+  ConsultationsDashboard,
+  Passcode,
 } from "./src/blocks/locales.js";
 import {
   FAQ as FAQPage,
@@ -38,6 +40,8 @@ import {
   Articles as ArticlesScreen,
   ArticleInformation,
   Consultations as ConsultationsScreen,
+  Dashboard,
+  Passcode as PasscodeScreen,
 } from "./src/screens/locales.js";
 import {
   FilterProviders,
@@ -66,6 +70,8 @@ const resources = {
     "notification-preferences": NotificationPreferences.en,
     "sos-center": SOSCenter.en,
     consultations: Consultations.en,
+    "consultations-dashboard": ConsultationsDashboard.en,
+    passcode: Passcode.en,
 
     // Screens
     "information-portal": InformationalPortal.en,
@@ -83,6 +89,8 @@ const resources = {
     "notification-preferences-screen": NotificationPreferencesScreen.en,
     "sos-center-screen": SOSCenterScreen.en,
     "consultations-screen": ConsultationsScreen.en,
+    dashboard: Dashboard.en,
+    "passcode-screen": PasscodeScreen.en,
 
     // Backdrops
     "filter-providers": FilterProviders.en,

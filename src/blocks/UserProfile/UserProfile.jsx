@@ -31,6 +31,7 @@ export const UserProfile = ({ navigation }) => {
 
   const [displayName, setDisplayName] = useState("");
 
+  //TODO: CHECK WITH PAVLOV
   const isTmpUser = false;
   const clientQueryArray = useGetClientData(isTmpUser ? false : true);
   const clientData = isTmpUser ? {} : clientQueryArray[0].data;
@@ -98,7 +99,7 @@ export const UserProfile = ({ navigation }) => {
           <ButtonSelector
             iconName="fingerprint"
             label={t("passcoode_and_biometrics_button_label")}
-            // onClick={() => handleRedirect("/passcode-and-biometrics")}
+            onPress={() => handleRedirect("Passcode")}
             style={[styles.buttonSelector, styles.buttonSelectorFirstInGroup]}
           />
           <ButtonSelector
