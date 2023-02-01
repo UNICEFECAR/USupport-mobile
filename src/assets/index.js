@@ -8,5 +8,5 @@ export { default as radialGreen } from "./radial-green.png";
 export { default as specialistPlaceholder } from "./specialist-placeholder.png";
 export { default as spiralBackground2 } from "./spiral-background-2.png";
 export { default as spiralBackground } from "./spiral-background.png";
-export { default as welcomeRadial } from "./welcome-radial";
+export { default as welcomeRadial } from "./welcome-radial.png";
 export { default as welcomeSpiral } from "./welcome-spiral.png";
