@@ -86,6 +86,17 @@ export default {
       "rgba(129, 74, 253, 0.2)",
     ],
   },
+
+  gradientConsultationBig: {
+    degrees: 80.08,
+    locations: [0, 54.48, 100],
+    colors: [
+      "rgba(13, 174, 178, 0.3)",
+      "rgba(191, 234, 234, 0.3)",
+      "rgba(85, 208, 218, 0.3)",
+    ],
+  },
+
   gradientTransparent: {
     degrees: 180,
     locations: [0, 100],
