@@ -12,6 +12,7 @@ import {
   AppText,
 } from "#components";
 import { Consultations as ConsultationsBlock } from "#blocks";
+import { EditConsultation, CancelConsultation } from "#backdrops";
 
 import {
   useBlockSlot,
@@ -171,6 +172,22 @@ export const Consultations = ({ navigation }) => {
           navigation={navigation}
         />
       </ScrollView>
+      {selectedConsultation && (
+        <>
+          <EditConsultation
+            isOpen={isEditConsultationOpen}
+            onClose={closeEditConsultation}
+            openCancelConsultation={openCancelConsultation}
+            openSelectConsultation={openSelectConsultation}
+            consultation={selectedConsultation}
+          />
+          <CancelConsultation
+            isOpen={isCancelConsultationOpen}
+            onClose={closeCancelConsultation}
+            consultation={selectedConsultation}
+          />
+        </>
+      )}
     </Screen>
   );
 };

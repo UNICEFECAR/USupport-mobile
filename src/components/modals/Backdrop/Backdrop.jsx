@@ -15,9 +15,10 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
-import { AppText } from "../../texts/AppText/AppText";
-import { Icon } from "../../icons/Icon";
-import { AppButton } from "../../buttons/AppButton/AppButton";
+import { AppText } from "../../texts";
+import { Icon } from "../../icons";
+import { AppButton } from "../../buttons";
+import { Loading } from "../../loaders/";
 
 import { appStyles } from "#styles";
 

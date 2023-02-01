@@ -15,7 +15,7 @@ import {
   MascotHeadingBlock,
   ConsultationsDashboard,
 } from "#blocks";
-import { EditConsultation } from "#backdrops";
+import { EditConsultation, CancelConsultation } from "#backdrops";
 import { mascotHappyPurple } from "#assets";
 import { appStyles } from "#styles";
 import { userSvc } from "#services";
@@ -250,13 +250,20 @@ export const Dashboard = ({ navigation }) => {
         />
       </ScrollView>
       {selectedConsultation && (
-        <EditConsultation
-          isOpen={isEditConsultationOpen}
-          onClose={closeEditConsultation}
-          openCancelConsultation={openCancelConsultation}
-          openSelectConsultation={openSelectConsultation}
-          consultation={selectedConsultation}
-        />
+        <>
+          <EditConsultation
+            isOpen={isEditConsultationOpen}
+            onClose={closeEditConsultation}
+            openCancelConsultation={openCancelConsultation}
+            openSelectConsultation={openSelectConsultation}
+            consultation={selectedConsultation}
+          />
+          <CancelConsultation
+            isOpen={isCancelConsultationOpen}
+            onClose={closeCancelConsultation}
+            consultation={selectedConsultation}
+          />
+        </>
       )}
     </Screen>
   );

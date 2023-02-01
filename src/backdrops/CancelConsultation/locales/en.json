@@ -1,0 +1,16 @@
+{
+  "heading": "Are you sure you want to cancel your consultation",
+  "paid_heading": "Are you sure you want to cancel your consultation and lose the {{price}}{{currencySymbol}} fee?",
+  "paid_cancel_subheading": "You are cancelling the consultation in less than 24 hours before it. You will lose the money payed for the consultation.",
+  "cancel_button_label": "Cancel consultation",
+  "keep_button_label": "Keep consultation",
+  "cancel_success": "The consultation has been cancelled",
+  "sunday": "Sun",
+  "monday": "Mon",
+  "tuesday": "Tue",
+  "wednesday": "Wed",
+  "thursday": "Thu",
+  "friday": "Fri",
+  "saturday": "Sat",
+  "free": "Free"
+}
