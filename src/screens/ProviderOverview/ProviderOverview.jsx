@@ -4,7 +4,7 @@ import { StyleSheet, ScrollView } from "react-native";
 
 import { Screen, Block, Heading, AppButton } from "#components";
 import { ProviderOverview as ProviderOverviewBlock } from "#blocks";
-
+import { SelectConsultation } from "#backdrops";
 import {
   useGetClientData,
   useBlockSlot,
@@ -116,6 +116,14 @@ export const ProviderOverview = ({ navigation, route }) => {
         label={t("button_label")}
         size="lg"
         onPress={openScheduleBackdrop}
+      />
+      <SelectConsultation
+        isOpen={isScheduleBackdropOpen}
+        onClose={closeScheduleBackdrop}
+        handleBlockSlot={handleBlockSlot}
+        providerId={providerId}
+        isCtaDisabled={isBlockSlotSubmitting}
+        errorMessage={blockSlotError}
       />
     </Screen>
   );

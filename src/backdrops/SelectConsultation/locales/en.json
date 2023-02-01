@@ -1,0 +1,8 @@
+{
+  "heading_edit": "Propose a change",
+  "heading_new": "Select time",
+  "subheading_edit": "Suggest the date and time for rescedule of this appointment.",
+  "subheading_new": "Select the date and time of the appointment.",
+  "cta_button_label": "Save",
+  "no_slots_available": "There are no available slots for the selected day."
+}

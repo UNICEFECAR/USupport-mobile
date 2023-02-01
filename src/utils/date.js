@@ -110,12 +110,85 @@ function getMonthName(date) {
   }
 }
 
+/**
+ * Get the starting and ending day of the week
+ *
+ * @param {Date} day
+ * @returns {{ firstDayOfWeek, lastDayOfWeek }} Date objects for the first and last days of the week
+ */
+function getStartAndEndOfWeek(day) {
+  const weekMap = [6, 0, 1, 2, 3, 4, 5];
+  const now = new Date(day);
+  now.setHours(0, 0, 0, 0);
+  const firstDayOfWeek = new Date(now);
+  firstDayOfWeek.setDate(
+    firstDayOfWeek.getDate() - weekMap[firstDayOfWeek.getDay()]
+  );
+  const lastDayOfWeek = new Date(now);
+  lastDayOfWeek.setDate(
+    lastDayOfWeek.getDate() - weekMap[lastDayOfWeek.getDay()] + 6
+  );
+  lastDayOfWeek.setHours(23, 59, 59, 999);
+  return { first: firstDayOfWeek, last: lastDayOfWeek };
+}
+
+/**
+ * Get an array of dates between two dates
+ *
+ * @param {Date} start
+ * @param {Date} end
+ * @returns {Array<Date>}
+ */
+function getDatesInRange(start, end) {
+  const dates = [];
+  const currDate = new Date(start);
+  const lastDate = new Date(end);
+  while (currDate <= lastDate) {
+    dates.push(new Date(currDate));
+    currDate.setDate(currDate.getDate() + 1);
+  }
+  return dates;
+}
+
+/**
+ * Format date from the js Date object Thu Mar 25 2021 00:00:00 GMT+0000 (Greenwich Mean Time) to YYYY-MM-DD
+ *
+ * @param {Date} date the formatted js Date object
+ * @returns {string} the formatted DB date YYYY-MM-DD
+ */
+function getDateDashes(date) {
+  let d = new Date(date),
+    month = "" + (d.getMonth() + 1),
+    day = "" + d.getDate(),
+    year = d.getFullYear();
+
+  if (month.length < 2) month = "0" + month;
+  if (day.length < 2) day = "0" + day;
+
+  return [year, month, day].join("-");
+}
+
+/**
+ * Get the timestamp from UTC date
+ *
+ * @param {Date} date Date object
+ * @param {string} time format HH:MM
+ * @returns
+ */
+function getTimestampFromUTC(date, time = "00:00") {
+  return new Date(`${getDateDashes(date)}T${time}Z`).getTime() / 1000;
+}
+
 export {
   getDayOfTheWeek,
   getDateView,
   getTimeFromDate,
   checkIsFiveMinutesBefore,
   getMonthName,
+  getStartAndEndOfWeek,
+  getDatesInRange,
+  getDateDashes,
+  getTimestampFromUTC,
   ONE_HOUR,
   FIVE_MINUTES,
 };
