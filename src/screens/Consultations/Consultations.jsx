@@ -159,7 +159,11 @@ export const Consultations = ({ navigation }) => {
             style={styles.button}
             onPress={handleScheduleConsultationClick}
           />
-          <Heading heading={t("heading")} style={{ marginVertical: 20 }} />
+          <Heading
+            heading={t("heading")}
+            style={{ marginVertical: 20 }}
+            handleGoBack={() => navigation.goBack()}
+          />
         </Block>
         <ConsultationsBlock
           openJoinConsultation={openJoinConsultation}
