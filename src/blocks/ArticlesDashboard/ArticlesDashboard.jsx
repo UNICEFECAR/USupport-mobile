@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 
 import { Block, AppText, Tabs, Loading, CardMedia } from "#components";
 
@@ -162,12 +162,9 @@ export const ArticlesDashboard = ({ navigation }) => {
           <Block>
             <View style={styles.headingContainer}>
               <AppText namedStyle="h3">{t("heading")}</AppText>
-              <AppText
-                style={styles.viewAllText}
-                onPress={() => handleRedirect("read_count")}
-              >
-                {t("view_all")}
-              </AppText>
+              <TouchableOpacity onPress={() => handleRedirect("read_count")}>
+                <AppText style={styles.viewAllText}>{t("view_all")}</AppText>
+              </TouchableOpacity>
             </View>
           </Block>
 
