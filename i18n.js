@@ -47,6 +47,7 @@ import {
   FilterProviders,
   ConfirmConsultation,
   SelectConsultation,
+  EditConsultation,
 } from "./src/backdrops/locales.js";
 
 const resources = {
@@ -97,6 +98,7 @@ const resources = {
     "filter-providers": FilterProviders.en,
     "confirm-consultation": ConfirmConsultation.en,
     "select-consultation": SelectConsultation.en,
+    "edit-consultation": EditConsultation.en,
   },
 };
 

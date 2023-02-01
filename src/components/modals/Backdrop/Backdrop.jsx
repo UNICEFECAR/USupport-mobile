@@ -65,6 +65,8 @@ export const Backdrop = ({
     if (isOpen) {
       setIsOverlayShown(true);
       backdropBottom.value = withSpring(0, appStyles.springConfig);
+    } else {
+      handleCloseBackdrop();
     }
   }, [isOpen]);
 
