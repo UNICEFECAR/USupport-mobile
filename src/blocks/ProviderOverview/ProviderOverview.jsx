@@ -20,13 +20,13 @@ import { AMAZON_S3_BUCKET } from "@env";
 export const ProviderOverview = ({ providerId }) => {
   const { t } = useTranslation("provider-overview");
 
-  const { data: provider } = useGetProviderDataById(providerId);
+  const { data: provider, isLoading } = useGetProviderDataById(providerId);
 
   const image = AMAZON_S3_BUCKET + "/" + (provider?.image || "default");
 
   return (
     <Block style={styles.block}>
-      {!provider ? (
+      {isLoading && !provider ? (
         <View style={styles.loadingContainer}>
           <Loading size="lg" />
         </View>
