@@ -22,7 +22,7 @@ import { languageSvc } from "#services";
  *
  * @return {jsx}
  */
-export const FilterProviders = ({ isOpen, onClose }) => {
+export const FilterProviders = ({ isOpen, onClose, onSave }) => {
   const { t } = useTranslation("filter-providers");
 
   const fetchLanguages = async () => {
@@ -95,13 +95,13 @@ export const FilterProviders = ({ isOpen, onClose }) => {
       .map((x) => x.value);
 
     setData(dataCopy);
-    onClose(dataCopy);
+    onSave(dataCopy);
   };
 
   return (
     <Backdrop
       isOpen={isOpen}
-      onClose={handleSave}
+      onClose={onClose}
       heading={t("heading")}
       text={t("subheading")}
       ctaLabel={t("button_label")}

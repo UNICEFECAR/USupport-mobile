@@ -119,7 +119,8 @@ export const SelectProvider = ({ navigation }) => {
       </ScrollView>
       <FilterProviders
         isOpen={isFilterOpen}
-        onClose={(data) => handleFilterSave(data)}
+        onClose={() => setIsFilterOpen(false)}
+        onSave={handleFilterSave}
         navigation={navigation}
       />
     </Screen>
