@@ -18,14 +18,21 @@ export const Header = ({ handleDayChange, startDate, style }) => {
   const currentDay = new Date();
   const [today, setToday] = useState(
     startDate ? new Date(startDate) : new Date()
-    // new Date()
   );
+
   const [canChangeWeekBackwards, setCanChangeWeekBackwards] = useState(false);
   const [selectedDay, setSelectedDay] = useState(today);
   const [startOfWeek, setStartOfWeek] = useState();
   const [daysOfWeek, setDaysOfWeek] = useState([]);
   const [hasCalledHandleDayChange, setHasCalledHandleDayChange] =
     useState(false);
+
+  useEffect(() => {
+    if (startDate) {
+      setToday(new Date(startDate));
+      setSelectedDay(new Date(startDate));
+    }
+  }, [startDate]);
 
   useEffect(() => {
     const { first, last } = getStartAndEndOfWeek(today);
