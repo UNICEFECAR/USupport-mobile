@@ -59,7 +59,7 @@ export const ConsultationDashboard = ({
               type="primary"
               label={t("accept_button_label")}
               size="sm"
-              onClick={() =>
+              onPress={() =>
                 handleAcceptSuggestion(consultation.consultationId, price)
               }
               style={styles.marginTop8}
@@ -70,7 +70,7 @@ export const ConsultationDashboard = ({
               color="purple"
               size="sm"
               classes="consultation-dashboard__button"
-              onClick={() => handleJoin(consultation)}
+              onPress={() => handleJoin(consultation)}
               style={styles.marginTop8}
             />
           ) : (
@@ -93,7 +93,7 @@ export const ConsultationDashboard = ({
             size="sm"
             label={t("schedule_button_label")}
             color="purple"
-            onClick={handleSchedule}
+            onPress={handleSchedule}
           />
         </View>
       )}
