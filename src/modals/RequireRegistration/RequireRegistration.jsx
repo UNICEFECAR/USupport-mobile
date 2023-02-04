@@ -20,7 +20,7 @@ export const RequireRegistration = ({ handleContinue, isOpen, onClose }) => {
       ctaLabel={t("button")}
       ctaHandleClick={handleContinue}
       isOpen={isOpen}
-      closeModal={onClose}
+      handleClose={onClose}
     />
   );
 };
