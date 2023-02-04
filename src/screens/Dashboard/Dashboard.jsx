@@ -15,7 +15,12 @@ import {
   MascotHeadingBlock,
   ConsultationsDashboard,
 } from "#blocks";
-import { EditConsultation, CancelConsultation } from "#backdrops";
+import {
+  EditConsultation,
+  CancelConsultation,
+  JoinConsultation,
+  SelectConsultation,
+} from "#backdrops";
 import { mascotHappyPurple } from "#assets";
 import { appStyles } from "#styles";
 import { userSvc } from "#services";
@@ -212,7 +217,7 @@ export const Dashboard = ({ navigation }) => {
     if (!clientData.dataProcessing) {
       openRequireDataAgreement();
     } else {
-      navigate("/select-provider");
+      navigation.push("SelectProvider");
     }
   };
 
@@ -249,6 +254,19 @@ export const Dashboard = ({ navigation }) => {
           navigation={navigation}
         />
       </ScrollView>
+      <JoinConsultation
+        isOpen={isJoinConsultationOpen}
+        onClose={closeJoinConsultation}
+        consultation={selectedConsultation}
+      />
+      <SelectConsultation
+        isOpen={isSelectConsultationBackdropOpen}
+        onClose={closeSelectConsultationBackdrop}
+        handleBlockSlot={handleBlockSlot}
+        providerId={selectedConsultationProviderId}
+        isCtaDisabled={isBlockSlotSubmitting}
+        errorMessage={blockSlotError}
+      />
       {selectedConsultation && (
         <>
           <EditConsultation
