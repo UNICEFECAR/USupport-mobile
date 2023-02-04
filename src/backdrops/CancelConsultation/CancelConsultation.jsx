@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { View } from "react-native";
 
 import { Backdrop, ConsultationInformation } from "#components";
 import { localStorage } from "#services";
-import { ONE_HOUR } from "#utils";
+import { ONE_HOUR, showToast } from "#utils";
 import { useCancelConsultation } from "#hooks";
 
 export const CancelConsultation = ({ isOpen, onClose, consultation }) => {
@@ -27,7 +26,7 @@ export const CancelConsultation = ({ isOpen, onClose, consultation }) => {
   const onCancelSuccess = () => {
     queryClient.invalidateQueries(["all-consultations"]);
     onClose();
-    toast(t("cancel_success"));
+    showToast({ message: t("cancel_success") });
   };
   const onCancelError = (error) => {
     setError(error);
