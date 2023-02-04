@@ -21,3 +21,4 @@ export * from "./ArticleInformation";
 export * from "./Dashboard";
 export * from "./Consultations";
 export * from "./Passcode";
+export * from "./SafetyFeedback";

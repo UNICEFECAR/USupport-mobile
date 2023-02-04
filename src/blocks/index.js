@@ -26,3 +26,4 @@ export * from "./ArticlesDashboard";
 export * from "./Consultations";
 export * from "./ConsultationsDashboard";
 export * from "./Passcode";
+export * from "./SafetyFeedback";
