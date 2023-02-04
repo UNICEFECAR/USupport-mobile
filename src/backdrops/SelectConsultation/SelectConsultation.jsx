@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { View, StyleSheet } from "react-native";
 
 import {
+  AppText,
   Backdrop,
   Header,
   Loading,
@@ -76,7 +77,7 @@ export const SelectConsultation = ({
       return slotDate === currentDayDate;
     });
     if (!todaySlots || todaySlots?.length === 0)
-      return <p>{t("no_slots_available")}</p>;
+      return <AppText>{t("no_slots_available")}</AppText>;
     const options = todaySlots?.map(
       (slot) => {
         const slotLocal = new Date(slot);
