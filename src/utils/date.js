@@ -179,6 +179,19 @@ function getTimestampFromUTC(date, time = "00:00") {
   return new Date(`${getDateDashes(date)}T${time}Z`).getTime() / 1000;
 }
 
+/**
+ * Return the time as String
+ * @param {Date} date
+ * @returns {String} in hh:mm format
+ */
+function getTimeAsString(date) {
+  return date
+    ? `${date.getHours() > 9 ? date.getHours() : "0" + date.getHours()}:${
+        date.getMinutes() > 9 ? date.getMinutes() : "0" + date.getMinutes()
+      }`
+    : "";
+}
+
 export {
   getDayOfTheWeek,
   getDateView,
@@ -189,6 +202,7 @@ export {
   getDatesInRange,
   getDateDashes,
   getTimestampFromUTC,
+  getTimeAsString,
   ONE_HOUR,
   FIVE_MINUTES,
 };
