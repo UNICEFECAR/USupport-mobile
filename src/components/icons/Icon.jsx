@@ -77,6 +77,7 @@ import {
   IconMood,
   IconMailAdmin,
   IconDollar,
+  IconVideo,
 } from "./assets/sprite";
 
 /**
@@ -303,6 +304,9 @@ export const Icon = ({ name, size = "md", color, style }) => {
       break;
     case "dollar":
       icon = <IconDollar color={color} />;
+      break;
+    case "video":
+      icon = <IconVideo color={color} />;
       break;
     default:
       icon = null;

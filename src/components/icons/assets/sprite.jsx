@@ -1,4 +1,5 @@
 import Svg, { ClipPath, Defs, Rect, G, Path, Circle } from "react-native-svg";
+import { appStyles } from "#styles";
 
 const IconFilter = ({ color }) => {
   return (
@@ -1131,6 +1132,24 @@ const IconDollar = ({ color = "#66768D" }) => {
   );
 };
 
+const IconVideo = ({ color = appStyles.colorGray_a6b4b8 }) => {
+  return (
+    <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+      <G clipPath="url(#clip0_3075_13406)">
+        <Path
+          d="M17 10.2L22.213 6.55C22.288 6.49746 22.3759 6.4665 22.4672 6.4605C22.5586 6.4545 22.6498 6.4737 22.731 6.51599C22.8122 6.55829 22.8802 6.62206 22.9276 6.70035C22.9751 6.77865 23.0001 6.86846 23 6.96V19.04C23.0001 19.1315 22.9751 19.2214 22.9276 19.2996C22.8802 19.3779 22.8122 19.4417 22.731 19.484C22.6498 19.5263 22.5586 19.5455 22.4672 19.5395C22.3759 19.5335 22.288 19.5025 22.213 19.45L17 15.8V20C17 20.2652 16.8946 20.5196 16.7071 20.7071C16.5196 20.8946 16.2652 21 16 21H2C1.73478 21 1.48043 20.8946 1.29289 20.7071C1.10536 20.5196 1 20.2652 1 20V6C1 5.73478 1.10536 5.48043 1.29289 5.29289C1.48043 5.10536 1.73478 5 2 5H16C16.2652 5 16.5196 5.10536 16.7071 5.29289C16.8946 5.48043 17 5.73478 17 6V10.2ZM17 13.359L21 16.159V9.84L17 12.64V13.358V13.359ZM3 7V19H15V7H3ZM5 9H7V11H5V9Z"
+          fill="#A6B4B8"
+        />
+      </G>
+      <Defs>
+        <ClipPath id="clip0_3075_13406">
+          <Rect width="24" height="24" fill="white" />
+        </ClipPath>
+      </Defs>
+    </Svg>
+  );
+};
+
 export {
   IconFilter,
   IconPhoneEmergency,
@@ -1204,4 +1223,5 @@ export {
   IconMood,
   IconMailAdmin,
   IconDollar,
+  IconVideo,
 };
