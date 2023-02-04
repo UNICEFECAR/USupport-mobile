@@ -27,6 +27,7 @@ import {
   Consultations,
   ConsultationsDashboard,
   Passcode,
+  SafetyFeedback,
 } from "./src/blocks/locales.js";
 import {
   FAQ as FAQPage,
@@ -42,6 +43,7 @@ import {
   Consultations as ConsultationsScreen,
   Dashboard,
   Passcode as PasscodeScreen,
+  SafetyFeedback as SafetyFeedbackScreen,
 } from "./src/screens/locales.js";
 import {
   FilterProviders,
@@ -49,7 +51,9 @@ import {
   SelectConsultation,
   EditConsultation,
   CancelConsultation,
+  JoinConsultation,
 } from "./src/backdrops/locales.js";
+// import { RequireRegistration } from "./src/modals/locales.js";
 
 const resources = {
   en: {
@@ -75,6 +79,7 @@ const resources = {
     consultations: Consultations.en,
     "consultations-dashboard": ConsultationsDashboard.en,
     passcode: Passcode.en,
+    "safety-feedback": SafetyFeedback.en,
 
     // Screens
     "information-portal": InformationalPortal.en,
@@ -94,6 +99,7 @@ const resources = {
     "consultations-screen": ConsultationsScreen.en,
     dashboard: Dashboard.en,
     "passcode-screen": PasscodeScreen.en,
+    "safety-feedback-screen": SafetyFeedbackScreen.en,
 
     // Backdrops
     "filter-providers": FilterProviders.en,
@@ -101,6 +107,10 @@ const resources = {
     "select-consultation": SelectConsultation.en,
     "edit-consultation": EditConsultation.en,
     "cancel-consultation": CancelConsultation.en,
+    "join-consultation": JoinConsultation.en,
+
+    // Modals
+    // "require-registration": RequireRegistration.en,
   },
 };
 
