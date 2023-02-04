@@ -49,22 +49,22 @@ export function TransparentModal({
                   <AppText namedStyle="h3" style={styles.headingText}>
                     {heading}
                   </AppText>
-                  {hasCloseIcon && (
+                  {hasCloseIcon ? (
                     <TouchableOpacity onPress={handleClose}>
                       <Icon name="close-x" color="#263238" />
                     </TouchableOpacity>
-                  )}
+                  ) : null}
                 </View>
                 {text && <AppText style={styles.text}>{text}</AppText>}
                 {children}
-                {ctaLabel && (
+                {ctaLabel ? (
                   <AppButton
                     label={ctaLabel}
                     onPress={ctaHandleClick}
                     size="lg"
                     disabled={isCtaDisabled}
                   />
-                )}
+                ) : null}
                 {secondaryCtaLabel && (
                   <AppButton
                     label={ctaLabel}
