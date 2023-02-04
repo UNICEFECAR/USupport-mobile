@@ -94,7 +94,7 @@ export const Backdrop = ({
   );
   return (
     <>
-      {isOverlayShown && <Overlay />}
+      {isOverlayShown ? <Overlay /> : null}
       <Animated.View style={[styles.backdrop, backdropStyle]}>
         <View>
           <View style={styles.header}>
@@ -124,7 +124,7 @@ export const Backdrop = ({
             {children}
           </ScrollView>
         </View>
-        {hasButtons && (
+        {hasButtons ? (
           <View
             style={[
               styles.buttonContainer,
@@ -136,8 +136,8 @@ export const Backdrop = ({
             }}
           >
             {errorMessage ? <Error message={errorMessage} /> : null}
-            {ctaLabel &&
-              (isCtaDisabled && showLoadingIfDisabled ? (
+            {ctaLabel ? (
+              isCtaDisabled && showLoadingIfDisabled ? (
                 <Loading />
               ) : (
                 <AppButton
@@ -147,9 +147,10 @@ export const Backdrop = ({
                   color={ctaColor}
                   size="lg"
                 />
-              ))}
-            {secondaryCtaLabel &&
-              (isSecondaryCtaDisabled && showLoadingIfDisabled ? (
+              )
+            ) : null}
+            {secondaryCtaLabel ? (
+              isSecondaryCtaDisabled && showLoadingIfDisabled ? (
                 <View style={styles.secondButtonLoadingContainer}>
                   <Loading />
                 </View>
@@ -163,9 +164,10 @@ export const Backdrop = ({
                   color={secondaryCtaColor}
                   style={styles.secondButton}
                 />
-              ))}
+              )
+            ) : null}
           </View>
-        )}
+        ) : null}
       </Animated.View>
     </>
   );
