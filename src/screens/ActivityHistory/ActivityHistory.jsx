@@ -13,16 +13,15 @@ import {
   useScheduleConsultation,
 } from "#hooks";
 
-export const ActivityHistory = ({ navigation, route, style }) => {
+export const ActivityHistory = ({ navigation, route }) => {
   const { t } = useTranslation("activity-history");
 
   const consultation = route.params?.consultation;
+  const providerId = consultation?.providerId;
 
-  const providerId = consultation.providerId;
-  if (!consultation || !providerId) return <Navigate to="/consultations" />;
+  if (!consultation || !providerId) return navigation.navigate("Consultations");
 
   const clientData = useGetClientData()[1];
-  console.log(clientData);
 
   const [isBlockSlotSubmitting, setIsBlockSlotSubmitting] = useState(false);
   const [blockSlotError, setBlockSlotError] = useState();
@@ -100,14 +99,13 @@ export const ActivityHistory = ({ navigation, route, style }) => {
     });
   };
 
-  console.log(isSelectConsultationOpen);
   return (
     <Screen hasEmergencyButton={false}>
       <ActivityHistoryBlock
+        navigation={navigation}
         openSelectConsultation={openSelectConsultation}
-        // providerId={providerId}
+        providerId={providerId}
         consultation={consultation}
-        providerId={consultation.providerId}
       />
       <SelectConsultation
         isOpen={isSelectConsultationOpen}

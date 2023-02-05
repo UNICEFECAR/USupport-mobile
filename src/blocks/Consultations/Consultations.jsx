@@ -68,11 +68,9 @@ export const Consultations = ({
   };
 
   const handleOpenDetails = (consultation) => {
-    navigate("/activity-history", {
-      state: {
-        providerId: consultation.providerId,
-        consultation,
-      },
+    navigation.navigate("ActivityHistory", {
+      providerId: consultation.providerId,
+      consultation: consultation,
     });
   };
 
