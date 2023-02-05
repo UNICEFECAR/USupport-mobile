@@ -25,3 +25,4 @@ export * as Consultations from "./Consultations/locales";
 export * as ConsultationsDashboard from "./ConsultationsDashboard/locales";
 export * as Passcode from "./Passcode/locales";
 export * as SafetyFeedback from "./SafetyFeedback/locales";
+export * as ActivityHistory from "./ActivityHistory/locales";

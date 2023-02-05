@@ -23,4 +23,4 @@ export * from "./Consultations";
 export * from "./Passcode";
 export * from "./SafetyFeedback";
 export * from "./RegisterAboutYou";
-// export * from "./RegisterAboutYou";
+export * from "./ActivityHistory";

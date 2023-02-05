@@ -28,6 +28,7 @@ import {
   ConsultationsDashboard,
   Passcode,
   SafetyFeedback,
+  ActivityHistory,
 } from "./src/blocks/locales.js";
 import {
   FAQ as FAQPage,
@@ -53,7 +54,10 @@ import {
   CancelConsultation,
   JoinConsultation,
 } from "./src/backdrops/locales.js";
-// import { RequireRegistration } from "./src/modals/locales.js";
+import {
+  RequireRegistration,
+  RequireDataAgreemant,
+} from "./src/modals/locales.js";
 
 const resources = {
   en: {
@@ -100,6 +104,7 @@ const resources = {
     dashboard: Dashboard.en,
     "passcode-screen": PasscodeScreen.en,
     "safety-feedback-screen": SafetyFeedbackScreen.en,
+    "activity-history": ActivityHistory.en,
 
     // Backdrops
     "filter-providers": FilterProviders.en,
@@ -110,7 +115,8 @@ const resources = {
     "join-consultation": JoinConsultation.en,
 
     // Modals
-    // "require-registration": RequireRegistration.en,
+    "require-registration": RequireRegistration.en,
+    "require-data-agreement": RequireDataAgreemant.en,
   },
 };
 
