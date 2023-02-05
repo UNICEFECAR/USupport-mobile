@@ -68,7 +68,7 @@ export const ConsultationBig = ({
             <AppButton
               type="primary"
               size="sm"
-              onClick={() =>
+              onPress={() =>
                 handleAcceptSuggestion(consultation.consultationId, price)
               }
               label={t("accept_button_label")}
@@ -79,7 +79,7 @@ export const ConsultationBig = ({
               label={t("join_Abutton_label")}
               color="purple"
               style={styles.button}
-              onClick={() => handleJoin(consultation.consultationId)}
+              onPress={() => handleJoin(consultation.consultationId)}
             />
           ) : (
             <AppButton
@@ -87,7 +87,7 @@ export const ConsultationBig = ({
               type="secondary"
               color="purple"
               style={styles.button}
-              onClick={() => handleChange(consultation)}
+              onPress={() => handleChange(consultation)}
             />
           )}
         </View>
