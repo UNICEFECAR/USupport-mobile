@@ -10,6 +10,8 @@ import {
   Loading,
   RadioButtonSelectorGroup,
 } from "#components";
+import { appStyles } from "#styles";
+
 import { useGetProviderDataById } from "#hooks";
 import { getTimestampFromUTC } from "#utils";
 import { providerSvc } from "#services";
@@ -77,7 +79,9 @@ export const SelectConsultation = ({
       return slotDate === currentDayDate;
     });
     if (!todaySlots || todaySlots?.length === 0)
-      return <AppText>{t("no_slots_available")}</AppText>;
+      return (
+        <AppText style={styles.noSlotsText}>{t("no_slots_available")}</AppText>
+      );
     const options = todaySlots?.map(
       (slot) => {
         const slotLocal = new Date(slot);
@@ -150,4 +154,5 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
     alignItems: "center",
   },
+  noSlotsText: { color: appStyles.colorRed_ed5657 },
 });
