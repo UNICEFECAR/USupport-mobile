@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { StyleSheet, View } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer } from "@react-navigation/native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import FlashMessage from "react-native-flash-message";
 
 import {
@@ -17,6 +18,10 @@ import {
 
 import { AuthNavigation, AppNavigation } from "#navigation";
 import { localStorage, Context } from "#services";
+
+import { Consultations, SafetyFeedback, ActivityHistory } from "#screens";
+
+import { useGetSecurityCheckAnswersByConsultationId } from "#hooks";
 
 // Create a react-query client
 const queryClient = new QueryClient({
@@ -63,10 +68,12 @@ export default function App() {
     <Context.Provider value={{ setToken }}>
       <NavigationContainer>
         <QueryClientProvider client={queryClient}>
-          <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-            {token ? <AppNavigation /> : <AuthNavigation />}
-          </View>
-          <FlashMessage position="top" />
+          <SafeAreaProvider>
+            <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+              {token ? <AppNavigation /> : <AuthNavigation />}
+            </View>
+            <FlashMessage position="top" />
+          </SafeAreaProvider>
         </QueryClientProvider>
       </NavigationContainer>
     </Context.Provider>
