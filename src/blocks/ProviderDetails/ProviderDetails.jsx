@@ -53,15 +53,16 @@ export const ProviderDetails = ({ provider, image, t, buttonComponent }) => {
 
   let earliestAvailableSlot;
   if (provider) {
+    const dateTime = getTimeFromDate(new Date(provider.earliestAvailableSlot));
     earliestAvailableSlot = `${getDateView(
       provider.earliestAvailableSlot
-    )} - ${getTimeFromDate(new Date(provider.earliestAvailableSlot))}`;
+    )} - ${dateTime}`;
   }
 
   return (
     <View style={[styles.flexGrow1, { paddingBottom: 100 }]}>
       <View style={[styles.header]}>
-        <Avatar image={image && { uri: image }} style={styles.avatar} />
+        <Avatar image={image ? { uri: image } : null} style={styles.avatar} />
         <View style={styles.headerTextContainer}>
           <AppText
             namedStyle="h4"
