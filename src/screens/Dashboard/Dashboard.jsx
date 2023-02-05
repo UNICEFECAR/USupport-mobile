@@ -21,6 +21,7 @@ import {
   JoinConsultation,
   SelectConsultation,
 } from "#backdrops";
+import { RequireDataAgreement } from "#modals";
 import { mascotHappyPurple } from "#assets";
 import { appStyles } from "#styles";
 import { userSvc } from "#services";
@@ -283,6 +284,11 @@ export const Dashboard = ({ navigation }) => {
           />
         </>
       )}
+      <RequireDataAgreement
+        isOpen={isRequireDataAgreementOpen}
+        onClose={closeRequireDataAgreement}
+        onSuccess={handleDataAgreementSucess}
+      />
     </Screen>
   );
 };

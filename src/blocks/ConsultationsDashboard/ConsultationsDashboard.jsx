@@ -90,7 +90,7 @@ export const ConsultationsDashboard = ({
             label={t("schedule_consultation_label")}
             type="secondary"
             size="lg"
-            onClick={handleScheduleConsultation}
+            onPress={handleScheduleConsultation}
           />
         </View>
       ) : (
