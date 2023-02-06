@@ -2,17 +2,28 @@ import React from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 
 import { Avatar } from "../../avatars";
-import { specialistPlaceholder } from "#assets";
 import { ButtonWithIcon } from "../../buttons/ButtonWithIcon/ButtonWithIcon";
 import { Icon } from "../../icons";
 
+import { useGetClientData } from "#hooks";
+
 import { appStyles } from "#styles";
 
+import { AMAZON_S3_BUCKET } from "@env";
+
 export const HeaderNavigation = ({ t, navigation, style }) => {
+  const isTmpUser = false;
+  const clientQueryArray = useGetClientData(isTmpUser ? false : true);
+  const clientData = isTmpUser ? {} : clientQueryArray[0].data;
+
   return (
     <View style={[styles.container, { ...appStyles.shadow2 }, style]}>
       <TouchableOpacity onPress={() => navigation.push("UserProfile")}>
-        <Avatar image={specialistPlaceholder} />
+        <Avatar
+          image={{
+            uri: `${AMAZON_S3_BUCKET}/${clientData?.image || "default"}`,
+          }}
+        />
       </TouchableOpacity>
       <ButtonWithIcon
         iconName="phone-emergency"
