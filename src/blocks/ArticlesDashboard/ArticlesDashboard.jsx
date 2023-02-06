@@ -159,7 +159,7 @@ export const ArticlesDashboard = ({ navigation }) => {
     <>
       {categories?.length > 1 && (
         <>
-          <Block>
+          <Block style={styles.headingBlock}>
             <View style={styles.headingContainer}>
               <AppText namedStyle="h3">{t("heading")}</AppText>
               <TouchableOpacity onPress={() => handleRedirect("read_count")}>
@@ -219,6 +219,7 @@ export const ArticlesDashboard = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  headingBlock: { paddingTop: 40 },
   headingContainer: {
     flexDirection: "row",
     justifyContent: "space-between",

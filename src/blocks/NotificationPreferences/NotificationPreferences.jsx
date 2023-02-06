@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
-import { Block, AppText, Toggle, RadioButtonSelectorGroup } from "#components";
+import {
+  Block,
+  AppText,
+  Toggle,
+  RadioButtonSelectorGroup,
+  Loading,
+} from "#components";
 
 import {
   useGetNotificationPreferences,

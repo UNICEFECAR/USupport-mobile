@@ -12,7 +12,12 @@ import { appStyles } from "#styles";
  *
  * @return {jsx}
  */
-export const ButtonOnlyIcon = ({ iconName, iconSize, style, ...props }) => {
+export const ButtonOnlyIcon = ({
+  iconName = "phone-emergency",
+  iconSize = "xl",
+  style,
+  ...props
+}) => {
   return (
     <Pressable
       style={({ pressed }) => {
@@ -64,9 +69,4 @@ ButtonOnlyIcon.propTypes = {
    * Additional props to pass
    **/
   props: PropTypes.object,
-};
-
-ButtonOnlyIcon.defaultProps = {
-  iconName: "phone-emergency",
-  iconSize: "xl",
 };

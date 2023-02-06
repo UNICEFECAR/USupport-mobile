@@ -7,12 +7,13 @@ import {
   StatusBar,
   Image,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { ButtonOnlyIcon } from "../../buttons";
 import { appStyles } from "#styles";
 import { RadialGradient } from "react-native-gradients";
 import spiralBackground from "../../../assets/spiral-background.png";
+import { HeaderNavigation } from "../../headings";
 
 // Main wrapper for every screen
 export function Screen({
@@ -23,13 +24,16 @@ export function Screen({
   hasRadialGradient = true,
   hasEmergencyButton = true,
   hasSpiralBackground = true,
+  hasHeaderNavigation = false,
+  navigation,
+  t,
 }) {
-  const navigation = useNavigation();
-
   const colorList = [
     { offset: "0%", color: "#ebe0ff", opacity: "0.55" },
     { offset: "100%", color: "#ebe0ff", opacity: "0" },
   ];
+
+  const { top: topInset } = useSafeAreaInsets();
 
   return (
     <SafeAreaView
@@ -43,7 +47,6 @@ export function Screen({
         backgroundColor={"transparent"}
         translucent={Platform.OS === "android" ? true : false}
       />
-
       <View style={[styles.screenChildren, style]}>{children}</View>
 
       {hasSpiralBackground && (
@@ -60,6 +63,20 @@ export function Screen({
           onPress={() => navigation.push("SOSCenter")}
         />
       )}
+      {hasHeaderNavigation ? (
+        <HeaderNavigation
+          t={t}
+          navigation={navigation}
+          style={{
+            position: "absolute",
+            top: 0,
+            width: "100%",
+            paddingTop:
+              (Platform.OS === "android" ? StatusBar.currentHeight : topInset) +
+              7,
+          }}
+        />
+      ) : null}
       {outsideComponent}
     </SafeAreaView>
   );

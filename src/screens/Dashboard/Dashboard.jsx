@@ -225,9 +225,17 @@ export const Dashboard = ({ navigation }) => {
   const handleDataAgreementSucess = () => navigate("/select-provider");
 
   return (
-    <Screen>
+    <Screen
+      hasHeaderNavigation
+      t={t}
+      navigation={navigation}
+      hasEmergencyButton={false}
+    >
       <ScrollView>
-        <MascotHeadingBlock image={mascotHappyPurple}>
+        <MascotHeadingBlock
+          image={mascotHappyPurple}
+          style={styles.mascotHeadingBlock}
+        >
           {clientData?.isLoading || isTmpUser === null ? (
             <Loading />
           ) : (
@@ -347,6 +355,7 @@ const HeadingBlockContent = ({
 
 const styles = StyleSheet.create({
   marginTop16: { marginTop: 16 },
+  mascotHeadingBlock: { paddingTop: 70 },
   alignSelfStart: { alignSelf: "flex-start" },
   colorTextBlue: { color: appStyles.colorBlue_263238 },
 });

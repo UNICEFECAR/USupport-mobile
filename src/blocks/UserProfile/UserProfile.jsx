@@ -68,6 +68,7 @@ export const UserProfile = ({ navigation }) => {
               onPress={handleLogout}
             />
           }
+          handleGoBack={() => navigation.goBack()}
         />
 
         <View style={styles.group}>
