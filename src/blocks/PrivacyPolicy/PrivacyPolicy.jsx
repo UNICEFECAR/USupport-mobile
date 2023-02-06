@@ -66,7 +66,11 @@ export const PrivacyPolicy = ({ navigation }) => {
 
         <View style={styles.privacyContainer}>
           {policiesData && <Markdown style={styles}>{policiesData}</Markdown>}
-          {!policiesData && policiesLoading && <Loading />}
+          {!policiesData && policiesLoading && (
+            <View style={styles.loadingContainer}>
+              <Loading />
+            </View>
+          )}
           {!policiesData && !policiesLoading && isPoliciesFetched && (
             <AppText namedStlye="h3" className="privacy-policy__no-results">
               {t("no_results")}
@@ -82,7 +86,6 @@ const styles = StyleSheet.create({
   privacyContainer: {
     paddingBottom: 28,
   },
-
   heading2: {
     fontSize: 20,
     lineHeight: 24,
@@ -91,11 +94,16 @@ const styles = StyleSheet.create({
     marginTop: 32,
     marginBottom: 16,
   },
-
   paragraph: {
     color: appStyles.colorGray_66768d,
     fontSize: 16,
     fontFamily: "Nunito_400Regular",
     lineHeight: 24,
+  },
+  loadingContainer: {
+    width: "100%",
+    height: 250,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
