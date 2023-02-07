@@ -225,12 +225,7 @@ export const Dashboard = ({ navigation }) => {
   const handleDataAgreementSucess = () => navigate("/select-provider");
 
   return (
-    <Screen
-      hasHeaderNavigation
-      t={t}
-      navigation={navigation}
-      hasEmergencyButton={false}
-    >
+    <Screen hasHeaderNavigation t={t} hasEmergencyButton={false}>
       <ScrollView>
         <MascotHeadingBlock
           image={mascotHappyPurple}
