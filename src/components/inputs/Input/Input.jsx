@@ -59,6 +59,7 @@ export const Input = ({
           secureTextEntry={isPassword}
           placeholderTextColor={appStyles.colorGray_92989b}
           autoCorrect={false}
+          spellCheck={false}
           autoCapitalize={false}
           onChangeText={(value) => onChange(value)}
           onFocus={() => {

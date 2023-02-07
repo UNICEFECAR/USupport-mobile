@@ -38,8 +38,6 @@ export const TabNavigation = () => {
   const renderTabBar = ({ routeName, selectedTab, navigate }) => {
     const iconName = takeIconName({ routeName, selectedTab });
 
-    console.log(routeName);
-
     return (
       <TouchableOpacity
         onPress={() => {
