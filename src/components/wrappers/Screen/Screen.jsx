@@ -7,6 +7,7 @@ import {
   StatusBar,
   Image,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { ButtonOnlyIcon } from "../../buttons";
@@ -25,9 +26,9 @@ export function Screen({
   hasEmergencyButton = true,
   hasSpiralBackground = true,
   hasHeaderNavigation = false,
-  navigation,
   t,
 }) {
+  const navigation = useNavigation();
   const colorList = [
     { offset: "0%", color: "#ebe0ff", opacity: "0.55" },
     { offset: "100%", color: "#ebe0ff", opacity: "0" },
