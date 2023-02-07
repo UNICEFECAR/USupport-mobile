@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { StyleSheet, View } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
-import { NavigationContainer } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import FlashMessage from "react-native-flash-message";
 
@@ -41,7 +40,7 @@ export default function App() {
   const [token, setToken] = useState();
   const [initialRouterName, setInitialRouteName] = useState("Dashboard");
 
-  localStorage.setItem("token", "");
+  // localStorage.setItem("token", "");
 
   useEffect(() => {
     localStorage.getItem("token").then((jwtToken) => {
@@ -69,16 +68,14 @@ export default function App() {
     <Context.Provider
       value={{ token, setToken, initialRouterName, setInitialRouteName }}
     >
-      <NavigationContainer>
-        <QueryClientProvider client={queryClient}>
-          <SafeAreaProvider>
-            <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-              <Navigation />
-            </View>
-          </SafeAreaProvider>
-          <FlashMessage position="top" />
-        </QueryClientProvider>
-      </NavigationContainer>
+      <QueryClientProvider client={queryClient}>
+        <SafeAreaProvider>
+          <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+            <Navigation />
+          </View>
+        </SafeAreaProvider>
+        <FlashMessage position="top" />
+      </QueryClientProvider>
     </Context.Provider>
   );
 }
