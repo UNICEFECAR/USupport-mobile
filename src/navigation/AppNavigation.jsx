@@ -45,7 +45,6 @@ export const AppNavigation = () => {
         name="InformationalPortal"
         component={InformationalPortal}
       />
-      <Stack.Screen name="UserProfile" component={UserProfile} />
       <Stack.Screen name="Consultations" component={Consultations} />
       <Stack.Screen name="Articles" component={Articles} />
       <Stack.Screen name="FAQ" component={FAQ} />
