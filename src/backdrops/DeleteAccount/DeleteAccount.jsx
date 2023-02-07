@@ -62,7 +62,7 @@ export const DeleteAccount = ({ isOpen, onClose }) => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    setToken("");
+    setToken(null);
   };
 
   return (

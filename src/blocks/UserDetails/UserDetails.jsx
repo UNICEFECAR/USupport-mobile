@@ -261,7 +261,7 @@ export const UserDetails = ({
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    setToken("");
+    setToken(null);
   };
 
   const handleGoBack = () => {

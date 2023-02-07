@@ -51,7 +51,7 @@ export const UserProfile = ({ navigation }) => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    setToken("");
+    setToken(null);
   };
 
   return (
