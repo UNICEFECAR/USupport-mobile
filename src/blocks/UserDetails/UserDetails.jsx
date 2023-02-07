@@ -17,6 +17,7 @@ import {
   Loading,
   ProfilePicturePreview,
   Toggle,
+  TransparentModal,
 } from "#components";
 
 import { appStyles } from "#styles";
@@ -34,7 +35,7 @@ import { validate, validateProperty } from "#utils";
  * @return {jsx}
  */
 export const UserDetails = ({
-  openDataProcessingBackdrop,
+  openChangePasswordBackdrop,
   openDeleteAccountBackdrop,
   openUploadPictureModal,
   openDeletePictureBackdrop,
@@ -187,8 +188,14 @@ export const UserDetails = ({
     onUpdateError
   );
 
-  const openDataProcessingModal = () => setDataProcessingModalOpen(true);
-  const closeDataProcessingModal = () => setDataProcessingModalOpen(false);
+  const openChangePasswordModal = () => setDataProcessingModalOpen(true);
+
+  const closeDataProcessingModal = (shouldUpdateDataProcessing = true) => {
+    if (shouldUpdateDataProcessing === true) {
+      setDataProcessing(true);
+    }
+    setDataProcessingModalOpen(false);
+  };
 
   const handleNicknameBlur = () => {
     validateProperty(
@@ -241,7 +248,7 @@ export const UserDetails = ({
     onSuccess: (data) => {
       setDataProcessing(data);
       setIsProcessingUpdateDataProcessing(false);
-      closeDataProcessingModal();
+      closeDataProcessingModal(false);
       queryClient.invalidateQueries({ queryKey: ["client-data"] });
     },
     onError: (error) => {
@@ -251,8 +258,9 @@ export const UserDetails = ({
   });
 
   const handleToggleClick = () => {
+    setDataProcessing(!dataProcessing);
     if (dataProcessing) {
-      openDataProcessingModal();
+      openChangePasswordModal();
     } else {
       // Change the dataProcessing value to true
       updateDataProcessingMutation.mutate(true);
@@ -413,7 +421,7 @@ export const UserDetails = ({
               <AppButton
                 type="ghost"
                 label={t("change_password")}
-                onPress={openDataProcessingBackdrop}
+                onPress={openChangePasswordBackdrop}
                 size="lg"
                 style={styles.textButton}
               />
@@ -442,6 +450,20 @@ export const UserDetails = ({
           </>
         )}
       </ScrollView>
+      <TransparentModal
+        isOpen={dataProcessingModalOpen}
+        handleClose={() => closeDataProcessingModal(true)}
+        heading={t("data_processing_modal_heading")}
+        text={t("data_processing_modal_text")}
+        ctaLabel={t("data_processing_modal_confirm_button")}
+        ctaHandleClick={() => {
+          updateDataProcessingMutation.mutate(false);
+        }}
+        isCtaDisabled={isProcessingUpdateDataProcessing}
+        secondaryCtaLabel={t("data_processing_modal_cancel_button")}
+        secondaryCtaType="secondary"
+        secondaryCtaHandleClick={() => closeDataProcessingModal(true)}
+      />
     </Block>
   );
 };

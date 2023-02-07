@@ -11,13 +11,13 @@ import { DeleteAccount, ChangePassword } from "#backdrops";
  * @returns {JSX.Element}
  */
 export const UserDetails = ({ navigation }) => {
-  const [isBackdropOpen, setIsBackdropOpen] = useState(false);
+  const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
   const [isDeleteBackdropShown, setIsDeleteBackdropShown] = useState(false);
 
-  const openDataProcessingBackdrop = () => setIsBackdropOpen(true);
+  const openChangePasswordBackdrop = () => setIsChangePasswordOpen(true);
   const openDeleteAccountBackdrop = () => setIsDeleteBackdropShown(true);
 
-  const closeDataProcessingBackdrop = () => setIsBackdropOpen(false);
+  const closeChangePasswordBackdrop = () => setIsChangePasswordOpen(false);
   const closeDeleteAccountBackdrop = () => setIsDeleteBackdropShown(false);
 
   return (
@@ -25,15 +25,15 @@ export const UserDetails = ({ navigation }) => {
       <UserDetailsBlock
         navigation={navigation}
         openDeleteAccountBackdrop={openDeleteAccountBackdrop}
-        openDataProcessingBackdrop={openDataProcessingBackdrop}
+        openChangePasswordBackdrop={openChangePasswordBackdrop}
       />
       <DeleteAccount
         isOpen={isDeleteBackdropShown}
         onClose={closeDeleteAccountBackdrop}
       />
       <ChangePassword
-        isOpen={isBackdropOpen}
-        onClose={closeDataProcessingBackdrop}
+        isOpen={isChangePasswordOpen}
+        onClose={closeChangePasswordBackdrop}
       />
     </Screen>
   );
