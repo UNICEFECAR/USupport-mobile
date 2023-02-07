@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet } from "react-native";
 
+import { AppText } from "../texts";
 import { appStyles } from "#styles";
 
 /**
@@ -13,9 +14,9 @@ import { appStyles } from "#styles";
  */
 export const Error = ({ message, style }) => {
   return (
-    <Text namedStyle="smallText" style={[styles.text, style]}>
+    <AppText namedStyle="smallText" style={[styles.text, style]}>
       {message}
-    </Text>
+    </AppText>
   );
 };
 
