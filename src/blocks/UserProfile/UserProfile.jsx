@@ -31,7 +31,6 @@ export const UserProfile = ({ navigation }) => {
 
   const [displayName, setDisplayName] = useState("");
 
-  //TODO: CHECK WITH PAVLOV
   const isTmpUser = false;
   const clientQueryArray = useGetClientData(isTmpUser ? false : true);
   const clientData = isTmpUser ? {} : clientQueryArray[0].data;
