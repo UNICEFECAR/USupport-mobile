@@ -61,12 +61,6 @@ export const ProviderOverview = ({
       }:00`
     : "";
 
-  const handleIconClick = () => {
-    if (hasMenu) {
-      setIsMenuOpen(!isMenuOpen);
-    }
-  };
-
   return (
     <TouchableOpacity onPress={onPress} style={styles.touchableOpacity}>
       <View
