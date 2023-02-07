@@ -9,6 +9,7 @@ import { appStyles } from "#styles";
 export const Heading = ({
   heading,
   subheading,
+  hasGoBackArrow = true,
   handleGoBack,
   buttonComponent,
   hasGoBackArrow = true,
