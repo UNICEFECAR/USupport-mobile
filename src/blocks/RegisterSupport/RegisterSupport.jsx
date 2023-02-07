@@ -9,6 +9,7 @@ import {
   RadioButtonSelectorGroup,
   AppButton,
   TransparentModal,
+  Error,
 } from "#components";
 
 import { clientSvc } from "#services";
@@ -93,7 +94,7 @@ export const RegisterSupport = ({ navigation }) => {
     if (data === "yes" && hasGivenPermission?.current) {
       navigation.navigate("SelectProvider");
     } else {
-      navigation.navigate("Dashboard");
+      navigation.navigate("TabNavigation");
     }
   };
 
@@ -101,7 +102,10 @@ export const RegisterSupport = ({ navigation }) => {
 
   return (
     <Block style={[styles.flex1, styles.alignItemsCenter]}>
-      <Heading heading={t("heading")} />
+      <Heading
+        heading={t("heading")}
+        handleGoBack={() => navigation.goBack()}
+      />
       <RadioButtonSelectorGroup
         name="doYouNeedHelp"
         options={options}
@@ -117,7 +121,7 @@ export const RegisterSupport = ({ navigation }) => {
           disabled={!canContinue}
           label={t("button_continue_label")}
           size="lg"
-          onClick={() => handleContinue()}
+          onPress={() => handleContinue()}
         />
       </View>
       <TransparentModal

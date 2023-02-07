@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import { TabNavigation } from "./TabNavigation";
 
 import {
   FAQ,
@@ -13,11 +14,8 @@ import {
   SharePlatform,
   NotificationPreferences,
   SOSCenter,
-  InformationalPortal,
   Articles,
   ArticleInformation,
-  Dashboard,
-  Consultations,
   Passcode,
   ActivityHistory,
   RegisterAboutYou,
@@ -35,17 +33,12 @@ export const AppNavigation = () => {
       screenOptions={{ headerShown: false }}
       initialRouteName={initialRouteName}
     >
-      <Stack.Screen name="Dashboard" component={Dashboard} />
       <Stack.Screen name="RegisterAboutYou" component={RegisterAboutYou} />
+      <Stack.Screen name="TabNavigation" component={TabNavigation} />
       <Stack.Screen name="RegisterSupport" component={RegisterSupport} />
       <Stack.Screen name="UserProfile" component={UserProfile} />
       <Stack.Screen name="UserDetails" component={UserDetails} />
       <Stack.Screen name="SelectProvider" component={SelectProvider} />
-      <Stack.Screen
-        name="InformationalPortal"
-        component={InformationalPortal}
-      />
-      <Stack.Screen name="Consultations" component={Consultations} />
       <Stack.Screen name="Articles" component={Articles} />
       <Stack.Screen name="FAQ" component={FAQ} />
       <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />

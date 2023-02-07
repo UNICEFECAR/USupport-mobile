@@ -59,7 +59,7 @@ export const RegisterEmail = ({ navigation }) => {
   const register = async () => {
     const countryID = await localStorage.getItem("country_id");
     if (!countryID) {
-      navigate("/");
+      navigate("Welcome");
       return;
     }
     // Send data to server
