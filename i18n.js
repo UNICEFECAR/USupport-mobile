@@ -54,6 +54,7 @@ import {
   CancelConsultation,
   JoinConsultation,
   DeleteAccount,
+  ChangePassword,
 } from "./src/backdrops/locales.js";
 import {
   RequireRegistration,
@@ -116,7 +117,7 @@ const resources = {
     "edit-consultation": EditConsultation.en,
     "cancel-consultation": CancelConsultation.en,
     "join-consultation": JoinConsultation.en,
-    // "change-password": ChangePassword.en,
+    "change-password": ChangePassword.en,
     "delete-account": DeleteAccount.en,
 
     // Modals

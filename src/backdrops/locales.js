@@ -5,4 +5,4 @@ export * as EditConsultation from "./EditConsultation/locales";
 export * as CancelConsultation from "./CancelConsultation/locales";
 export * as JoinConsultation from "./JoinConsultation/locales";
 export * as DeleteAccount from "./DeleteAccount/locales";
-// export * as ChangePassword from "./ChangePassword/locales";
+export * as ChangePassword from "./ChangePassword/locales";
