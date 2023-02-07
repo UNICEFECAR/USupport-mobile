@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { View, StyleSheet, Image, Linking } from "react-native";
 
-import { AppText } from "../../texts";
+import { AppText } from "../../texts/";
 import { AppButton } from "../../buttons";
 
 import { appStyles } from "#styles";

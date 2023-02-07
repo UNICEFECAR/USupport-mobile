@@ -9,6 +9,7 @@ export * from "./UserDetails";
 export * from "./Login";
 export * from "./RegisterPreview";
 export * from "./RegisterSupport";
+export * from "./RegisterAboutYou";
 export * from "./SelectProvider";
 export * from "./ProviderOverview";
 export * from "./PlatformRating";

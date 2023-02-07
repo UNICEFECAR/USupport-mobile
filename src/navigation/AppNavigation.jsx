@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import {
@@ -20,14 +20,25 @@ import {
   Consultations,
   Passcode,
   ActivityHistory,
+  RegisterAboutYou,
+  RegisterSupport,
 } from "#screens";
+
+import { Context } from "#services";
 
 const Stack = createStackNavigator();
 
 export const AppNavigation = () => {
+  const { initialRouteName } = useContext(Context);
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator
+      screenOptions={{ headerShown: false }}
+      initialRouteName={initialRouteName}
+    >
       <Stack.Screen name="Dashboard" component={Dashboard} />
+      <Stack.Screen name="RegisterAboutYou" component={RegisterAboutYou} />
+      <Stack.Screen name="RegisterSupport" component={RegisterSupport} />
+      <Stack.Screen name="UserProfile" component={UserProfile} />
       <Stack.Screen name="UserDetails" component={UserDetails} />
       <Stack.Screen name="SelectProvider" component={SelectProvider} />
       <Stack.Screen
