@@ -43,7 +43,7 @@ export const Dropdown = ({
   const dropdownStyles = useAnimatedStyle(() => ({
     position: "absolute",
     top: 75,
-    width: "100%",
+    width: "97%",
     borderWidth: isOpen ? 1 : 0,
     borderRadius: 30,
     borderColor: "#E0E0E0",
