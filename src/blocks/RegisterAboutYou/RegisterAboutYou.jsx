@@ -52,6 +52,38 @@ export const RegisterAboutYou = ({ navigation }) => {
     { label: t("place_of_living_rural"), value: "rural" },
   ];
 
+  const [ages, setAges] = useState();
+  useEffect(() => {
+    if (countriesData) {
+      localStorage.getItem("country").then((country) => {
+        const selectedCountry = countriesData?.find((c) => c.value === country);
+        const minAge = selectedCountry?.minAge;
+        const maxAge = selectedCountry?.maxAge;
+        setAges({
+          minAge,
+          maxAge,
+        });
+      });
+    }
+  }, [countriesData]);
+
+  // Create an array of year objects from year 1900 to current year
+  const getYearsOptions = useCallback(() => {
+    const currentYear = new Date().getFullYear();
+    const years = [];
+    if (ages) {
+      for (
+        let year = currentYear - ages.maxAge;
+        year <= currentYear - ages.minAge;
+        year++
+      ) {
+        years.push({ label: year.toString(), value: year });
+      }
+      return years.reverse();
+    }
+    return [];
+  }, [countriesData, ages]);
+
   const [data, setData] = useState({
     name: "",
     surname: "",
@@ -75,25 +107,8 @@ export const RegisterAboutYou = ({ navigation }) => {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const country = localStorage.getItem("country");
-  const selectedCountry = countriesData?.find((c) => c.value === country);
-  const minAge = selectedCountry?.minAge;
-  const maxAge = selectedCountry?.maxAge;
-  // Create an array of year objects from year 1900 to current year
-  const getYearsOptions = useCallback(() => {
-    const currentYear = new Date().getFullYear();
-    const years = [];
-    for (
-      let year = currentYear - maxAge;
-      year <= currentYear - minAge;
-      year++
-    ) {
-      years.push({ label: year.toString(), value: year });
-    }
-    return years.reverse();
-  }, [countriesData]);
   const onMutateSuccess = () => {
-    navigate("/register/support");
+    navigation.push("RegisterSupport");
   };
 
   const onMutateError = (error) => {
@@ -145,7 +160,8 @@ export const RegisterAboutYou = ({ navigation }) => {
       <ScrollView contentContainerStyle={styles.flex1}>
         <Heading
           heading={t("heading")}
-          handleGoBack={() => navigation.goBack()}
+          hasGoBackArrow={false}
+          // handleGoBack={() => navigation.goBack()}
         />
 
         <View style={styles.inputContainer}>
@@ -153,7 +169,7 @@ export const RegisterAboutYou = ({ navigation }) => {
             label={t("input_name_label")}
             placeholder={t("input_name_placeholder")}
             name="name"
-            onChange={(e) => handleSelect("name", e.currentTarget.value)}
+            onChange={(value) => handleSelect("name", value)}
             value={data.name}
             onBlur={() => handleBlur("name")}
             style={styles.marginBottom24}
@@ -162,7 +178,7 @@ export const RegisterAboutYou = ({ navigation }) => {
             label={t("input_surname_label")}
             placeholder={t("input_surname_placeholder")}
             name="surname"
-            onChange={(e) => handleSelect("surname", e.currentTarget.value)}
+            onChange={(value) => handleSelect("surname", value)}
             value={data.surname}
             onBlur={() => handleBlur("surname")}
             style={styles.marginBottom24}
@@ -199,7 +215,7 @@ export const RegisterAboutYou = ({ navigation }) => {
             disabled={!canContinue || isSubmitting}
             size="lg"
             label={t("button_continue_label")}
-            onClick={() => handleContinue()}
+            onPress={() => handleContinue()}
           />
         </View>
       </ScrollView>
@@ -222,6 +238,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexGrow: 1,
     justifyContent: "flex-end",
+    alignItems: "center",
   },
   scrollViewContentContainer: {
     flexGrow: 1,
