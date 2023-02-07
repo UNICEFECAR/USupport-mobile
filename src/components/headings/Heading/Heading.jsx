@@ -12,7 +12,6 @@ export const Heading = ({
   hasGoBackArrow = true,
   handleGoBack,
   buttonComponent,
-  hasGoBackArrow = true,
   style,
 }) => {
   return (
