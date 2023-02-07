@@ -38,7 +38,7 @@ export default function App() {
   });
 
   const [token, setToken] = useState();
-  const [initialRouterName, setInitialRouteName] = useState("Dashboard");
+  const [initialRouteName, setInitialRouteName] = useState("TabNavigation");
 
   // localStorage.setItem("token", "");
 
@@ -66,7 +66,7 @@ export default function App() {
 
   return (
     <Context.Provider
-      value={{ token, setToken, initialRouterName, setInitialRouteName }}
+      value={{ token, setToken, initialRouteName, setInitialRouteName }}
     >
       <QueryClientProvider client={queryClient}>
         <SafeAreaProvider>
