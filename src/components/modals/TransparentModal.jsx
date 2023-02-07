@@ -67,7 +67,7 @@ export function TransparentModal({
                 ) : null}
                 {secondaryCtaLabel && (
                   <AppButton
-                    label={ctaLabel}
+                    label={secondaryCtaLabel}
                     onPress={secondaryCtaHandleClick}
                     size="lg"
                     disabled={isSecondaryCtaDisabled}
