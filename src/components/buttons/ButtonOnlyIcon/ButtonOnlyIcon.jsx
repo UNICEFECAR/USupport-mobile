@@ -52,7 +52,7 @@ ButtonOnlyIcon.propTypes = {
    * Icon name
    * @default: "phone-emergency"
    */
-  iconName: PropTypes.string.isRequired,
+  iconName: PropTypes.string,
 
   /**
    * Icon size
