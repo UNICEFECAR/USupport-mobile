@@ -117,7 +117,7 @@ export function Welcome({ navigation }) {
             style={[styles.dropdown, { zIndex: 2 }]}
           />
         </View>
-        <View style={{ flex: 1, justifyContent: "flex-end", marginBottom: 30 }}>
+        <View style={styles.buttonContainer}>
           <AppButton
             label={t("button")}
             size="lg"
@@ -142,6 +142,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
     zIndex: 2,
+    alignItems: "center",
+  },
+  buttonContainer: {
+    flex: 1,
+    justifyContent: "flex-end",
+    marginBottom: 30,
+    flexDirection: "column",
+    alignItems: "center",
   },
   flexGrow: { flexGrow: 1 },
 });
