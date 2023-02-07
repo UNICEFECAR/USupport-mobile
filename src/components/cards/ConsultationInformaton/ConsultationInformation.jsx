@@ -26,6 +26,7 @@ export const ConsultationInformation = ({
   providerImage = specialistPlaceholder,
   price = "Free",
   style,
+  showPriceBadge = true,
   t,
 }) => {
   const dayOfWeek = t(getDayOfTheWeek(startDate));
@@ -60,13 +61,15 @@ export const ConsultationInformation = ({
           </View>
         </View>
       </View>
-      <View style={styles.priceBadgeContainer}>
-        <View style={styles.priceBadge}>
-          <AppText namedStyle="smallText" style={styles.priceBadgeText}>
-            {price || "Free"}
-          </AppText>
+      {showPriceBadge && (
+        <View style={styles.priceBadgeContainer}>
+          <View style={styles.priceBadge}>
+            <AppText namedStyle="smallText" style={styles.priceBadgeText}>
+              {price || "Free"}
+            </AppText>
+          </View>
         </View>
-      </View>
+      )}
     </View>
   );
 };
