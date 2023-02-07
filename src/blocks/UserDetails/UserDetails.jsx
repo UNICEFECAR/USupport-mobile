@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, View } from "react-native";
@@ -23,7 +23,7 @@ import { appStyles } from "#styles";
 
 import { useGetClientData, useUpdateClientData } from "#hooks";
 
-import { localStorage, clientSvc } from "#services";
+import { localStorage, clientSvc, Context } from "#services";
 import { validate, validateProperty } from "#utils";
 
 /**
@@ -41,6 +41,8 @@ export const UserDetails = ({
   navigation,
 }) => {
   const { t } = useTranslation("user-details");
+
+  const { setToken } = useContext(Context);
 
   const queryClient = useQueryClient();
 
@@ -258,7 +260,8 @@ export const UserDetails = ({
   };
 
   const handleLogout = () => {
-    userSvc.logout();
+    localStorage.removeItem("token");
+    setToken("");
   };
 
   const handleGoBack = () => {
@@ -410,7 +413,7 @@ export const UserDetails = ({
               <AppButton
                 type="ghost"
                 label={t("change_password")}
-                onClick={openDataProcessingBackdrop}
+                onPress={openDataProcessingBackdrop}
                 size="lg"
                 style={styles.textButton}
               />
@@ -421,7 +424,7 @@ export const UserDetails = ({
                 iconColor={appStyles.colorPrimary_20809e}
                 label={t("logout")}
                 type="ghost"
-                onClick={handleLogout}
+                onPress={handleLogout}
                 style={styles.textButton}
               />
               <ButtonWithIcon
@@ -432,7 +435,7 @@ export const UserDetails = ({
                 color={"red"}
                 label={t("delete_account")}
                 type={"ghost"}
-                onClick={openDeleteAccountBackdrop}
+                onPress={openDeleteAccountBackdrop}
                 style={styles.textButton}
               />
             </View>

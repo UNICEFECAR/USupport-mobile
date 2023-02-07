@@ -53,6 +53,7 @@ import {
   EditConsultation,
   CancelConsultation,
   JoinConsultation,
+  DeleteAccount,
 } from "./src/backdrops/locales.js";
 import {
   RequireRegistration,
@@ -84,6 +85,7 @@ const resources = {
     "consultations-dashboard": ConsultationsDashboard.en,
     passcode: Passcode.en,
     "safety-feedback": SafetyFeedback.en,
+    // "change-passcode": ChangePasscode.en,
 
     // Screens
     "information-portal": InformationalPortal.en,
@@ -105,6 +107,7 @@ const resources = {
     "passcode-screen": PasscodeScreen.en,
     "safety-feedback-screen": SafetyFeedbackScreen.en,
     "activity-history": ActivityHistory.en,
+    // "change-passcode-screen": ChangePasscodeScreen.en,
 
     // Backdrops
     "filter-providers": FilterProviders.en,
@@ -113,6 +116,8 @@ const resources = {
     "edit-consultation": EditConsultation.en,
     "cancel-consultation": CancelConsultation.en,
     "join-consultation": JoinConsultation.en,
+    // "change-password": ChangePassword.en,
+    "delete-account": DeleteAccount.en,
 
     // Modals
     "require-registration": RequireRegistration.en,

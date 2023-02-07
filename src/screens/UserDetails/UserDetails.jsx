@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Screen } from "#components";
 import { UserDetails as UserDetailsBlock } from "#blocks";
-
-import { userSvc } from "#services";
+import { DeleteAccount } from "#backdrops";
 
 /**
  * UserDetails
@@ -12,30 +11,21 @@ import { userSvc } from "#services";
  * @returns {JSX.Element}
  */
 export const UserDetails = ({ navigation }) => {
-  const isTmpUser = userSvc.getUserID() === "tmp-user";
+  const [isDeleteBackdropShown, setIsDeleteBackdropShown] = useState(false);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openDeleteAccountBackdrop = () => setIsDeleteBackdropShown(true);
 
-  const handleRegisterRedirection = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("refresh-token");
-    localStorage.removeItem("expires-in");
-    navigate("/register-preview");
-  };
-
-  const handleLogout = () => {
-    userSvc.logout();
-    navigate("/");
-  };
-
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const closeDeleteAccountBackdrop = () => setIsDeleteBackdropShown(false);
 
   return (
     <Screen>
       <UserDetailsBlock
-        {...{ openModal, closeModal, isTmpUser }}
         navigation={navigation}
+        openDeleteAccountBackdrop={openDeleteAccountBackdrop}
+      />
+      <DeleteAccount
+        isOpen={isDeleteBackdropShown}
+        onClose={closeDeleteAccountBackdrop}
       />
     </Screen>
   );

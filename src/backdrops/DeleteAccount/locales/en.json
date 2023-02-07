@@ -1,0 +1,7 @@
+{
+  "heading": "Are you sure you want to delete your account?",
+  "text": "You need to enter your password to confirm that you want to delete your account.",
+  "delete_account_button": "Delete account",
+  "input_label": "Password",
+  "cancel_button": "Cancel"
+}
