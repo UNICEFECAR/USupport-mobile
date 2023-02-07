@@ -3,7 +3,14 @@ import { StyleSheet, KeyboardAvoidingView, ScrollView } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { Block, Heading, Input, InputPassword, AppButton } from "#components";
+import {
+  Block,
+  Heading,
+  Input,
+  InputPassword,
+  Error,
+  AppButton,
+} from "#components";
 
 import { getCountryFromTimezone } from "#utils";
 import { userSvc, localStorage, Context } from "#services";
@@ -84,7 +91,7 @@ export const Login = ({ navigation }) => {
   };
 
   const handleForgotPassowrd = () => {
-    navigate("/forgot-password");
+    navigation.navigate("ForgotPassword");
   };
 
   const handleRegisterRedirect = () => {
@@ -119,7 +126,7 @@ export const Login = ({ navigation }) => {
             type="ghost"
             color="purple"
             label={t("forgot_password_label")}
-            onClick={() => handleForgotPassowrd()}
+            onPress={() => handleForgotPassowrd()}
           />
           {errors.submit ? <Error message={errors.submit} /> : null}
           <AppButton
