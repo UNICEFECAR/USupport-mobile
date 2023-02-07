@@ -13,3 +13,4 @@ export * as Dashboard from "./Dashboard/locales";
 export * as Passcode from "./Passcode/locales";
 export * as SafetyFeedback from "./SafetyFeedback/locales";
 export * as ActivityHistory from "./ActivityHistory/locales";
+export * as ForgotPassword from "./ForgotPassword/locales";

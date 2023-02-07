@@ -29,6 +29,7 @@ import {
   Passcode,
   SafetyFeedback,
   ActivityHistory,
+  ForgotPassword,
 } from "./src/blocks/locales.js";
 import {
   FAQ as FAQPage,
@@ -45,6 +46,7 @@ import {
   Dashboard,
   Passcode as PasscodeScreen,
   SafetyFeedback as SafetyFeedbackScreen,
+  ForgotPassword as ForgotPasswordScreen,
 } from "./src/screens/locales.js";
 import {
   FilterProviders,
@@ -86,6 +88,7 @@ const resources = {
     "consultations-dashboard": ConsultationsDashboard.en,
     passcode: Passcode.en,
     "safety-feedback": SafetyFeedback.en,
+    "forgot-password": ForgotPassword.en,
     // "change-passcode": ChangePasscode.en,
 
     // Screens
@@ -108,6 +111,7 @@ const resources = {
     "passcode-screen": PasscodeScreen.en,
     "safety-feedback-screen": SafetyFeedbackScreen.en,
     "activity-history": ActivityHistory.en,
+    "forgot-password-screen": ForgotPasswordScreen.en,
     // "change-passcode-screen": ChangePasscodeScreen.en,
 
     // Backdrops

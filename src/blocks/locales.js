@@ -26,3 +26,4 @@ export * as ConsultationsDashboard from "./ConsultationsDashboard/locales";
 export * as Passcode from "./Passcode/locales";
 export * as SafetyFeedback from "./SafetyFeedback/locales";
 export * as ActivityHistory from "./ActivityHistory/locales";
+export * as ForgotPassword from "./ForgotPassword/locales";

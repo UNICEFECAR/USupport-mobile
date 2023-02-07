@@ -7,7 +7,7 @@ import {
   RegisterEmail,
   Login,
   RegisterPreview,
-  RegisterAboutYou,
+  ForgotPassword,
 } from "#screens";
 
 const Stack = createStackNavigator();
@@ -22,6 +22,7 @@ export const AuthNavigation = () => {
       <Stack.Screen name="RegisterPreview" component={RegisterPreview} />
       <Stack.Screen name="RegisterEmail" component={RegisterEmail} />
       <Stack.Screen name="RegisterAnonymous" component={RegisterAnonymous} />
+      <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
       <Stack.Screen name="Login" component={Login} />
     </Stack.Navigator>
   );
