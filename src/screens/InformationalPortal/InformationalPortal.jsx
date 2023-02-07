@@ -44,6 +44,7 @@ export const InformationalPortal = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  screen: { paddingBottom: 70 },
   heading: { color: appStyles.colorBlue_263238 },
   subheading: { marginTop: 16, color: appStyles.colorBlue_263238 },
 });
