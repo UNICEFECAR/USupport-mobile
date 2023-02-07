@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { StyleSheet, KeyboardAvoidingView, ScrollView } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -17,10 +17,11 @@ import {
 } from "#components";
 
 import { validateProperty, validate } from "#utils";
-import { userSvc, localStorage } from "#services";
+import { userSvc, localStorage, Context } from "#services";
 import { useError } from "#hooks";
 
 export const RegisterEmail = ({ navigation }) => {
+  const { setInitialRouteName, setToken } = useContext(Context);
   const { t } = useTranslation("register-email");
   const navigate = () => {};
   const queryClient = useQueryClient();
@@ -76,20 +77,20 @@ export const RegisterEmail = ({ navigation }) => {
   const registerMutation = useMutation(register, {
     // If the mutation succeeds, get the data returned
     // from the server, and put it in the cache
-    onSuccess: (response) => {
+    onSuccess: async (response) => {
+      setInitialRouteName("RegisterAboutYou");
       const { user: userData, token: tokenData } = response.data;
       const { token, expiresIn, refreshToken } = tokenData;
 
-      localStorage.setItem("token", token);
-      localStorage.setItem("token-expires-in", expiresIn);
-      localStorage.setItem("refresh-token", refreshToken);
+      await localStorage.setItem("token-expires-in", expiresIn);
+      await localStorage.setItem("refresh-token", refreshToken);
+      await localStorage.setItem("token", token);
 
       queryClient.setQueryData(
         ["client-data"],
         userSvc.transformUserData(userData)
       );
-
-      navigation.navigate("RegisterAboutYou");
+      setToken(token);
     },
     onError: (error) => {
       setIsSubmitting(false);
