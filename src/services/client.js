@@ -69,6 +69,11 @@ async function sendInformationPortalSuggestion(suggestion) {
   return response;
 }
 
+async function addPlatformRating(payload) {
+  const response = await http.post(`${API_ENDPOINT}/add-rating`, payload);
+  return response;
+}
+
 const exportedFunctions = {
   addMoodTrack,
   getClientData,
@@ -80,6 +85,7 @@ const exportedFunctions = {
   changeDataProcessingAgreement,
   getAllConsultations,
   sendInformationPortalSuggestion,
+  addPlatformRating,
 };
 
 export default exportedFunctions;
