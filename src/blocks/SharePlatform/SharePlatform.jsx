@@ -44,7 +44,7 @@ export const SharePlatform = ({}) => {
   //TODO: Add share to VKontakte
 
   return (
-    <Block>
+    <Block style={styles.block}>
       <AppButton
         label={t("button_label_share_text") + " " + "Facebook"}
         size="lg"
@@ -64,6 +64,7 @@ export const SharePlatform = ({}) => {
 };
 
 const styles = StyleSheet.create({
+  block: { alignItems: "center" },
   marginTop32: {
     marginTop: 32,
   },
