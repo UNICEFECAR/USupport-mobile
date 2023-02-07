@@ -15,6 +15,8 @@ import {
 
 import { useUpdateClientData, useGetClientData } from "#hooks";
 
+import { validateProperty, validate } from "#utils";
+
 import { localStorage } from "#services";
 
 /**
@@ -105,7 +107,6 @@ export const RegisterAboutYou = ({ navigation }) => {
   }, [clientData]);
 
   const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onMutateSuccess = () => {
     navigation.push("RegisterSupport");
@@ -113,7 +114,6 @@ export const RegisterAboutYou = ({ navigation }) => {
 
   const onMutateError = (error) => {
     setErrors({ submit: error });
-    setIsSubmitting(false);
   };
 
   // Make sure we get the freshest data before sending it to the mutation function
@@ -144,12 +144,8 @@ export const RegisterAboutYou = ({ navigation }) => {
   };
 
   const handleContinue = async () => {
-    setIsSubmitting(true);
-
     if ((await validate(data, schema, setErrors)) === null) {
       updateClientDetailsMutation.mutate();
-    } else {
-      setIsSubmitting(false);
     }
   };
 
@@ -212,7 +208,7 @@ export const RegisterAboutYou = ({ navigation }) => {
 
         <View style={styles.buttonContainer}>
           <AppButton
-            disabled={!canContinue || isSubmitting}
+            disabled={!canContinue || updateClientDetailsMutation.isLoading}
             size="lg"
             label={t("button_continue_label")}
             onPress={() => handleContinue()}
