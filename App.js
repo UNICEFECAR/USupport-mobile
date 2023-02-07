@@ -16,7 +16,7 @@ import {
   Nunito_800ExtraBold,
 } from "@expo-google-fonts/nunito";
 
-import { AuthNavigation, AppNavigation } from "#navigation";
+import { Navigation } from "#navigation";
 import { localStorage, Context } from "#services";
 
 import { Consultations, SafetyFeedback, ActivityHistory } from "#screens";
@@ -39,8 +39,9 @@ export default function App() {
   });
 
   const [token, setToken] = useState();
+  const [initialRouterName, setInitialRouteName] = useState("Dashboard");
 
-  // localStorage.setItem("token", "");
+  localStorage.setItem("token", "");
 
   useEffect(() => {
     localStorage.getItem("token").then((jwtToken) => {
@@ -65,15 +66,17 @@ export default function App() {
   }
 
   return (
-    <Context.Provider value={{ setToken }}>
+    <Context.Provider
+      value={{ token, setToken, initialRouterName, setInitialRouteName }}
+    >
       <NavigationContainer>
         <QueryClientProvider client={queryClient}>
           <SafeAreaProvider>
             <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-              {token ? <AppNavigation /> : <AuthNavigation />}
+              <Navigation />
             </View>
-            <FlashMessage position="top" />
           </SafeAreaProvider>
+          <FlashMessage position="top" />
         </QueryClientProvider>
       </NavigationContainer>
     </Context.Provider>
