@@ -34,11 +34,11 @@ export const PlatformRating = ({ navigation }) => {
   const canContinue = data.rating === null;
 
   return (
-    <Block>
+    <Block style={styles.block}>
       <Rating
         label={t("rating_label")}
         setParentState={(value) => handleChange("rating", value)}
-        style={styles.marginTop32}
+        style={[styles.marginTop32, styles.rating]}
       />
       <Textarea
         label={t("textarea_label")}
@@ -58,9 +58,11 @@ export const PlatformRating = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  block: { alignItems: "center" },
   marginTop32: {
     marginTop: 32,
   },
+  rating: { alignSelf: "flex-start" },
   textarea: {
     marginTop: 24,
   },

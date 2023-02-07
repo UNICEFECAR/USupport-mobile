@@ -119,7 +119,7 @@ export const ContactUs = ({ navigation }) => {
   };
 
   return (
-    <Block>
+    <Block style={styles.block}>
       <Heading
         heading={t("heading")}
         subheading={t("subheading")}
@@ -154,7 +154,8 @@ export const ContactUs = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  dropdown: { marginTop: 32 },
+  block: { alignItems: "center" },
+  dropdown: { marginTop: 32, zIndex: 3 },
   textarea: { marginTop: 22 },
   button: { marginTop: 32 },
 });

@@ -177,7 +177,7 @@ export const Consultations = ({
 };
 
 const styles = StyleSheet.create({
-  consultationsContainer: { alignItems: "center" },
+  consultationsContainer: { alignItems: "center", paddingBottom: 60 },
   consultation: { marginBottom: 16 },
   tabs: { marginBottom: 32 },
 });
