@@ -17,5 +17,6 @@
   "copy_text": "Copy and save or write down your anonymous code, if you lose it you cannot get access to your account anymore",
   "modal_heading": "Confirm you have saved your access code",
   "modal_copy_text": "Be sure that you have saved or written down your access code. Otherwise you will lose access to your anonymous account and your progress in the app.",
-  "modal_button_label": "I’ve saved the access code"
+  "modal_button_label": "I’ve saved the access code",
+  "copy_success": "Succesfully copied the code"
 }

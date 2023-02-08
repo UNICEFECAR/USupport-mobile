@@ -119,7 +119,7 @@ ButtonSelector.propTypes = {
   /**
    * URL to the image that needs to be displayed
    */
-  avatar: PropTypes.string,
+  avatar: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
 
   /**
    * Is the button disabled?

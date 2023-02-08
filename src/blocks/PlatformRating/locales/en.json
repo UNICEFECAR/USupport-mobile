@@ -1,0 +1,8 @@
+{
+  "rating_label": "Rate us",
+  "textarea_label": "Your comment",
+  "textarea_placeholder": "Leave your comment here",
+  "button_label": "Send the rating",
+  "rating_success": "Rating sent successfully",
+  "rating_error": "An unexpected error occured. Please try again."
+}

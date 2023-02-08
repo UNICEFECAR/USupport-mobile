@@ -6,17 +6,16 @@ import {
   Text,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { AppText, AppButton, Block, Dropdown } from "#components";
 
-import { languageSvc, countrySvc, localStorage } from "#services";
-import { appStyles } from "#styles";
+import { languageSvc, countrySvc, localStorage, Context } from "#services";
 
 export function Welcome({ navigation }) {
   const { t, i18n } = useTranslation("welcome");
-  const navigate = () => {};
+  const { setCurrencySymbol } = useContext(Context);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState(null);
 
@@ -32,12 +31,14 @@ export function Welcome({ navigation }) {
         id: x["country_id"],
         minAge: x["min_client_age"],
         maxAge: x["max_client_age"],
+        currencySymbol: x["symbol"],
       };
 
       if (localStorageCountry === x.alpha2) {
         if (!localStorageCountryID) {
           localStorage.setItem("country_id", x["country_id"]);
         }
+        setCurrencySymbol(x.currencySymbol);
         setSelectedCountry(x.alpha2);
       }
 
@@ -72,21 +73,30 @@ export function Welcome({ navigation }) {
     retry: false,
   });
 
+  const handleSelectCountry = (option) => {
+    setSelectedCountry(option);
+  };
+
   const handleContinue = () => {
     const country = selectedCountry;
     const language = selectedLanguage;
 
-    localStorage.setItem("country", country);
-    localStorage.setItem(
-      "country_id",
-      countriesQuery.data.find((x) => x.value === selectedCountry).id
+    const selectedCountryObject = countriesQuery.data.find(
+      (x) => x.value === selectedCountry
     );
+
+    const currencySymbol = selectedCountryObject.currencySymbol;
+
+    setCurrencySymbol(currencySymbol);
+
+    localStorage.setItem("country", country);
+    localStorage.setItem("country_id", selectedCountryObject.id);
     localStorage.setItem("language", language);
+    localStorage.setItem("currencySymbol", currencySymbol);
 
     i18n.changeLanguage(language);
 
-    //TODO: Change that to navigate to RegisterPreview
-    navigation.navigate("Login");
+    navigation.push("RegisterPreview");
   };
 
   return (
@@ -104,7 +114,7 @@ export function Welcome({ navigation }) {
           <Dropdown
             options={countriesQuery.data}
             selected={selectedCountry}
-            setSelected={setSelectedCountry}
+            setSelected={handleSelectCountry}
             label={t("country")}
             placeholder={t("placeholder")}
             style={[styles.dropdown, { zIndex: 3 }]}
@@ -118,7 +128,7 @@ export function Welcome({ navigation }) {
             style={[styles.dropdown, { zIndex: 2 }]}
           />
         </View>
-        <View style={{ flex: 1, justifyContent: "flex-end", marginBottom: 30 }}>
+        <View style={styles.buttonContainer}>
           <AppButton
             label={t("button")}
             size="lg"
@@ -143,6 +153,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
     zIndex: 2,
+    alignItems: "center",
+  },
+  buttonContainer: {
+    flex: 1,
+    justifyContent: "flex-end",
+    marginBottom: 30,
+    flexDirection: "column",
+    alignItems: "center",
   },
   flexGrow: { flexGrow: 1 },
 });

@@ -27,7 +27,7 @@ export const AppButton = ({
     <Pressable
       style={({ pressed }) => {
         return [
-          appStyles.shadow1,
+          type === "secondary" ? appStyles.shadow2 : appStyles.shadow1,
           styles.btn,
           styles[color],
           styles[type],
@@ -57,7 +57,7 @@ export const AppButton = ({
           isPressed &&
             (type === "secondary" || type === "ghost") &&
             styles[color + "Pressed" + "Text"],
-          color === "red" && styles.btnTextRed,
+          color === "red" && type != "primary" && styles.btnTextRed,
         ]}
       >
         {label}
@@ -112,13 +112,13 @@ const styles = StyleSheet.create({
   },
 
   //Color:
-  purple: {
-    backgroundColor: appStyles.colorSecondary_9749fa,
-  },
+  purple: { backgroundColor: appStyles.colorSecondary_9749fa },
+
+  red: { backgroundColor: appStyles.colorRed_eb5757 },
 
   //Size:
   sm: {
-    minWidth: 148,
+    maxWidth: 148,
   },
 
   md: {

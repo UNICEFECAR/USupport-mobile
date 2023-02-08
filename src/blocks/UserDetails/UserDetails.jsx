@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, View } from "react-native";
@@ -17,13 +17,14 @@ import {
   Loading,
   ProfilePicturePreview,
   Toggle,
+  TransparentModal,
 } from "#components";
 
 import { appStyles } from "#styles";
 
 import { useGetClientData, useUpdateClientData } from "#hooks";
 
-import { localStorage, clientSvc } from "#services";
+import { localStorage, clientSvc, Context } from "#services";
 import { validate, validateProperty } from "#utils";
 
 /**
@@ -34,13 +35,15 @@ import { validate, validateProperty } from "#utils";
  * @return {jsx}
  */
 export const UserDetails = ({
-  openDataProcessingBackdrop,
+  openChangePasswordBackdrop,
   openDeleteAccountBackdrop,
-  openUploadPictureModal,
+  openSelectAvatarBackdrop,
   openDeletePictureBackdrop,
   navigation,
 }) => {
   const { t } = useTranslation("user-details");
+
+  const { setToken } = useContext(Context);
 
   const queryClient = useQueryClient();
 
@@ -185,8 +188,14 @@ export const UserDetails = ({
     onUpdateError
   );
 
-  const openDataProcessingModal = () => setDataProcessingModalOpen(true);
-  const closeDataProcessingModal = () => setDataProcessingModalOpen(false);
+  const openChangePasswordModal = () => setDataProcessingModalOpen(true);
+
+  const closeDataProcessingModal = (shouldUpdateDataProcessing = true) => {
+    if (shouldUpdateDataProcessing === true) {
+      setDataProcessing(true);
+    }
+    setDataProcessingModalOpen(false);
+  };
 
   const handleNicknameBlur = () => {
     validateProperty(
@@ -239,7 +248,7 @@ export const UserDetails = ({
     onSuccess: (data) => {
       setDataProcessing(data);
       setIsProcessingUpdateDataProcessing(false);
-      closeDataProcessingModal();
+      closeDataProcessingModal(false);
       queryClient.invalidateQueries({ queryKey: ["client-data"] });
     },
     onError: (error) => {
@@ -249,8 +258,9 @@ export const UserDetails = ({
   });
 
   const handleToggleClick = () => {
+    setDataProcessing(!dataProcessing);
     if (dataProcessing) {
-      openDataProcessingModal();
+      openChangePasswordModal();
     } else {
       // Change the dataProcessing value to true
       updateDataProcessingMutation.mutate(true);
@@ -258,7 +268,8 @@ export const UserDetails = ({
   };
 
   const handleLogout = () => {
-    userSvc.logout();
+    localStorage.removeItem("token");
+    setToken(null);
   };
 
   const handleGoBack = () => {
@@ -299,7 +310,7 @@ export const UserDetails = ({
             <ProfilePicturePreview
               image={clientData.image}
               handleDeleteClick={openDeletePictureBackdrop}
-              handleChangeClick={openUploadPictureModal}
+              handleChangeClick={openSelectAvatarBackdrop}
               changePhotoText={t("change_photo")}
               style={styles.profilePicturePreview}
             />
@@ -410,7 +421,7 @@ export const UserDetails = ({
               <AppButton
                 type="ghost"
                 label={t("change_password")}
-                onClick={openDataProcessingBackdrop}
+                onPress={openChangePasswordBackdrop}
                 size="lg"
                 style={styles.textButton}
               />
@@ -421,7 +432,7 @@ export const UserDetails = ({
                 iconColor={appStyles.colorPrimary_20809e}
                 label={t("logout")}
                 type="ghost"
-                onClick={handleLogout}
+                onPress={handleLogout}
                 style={styles.textButton}
               />
               <ButtonWithIcon
@@ -432,13 +443,27 @@ export const UserDetails = ({
                 color={"red"}
                 label={t("delete_account")}
                 type={"ghost"}
-                onClick={openDeleteAccountBackdrop}
+                onPress={openDeleteAccountBackdrop}
                 style={styles.textButton}
               />
             </View>
           </>
         )}
       </ScrollView>
+      <TransparentModal
+        isOpen={dataProcessingModalOpen}
+        handleClose={() => closeDataProcessingModal(true)}
+        heading={t("data_processing_modal_heading")}
+        text={t("data_processing_modal_text")}
+        ctaLabel={t("data_processing_modal_confirm_button")}
+        ctaHandleClick={() => {
+          updateDataProcessingMutation.mutate(false);
+        }}
+        isCtaDisabled={isProcessingUpdateDataProcessing}
+        secondaryCtaLabel={t("data_processing_modal_cancel_button")}
+        secondaryCtaType="secondary"
+        secondaryCtaHandleClick={() => closeDataProcessingModal(true)}
+      />
     </Block>
   );
 };

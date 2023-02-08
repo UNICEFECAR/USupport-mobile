@@ -3,7 +3,14 @@ import { StyleSheet, KeyboardAvoidingView, ScrollView } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { Block, Heading, Input, InputPassword, AppButton } from "#components";
+import {
+  Block,
+  Heading,
+  Input,
+  InputPassword,
+  Error,
+  AppButton,
+} from "#components";
 
 import { getCountryFromTimezone } from "#utils";
 import { userSvc, localStorage, Context } from "#services";
@@ -84,11 +91,11 @@ export const Login = ({ navigation }) => {
   };
 
   const handleForgotPassowrd = () => {
-    navigate("/forgot-password");
+    navigation.navigate("ForgotPassword");
   };
 
   const handleRegisterRedirect = () => {
-    navigate("/register-preview");
+    navigation.navigate("RegisterPreview");
   };
 
   return (
@@ -97,7 +104,10 @@ export const Login = ({ navigation }) => {
       behavior={Platform.OS === "ios" ? "padding" : null}
     >
       <Block style={styles.flexGrow}>
-        <ScrollView contentContainerStyle={styles.flexGrow}>
+        <ScrollView
+          contentContainerStyle={styles.flexGrow}
+          keyboardShouldPersistTaps="handled"
+        >
           <Heading
             heading={t("heading")}
             handleGoBack={() => navigation.goBack()}
@@ -119,7 +129,7 @@ export const Login = ({ navigation }) => {
             type="ghost"
             color="purple"
             label={t("forgot_password_label")}
-            onClick={() => handleForgotPassowrd()}
+            onPress={() => handleForgotPassowrd()}
           />
           {errors.submit ? <Error message={errors.submit} /> : null}
           <AppButton

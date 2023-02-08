@@ -9,10 +9,11 @@ import {
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import * as Clipboard from "expo-clipboard";
-import { showMessage } from "react-native-flash-message";
 
 import "fast-text-encoding";
 import Joi from "joi";
+
+import { showToast } from "#utils";
 
 import {
   AppButton,
@@ -74,9 +75,7 @@ export const RegisterAnonymous = ({ navigation }) => {
 
   const register = async () => {
     const countryID = await localStorage.getItem("country_id");
-    console.log(countryID);
     if (!countryID) {
-      console.log("No country id");
       navigate("/");
     }
     return await userSvc.signUp({
@@ -147,22 +146,7 @@ export const RegisterAnonymous = ({ navigation }) => {
 
   const copyToClipboard = async () => {
     await Clipboard.setStringAsync(userAccessToken);
-    showMessage({
-      message: "Succesfully copied the code",
-      type: "success",
-      autoHide: true,
-      hideStatusBar: true,
-      titleStyle: {
-        textAlign: "center",
-        alignSelf: "center",
-      },
-      style: {
-        backgroundColor: appStyles.colorGreen_7ec680,
-        borderBottomColor: appStyles.colorGreen_54cfd9,
-        borderBottomWidth: 1,
-        zIndex: 999,
-      },
-    });
+    showToast({ message: t(copy_success) });
   };
 
   const canContinue =

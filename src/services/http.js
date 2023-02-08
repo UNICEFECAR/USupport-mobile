@@ -2,7 +2,7 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 import localStorage from "./storage";
 import { log } from "./log";
-import { API_URL_ENDPOINT, CMS_API_URL } from "@env";
+import { API_URL_ENDPOINT, CMS_API_URL_ENDPOINT } from "@env";
 const API_ENDPOINT = `${API_URL_ENDPOINT}/v1/user`;
 
 // On every request add the JWT token, language and country to the headers
@@ -11,10 +11,9 @@ axios.interceptors.request.use(async (config) => {
   const language = await localStorage.getItem("language");
   config.headers["x-country-alpha-2"] = country || "KZ";
   config.headers["x-language-alpha-2"] = language || "en";
-
   const requestURI = axios.getUri(config) || "VITE CMS API URL";
 
-  if (!requestURI.includes(CMS_API_URL)) {
+  if (!requestURI.includes(CMS_API_URL_ENDPOINT)) {
     const token = await localStorage.getItem("token");
     config.headers["Authorization"] = `Bearer ${token}`;
   }

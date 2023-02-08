@@ -43,7 +43,7 @@ export const Dropdown = ({
   const dropdownStyles = useAnimatedStyle(() => ({
     position: "absolute",
     top: 75,
-    width: "100%",
+    width: "97%",
     borderWidth: isOpen ? 1 : 0,
     borderRadius: 30,
     borderColor: "#E0E0E0",
@@ -51,6 +51,7 @@ export const Dropdown = ({
     borderTopWidth: 0,
     transform: [{ translateY: -DROPDOWN_HEADING_HEIGHT }],
     backgroundColor: "white",
+    alignSelf: "center",
     // zIndex: 1001,
     // elevation: 200,
   }));
@@ -141,9 +142,8 @@ const styles = StyleSheet.create({
   dropdown: {
     width: "96%",
     maxWidth: 420,
-    alignSelf: "center",
+    // alignSelf: "center",
     position: "relative",
-    justifyContent: "center",
     // zIndex: 999,
     ...appStyles.shadow2,
   },
@@ -155,12 +155,12 @@ const styles = StyleSheet.create({
 
   label: {
     color: appStyles.colorBlue_3d527b,
-    fontFamily: "Nunito_600SemiBold",
+    fontFamily: appStyles.fontSemiBold,
   },
 
   container: {
     alignItems: "center",
-    backgroundColor: "white",
+    backgroundColor: appStyles.colorWhite_ff,
     borderRadius: 53,
     borderWidth: 1,
     elevation: 5,
@@ -168,7 +168,8 @@ const styles = StyleSheet.create({
     height: DROPDOWN_HEADING_HEIGHT,
     justifyContent: "space-between",
     position: "relative",
-    width: "100%",
+    width: "97%",
+    alignSelf: "center",
     zIndex: 2,
     marginTop: 4,
     borderColor: "transparent",

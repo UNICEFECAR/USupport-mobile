@@ -17,5 +17,6 @@
   "contact_reason_2": "Technical problem",
   "contact_reason_3": "Join the network of providers",
   "contact_reason_4": "Partnerships",
-  "contact_reason_5": "Other"
+  "contact_reason_5": "Other",
+  "success": "Your issue was reported successfully. We'll get back to you soon"
 }

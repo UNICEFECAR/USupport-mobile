@@ -6,6 +6,14 @@ export default {
 
   platform: Platform.OS,
 
+  //Fonts
+  fontLight: "Nunito_300Light",
+  fontRegular: "Nunito_400Regular",
+  fontMedium: "Nunito_500Medium",
+  fontSemiBold: "Nunito_600SemiBold",
+  fontBold: "Nunito_700Bold",
+  fontExtraBold: "Nunito_800ExtraBold",
+
   // Colors
   colorPrimary_20809e: "#20809e",
   colorPrimaryPressed_156f8c: "#156f8c",
@@ -78,6 +86,17 @@ export default {
       "rgba(129, 74, 253, 0.2)",
     ],
   },
+
+  gradientConsultationBig: {
+    degrees: 80.08,
+    locations: [0, 54.48, 100],
+    colors: [
+      "rgba(13, 174, 178, 0.3)",
+      "rgba(191, 234, 234, 0.3)",
+      "rgba(85, 208, 218, 0.3)",
+    ],
+  },
+
   gradientTransparent: {
     degrees: 180,
     locations: [0, 100],
@@ -121,4 +140,11 @@ export default {
   },
 
   overlay: "rgba(102, 118, 141, 0.5)",
+  springConfig: {
+    damping: 80,
+    overshootClamping: true,
+    restDisplacementThreshold: 0.1,
+    restSpeedThreshold: 0.1,
+    stiffness: 200,
+  },
 };

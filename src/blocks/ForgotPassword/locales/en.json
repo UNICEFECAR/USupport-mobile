@@ -1,0 +1,8 @@
+{
+  "error_email_message": "Please, enter your email",
+  "input_email_label": "Email",
+  "reset_password_button_label": "Reset password",
+  "register_redirect_button_label": "I don’t have an account",
+  "modal_heading": "Check your email",
+  "modal_text": "We have sent you an email with a link to reset your password"
+}

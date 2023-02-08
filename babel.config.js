@@ -16,6 +16,9 @@ module.exports = function (api) {
             "#screens": ["./src/screens/index"],
             "#utils": ["./src/utils/index"],
             "#navigation": ["./src/navigation/index"],
+            "#backdrops": ["./src/backdrops/index"],
+            "#assets": ["./src/assets/index"],
+            "#modals": ["./src/modals/index"],
           },
           extensions: [
             ".ios.js",

@@ -1,0 +1,13 @@
+{
+  "warning": "With answering you declare that this declaration is true and you make it knowing that making a declaration that you know is untrue is an offence.",
+  "q1": "Did the provider ask you to disclose your address and contact details? ",
+  "q2": "Did the provider ask you to meet them outside of the system (in person or in other application)?",
+  "q3": "Did the provider ask you to send them any photos of yourself or turn on your video even if you did not want to?",
+  "q4": "Did you felt unsafe in any way during the session? ",
+  "more_details_label": "If so, please explain why",
+  "more_details_placeholder": "Give us more details here.",
+  "yes": "Yes",
+  "no": "No",
+  "button": "Send feedback",
+  "continue_button": "Keep answers"
+}
