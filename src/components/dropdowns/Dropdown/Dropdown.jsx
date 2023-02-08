@@ -51,6 +51,7 @@ export const Dropdown = ({
     borderTopWidth: 0,
     transform: [{ translateY: -DROPDOWN_HEADING_HEIGHT }],
     backgroundColor: "white",
+    alignSelf: "center",
     // zIndex: 1001,
     // elevation: 200,
   }));

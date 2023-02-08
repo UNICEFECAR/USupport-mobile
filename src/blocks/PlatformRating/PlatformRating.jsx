@@ -56,7 +56,8 @@ export const PlatformRating = ({ navigation }) => {
     setData(newData);
   };
 
-  const canContinue = data.rating === null;
+  const canContinue =
+    data.rating === null || data.comment === "" || data.comment.length < 4;
 
   return (
     <KeyboardAvoidingView
@@ -69,6 +70,7 @@ export const PlatformRating = ({ navigation }) => {
           justifyContent: "space-between",
           flexGrow: 1,
         }}
+        keyboardShouldPersistTaps="handled"
       >
         <Block style={styles.block}>
           <View>

@@ -1,6 +1,12 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { View, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 
 import { Screen, AppText } from "#components";
 import {
@@ -31,20 +37,24 @@ export const InformationalPortal = ({ navigation }) => {
   );
 
   return (
-    <Screen style={styles.screen}>
-      <ScrollView>
-        <MascotHeadingBlock image={mascotHappyPurple}>
-          {heading}
-        </MascotHeadingBlock>
-        <InformationalPortalBlock navigation={navigation} />
-        <GiveSuggestion />
-      </ScrollView>
+    <Screen hasHeaderNavigation t={t}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "position" : null}
+        keyboardVerticalOffset={64}
+      >
+        <ScrollView keyboardShouldPersistTaps="handled">
+          <MascotHeadingBlock image={mascotHappyPurple}>
+            {heading}
+          </MascotHeadingBlock>
+          <InformationalPortalBlock navigation={navigation} />
+          <GiveSuggestion />
+        </ScrollView>
+      </KeyboardAvoidingView>
     </Screen>
   );
 };
 
 const styles = StyleSheet.create({
-  screen: { paddingBottom: 70 },
   heading: { color: appStyles.colorBlue_263238 },
   subheading: { marginTop: 16, color: appStyles.colorBlue_263238 },
 });

@@ -121,7 +121,10 @@ export const RegisterEmail = ({ navigation }) => {
       behavior={Platform.OS === "ios" ? "padding" : null}
     >
       <Block style={styles.flexGrow}>
-        <ScrollView contentContainerStyle={styles.flexGrow}>
+        <ScrollView
+          contentContainerStyle={styles.flexGrow}
+          keyboardShouldPersistTaps="handled"
+        >
           <Heading
             heading={t("heading")}
             handleGoBack={() => navigation.goBack()}

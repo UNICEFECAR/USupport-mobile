@@ -36,6 +36,7 @@ export const Backdrop = ({
   text,
   ctaLabel,
   ctaHandleClick,
+  ctaStyle,
   closeBackdropOnCtaClick = false,
   isCtaDisabled,
   isSecondaryCtaDisabled,
@@ -119,6 +120,7 @@ export const Backdrop = ({
               paddingTop: 32,
               paddingBottom: buttonsContainerHeight * 2,
             }}
+            showsVerticalScrollIndicator={false}
           >
             {children}
           </ScrollView>
@@ -145,6 +147,7 @@ export const Backdrop = ({
                   onPress={handleClick}
                   color={ctaColor}
                   size="lg"
+                  style={ctaStyle}
                 />
               )
             ) : null}

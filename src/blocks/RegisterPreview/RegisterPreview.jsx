@@ -94,7 +94,13 @@ export const RegisterPreview = ({ navigation }) => {
             onPress={() => handleRedirect("Login")}
           />
         }
-        handleGoBack={() => navigation.goBack()}
+        handleGoBack={() => {
+          if (navigation.canGoBack()) {
+            navigation.goBack();
+          } else {
+            navigation.navigate("Welcome");
+          }
+        }}
       />
 
       <View style={styles.imageContainer}>

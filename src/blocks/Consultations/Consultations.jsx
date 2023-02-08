@@ -2,13 +2,7 @@ import Reac, { useState, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
-import {
-  AppText,
-  Block,
-  Consultation,
-  Heading,
-  TabsUnderlined,
-} from "#components";
+import { AppText, Block, Consultation, TabsUnderlined } from "#components";
 
 import { ONE_HOUR } from "#utils";
 

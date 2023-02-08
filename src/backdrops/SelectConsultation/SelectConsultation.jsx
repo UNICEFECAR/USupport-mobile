@@ -31,11 +31,10 @@ export const SelectConsultation = ({
   providerId,
   isCtaDisabled = false,
   errorMessage,
+  isInDashboard,
 }) => {
   const { t } = useTranslation("select-consultation");
-
   let providerData = useGetProviderDataById(providerId).data;
-
   const [startDate, setStartDate] = useState(null);
   const [currentDay, setCurrentDay] = useState(new Date().getTime());
 
@@ -125,6 +124,7 @@ export const SelectConsultation = ({
       text={edit === true ? t("subheading_edit") : t("subheading_new")}
       ctaLabel={t("cta_button_label")}
       ctaHandleClick={handleSave}
+      ctaStyle={isInDashboard ? { marginBottom: 85 } : {}}
       isCtaDisabled={isCtaDisabled ? true : !selectedSlot ? true : false}
       errorMessage={errorMessage}
     >
@@ -136,7 +136,8 @@ export const SelectConsultation = ({
           style={styles.calendarHeader}
         />
         <View style={styles.slotsContainer}>
-          {availableSlotsQuery.isLoading ? (
+          {availableSlotsQuery.isLoading &&
+          availableSlotsQuery.fetchStatus !== "idle" ? (
             <Loading size="md" />
           ) : (
             renderFreeSlots()
