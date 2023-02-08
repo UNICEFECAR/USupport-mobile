@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import {
@@ -10,13 +10,16 @@ import {
   ForgotPassword,
 } from "#screens";
 
+import { Context } from "#services";
+
 const Stack = createStackNavigator();
 
 export const AuthNavigation = () => {
+  const { initialAuthRouteName } = useContext(Context);
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
-      initialRouteName="Welcome"
+      initialRouteName={initialAuthRouteName}
     >
       <Stack.Screen name="Welcome" component={Welcome} />
       <Stack.Screen name="RegisterPreview" component={RegisterPreview} />
