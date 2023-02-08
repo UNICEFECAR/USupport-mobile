@@ -37,7 +37,7 @@ import { validate, validateProperty } from "#utils";
 export const UserDetails = ({
   openChangePasswordBackdrop,
   openDeleteAccountBackdrop,
-  openUploadPictureModal,
+  openSelectAvatarBackdrop,
   openDeletePictureBackdrop,
   navigation,
 }) => {
@@ -310,7 +310,7 @@ export const UserDetails = ({
             <ProfilePicturePreview
               image={clientData.image}
               handleDeleteClick={openDeletePictureBackdrop}
-              handleChangeClick={openUploadPictureModal}
+              handleChangeClick={openSelectAvatarBackdrop}
               changePhotoText={t("change_photo")}
               style={styles.profilePicturePreview}
             />

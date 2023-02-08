@@ -31,6 +31,7 @@ import {
   ActivityHistory,
   ForgotPassword,
 } from "./src/blocks/locales.js";
+
 import {
   FAQ as FAQPage,
   SelectProvider as SelectProviderScreen,
@@ -48,6 +49,7 @@ import {
   SafetyFeedback as SafetyFeedbackScreen,
   ForgotPassword as ForgotPasswordScreen,
 } from "./src/screens/locales.js";
+
 import {
   FilterProviders,
   ConfirmConsultation,
@@ -57,7 +59,9 @@ import {
   JoinConsultation,
   DeleteAccount,
   ChangePassword,
+  SelectAvatar,
 } from "./src/backdrops/locales.js";
+
 import {
   RequireRegistration,
   RequireDataAgreemant,
@@ -123,6 +127,7 @@ const resources = {
     "join-consultation": JoinConsultation.en,
     "change-password": ChangePassword.en,
     "delete-account": DeleteAccount.en,
+    "select-avatar": SelectAvatar.en,
 
     // Modals
     "require-registration": RequireRegistration.en,

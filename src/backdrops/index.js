@@ -6,3 +6,4 @@ export * from "./CancelConsultation";
 export * from "./JoinConsultation";
 export * from "./DeleteAccount";
 export * from "./ChangePassword";
+export * from "./SelectAvatar";

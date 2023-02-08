@@ -25,8 +25,10 @@ async function deleteClientProfile(password) {
   return response;
 }
 
-async function changeImage() {
-  const response = await http.put(`${API_ENDPOINT}/image`);
+async function changeImage(imageName) {
+  const response = await http.put(`${API_ENDPOINT}/image`, {
+    image: imageName,
+  });
   return response;
 }
 
