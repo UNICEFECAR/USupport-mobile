@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
 
 import { Block, AppText, ProviderOverview } from "#components";
+
+import { Context } from "#services";
 
 /**
  * SelectProvider
@@ -13,6 +15,7 @@ import { Block, AppText, ProviderOverview } from "#components";
  */
 export const SelectProvider = ({ providers, navigation }) => {
   const { t } = useTranslation("select-provider");
+  const { currencySymbol } = useContext(Context);
 
   const handleProviderClick = (providerId) => {
     navigation.push("ProviderOverview", {
@@ -37,6 +40,7 @@ export const SelectProvider = ({ providers, navigation }) => {
           image={provider.image}
           freeLabel={t("free")}
           key={index}
+          currencySymbol={currencySymbol}
         />
       );
     });

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
@@ -7,6 +7,8 @@ import { Block, Loading, AppButton } from "#components";
 import { ProviderDetails } from "../ProviderDetails/ProviderDetails";
 
 import { useGetProviderDataById } from "#hooks";
+
+import { Context } from "#services";
 
 import { AMAZON_S3_BUCKET } from "@env";
 
@@ -19,6 +21,7 @@ import { AMAZON_S3_BUCKET } from "@env";
  */
 export const ProviderOverview = ({ providerId }) => {
   const { t } = useTranslation("provider-overview");
+  const { currencySymbol } = useContext(Context);
 
   const { data: provider, isLoading } = useGetProviderDataById(providerId);
 
@@ -31,7 +34,12 @@ export const ProviderOverview = ({ providerId }) => {
           <Loading size="lg" />
         </View>
       ) : (
-        <ProviderDetails provider={provider} t={t} image={image} />
+        <ProviderDetails
+          provider={provider}
+          t={t}
+          image={image}
+          currencySymbol={currencySymbol}
+        />
       )}
     </Block>
   );

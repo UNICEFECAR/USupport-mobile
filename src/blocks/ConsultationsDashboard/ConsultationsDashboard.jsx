@@ -29,23 +29,17 @@ export const ConsultationsDashboard = ({
   upcomingConsultations,
   isLoading,
   navigation,
+  handleRegistrationModalOpen,
+  isTmpUser,
 }) => {
   const { t } = useTranslation("consultations-dashboard");
   const width = appStyles.screenWidth * 0.96;
-
-  const [isTmpUser, setIsTmpUser] = useState(null);
-
-  useEffect(() => {
-    userSvc.getUserID().then((id) => {
-      setIsTmpUser(id === "tmp-user");
-    });
-  }, []);
 
   const handleViewAll = () => {
     if (isTmpUser) {
       handleRegistrationModalOpen();
     } else {
-      navigation.push("Consultations");
+      navigation.push("TabNavigation", { screen: "Consultations" });
     }
   };
 

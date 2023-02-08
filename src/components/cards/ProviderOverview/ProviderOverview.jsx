@@ -33,11 +33,11 @@ export const ProviderOverview = ({
   earliestAvailableSlotLabel,
   onPress,
   t,
+  currencySymbol,
   handleEdit,
   handleDelete,
   handleViewProfile,
 }) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const displayName = patronym
     ? `${name} ${patronym} ${surname}`
     : `${name} ${surname}`;
@@ -70,18 +70,12 @@ export const ProviderOverview = ({
         <Avatar image={{ uri: imageURI }} size="md" />
         <View style={styles.content}>
           <View style={styles.textContent}>
-            <View style={styles.textContainer}>
+            <View style={styles.textContent}>
               <View style={styles.nameContainer}>
                 <AppText style={styles.nameText}>{displayName}</AppText>
-                <View
-                  style={styles.priceBadge}
-                  className={[
-                    !price &&
-                      "provider-overview__content__text-content__name-container__price-badge--free",
-                  ].join(" ")}
-                >
+                <View style={styles.priceBadge}>
                   <AppText namedStyle="smallText" style={styles.priceBadgeText}>
-                    {price || freeLabel}
+                    {`${price}${currencySymbol}` || freeLabel}
                   </AppText>
                 </View>
               </View>
@@ -96,7 +90,7 @@ export const ProviderOverview = ({
                 color={appStyles.colorGray_66768d}
                 style={styles.calendarIcon}
               />
-              <View className="consultation__content__text-container__date-container__text">
+              <View>
                 <AppText namedStyle="smallText">{dateText}</AppText>
                 <AppText namedStyle="smallText">{timeText}</AppText>
               </View>

@@ -28,6 +28,7 @@ export const Consultation = ({
   handleViewProfile,
   hasPriceBadge = true,
   consultation,
+  currencySymbol,
   overview,
   suggested,
   onPress,
@@ -110,7 +111,9 @@ export const Consultation = ({
         ]}
       >
         <View style={styles.content}>
-          <Avatar image={{ uri: imageUrl }} size="md" />
+          <View style={{ width: "20%" }}>
+            <Avatar image={{ uri: imageUrl }} size="md" />
+          </View>
           <View style={styles.textContainer}>
             <View style={styles.nameContainer}>
               <AppText
@@ -124,7 +127,7 @@ export const Consultation = ({
               {hasPriceBadge && (
                 <View style={styles.priceBadge}>
                   <AppText namedStyle="smallText" style={styles.textPurple}>
-                    {price || "Free"}
+                    {price ? `${price}${currencySymbol}` : t("free")}
                   </AppText>
                 </View>
               )}
@@ -252,14 +255,15 @@ const styles = StyleSheet.create({
     width: "80%",
   },
   priceBadge: {
-    display: "flex",
     alignItems: "center",
-    justifyContent: "center",
     backgroundColor: appStyles.colorPurple_dac3f6,
-    paddingVertical: 4,
-    paddingHorizontal: 8,
     borderRadius: 16,
+    display: "flex",
+    justifyContent: "center",
     marginRight: 14,
+    maxHeight: 30,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
   },
   buttonContainer: {
     width: "100%",

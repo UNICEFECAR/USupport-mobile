@@ -1,4 +1,5 @@
 {
+  "heading": "Consultations",
   "upcoming_tab_label": "Upcoming",
   "past_tab_label": "Past",
   "sunday": "Sun",
@@ -23,5 +24,7 @@
   "suggested": "Suggested",
   "view_profile": "View personal profile",
   "conducted": "Consultation ended",
-  "not_conducted": "Not conducted"
+  "not_conducted": "Not conducted",
+  "registration_needed": "To schedule consultations you need to register.",
+  "free": "Free"
 }

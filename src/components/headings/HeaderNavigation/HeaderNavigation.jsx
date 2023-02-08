@@ -1,20 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 
 import { Avatar } from "../../avatars";
-import { ButtonWithIcon } from "../../buttons/ButtonWithIcon/ButtonWithIcon";
+import { ButtonWithIcon } from "../../buttons/";
 import { Icon } from "../../icons";
 
 import { useGetClientData } from "#hooks";
 
 import { appStyles } from "#styles";
 
+import { Context } from "#services";
+
 import { AMAZON_S3_BUCKET } from "@env";
 
 export const HeaderNavigation = ({ t, navigation, style }) => {
-  const isTmpUser = false;
-  const clientQueryArray = useGetClientData(isTmpUser ? false : true);
-  const clientData = isTmpUser ? {} : clientQueryArray[0].data;
+  const { isTmpUser } = useContext(Context);
+
+  const getClientDataEnabled = isTmpUser === false ? true : false;
+  const clientDataQuery = useGetClientData(getClientDataEnabled);
+  const clientData = isTmpUser ? {} : clientDataQuery[0].data;
 
   return (
     <View style={[styles.container, { ...appStyles.shadow2 }, style]}>

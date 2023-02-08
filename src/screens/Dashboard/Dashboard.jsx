@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef, useEffect } from "react";
+import React, { useState, useMemo, useRef, useEffect, useContext } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { StyleSheet, ScrollView, View } from "react-native";
 import { useTranslation } from "react-i18next";
@@ -24,7 +24,7 @@ import {
 import { RequireDataAgreement } from "#modals";
 import { mascotHappyPurple } from "#assets";
 import { appStyles } from "#styles";
-import { userSvc } from "#services";
+import { Context } from "#services";
 import {
   useAcceptConsultation,
   useBlockSlot,
@@ -45,15 +45,10 @@ import { ONE_HOUR } from "#utils";
 export const Dashboard = ({ navigation }) => {
   const { t } = useTranslation("dashboard");
 
-  const [isTmpUser, setIsTmpUser] = useState(null);
-
-  useEffect(() => {
-    userSvc.getUserID().then((id) => {
-      setIsTmpUser(id === "tmp-user");
-    });
-  }, []);
-
-  const clientData = useGetClientData(isTmpUser === false ? true : false)[1];
+  const { isTmpUser, handleRegistrationModalOpen, currencySymbol } =
+    useContext(Context);
+  const getClientDataEnabled = isTmpUser === false ? true : false;
+  const clientData = useGetClientData(getClientDataEnabled)[1];
   const clientName = clientData
     ? clientData?.nickname || `${clientData.name} ${clientData.surname}`
     : "";
@@ -66,7 +61,6 @@ export const Dashboard = ({ navigation }) => {
   const consultationsQuery = useGetAllConsultations(
     isTmpUser === false ? true : false
   );
-  // isTmpUser === false ? useGetAllConsultations() : {};
 
   const upcomingConsultations = useMemo(() => {
     const currentDateTs = new Date().getTime();
@@ -243,6 +237,7 @@ export const Dashboard = ({ navigation }) => {
               openEditConsultation={openEditConsultation}
               handleScheduleConsultation={handleScheduleConsultation}
               handleAcceptSuggestion={handleAcceptSuggestion}
+              handleRegistrationModalOpen={handleRegistrationModalOpen}
             />
           )}
         </MascotHeadingBlock>
@@ -252,8 +247,13 @@ export const Dashboard = ({ navigation }) => {
           openEditConsultation={openEditConsultation}
           handleAcceptSuggestion={handleAcceptSuggestion}
           handleSchedule={handleScheduleConsultation}
+          isTmpUser={isTmpUser}
+          handleRegistrationModalOpen={handleRegistrationModalOpen}
           upcomingConsultations={upcomingConsultations}
-          isLoading={consultationsQuery.isLoading}
+          isLoading={
+            consultationsQuery.isLoading &&
+            consultationsQuery.fetchStatus !== "idle"
+          }
           t={t}
           navigation={navigation}
         />
@@ -270,6 +270,7 @@ export const Dashboard = ({ navigation }) => {
         providerId={selectedConsultationProviderId}
         isCtaDisabled={isBlockSlotSubmitting}
         errorMessage={blockSlotError}
+        isInDashboard
       />
       {selectedConsultation && (
         <>
@@ -279,11 +280,13 @@ export const Dashboard = ({ navigation }) => {
             openCancelConsultation={openCancelConsultation}
             openSelectConsultation={openSelectConsultation}
             consultation={selectedConsultation}
+            currencySymbol={currencySymbol}
           />
           <CancelConsultation
             isOpen={isCancelConsultationOpen}
             onClose={closeCancelConsultation}
             consultation={selectedConsultation}
+            currencySymbol={currencySymbol}
           />
         </>
       )}

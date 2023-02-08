@@ -15,7 +15,13 @@ import { appStyles } from "#styles";
  *
  * @return {jsx}
  */
-export const ProviderDetails = ({ provider, image, t, buttonComponent }) => {
+export const ProviderDetails = ({
+  provider,
+  image,
+  t,
+  buttonComponent,
+  currencySymbol,
+}) => {
   const [isVideoShown, setVideoShown] = useState(false);
 
   useEffect(() => {
@@ -114,7 +120,8 @@ export const ProviderDetails = ({ provider, image, t, buttonComponent }) => {
           <View style={styles.iconAndTextContainer}>
             <Icon name="dollar" size="md" />
             <AppText style={styles.marginLeft12}>
-              {provider.consultationPrice} {t("$ for 1 hour consultation")}
+              {provider.consultationPrice}
+              {t("hour_consultation", { currencySymbol })}
             </AppText>
           </View>
         ) : null}

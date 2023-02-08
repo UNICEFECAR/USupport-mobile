@@ -1,18 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
 
-import {
-  Screen,
-  Block,
-  AppButton,
-  Heading,
-  Backdrop,
-  AppText,
-} from "#components";
+import { Screen, Block, AppButton, Heading } from "#components";
 import { Consultations as ConsultationsBlock } from "#blocks";
 import { EditConsultation, CancelConsultation } from "#backdrops";
+
+import { Context } from "#services";
 
 import {
   useBlockSlot,
@@ -30,8 +25,10 @@ import {
 export const Consultations = ({ navigation }) => {
   const { t } = useTranslation("consultations-screen");
 
+  const { isTmpUser, handleRegistrationModalOpen, currencySymbol } =
+    useContext(Context);
+
   const queryClient = useQueryClient();
-  const navigate = navigation;
 
   const clientData = useGetClientData()[1];
 
@@ -138,16 +135,18 @@ export const Consultations = ({ navigation }) => {
   };
 
   const handleScheduleConsultationClick = () => {
-    if (!clientData.dataProcessing) {
+    if (isTmpUser) {
+      handleRegistrationModalOpen();
+    } else if (!clientData.dataProcessing) {
       openRequireDataAgreement();
     } else {
       navigation.push("SelectProvider");
     }
   };
 
-  const handleDataAgreementSuccess = () => {
-    navigate("/select-provider");
-  };
+  // const handleDataAgreementSuccess = () => {
+  //   navigate("/select-provider");
+  // };
   const [isScheduleBackdropOpen, setIsScheduleBackdropOpen] = useState(false);
 
   return (
@@ -160,16 +159,13 @@ export const Consultations = ({ navigation }) => {
             style={styles.button}
             onPress={handleScheduleConsultationClick}
           />
-          <Heading
-            heading={t("heading")}
-            style={{ marginVertical: 20 }}
-            handleGoBack={() => navigation.goBack()}
-          />
         </Block>
         <ConsultationsBlock
           openJoinConsultation={openJoinConsultation}
           openEditConsultation={openEditConsultation}
+          isTmpUser={isTmpUser}
           navigation={navigation}
+          currencySymbol={currencySymbol}
         />
       </ScrollView>
       {selectedConsultation && (
@@ -180,11 +176,13 @@ export const Consultations = ({ navigation }) => {
             openCancelConsultation={openCancelConsultation}
             openSelectConsultation={openSelectConsultation}
             consultation={selectedConsultation}
+            currencySymbol={currencySymbol}
           />
           <CancelConsultation
             isOpen={isCancelConsultationOpen}
             onClose={closeCancelConsultation}
             consultation={selectedConsultation}
+            currencySymbol={currencySymbol}
           />
         </>
       )}

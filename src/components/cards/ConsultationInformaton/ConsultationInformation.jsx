@@ -25,6 +25,7 @@ export const ConsultationInformation = ({
   providerName,
   providerImage = specialistPlaceholder,
   price = "Free",
+  currencySymbol,
   style,
   showPriceBadge = true,
   t,
@@ -61,15 +62,15 @@ export const ConsultationInformation = ({
           </View>
         </View>
       </View>
-      {showPriceBadge && (
+      {showPriceBadge ? (
         <View style={styles.priceBadgeContainer}>
           <View style={styles.priceBadge}>
             <AppText namedStyle="smallText" style={styles.priceBadgeText}>
-              {price || "Free"}
+              {`${price}${currencySymbol}` || "Free"}
             </AppText>
           </View>
         </View>
-      )}
+      ) : null}
     </View>
   );
 };

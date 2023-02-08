@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { NavigationContainer } from "@react-navigation/native";
 
@@ -16,7 +16,7 @@ const kazakhstanCountry = {
 };
 
 export function Navigation() {
-  const { token } = useContext(Context);
+  const { token, setCurrencySymbol } = useContext(Context);
 
   const fetchCountries = async () => {
     const localStorageCountry = await localStorage.getItem("country");
@@ -40,6 +40,7 @@ export function Navigation() {
       if (localStorageCountry === x.alpha2) {
         localStorage.setItem("country_id", countryID);
         localStorage.setItem("currency_symbol", currencySymbol);
+        setCurrencySymbol(currencySymbol);
       } else if (!localStorageCountry) {
         if (validCountry?.alpha2 === x.alpha2) {
           hasSetDefaultCountry = true;
@@ -47,6 +48,8 @@ export function Navigation() {
           localStorage.setItem("country", x.alpha2);
           localStorage.setItem("country_id", countryObject.countryID);
           localStorage.setItem("currency_symbol", countryObject.currencySymbol);
+
+          setCurrencySymbol(countryObject.currencySymbol);
         }
       }
 
@@ -64,14 +67,16 @@ export function Navigation() {
         "currency_symbol",
         kazakhstanCountryObject.currencySymbol
       );
+
+      setCurrencySymbol(kazakhstanCountryObject.currencySymbol);
     }
 
     return await countries;
   };
 
-  const countriesQuery = useQuery(["countries"], fetchCountries, {
+  useQuery(["countries"], fetchCountries, {
     staleTime: Infinity,
-    onError: console.log,
+    onError: (err) => console.log(err, "fetch countries error"),
   });
 
   return (

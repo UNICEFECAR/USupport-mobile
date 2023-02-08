@@ -2,7 +2,13 @@ import Reac, { useState, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
-import { Block, TabsUnderlined, Consultation, AppText } from "#components";
+import {
+  AppText,
+  Block,
+  Consultation,
+  Heading,
+  TabsUnderlined,
+} from "#components";
 
 import { ONE_HOUR } from "#utils";
 
@@ -22,7 +28,9 @@ import {
 export const Consultations = ({
   openEditConsultation,
   openJoinConsultation,
+  isTmpUser,
   navigation,
+  currencySymbol,
 }) => {
   const { t } = useTranslation("consultations");
 
@@ -128,6 +136,7 @@ export const Consultations = ({
   }, [consultationsQuery.data, filter]);
 
   const renderAllConsultations = useMemo(() => {
+    if (isTmpUser) return <AppText>{t("registration_needed")}</AppText>;
     const filteredConsultations = filterConsultations();
 
     if (filteredConsultations?.length === 0)
@@ -141,7 +150,6 @@ export const Consultations = ({
         </AppText>
       );
     return filteredConsultations?.map((consultation, index) => {
-      const hasMoreThanOne = filteredConsultations.length > 1;
       return (
         <Consultation
           renderIn="client"
@@ -154,6 +162,7 @@ export const Consultations = ({
           suggested={consultation.status === "suggested" ? true : false}
           handleAcceptConsultation={acceptConsultation}
           handleRejectConsultation={rejectConsultation}
+          currencySymbol={currencySymbol}
           key={consultation.consultationId}
           t={t}
           style={styles.consultation}
@@ -164,6 +173,12 @@ export const Consultations = ({
 
   return (
     <Block>
+      <AppText
+        namedStyle="h2"
+        style={{ marginVertical: 20, textAlign: "center", alignSelf: "center" }}
+      >
+        {t("heading")}
+      </AppText>
       <TabsUnderlined
         options={tabsOptions}
         handleSelect={handleTabClick}

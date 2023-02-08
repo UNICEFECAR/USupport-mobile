@@ -29,5 +29,5 @@
   "personal_development": "Personal development",
   "video_label": "Video representation",
 
-  "hour_consultation": "for 1 hour consultation"
+  "hour_consultation": "{{currencySymbol}} for 1 hour consultation"
 }

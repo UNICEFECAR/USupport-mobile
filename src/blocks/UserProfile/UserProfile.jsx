@@ -27,11 +27,11 @@ import { AMAZON_S3_BUCKET } from "@env";
 export const UserProfile = ({ navigation }) => {
   const { t } = useTranslation("user-profile");
 
-  const { setToken } = useContext(Context);
+  const { setToken, isTmpUser, handleRegistrationModalOpen } =
+    useContext(Context);
 
   const [displayName, setDisplayName] = useState("");
 
-  const isTmpUser = false;
   const clientQueryArray = useGetClientData(isTmpUser ? false : true);
   const clientData = isTmpUser ? {} : clientQueryArray[0].data;
 
@@ -45,8 +45,18 @@ export const UserProfile = ({ navigation }) => {
     }
   }, [clientData]);
 
+  const protectedPages = [
+    "UserDetails",
+    "Passcode",
+    "NotificationPreferences",
+    "PlatformRating",
+  ];
   const handleRedirect = (redirectTo) => {
-    navigation.push(redirectTo);
+    if (protectedPages.includes(redirectTo) && isTmpUser) {
+      handleRegistrationModalOpen();
+    } else {
+      navigation.push(redirectTo);
+    }
   };
 
   const handleLogout = () => {
