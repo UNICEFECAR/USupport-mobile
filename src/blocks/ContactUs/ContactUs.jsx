@@ -144,7 +144,8 @@ export const ContactUs = ({ navigation }) => {
         size="lg"
         label={t("button")}
         style={styles.button}
-        disabled={!canSubmit || sendIssueEmailMutation.isLoading}
+        disabled={!canSubmit}
+        loading={sendIssueEmailMutation.isLoading}
         onPress={handleSubmit}
       />
     </Block>

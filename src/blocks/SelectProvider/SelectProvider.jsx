@@ -28,19 +28,20 @@ export const SelectProvider = ({ providers, navigation }) => {
     return providers?.map((provider, index) => {
       return (
         <ProviderOverview
-          provider={provider}
-          name={provider.name}
-          patronym={provider.patronym}
-          surname={provider.surname}
-          specializations={provider.specializations.map((x) => t(x))}
-          price={provider.consultationPrice}
-          t={t}
-          earliestAvailableSlot={provider.earliestAvailableSlot}
-          onPress={() => handleProviderClick(provider.providerDetailId)}
-          image={provider.image}
-          freeLabel={t("free")}
-          key={index}
           currencySymbol={currencySymbol}
+          earliestAvailableSlot={provider.earliestAvailableSlot}
+          freeLabel={t("free")}
+          image={provider.image}
+          key={index}
+          name={provider.name}
+          onPress={() => handleProviderClick(provider.providerDetailId)}
+          patronym={provider.patronym}
+          price={provider.consultationPrice}
+          provider={provider}
+          specializations={provider.specializations.map((x) => t(x))}
+          surname={provider.surname}
+          style={{ marginBottom: 12 }}
+          t={t}
         />
       );
     });

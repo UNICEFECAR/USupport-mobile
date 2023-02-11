@@ -67,7 +67,7 @@ export const ForgotPassword = ({ navigation }) => {
         <AppButton
           label={t("reset_password_button_label")}
           size="lg"
-          onPress={() => handleResetPassword()}
+          onPress={handleResetPassword}
           disabled={canContinue}
           style={styles.button}
         />

@@ -56,11 +56,6 @@ export const UserDetails = ({
 
   const [dataProcessing, setDataProcessing] = useState(null);
   const [dataProcessingModalOpen, setDataProcessingModalOpen] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [
-    isProcessingUpdateDataProcessing,
-    setIsProcessingUpdateDataProcessing,
-  ] = useState(false);
 
   const defaultSchema = {
     nickname: Joi.string().required().label(t("nickname_error")),
@@ -175,12 +170,9 @@ export const UserDetails = ({
     return [];
   }, [countriesData, ages]);
 
-  const onUpdateSuccess = () => {
-    setIsProcessing(false);
-  };
+  const onUpdateSuccess = () => {};
   const onUpdateError = (error) => {
     setErrors({ submit: error });
-    setIsProcessing(false);
   };
   const userDataMutation = useUpdateClientData(
     clientData,
@@ -227,7 +219,6 @@ export const UserDetails = ({
       nickname: clientData.nickname,
     };
     if ((await validate(dataToValidate, schema, setErrors)) === null) {
-      setIsProcessing(true);
       userDataMutation.mutate();
     }
   };
@@ -238,7 +229,6 @@ export const UserDetails = ({
 
   const updateDataProcessing = async (value) => {
     setDataProcessing(value); // Perform an optimistic update
-    setIsProcessingUpdateDataProcessing(true);
 
     const res = await clientSvc.changeDataProcessingAgreement(value);
     return res.data.data_processing;
@@ -247,13 +237,11 @@ export const UserDetails = ({
   const updateDataProcessingMutation = useMutation(updateDataProcessing, {
     onSuccess: (data) => {
       setDataProcessing(data);
-      setIsProcessingUpdateDataProcessing(false);
       closeDataProcessingModal(false);
       queryClient.invalidateQueries({ queryKey: ["client-data"] });
     },
     onError: (error) => {
       setDataProcessing((prev) => !prev); // Revert the optimistic update
-      setIsProcessingUpdateDataProcessing(false);
     },
   });
 
@@ -392,7 +380,8 @@ export const UserDetails = ({
                 label={t("button_text")}
                 size="lg"
                 onPress={handleSave}
-                disabled={isSaveDisabled || isProcessing}
+                disabled={isSaveDisabled}
+                loading={userDataMutation.isLoading}
               />
 
               <AppButton
@@ -459,7 +448,7 @@ export const UserDetails = ({
         ctaHandleClick={() => {
           updateDataProcessingMutation.mutate(false);
         }}
-        isCtaDisabled={isProcessingUpdateDataProcessing}
+        isCtaLoading={updateDataProcessingMutation.isLoading}
         secondaryCtaLabel={t("data_processing_modal_cancel_button")}
         secondaryCtaType="secondary"
         secondaryCtaHandleClick={() => closeDataProcessingModal(true)}

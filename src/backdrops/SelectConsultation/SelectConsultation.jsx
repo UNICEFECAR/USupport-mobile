@@ -30,6 +30,7 @@ export const SelectConsultation = ({
   handleBlockSlot,
   providerId,
   isCtaDisabled = false,
+  isCtaLoading = false,
   errorMessage,
   isInDashboard,
 }) => {
@@ -68,7 +69,7 @@ export const SelectConsultation = ({
   };
 
   const handleChooseSlot = (slot) => {
-    setSelectedSlot(slot);
+    setSelectedSlot(slot), providerData.consultationPrice;
   };
 
   const renderFreeSlots = () => {
@@ -126,6 +127,7 @@ export const SelectConsultation = ({
       ctaHandleClick={handleSave}
       ctaStyle={isInDashboard ? { marginBottom: 85 } : {}}
       isCtaDisabled={isCtaDisabled ? true : !selectedSlot ? true : false}
+      isCtaLoading={isCtaLoading}
       errorMessage={errorMessage}
     >
       <View className="select-consultation__content-container">

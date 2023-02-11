@@ -99,7 +99,8 @@ export const PlatformRating = ({ navigation }) => {
               label={t("button_label")}
               size="lg"
               onPress={() => handleSendRating()}
-              disabled={canContinue || addPlatformRatingMutation.isLoading}
+              disabled={canContinue}
+              loading={addPlatformRatingMutation.isLoading}
               style={[styles.marginTop32]}
             />
           </View>
