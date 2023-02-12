@@ -97,18 +97,18 @@ export const Backdrop = ({
       {isOverlayShown ? <Overlay /> : null}
       <Animated.View style={[styles.backdrop, backdropStyle]}>
         <View>
+          <TouchableOpacity onPress={handleCloseBackdrop}>
+            <Icon
+              name="close-x"
+              size="md"
+              color={appStyles.colorPrimary_20809e}
+              style={styles.icon}
+            />
+          </TouchableOpacity>
           <View style={styles.header}>
             <AppText namedStyle="h3" style={styles.headingText}>
               {heading}
             </AppText>
-            <TouchableOpacity onPress={handleCloseBackdrop}>
-              <Icon
-                name="close-x"
-                size="md"
-                color={appStyles.colorPrimary_20809e}
-                style={styles.icon}
-              />
-            </TouchableOpacity>
           </View>
           <View>
             <AppText style={styles.subheading}>{text}</AppText>
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
     zIndex: 99,
   },
   header: {
-    width: "100%",
+    width: "90%",
   },
   headingText: {
     color: appStyles.colorBlue_3d527b,
@@ -216,8 +216,8 @@ const styles = StyleSheet.create({
   },
   icon: {
     position: "absolute",
-    right: 16,
-    bottom: 0,
+    right: 10,
+    top: 0,
   },
   buttonContainer: {
     alignItems: "center",
