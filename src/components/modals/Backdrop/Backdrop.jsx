@@ -18,6 +18,7 @@ import { AppText } from "../../texts";
 import { Icon } from "../../icons";
 import { AppButton } from "../../buttons";
 import { Loading } from "../../loaders/";
+import { Error } from "../../errors/";
 
 import { appStyles } from "#styles";
 
@@ -39,10 +40,13 @@ export const Backdrop = ({
   ctaStyle,
   closeBackdropOnCtaClick = false,
   isCtaDisabled,
+  isCtaLoading,
   isSecondaryCtaDisabled,
+  isSecondaryCtaLoading,
   secondaryCtaLabel,
   secondaryCtaHandleClick,
   secondaryCtaType = "ghost",
+  secondaryCtaStyle,
   ctaColor = "green",
   secondaryCtaColor = "green",
   showLoadingIfDisabled = false,
@@ -143,7 +147,8 @@ export const Backdrop = ({
               ) : (
                 <AppButton
                   label={ctaLabel}
-                  disabled={isCtaDisabled}
+                  disabled={isCtaDisabled || isCtaLoading}
+                  loading={isCtaLoading}
                   onPress={handleClick}
                   color={ctaColor}
                   size="lg"
@@ -160,11 +165,12 @@ export const Backdrop = ({
                 <AppButton
                   label={secondaryCtaLabel}
                   onPress={secondaryCtaHandleClick}
-                  disabled={isSecondaryCtaDisabled}
+                  disabled={isSecondaryCtaDisabled || isSecondaryCtaLoading}
+                  loading={isSecondaryCtaLoading}
                   size="lg"
                   type={secondaryCtaType}
                   color={secondaryCtaColor}
-                  style={styles.secondButton}
+                  style={[styles.secondButton, secondaryCtaStyle]}
                 />
               )
             ) : null}
