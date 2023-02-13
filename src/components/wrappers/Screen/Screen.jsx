@@ -21,6 +21,7 @@ export function Screen({
   children,
   style,
   isBackgroundColorEnabled = true,
+  backgroundColor,
   outsideComponent,
   hasRadialGradient = true,
   hasEmergencyButton = true,
@@ -40,7 +41,11 @@ export function Screen({
     <SafeAreaView
       style={[
         styles.screen,
-        isBackgroundColorEnabled ? styles.screenBackground : "",
+        backgroundColor
+          ? { backgroundColor }
+          : isBackgroundColorEnabled
+          ? styles.screenBackground
+          : "",
       ]}
     >
       <StatusBar
@@ -103,7 +108,7 @@ const styles = StyleSheet.create({
   },
   emergencyButton: {
     position: "absolute",
-    bottom: 16,
+    bottom: 75,
     right: 16,
     zIndex: 999,
   },
