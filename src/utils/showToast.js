@@ -1,11 +1,11 @@
 import { showMessage } from "react-native-flash-message";
 import { appStyles } from "#styles";
 
-export const showToast = ({ message, type = "success" }) => {
+export const showToast = ({ message, type = "success", autoHide = true }) => {
   showMessage({
     message,
     type,
-    autoHide: true,
+    autoHide,
     hideStatusBar: true,
     titleStyle: {
       textAlign: "center",
