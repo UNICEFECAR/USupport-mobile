@@ -29,6 +29,7 @@ export function TransparentModal({
   secondaryCtaLabel,
   secondaryCtaHandleClick,
   isSecondaryCtaDisabled = false,
+  isCtaLoading = false,
   secondaryCtaType,
   isOpen,
   style,
@@ -63,6 +64,7 @@ export function TransparentModal({
                     onPress={ctaHandleClick}
                     size="lg"
                     disabled={isCtaDisabled}
+                    loading={isCtaLoading}
                   />
                 ) : null}
                 {secondaryCtaLabel && (

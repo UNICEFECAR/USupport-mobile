@@ -60,7 +60,11 @@ export const ConsultationDashboard = ({
               label={t("accept_button_label")}
               size="sm"
               onPress={() =>
-                handleAcceptSuggestion(consultation.consultationId, price)
+                handleAcceptSuggestion(
+                  consultation.consultationId,
+                  price,
+                  timestamp
+                )
               }
               style={styles.marginTop8}
             />

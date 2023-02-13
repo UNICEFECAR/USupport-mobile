@@ -208,7 +208,8 @@ export const RegisterAboutYou = ({ navigation }) => {
 
         <View style={styles.buttonContainer}>
           <AppButton
-            disabled={!canContinue || updateClientDetailsMutation.isLoading}
+            disabled={!canContinue}
+            loading={updateClientDetailsMutation.isLoading}
             size="lg"
             label={t("button_continue_label")}
             onPress={() => handleContinue()}

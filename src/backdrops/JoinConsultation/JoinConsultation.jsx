@@ -1,9 +1,11 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
+import { useNavigation } from "@react-navigation/native";
 
 import { Backdrop, ButtonSelector } from "#components";
-import { userSvc } from "#services";
+import { userSvc, messageSvc } from "#services";
+import { showToast } from "../../utils/showToast";
 
 /**
  * JoinConsultation
@@ -13,7 +15,7 @@ import { userSvc } from "#services";
  * @return {jsx}
  */
 export const JoinConsultation = ({ isOpen, onClose, consultation }) => {
-  // const navigate = useNavigate();
+  const navigation = useNavigation();
   const { t } = useTranslation("join-consultation");
 
   const handleClick = async (redirectTo) => {
@@ -39,11 +41,14 @@ export const JoinConsultation = ({ isOpen, onClose, consultation }) => {
       ]);
       const token = result[1].data.token;
 
-      navigate("/consultation", {
-        state: { consultation, videoOn: redirectTo === "video", token },
+      navigation.navigate("Consultation", {
+        consultation,
+        videoOn: redirectTo === "video",
+        token,
       });
-    } catch {
-      toast(t("error"), { type: "error" });
+    } catch (err) {
+      console.log(err);
+      showToast({ message: t("error"), type: "error" });
     }
 
     onClose();
@@ -63,13 +68,13 @@ export const JoinConsultation = ({ isOpen, onClose, consultation }) => {
           label={t("button_label_1")}
           iconName="video"
           style={styles.buttonSelector}
-          onClick={() => handleClick("video")}
+          onPress={() => handleClick("video")}
         />
         <ButtonSelector
           label={t("button_label_2")}
           iconName="comment"
           style={styles.buttonSelector}
-          onClick={() => handleClick("chat")}
+          onPress={() => handleClick("chat")}
         />
       </View>
     </Backdrop>

@@ -6,6 +6,8 @@ import { StyleSheet, View, Image } from "react-native";
 import { Backdrop, AppText } from "#components";
 import { mascotHappyOrange } from "#assets";
 
+import { getMonthName, getTimeAsString } from "#utils";
+
 /**
  * ConfirmConsultation
  *
@@ -13,13 +15,22 @@ import { mascotHappyOrange } from "#assets";
  *
  * @return {jsx}
  */
-export const ConfirmConsultation = ({ isOpen, onClose, consultation }) => {
+export const ConfirmConsultation = ({
+  isOpen,
+  onClose,
+  consultation,
+  customMascotImage,
+  customHeading,
+  customDescription,
+  customButtonLabel,
+  ctaStyle,
+}) => {
   const { t } = useTranslation("confirm-consultation");
   const navigation = useNavigation();
 
   const handleContinue = () => {
     onClose();
-    navigation.navigate("Consultation");
+    navigation.navigate("TabNavigation", { screen: "Consultations" });
   };
 
   const { startDate, endDate } = consultation;
@@ -28,21 +39,26 @@ export const ConfirmConsultation = ({ isOpen, onClose, consultation }) => {
     <Backdrop
       isOpen={isOpen}
       onClose={onClose}
-      ctaLabel={t("ctaLabel")}
+      ctaLabel={customButtonLabel || t("ctaLabel")}
       ctaHandleClick={handleContinue}
+      ctaStyle={ctaStyle}
     >
       <View style={styles.contentContainer}>
-        <Image source={mascotHappyOrange} style={styles.image} />
+        <Image
+          source={customMascotImage || mascotHappyOrange}
+          style={styles.image}
+        />
         <View style={styles.textContainer}>
-          <AppText namedStyle="h3">{t("heading")}</AppText>
+          <AppText namedStyle="h3">{customHeading || t("heading")}</AppText>
           <AppText style={styles.text}>
-            {t("text", {
-              startDate: startDate.getDate(),
-              month: getMonthName(startDate),
-              year: startDate.getFullYear(),
-              startTime: getTimeAsString(startDate),
-              endTime: getTimeAsString(endDate),
-            })}
+            {customDescription ||
+              t("text", {
+                startDate: startDate.getDate(),
+                month: getMonthName(startDate),
+                year: startDate.getFullYear(),
+                startTime: getTimeAsString(startDate),
+                endTime: getTimeAsString(endDate),
+              })}
           </AppText>
         </View>
       </View>

@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useRef, useEffect, useContext } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { StyleSheet, ScrollView, View } from "react-native";
+import { StyleSheet, ScrollView, View, RefreshControl } from "react-native";
 import { useTranslation } from "react-i18next";
 
 import {
@@ -10,21 +10,26 @@ import {
   ConsultationDashboard,
   Loading,
 } from "#components";
+
 import {
   ArticlesDashboard,
   MascotHeadingBlock,
   ConsultationsDashboard,
 } from "#blocks";
+
 import {
   EditConsultation,
   CancelConsultation,
   JoinConsultation,
   SelectConsultation,
+  ConfirmConsultation,
 } from "#backdrops";
+
 import { RequireDataAgreement } from "#modals";
 import { mascotHappyPurple } from "#assets";
 import { appStyles } from "#styles";
 import { Context } from "#services";
+
 import {
   useAcceptConsultation,
   useBlockSlot,
@@ -33,7 +38,8 @@ import {
   useScheduleConsultation,
   useGetClientData,
 } from "#hooks";
-import { ONE_HOUR } from "#utils";
+
+import { ONE_HOUR, showToast } from "#utils";
 
 /**
  * Dashboard
@@ -52,7 +58,6 @@ export const Dashboard = ({ navigation }) => {
   const clientName = clientData
     ? clientData?.nickname || `${clientData.name} ${clientData.surname}`
     : "";
-
   const queryClient = useQueryClient();
 
   const consultationPrice = useRef();
@@ -78,6 +83,17 @@ export const Dashboard = ({ navigation }) => {
     }
     return null;
   }, [consultationsQuery.data]);
+
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await Promise.all([
+      queryClient.invalidateQueries({ queryKey: ["all-consultations"] }),
+      queryClient.invalidateQueries({ queryKey: ["client-data"] }),
+    ]);
+    setRefreshing(false);
+  };
 
   const [isRequireDataAgreementOpen, setIsRequireDataAgreementOpen] =
     useState(false);
@@ -111,10 +127,10 @@ export const Dashboard = ({ navigation }) => {
   const closeJoinConsultation = () => setIsJoinConsultationOpen(false);
 
   const [isEditingConsultation, setIsEditingConsultation] = useState(true);
-  const [isBlockSlotSubmitting, setIsBlockSlotSubmitting] = useState(false);
   const [blockSlotError, setBlockSlotError] = useState();
   const [consultationId, setConsultationId] = useState();
-  const [selectedSlot, setSelectedSlot] = useState();
+
+  const selectedSlot = useRef();
 
   // Modal state variables
   const [
@@ -137,23 +153,26 @@ export const Dashboard = ({ navigation }) => {
   // Accept consultation logic
 
   const onAcceptConsultationSuccess = () => {
-    toast(t("accept_success"));
+    showToast({ message: t("accept_success") });
   };
   const onAcceptConsultationError = (error) => {
-    toast(error, { type: "error" });
+    showToast({ message: error, type: "error" });
   };
   const acceptConsultationMutation = useAcceptConsultation(
     onAcceptConsultationSuccess,
     onAcceptConsultationError
   );
 
-  const handleAcceptSuggestion = (consultationId, price) => {
-    acceptConsultationMutation.mutate({ consultationId, price });
+  const handleAcceptSuggestion = (consultationId, price, slot) => {
+    acceptConsultationMutation.mutate({
+      consultationId,
+      price,
+      slot,
+    });
   };
 
   // Schedule consultation logic
   const onRescheduleConsultationSuccess = () => {
-    setIsBlockSlotSubmitting(false);
     setConsultationId(consultationId);
     closeSelectConsultationBackdrop();
     openConfirmConsultationBackdrop();
@@ -163,7 +182,6 @@ export const Dashboard = ({ navigation }) => {
   };
   const onRescheduleConsultationError = (error) => {
     setBlockSlotError(error);
-    setIsBlockSlotSubmitting(false);
   };
   const rescheduleConsultationMutation = useRescheduleConsultation(
     onRescheduleConsultationSuccess,
@@ -187,7 +205,10 @@ export const Dashboard = ({ navigation }) => {
       });
     } else {
       if (consultationPrice.current && consultationPrice.current > 0) {
-        navigate(`/checkout`, { state: { consultationId: consultationId } });
+        navigation.navigate("Checkout", {
+          consultationId: consultationId,
+          selectedSlot: selectedSlot.current,
+        });
       } else {
         scheduleConsultationMutation.mutate(selectedConsultationId);
       }
@@ -195,13 +216,11 @@ export const Dashboard = ({ navigation }) => {
   };
   const onBlockSlotError = (error) => {
     setBlockSlotError(error);
-    setIsBlockSlotSubmitting(false);
   };
   const blockSlotMutation = useBlockSlot(onBlockSlotSuccess, onBlockSlotError);
 
   const handleBlockSlot = (slot, price) => {
-    setIsBlockSlotSubmitting(true);
-    setSelectedSlot(slot);
+    selectedSlot.current = slot;
     consultationPrice.current = price;
     blockSlotMutation.mutate({
       slot,
@@ -216,11 +235,20 @@ export const Dashboard = ({ navigation }) => {
     }
   };
 
-  const handleDataAgreementSucess = () => navigate("/select-provider");
+  const handleDataAgreementSucess = () => navigation.navigate("SelectProvider");
+  const isSelectConsultationLoading =
+    blockSlotMutation.isLoading || rescheduleConsultationMutation.isLoading;
 
   return (
     <Screen hasHeaderNavigation t={t} hasEmergencyButton={false}>
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => onRefresh()}
+          />
+        }
+      >
         <MascotHeadingBlock
           image={mascotHappyPurple}
           style={styles.mascotHeadingBlock}
@@ -241,7 +269,7 @@ export const Dashboard = ({ navigation }) => {
             />
           )}
         </MascotHeadingBlock>
-        <ArticlesDashboard navigation={navigation} />
+        {/* <ArticlesDashboard navigation={navigation} /> */}
         <ConsultationsDashboard
           openJoinConsultation={openJoinConsultation}
           openEditConsultation={openEditConsultation}
@@ -268,7 +296,7 @@ export const Dashboard = ({ navigation }) => {
         onClose={closeSelectConsultationBackdrop}
         handleBlockSlot={handleBlockSlot}
         providerId={selectedConsultationProviderId}
-        isCtaDisabled={isBlockSlotSubmitting}
+        isCtaLoading={isSelectConsultationLoading}
         errorMessage={blockSlotError}
         isInDashboard
       />
@@ -281,15 +309,33 @@ export const Dashboard = ({ navigation }) => {
             openSelectConsultation={openSelectConsultation}
             consultation={selectedConsultation}
             currencySymbol={currencySymbol}
+            t={t}
           />
           <CancelConsultation
             isOpen={isCancelConsultationOpen}
             onClose={closeCancelConsultation}
             consultation={selectedConsultation}
             currencySymbol={currencySymbol}
+            secondaryCtaStyle={styles.marginBottom85}
+            t={t}
           />
         </>
       )}
+      {selectedSlot.current ? (
+        <ConfirmConsultation
+          isOpen={isConfirmBackdropOpen}
+          onClose={closeConfirmConsultationBackdrop}
+          ctaStyle={styles.marginBottom85}
+          consultation={{
+            startDate: new Date(selectedSlot.current),
+            endDate: new Date(
+              new Date(selectedSlot.current).setHours(
+                new Date(selectedSlot.current).getHours() + 1
+              )
+            ),
+          }}
+        />
+      ) : null}
       <RequireDataAgreement
         isOpen={isRequireDataAgreementOpen}
         onClose={closeRequireDataAgreement}
@@ -356,4 +402,5 @@ const styles = StyleSheet.create({
   mascotHeadingBlock: { paddingTop: 70 },
   alignSelfStart: { alignSelf: "flex-start" },
   colorTextBlue: { color: appStyles.colorBlue_263238 },
+  marginBottom85: { marginBottom: 85 },
 });

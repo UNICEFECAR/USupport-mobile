@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
     width: "85%",
     maxWidth: 280,
     alignSelf: "center",
+    marginBottom: 12,
   },
   title: {
     color: appStyles.colorPrimary_20809e,

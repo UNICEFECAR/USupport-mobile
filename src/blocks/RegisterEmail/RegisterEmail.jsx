@@ -176,7 +176,8 @@ export const RegisterEmail = ({ navigation }) => {
             onPress={handleRegister}
             type="primary"
             color="green"
-            disabled={!data.isPrivacyAndTermsSelected || isSubmitting}
+            disabled={!data.isPrivacyAndTermsSelected}
+            loading={isSubmitting}
             style={styles.registerButton}
           />
           <AppButton

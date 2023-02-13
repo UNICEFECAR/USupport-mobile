@@ -34,9 +34,15 @@ export const Consultation = ({
   onPress,
   style,
 }) => {
-  const { providerId, consultationId, timestamp, image, status, price } =
-    consultation;
-
+  const {
+    providerId,
+    clientDetailId,
+    consultationId,
+    timestamp,
+    image,
+    status,
+    price,
+  } = consultation;
   const renderIn = "client";
   //   const isPast = consultation
   //     ? new Date(timestamp).getTime() < new Date().getTime()
@@ -78,7 +84,7 @@ export const Consultation = ({
     : "";
 
   const handleAccepConsultationPress = () => {
-    handleAcceptConsultation(consultationId);
+    handleAcceptConsultation(consultationId, price, timestamp);
   };
 
   const handleRejectConsultationPress = () => {

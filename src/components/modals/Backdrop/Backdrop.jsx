@@ -18,6 +18,7 @@ import { AppText } from "../../texts";
 import { Icon } from "../../icons";
 import { AppButton } from "../../buttons";
 import { Loading } from "../../loaders/";
+import { Error } from "../../errors/";
 
 import { appStyles } from "#styles";
 
@@ -39,10 +40,13 @@ export const Backdrop = ({
   ctaStyle,
   closeBackdropOnCtaClick = false,
   isCtaDisabled,
+  isCtaLoading,
   isSecondaryCtaDisabled,
+  isSecondaryCtaLoading,
   secondaryCtaLabel,
   secondaryCtaHandleClick,
   secondaryCtaType = "ghost",
+  secondaryCtaStyle,
   ctaColor = "green",
   secondaryCtaColor = "green",
   showLoadingIfDisabled = false,
@@ -97,18 +101,18 @@ export const Backdrop = ({
       {isOverlayShown ? <Overlay /> : null}
       <Animated.View style={[styles.backdrop, backdropStyle]}>
         <View>
+          <TouchableOpacity onPress={handleCloseBackdrop}>
+            <Icon
+              name="close-x"
+              size="md"
+              color={appStyles.colorPrimary_20809e}
+              style={styles.icon}
+            />
+          </TouchableOpacity>
           <View style={styles.header}>
             <AppText namedStyle="h3" style={styles.headingText}>
               {heading}
             </AppText>
-            <TouchableOpacity onPress={handleCloseBackdrop}>
-              <Icon
-                name="close-x"
-                size="md"
-                color={appStyles.colorPrimary_20809e}
-                style={styles.icon}
-              />
-            </TouchableOpacity>
           </View>
           <View>
             <AppText style={styles.subheading}>{text}</AppText>
@@ -143,7 +147,8 @@ export const Backdrop = ({
               ) : (
                 <AppButton
                   label={ctaLabel}
-                  disabled={isCtaDisabled}
+                  disabled={isCtaDisabled || isCtaLoading}
+                  loading={isCtaLoading}
                   onPress={handleClick}
                   color={ctaColor}
                   size="lg"
@@ -160,11 +165,12 @@ export const Backdrop = ({
                 <AppButton
                   label={secondaryCtaLabel}
                   onPress={secondaryCtaHandleClick}
-                  disabled={isSecondaryCtaDisabled}
+                  disabled={isSecondaryCtaDisabled || isSecondaryCtaLoading}
+                  loading={isSecondaryCtaLoading}
                   size="lg"
                   type={secondaryCtaType}
                   color={secondaryCtaColor}
-                  style={styles.secondButton}
+                  style={[styles.secondButton, secondaryCtaStyle]}
                 />
               )
             ) : null}
@@ -203,7 +209,7 @@ const styles = StyleSheet.create({
     zIndex: 99,
   },
   header: {
-    width: "100%",
+    width: "90%",
   },
   headingText: {
     color: appStyles.colorBlue_3d527b,
@@ -216,8 +222,8 @@ const styles = StyleSheet.create({
   },
   icon: {
     position: "absolute",
-    right: 16,
-    bottom: 0,
+    right: 10,
+    top: 0,
   },
   buttonContainer: {
     alignItems: "center",

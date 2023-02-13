@@ -4,6 +4,9 @@ import { StyleSheet, View } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import FlashMessage from "react-native-flash-message";
+import { StripeProvider } from "@stripe/stripe-react-native";
+
+import { STRIPE_PUBLIC_KEY } from "@env";
 
 import {
   useFonts,
@@ -100,6 +103,11 @@ export default function App() {
   };
 
   return (
+    <StripeProvider
+    publishableKey={STRIPE_PUBLIC_KEY}
+    // urlScheme="your-url-scheme" // required for 3D Secure and bank redirects
+    // merchantIdentifier="merchant.com.{{YOUR_APP_NAME}}" // required for Apple Pay
+  >
     <Context.Provider value={contextValues}>
       <QueryClientProvider client={queryClient}>
         <SafeAreaProvider>
@@ -115,6 +123,7 @@ export default function App() {
         <FlashMessage position="top" />
       </QueryClientProvider>
     </Context.Provider>
+    </StripeProvider>
   );
 }
 

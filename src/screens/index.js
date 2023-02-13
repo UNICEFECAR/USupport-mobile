@@ -7,6 +7,7 @@ export * from "./RegisterAnonymous";
 export * from "./UserProfile";
 export * from "./UserDetails";
 export * from "./Login";
+export * from "./Checkout";
 export * from "./RegisterPreview";
 export * from "./RegisterSupport";
 export * from "./RegisterAboutYou";

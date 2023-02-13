@@ -8,6 +8,7 @@ import {
   UserDetails,
   PrivacyPolicy,
   ContactUs,
+  Checkout,
   PlatformRating,
   SelectProvider,
   ProviderOverview,
@@ -37,6 +38,7 @@ export const AppNavigation = () => {
       <Stack.Screen name="TabNavigation" component={TabNavigation} />
       <Stack.Screen name="RegisterSupport" component={RegisterSupport} />
       <Stack.Screen name="UserProfile" component={UserProfile} />
+      <Stack.Screen name="Checkout" component={Checkout} />
       <Stack.Screen name="UserDetails" component={UserDetails} />
       <Stack.Screen name="SelectProvider" component={SelectProvider} />
       <Stack.Screen name="Articles" component={Articles} />

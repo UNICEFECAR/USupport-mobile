@@ -76,6 +76,13 @@ async function addPlatformRating(payload) {
   return response;
 }
 
+async function getSecurityCheckAnswersByConsultationId(consultationId) {
+  const response = await http.get(
+    `${API_ENDPOINT}/consultation/security-check?consultationId=${consultationId}`
+  );
+  return response;
+}
+
 const exportedFunctions = {
   addMoodTrack,
   getClientData,
@@ -88,6 +95,7 @@ const exportedFunctions = {
   getAllConsultations,
   sendInformationPortalSuggestion,
   addPlatformRating,
+  getSecurityCheckAnswersByConsultationId,
 };
 
 export default exportedFunctions;
