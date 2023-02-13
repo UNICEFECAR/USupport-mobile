@@ -18,3 +18,7 @@ export * from "./tabs";
 export * from "./labels";
 export * from "./modals";
 export * from "./carousels";
+export * from "./ratings";
+export * from "./tabs";
+export * from "./calendar";
+export * from "./consultation";

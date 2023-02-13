@@ -25,8 +25,10 @@ async function deleteClientProfile(password) {
   return response;
 }
 
-async function changeImage() {
-  const response = await http.put(`${API_ENDPOINT}/image`);
+async function changeImage(imageName) {
+  const response = await http.put(`${API_ENDPOINT}/image`, {
+    image: imageName,
+  });
   return response;
 }
 
@@ -69,6 +71,18 @@ async function sendInformationPortalSuggestion(suggestion) {
   return response;
 }
 
+async function addPlatformRating(payload) {
+  const response = await http.post(`${API_ENDPOINT}/add-rating`, payload);
+  return response;
+}
+
+async function getSecurityCheckAnswersByConsultationId(consultationId) {
+  const response = await http.get(
+    `${API_ENDPOINT}/consultation/security-check?consultationId=${consultationId}`
+  );
+  return response;
+}
+
 const exportedFunctions = {
   addMoodTrack,
   getClientData,
@@ -80,6 +94,8 @@ const exportedFunctions = {
   changeDataProcessingAgreement,
   getAllConsultations,
   sendInformationPortalSuggestion,
+  addPlatformRating,
+  getSecurityCheckAnswersByConsultationId,
 };
 
 export default exportedFunctions;

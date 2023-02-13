@@ -274,6 +274,13 @@ async function leaveConsultation(consultationId, userType) {
   return res;
 }
 
+async function getConsultationsTime(consultationId) {
+  const res = await http.get(
+    `${API_ENDPOINT}/consultation/time?consultationId=${consultationId}`
+  );
+  return res;
+}
+
 const exportedFunctions = {
   addAvailableSlot,
   addTemplateAvailability,
@@ -307,5 +314,6 @@ const exportedFunctions = {
   deleteProvider,
   deleteProviderByIdAsAdmin,
   leaveConsultation,
+  getConsultationsTime,
 };
 export default exportedFunctions;

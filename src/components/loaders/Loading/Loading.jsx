@@ -1,6 +1,7 @@
 //import liraries
 import React from "react";
 import LottieView from "lottie-react-native";
+import { loading } from "#assets";
 
 export const Loading = ({ style }) => {
   return (
@@ -14,7 +15,7 @@ export const Loading = ({ style }) => {
       ]}
       autoPlay
       loop
-      source={require("../../../assets/Loading.json")}
+      source={loading}
     />
   );
 };

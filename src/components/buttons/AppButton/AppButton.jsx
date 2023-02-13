@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { StyleSheet, Pressable, Text } from "react-native";
 
 import { appStyles } from "#styles";
+import { Loading } from "../../loaders";
 
 /**
  * AppButton
@@ -17,6 +18,7 @@ export const AppButton = ({
   size = "md",
   label,
   disabled = false,
+  loading = false,
   children,
   style,
   ...props
@@ -37,31 +39,36 @@ export const AppButton = ({
           style,
         ];
       }}
-      disabled={disabled}
+      disabled={disabled || loading}
       onPressIn={() => setIsPressed(true)}
       onPressOut={() => setIsPressed(false)}
       {...props}
     >
       {children}
-      <Text
-        style={[
-          styles.btnText,
-          size === "lg" && styles.btnTextLg,
-          type === "secondary" && styles.btnTextSecondary,
-          type === "secondary" &&
-            color === "purple" &&
-            styles.btnTextSecondaryPurple,
-          type === "ghost" && styles.btnTextGhost,
-          type === "ghost" && color === "purple" && styles.btnTextGhostPurple,
-          isPressed && styles.btnTextPressed,
-          isPressed &&
-            (type === "secondary" || type === "ghost") &&
-            styles[color + "Pressed" + "Text"],
-          color === "red" && styles.btnTextRed,
-        ]}
-      >
-        {label}
-      </Text>
+
+      {loading ? (
+        <Loading style={{ width: 23, height: 23 }} />
+      ) : (
+        <Text
+          style={[
+            styles.btnText,
+            size === "lg" && styles.btnTextLg,
+            type === "secondary" && styles.btnTextSecondary,
+            type === "secondary" &&
+              color === "purple" &&
+              styles.btnTextSecondaryPurple,
+            type === "ghost" && styles.btnTextGhost,
+            type === "ghost" && color === "purple" && styles.btnTextGhostPurple,
+            isPressed && styles.btnTextPressed,
+            isPressed &&
+              (type === "secondary" || type === "ghost") &&
+              styles[color + "Pressed" + "Text"],
+            color === "red" && type != "primary" && styles.btnTextRed,
+          ]}
+        >
+          {label}
+        </Text>
+      )}
     </Pressable>
   );
 };
@@ -112,9 +119,9 @@ const styles = StyleSheet.create({
   },
 
   //Color:
-  purple: {
-    backgroundColor: appStyles.colorSecondary_9749fa,
-  },
+  purple: { backgroundColor: appStyles.colorSecondary_9749fa },
+
+  red: { backgroundColor: appStyles.colorRed_eb5757 },
 
   //Size:
   sm: {

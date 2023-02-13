@@ -3,7 +3,8 @@ import { providerSvc } from "#services";
 import { useError } from "./useError";
 
 export default function useCancelConsultation(onSuccess, onError) {
-  const cancelConsultation = async (consultationId) => {
+  const cancelConsultation = async (consultation) => {
+    const { consultationId } = consultation;
     const res = await providerSvc.cancelConsultation(consultationId);
     return res;
   };

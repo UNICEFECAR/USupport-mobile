@@ -86,7 +86,7 @@ export const GiveSuggestion = () => {
 };
 
 const styles = StyleSheet.create({
-  block: { paddingBottom: 30 },
+  block: { paddingBottom: 70 },
   subheading: { marginTop: 16 },
   textArea: { marginVertical: 16 },
 });

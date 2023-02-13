@@ -1,0 +1,12 @@
+{
+  "heading": "Do you need support?",
+  
+  "button_continue_label": "Continue",
+  "answer_yes_label": "Yes, I want a consultation",
+  "answer_no_label": "No",
+  "modal_heading": "Do you give us permission to process your personal data?",
+  "modal_paragraph": "To provide access to the consultations, we need your permission to process your personal data. You can always change the settings from your profile.",
+  "modal_cta_1": "I give permission",
+  "modal_cta_2": "Cancel",
+  "error": "* You have to give us permission to process your personal data in order to have access to the consultations."
+}

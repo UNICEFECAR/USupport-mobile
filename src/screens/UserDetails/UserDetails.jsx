@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Screen } from "#components";
 import { UserDetails as UserDetailsBlock } from "#blocks";
-
-import { userSvc } from "#services";
+import { DeleteAccount, ChangePassword } from "#backdrops";
+import { SelectAvatar } from "../../backdrops/SelectAvatar/SelectAvatar";
 
 /**
  * UserDetails
@@ -12,30 +12,38 @@ import { userSvc } from "#services";
  * @returns {JSX.Element}
  */
 export const UserDetails = ({ navigation }) => {
-  const isTmpUser = userSvc.getUserID() === "tmp-user";
+  const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
+  const [isDeleteBackdropShown, setIsDeleteBackdropShown] = useState(false);
+  const [isSelectAvatarBackdropShown, setIsSelectAvatarBackdropShown] =
+    useState(false);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openChangePasswordBackdrop = () => setIsChangePasswordOpen(true);
+  const openDeleteAccountBackdrop = () => setIsDeleteBackdropShown(true);
+  const openSelectAvatarBackdrop = () => setIsSelectAvatarBackdropShown(true);
 
-  const handleRegisterRedirection = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("refresh-token");
-    localStorage.removeItem("expires-in");
-    navigate("/register-preview");
-  };
-
-  const handleLogout = () => {
-    userSvc.logout();
-    navigate("/");
-  };
-
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const closeChangePasswordBackdrop = () => setIsChangePasswordOpen(false);
+  const closeDeleteAccountBackdrop = () => setIsDeleteBackdropShown(false);
+  const closeSelectAvatarBackdrop = () => setIsSelectAvatarBackdropShown(false);
 
   return (
     <Screen>
       <UserDetailsBlock
-        {...{ openModal, closeModal, isTmpUser }}
         navigation={navigation}
+        openDeleteAccountBackdrop={openDeleteAccountBackdrop}
+        openChangePasswordBackdrop={openChangePasswordBackdrop}
+        openSelectAvatarBackdrop={openSelectAvatarBackdrop}
+      />
+      <SelectAvatar
+        isOpen={isSelectAvatarBackdropShown}
+        onClose={closeSelectAvatarBackdrop}
+      />
+      <DeleteAccount
+        isOpen={isDeleteBackdropShown}
+        onClose={closeDeleteAccountBackdrop}
+      />
+      <ChangePassword
+        isOpen={isChangePasswordOpen}
+        onClose={closeChangePasswordBackdrop}
       />
     </Screen>
   );

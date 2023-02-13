@@ -7,7 +7,7 @@ import { AppButton } from "../../buttons/AppButton/AppButton";
 
 import { appStyles } from "#styles";
 
-import articlePlaceholder from "../../../assets/articlePlaceholder.png";
+import articlePlaceholder from "#assets";
 
 /**
  * CardMedia

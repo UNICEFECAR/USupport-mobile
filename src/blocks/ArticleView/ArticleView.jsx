@@ -6,7 +6,7 @@ import { Icon, Label, Block, AppText } from "#components";
 
 import { appStyles } from "#styles";
 
-import articlePlaceholder from "../../assets/articlePlaceholder.png";
+import articlePlaceholder from "#assets";
 
 /**
  * ArticleView

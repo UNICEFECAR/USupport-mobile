@@ -1,0 +1,22 @@
+{
+  "heading": "About you",
+
+  "input_name_label": "Name",
+  "input_name_placeholder": "Enter your name",
+  "input_surname_label": "Surname",
+  "input_surname_placeholder": "Enter your surname",
+  "dropdown_sex_label": "Sex *",
+  "dropdown_year_label": "Year of birth *",
+  "living_place_label": "Place of living *",
+  "button_continue_label": "Continue",
+  "sex_male": "Male",
+  "sex_female": "Female",
+  "sex_unspecified": "Unspecified",
+  "sex_none": "Prefer not to say",
+  "place_of_living_urban": "Urban",
+  "place_of_living_rural": "Rural",
+  "sex_error": "Please enter your sex",
+  "year_of_birth_error": "Please enter your year of birth",
+  "place_of_living_error": "Please enter your place of living"
+}
+

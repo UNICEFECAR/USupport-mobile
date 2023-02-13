@@ -27,11 +27,11 @@ import { AMAZON_S3_BUCKET } from "@env";
 export const UserProfile = ({ navigation }) => {
   const { t } = useTranslation("user-profile");
 
-  const { setToken } = useContext(Context);
+  const { setToken, isTmpUser, handleRegistrationModalOpen } =
+    useContext(Context);
 
   const [displayName, setDisplayName] = useState("");
 
-  const isTmpUser = false;
   const clientQueryArray = useGetClientData(isTmpUser ? false : true);
   const clientData = isTmpUser ? {} : clientQueryArray[0].data;
 
@@ -45,13 +45,23 @@ export const UserProfile = ({ navigation }) => {
     }
   }, [clientData]);
 
+  const protectedPages = [
+    "UserDetails",
+    "Passcode",
+    "NotificationPreferences",
+    "PlatformRating",
+  ];
   const handleRedirect = (redirectTo) => {
-    navigation.push(redirectTo);
+    if (protectedPages.includes(redirectTo) && isTmpUser) {
+      handleRegistrationModalOpen();
+    } else {
+      navigation.push(redirectTo);
+    }
   };
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    setToken("");
+    setToken(null);
   };
 
   return (
@@ -67,6 +77,7 @@ export const UserProfile = ({ navigation }) => {
               onPress={handleLogout}
             />
           }
+          handleGoBack={() => navigation.goBack()}
         />
 
         <View style={styles.group}>
@@ -98,13 +109,13 @@ export const UserProfile = ({ navigation }) => {
           <ButtonSelector
             iconName="fingerprint"
             label={t("passcoode_and_biometrics_button_label")}
-            // onClick={() => handleRedirect("/passcode-and-biometrics")}
+            onPress={() => handleRedirect("Passcode")}
             style={[styles.buttonSelector, styles.buttonSelectorFirstInGroup]}
           />
           <ButtonSelector
             label={t("notifications_settings_button_label")}
             iconName="notification"
-            // onClick={() => handleRedirect("/notification-preferences")}
+            onPress={() => handleRedirect("NotificationPreferences")}
             style={styles.buttonSelector}
           />
         </View>
@@ -114,13 +125,13 @@ export const UserProfile = ({ navigation }) => {
           <ButtonSelector
             label={t("rate_us_button_label")}
             iconName="star"
-            // onClick={() => handleRedirect("/share-platform")}
+            onPress={() => handleRedirect("PlatformRating")}
             style={[styles.buttonSelector, styles.buttonSelectorFirstInGroup]}
           />
           <ButtonSelector
             label={t("share_button_label")}
             iconName="share"
-            // onClick={() => handleRedirect("/share-platform")}
+            onPress={() => handleRedirect("SharePlatform")}
             style={styles.buttonSelector}
           />
         </View>

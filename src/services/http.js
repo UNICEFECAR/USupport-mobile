@@ -11,7 +11,6 @@ axios.interceptors.request.use(async (config) => {
   const language = await localStorage.getItem("language");
   config.headers["x-country-alpha-2"] = country || "KZ";
   config.headers["x-language-alpha-2"] = language || "en";
-
   const requestURI = axios.getUri(config) || "VITE CMS API URL";
 
   if (!requestURI.includes(CMS_API_URL_ENDPOINT)) {

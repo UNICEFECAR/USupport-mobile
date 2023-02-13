@@ -8,7 +8,7 @@ import { Block, Heading, Dropdown, Textarea, AppButton } from "#components";
 
 import { useSendIssueEmail } from "#hooks";
 
-import { validate } from "#utils";
+import { validate, showToast } from "#utils";
 
 const initialData = {
   issue: null,
@@ -82,12 +82,13 @@ export const ContactUs = ({ navigation }) => {
 
   const onSendEmailSuccess = () => {
     setIsSuccessModalOpen(true);
-    setIsSubmitting(false);
     setData({ ...initialData });
+    showToast({
+      message: t("success"),
+    });
   };
   const onSendEmailError = (error) => {
     setErrors({ submit: error });
-    setIsSubmitting(false);
   };
   const sendIssueEmailMutation = useSendIssueEmail(
     onSendEmailSuccess,
@@ -95,8 +96,7 @@ export const ContactUs = ({ navigation }) => {
   );
 
   const handleSubmit = async () => {
-    if (!isSubmitting) {
-      setIsSubmitting(true);
+    if (!sendIssueEmailMutation.isLoading) {
       const dataToValidate = {
         issue: data.issue,
         message: data.message,
@@ -108,8 +108,6 @@ export const ContactUs = ({ navigation }) => {
           text: data.message,
         };
         sendIssueEmailMutation.mutate(payload);
-      } else {
-        setIsSubmitting(false);
       }
     }
   };
@@ -119,7 +117,7 @@ export const ContactUs = ({ navigation }) => {
   };
 
   return (
-    <Block>
+    <Block style={styles.block}>
       <Heading
         heading={t("heading")}
         subheading={t("subheading")}
@@ -147,6 +145,7 @@ export const ContactUs = ({ navigation }) => {
         label={t("button")}
         style={styles.button}
         disabled={!canSubmit}
+        loading={sendIssueEmailMutation.isLoading}
         onPress={handleSubmit}
       />
     </Block>
@@ -154,7 +153,8 @@ export const ContactUs = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  dropdown: { marginTop: 32 },
+  block: { alignItems: "center" },
+  dropdown: { marginTop: 32, zIndex: 3 },
   textarea: { marginTop: 22 },
   button: { marginTop: 32 },
 });

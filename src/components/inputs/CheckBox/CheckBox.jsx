@@ -32,9 +32,10 @@ export const CheckBox = ({
         style={[
           styles.checkboxWrapper,
           disabled && styles.checkboxWrapperDisabled,
+          style,
         ]}
       >
-        <View style={[styles.checkbox, style, isChecked && styles.checked]}>
+        <View style={[styles.checkbox, isChecked && styles.checked, ,]}>
           {isChecked && (
             <Icon
               name="checkbox-check"
@@ -59,11 +60,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-
   checkboxWrapperDisabled: {
     opacity: 0.4,
   },
-
   checkbox: {
     width: 20,
     height: 20,

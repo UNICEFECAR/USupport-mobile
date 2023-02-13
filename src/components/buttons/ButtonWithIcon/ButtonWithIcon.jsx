@@ -16,12 +16,18 @@ import { appStyles } from "#styles";
 export const ButtonWithIcon = ({
   iconName,
   iconColor = appStyles.colorWhite_ff,
+  iconSize = "md",
   style,
   ...props
 }) => {
   return (
     <AppButton style={[styles.btn, style]} {...props}>
-      <Icon name={iconName} size={"md"} color={iconColor} style={styles.icon} />
+      <Icon
+        name={iconName}
+        size={iconSize}
+        color={iconColor}
+        style={styles.icon}
+      />
     </AppButton>
   );
 };
@@ -52,6 +58,12 @@ ButtonWithIcon.propTypes = {
    * @default appStyles.colorWhite_ff
    * */
   iconColor: PropTypes.string,
+
+  /**
+   * Icon size
+   * @default "md"
+   * */
+  iconSize: PropTypes.string,
 
   /**
    * Additional props to pass

@@ -76,7 +76,6 @@ export const RegisterAnonymous = ({ navigation }) => {
   const register = async () => {
     const countryID = await localStorage.getItem("country_id");
     if (!countryID) {
-      console.log("No country id");
       navigate("/");
     }
     return await userSvc.signUp({

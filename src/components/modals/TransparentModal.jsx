@@ -13,13 +13,24 @@ import {
 
 import { AppText } from "../texts";
 import { Icon } from "../icons";
+import { AppButton } from "../buttons/AppButton/AppButton";
+
 import { appStyles } from "#styles";
 
 export function TransparentModal({
   heading,
+  text,
   hasCloseIcon = true,
   children,
   handleClose,
+  ctaLabel,
+  ctaHandleClick,
+  isCtaDisabled = false,
+  secondaryCtaLabel,
+  secondaryCtaHandleClick,
+  isSecondaryCtaDisabled = false,
+  isCtaLoading = false,
+  secondaryCtaType,
   isOpen,
   style,
 }) {
@@ -39,13 +50,33 @@ export function TransparentModal({
                   <AppText namedStyle="h3" style={styles.headingText}>
                     {heading}
                   </AppText>
-                  {hasCloseIcon && (
+                  {hasCloseIcon ? (
                     <TouchableOpacity onPress={handleClose}>
                       <Icon name="close-x" color="#263238" />
                     </TouchableOpacity>
-                  )}
+                  ) : null}
                 </View>
+                {text && <AppText style={styles.text}>{text}</AppText>}
                 {children}
+                {ctaLabel ? (
+                  <AppButton
+                    label={ctaLabel}
+                    onPress={ctaHandleClick}
+                    size="lg"
+                    disabled={isCtaDisabled}
+                    loading={isCtaLoading}
+                  />
+                ) : null}
+                {secondaryCtaLabel && (
+                  <AppButton
+                    label={secondaryCtaLabel}
+                    onPress={secondaryCtaHandleClick}
+                    size="lg"
+                    disabled={isSecondaryCtaDisabled}
+                    type={secondaryCtaType}
+                    style={styles.secondaryButton}
+                  />
+                )}
               </View>
             </TouchableWithoutFeedback>
           </SafeAreaView>
@@ -76,8 +107,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginBottom: 10,
   },
+  text: {
+    marginBottom: 12,
+  },
   headingText: {
     width: "95%",
+  },
+  secondaryButton: {
+    marginTop: 12,
   },
 });
 

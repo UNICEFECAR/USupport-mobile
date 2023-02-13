@@ -2,8 +2,11 @@ import React, { useCallback, useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { StyleSheet, View } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
-import { NavigationContainer } from "@react-navigation/native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import FlashMessage from "react-native-flash-message";
+import { StripeProvider } from "@stripe/stripe-react-native";
+
+import { STRIPE_PUBLIC_KEY } from "@env";
 
 import {
   useFonts,
@@ -15,8 +18,9 @@ import {
   Nunito_800ExtraBold,
 } from "@expo-google-fonts/nunito";
 
-import { AuthNavigation, AppNavigation } from "#navigation";
-import { localStorage, Context } from "#services";
+import { Navigation } from "#navigation";
+import { localStorage, Context, userSvc } from "#services";
+import { RequireRegistration } from "./src/modals/RequireRegistration/RequireRegistration";
 
 // Create a react-query client
 const queryClient = new QueryClient({
@@ -34,14 +38,40 @@ export default function App() {
   });
 
   const [token, setToken] = useState();
+  const [initialRouteName, setInitialRouteName] = useState("TabNavigation"); // Initial route name for the AppNavigation
+  const [initialAuthRouteName, setInitialAuthRouteName] = useState("Welcome"); // Initial route name for the AuthNavigation
+  const [isTmpUser, setIsTmpUser] = useState(null);
+  const [isRegistrationModalOpan, setIsRegistrationModalOpen] = useState(false);
+  const [currencySymbol, setCurrencySymbol] = useState("");
+
+  const handleRegistrationModalClose = () => setIsRegistrationModalOpen(false);
+  const handleRegistrationModalOpen = () => setIsRegistrationModalOpen(true);
+  const handleRegisterRedirection = () => {
+    setInitialAuthRouteName("RegisterPreview");
+    handleRegistrationModalClose();
+    localStorage.removeItem("token");
+    localStorage.removeItem("refresh-token");
+    localStorage.removeItem("expires-in");
+    setToken(null);
+  };
 
   // localStorage.setItem("token", "");
 
   useEffect(() => {
-    localStorage.getItem("token").then((jwtToken) => {
-      setToken(jwtToken);
-    });
+    async function checkToken() {
+      const token = await localStorage.getItem("token");
+      setToken(token);
+    }
+    checkToken();
   }, []);
+
+  useEffect(() => {
+    async function checkIsTmpUser() {
+      const tmpUser = (await userSvc.getUserID()) === "tmp-user";
+      setIsTmpUser(tmpUser);
+    }
+    checkIsTmpUser();
+  }, [token]);
 
   // Hide the splash screen when the fonts finish loading
   const onLayoutRootView = useCallback(async () => {
@@ -58,18 +88,42 @@ export default function App() {
   if (!loaded) {
     return null;
   }
+  const contextValues = {
+    token,
+    setToken,
+    initialRouteName,
+    setInitialRouteName,
+    isTmpUser,
+    setIsTmpUser,
+    handleRegistrationModalOpen,
+    initialAuthRouteName,
+    setInitialAuthRouteName,
+    currencySymbol,
+    setCurrencySymbol,
+  };
 
   return (
-    <Context.Provider value={{ setToken }}>
-      <NavigationContainer>
-        <QueryClientProvider client={queryClient}>
+    <StripeProvider
+    publishableKey={STRIPE_PUBLIC_KEY}
+    // urlScheme="your-url-scheme" // required for 3D Secure and bank redirects
+    // merchantIdentifier="merchant.com.{{YOUR_APP_NAME}}" // required for Apple Pay
+  >
+    <Context.Provider value={contextValues}>
+      <QueryClientProvider client={queryClient}>
+        <SafeAreaProvider>
           <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-            {token ? <AppNavigation /> : <AuthNavigation />}
+            <Navigation />
+            <RequireRegistration
+              handleContinue={handleRegisterRedirection}
+              isOpen={isRegistrationModalOpan}
+              onClose={handleRegistrationModalClose}
+            />
           </View>
-          <FlashMessage position="top" />
-        </QueryClientProvider>
-      </NavigationContainer>
+        </SafeAreaProvider>
+        <FlashMessage position="top" />
+      </QueryClientProvider>
     </Context.Provider>
+    </StripeProvider>
   );
 }
 

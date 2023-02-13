@@ -1,9 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, StyleSheet, TouchableWithoutFeedback } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 
 import { AppText } from "../../texts/AppText/AppText";
-
 import { appStyles } from "#styles";
 
 /**
@@ -19,12 +18,17 @@ export const TabsUnderlined = ({ style, options, handleSelect }) => {
       return options
         ? options.map((option, index) => {
             return (
-              <TouchableWithoutFeedback
+              <TouchableOpacity
+                onPress={() => handleSelect(index)}
+                disabled={option.isInactive}
                 key={index}
-                onPress={() => (option.isInactive ? {} : handleSelect(index))}
               >
                 <View
-                  style={[styles.tab, option.isSelected && styles.tabSelected]}
+                  style={[
+                    styles.tab,
+                    option.isSelected && styles.tabSelected,
+                    option.isInactive && styles.tabDisabled,
+                  ]}
                 >
                   <AppText
                     namedStyle="h3"
@@ -36,7 +40,7 @@ export const TabsUnderlined = ({ style, options, handleSelect }) => {
                     {option.label}
                   </AppText>
                 </View>
-              </TouchableWithoutFeedback>
+              </TouchableOpacity>
             );
           })
         : null;
@@ -50,24 +54,29 @@ export const TabsUnderlined = ({ style, options, handleSelect }) => {
 
 const styles = StyleSheet.create({
   tabsUnderlined: {
-    display: "flex",
+    width: "100%",
     flexDirection: "row",
-    alignItems: "center",
+    justifyContent: "space-around",
   },
   tab: {
-    padding: 12,
-    marginHorizontal: 8,
+    paddingVertical: 10,
     borderBottomWidth: 2,
     borderBottomColor: "transparent",
   },
-  tabSelected: { borderBottomColor: appStyles.colorPrimary_20809e },
+  tabSelected: {
+    borderBottomColor: appStyles.colorPrimary_20809e,
+  },
+  tabDisabled: {
+    opacity: 0.4,
+  },
   label: {
+    marginHorizontal: 12,
+    fontFamily: appStyles.fontMedium,
     color: appStyles.colorGray_66768d,
-    fontFamily: "Nunito_500Medium",
   },
   labelSelected: {
     color: appStyles.colorPrimary_20809e,
-    fontFamily: "Nunito_600SemiBold",
+    fontFamily: appStyles.fontBold,
   },
 });
 

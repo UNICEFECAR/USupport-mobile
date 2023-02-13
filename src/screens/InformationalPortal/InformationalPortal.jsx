@@ -14,10 +14,8 @@ import {
   InformationalPortal as InformationalPortalBlock,
   GiveSuggestion,
 } from "#blocks";
-
+import { mascotHappyPurple } from "#assets";
 import { appStyles } from "#styles";
-
-import mascotHappyPurple from "../../assets/mascot-happy-purple.png";
 
 /**
  * InformationPortal
@@ -39,12 +37,12 @@ export const InformationalPortal = ({ navigation }) => {
   );
 
   return (
-    <Screen style={styles.screen}>
+    <Screen hasHeaderNavigation t={t}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "position" : null}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 20}
+        keyboardVerticalOffset={64}
       >
-        <ScrollView>
+        <ScrollView keyboardShouldPersistTaps="handled">
           <MascotHeadingBlock image={mascotHappyPurple}>
             {heading}
           </MascotHeadingBlock>

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { Icon } from "../../icons/Icon";
 import { AppText } from "../../texts/AppText/AppText";
 
@@ -29,9 +29,12 @@ export const ProfilePicturePreview = ({
 
   return (
     <View style={[styles.container, style]}>
-      <View onPress={handleDeleteClick} style={styles.iconContainer}>
+      <TouchableOpacity
+        onPress={handleDeleteClick}
+        style={styles.iconContainer}
+      >
         <Icon name="circle-actions-close-purple" size="md" />
-      </View>
+      </TouchableOpacity>
       <Image source={imageSrc} style={styles.image} />
       <AppText
         namedStyle="smallText"

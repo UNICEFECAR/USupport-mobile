@@ -1,0 +1,15 @@
+{
+  "heading": "Change consultation",
+  "subheading": "Select the communication form which fits your needs the best and receive the help you want.",
+  "specialist_button_label": "Change the specialist",
+  "date_button_label": "Change the date and time",
+  "cancel_button_label": "Cancel the consultation",
+  "sunday": "Sun",
+  "monday": "Mon",
+  "tuesday": "Tue",
+  "wednesday": "Wed",
+  "thursday": "Thu",
+  "friday": "Fri",
+  "saturday": "Sat",
+  "free": "Free"
+}

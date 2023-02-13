@@ -5,13 +5,13 @@ import LinearGradient from "../../components/LinearGradient";
 
 import { appStyles } from "#styles";
 
-export const MascotHeadingBlock = ({ image, children }) => {
+export const MascotHeadingBlock = ({ image, children, style }) => {
   return (
     <LinearGradient
       gradient={appStyles.gradientSecondary}
       style={styles.mascotHeadingBlock}
     >
-      <View style={styles.contentContainer}>
+      <View style={[styles.contentContainer, style]}>
         <Image source={image} />
         <View style={styles.childrenContainer}>{children}</View>
       </View>
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
 
   contentContainer: {
-    paddingTop: 40,
+    paddingTop: 50,
     paddingBottom: 30,
     paddingRight: 16,
     borderBottomLeftRadius: 50,
