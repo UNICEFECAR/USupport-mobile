@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     width: "85%",
     maxWidth: 280,
     borderRadius: 24,
+    marginBottom: 12,
   },
   messageSent: {
     backgroundColor: appStyles.colorGreen_54cfd9,

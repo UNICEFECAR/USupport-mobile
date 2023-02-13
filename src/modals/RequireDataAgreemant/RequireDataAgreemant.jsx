@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { TransparentModal } from "#components";
 
 import { clientSvc } from "#services";
+import { showToast } from "../../utils/showToast";
 
 /**
  * RequireDataAgreement
@@ -33,7 +34,10 @@ export const RequireDataAgreement = ({
     },
     onError: (error) => {
       const { message: errorMessage } = useError(error);
-      toast(errorMessage, { type: "error" });
+      showToast({
+        message: errorMessage,
+        type: "error",
+      });
     },
   });
 
@@ -50,6 +54,7 @@ export const RequireDataAgreement = ({
       closeModal={onClose}
       ctaLabel={t("give_permission")}
       ctaHandleClick={handleGivePermission}
+      isCtaLoading={updateDataProcessingMutation.isLoading}
       secondaryCtaLabel={t("cancel")}
       secondaryCtaHandleClick={onClose}
       secondaryCtaType="secondary"
