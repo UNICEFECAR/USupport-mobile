@@ -1,6 +1,8 @@
 export { default as mascotHappyOrange } from "./mascot-happy-orange.png";
 export { default as mascotHappyPurple } from "./mascot-happy-purple.png";
 export { default as mascotHappyBlue } from "./mascot-happy-blue.png";
+export { default as mascotConfusedBlue } from "./mascot-confused-blue.png";
+export { default as mascotCalmBlue } from "./mascot-calm-blue.png";
 export { default as loading } from "./Loading.json";
 export { default as logoVertical } from "./logo-vertical.png";
 export { default as articlePlaceholder } from "./article-placeholder.png";
