@@ -24,7 +24,7 @@ export const ConsultationInformation = ({
   endDate,
   providerName,
   providerImage = specialistPlaceholder,
-  price = "Free",
+  price,
   currencySymbol,
   style,
   showPriceBadge = true,
@@ -66,7 +66,7 @@ export const ConsultationInformation = ({
         <View style={styles.priceBadgeContainer}>
           <View style={styles.priceBadge}>
             <AppText namedStyle="smallText" style={styles.priceBadgeText}>
-              {`${price}${currencySymbol}` || "Free"}
+              {price > 0 ? `${price}${currencySymbol}` : t("free")}
             </AppText>
           </View>
         </View>

@@ -69,17 +69,21 @@ export const ConsultationBig = ({
               type="primary"
               size="sm"
               onPress={() =>
-                handleAcceptSuggestion(consultation.consultationId, price)
+                handleAcceptSuggestion(
+                  consultation.consultationId,
+                  price,
+                  timestamp
+                )
               }
               label={t("accept_button_label")}
               style={styles.button}
             />
           ) : isLive ? (
             <AppButton
-              label={t("join_Abutton_label")}
+              label={t("join_button_label")}
               color="purple"
               style={styles.button}
-              onPress={() => handleJoin(consultation.consultationId)}
+              onPress={() => handleJoin(consultation)}
             />
           ) : (
             <AppButton

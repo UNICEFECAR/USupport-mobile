@@ -37,6 +37,7 @@ export const ProviderOverview = ({
   handleEdit,
   handleDelete,
   handleViewProfile,
+  style,
 }) => {
   const displayName = patronym
     ? `${name} ${patronym} ${surname}`
@@ -62,7 +63,10 @@ export const ProviderOverview = ({
     : "";
 
   return (
-    <TouchableOpacity onPress={onPress} style={styles.touchableOpacity}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={[styles.touchableOpacity, style]}
+    >
       <View
         style={[styles.providerOverview, { ...appStyles.shadow2 }]}
         classes={["provider-overview"].join(" ")}
@@ -75,7 +79,7 @@ export const ProviderOverview = ({
                 <AppText style={styles.nameText}>{displayName}</AppText>
                 <View style={styles.priceBadge}>
                   <AppText namedStyle="smallText" style={styles.priceBadgeText}>
-                    {`${price}${currencySymbol}` || freeLabel}
+                    {price > 0 ? `${price}${currencySymbol}` : freeLabel}
                   </AppText>
                 </View>
               </View>

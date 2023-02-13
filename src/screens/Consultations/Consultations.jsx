@@ -1,11 +1,20 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, RefreshControl } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
 
-import { Screen, Block, AppButton, Heading } from "#components";
+import { Screen, Block, AppButton } from "#components";
 import { Consultations as ConsultationsBlock } from "#blocks";
-import { EditConsultation, CancelConsultation } from "#backdrops";
+
+import {
+  EditConsultation,
+  CancelConsultation,
+  SelectConsultation,
+  ConfirmConsultation,
+  JoinConsultation,
+} from "#backdrops";
+
+import { RequireDataAgreement } from "#modals";
 
 import { Context } from "#services";
 
@@ -32,11 +41,13 @@ export const Consultations = ({ navigation }) => {
 
   const clientData = useGetClientData()[1];
 
+  // Selected consultation data
   const [selectedConsultation, setSelectedConsultation] = useState();
   const [selectedConsultationProviderId, setSelectedConsultationProviderId] =
     useState();
   const [selectedConsultationId, setSelectedConsultationId] = useState();
 
+  // Edit consultation backdrop
   const [isEditConsultationOpen, setIsEditConsultationOpen] = useState(false);
   const openEditConsultation = (consultation) => {
     setSelectedConsultationId(consultation.consultationId);
@@ -46,11 +57,13 @@ export const Consultations = ({ navigation }) => {
   };
   const closeEditConsultation = () => setIsEditConsultationOpen(false);
 
+  // Cancel consultation backdrop
   const [isCancelConsultationOpen, setIsCancelConsultationOpen] =
     useState(false);
   const openCancelConsultation = () => setIsCancelConsultationOpen(true);
   const closeCancelConsultation = () => setIsCancelConsultationOpen(false);
 
+  // Join consultation backdrop
   const [isJoinConsultationOpen, setIsJoinConsultationOpen] = useState(false);
   const openJoinConsultation = (consultation) => {
     setIsJoinConsultationOpen(true);
@@ -58,49 +71,58 @@ export const Consultations = ({ navigation }) => {
   };
   const closeJoinConsultation = () => setIsJoinConsultationOpen(false);
 
+  // Require data agreement modal
   const [isRequireDataAgreementOpen, setIsRequireDataAgreementOpen] =
     useState(false);
   const openRequireDataAgreement = () => setIsRequireDataAgreementOpen(true);
   const closeRequireDataAgreement = () => setIsRequireDataAgreementOpen(false);
 
-  const [isBlockSlotSubmitting, setIsBlockSlotSubmitting] = useState(false);
-  const [blockSlotError, setBlockSlotError] = useState();
-  const [consultationId, setConsultationId] = useState();
-  const [selectedSlot, setSelectedSlot] = useState();
-
-  // Modal state variables
+  // Select consultation backdrop
   const [
     isSelectConsultationBackdropOpen,
     setIsSelectConsultationBackdropOpen,
   ] = useState(false);
-  const [isConfirmBackdropOpen, setIsConfirmBackdropOpen] = useState(false);
-
-  // Open modals
   const openSelectConsultation = () => {
     setIsSelectConsultationBackdropOpen(true);
   };
+  const closeSelectConsultationBackdrop = () => {
+    setIsSelectConsultationBackdropOpen(false);
+  };
 
+  // Consultation confirmation backdrop
+  const [isConfirmBackdropOpen, setIsConfirmBackdropOpen] = useState(false);
   const openConfirmConsultationBackdrop = () => setIsConfirmBackdropOpen(true);
-
-  // Close modals
   const closeConfirmConsultationBackdrop = () =>
     setIsConfirmBackdropOpen(false);
-  const closeSelectConsultationBackdrop = () =>
-    setIsSelectConsultationBackdropOpen(false);
+
+  const [blockSlotError, setBlockSlotError] = useState();
+  const [consultationId, setConsultationId] = useState();
+
+  const consultationPrice = useRef();
+  const selectedSlot = useRef();
+
+  // Refresh Logic
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await Promise.all([
+      queryClient.invalidateQueries({ queryKey: ["all-consultations"] }),
+      queryClient.invalidateQueries({ queryKey: ["client-data"] }),
+    ]);
+    setRefreshing(false);
+  };
 
   // Schedule consultation logic
   const onRescheduleConsultationSuccess = (data) => {
-    setIsBlockSlotSubmitting(false);
     setConsultationId(consultationId);
     closeSelectConsultationBackdrop();
     openConfirmConsultationBackdrop();
     setBlockSlotError(null);
 
-    queryClient.invalidateQueries(["all-consultations"]);
+    queryClient.invalidateQueries({ queryKey: ["all-consultations"] });
   };
   const onRescheduleConsultationError = (error) => {
     setBlockSlotError(error);
-    setIsBlockSlotSubmitting(false);
   };
   const rescheduleConsultationMutation = useRescheduleConsultation(
     onRescheduleConsultationSuccess,
@@ -109,25 +131,19 @@ export const Consultations = ({ navigation }) => {
 
   // Block slot logic
   const onBlockSlotSuccess = (newConsultationId) => {
-    // setIsBlockSlotSubmitting(false);
-    // setConsultationId(consultationId);
     rescheduleConsultationMutation.mutate({
       consultationId: selectedConsultationId,
       newConsultationId,
     });
-
-    // closeSelectConsultationBackdrop();
-    // openConfirmConsultationBackdrop();
   };
   const onBlockSlotError = (error) => {
     setBlockSlotError(error);
-    setIsBlockSlotSubmitting(false);
   };
   const blockSlotMutation = useBlockSlot(onBlockSlotSuccess, onBlockSlotError);
 
-  const handleBlockSlot = (slot) => {
-    setIsBlockSlotSubmitting(true);
-    setSelectedSlot(slot);
+  const handleBlockSlot = (slot, price) => {
+    consultationPrice.current = price;
+    selectedSlot.current = slot;
     blockSlotMutation.mutate({
       slot,
       providerId: selectedConsultationProviderId,
@@ -144,14 +160,21 @@ export const Consultations = ({ navigation }) => {
     }
   };
 
-  // const handleDataAgreementSuccess = () => {
-  //   navigate("/select-provider");
-  // };
-  const [isScheduleBackdropOpen, setIsScheduleBackdropOpen] = useState(false);
+  const handleDataAgreementSucess = () => navigation.navigate("SelectProvider");
+
+  const isSelectConsultationLoading =
+    rescheduleConsultationMutation.isLoading || blockSlotMutation.isLoading;
 
   return (
     <Screen>
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => onRefresh()}
+          />
+        }
+      >
         <Block>
           <AppButton
             label={t("button_label")}
@@ -168,7 +191,21 @@ export const Consultations = ({ navigation }) => {
           currencySymbol={currencySymbol}
         />
       </ScrollView>
-      {selectedConsultation && (
+      <JoinConsultation
+        isOpen={isJoinConsultationOpen}
+        onClose={closeJoinConsultation}
+        consultation={selectedConsultation}
+      />
+      <SelectConsultation
+        isOpen={isSelectConsultationBackdropOpen}
+        onClose={closeSelectConsultationBackdrop}
+        handleBlockSlot={handleBlockSlot}
+        providerId={selectedConsultationProviderId}
+        isCtaLoading={isSelectConsultationLoading}
+        errorMessage={blockSlotError}
+        isInDashboard
+      />
+      {selectedConsultation ? (
         <>
           <EditConsultation
             isOpen={isEditConsultationOpen}
@@ -183,9 +220,30 @@ export const Consultations = ({ navigation }) => {
             onClose={closeCancelConsultation}
             consultation={selectedConsultation}
             currencySymbol={currencySymbol}
+            secondaryCtaStyle={{ marginBottom: 85 }}
           />
         </>
-      )}
+      ) : null}
+      {selectedSlot.current ? (
+        <ConfirmConsultation
+          isOpen={isConfirmBackdropOpen}
+          onClose={closeConfirmConsultationBackdrop}
+          ctaStyle={{ marginBottom: 85 }}
+          consultation={{
+            startDate: new Date(selectedSlot.current),
+            endDate: new Date(
+              new Date(selectedSlot.current).setHours(
+                new Date(selectedSlot.current).getHours() + 1
+              )
+            ),
+          }}
+        />
+      ) : null}
+      <RequireDataAgreement
+        isOpen={isRequireDataAgreementOpen}
+        onClose={closeRequireDataAgreement}
+        onSuccess={handleDataAgreementSucess}
+      />
     </Screen>
   );
 };

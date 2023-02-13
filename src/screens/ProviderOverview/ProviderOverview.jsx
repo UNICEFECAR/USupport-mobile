@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, ScrollView } from "react-native";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { Screen, Block, Heading, AppButton } from "#components";
 import { ProviderOverview as ProviderOverviewBlock } from "#blocks";
-import { SelectConsultation } from "#backdrops";
+import { SelectConsultation, ConfirmConsultation } from "#backdrops";
 import {
   useGetClientData,
   useBlockSlot,
@@ -20,6 +21,7 @@ import {
  */
 export const ProviderOverview = ({ navigation, route }) => {
   const { t } = useTranslation("provider-overview-scren");
+  const queryClient = useQueryClient();
 
   const providerId = route.params.providerId;
 
@@ -27,10 +29,11 @@ export const ProviderOverview = ({ navigation, route }) => {
 
   const clientData = useGetClientData()[1];
 
-  const [isBlockSlotSubmitting, setIsBlockSlotSubmitting] = useState(false);
   const [blockSlotError, setBlockSlotError] = useState();
   const [consultationId, setConsultationId] = useState();
-  const [selectedSlot, setSelectedSlot] = useState();
+
+  const consultationPrice = useRef();
+  const selectedSlot = useRef();
 
   // Modal state variables
   const [isScheduleBackdropOpen, setIsScheduleBackdropOpen] = useState(false);
@@ -56,44 +59,46 @@ export const ProviderOverview = ({ navigation, route }) => {
   const closeRequireDataAgreement = () => setIsRequireDataAgreementOpen(false);
 
   const onBlockSlotSuccess = (consultationId) => {
-    // setIsBlockSlotSubmitting(false);
-    // setConsultationId(consultationId);
-
-    scheduleConsultationMutation.mutate(consultationId);
-
-    // closeScheduleBackdrop();
-    // openConfirmConsultationBackdrop();
+    if (consultationPrice.current && consultationPrice.current > 0) {
+      navigation.navigate("Checkout", {
+        consultationId,
+        selectedSlot: selectedSlot.current,
+      });
+    } else {
+      scheduleConsultationMutation.mutate(consultationId);
+    }
   };
   const onBlockSlotError = (error) => {
     setBlockSlotError(error);
-    setIsBlockSlotSubmitting(false);
   };
   const blockSlotMutation = useBlockSlot(onBlockSlotSuccess, onBlockSlotError);
 
   const onScheduleConsultationSuccess = (data) => {
-    setIsBlockSlotSubmitting(false);
     setConsultationId(consultationId);
     closeScheduleBackdrop();
     openConfirmConsultationBackdrop();
     setBlockSlotError(null);
+    queryClient.invalidateQueries({ queryKey: ["all-consultations"] });
   };
   const onScheduleConsultationError = (error) => {
     setBlockSlotError(error);
-    setIsBlockSlotSubmitting(false);
   };
   const scheduleConsultationMutation = useScheduleConsultation(
     onScheduleConsultationSuccess,
     onScheduleConsultationError
   );
 
-  const handleBlockSlot = (slot) => {
-    setIsBlockSlotSubmitting(true);
-    setSelectedSlot(slot);
+  const handleBlockSlot = (slot, price) => {
+    selectedSlot.current = slot;
+    consultationPrice.current = price;
     blockSlotMutation.mutate({
       slot,
       providerId,
     });
   };
+
+  const isLoading =
+    blockSlotMutation.isLoading || scheduleConsultationMutation.isLoading;
 
   return (
     <Screen hasEmergencyButton={false} style={styles.flexGrow1}>
@@ -122,9 +127,23 @@ export const ProviderOverview = ({ navigation, route }) => {
         onClose={closeScheduleBackdrop}
         handleBlockSlot={handleBlockSlot}
         providerId={providerId}
-        isCtaDisabled={isBlockSlotSubmitting}
+        isCtaLoading={isLoading}
         errorMessage={blockSlotError}
       />
+      {selectedSlot.current && (
+        <ConfirmConsultation
+          isOpen={isConfirmBackdropOpen}
+          onClose={closeConfirmConsultationBackdrop}
+          consultation={{
+            startDate: new Date(selectedSlot.current),
+            endDate: new Date(
+              new Date(selectedSlot.current).setHours(
+                new Date(selectedSlot.current).getHours() + 1
+              )
+            ),
+          }}
+        />
+      )}
     </Screen>
   );
 };

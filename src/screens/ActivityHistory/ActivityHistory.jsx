@@ -23,11 +23,11 @@ export const ActivityHistory = ({ navigation, route }) => {
 
   const clientData = useGetClientData()[1];
 
-  const [isBlockSlotSubmitting, setIsBlockSlotSubmitting] = useState(false);
   const [blockSlotError, setBlockSlotError] = useState();
   // const [consultationId, setConsultationId] = useState();
-  const [selectedSlot, setSelectedSlot] = useState();
+
   const consultationPrice = useRef();
+  const selectedSlot = useRef();
 
   // Modal state variables
   const [isSelectConsultationOpen, setIsSelectConsultationOpen] =
@@ -55,26 +55,21 @@ export const ActivityHistory = ({ navigation, route }) => {
   const closeRequireDataAgreement = () => setIsRequireDataAgreementOpen(false);
 
   const onBlockSlotSuccess = (consultationId) => {
-    // setIsBlockSlotSubmitting(false);
-    // setConsultationId(consultationId);
-
     if (consultationPrice.current && consultationPrice.current > 0) {
-      navigate(`/checkout`, { state: { consultationId: consultationId } });
+      navigation.navigate("Checkout", {
+        consultationId: consultationId,
+        selectedSlot: selectedSlot.current,
+      });
     } else {
       scheduleConsultationMutation.mutate({ consultationId });
     }
-
-    // closeSelectConsultation();
-    // openConfirmConsultationBackdrop();
   };
   const onBlockSlotError = (error) => {
     setBlockSlotError(error);
-    setIsBlockSlotSubmitting(false);
   };
   const blockSlotMutation = useBlockSlot(onBlockSlotSuccess, onBlockSlotError);
 
   const onScheduleConsultationSuccess = (data) => {
-    setIsBlockSlotSubmitting(false);
     // setConsultationId(consultationId);
     closeSelectConsultation();
     openConfirmConsultationBackdrop();
@@ -82,7 +77,6 @@ export const ActivityHistory = ({ navigation, route }) => {
   };
   const onScheduleConsultationError = (error) => {
     setBlockSlotError(error);
-    setIsBlockSlotSubmitting(false);
   };
   const scheduleConsultationMutation = useScheduleConsultation(
     onScheduleConsultationSuccess,
@@ -90,14 +84,16 @@ export const ActivityHistory = ({ navigation, route }) => {
   );
 
   const handleBlockSlot = (slot, price) => {
-    setIsBlockSlotSubmitting(true);
-    setSelectedSlot(slot);
+    selectedSlot.current = slot;
     consultationPrice.current = price;
     blockSlotMutation.mutate({
       slot,
       providerId: providerId,
     });
   };
+
+  const isSelectConsultationLoading =
+    blockSlotMutation.isLoading || scheduleConsultationMutation.isLoading;
 
   return (
     <Screen hasEmergencyButton={false}>
@@ -112,7 +108,7 @@ export const ActivityHistory = ({ navigation, route }) => {
         onClose={closeSelectConsultation}
         handleBlockSlot={handleBlockSlot}
         providerId={providerId}
-        isCtaDisabled={isBlockSlotSubmitting}
+        isCtaLoading={isSelectConsultationLoading}
         errorMessage={blockSlotError}
       />
       {selectedSlot && (

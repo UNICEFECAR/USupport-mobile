@@ -4,7 +4,7 @@ import { StyleSheet, View } from "react-native";
 
 import { AppText, Block, Consultation, TabsUnderlined } from "#components";
 
-import { ONE_HOUR } from "#utils";
+import { ONE_HOUR, showToast } from "#utils";
 
 import {
   useGetAllConsultations,
@@ -77,24 +77,33 @@ export const Consultations = ({
   };
 
   const onAcceptConsultationSuccess = () => {
-    toast(t("accept_consultation_success"));
+    showToast({
+      message: t("accept_consultation_success"),
+    });
   };
   const onAcceptConsultationError = (error) => {
-    toast(error, { type: "error" });
+    showToast({
+      message: error,
+      type: "error",
+    });
   };
   const acceptConsultationMutation = useAcceptConsultation(
     onAcceptConsultationSuccess,
     onAcceptConsultationError
   );
-  const acceptConsultation = (consultationId, price) => {
-    acceptConsultationMutation.mutate({ consultationId, price });
+  const acceptConsultation = (consultationId, price, timestamp) => {
+    acceptConsultationMutation.mutate({
+      consultationId,
+      price,
+      slot: timestamp,
+    });
   };
 
   const onRejectConsultationSuccess = () => {
-    toast(t("reject_consultation_success"));
+    showToast({ message: t("reject_consultation_success") });
   };
   const onRejectConsultationError = (error) => {
-    toast(error, { type: "error" });
+    showToast({ message: error, type: "error" });
   };
   const rejectConsultationMutation = useRejectConsultation(
     onRejectConsultationSuccess,

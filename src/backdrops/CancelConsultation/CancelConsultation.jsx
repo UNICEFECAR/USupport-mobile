@@ -7,11 +7,16 @@ import { localStorage } from "#services";
 import { ONE_HOUR, showToast } from "#utils";
 import { useCancelConsultation } from "#hooks";
 
-export const CancelConsultation = ({ isOpen, onClose, consultation }) => {
+export const CancelConsultation = ({
+  isOpen,
+  onClose,
+  consultation,
+  currencySymbol,
+  secondaryCtaStyle,
+}) => {
   const { t } = useTranslation("cancel-consultation");
 
   const queryClient = useQueryClient();
-  const currencySymbol = localStorage.getItem("currency_symbol");
 
   const [error, setError] = useState();
 
@@ -53,7 +58,7 @@ export const CancelConsultation = ({ isOpen, onClose, consultation }) => {
         isConsultationLessThan24HoursBefore
           ? t("paid_heading", {
               price: consultation.price,
-              currencySymbol: "$", //TODO: get currency symbol from local storage
+              currencySymbol,
             })
           : t("heading")
       }
@@ -65,6 +70,7 @@ export const CancelConsultation = ({ isOpen, onClose, consultation }) => {
       ctaColor={isConsultationLessThan24HoursBefore ? "red" : "green"}
       secondaryCtaLabel={t("keep_button_label")}
       secondaryCtaHandleClick={onClose}
+      secondaryCtaStyle={secondaryCtaStyle}
       errorMessage={error}
     >
       <ConsultationInformation
@@ -73,6 +79,7 @@ export const CancelConsultation = ({ isOpen, onClose, consultation }) => {
         providerName={providerName}
         providerImage={image || "default"}
         price={price}
+        currencySymbol={currencySymbol}
         t={t}
       />
     </Backdrop>
