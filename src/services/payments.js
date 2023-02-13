@@ -19,6 +19,15 @@ async function createPaymentIntent(consultationId) {
   return response;
 }
 
+async function cancelPaymentIntent(paymentIntentId) {
+  const response = await http.put(
+    `${API_ENDPOINT}/one-time/cancel-payment-intent`,
+    { paymentIntentId }
+  );
+
+  return response;
+}
+
 /**
  * used to create retrieve payment history for existent users.
  *
@@ -32,6 +41,7 @@ async function createPaymentIntent(consultationId) {
 
 const exportedFunctions = {
   createPaymentIntent,
+  cancelPaymentIntent,
   //   getPaymentHistory,
 };
 
