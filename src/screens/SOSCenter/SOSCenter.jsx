@@ -16,7 +16,7 @@ export const SOSCenter = ({ navigation }) => {
   const { t } = useTranslation("sos-center-screen");
 
   return (
-    <Screen>
+    <Screen hasEmergencyButton={false}>
       <ScrollView>
         <Block>
           <Heading
