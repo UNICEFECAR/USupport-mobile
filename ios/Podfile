@@ -18,7 +18,7 @@ target 'USupportmobile' do
   # Flags change depending on the env values.
   flags = get_default_flags()
 
-  use_flipper!({ 'Flipper' => '0.157.0' })
+  # use_flipper!({ 'Flipper' => '0.157.0' })
 
   use_react_native!(
     :path => config[:reactNativePath],
