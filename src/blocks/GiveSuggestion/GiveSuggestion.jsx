@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Keyboard } from "react-native";
 import Joi from "joi";
 
-import { Block, AppText, Textarea, AppButton } from "#components";
+import {
+  Block,
+  AppText,
+  Textarea,
+  AppButton,
+  TransparentModal,
+} from "#components";
 
 import { validate, showToast } from "#utils";
 
@@ -25,7 +31,6 @@ export const GiveSuggestion = () => {
   const [data, setData] = useState({ ...initialData });
   const [errors, setErrors] = useState({});
   const [canSubmit, setCanSubmit] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
   const schema = Joi.object({
@@ -42,11 +47,12 @@ export const GiveSuggestion = () => {
 
   const closeSuccessModal = () => setIsSuccessModalOpen(false);
 
-  const onError = (error) => toast(error);
+  const onError = (error) => {
+    showToast({ message: error, type: "error" });
+  };
   const onSuccess = () => {
-    setIsSubmitting(false);
+    Keyboard.dismiss();
     setIsSuccessModalOpen(true);
-    showToast({ message: "success" });
     setData(initialData);
   };
   const sendSuggestionMutation = useSendInformationPortalSuggestion(
@@ -62,11 +68,8 @@ export const GiveSuggestion = () => {
   };
 
   const handleSubmit = async () => {
-    if (!isSubmitting) {
-      if ((await validate(data, schema, setErrors)) === null) {
-        setIsSubmitting(true);
-        sendSuggestionMutation.mutate(data.suggestion);
-      }
+    if ((await validate(data, schema, setErrors)) === null) {
+      sendSuggestionMutation.mutate(data.suggestion);
     }
   };
 
@@ -79,8 +82,22 @@ export const GiveSuggestion = () => {
         onChange={(value) => handleChange("suggestion", value)}
         errorMessage={errors.suggestion}
         style={styles.textArea}
+        value={data.suggestion}
       />
-      <AppButton label={t("submit")} type="ghost" onPress={handleSubmit} />
+      <AppButton
+        label={t("submit")}
+        type="ghost"
+        onPress={handleSubmit}
+        disabled={!canSubmit || sendSuggestionMutation.isLoading}
+      />
+      <TransparentModal
+        isOpen={isSuccessModalOpen}
+        closeModal={closeSuccessModal}
+        heading={t("modal_title")}
+        text={t("modal_text")}
+        ctaLabel={t("modal_cta_label")}
+        ctaHandleClick={closeSuccessModal}
+      />
     </Block>
   );
 };

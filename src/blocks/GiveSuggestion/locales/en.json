@@ -3,5 +3,8 @@
   "subheading": "Cannot find information you’re interested in? Suggest a topic and we’ll try to address that.",
   "submit": "Send your suggestion",
   "suggestion_placeholder": "Write your suggestion here",
-  "success": "Suggestion sent successfully"
+
+  "modal_title": "Suggestion submited successfully",
+  "modal_text": "We are really sorry you could not find what you were loooking for. We will try to address your suggestion as soon as possible. Thank you for your feedback.",
+  "modal_cta_label": "Explore more articles"
 }
