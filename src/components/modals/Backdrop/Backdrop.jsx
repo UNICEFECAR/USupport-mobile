@@ -52,6 +52,7 @@ export const Backdrop = ({
   showLoadingIfDisabled = false,
   children,
   errorMessage,
+  customRender = false,
   reference,
 }) => {
   const hasButtons = ctaLabel || secondaryCtaLabel;
@@ -100,35 +101,39 @@ export const Backdrop = ({
     <>
       {isOverlayShown ? <Overlay /> : null}
       <Animated.View style={[styles.backdrop, backdropStyle]}>
-        <View>
-          <TouchableOpacity onPress={handleCloseBackdrop}>
-            <Icon
-              name="close-x"
-              size="md"
-              color={appStyles.colorPrimary_20809e}
-              style={styles.icon}
-            />
-          </TouchableOpacity>
-          <View style={styles.header}>
-            <AppText namedStyle="h3" style={styles.headingText}>
-              {heading}
-            </AppText>
-          </View>
+        {customRender ? (
+          children
+        ) : (
           <View>
-            <AppText style={styles.subheading}>{text}</AppText>
-          </View>
+            <TouchableOpacity onPress={handleCloseBackdrop}>
+              <Icon
+                name="close-x"
+                size="md"
+                color={appStyles.colorPrimary_20809e}
+                style={styles.icon}
+              />
+            </TouchableOpacity>
+            <View style={styles.header}>
+              <AppText namedStyle="h3" style={styles.headingText}>
+                {heading}
+              </AppText>
+            </View>
+            <View>
+              <AppText style={styles.subheading}>{text}</AppText>
+            </View>
 
-          <ScrollView
-            contentContainerStyle={{
-              flexGrow: 1,
-              paddingTop: 32,
-              paddingBottom: buttonsContainerHeight * 2,
-            }}
-            showsVerticalScrollIndicator={false}
-          >
-            {children}
-          </ScrollView>
-        </View>
+            <ScrollView
+              contentContainerStyle={{
+                flexGrow: 1,
+                paddingTop: 32,
+                paddingBottom: buttonsContainerHeight * 2,
+              }}
+              showsVerticalScrollIndicator={false}
+            >
+              {children}
+            </ScrollView>
+          </View>
+        )}
         {hasButtons ? (
           <View
             style={[
