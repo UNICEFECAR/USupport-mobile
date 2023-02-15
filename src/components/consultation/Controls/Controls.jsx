@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { View, StyleSheet } from "react-native";
-
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Icon } from "../../icons";
+import { ConsultationInformation } from "../../cards/";
+
+import { ONE_HOUR } from "#utils";
 import { appStyles } from "#styles";
 
 /**
@@ -19,8 +21,10 @@ export const Controls = ({
   toggleChat,
   leaveConsultation,
   handleSendMessage,
+  handleClose,
   isCameraOn,
   isMicrophoneOn,
+  style,
   t,
 }) => {
   const renderIn = "client";
@@ -36,8 +40,8 @@ export const Controls = ({
 
   const handleMicClick = () => {
     const content = isMicOpen
-      ? t(`${renderIn}_microphone_off`)
-      : t(`${renderIn}_microphone_on`);
+      ? t("client_microphone_off")
+      : t("client_microphone_on");
     handleSendMessage(content, "system");
 
     setIsMicOpen(!isMicOpen);
@@ -46,8 +50,8 @@ export const Controls = ({
 
   const handleCameraClick = () => {
     const content = isCameraOpen
-      ? t(`${renderIn}_camera_off`)
-      : t(`${renderIn}_camera_on`);
+      ? t("client_camera_off")
+      : t("client_camera_on");
     handleSendMessage(content, "system");
 
     setIsCameraOpen(!isCameraOpen);
@@ -66,45 +70,43 @@ export const Controls = ({
     return (
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={handleCameraClick}>
-          <View style={styles.button}>
-            <Icon
-              name={!isCameraOpen ? "stop-camera" : "video"}
-              size="lg"
-              color={appStyles.colorPrimary_20809e}
-              onClick={toggleCamera}
-            />
-          </View>
+          <Icon
+            style={styles.button}
+            name={!isCameraOpen ? "stop-camera" : "video"}
+            size="lg"
+            color={appStyles.colorPrimary_20809e}
+          />
         </TouchableOpacity>
         <TouchableOpacity onPress={handleMicClick}>
-          <View style={styles.button}>
-            <Icon
-              name={!isMicOpen ? "stop-mic" : "microphone"}
-              size="lg"
-              color={appStyles.colorPrimary_20809e}
-              onClick={toggleMicrophone}
-            />
-          </View>
+          <Icon
+            style={styles.button}
+            name={!isMicOpen ? "stop-mic" : "microphone"}
+            size="lg"
+            color={appStyles.colorPrimary_20809e}
+          />
         </TouchableOpacity>
         <TouchableOpacity onPress={handleChat}>
-          <View style={styles.button}>
-            <Icon
-              name={"comment"}
-              size="lg"
-              color={appStyles.colorPrimary_20809e}
-            />
-          </View>
+          <Icon
+            style={styles.button}
+            name="comment"
+            size="lg"
+            color={appStyles.colorPrimary_20809e}
+          />
         </TouchableOpacity>
         <TouchableOpacity onPress={handleHangUp}>
-          <View style={styles.buttonHangup}>
-            <Icon name={"hangup"} size="lg" color={appStyles.colorWhite_ff} />
-          </View>
+          <Icon
+            style={styles.buttonHangup}
+            name="hang-up"
+            size="lg"
+            color={appStyles.colorWhite_ff}
+          />
         </TouchableOpacity>
       </View>
     );
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <ConsultationInformation
         startDate={startDate}
         endDate={endDate}
@@ -113,18 +115,32 @@ export const Controls = ({
         showPriceBadge={false}
         t={t}
       />
+      <TouchableOpacity
+        onPress={handleClose}
+        style={{
+          position: "absolute",
+          top: 16,
+          right: 16,
+        }}
+      >
+        <Icon name="close-x" size="md" color="#000000" />
+      </TouchableOpacity>
+      {renderAllButtons()}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
+    alignSelf: "center",
+    backgroundColor: appStyles.colorWhite_ff,
+    borderRadius: 20,
     maxWidth: 420,
-    ...appStyles.shadow2,
+    paddingBottom: 16,
     paddingHorizontal: 16,
     paddingTop: 12,
-    paddingBottom: 16,
+    width: "95%",
+    ...appStyles.shadow2,
   },
   buttonContainer: {
     flexDirection: "row",
@@ -135,16 +151,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: 54,
     height: 54,
-    borderRadius: "50%",
-    backgroundColor: appStyles.colorPrimary_20809e,
+    borderRadius: 54 / 2,
+    // backgroundColor: appStyles.colorPrimary_20809e,
   },
-  buttonHangUp: {
+  buttonHangup: {
     backgroundColor: appStyles.colorRed_eb5757,
     alignItems: "center",
     justifyContent: "center",
     width: 56,
     height: 56,
-    borderRadius: "50%",
+    borderRadius: 54 / 2,
   },
 });
 

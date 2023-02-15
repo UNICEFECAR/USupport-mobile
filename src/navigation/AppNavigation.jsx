@@ -21,6 +21,7 @@ import {
   ActivityHistory,
   RegisterAboutYou,
   RegisterSupport,
+  Consultation,
 } from "#screens";
 
 import { Context } from "#services";
@@ -35,10 +36,15 @@ export const AppNavigation = () => {
       initialRouteName={initialRouteName}
     >
       <Stack.Screen name="RegisterAboutYou" component={RegisterAboutYou} />
-      <Stack.Screen name="TabNavigation" component={TabNavigation} />
+      <Stack.Screen
+        options={{ gestureEnabled: false }}
+        name="TabNavigation"
+        component={TabNavigation}
+      />
       <Stack.Screen name="RegisterSupport" component={RegisterSupport} />
       <Stack.Screen name="UserProfile" component={UserProfile} />
       <Stack.Screen name="Checkout" component={Checkout} />
+      <Stack.Screen name="Consultation" component={Consultation} />
       <Stack.Screen name="UserDetails" component={UserDetails} />
       <Stack.Screen name="SelectProvider" component={SelectProvider} />
       <Stack.Screen name="Articles" component={Articles} />

@@ -27,3 +27,4 @@ export * from "./SafetyFeedback";
 export * from "./RegisterAboutYou";
 export * from "./ActivityHistory";
 export * from "./ForgotPassword";
+export * from "./Consultation";

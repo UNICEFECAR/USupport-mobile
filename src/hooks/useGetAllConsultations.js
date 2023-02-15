@@ -11,6 +11,7 @@ export default function useGetAllConsultations(enabled = true) {
       formattedData.push({
         chatId: consultation.chat_id,
         consultationId: consultation.consultation_id,
+        clientDetailId: consultation.client_detail_id,
         providerId: consultation.provider_detail_id,
         providerName: consultation.provider_name,
         image: consultation.provider_image,

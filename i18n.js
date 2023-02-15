@@ -49,6 +49,7 @@ import {
   SafetyFeedback as SafetyFeedbackScreen,
   ForgotPassword as ForgotPasswordScreen,
   Checkout as CheckoutPage,
+  Consultation as ConsultationScreen,
 } from "./src/screens/locales.js";
 
 import {
@@ -119,6 +120,7 @@ const resources = {
     "forgot-password-screen": ForgotPasswordScreen.en,
     // "change-passcode-screen": ChangePasscodeScreen.en,
     "checkout-page": CheckoutPage.en,
+    "consultation-page": ConsultationScreen.en,
 
     // Backdrops
     "filter-providers": FilterProviders.en,
