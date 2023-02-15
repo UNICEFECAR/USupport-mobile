@@ -10,3 +10,4 @@ export * from "./CheckBoxSelectorGroup";
 export * from "./CheckBoxGroup";
 export * from "./Textarea";
 export * from "./Toggle";
+export * from "./SendMessage";
