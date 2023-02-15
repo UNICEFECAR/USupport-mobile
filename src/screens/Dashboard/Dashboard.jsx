@@ -15,6 +15,7 @@ import {
   ArticlesDashboard,
   MascotHeadingBlock,
   ConsultationsDashboard,
+  MoodTracker,
 } from "#blocks";
 
 import {
@@ -269,6 +270,7 @@ export const Dashboard = ({ navigation }) => {
             />
           )}
         </MascotHeadingBlock>
+        <MoodTracker navigation={navigation} />
         <ArticlesDashboard navigation={navigation} />
         <ConsultationsDashboard
           openJoinConsultation={openJoinConsultation}

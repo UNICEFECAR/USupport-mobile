@@ -205,6 +205,21 @@ function getTime(date) {
   return timeText.split(" ")[0].slice(0, -3);
 }
 
+/**
+ *Return if date is today
+ * @param {Date} date
+ * @returns {Boolean}
+ */
+function isDateToday(date) {
+  return new Date().toDateString() === date.toDateString();
+}
+
+function getOrdinal(n) {
+  const s = ["th", "st", "nd", "rd"];
+  const v = n % 100;
+  return `ordinal_${s[(v - 20) % 10] || s[v] || s[0]}`;
+}
+
 export {
   getDayOfTheWeek,
   getDateView,
@@ -217,6 +232,8 @@ export {
   getTimestampFromUTC,
   getTimeAsString,
   getTime,
+  isDateToday,
+  getOrdinal,
   ONE_HOUR,
   FIVE_MINUTES,
 };

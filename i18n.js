@@ -30,6 +30,8 @@ import {
   SafetyFeedback,
   ActivityHistory,
   ForgotPassword,
+  MoodTracker,
+  MoodTrackerHistory,
 } from "./src/blocks/locales.js";
 
 import {
@@ -50,6 +52,7 @@ import {
   ForgotPassword as ForgotPasswordScreen,
   Checkout as CheckoutPage,
   Consultation as ConsultationScreen,
+  MoodTracker as MoodTrackerScreen,
 } from "./src/screens/locales.js";
 
 import {
@@ -67,6 +70,7 @@ import {
 import {
   RequireRegistration,
   RequireDataAgreemant,
+  MoodTrackerMoreInformation,
 } from "./src/modals/locales.js";
 
 const resources = {
@@ -95,7 +99,8 @@ const resources = {
     passcode: Passcode.en,
     "safety-feedback": SafetyFeedback.en,
     "forgot-password": ForgotPassword.en,
-    // "change-passcode": ChangePasscode.en,
+    "mood-tracker": MoodTracker.en,
+    "mood-tracker-history": MoodTrackerHistory.en,
 
     // Screens
     "information-portal": InformationalPortal.en,
@@ -118,9 +123,9 @@ const resources = {
     "safety-feedback-screen": SafetyFeedbackScreen.en,
     "activity-history": ActivityHistory.en,
     "forgot-password-screen": ForgotPasswordScreen.en,
-    // "change-passcode-screen": ChangePasscodeScreen.en,
     "checkout-page": CheckoutPage.en,
     "consultation-page": ConsultationScreen.en,
+    "mood-tracker-screen": MoodTrackerScreen.en,
 
     // Backdrops
     "filter-providers": FilterProviders.en,
@@ -136,6 +141,7 @@ const resources = {
     // Modals
     "require-registration": RequireRegistration.en,
     "require-data-agreement": RequireDataAgreemant.en,
+    "mood-tracker-more-information": MoodTrackerMoreInformation.en,
   },
 };
 

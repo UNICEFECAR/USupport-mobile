@@ -8,6 +8,7 @@ export const AppText = ({
   namedStyle,
   isBold = false,
   isSemibold = false,
+  underlined = false,
   children,
   ...props
 }) => {
@@ -18,6 +19,7 @@ export const AppText = ({
         styles[namedStyle],
         isBold && styles.bold,
         isSemibold && styles.semibold,
+        underlined && styles.underlined,
         style,
       ]}
       {...props}
@@ -65,4 +67,5 @@ const styles = StyleSheet.create({
   semibold: {
     fontFamily: "Nunito_600SemiBold",
   },
+  underlined: { textDecorationLine: "underline" },
 });
