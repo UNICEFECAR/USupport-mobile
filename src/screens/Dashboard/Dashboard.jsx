@@ -269,7 +269,7 @@ export const Dashboard = ({ navigation }) => {
             />
           )}
         </MascotHeadingBlock>
-        {/* <ArticlesDashboard navigation={navigation} /> */}
+        <ArticlesDashboard navigation={navigation} />
         <ConsultationsDashboard
           openJoinConsultation={openJoinConsultation}
           openEditConsultation={openEditConsultation}
