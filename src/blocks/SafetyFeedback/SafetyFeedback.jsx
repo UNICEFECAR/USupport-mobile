@@ -14,7 +14,6 @@ import {
 import {
   useCreateConsultationSecurityCheck,
   useUpdateSecurityCheckAnswersByConsultationId,
-  useGetSecurityCheckAnswersByConsultationId,
 } from "#hooks";
 
 /**
@@ -24,14 +23,8 @@ import {
  *
  * @return {jsx}
  */
-export const SafetyFeedback = ({ consultationId }) => {
+export const SafetyFeedback = ({ navigation, consultationId, answers }) => {
   const { t } = useTranslation("safety-feedback");
-
-  // TODO: delete this and use the real data passed as a prop - answers
-  const { data } = useGetSecurityCheckAnswersByConsultationId(
-    "5495dd22-7114-414e-9160-90fef7926d5a"
-  );
-  const answers = data ? data : {};
 
   const hasAnsweredBefore =
     Object.values(answers).filter((x) => x !== undefined).length === 5;
@@ -85,7 +78,7 @@ export const SafetyFeedback = ({ consultationId }) => {
     setQuestions(newQuestions);
   };
 
-  const onCreateSuccess = () => navigate("/consultations");
+  const onCreateSuccess = () => navigation.navigate("TabNavigation");
   const createConsultationSecurityCheckMutation =
     useCreateConsultationSecurityCheck(onCreateSuccess);
 

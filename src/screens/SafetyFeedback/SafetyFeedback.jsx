@@ -12,7 +12,7 @@ import { SafetyFeedback as SafetyFeedbackBlock } from "#blocks";
  *
  * @return {jsx}
  */
-export const SafetyFeedback = ({ navigation }) => {
+export const SafetyFeedback = ({ navigation, answers, consultationId }) => {
   const { t } = useTranslation("safety-feedback-screen");
 
   return (
@@ -28,7 +28,11 @@ export const SafetyFeedback = ({ navigation }) => {
             hasGoBackArrow={false}
           />
         </Block>
-        <SafetyFeedbackBlock />
+        <SafetyFeedbackBlock
+          navigation={navigation}
+          consultationId={consultationId}
+          answers={answers}
+        />
       </ScrollView>
     </Screen>
   );

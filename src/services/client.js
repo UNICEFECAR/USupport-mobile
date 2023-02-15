@@ -83,6 +83,22 @@ async function getSecurityCheckAnswersByConsultationId(consultationId) {
   return response;
 }
 
+async function createConsultationSecurityCheck(payload) {
+  const response = await http.post(
+    `${API_ENDPOINT}/consultation/security-check`,
+    payload
+  );
+  return response;
+}
+
+async function updateConsultationSecurityCheck(payload) {
+  const response = await http.put(
+    `${API_ENDPOINT}/consultation/security-check`,
+    payload
+  );
+  return response;
+}
+
 const exportedFunctions = {
   addMoodTrack,
   getClientData,
@@ -96,6 +112,8 @@ const exportedFunctions = {
   sendInformationPortalSuggestion,
   addPlatformRating,
   getSecurityCheckAnswersByConsultationId,
+  createConsultationSecurityCheck,
+  updateConsultationSecurityCheck,
 };
 
 export default exportedFunctions;
