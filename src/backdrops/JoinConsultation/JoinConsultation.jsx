@@ -19,28 +19,9 @@ export const JoinConsultation = ({ isOpen, onClose, consultation }) => {
   const { t } = useTranslation("join-consultation");
 
   const handleClick = async (redirectTo) => {
-    const sytemMessage = {
-      type: "system",
-      content: t("client_joined"),
-      time: JSON.stringify(new Date().getTime()),
-    };
-
-    const systemMessagePromise = messageSvc.sendMessage({
-      message: sytemMessage,
-      chatId: consultation.chatId,
-    });
-
-    const getConsultationTokenPromise = userSvc.getTwilioToken(
-      consultation.consultationId
-    );
-
     try {
-      const result = await Promise.all([
-        systemMessagePromise,
-        getConsultationTokenPromise,
-      ]);
-      const token = result[1].data.token;
-
+      const result = await userSvc.getTwilioToken(consultation.consultationId);
+      const token = result?.data?.token;
       navigation.navigate("Consultation", {
         consultation,
         videoOn: redirectTo === "video",
