@@ -3,7 +3,14 @@
     "name": "USupport-mobile",
     "slug": "USupport-mobile",
     "version": "1.0.0",
-    "assetBundlePatterns": ["**/*"],
-    "jsEngine": "hermes"
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "jsEngine": "hermes",
+    "extra": {
+      "eas": {
+        "projectId": "600cf7c4-2e9b-4ac3-9b41-bde04a22d2fe"
+      }
+    }
   }
 }
