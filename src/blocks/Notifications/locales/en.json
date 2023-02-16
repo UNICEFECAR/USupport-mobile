@@ -1,0 +1,19 @@
+{
+  "heading": "Notifications",
+  "mark_read": "Mark all as read",
+  "subheading": "Here you can find all the notifications you ever received in your account.",
+  "consultation_booking": "Your consultation with {{providerName}} was scheduled successfully for {{date}} from {{startHour}} to {{endHour}}",
+  "consultation_reschedule": "You successfully rescheduled your consultation on {{date}} from {{startHour}} to {{endHour}} to {{newDate}} from {{newStartHour}} to {{newEndHour}}",
+  "consultation_cancellation": "You successfully cancelled your consultation with {{providerName}} scheduled on {{date}} from {{startHour}} to {{endHour}}",
+  "consultation_cancellation_provider": "The provider {{providerName}} cancelled the consultation scheduled on {{date}} from {{startHour}} to {{endHour}}",
+  "consultation_remind_start": "Upcoming consultation in {{minutes}} minutes",
+  "consultation_suggestion": "{{providerName}} suggested a consultation on {{date}} from {{startHour}} to {{endHour}}",
+  "consultation_suggestion_booking": "You accepted the suggested consultation from {{providerName}} on {{date}} from {{startHour}} to {{endHour}}",
+  "consultation_suggestion_cancellation": "You rejected the suggested consultation from {{providerName}} on {{date}} from {{startHour}} to {{endHour}}",
+  "join": "Join",
+  "accept": "Accept",
+  "accept_consultation_success": "Succesfully accepted consultation",
+  "reject": "Reject",
+  "reject_consultation_success": "Succesfully rejected consultation",
+  "no_notifications": "You have no notifications yet."
+}

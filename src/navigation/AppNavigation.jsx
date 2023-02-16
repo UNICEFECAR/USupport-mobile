@@ -22,6 +22,7 @@ import {
   RegisterAboutYou,
   RegisterSupport,
   Consultation,
+  Notifications,
 } from "#screens";
 
 import { Context } from "#services";
@@ -62,6 +63,7 @@ export const AppNavigation = () => {
       <Stack.Screen name="ArticleInformation" component={ArticleInformation} />
       <Stack.Screen name="Passcode" component={Passcode} />
       <Stack.Screen name="ActivityHistory" component={ActivityHistory} />
+      <Stack.Screen name="Notifications" component={Notifications} />
     </Stack.Navigator>
   );
 };

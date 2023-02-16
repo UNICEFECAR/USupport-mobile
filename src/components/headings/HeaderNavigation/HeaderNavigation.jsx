@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import { Avatar } from "../../avatars";
 import { ButtonWithIcon } from "../../buttons/";
@@ -13,7 +14,12 @@ import { Context } from "#services";
 
 import { AMAZON_S3_BUCKET } from "@env";
 
-export const HeaderNavigation = ({ t, navigation, style }) => {
+export const HeaderNavigation = ({
+  t,
+  navigation,
+  style,
+  hasUnreadNotifications,
+}) => {
   const { isTmpUser } = useContext(Context);
 
   const getClientDataEnabled = isTmpUser === false ? true : false;
@@ -36,8 +42,15 @@ export const HeaderNavigation = ({ t, navigation, style }) => {
         color="purple"
         onPress={() => navigation.navigate("SOSCenter")}
       />
-      <TouchableOpacity onPress={() => {}}>
-        <Icon name="notification-unread" color={appStyles.colorGray_a6b4b8} />
+      <TouchableOpacity
+        onPress={() => {
+          navigation.push("Notifications");
+        }}
+      >
+        <Icon
+          name={hasUnreadNotifications ? "notification-unread" : "notification"}
+          color={appStyles.colorGray_a6b4b8}
+        />
       </TouchableOpacity>
     </View>
   );

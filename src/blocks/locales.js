@@ -27,3 +27,4 @@ export * as Passcode from "./Passcode/locales";
 export * as SafetyFeedback from "./SafetyFeedback/locales";
 export * as ActivityHistory from "./ActivityHistory/locales";
 export * as ForgotPassword from "./ForgotPassword/locales";
+export * as Notifications from "./Notifications/locales";

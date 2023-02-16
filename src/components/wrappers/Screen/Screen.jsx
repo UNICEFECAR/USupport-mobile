@@ -15,6 +15,7 @@ import { appStyles } from "#styles";
 import { RadialGradient } from "react-native-gradients";
 import spiralBackground from "../../../assets/spiral-background.png";
 import { HeaderNavigation } from "../../headings";
+import { useCheckHasUnreadNotifications } from "../../../hooks/useCheckHasUnreadNotifications";
 
 // Main wrapper for every screen
 export function Screen({
@@ -36,6 +37,8 @@ export function Screen({
   ];
 
   const { top: topInset } = useSafeAreaInsets();
+
+  const queryHasUnreadNotifications = useCheckHasUnreadNotifications();
 
   return (
     <SafeAreaView
@@ -81,6 +84,7 @@ export function Screen({
               (Platform.OS === "android" ? StatusBar.currentHeight : topInset) +
               7,
           }}
+          hasUnreadNotifications={queryHasUnreadNotifications.data}
         />
       ) : null}
       {outsideComponent}

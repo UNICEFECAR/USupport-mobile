@@ -6,3 +6,4 @@ export * from "./CardMedia";
 export * from "./ConsultationDashboard";
 export * from "./ConsultationBig";
 export * from "./ConsultationInformaton";
+export * from "./Notification";

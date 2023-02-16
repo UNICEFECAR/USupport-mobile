@@ -205,6 +205,27 @@ function getTime(date) {
   return timeText.split(" ")[0].slice(0, -3);
 }
 
+/**
+ *Return if date is today
+ * @param {Date} date
+ * @returns {Boolean}
+ */
+function isDateToday(date) {
+  return new Date().toDateString() === date.toDateString();
+}
+
+/**
+ *Return if date is yesterday
+ * @param {Date} date
+ * @returns {Boolean}
+ */
+const isDateYesterday = (date) => {
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+
+  return yesterday.toDateString() === date.toDateString();
+};
+
 export {
   getDayOfTheWeek,
   getDateView,
@@ -217,6 +238,8 @@ export {
   getTimestampFromUTC,
   getTimeAsString,
   getTime,
+  isDateToday,
+  isDateYesterday,
   ONE_HOUR,
   FIVE_MINUTES,
 };

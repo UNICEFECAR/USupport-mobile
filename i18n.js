@@ -30,6 +30,7 @@ import {
   SafetyFeedback,
   ActivityHistory,
   ForgotPassword,
+  Notifications,
 } from "./src/blocks/locales.js";
 
 import {
@@ -95,6 +96,7 @@ const resources = {
     passcode: Passcode.en,
     "safety-feedback": SafetyFeedback.en,
     "forgot-password": ForgotPassword.en,
+    notifications: Notifications.en,
     // "change-passcode": ChangePasscode.en,
 
     // Screens
