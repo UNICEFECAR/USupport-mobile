@@ -92,6 +92,7 @@ export const Dashboard = ({ navigation }) => {
     await Promise.all([
       queryClient.invalidateQueries({ queryKey: ["all-consultations"] }),
       queryClient.invalidateQueries({ queryKey: ["client-data"] }),
+      queryClient.invalidateQueries({ queryKey: ["getMoodTrackForToday"] }),
     ]);
     setRefreshing(false);
   };
@@ -271,7 +272,7 @@ export const Dashboard = ({ navigation }) => {
           )}
         </MascotHeadingBlock>
         <MoodTracker navigation={navigation} />
-        <ArticlesDashboard navigation={navigation} />
+        {/* <ArticlesDashboard navigation={navigation} /> */}
         <ConsultationsDashboard
           openJoinConsultation={openJoinConsultation}
           openEditConsultation={openEditConsultation}

@@ -27,21 +27,28 @@ import { appStyles } from "#styles";
 export const MoodTracker = ({ navigation }) => {
   const { t } = useTranslation("mood-tracker");
 
-  const [isMoodTrackCompleted, setIsMoodTrackCompleted] = useState(false);
-  const [comment, setComment] = useState("");
-  const [emoticons, setEmoticons] = useState([
+  const emoticonsInitialState = [
     { value: "happy", label: t("happy"), isSelected: false },
     { value: "good", label: t("good"), isSelected: false },
     { value: "sad", label: t("sad"), isSelected: false },
     { value: "depressed", label: t("depressed"), isSelected: false },
     { value: "worried", label: t("worried"), isSelected: false },
-  ]);
+  ];
+
+  const [isMoodTrackCompleted, setIsMoodTrackCompleted] = useState(false);
+  const [comment, setComment] = useState("");
+  const [emoticons, setEmoticons] = useState([...emoticonsInitialState]);
 
   const onGetMoodTrackSuccess = (data) => {
     if (data) {
+      console.log(data, "mood track data");
       handleEmoticonClick(data.mood);
       setComment(data.comment);
       setIsMoodTrackCompleted(true);
+    } else {
+      setIsMoodTrackCompleted(false);
+      setComment("");
+      setEmoticons([...emoticonsInitialState]);
     }
   };
   const useGetMoodTrackForTodayQuery = useGetMoodTrackForToday({
@@ -140,7 +147,7 @@ export const MoodTracker = ({ navigation }) => {
                     label={t("submit_mood_track")}
                     size="lg"
                     onPress={handleSubmit}
-                    disabled={addMoodTrackMutation.isLoading}
+                    loading={addMoodTrackMutation.isLoading}
                     style={styles.submitButton}
                   />
                 </View>
