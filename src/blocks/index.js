@@ -31,3 +31,5 @@ export * from "./ActivityHistory";
 export * from "./ForgotPassword";
 export * from "./VideoRoom";
 export * from "./Notifications";
+export * from "./MoodTracker";
+export * from "./MoodTrackerHistory";

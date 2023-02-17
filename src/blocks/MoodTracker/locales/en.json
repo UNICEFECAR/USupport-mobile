@@ -1,0 +1,12 @@
+{
+  "happy": "Happy",
+  "good": "Good",
+  "sad": "Sad",
+  "depressed": "Depressed",
+  "worried": "Worried",
+  "heading": "How are you feeling today?",
+  "mood_tracker": "Mood Tracker",
+  "additional_comment_placeholder": "What made you feel this way?",
+  "submit_mood_track": "Submit",
+  "add_mood_tracker_success": "Your daily mood was added successfully"
+}

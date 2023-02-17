@@ -95,7 +95,7 @@ export const UserProfile = ({ navigation }) => {
           {!isTmpUser && (
             <ButtonSelector
               label={t("mood_tracker_button_label")}
-              // onClick={() => handleRedirect("/mood-tracker")}
+              onPress={() => handleRedirect("MoodTracker")}
               iconName="mood"
               style={styles.buttonSelector}
             />

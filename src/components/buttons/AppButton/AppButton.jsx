@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
   },
 
   lg: {
-    width: "96%",
+    minWidth: "96%",
     maxWidth: 420,
     paddingHorizontal: 24,
     paddingVertical: 13,

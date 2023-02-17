@@ -15,6 +15,7 @@ import {
   ArticlesDashboard,
   MascotHeadingBlock,
   ConsultationsDashboard,
+  MoodTracker,
 } from "#blocks";
 
 import {
@@ -91,6 +92,7 @@ export const Dashboard = ({ navigation }) => {
     await Promise.all([
       queryClient.invalidateQueries({ queryKey: ["all-consultations"] }),
       queryClient.invalidateQueries({ queryKey: ["client-data"] }),
+      queryClient.invalidateQueries({ queryKey: ["getMoodTrackForToday"] }),
     ]);
     setRefreshing(false);
   };
@@ -269,7 +271,8 @@ export const Dashboard = ({ navigation }) => {
             />
           )}
         </MascotHeadingBlock>
-        <ArticlesDashboard navigation={navigation} />
+        <MoodTracker navigation={navigation} />
+        {/* <ArticlesDashboard navigation={navigation} /> */}
         <ConsultationsDashboard
           openJoinConsultation={openJoinConsultation}
           openEditConsultation={openEditConsultation}

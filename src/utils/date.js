@@ -226,6 +226,12 @@ const isDateYesterday = (date) => {
   return yesterday.toDateString() === date.toDateString();
 };
 
+function getOrdinal(n) {
+  const s = ["th", "st", "nd", "rd"];
+  const v = n % 100;
+  return `ordinal_${s[(v - 20) % 10] || s[v] || s[0]}`;
+}
+
 export {
   getDayOfTheWeek,
   getDateView,
@@ -240,6 +246,7 @@ export {
   getTime,
   isDateToday,
   isDateYesterday,
+  getOrdinal,
   ONE_HOUR,
   FIVE_MINUTES,
 };
