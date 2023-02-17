@@ -95,7 +95,13 @@ export const ConsultationBig = ({
             />
           )}
         </View>
-        <Image source={mascotHappyBlue} style={styles.imageMascot} />
+        <Image
+          source={mascotHappyBlue}
+          style={[
+            styles.imageMascot,
+            appStyles.screenWidth < 350 && styles.imageMascotSmall,
+          ]}
+        />
       </View>
     </LinearGradient>
   );
@@ -133,4 +139,5 @@ const styles = StyleSheet.create({
   },
   button: { marginTop: 16 },
   imageMascot: { width: 128, height: 100 },
+  imageMascotSmall: { width: 100, resizeMode: "contain" },
 });
