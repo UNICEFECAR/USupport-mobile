@@ -117,7 +117,7 @@ export const Consultation = ({
         ]}
       >
         <View style={styles.content}>
-          <View style={{ width: "20%" }}>
+          <View>
             <Avatar image={{ uri: imageUrl }} size="md" />
           </View>
           <View style={styles.textContainer}>
@@ -196,6 +196,7 @@ export const Consultation = ({
               label={buttonLabel}
               size="sm"
               type="secondary"
+              style={styles.oneButton}
             />
           </View>
         )}
@@ -207,6 +208,7 @@ export const Consultation = ({
               label={buttonLabel}
               size="sm"
               type="secondary"
+              style={styles.oneButton}
             />
           </View>
         )}
@@ -219,6 +221,7 @@ export const Consultation = ({
                 label={buttonLabel}
                 size="sm"
                 type="secondary"
+                style={styles.oneButton}
               />
             ) : (
               <AppText namedStyle="smallText">
@@ -252,13 +255,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
   },
-  textContainer: { paddingLeft: 16 },
+  textContainer: { paddingLeft: 16, flexGrow: 1 },
   dateContainer: { flexDirection: "row", alignItems: "center" },
   calendarIcon: { marginRight: 8 },
   nameContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    width: "80%",
   },
   priceBadge: {
     alignItems: "center",
@@ -270,6 +272,7 @@ const styles = StyleSheet.create({
     maxHeight: 30,
     paddingHorizontal: 8,
     paddingVertical: 4,
+    alignSelf: "flex-end",
   },
   buttonContainer: {
     width: "100%",
@@ -294,4 +297,5 @@ const styles = StyleSheet.create({
   textPurple: {
     color: appStyles.colorSecondary_9749fa,
   },
+  oneButton: { minWidth: 120 },
 });
