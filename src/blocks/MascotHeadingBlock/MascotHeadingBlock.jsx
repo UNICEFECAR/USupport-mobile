@@ -12,7 +12,10 @@ export const MascotHeadingBlock = ({ image, children, style }) => {
       style={styles.mascotHeadingBlock}
     >
       <View style={[styles.contentContainer, style]}>
-        <Image source={image} />
+        <Image
+          source={image}
+          style={appStyles.screenWidth < 350 && styles.image}
+        />
         <View style={styles.childrenContainer}>{children}</View>
       </View>
     </LinearGradient>
@@ -24,6 +27,8 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 80,
     width: appStyles.screenWidth,
   },
+
+  image: { width: 95, resizeMode: "contain" },
 
   contentContainer: {
     paddingTop: 50,
