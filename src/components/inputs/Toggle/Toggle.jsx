@@ -17,11 +17,7 @@ export const Toggle = ({ isToggled, handleToggle, style, ...props }) => {
         false: appStyles.colorGray_ea,
         true: appStyles.colorSecondary_9749fa,
       }}
-      thumbColor={
-        appStyles.platform === "android"
-          ? appStyles.secondary
-          : appStyles.colorWhite_ff
-      }
+      thumbColor={appStyles.colorWhite_ff}
       ios_backgroundColor={
         isToggled ? appStyles.colorSecondary_9749fa : appStyles.colorGray_ea
       }

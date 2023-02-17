@@ -140,7 +140,7 @@ export const FilterProviders = ({ isOpen, onClose, onSave }) => {
         placeholder={t("language_placeholder")}
         style={[styles.dropdown, styles.marginBottom32]}
       />
-      <View>
+      <View style={styles.toggleContainer}>
         <AppText style={styles.label}>
           {t("providers_free_consultation_label")}
         </AppText>
@@ -164,5 +164,10 @@ const styles = StyleSheet.create({
     color: appStyles.colorBlue_3d527b,
     fontFamily: appStyles.fontSemiBold,
     marginBottom: 4,
+  },
+  toggleContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingBottom: 40,
   },
 });
