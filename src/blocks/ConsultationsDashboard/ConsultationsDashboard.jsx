@@ -103,7 +103,7 @@ export const ConsultationsDashboard = ({
 const styles = StyleSheet.create({
   block: {
     paddingTop: 40,
-    paddingBottom: 64,
+    paddingBottom: 100,
   },
   heading: {
     flexDirection: "row",
