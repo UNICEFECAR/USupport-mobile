@@ -30,3 +30,4 @@ export * from "./ForgotPassword";
 export * from "./Consultation";
 export * from "./Notifications";
 export * from "./MoodTracker";
+export * from "./PaymentHistory";

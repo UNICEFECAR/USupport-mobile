@@ -33,16 +33,21 @@ async function cancelPaymentIntent(paymentIntentId) {
  *
  * @returns {Promise} - Promise object represents the response from the server containing the client secret
  */
-// async function getPaymentHistory() {
-//   const response = await http.get(`${API_ENDPOINT}/one-time/history`);
+async function getPaymentHistory({ limit, startingAfterPaymentIntentId }) {
+  const response = await http.get(`${API_ENDPOINT}/one-time/history`, {
+    params: {
+      limit: limit,
+      start_after_payment_intent_id: startingAfterPaymentIntentId,
+    },
+  });
 
-//   return response;
-// }
+  return response;
+}
 
 const exportedFunctions = {
   createPaymentIntent,
   cancelPaymentIntent,
-  //   getPaymentHistory,
+  getPaymentHistory,
 };
 
 export default exportedFunctions;

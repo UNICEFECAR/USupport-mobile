@@ -139,10 +139,16 @@ export const UserProfile = ({ navigation }) => {
         <View style={[styles.group, styles.lastGroup]}>
           <AppText style={styles.groupHeading}>{t("other")}</AppText>
           <ButtonSelector
+            label={t("payments_history_button_label")}
+            iconName="payment-history"
+            style={[styles.buttonSelector, styles.buttonSelectorFirstInGroup]}
+            onPress={() => handleRedirect("PaymentHistory")}
+          />
+          <ButtonSelector
             label={t("contact_us_button_label")}
             iconName="comment"
             onPress={() => handleRedirect("ContactUs")}
-            style={[styles.buttonSelector, styles.buttonSelectorFirstInGroup]}
+            style={styles.buttonSelector}
           />
           <ButtonSelector
             label={t("privacy_policy_button_label")}

@@ -42,7 +42,11 @@ export const ButtonSelector = ({
       <View style={styles.textContainer}>
         {iconName && (
           <View style={styles.leftIcon}>
-            <Icon name={iconName} color="#A6B4B8" size="md" />
+            <Icon
+              name={iconName}
+              color={appStyles.colorGray_a6b4b8}
+              size="md"
+            />
           </View>
         )}
         {!iconName && avatar && <Avatar style={styles.avatar} image={avatar} />}
@@ -50,7 +54,11 @@ export const ButtonSelector = ({
           {label}
         </Text>
       </View>
-      <Icon name="arrow-chevron-forward" color="#3D527B" size="md" />
+      <Icon
+        name="arrow-chevron-forward"
+        color={appStyles.colorBlue_3d527b}
+        size="md"
+      />
     </Pressable>
   );
 };

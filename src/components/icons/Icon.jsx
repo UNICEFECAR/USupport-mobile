@@ -79,6 +79,7 @@ import {
   IconDollar,
   IconVideo,
   IconConsultation,
+  IconPaymentHistory,
 } from "./assets/sprite";
 
 /**
@@ -311,6 +312,9 @@ export const Icon = ({ name, size = "md", color, style }) => {
       break;
     case "consultation":
       icon = <IconConsultation color={color} />;
+      break;
+    case "payment-history":
+      icon = <IconPaymentHistory color={color} />;
       break;
     default:
       icon = null;
