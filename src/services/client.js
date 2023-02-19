@@ -111,6 +111,16 @@ async function getMoodTrackForWeek(startDate) {
   return response;
 }
 
+async function addPushNotificationToken(token) {
+  const response = await http.put(
+    `${API_ENDPOINT}/add-push-notification-token`,
+    {
+      pushNotificationToken: token,
+    }
+  );
+  return response;
+}
+
 const exportedFunctions = {
   addMoodTrack,
   getClientData,
@@ -128,6 +138,7 @@ const exportedFunctions = {
   updateConsultationSecurityCheck,
   getMoodTrackForToday,
   getMoodTrackForWeek,
+  addPushNotificationToken,
 };
 
 export default exportedFunctions;
