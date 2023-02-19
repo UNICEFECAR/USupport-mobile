@@ -204,9 +204,10 @@ export const Notifications = ({ navigation }) => {
 
     const handleNotificationClick = (
       notificationId,
-      redirectTo = "/consultations"
+      redirectTo = "Consultations"
     ) => {
-      markAllAsReadMutation.mutate([notificationId]), navigate(redirectTo);
+      markAllAsReadMutation.mutate([notificationId]);
+      navigation.navigate(redirectTo);
     };
 
     switch (notification.type) {
@@ -431,6 +432,13 @@ export const Notifications = ({ navigation }) => {
               </View>
             )
           }
+          ListFooterComponent={
+            notificationsQuery.isFetchingNextPage ? (
+              <View style={styles.loadingContainer}>
+                <Loading size="lg" />
+              </View>
+            ) : null
+          }
           estimatedItemSize={25}
           keyExtractor={(item, index) => index.toString()}
           data={notificationsQuery.data?.pages?.flat() || []}
@@ -462,6 +470,7 @@ const styles = StyleSheet.create({
   suggestButtonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+    paddingTop: 16,
   },
   suggestButton: { minWidth: 120 },
 });
