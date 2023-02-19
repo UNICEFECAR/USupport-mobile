@@ -239,6 +239,7 @@ export const VideoRoom = ({
       {isVideoEnabled ? (
         <TwilioVideoLocalView
           enabled={true}
+          applyZOrder
           scaleType="fit"
           style={[
             styles.localVideo,
