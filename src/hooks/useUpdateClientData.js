@@ -9,10 +9,13 @@ import { clientSvc } from "#services";
  * @param {Function} onError function to be called with the response error
  * @returns {Object} the mutation object which has a "mutate" function that can be used to execute the mutation
  */
-export default function useUpdateClientData(data, onSuccess, onError) {
+export default function useUpdateClientData(
+  onSuccess = () => {},
+  onError = () => {}
+) {
   const queryClient = useQueryClient();
 
-  const updateClientData = async () => {
+  const updateClientData = async (data) => {
     // Delete the fields which the API doesn't accept
     const dataCopy = JSON.parse(JSON.stringify(data));
 

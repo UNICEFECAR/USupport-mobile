@@ -116,17 +116,7 @@ export const RegisterAboutYou = ({ navigation }) => {
     setErrors({ submit: error });
   };
 
-  // Make sure we get the freshest data before sending it to the mutation function
-  const getDataToSend = useCallback(() => {
-    return {
-      ...data,
-      email: clientData?.email,
-      nickname: clientData?.nickname,
-    };
-  }, [clientData, data]);
-
   const updateClientDetailsMutation = useUpdateClientData(
-    getDataToSend(),
     onMutateSuccess,
     onMutateError
   );
@@ -145,7 +135,11 @@ export const RegisterAboutYou = ({ navigation }) => {
 
   const handleContinue = async () => {
     if ((await validate(data, schema, setErrors)) === null) {
-      updateClientDetailsMutation.mutate();
+      updateClientDetailsMutation.mutate({
+        ...data,
+        email: clientData?.email,
+        nickname: clientData?.nickname,
+      });
     }
   };
 

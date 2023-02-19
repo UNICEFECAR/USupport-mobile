@@ -137,6 +137,7 @@ export const RegisterEmail = ({ navigation }) => {
             onChange={(value) => handleChange("email", value)}
             onBlur={() => handleBlur("email")}
             errorMessage={errors.email}
+            autoCapitalize="none"
           />
           <Input
             label={t("nickname_label")}
@@ -155,6 +156,7 @@ export const RegisterEmail = ({ navigation }) => {
             onChange={(value) => handleChange("password", value)}
             onBlur={() => handleBlur("password")}
             errorMessage={errors.password}
+            autoCapitalize="none"
           />
           <TermsAgreement
             isChecked={data.isPrivacyAndTermsSelected}

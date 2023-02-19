@@ -25,6 +25,7 @@ export default function useGetClientData(enabled = true) {
       image: res.data.image,
       urbanRural: res.data.urban_rural || "",
       dataProcessing: res.data.data_processing,
+      pushNotificationTokens: res.data.push_notification_tokens,
     };
 
     return data;

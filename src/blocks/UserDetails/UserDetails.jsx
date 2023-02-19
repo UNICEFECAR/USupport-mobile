@@ -174,11 +174,7 @@ export const UserDetails = ({
   const onUpdateError = (error) => {
     setErrors({ submit: error });
   };
-  const userDataMutation = useUpdateClientData(
-    clientData,
-    onUpdateSuccess,
-    onUpdateError
-  );
+  const userDataMutation = useUpdateClientData(onUpdateSuccess, onUpdateError);
 
   const openChangePasswordModal = () => setDataProcessingModalOpen(true);
 
@@ -219,7 +215,7 @@ export const UserDetails = ({
       nickname: clientData.nickname,
     };
     if ((await validate(dataToValidate, schema, setErrors)) === null) {
-      userDataMutation.mutate();
+      userDataMutation.mutate(clientData);
     }
   };
 
@@ -318,6 +314,7 @@ export const UserDetails = ({
                 onChange={(value) => handleChange("name", value)}
                 placeholder={t("name_placeholder")}
                 style={styles.input}
+                autoCapitalize={true}
               />
 
               <Input
@@ -326,6 +323,7 @@ export const UserDetails = ({
                 onChange={(value) => handleChange("surname", value)}
                 placeholder={t("surname_placeholder")}
                 style={styles.input}
+                autoCapitalize={true}
               />
 
               <Input

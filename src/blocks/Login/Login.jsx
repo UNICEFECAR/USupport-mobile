@@ -112,6 +112,7 @@ export const Login = ({ navigation }) => {
             onChange={(value) => handleChange("email", value)}
             placeholder={t("email_placeholder")}
             value={data.email}
+            autoCapitalize="none"
           />
           <InputPassword
             label={t("password_label")}
@@ -119,6 +120,7 @@ export const Login = ({ navigation }) => {
             placeholder={t("password_placeholder")}
             value={data.password}
             style={styles.inputPassword}
+            autoCapitalize="none"
           />
           <AppButton
             type="ghost"
