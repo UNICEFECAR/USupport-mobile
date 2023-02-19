@@ -10,5 +10,6 @@
   "schedule_button_label": "Schedule",
   "live_label": "Now",
   "no_consultations": "Currently you do not have upcoming consultations",
-  "emergency_button_label": "Emergency help"
+  "emergency_button_label": "Emergency help",
+  "accept_success": "Consultation accepted successfully"
 }
