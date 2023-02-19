@@ -5,6 +5,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import FlashMessage from "react-native-flash-message";
 import { StripeProvider } from "@stripe/stripe-react-native";
+import * as Notifications from "expo-notifications";
 
 import { STRIPE_PUBLIC_KEY } from "@env";
 
@@ -20,7 +21,19 @@ import {
 
 import { Navigation } from "#navigation";
 import { localStorage, Context, userSvc } from "#services";
-import { RequireRegistration } from "./src/modals/RequireRegistration/RequireRegistration";
+import { RequireRegistration } from "#modals";
+
+// if (__DEV__) {
+//   require("basil-ws-flipper").wsDebugPlugin;р
+// }
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
 // Create a react-query client
 const queryClient = new QueryClient({
@@ -40,7 +53,7 @@ export default function App() {
   const [token, setToken] = useState();
   const [initialRouteName, setInitialRouteName] = useState("TabNavigation"); // Initial route name for the AppNavigation
   const [initialAuthRouteName, setInitialAuthRouteName] = useState("Welcome"); // Initial route name for the AuthNavigation
-  const [isTmpUser, setIsTmpUser] = useState(null);
+  const [isTmpUser, setIsTmpUser] = useState(null); // Is the user logged in as a guest
   const [isRegistrationModalOpan, setIsRegistrationModalOpen] = useState(false);
   const [currencySymbol, setCurrencySymbol] = useState("");
 
@@ -54,8 +67,6 @@ export default function App() {
     localStorage.removeItem("expires-in");
     setToken(null);
   };
-
-  // localStorage.setItem("token", "");
 
   useEffect(() => {
     async function checkToken() {
@@ -104,25 +115,25 @@ export default function App() {
 
   return (
     <StripeProvider
-    publishableKey={STRIPE_PUBLIC_KEY}
-    // urlScheme="your-url-scheme" // required for 3D Secure and bank redirects
-    // merchantIdentifier="merchant.com.{{YOUR_APP_NAME}}" // required for Apple Pay
-  >
-    <Context.Provider value={contextValues}>
-      <QueryClientProvider client={queryClient}>
-        <SafeAreaProvider>
-          <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-            <Navigation />
-            <RequireRegistration
-              handleContinue={handleRegisterRedirection}
-              isOpen={isRegistrationModalOpan}
-              onClose={handleRegistrationModalClose}
-            />
-          </View>
-        </SafeAreaProvider>
-        <FlashMessage position="top" />
-      </QueryClientProvider>
-    </Context.Provider>
+      publishableKey={STRIPE_PUBLIC_KEY}
+      // urlScheme="your-url-scheme" // required for 3D Secure and bank redirects
+      // merchantIdentifier="merchant.com.{{YOUR_APP_NAME}}" // required for Apple Pay
+    >
+      <Context.Provider value={contextValues}>
+        <QueryClientProvider client={queryClient}>
+          <SafeAreaProvider>
+            <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+              <Navigation />
+              <RequireRegistration
+                handleContinue={handleRegisterRedirection}
+                isOpen={isRegistrationModalOpan}
+                onClose={handleRegistrationModalClose}
+              />
+            </View>
+          </SafeAreaProvider>
+          <FlashMessage position="top" />
+        </QueryClientProvider>
+      </Context.Provider>
     </StripeProvider>
   );
 }

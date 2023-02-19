@@ -37,3 +37,4 @@ export * from "./useCancelConsultation.js";
 export * from "./useAddPlatformRating.js";
 export * from "./useGetMoodTrackForToday.js";
 export * from "./useGetMoodTrackForWeek.js";
+export * from "./useAddPushNotificationToken.js";

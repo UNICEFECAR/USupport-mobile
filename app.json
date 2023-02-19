@@ -3,9 +3,13 @@
     "name": "USupport-mobile",
     "slug": "USupport-mobile",
     "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "android": {
+      "googleServicesFile": "./android/app/google-services.json"
+    },
+    "ios": {
+      "bundleIdentifier": "com.usupportmobile"
+    },
+    "assetBundlePatterns": ["**/*"],
     "jsEngine": "hermes",
     "extra": {
       "eas": {

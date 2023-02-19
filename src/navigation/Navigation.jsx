@@ -1,10 +1,14 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { Platform } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { NavigationContainer } from "@react-navigation/native";
+import * as Device from "expo-device";
+import * as Notifications from "expo-notifications";
 
 import { AppNavigation } from "./AppNavigation";
 import { AuthNavigation } from "./AuthNavigation";
 
+import { useAddPushNotificationToken, useGetClientData } from "#hooks";
 import { countrySvc, localStorage, Context } from "#services";
 
 import { getCountryFromTimezone } from "#utils";
@@ -16,7 +20,31 @@ const kazakhstanCountry = {
 };
 
 export function Navigation() {
-  const { token, setCurrencySymbol } = useContext(Context);
+  const [hasSavedPushToken, setHasSavedPushToken] = useState(false);
+  const { token, setCurrencySymbol, isTmpUser } = useContext(Context);
+  const getClientDataEnabled = isTmpUser === false ? true : false;
+  const clientDataQuery = useGetClientData(getClientDataEnabled);
+  const clientData = isTmpUser ? {} : clientDataQuery[0].data;
+
+  const addPushNotificationTokenMutation = useAddPushNotificationToken();
+
+  useEffect(() => {
+    if (
+      !hasSavedPushToken &&
+      !isTmpUser &&
+      clientData &&
+      Object.values(clientData).length !== 0
+    ) {
+      registerForPushNotifications().then((token) => {
+        setHasSavedPushToken(true);
+        const tokensArray = clientData.pushNotificationTokens || [];
+        if (token && !tokensArray.includes(token)) {
+          tokensArray.push(token);
+          addPushNotificationTokenMutation.mutate(token);
+        }
+      });
+    }
+  }, [isTmpUser, clientData]);
 
   const fetchCountries = async () => {
     const localStorageCountry = await localStorage.getItem("country");
@@ -85,3 +113,32 @@ export function Navigation() {
     </NavigationContainer>
   );
 }
+
+const registerForPushNotifications = async () => {
+  let token;
+
+  if (Platform.OS === "android") {
+    await Notifications.setNotificationChannelAsync("default", {
+      name: "default",
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: "#FF231F7C",
+    });
+  }
+
+  if (Device.isDevice) {
+    const permissionsData = await Notifications.getPermissionsAsync();
+    let status = permissionsData.status;
+    if (permissionsData.canAskAgain && status !== "granted") {
+      const { status: newStatus } =
+        await Notifications.requestPermissionsAsync();
+      status = newStatus;
+    }
+    let finalStatus = status;
+    if (finalStatus === "granted") {
+      const pushTokenData = await Notifications.getExpoPushTokenAsync();
+      token = pushTokenData.data;
+    }
+  }
+  return token;
+};
