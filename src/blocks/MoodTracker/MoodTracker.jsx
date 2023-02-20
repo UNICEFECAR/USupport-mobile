@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useContext } from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { useTranslation } from "react-i18next";
 
@@ -17,6 +17,8 @@ import { showToast } from "#utils";
 
 import { appStyles } from "#styles";
 
+import { Context } from "#services";
+
 /**
  * MoodTracker
  *
@@ -26,6 +28,7 @@ import { appStyles } from "#styles";
  */
 export const MoodTracker = ({ navigation }) => {
   const { t } = useTranslation("mood-tracker");
+  const { isTmpUser, handleRegistrationModalOpen } = useContext(Context);
 
   const emoticonsInitialState = [
     { value: "happy", label: t("happy"), isSelected: false },
@@ -110,6 +113,10 @@ export const MoodTracker = ({ navigation }) => {
   };
 
   const handleSubmit = () => {
+    if (isTmpUser) {
+      handleRegistrationModalOpen();
+      return;
+    }
     const selectedMood = emoticons.find((x) => x.isSelected);
     addMoodTrackMutation.mutate({
       comment,
