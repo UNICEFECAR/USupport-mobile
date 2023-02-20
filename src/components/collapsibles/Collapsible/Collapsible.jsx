@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -48,7 +48,7 @@ export const Collapsible = ({ heading, content, style }) => {
 
   return (
     <View style={style}>
-      <TouchableOpacity onPress={() => handleCollapsibleClick()}>
+      <TouchableWithoutFeedback onPress={() => handleCollapsibleClick()}>
         <View style={[styles.heading]}>
           <AppText
             namedStyle="h3"
@@ -64,7 +64,7 @@ export const Collapsible = ({ heading, content, style }) => {
             />
           </Animated.View>
         </View>
-      </TouchableOpacity>
+      </TouchableWithoutFeedback>
 
       {isExpanded && (
         <Animated.View style={[expandableContainerStyles, styles.content]}>
