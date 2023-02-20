@@ -49,7 +49,7 @@ export const Consultations = ({
     sunday: t("sunday"),
   };
 
-  const consultationsQuery = useGetAllConsultations();
+  const consultationsQuery = useGetAllConsultations(!isTmpUser);
   const handleTabClick = (index) => {
     const optionsCopy = [...tabsOptions];
 

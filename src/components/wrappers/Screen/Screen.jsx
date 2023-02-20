@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -12,10 +12,11 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { ButtonOnlyIcon } from "../../buttons";
 import { appStyles } from "#styles";
-import { RadialGradient } from "react-native-gradients";
 import spiralBackground from "../../../assets/spiral-background.png";
 import { HeaderNavigation } from "../../headings";
-import { useCheckHasUnreadNotifications } from "../../../hooks/useCheckHasUnreadNotifications";
+
+import { useCheckHasUnreadNotifications } from "#hooks";
+import { Context } from "#services";
 
 // Main wrapper for every screen
 export function Screen({
@@ -24,21 +25,19 @@ export function Screen({
   isBackgroundColorEnabled = true,
   backgroundColor,
   outsideComponent,
-  hasRadialGradient = true,
   hasEmergencyButton = true,
   hasSpiralBackground = true,
   hasHeaderNavigation = false,
   t,
 }) {
+  const { isTmpUser, token } = useContext(Context);
   const navigation = useNavigation();
-  const colorList = [
-    { offset: "0%", color: "#ebe0ff", opacity: "0.55" },
-    { offset: "100%", color: "#ebe0ff", opacity: "0" },
-  ];
 
   const { top: topInset } = useSafeAreaInsets();
 
-  const queryHasUnreadNotifications = useCheckHasUnreadNotifications();
+  const queryEnabled = !isTmpUser && token;
+  const queryHasUnreadNotifications =
+    useCheckHasUnreadNotifications(queryEnabled);
 
   return (
     <SafeAreaView
