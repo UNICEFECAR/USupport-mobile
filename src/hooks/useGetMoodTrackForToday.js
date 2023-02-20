@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { clientSvc } from "#services";
 
-export function useGetMoodTrackForToday({ onSuccess }) {
+export function useGetMoodTrackForToday({ onSuccess, enabled }) {
   /**
    *
    * @returns
@@ -25,7 +25,7 @@ export function useGetMoodTrackForToday({ onSuccess }) {
   const getMoodTrackForTodayQuery = useQuery(
     ["getMoodTrackForToday"],
     getMoodTrackForToday,
-    { onSuccess }
+    { onSuccess, enabled: !enabled }
   );
 
   return getMoodTrackForTodayQuery;

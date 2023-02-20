@@ -56,6 +56,7 @@ export const MoodTracker = ({ navigation }) => {
   };
   const useGetMoodTrackForTodayQuery = useGetMoodTrackForToday({
     onSuccess: onGetMoodTrackSuccess,
+    enabled: !!isTmpUser,
   });
 
   const hasSelectedMoodtracker = useCallback(() => {
@@ -124,7 +125,13 @@ export const MoodTracker = ({ navigation }) => {
     });
   };
 
-  const handleMoodtrackClick = () => navigation.push("MoodTracker");
+  const handleMoodtrackClick = () => {
+    if (isTmpUser) {
+      handleRegistrationModalOpen();
+      return;
+    }
+    navigation.push("MoodTracker");
+  };
 
   return (
     <Block style={styles.block}>
@@ -136,7 +143,7 @@ export const MoodTracker = ({ navigation }) => {
           </AppText>
         </TouchableOpacity>
       </View>
-      {!useGetMoodTrackForTodayQuery.isLoading ? (
+      {!useGetMoodTrackForTodayQuery.isLoading || isTmpUser ? (
         <>
           <View style={styles.rating}>{renderEmoticons()}</View>
           {hasSelectedMoodtracker() && (
