@@ -69,6 +69,7 @@ export default function App() {
   };
 
   useEffect(() => {
+    SplashScreen.preventAutoHideAsync();
     async function checkToken() {
       const token = await localStorage.getItem("token");
       setToken(token);
