@@ -38,6 +38,7 @@ export const Heading = ({
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: 16,
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "flex-start",
