@@ -161,6 +161,7 @@ export const InformationalPortal = ({ navigation }) => {
                 labels={article.labels}
                 creator={article.creator}
                 readingTime={article.readingTime}
+                categoryName={article.categoryName}
                 onPress={() => {
                   navigation.push("ArticleInformation", {
                     articleId: article.id,
@@ -201,6 +202,7 @@ export const InformationalPortal = ({ navigation }) => {
                 labels={article.labels}
                 creator={article.creator}
                 readingTime={article.readingTime}
+                categoryName={article.categoryName}
                 onPress={() => {
                   navigation.push("ArticleInformation", {
                     articleId: article.id,

@@ -274,6 +274,7 @@ export const Articles = ({
         labels={articleData.labels}
         creator={articleData.creator}
         readingTime={articleData.readingTime}
+        categoryName={articleData.categoryName}
         onPress={() => {
           navigation.push("ArticleInformation", {
             articleId: item.id,

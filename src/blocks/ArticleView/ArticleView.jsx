@@ -116,6 +116,6 @@ const styles = StyleSheet.create({
   },
   categoryText: {
     fontFamily: appStyles.fontBold,
-    color: appStyles.colorBlack_37,
+    color: appStyles.colorBlue_3d527b,
   },
 });

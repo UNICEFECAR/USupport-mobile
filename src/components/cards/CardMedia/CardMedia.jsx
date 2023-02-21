@@ -21,6 +21,7 @@ export const CardMedia = ({
   title,
   creator,
   readingTime,
+  categoryName,
   onPress,
   style,
 }) => {
@@ -31,7 +32,16 @@ export const CardMedia = ({
         style={styles.image}
       />
       <View style={styles.textContainer}>
-        <AppText namedStyle="h3">{title}</AppText>
+        <View style={styles.headingContainer}>
+          <AppText namedStyle="h3" numberOfLines={1}>
+            {title}
+          </AppText>
+          <View style={styles.categoryContainer}>
+            <AppText namedStyle="smallText" style={styles.categoryText}>
+              {categoryName}
+            </AppText>
+          </View>
+        </View>
         <View style={styles.creatorContainer}>
           <AppText namedStyle="smallText">By {creator}</AppText>
           <Icon
@@ -65,6 +75,18 @@ const styles = StyleSheet.create({
     borderColor: "transparent",
     alignSelf: "center",
   },
+  headingContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  categoryContainer: {
+    marginLeft: 12,
+    backgroundColor: appStyles.$colorBlue_20809E_0_3,
+    paddingHorizontal: 12,
+    paddingVertical: 2,
+    borderRadius: 25,
+  },
   image: {
     width: "100%",
     height: 160,
@@ -77,4 +99,8 @@ const styles = StyleSheet.create({
   creatorContainer: { flexDirection: "row", marginTop: 8 },
   icon: { marginLeft: 16, marginRight: 5 },
   readMoreButton: { marginTop: 16 },
+  categoryText: {
+    fontFamily: appStyles.fontBold,
+    color: appStyles.colorBlue_3d527b,
+  },
 });
