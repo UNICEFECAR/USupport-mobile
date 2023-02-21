@@ -16,6 +16,7 @@ function destructureArticleData(article) {
   const articleImageSmall =
     article.attributes.image.data.attributes.formats.small.url;
   const categoryId = articleData.category?.data?.id;
+  const categoryName = articleData.category?.data?.attributes?.name;
   const description = articleData.description;
   const creator =
     articleData.createdBy.data.attributes.firstname +
@@ -35,6 +36,7 @@ function destructureArticleData(article) {
     creator: creator,
     readingTime: articleData.reading_time,
     categoryId: categoryId,
+    categoryName: categoryName,
     description: description,
   };
 }
