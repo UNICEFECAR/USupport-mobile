@@ -5,7 +5,7 @@ import { useStripe } from "@stripe/stripe-react-native";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { paymentsSvc, providerSvc } from "#services";
-import { Screen, AppButton, Loading, Heading } from "#components";
+import { Screen, AppButton, Loading, Heading, Block } from "#components";
 import { ConfirmConsultation } from "#backdrops";
 import { getDateView, getTime } from "#utils";
 
@@ -194,11 +194,13 @@ export function Checkout({ navigation, route }) {
 
   return (
     <Screen>
-      <Heading
-        heading={t("heading")}
-        subheading={t("subheading")}
-        handleGoBack={() => navigation.goBack()}
-      />
+      <Block>
+        <Heading
+          heading={t("heading")}
+          subheading={t("subheading")}
+          handleGoBack={() => navigation.goBack()}
+        />
+      </Block>
       {loading ? (
         <View style={{ justifyContent: "center", alignItems: "center" }}>
           <Loading />
