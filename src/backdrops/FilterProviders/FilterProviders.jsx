@@ -36,7 +36,9 @@ export const FilterProviders = ({ isOpen, onClose, onSave }) => {
       };
       return languageObject;
     });
-    return languages;
+    return languages.sort((a, b) =>
+      a.label > b.label ? 1 : b.label > a.label ? -1 : 0
+    );
   };
   const languagesQuery = useQuery(["languages"], fetchLanguages, {
     retry: false,
