@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { TouchableOpacity, StyleSheet, View } from "react-native";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { FlashList } from "@shopify/flash-list";
 
 import {
@@ -38,8 +38,12 @@ import {
  *
  * @returns {JSX.Element}
  */
-export const Notifications = ({ navigation }) => {
+export const Notifications = ({ navigation, openJoinConsultation }) => {
   const { t } = useTranslation("notifications");
+
+  const queryClient = useQueryClient();
+
+  const consultationsData = queryClient.getQueryData(["all-consultations"]);
 
   const [isLoadingProviders, setIsLoadingProviders] = useState(true);
 
@@ -62,6 +66,7 @@ export const Notifications = ({ navigation }) => {
           providerDetailId: notificationContent.provider_detail_id,
           consultationId: notificationContent.consultation_id,
           newConsultationTime: notificationContent.new_consultation_time * 1000,
+          consultationChatId: notificationContent.consultationChatId,
         },
       };
     });
@@ -307,6 +312,14 @@ export const Notifications = ({ navigation }) => {
                 label={t("join")}
                 color="purple"
                 style={styles.centerButton}
+                onPress={() =>
+                  openJoinConsultation(
+                    consultationsData.find(
+                      (x) =>
+                        x.consultationId === notification.content.consultationId
+                    )
+                  )
+                }
               />
             ) : null}
           </Notification>
