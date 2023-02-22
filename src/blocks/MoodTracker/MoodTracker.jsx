@@ -186,7 +186,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
   },
-  moodTrackerButton: { color: appStyles.colorSecondary_9749fa },
+  moodTrackerButton: {
+    color: appStyles.colorSecondary_9749fa,
+    fontFamily: appStyles.fontSemiBold,
+  },
   rating: {
     flexDirection: "row",
     width: "100%",

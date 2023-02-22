@@ -110,7 +110,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  viewAllText: { color: appStyles.colorSecondary_9749fa },
+  viewAllText: {
+    color: appStyles.colorSecondary_9749fa,
+    fontFamily: appStyles.fontSemiBold,
+  },
   buttonContainer: {
     justifyItems: "center",
     alignItems: "center",
