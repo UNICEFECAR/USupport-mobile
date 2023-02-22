@@ -4,16 +4,16 @@ import { useTranslation } from "react-i18next";
 import { Screen, Block, Heading } from "#components";
 import { Passcode as PasscodeBlock } from "#blocks";
 
+/**
+ * Passcode
+ *
+ * Passcode and Biometrics screen
+ *
+ * @returns {JSX.Element}
+ */
 export const Passcode = ({ navigation }) => {
   const { t } = useTranslation("passcode-screen");
 
-  /**
-   * Passcode
-   *
-   * Passcode and Biometrics screen
-   *
-   * @returns {JSX.Element}
-   */
   return (
     <Screen>
       <Block>
@@ -23,7 +23,7 @@ export const Passcode = ({ navigation }) => {
           handleGoBack={() => navigation.goBack()}
         />
       </Block>
-      <PasscodeBlock />
+      <PasscodeBlock navigation={navigation} />
     </Screen>
   );
 };

@@ -18,3 +18,4 @@ export * as Checkout from "./Checkout/locales";
 export * as Consultation from "./Consultation/locales";
 export * as MoodTracker from "./MoodTracker/locales";
 export * as PaymentHistory from "./PaymentHistory/locales";
+export * as ChangePasscode from "./ChangePasscode/locales";

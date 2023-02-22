@@ -56,3 +56,4 @@ web-build/
 dist/
 
 .history
+.env
