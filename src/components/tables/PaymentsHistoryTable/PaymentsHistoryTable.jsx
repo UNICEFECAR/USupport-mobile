@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { StyleSheet, ScrollView, View } from "react-native";
+import { StyleSheet, ScrollView, View, FlatList } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 import { Table, TableWrapper, Row } from "react-native-table-component";
 
@@ -19,7 +19,6 @@ export const PaymentsHistoryTable = ({
   data,
   t,
   handleViewMore,
-  loadMore,
 }) => {
   const { currencySymbol } = useContext(Context);
 
@@ -50,43 +49,58 @@ export const PaymentsHistoryTable = ({
       </TableWrapper>
     );
   };
-
-  return isLoading ? (
-    <View style={styles.loadingContainer}>
-      <Loading />
-    </View>
-  ) : !rowsData.length > 0 ? (
+  return !rowsData.length > 0 ? (
     <Block>
-      <View style={styles.loadingContainer}>
+      <View style={styles.noPayments}>
         <AppText namedStyle="h3" style={styles.noHistoryText}>
           {t("no_payments_history_found")}
         </AppText>
       </View>
     </Block>
   ) : (
-    <ScrollView horizontal showsHorizontalScrollIndicator>
-      <Table style={{ margin: 16, height: "100%" }}>
-        <FlashList
-          ListHeaderComponent={<Row data={rowsData} widthArr={widthArr} />}
-          estimatedItemSize={25}
-          keyExtractor={(item, index) => index.toString()}
-          data={data || []}
-          renderItem={renderRow}
-          onEndReached={loadMore} //TODO: FIX LOAD ON SCROLL
-        />
-      </Table>
-    </ScrollView>
+    <Table style={styles.table}>
+      <FlatList
+        contentContainerStyle={{
+          overflow: "visible",
+          width: 250 + 120 + 150 + 150 + 40,
+        }}
+        ListHeaderComponent={<Row data={rowsData} widthArr={widthArr} />}
+        ListFooterComponent={
+          isLoading ? (
+            <View style={styles.loadingContainer}>
+              <Loading />
+            </View>
+          ) : null
+        }
+        estimatedItemSize={50}
+        keyExtractor={(item, index) => index.toString()}
+        data={data || []}
+        renderItem={renderRow}
+      />
+    </Table>
   );
 };
 
 const styles = StyleSheet.create({
+  table: {
+    margin: 16,
+    height: "100%",
+    overflow: "visible",
+    paddingBottom: 60,
+  },
   flashlistWrapper: {
     height: "100%",
   },
-  loadingContainer: {
+  noPayments: {
     width: "100%",
     paddingTop: 40,
     alignItems: "center",
+  },
+  loadingContainer: {
+    width: appStyles.screenWidth,
+    alignSelf: "flex-start",
+    alignItems: "center",
+    paddingTop: 26,
   },
   textStyle: { textAlign: "center" },
   headingText: {

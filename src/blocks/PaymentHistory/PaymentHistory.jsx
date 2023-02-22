@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 
@@ -16,20 +16,21 @@ export const PaymentHistory = () => {
     useState(false);
 
   const [selectedPaymentData, setSelectedPaymentData] = useState();
-  const [lastPaymentId, setLastPaymentId] = useState(null);
+  const lastPaymentId = useRef(null);
 
   const getPaymentHistory = async () => {
     try {
       const res = await paymentsSvc.getPaymentHistory({
         limit: 5,
-        startingAfterPaymentIntentId: lastPaymentId,
+        startingAfterPaymentIntentId: lastPaymentId.current,
       });
-
       return res.data;
     } catch (err) {
-      console.log(err);
+      return [];
     }
   };
+
+  const shouldCallLoadMore = useRef(true);
 
   const paymentHistoryQuery = useQuery(
     ["paymentHistoryData"],
@@ -39,10 +40,21 @@ export const PaymentHistory = () => {
         const lastPayment = data.lastPaymentId;
         const payments = data.payments;
 
+        if (data?.payments?.length > 0 || data?.length > 0) {
+          shouldCallLoadMore.current = true;
+        }
+
         if (payments) {
           setPaymentsData((prevPayments) => [...prevPayments, ...payments]);
         }
-        setLastPaymentId(lastPayment);
+        lastPaymentId.current = lastPayment;
+
+        if (data.hasMore) {
+          loadMore();
+        }
+      },
+      onError: (err) => {
+        console.log(err);
       },
     }
   );
@@ -58,14 +70,20 @@ export const PaymentHistory = () => {
   };
   const closePaymentModal = () => setIsPaymentInformationModalOpen(false);
 
+  const loadMore = () => {
+    shouldCallLoadMore.current = false;
+    paymentHistoryQuery.refetch();
+  };
+
   return (
     <>
       <PaymentsHistoryTable
-        isLoading={paymentHistoryQuery.isLoading}
+        isLoading={
+          paymentHistoryQuery.isLoading || paymentHistoryQuery.isFetching
+        }
         rows={rows}
         data={paymentsData}
         handleViewMore={openPaymentModal}
-        loadMore={() => paymentHistoryQuery.refetch()}
         t={t}
       />
       {isPaymentInformationModalOpen ? (
