@@ -34,6 +34,7 @@ import {
   MoodTracker,
   MoodTrackerHistory,
   PaymentHistory,
+  ChangePasscode,
 } from "./src/blocks/locales.js";
 
 import {
@@ -56,6 +57,7 @@ import {
   Consultation as ConsultationScreen,
   MoodTracker as MoodTrackerScreen,
   PaymentHistory as PaymentHistoryScreen,
+  ChangePasscode as ChangePasscodeScreen,
 } from "./src/screens/locales.js";
 
 import {
@@ -108,6 +110,7 @@ const resources = {
     // "change-passcode": ChangePasscode.en,
     "mood-tracker": MoodTracker.en,
     "mood-tracker-history": MoodTrackerHistory.en,
+    "change-passcode": ChangePasscode.en,
 
     // Screens
     "information-portal": InformationalPortal.en,
@@ -134,6 +137,7 @@ const resources = {
     "consultation-page": ConsultationScreen.en,
     "mood-tracker-screen": MoodTrackerScreen.en,
     "payment-history-screen": PaymentHistoryScreen.en,
+    "change-passcode-screen": ChangePasscodeScreen.en,
 
     // Backdrops
     "filter-providers": FilterProviders.en,

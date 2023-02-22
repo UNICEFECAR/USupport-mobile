@@ -31,3 +31,4 @@ export * as Notifications from "./Notifications/locales";
 export * as MoodTracker from "./MoodTracker/locales";
 export * as MoodTrackerHistory from "./MoodTrackerHistory/locales";
 export * as PaymentHistory from "./PaymentHistory/locales";
+export * as ChangePasscode from "./ChangePasscode/locales";

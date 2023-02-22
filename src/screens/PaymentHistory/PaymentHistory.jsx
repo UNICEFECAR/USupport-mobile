@@ -1,6 +1,5 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView } from "react-native";
 
 import { Screen, Block, Heading } from "#components";
 

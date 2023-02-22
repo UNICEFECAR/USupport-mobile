@@ -166,7 +166,7 @@ export const Consultations = ({ navigation }) => {
     rescheduleConsultationMutation.isLoading || blockSlotMutation.isLoading;
 
   return (
-    <Screen>
+    <Screen style={styles.screen}>
       <ScrollView
         refreshControl={
           <RefreshControl
@@ -249,7 +249,6 @@ export const Consultations = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  button: {
-    alignSelf: "center",
-  },
+  screen: { paddingTop: 16 },
+  button: { alignSelf: "center" },
 });

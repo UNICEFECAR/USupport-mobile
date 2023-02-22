@@ -25,6 +25,7 @@ import {
   Notifications,
   MoodTracker,
   PaymentHistory,
+  ChangePasscode,
 } from "#screens";
 
 import { Context } from "#services";
@@ -68,6 +69,7 @@ export const AppNavigation = () => {
       <Stack.Screen name="Notifications" component={Notifications} />
       <Stack.Screen name="MoodTracker" component={MoodTracker} />
       <Stack.Screen name="PaymentHistory" component={PaymentHistory} />
+      <Stack.Screen name="ChangePasscode" component={ChangePasscode} />
     </Stack.Navigator>
   );
 };
