@@ -175,11 +175,8 @@ export const Consultations = ({
   }, [consultationsQuery.data, filter]);
 
   return (
-    <Block>
-      <AppText
-        namedStyle="h2"
-        style={{ marginVertical: 20, textAlign: "center", alignSelf: "center" }}
-      >
+    <Block style={styles.block}>
+      <AppText namedStyle="h2" style={styles.text}>
         {t("heading")}
       </AppText>
       <TabsUnderlined
@@ -198,4 +195,5 @@ const styles = StyleSheet.create({
   consultationsContainer: { alignItems: "center", paddingBottom: 90 },
   consultation: { marginBottom: 16 },
   tabs: { marginBottom: 32 },
+  text: { marginVertical: 20, textAlign: "center", alignSelf: "center" },
 });
