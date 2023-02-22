@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import Share from "react-native-share";
-import { StyleSheet } from "react-native";
+import { Linking, StyleSheet } from "react-native";
 
 import { Block, AppButton } from "#components";
 
@@ -35,7 +35,10 @@ export const SharePlatform = ({}) => {
       url: "https://www.staging.usupport.online",
     };
     try {
-      const ShareResponse = await Share.shareSingle(shareOptions);
+      // const ShareResponse = await Share.shareSingle(shareOptions);
+      Linking.openURL(
+        "tg://msg_url?url=https://www.staging.usupport.online&text=test text"
+      );
     } catch (error) {
       console.log("Error =>", error);
     }
