@@ -25,7 +25,7 @@ import { appStyles } from "#styles";
 import { useGetClientData, useUpdateClientData } from "#hooks";
 
 import { localStorage, clientSvc, Context } from "#services";
-import { validate, validateProperty } from "#utils";
+import { validate, validateProperty, showToast } from "#utils";
 
 /**
  * UserDetails
@@ -170,7 +170,11 @@ export const UserDetails = ({
     return [];
   }, [countriesData, ages]);
 
-  const onUpdateSuccess = () => {};
+  const onUpdateSuccess = () => {
+    showToast({
+      message: t("success_message"),
+    });
+  };
   const onUpdateError = (error) => {
     setErrors({ submit: error });
   };
