@@ -109,11 +109,12 @@ export const SafetyFeedback = ({ navigation, consultationId, answers }) => {
       </View>
 
       <View style={styles.questionsContainer}>
-        {questions.map((question) => (
+        {questions.map((question, index) => (
           <Question
             question={question}
             handleAnswerSelect={handleAnswerSelect}
             t={t}
+            key={index}
           />
         ))}
         {questions[3].value === true && (

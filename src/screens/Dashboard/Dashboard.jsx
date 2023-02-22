@@ -57,7 +57,9 @@ export const Dashboard = ({ navigation }) => {
   const getClientDataEnabled = isTmpUser === false ? true : false;
   const clientData = useGetClientData(getClientDataEnabled)[1];
   const clientName = clientData
-    ? clientData?.nickname || `${clientData.name} ${clientData.surname}`
+    ? clientData?.name
+      ? `${clientData.name} ${clientData.surname}`
+      : clientData.nickname
     : "";
   const queryClient = useQueryClient();
 
@@ -272,7 +274,7 @@ export const Dashboard = ({ navigation }) => {
           )}
         </MascotHeadingBlock>
         <MoodTracker navigation={navigation} />
-        {/* <ArticlesDashboard navigation={navigation} /> */}
+        <ArticlesDashboard navigation={navigation} />
         <ConsultationsDashboard
           openJoinConsultation={openJoinConsultation}
           openEditConsultation={openEditConsultation}

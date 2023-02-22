@@ -23,6 +23,7 @@ export default function useUpdateClientData(
     delete dataCopy.dataProcessing;
     delete dataCopy.image;
     delete dataCopy.clientID;
+    delete dataCopy.pushNotificationTokens;
 
     dataCopy.email = dataCopy.email.toLowerCase();
 

@@ -22,7 +22,9 @@ const kazakhstanCountry = {
 export function Navigation() {
   const [hasSavedPushToken, setHasSavedPushToken] = useState(false);
   const { token, setCurrencySymbol, isTmpUser } = useContext(Context);
-  const getClientDataEnabled = isTmpUser === false ? true : false;
+  const getClientDataEnabled = !!(
+    (isTmpUser === false ? true : false) && token
+  );
   const clientDataQuery = useGetClientData(getClientDataEnabled);
   const clientData = isTmpUser ? {} : clientDataQuery[0].data;
 

@@ -115,7 +115,7 @@ export const Dropdown = ({
       </TouchableWithoutFeedback>
 
       <Animated.View style={[dropdownStyles, isOpen && styles.dropdownOpen]}>
-        <ScrollView>
+        <ScrollView directionalLockEnabled>
           <TouchableWithoutFeedback onPress={handleDropdownClick}>
             <View style={{ height: DROPDOWN_HEADING_HEIGHT + 5 }} />
           </TouchableWithoutFeedback>
