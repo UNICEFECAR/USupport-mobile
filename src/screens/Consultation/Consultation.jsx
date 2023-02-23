@@ -276,6 +276,7 @@ export const Consultation = ({ navigation, route }) => {
         isOpen={isChatShown}
         onClose={() => setIsChatShown(false)}
         customRender
+        hasKeyboardListener
       >
         <View style={{ flex: 1, flexGrow: 1 }}>
           <KeyboardAvoidingView

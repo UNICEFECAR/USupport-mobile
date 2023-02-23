@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  Platform,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, {
@@ -21,6 +22,7 @@ import { Loading } from "../../loaders/";
 import { Error } from "../../errors/";
 
 import { appStyles } from "#styles";
+import { useKeyboard } from "../../../hooks/useKeyboard";
 
 /**
  * Backdrop
@@ -53,7 +55,7 @@ export const Backdrop = ({
   children,
   errorMessage,
   customRender = false,
-  reference,
+  hasKeyboardListener = false,
 }) => {
   const hasButtons = ctaLabel || secondaryCtaLabel;
   const [isOverlayShown, setIsOverlayShown] = useState(false);
@@ -66,6 +68,21 @@ export const Backdrop = ({
       transform: [{ translateY: backdropBottom.value }],
     };
   });
+
+  const onShowKeyboard = (height) => {
+    if (Platform.OS === "ios") {
+      backdropBottom.value = withSpring(
+        -(height / 1.25),
+        appStyles.springConfig
+      );
+    }
+  };
+  const onHideKeyboard = () => {
+    if (Platform.OS === "ios") {
+      backdropBottom.value = withSpring(0, appStyles.springConfig);
+    }
+  };
+  useKeyboard(hasKeyboardListener, onShowKeyboard, onHideKeyboard);
 
   useEffect(() => {
     if (isOpen) {
@@ -100,7 +117,7 @@ export const Backdrop = ({
   return (
     <>
       {isOverlayShown ? <Overlay /> : null}
-      <Animated.View style={[styles.backdrop, backdropStyle]}>
+      <Animated.View style={[styles.backdrop, backdropStyle, style]}>
         {customRender ? (
           children
         ) : (
