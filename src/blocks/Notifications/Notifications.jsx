@@ -304,6 +304,9 @@ export const Notifications = ({ navigation, openJoinConsultation }) => {
             text={t(notification.type, {
               minutes: notification.content.minToConsultation,
             })}
+            handleClick={() =>
+              handleNotificationClick(notification.notificationId)
+            }
             icon="calendar"
           >
             {checkIsFiveMinutesBefore(notification.content.time) ? (

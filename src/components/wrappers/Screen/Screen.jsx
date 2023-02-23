@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   },
   emergencyButton: {
     position: "absolute",
-    bottom: 75,
+    bottom: 16,
     right: 16,
     zIndex: 999,
   },

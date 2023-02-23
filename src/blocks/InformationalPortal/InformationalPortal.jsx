@@ -228,6 +228,7 @@ const styles = StyleSheet.create({
   },
   viewAllText: {
     color: appStyles.colorSecondary_9749fa,
+    fontFamily: appStyles.fontSemiBold,
   },
   loading: { alignSelf: "center" },
   articlesContainer: { alignItems: "center", paddingTop: 16 },

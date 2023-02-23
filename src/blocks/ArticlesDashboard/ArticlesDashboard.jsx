@@ -234,6 +234,7 @@ const styles = StyleSheet.create({
   tabs: { marginTop: 24, zIndex: 2 },
   viewAllText: {
     color: appStyles.colorSecondary_9749fa,
+    fontFamily: appStyles.fontSemiBold,
   },
   articlesContainer: { alignItems: "center" },
   cardMedia: { marginTop: 24 },

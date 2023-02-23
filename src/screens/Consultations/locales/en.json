@@ -1,4 +1,6 @@
 {
     "heading": "Consultations",
-    "button_label": "Schedule a consultation"
+    "button_label": "Schedule a consultation",
+    "emergency_button_label": "Emergency help"
+
 }

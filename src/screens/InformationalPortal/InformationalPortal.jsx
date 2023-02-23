@@ -37,7 +37,7 @@ export const InformationalPortal = ({ navigation }) => {
   );
 
   return (
-    <Screen hasHeaderNavigation t={t}>
+    <Screen hasHeaderNavigation t={t} hasEmergencyButton={false}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "position" : null}
         keyboardVerticalOffset={64}
