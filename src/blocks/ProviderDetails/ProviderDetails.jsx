@@ -89,22 +89,25 @@ export const ProviderDetails = ({
       </View>
 
       <View style={styles.marginTop16}>
-        <AppText style={styles.headingText}>{t("video_label")}</AppText>
-        {provider.videoLink && isVideoShown ? (
-          <View style={styles.videoContainer}>
-            <YoutubeIframe
-              height={230}
-              width={appStyles.screenWidth * 0.85}
-              play={false}
-              videoId={provider.videoId}
-              // webViewProps={{
-              //   androidHardwareAccelerationDisabled:
-              //     Platform.OS === "android" ? true : false,
-              // }}
-            />
-          </View>
+        {provider.videoLink ? (
+          <>
+            <AppText style={styles.headingText}>{t("video_label")}</AppText>
+            {isVideoShown ? (
+              <View style={styles.videoContainer}>
+                <YoutubeIframe
+                  height={230}
+                  width={appStyles.screenWidth * 0.85}
+                  play={false}
+                  videoId={provider.videoId}
+                  // webViewProps={{
+                  //   androidHardwareAccelerationDisabled:
+                  //     Platform.OS === "android" ? true : false,
+                  // }}
+                />
+              </View>
+            ) : null}
+          </>
         ) : null}
-
         <View style={styles.iconAndTextContainer}>
           <Icon name="call" size="md" color="#66768D" />
           <AppText
