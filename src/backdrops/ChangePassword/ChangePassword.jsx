@@ -34,7 +34,6 @@ export const ChangePassword = ({ isOpen, onClose }) => {
     newPassword: "",
   });
   const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const changePassword = async () => {
     const res = await userSvc.changePassword({
@@ -47,7 +46,6 @@ export const ChangePassword = ({ isOpen, onClose }) => {
   };
   const changePasswordMutation = useMutation(changePassword, {
     onSuccess: () => {
-      setIsSubmitting(true);
       setData({
         oldPassword: "",
         newPassword: "",
@@ -74,7 +72,6 @@ export const ChangePassword = ({ isOpen, onClose }) => {
 
   const handleSubmit = async () => {
     if ((await validate(data, schema, setErrors)) === null) {
-      setIsSubmitting(true);
       changePasswordMutation.mutate();
     }
   };
@@ -87,6 +84,7 @@ export const ChangePassword = ({ isOpen, onClose }) => {
       onClose={onClose}
       ctaLabel={t("button_label")}
       ctaHandleClick={handleSubmit}
+      isCtaLoading={changePasswordMutation.isLoading}
       heading={t("heading")}
       errorMessage={errors.submit}
     >
