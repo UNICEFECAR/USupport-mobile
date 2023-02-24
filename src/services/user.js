@@ -69,7 +69,7 @@ async function login({ userType, email, password, userAccessToken, location }) {
   if (userAccessToken) {
     payload.userAccessToken = userAccessToken;
   } else {
-    payload.email = email.toLowerCase();
+    payload.email = email.toLowerCase().trim();
   }
   const headers = { "x-location": location };
   const response = await http.post(`${API_ENDPOINT}/login`, payload, {
