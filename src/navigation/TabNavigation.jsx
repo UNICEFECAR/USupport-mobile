@@ -82,7 +82,7 @@ export const TabNavigation = () => {
           headerShown: false,
           tabBarHideOnKeyboard: Platform.OS !== "ios",
         }}
-        strokeWidth={1}
+        strokeWidth={0}
         height={75}
         circleWidth={55}
         bgColor="white"
