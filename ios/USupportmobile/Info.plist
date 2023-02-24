@@ -54,5 +54,7 @@
 		<string>Please allow access to your camera</string>
 		<key>NSMicrophoneUsageDescription</key>
 		<string>Please allow access to your microphone</string>
+		<key>NSFaceIDUsageDescription</key>
+		<string>Allow $(PRODUCT_NAME) to use FaceID</string>
 	</dict>
 </plist>

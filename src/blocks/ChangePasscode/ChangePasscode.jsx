@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View, TextInput, TouchableOpacity } from "react-native";
 import { useTranslation } from "react-i18next";
-import { View, TextInput, TouchableOpacity } from "react-native";
+import BcryptReactNative from "bcrypt-react-native";
 
-import { Block, AppText, Icon, AppButton } from "#components";
-
+import { Block, AppText, Icon, AppButton, Error } from "#components";
+import { localStorage } from "#services";
+import { showToast } from "#utils";
 import { appStyles } from "#styles";
 /**
  * ChangePasscode
@@ -17,7 +18,6 @@ export const ChangePasscode = ({ navigation, route }) => {
   const { t } = useTranslation("change-passcode");
 
   let { userPin, oldPin, isRemove } = route.params;
-
   const heading = userPin
     ? t("enter_passcode")
     : oldPin
@@ -62,12 +62,33 @@ export const ChangePasscode = ({ navigation, route }) => {
     },
   ]);
 
-  const removePin = () => {
-    console.log("remove pin");
+  const pinValue = `${data[0].value}${data[1].value}${data[2].value}${data[3].value}`;
+
+  const removePin = async () => {
+    await localStorage.removeItem("pin-code");
+    showToast({
+      message: t("remove_success"),
+    });
+    navigation.goBack();
   };
 
-  const submitPin = () => {
-    console.log("submit pin");
+  const submitPin = async () => {
+    const salt = await BcryptReactNative.getSalt(10);
+    const hashedPin = await BcryptReactNative.hash(salt, pinValue);
+
+    try {
+      await localStorage.setItem("pin-code", hashedPin);
+      showToast({
+        message: t("success"),
+      });
+    } catch {
+      showToast({
+        message: t("error"),
+        type: "error",
+      });
+    } finally {
+      navigation.navigate("Passcode");
+    }
   };
 
   const clearPin = () => {
@@ -79,7 +100,7 @@ export const ChangePasscode = ({ navigation, route }) => {
     setData([...dataCopy]);
   };
 
-  const changeText = (currentIndex, text, nextIndex) => {
+  const changeText = async (currentIndex, text, nextIndex) => {
     const dataCopy = [...data];
     if (text !== "") {
       nextIndex !== null
@@ -90,8 +111,6 @@ export const ChangePasscode = ({ navigation, route }) => {
     setData(dataCopy);
 
     if (!nextIndex) {
-      const pinValue = `${data[0].value}${data[1].value}${data[2].value}${data[3].value}`;
-
       // If there is no oldPin and no userPin then we are on the initial set pin page
       // and we need to redirect to the confirm pin page
       if (!oldPin && !userPin && text !== "") {
@@ -110,7 +129,8 @@ export const ChangePasscode = ({ navigation, route }) => {
           submitPin(pinValue);
         }
       } else if (userPin) {
-        if (userPin !== pinValue) {
+        const areEqual = await BcryptReactNative.compareSync(pinValue, userPin);
+        if (!areEqual) {
           setError(true);
           clearPin();
         } else {
@@ -127,8 +147,6 @@ export const ChangePasscode = ({ navigation, route }) => {
   };
 
   const handleContinue = () => {
-    const pinValue = `${data[0].value}${data[1].value}${data[2].value}${data[3].value}`;
-
     navigation.push("ChangePasscode", {
       oldPin: pinValue,
     });
@@ -169,6 +187,9 @@ export const ChangePasscode = ({ navigation, route }) => {
             );
           })}
         </View>
+        {error ? (
+          <Error style={styles.error} message={t("pin_not_matching")} />
+        ) : null}
         <TouchableOpacity onPress={() => setIsPinVisible(!isPinVisible)}>
           <View style={styles.viewPinButton}>
             <Icon
@@ -221,4 +242,5 @@ const styles = StyleSheet.create({
   },
   viewPinButtonText: { color: appStyles.colorSecondary_9749fa, marginLeft: 5 },
   button: { marginTop: 16 },
+  error: { alignSelf: "center", marignTop: 10 },
 });
