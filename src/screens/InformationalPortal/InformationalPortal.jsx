@@ -43,7 +43,10 @@ export const InformationalPortal = ({ navigation }) => {
         keyboardVerticalOffset={64}
       >
         <ScrollView keyboardShouldPersistTaps="handled">
-          <MascotHeadingBlock image={mascotHappyPurple}>
+          <MascotHeadingBlock
+            image={mascotHappyPurple}
+            style={styles.headingBlock}
+          >
             {heading}
           </MascotHeadingBlock>
           <InformationalPortalBlock navigation={navigation} />
@@ -55,6 +58,7 @@ export const InformationalPortal = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  headingBlock: { paddingTop: 65 },
   heading: { color: appStyles.colorBlue_263238 },
   subheading: { marginTop: 16, color: appStyles.colorBlue_263238 },
 });
