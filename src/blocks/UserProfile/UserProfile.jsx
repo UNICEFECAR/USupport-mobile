@@ -157,6 +157,12 @@ export const UserProfile = ({ navigation }) => {
             style={styles.buttonSelector}
           />
           <ButtonSelector
+            label={t("terms_and_conditions")}
+            iconName="document"
+            onPress={() => handleRedirect("TermsOfUse")}
+            style={styles.buttonSelector}
+          />
+          <ButtonSelector
             label={t("FAQ_button_label")}
             iconName="info"
             onPress={() => handleRedirect("FAQ")}
