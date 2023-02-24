@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
+import * as LocalAuthentication from "expo-local-authentication";
 
 import { Block, ButtonSelector, AppText, Toggle } from "#components";
+import { localStorage } from "#services";
 import { appStyles } from "#styles";
+import { useFocusEffect } from "@react-navigation/native";
 
 /**
  * Passcode
@@ -15,16 +18,35 @@ import { appStyles } from "#styles";
 export const Passcode = ({ navigation }) => {
   const { t } = useTranslation("passcode");
 
-  const [hasPasscode, setHasPasscode] = useState(false);
+  const [userPin, setUserPin] = useState(false);
+  const [canUseBiometrics, setCanUseBiometrics] = useState(false);
+  const [biometricsEnabled, setBiometricsEnabled] = useState(false);
 
-  const userPin = null; //TODO: get user pin from the API
+  useFocusEffect(() => {
+    const checkBiometrics = async () => {
+      const hasHardware = await LocalAuthentication.hasHardwareAsync();
+      const biometrics = await localStorage.getItem("biometrics-enabled");
+      const pinCode = await localStorage.getItem("pin-code");
 
-  const handleToggle = () => {
-    if (!hasPasscode) {
+      setCanUseBiometrics(hasHardware);
+      setBiometricsEnabled(!pinCode ? false : !!biometrics);
+      setUserPin(pinCode);
+    };
+
+    checkBiometrics();
+  });
+
+  const handleToggle = async () => {
+    setBiometricsEnabled(!biometricsEnabled);
+
+    if (biometricsEnabled) {
+      await localStorage.removeItem("biometrics-enabled");
+    } else {
+      await localStorage.setItem("biometrics-enabled", "true");
+    }
+    if (!userPin) {
       navigation.push("ChangePasscode", { isRemove: false });
     }
-
-    //TODO: add biometrics functionality
   };
 
   const handleEditPasscode = (action) => {
@@ -67,10 +89,12 @@ export const Passcode = ({ navigation }) => {
           onPress={() => handleEditPasscode("create")}
         />
       )}
-      <View style={styles.biometricsContainer}>
-        <AppText style={styles.label}>{t("biometrics")}</AppText>
-        <Toggle isToggled={hasPasscode} handleToggle={handleToggle} />
-      </View>
+      {canUseBiometrics ? (
+        <View style={styles.biometricsContainer}>
+          <AppText style={styles.label}>{t("biometrics")}</AppText>
+          <Toggle isToggled={biometricsEnabled} handleToggle={handleToggle} />
+        </View>
+      ) : null}
     </Block>
   );
 };

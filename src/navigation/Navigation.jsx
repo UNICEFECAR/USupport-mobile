@@ -8,6 +8,7 @@ import * as Notifications from "expo-notifications";
 import { AppNavigation } from "./AppNavigation";
 import { AuthNavigation } from "./AuthNavigation";
 
+import { LocalAuthenticationScreen } from "#screens";
 import { useAddPushNotificationToken, useGetClientData } from "#hooks";
 import { countrySvc, localStorage, Context } from "#services";
 
@@ -21,7 +22,9 @@ const kazakhstanCountry = {
 
 export function Navigation() {
   const [hasSavedPushToken, setHasSavedPushToken] = useState(false);
-  const { token, setCurrencySymbol, isTmpUser } = useContext(Context);
+  const [hasAuthenticatedWithPin, setHasAuthenticatedWithPin] = useState(false);
+
+  const { token, setCurrencySymbol, isTmpUser, userPin } = useContext(Context);
   const getClientDataEnabled = !!(
     (isTmpUser === false ? true : false) && token
   );
@@ -111,7 +114,18 @@ export function Navigation() {
 
   return (
     <NavigationContainer>
-      {token ? <AppNavigation /> : <AuthNavigation />}
+      {token ? (
+        userPin && !hasAuthenticatedWithPin ? (
+          <LocalAuthenticationScreen
+            userPin={userPin}
+            setHasAuthenticatedWithPin={setHasAuthenticatedWithPin}
+          />
+        ) : (
+          <AppNavigation />
+        )
+      ) : (
+        <AuthNavigation />
+      )}
     </NavigationContainer>
   );
 }
@@ -131,6 +145,7 @@ const registerForPushNotifications = async () => {
   if (Device.isDevice) {
     const permissionsData = await Notifications.getPermissionsAsync();
     let status = permissionsData.status;
+
     if (permissionsData.canAskAgain && status !== "granted") {
       const { status: newStatus } =
         await Notifications.requestPermissionsAsync();
@@ -139,6 +154,7 @@ const registerForPushNotifications = async () => {
     let finalStatus = status;
     if (finalStatus === "granted") {
       const pushTokenData = await Notifications.getExpoPushTokenAsync();
+      console.log(pushTokenData, "pushTokenData");
       token = pushTokenData.data;
     }
   }

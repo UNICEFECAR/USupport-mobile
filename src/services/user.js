@@ -39,6 +39,7 @@ async function signUp({
     userType,
     countryID,
     password,
+    isMobile: true,
   };
 
   if (userType === "client") {
@@ -64,7 +65,7 @@ async function refreshToken(refreshToken) {
 }
 
 async function login({ userType, email, password, userAccessToken, location }) {
-  const payload = { userType, password };
+  const payload = { userType, password, isMobile: true };
   if (userAccessToken) {
     payload.userAccessToken = userAccessToken;
   } else {

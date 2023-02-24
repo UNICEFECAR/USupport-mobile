@@ -278,7 +278,7 @@ export const UserDetails = ({
       : !canSaveChanges;
 
   return (
-    <Block style={{ flex: 1 }}>
+    <Block style={styles.block}>
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
@@ -435,7 +435,7 @@ export const UserDetails = ({
                 label={t("delete_account")}
                 type={"ghost"}
                 onPress={openDeleteAccountBackdrop}
-                style={styles.textButton}
+                style={[styles.textButton, styles.marginBottom20]}
               />
             </View>
           </>
@@ -460,46 +460,33 @@ export const UserDetails = ({
 };
 
 const styles = StyleSheet.create({
-  profilePicturePreview: {
-    alignSelf: "center",
-  },
-
+  block: { flex: 1 },
+  profilePicturePreview: { alignSelf: "center" },
   accessToken: {
     marginTop: 20,
     width: "93%",
     alignItems: "center",
   },
-
   inputsContainer: {
     paddingTop: 8,
     alignItems: "center",
   },
-
-  input: {
-    marginTop: 24,
-  },
-
+  input: { marginTop: 24 },
   buttonContainer: {
     alignItems: "center",
     paddingTop: 32,
     paddingBottom: 20,
   },
-
-  button: {
-    marginTop: 16,
-  },
-
+  button: { marginTop: 16 },
   privacyPolicyContainer: {
     paddingTop: 20,
     width: "93%",
     alignSelf: "center",
   },
-
   privacyPolicyText: {
     fontFamily: "Nunito_600SemiBold",
     color: appStyles.colorBlue_3d527b,
   },
-
   toggleContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -507,19 +494,12 @@ const styles = StyleSheet.create({
     paddingTop: 4,
     paddingBottom: 32,
   },
-
   textButton: {
     marginTop: 20,
     justifyContent: "flex-start",
   },
-
-  zIndex5: {
-    zIndex: 5,
-  },
-  zIndex4: {
-    zIndex: 4,
-  },
-  zIndex3: {
-    zIndex: 3,
-  },
+  zIndex5: { zIndex: 5 },
+  zIndex4: { zIndex: 4 },
+  zIndex3: { zIndex: 3 },
+  marginBottom20: { marginBottom: 20 },
 });

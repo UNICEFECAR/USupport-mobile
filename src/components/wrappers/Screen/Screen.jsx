@@ -7,6 +7,7 @@ import {
   StatusBar,
   Image,
 } from "react-native";
+
 import { useNavigation } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -80,8 +81,9 @@ export function Screen({
             top: 0,
             width: "100%",
             paddingTop:
-              (Platform.OS === "android" ? StatusBar.currentHeight : topInset) +
-              7,
+              Platform.OS === "android"
+                ? StatusBar.currentHeight + 7
+                : topInset + 7,
           }}
           hasUnreadNotifications={queryHasUnreadNotifications.data}
         />

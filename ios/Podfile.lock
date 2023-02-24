@@ -1,4 +1,8 @@
 PODS:
+  - BCrypt (1.0.0)
+  - bcrypt-react-native (1.1.1):
+    - BCrypt
+    - React
   - boost (1.76.0)
   - DoubleConversion (1.1.6)
   - EXApplication (5.0.1):
@@ -7,9 +11,13 @@ PODS:
     - ExpoModulesCore
   - EXDevice (5.0.0):
     - ExpoModulesCore
+  - EXErrorRecovery (4.0.1):
+    - ExpoModulesCore
   - EXFileSystem (15.1.1):
     - ExpoModulesCore
   - EXFont (11.0.1):
+    - ExpoModulesCore
+  - EXLocalAuthentication (13.0.2):
     - ExpoModulesCore
   - EXNotifications (0.17.0):
     - ExpoModulesCore
@@ -428,13 +436,16 @@ PODS:
   - Yoga (1.14.0)
 
 DEPENDENCIES:
+  - bcrypt-react-native (from `../node_modules/bcrypt-react-native`)
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - EXApplication (from `../node_modules/expo-application/ios`)
   - EXConstants (from `../node_modules/expo-constants/ios`)
   - EXDevice (from `../node_modules/expo-device/ios`)
+  - EXErrorRecovery (from `../node_modules/expo-error-recovery/ios`)
   - EXFileSystem (from `../node_modules/expo-file-system/ios`)
   - EXFont (from `../node_modules/expo-font/ios`)
+  - EXLocalAuthentication (from `../node_modules/expo-local-authentication/ios`)
   - EXNotifications (from `../node_modules/expo-notifications/ios`)
   - Expo (from `../node_modules/expo`)
   - ExpoClipboard (from `../node_modules/expo-clipboard/ios`)
@@ -493,6 +504,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - BCrypt
     - fmt
     - libevent
     - Stripe
@@ -506,6 +518,8 @@ SPEC REPOS:
     - TwilioVideo
 
 EXTERNAL SOURCES:
+  bcrypt-react-native:
+    :path: "../node_modules/bcrypt-react-native"
   boost:
     :podspec: "../node_modules/react-native/third-party-podspecs/boost.podspec"
   DoubleConversion:
@@ -516,10 +530,14 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-constants/ios"
   EXDevice:
     :path: "../node_modules/expo-device/ios"
+  EXErrorRecovery:
+    :path: "../node_modules/expo-error-recovery/ios"
   EXFileSystem:
     :path: "../node_modules/expo-file-system/ios"
   EXFont:
     :path: "../node_modules/expo-font/ios"
+  EXLocalAuthentication:
+    :path: "../node_modules/expo-local-authentication/ios"
   EXNotifications:
     :path: "../node_modules/expo-notifications/ios"
   Expo:
@@ -628,13 +646,17 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
+  BCrypt: 712b656110e5020d319c547e4d8f3053ded82b2a
+  bcrypt-react-native: 399775585257ae6c8717370a1119c7da0113e3bf
   boost: a7c83b31436843459a1961bfd74b96033dc77234
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
   EXApplication: 034b1c40a8e9fe1bff76a1e511ee90dff64ad834
   EXConstants: 3c86653c422dd77e40d10cbbabb3025003977415
   EXDevice: 734a55d8935ea8e075d12df1919a0497153bf55c
+  EXErrorRecovery: ae43433feb0608a64dc5b1c8363b3e7769a9ea24
   EXFileSystem: 60602b6eefa6873f97172c684b7537c9760b50d6
   EXFont: 319606bfe48c33b5b5063fb0994afdc496befe80
+  EXLocalAuthentication: 78cc5a00b13745b41d16d189ab332b61a01299f9
   EXNotifications: babce2a87b7922051354fcfe7a74dd279b7e272a
   Expo: 5523a4835730104a301caeac1e68dad095a9dfff
   ExpoClipboard: 334921ae215b4be261e393e6fdd9050025008a20

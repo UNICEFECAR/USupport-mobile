@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import {
   FlatList,
   KeyboardAvoidingView,
-  ScrollView,
   StyleSheet,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { useTranslation } from "react-i18next";
@@ -13,8 +13,7 @@ import {
   SendMessage,
   Message,
   SystemMessage,
-  Screen,
-  Loading,
+  Icon,
   Backdrop,
 } from "#components";
 
@@ -126,7 +125,6 @@ export const Consultation = ({ navigation, route }) => {
   }, []);
 
   const receiveMessage = (message) => {
-    console.log("receive message");
     flatListRef.current?.scrollToOffset({ animated: true, offset: 0 });
     setMessages((messages) => [message, ...messages]);
   };
@@ -144,7 +142,6 @@ export const Consultation = ({ navigation, route }) => {
       message,
       chatId: consultation.chatId,
     });
-    console.log("send", content);
     socketRef.current.emit("send message", {
       language,
       country,
@@ -272,11 +269,19 @@ export const Consultation = ({ navigation, route }) => {
       </View>
 
       <Backdrop
-        // isOpen={true}
         isOpen={isChatShown}
         onClose={() => setIsChatShown(false)}
         customRender
+        hasKeyboardListener
       >
+        <View style={styles.closeIcon}>
+          <TouchableOpacity
+            hitSlop={styles.hitSlop}
+            onPress={() => setIsChatShown(false)}
+          >
+            <Icon name="close-x" color="#000000" />
+          </TouchableOpacity>
+        </View>
         <View style={{ flex: 1, flexGrow: 1 }}>
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : null}
@@ -315,5 +320,12 @@ const styles = StyleSheet.create({
     backgroundColor: appStyles.colorGray_66768d,
     flex: 1,
     flexGrow: 1,
+  },
+  closeIcon: { position: "absolute", right: 20, top: 20, zIndex: 999 },
+  hitSlop: {
+    top: 20,
+    bottom: 20,
+    left: 20,
+    right: 20,
   },
 });

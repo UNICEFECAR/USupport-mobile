@@ -56,6 +56,8 @@ export default function App() {
   const [isTmpUser, setIsTmpUser] = useState(null); // Is the user logged in as a guest
   const [isRegistrationModalOpan, setIsRegistrationModalOpen] = useState(false);
   const [currencySymbol, setCurrencySymbol] = useState("");
+  const [userPin, setUserPin] = useState(); // The value of the user's PIN code
+  const [hasUserEnteredPin, setHasUserEnteredPin] = useState(false); // If the user successfully entered the correct PIN code
 
   const handleRegistrationModalClose = () => setIsRegistrationModalOpen(false);
   const handleRegistrationModalOpen = () => setIsRegistrationModalOpen(true);
@@ -73,6 +75,9 @@ export default function App() {
     async function checkToken() {
       const token = await localStorage.getItem("token");
       setToken(token);
+
+      const pinCode = await localStorage.getItem("pin-code");
+      setUserPin(pinCode);
     }
     checkToken();
   }, []);
@@ -103,6 +108,7 @@ export default function App() {
   const contextValues = {
     token,
     setToken,
+    userPin,
     initialRouteName,
     setInitialRouteName,
     isTmpUser,

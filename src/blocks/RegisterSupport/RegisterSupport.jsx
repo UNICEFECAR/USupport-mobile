@@ -154,5 +154,6 @@ const styles = StyleSheet.create({
   buttonContainer: {
     justifyContent: "flex-end",
     width: "100%",
+    marginBottom: 24,
   },
 });

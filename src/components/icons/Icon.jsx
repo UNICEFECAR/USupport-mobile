@@ -80,6 +80,7 @@ import {
   IconVideo,
   IconConsultation,
   IconPaymentHistory,
+  FaceId,
 } from "./assets/sprite";
 
 /**
@@ -315,6 +316,9 @@ export const Icon = ({ name, size = "md", color, style }) => {
       break;
     case "payment-history":
       icon = <IconPaymentHistory color={color} />;
+      break;
+    case "face-id":
+      icon = <FaceId color={color} />;
       break;
     default:
       icon = null;

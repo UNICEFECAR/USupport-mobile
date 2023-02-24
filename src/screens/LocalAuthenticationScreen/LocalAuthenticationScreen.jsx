@@ -1,36 +1,19 @@
-import React, { useState, useRef, useEffect } from "react";
-import { StyleSheet, View, TextInput, TouchableOpacity } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { Platform, StyleSheet, View, TouchableOpacity } from "react-native";
 import { useTranslation } from "react-i18next";
+import * as LocalAuthentication from "expo-local-authentication";
 import BcryptReactNative from "bcrypt-react-native";
+import { TextInput } from "react-native-gesture-handler";
 
-import { Block, AppText, Icon, AppButton, Error } from "#components";
+import { Icon, Screen, AppText, Error } from "#components";
 import { localStorage } from "#services";
-import { showToast } from "#utils";
 import { appStyles } from "#styles";
-/**
- * ChangePasscode
- *
- * ChangePasscode screen
- *
- * @returns {JSX.Element}
- */
-export const ChangePasscode = ({ navigation, route }) => {
-  const { t } = useTranslation("change-passcode");
 
-  let { userPin, oldPin, isRemove } = route.params;
-  const heading = userPin
-    ? t("enter_passcode")
-    : oldPin
-    ? t("confirm_passcode")
-    : t("create_passcode");
-
-  const [isPinVisible, setIsPinVisible] = useState(false);
-  const [error, setError] = useState(false);
-
-  useEffect(() => {
-    data[0].reference.current?.focus();
-  }, []);
-
+export function LocalAuthenticationScreen({
+  userPin,
+  setHasAuthenticatedWithPin,
+}) {
+  const { t } = useTranslation("local-authentication-screen");
   const [data, setData] = useState([
     {
       name: "first",
@@ -64,41 +47,41 @@ export const ChangePasscode = ({ navigation, route }) => {
 
   const pinValue = `${data[0].value}${data[1].value}${data[2].value}${data[3].value}`;
 
-  const removePin = async () => {
-    await localStorage.removeItem("pin-code");
-    showToast({
-      message: t("remove_success"),
+  const [isPinVisible, setIsPinVisible] = useState(false);
+  const [error, setError] = useState(false);
+  const [hasBiometricsEnabled, setHasBiometricsEnabled] = useState(false);
+  const [hasFaceId, setHasFaceId] = useState(false);
+
+  const handleFaceId = () => {
+    LocalAuthentication.authenticateAsync({
+      disableDeviceFallback: true,
+    }).then((result) => {
+      if (result.success) setHasAuthenticatedWithPin(true);
     });
-    navigation.goBack();
   };
 
-  const submitPin = async () => {
-    const salt = await BcryptReactNative.getSalt(10);
-    const hashedPin = await BcryptReactNative.hash(salt, pinValue);
+  useEffect(() => {
+    const biometricAuth = async () => {
+      const hasEnabledBiometrics = await localStorage.getItem(
+        "biometrics-enabled"
+      );
+      setHasBiometricsEnabled(hasEnabledBiometrics);
 
-    try {
-      await localStorage.setItem("pin-code", hashedPin);
-      showToast({
-        message: t("success"),
-      });
-    } catch {
-      showToast({
-        message: t("error"),
-        type: "error",
-      });
-    } finally {
-      navigation.navigate("Passcode");
-    }
-  };
+      const hasHardware = await LocalAuthentication.hasHardwareAsync();
+      if (hasHardware) {
+        const supportedTypes =
+          await LocalAuthentication.supportedAuthenticationTypesAsync();
+        setHasFaceId(supportedTypes.includes(2));
 
-  const clearPin = () => {
-    let dataCopy = [...data];
-    dataCopy.forEach((item, index) => {
-      dataCopy[index].value = "";
-    });
+        const isEnrolled = await LocalAuthentication.isEnrolledAsync();
+        if (isEnrolled && hasEnabledBiometrics) {
+          handleFaceId();
+        }
+      }
+    };
+    biometricAuth();
     data[0].reference.current?.focus();
-    setData([...dataCopy]);
-  };
+  }, []);
 
   const changeText = async (currentIndex, text, nextIndex) => {
     const dataCopy = [...data];
@@ -111,45 +94,26 @@ export const ChangePasscode = ({ navigation, route }) => {
     setData(dataCopy);
 
     if (!nextIndex) {
-      // If there is no oldPin and no userPin then we are on the initial set pin page
-      // and we need to redirect to the confirm pin page
-      if (!oldPin && !userPin && text !== "") {
-        navigation.push("ChangePasscode", {
-          oldPin: pinValue,
-        });
-
-        // If there is an oldPin then we check if its the same as the currently typed one
-        // and if they match, we open the modal, and redirect
-      } else if (oldPin) {
-        if (oldPin !== pinValue) {
-          setError(true);
-          clearPin();
-        } else {
-          setError(false);
-          submitPin(pinValue);
-        }
-      } else if (userPin) {
-        const areEqual = await BcryptReactNative.compareSync(pinValue, userPin);
-        if (!areEqual) {
-          setError(true);
-          clearPin();
-        } else {
-          if (isRemove) {
-            removePin();
-          } else {
-            navigation.push("ChangePasscode", {
-              isChangePinPage: true,
-            });
-          }
-        }
+      const areEqual = await BcryptReactNative.compareSync(
+        String(pinValue),
+        userPin
+      );
+      if (!areEqual) {
+        clearPinBoxes();
+        setError(true);
+      } else {
+        setHasAuthenticatedWithPin(true);
       }
     }
   };
 
-  const handleContinue = () => {
-    navigation.push("ChangePasscode", {
-      oldPin: pinValue,
+  const clearPinBoxes = () => {
+    let dataCopy = [...data];
+    dataCopy.forEach((item, index) => {
+      dataCopy[index].value = "";
     });
+    data[0].reference.current?.focus();
+    setData([...dataCopy]);
   };
 
   // This function changes the focus to the previous input box
@@ -163,14 +127,25 @@ export const ChangePasscode = ({ navigation, route }) => {
   };
 
   return (
-    <Block style={styles.block}>
-      <View>
-        <AppText namedStyle="h3">{heading}</AppText>
+    <Screen style={styles.screen}>
+      <View style={styles.pinAndTextContainer}>
+        {hasFaceId && hasBiometricsEnabled ? (
+          <TouchableOpacity
+            onPress={handleFaceId}
+            style={{ alignSelf: "center", marginBottom: 18 }}
+          >
+            <Icon name="face-id" color={appStyles.colorPrimary_20809e} />
+          </TouchableOpacity>
+        ) : null}
+        <View style={styles.textAndIconContainer}>
+          <AppText style={styles.enterPin}>{t("enter_pin")}</AppText>
+        </View>
         <View style={styles.pinContainer}>
           {data.map((box, index) => {
             return (
               <TextInput
-                key={box.name}
+                autoFocus={index === 0 ? true : false}
+                key={index}
                 value={box.value}
                 secureTextEntry={!isPinVisible}
                 ref={box.reference}
@@ -187,8 +162,9 @@ export const ChangePasscode = ({ navigation, route }) => {
             );
           })}
         </View>
+
         {error ? (
-          <Error style={styles.error} message={t("pin_not_matching")} />
+          <Error style={styles.errorMessage} message={t("wrong_pin")} />
         ) : null}
         <TouchableOpacity onPress={() => setIsPinVisible(!isPinVisible)}>
           <View style={styles.viewPinButton}>
@@ -202,25 +178,30 @@ export const ChangePasscode = ({ navigation, route }) => {
             </AppText>
           </View>
         </TouchableOpacity>
-        {!userPin && !oldPin && data.filter((x) => x.value).length === 4 ? (
-          <AppButton
-            label="Continue"
-            size="lg"
-            style={styles.button}
-            onPress={handleContinue}
-          />
-        ) : null}
       </View>
-    </Block>
+    </Screen>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  block: { flexGrow: 1, justifyContent: "center", alignItems: "center" },
+  screen: { justifyContent: "center", alignItems: "center" },
+  pinAndTextContainer: {
+    height: appStyles.screenHeight * 0.4,
+    justifyContent: "center",
+  },
+  textAndIconContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    paddingBottom: 30,
+  },
   pinContainer: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+  },
+  enterPin: {
+    alignSelf: "center",
+    textAlign: "center",
   },
   textInput: {
     backgroundColor: appStyles.colorWhite_ff,
@@ -234,6 +215,10 @@ const styles = StyleSheet.create({
     color: "#5F549B",
     ...appStyles.shadow2,
   },
+  errorMessage: {
+    textAlign: "center",
+    marginTop: 5,
+  },
   viewPinButton: {
     flexDirection: "row",
     alignItems: "center",
@@ -241,6 +226,4 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   viewPinButtonText: { color: appStyles.colorSecondary_9749fa, marginLeft: 5 },
-  button: { marginTop: 16 },
-  error: { alignSelf: "center", marignTop: 10 },
 });
