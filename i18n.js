@@ -58,6 +58,7 @@ import {
   MoodTracker as MoodTrackerScreen,
   PaymentHistory as PaymentHistoryScreen,
   ChangePasscode as ChangePasscodeScreen,
+  LocalAuthenticationScreen,
 } from "./src/screens/locales.js";
 
 import {
@@ -138,6 +139,7 @@ const resources = {
     "mood-tracker-screen": MoodTrackerScreen.en,
     "payment-history-screen": PaymentHistoryScreen.en,
     "change-passcode-screen": ChangePasscodeScreen.en,
+    "local-authentication-screen": LocalAuthenticationScreen.en,
 
     // Backdrops
     "filter-providers": FilterProviders.en,
