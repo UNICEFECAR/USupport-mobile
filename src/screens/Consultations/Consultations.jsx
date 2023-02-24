@@ -254,6 +254,6 @@ export const Consultations = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  screen: { paddingTop: 80 },
+  screen: { paddingTop: 70 },
   button: { alignSelf: "center" },
 });

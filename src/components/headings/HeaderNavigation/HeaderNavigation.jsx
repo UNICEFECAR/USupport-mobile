@@ -58,7 +58,7 @@ export const HeaderNavigation = ({
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 10,
+    // marginTop: 10,
     paddingVertical: 8,
     paddingHorizontal: 16,
     flexDirection: "row",
