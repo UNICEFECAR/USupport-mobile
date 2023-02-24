@@ -226,7 +226,8 @@ const styles = StyleSheet.create({
     // top: 0,
     bottom: 0,
     height: appStyles.screenHeight * 0.8,
-    zIndex: 1001, // Put higher zIndex in order to show the backdrop above the emergency button
+    zIndex: 999, // Put higher zIndex in order to show the backdrop above the emergency button
+    elevation: 999,
     position: "absolute",
     width: "100%",
   },

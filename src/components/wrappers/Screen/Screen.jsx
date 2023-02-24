@@ -56,7 +56,15 @@ export function Screen({
         backgroundColor={"transparent"}
         translucent={Platform.OS === "android" ? true : false}
       />
-      <View style={[styles.screenChildren, style]}>{children}</View>
+      <View style={[styles.screenChildren, style]}>
+        {children}
+        {hasEmergencyButton && (
+          <ButtonOnlyIcon
+            style={styles.emergencyButton}
+            onPress={() => navigation.push("SOSCenter")}
+          />
+        )}
+      </View>
 
       {hasSpiralBackground && (
         <Image
@@ -66,12 +74,6 @@ export function Screen({
         />
       )}
 
-      {hasEmergencyButton && (
-        <ButtonOnlyIcon
-          style={styles.emergencyButton}
-          onPress={() => navigation.push("SOSCenter")}
-        />
-      )}
       {hasHeaderNavigation ? (
         <HeaderNavigation
           t={t}
@@ -117,7 +119,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 16,
     right: 16,
-    zIndex: 999,
+    zIndex: 998,
+    elevation: 998,
   },
   spiralImage: { width: "100%", position: "absolute", bottom: 0, zIndex: -1 },
 });
