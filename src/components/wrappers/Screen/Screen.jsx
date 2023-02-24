@@ -31,7 +31,7 @@ export function Screen({
   hasHeaderNavigation = false,
   t,
 }) {
-  const { isTmpUser, token } = useContext(Context);
+  const { isTmpUser, token, handleRegistrationModalOpen } = useContext(Context);
   const navigation = useNavigation();
 
   const { top: topInset } = useSafeAreaInsets();
@@ -86,6 +86,8 @@ export function Screen({
                 : topInset + 7,
           }}
           hasUnreadNotifications={queryHasUnreadNotifications.data}
+          isTmpUser={isTmpUser}
+          handleRegistrationModalOpen={handleRegistrationModalOpen}
         />
       ) : null}
       {outsideComponent}

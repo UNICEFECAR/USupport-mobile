@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -10,8 +10,6 @@ import { useGetClientData } from "#hooks";
 
 import { appStyles } from "#styles";
 
-import { Context } from "#services";
-
 import { AMAZON_S3_BUCKET } from "@env";
 
 export const HeaderNavigation = ({
@@ -19,9 +17,9 @@ export const HeaderNavigation = ({
   navigation,
   style,
   hasUnreadNotifications,
+  isTmpUser,
+  handleRegistrationModalOpen,
 }) => {
-  const { isTmpUser } = useContext(Context);
-
   const getClientDataEnabled = isTmpUser === false ? true : false;
   const clientDataQuery = useGetClientData(getClientDataEnabled);
   const clientData = isTmpUser ? {} : clientDataQuery[0].data;
@@ -44,6 +42,10 @@ export const HeaderNavigation = ({
       />
       <TouchableOpacity
         onPress={() => {
+          if (isTmpUser) {
+            handleRegistrationModalOpen();
+            return;
+          }
           navigation.push("Notifications");
         }}
       >
