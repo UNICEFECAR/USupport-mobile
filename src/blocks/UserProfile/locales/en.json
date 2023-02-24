@@ -16,5 +16,6 @@
   "FAQ_button_label": "FAQ",
   "mood_tracker_button_label": "Mood tracker",
   "passcoode_and_biometrics_button_label": "Passcode and biometrics",
-  "payments_history_button_label": "Payment History"
+  "payments_history_button_label": "Payment History",
+  "terms_and_conditions": "Terms and Conditions"
 }

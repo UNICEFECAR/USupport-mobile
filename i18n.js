@@ -35,6 +35,7 @@ import {
   MoodTrackerHistory,
   PaymentHistory,
   ChangePasscode,
+  TermsOfUse,
 } from "./src/blocks/locales.js";
 
 import {
@@ -112,6 +113,7 @@ const resources = {
     "mood-tracker": MoodTracker.en,
     "mood-tracker-history": MoodTrackerHistory.en,
     "change-passcode": ChangePasscode.en,
+    "terms-of-use": TermsOfUse.en,
 
     // Screens
     "information-portal": InformationalPortal.en,

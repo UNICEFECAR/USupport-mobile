@@ -35,3 +35,4 @@ export * from "./MoodTracker";
 export * from "./MoodTrackerHistory";
 export * from "./PaymentHistory";
 export * from "./ChangePasscode";
+export * from "./TermsOfUse";

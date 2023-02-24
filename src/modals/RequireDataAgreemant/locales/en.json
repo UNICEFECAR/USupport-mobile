@@ -1,6 +1,8 @@
 {
-  "heading": "You need to give us permission to process your personal data",
-  "text": "To provide access to the consultations, we need your permission to process your personal data.",
-  "give_permission": "Give permission",
+  "heading": "Do you give us permission to process your personal data?",
+  "text": "Your personal information will not be exposed, this permission will be used only for medical data and chat history to be proccesed and stored in the platform.",
+  "text_2": "Before giving permission you can read our",
+  "terms_and_conditions": "Terms and conditions",
+  "give_permission": "I give permission ",
   "cancel": "Cancel"
 }
