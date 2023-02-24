@@ -122,6 +122,7 @@ const styles = StyleSheet.create({
     width: "95%",
     height: 24,
     color: appStyles.colorBlack_37,
+    textAlignVertical: "top",
   },
 
   inputTextarea: {

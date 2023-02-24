@@ -435,7 +435,7 @@ export const UserDetails = ({
                 label={t("delete_account")}
                 type={"ghost"}
                 onPress={openDeleteAccountBackdrop}
-                style={styles.textButton}
+                style={[styles.textButton, { marginBottom: 26 }]}
               />
             </View>
           </>

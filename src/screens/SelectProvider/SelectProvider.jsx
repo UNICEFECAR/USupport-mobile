@@ -87,7 +87,7 @@ export const SelectProvider = ({ navigation }) => {
   };
 
   return (
-    <Screen hasEmergencyButton={false}>
+    <Screen>
       <ScrollView>
         <Block>
           <Heading

@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
     color: appStyles.colorSecondary_9749fa,
     fontFamily: "Nunito_600SemiBold",
     marginTop: 4,
+    alignSelf: "center",
   },
 });
 

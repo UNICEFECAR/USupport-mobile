@@ -29,7 +29,11 @@ export const AppButton = ({
     <Pressable
       style={({ pressed }) => {
         return [
-          type === "secondary" ? appStyles.shadow2 : appStyles.shadow1,
+          type === "ghost"
+            ? {}
+            : type === "secondary"
+            ? appStyles.shadow2
+            : appStyles.shadow1,
           styles.btn,
           styles[color],
           styles[type],

@@ -45,7 +45,7 @@ export const ConsultationBig = ({
       gradient={appStyles.gradientConsultationBig}
       style={styles.linearGradient}
     >
-      <View style={[styles.container, style, { ...appStyles.shadow2 }]}>
+      <View style={[styles.container, style]}>
         <View>
           {isLive ? (
             <AppText namedStyle="smallText" style={styles.nowText}>
