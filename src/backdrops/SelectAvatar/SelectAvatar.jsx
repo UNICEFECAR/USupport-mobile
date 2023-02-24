@@ -12,6 +12,7 @@ import { Backdrop, AppText } from "#components";
 import { clientSvc } from "#services";
 import { useError } from "#hooks";
 import { appStyles } from "#styles";
+import { showToast } from "#utils";
 
 import { AMAZON_S3_BUCKET } from "@env";
 
@@ -30,7 +31,6 @@ export const SelectAvatar = ({ isOpen, onClose }) => {
   const image = clientData?.image;
 
   const [selectedAvatar, setSelectedAvatar] = useState();
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
 
   const changeAvatar = async () => {
@@ -39,13 +39,12 @@ export const SelectAvatar = ({ isOpen, onClose }) => {
   };
 
   const changeAvatarMutation = useMutation(changeAvatar, {
-    onSuccess: (res) => {
-      setIsLoading(false);
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["client-data"] });
+      showToast({ message: t("success") });
       onClose();
     },
     onError: (error) => {
-      setIsLoading(false);
       const { message: errorMessage } = useError(error);
       setError(errorMessage);
     },
@@ -73,9 +72,9 @@ export const SelectAvatar = ({ isOpen, onClose }) => {
       onClose={onClose}
       heading={t("heading")}
       ctaLabel={t("cta_label")}
-      ctaHandleClick={() => {
-        changeAvatarMutation.mutate();
-      }}
+      ctaHandleClick={changeAvatarMutation.mutate}
+      isCtaLoading={changeAvatarMutation.isLoading}
+      errorMessage={error}
     >
       <View style={styles.selectedAvatarContent}>
         <Image
