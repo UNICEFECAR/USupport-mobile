@@ -114,6 +114,7 @@ export const Backdrop = ({
       <View style={styles.overlay} />
     </TouchableWithoutFeedback>
   );
+
   return (
     <>
       {isOverlayShown ? <Overlay /> : null}
@@ -155,7 +156,10 @@ export const Backdrop = ({
           <View
             style={[
               styles.buttonContainer,
-              { bottom: -bottomInset, paddingBottom: bottomInset / 2 },
+              {
+                bottom: -bottomInset,
+                paddingBottom: bottomInset === 0 ? 24 : bottomInset / 2,
+              },
             ]}
             onLayout={({ nativeEvent }) => {
               const height = nativeEvent.layout.height;

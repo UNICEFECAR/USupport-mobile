@@ -73,7 +73,7 @@ export const Controls = ({
           <Icon
             style={styles.button}
             name={!isCameraOpen ? "stop-camera" : "video"}
-            size="lg"
+            size="sm"
             color={appStyles.colorPrimary_20809e}
           />
         </TouchableOpacity>
@@ -81,7 +81,7 @@ export const Controls = ({
           <Icon
             style={styles.button}
             name={!isMicOpen ? "stop-mic" : "microphone"}
-            size="lg"
+            size="sm"
             color={appStyles.colorPrimary_20809e}
           />
         </TouchableOpacity>
@@ -89,7 +89,7 @@ export const Controls = ({
           <Icon
             style={styles.button}
             name="comment"
-            size="lg"
+            size="sm"
             color={appStyles.colorPrimary_20809e}
           />
         </TouchableOpacity>
@@ -97,7 +97,7 @@ export const Controls = ({
           <Icon
             style={styles.buttonHangup}
             name="hang-up"
-            size="lg"
+            size="sm"
             color={appStyles.colorWhite_ff}
           />
         </TouchableOpacity>
@@ -149,18 +149,18 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     justifyContent: "center",
-    width: 54,
-    height: 54,
-    borderRadius: 54 / 2,
+    width: 40,
+    height: 40,
+    borderRadius: 40 / 2,
     // backgroundColor: appStyles.colorPrimary_20809e,
   },
   buttonHangup: {
     backgroundColor: appStyles.colorRed_eb5757,
     alignItems: "center",
     justifyContent: "center",
-    width: 56,
-    height: 56,
-    borderRadius: 54 / 2,
+    width: 40,
+    height: 40,
+    borderRadius: 40 / 2,
   },
 });
 

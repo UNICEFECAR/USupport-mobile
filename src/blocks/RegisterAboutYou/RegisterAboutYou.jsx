@@ -19,6 +19,8 @@ import { validateProperty, validate } from "#utils";
 
 import { localStorage } from "#services";
 
+import { appStyles } from "#styles";
+
 /**
  * RegisterAboutYou
  *
@@ -147,7 +149,7 @@ export const RegisterAboutYou = ({ navigation }) => {
 
   return (
     <Block style={styles.flex1}>
-      <ScrollView contentContainerStyle={styles.flex1}>
+      <ScrollView contentContainerStyle={styles.scrollViewContentContainer}>
         <Heading
           heading={t("heading")}
           hasGoBackArrow={false}
@@ -230,8 +232,11 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: "flex-end",
     alignItems: "center",
+    marginBottom: 24,
   },
   scrollViewContentContainer: {
+    flex: 1,
     flexGrow: 1,
+    minHeight: appStyles.screenHeight * 0.95,
   },
 });
