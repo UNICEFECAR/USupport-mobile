@@ -44,7 +44,6 @@ export const MoodTracker = ({ navigation }) => {
 
   const onGetMoodTrackSuccess = (data) => {
     if (data) {
-      console.log(data, "mood track data");
       handleEmoticonClick(data.mood);
       setComment(data.comment);
       setIsMoodTrackCompleted(true);
