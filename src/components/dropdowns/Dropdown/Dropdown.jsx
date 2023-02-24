@@ -41,19 +41,17 @@ export const Dropdown = ({
 
   const dropdownHeight = useSharedValue(0);
   const dropdownStyles = useAnimatedStyle(() => ({
-    position: "absolute",
-    top: 75,
-    width: "97%",
-    borderWidth: isOpen ? 1 : 0,
-    borderRadius: 30,
-    borderColor: "#E0E0E0",
-    height: dropdownHeight.value,
-    borderTopWidth: 0,
-    transform: [{ translateY: -DROPDOWN_HEADING_HEIGHT }],
-    backgroundColor: "white",
     alignSelf: "center",
-    // zIndex: 1001,
-    // elevation: 200,
+    backgroundColor: "white",
+    borderColor: "#E0E0E0",
+    borderRadius: 30,
+    borderTopWidth: 0,
+    borderWidth: isOpen ? 1 : 0,
+    height: dropdownHeight.value,
+    // position: "absolute",
+    top: 75,
+    transform: [{ translateY: -120 }],
+    width: "97%",
   }));
 
   const arrowRotation = useSharedValue(180);
@@ -103,6 +101,7 @@ export const Dropdown = ({
             styles.container,
             isOpen && styles.containerOpen,
             errorMessage && styles.containerError,
+            appStyles.shadow1,
           ]}
         >
           <AppText style={styles.selectedOption}>
@@ -115,7 +114,13 @@ export const Dropdown = ({
       </TouchableWithoutFeedback>
 
       <Animated.View style={[dropdownStyles, isOpen && styles.dropdownOpen]}>
-        <ScrollView directionalLockEnabled>
+        <ScrollView
+          nestedScrollEnabled
+          contentContainerStyle={{
+            flexGrow: 1,
+            minHeight: 50,
+          }}
+        >
           <TouchableWithoutFeedback onPress={handleDropdownClick}>
             <View style={{ height: DROPDOWN_HEADING_HEIGHT + 5 }} />
           </TouchableWithoutFeedback>
@@ -160,19 +165,19 @@ const styles = StyleSheet.create({
 
   container: {
     alignItems: "center",
+    alignSelf: "center",
     backgroundColor: appStyles.colorWhite_ff,
+    borderColor: "transparent",
     borderRadius: 53,
     borderWidth: 1,
     elevation: 5,
     flexDirection: "row",
     height: DROPDOWN_HEADING_HEIGHT,
     justifyContent: "space-between",
+    marginTop: 4,
     position: "relative",
     width: "97%",
-    alignSelf: "center",
     zIndex: 2,
-    marginTop: 4,
-    borderColor: "transparent",
   },
 
   containerError: {
