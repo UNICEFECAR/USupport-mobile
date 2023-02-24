@@ -193,7 +193,7 @@ export function Checkout({ navigation, route }) {
   const cancelPaymentIntentMutation = useMutation(cancelPaymentIntent);
 
   return (
-    <Screen hasEmergencyButton={false}>
+    <Screen>
       <Block>
         <Heading
           heading={t("heading")}

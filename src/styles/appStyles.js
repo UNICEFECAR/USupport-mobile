@@ -105,7 +105,7 @@ export default {
   },
 
   shadow1: {
-    shadowColor: "#684dfd1a",
+    shadowColor: Platform.OS === "ios" ? "#684dfd1a" : "#684dfd",
     shadowOffset: {
       width: 1,
       height: 1,
@@ -113,11 +113,11 @@ export default {
     shadowOpacity: 0.57,
     shadowRadius: 5,
 
-    elevation: 23,
+    elevation: 5,
   },
 
   shadow2: {
-    shadowColor: "#684dfd33",
+    shadowColor: Platform.OS === "ios" ? "#684dfd33" : "#684dfd",
     shadowOffset: {
       width: 1,
       height: 2,
@@ -125,11 +125,11 @@ export default {
     shadowOpacity: 1,
     shadowRadius: 5,
 
-    elevation: 23,
+    elevation: 5,
   },
 
   shadow3: {
-    shadowColor: "#684dfd4d",
+    shadowColor: Platform.OS === "ios" ? "#684dfd4d" : "#684dfd",
     shadowOffset: {
       width: 4,
       height: 1,
@@ -137,7 +137,7 @@ export default {
     shadowOpacity: 1,
     shadowRadius: 7,
 
-    elevation: 23,
+    elevation: 5,
   },
 
   overlay: "rgba(102, 118, 141, 0.5)",

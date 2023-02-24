@@ -100,44 +100,46 @@ export function Welcome({ navigation }) {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.flexGrow}>
-      <Block style={styles.flexGrow}>
-        <View style={styles.headingContainer}>
-          <AppText namedStyle="h3">{t("heading")}</AppText>
-          <Image
-            resizeMode="contain"
-            source={require("../../assets/logo-vertical.png")}
-            style={styles.logo}
-          />
-        </View>
-        <View style={styles.dropdownsContainer}>
-          <Dropdown
-            options={countriesQuery.data}
-            selected={selectedCountry}
-            setSelected={handleSelectCountry}
-            label={t("country")}
-            placeholder={t("placeholder")}
-            style={[styles.dropdown, { zIndex: 3 }]}
-          />
-          <Dropdown
-            options={languagesQuery.data}
-            selected={selectedLanguage}
-            setSelected={setSelectedLanguage}
-            label={t("language")}
-            placeholder={t("placeholder")}
-            style={[styles.dropdown, { zIndex: 2 }]}
-          />
-        </View>
-        <View style={styles.buttonContainer}>
-          <AppButton
-            label={t("button")}
-            size="lg"
-            disabled={!selectedCountry || !selectedLanguage}
-            onPress={handleContinue}
-          />
-        </View>
-      </Block>
-    </ScrollView>
+    <>
+      <ScrollView contentContainerStyle={{}}>
+        <Block style={styles.flexGrow}>
+          <View style={styles.headingContainer}>
+            <AppText namedStyle="h3">{t("heading")}</AppText>
+            <Image
+              resizeMode="contain"
+              source={require("../../assets/logo-vertical.png")}
+              style={styles.logo}
+            />
+          </View>
+          <View style={styles.dropdownsContainer}>
+            <Dropdown
+              options={countriesQuery.data}
+              selected={selectedCountry}
+              setSelected={handleSelectCountry}
+              label={t("country")}
+              placeholder={t("placeholder")}
+              style={[styles.dropdown, { zIndex: 3 }]}
+            />
+            <Dropdown
+              options={languagesQuery.data}
+              selected={selectedLanguage}
+              setSelected={setSelectedLanguage}
+              label={t("language")}
+              placeholder={t("placeholder")}
+              style={[styles.dropdown, { zIndex: 2 }]}
+            />
+          </View>
+        </Block>
+      </ScrollView>
+      <View style={styles.buttonContainer}>
+        <AppButton
+          label={t("button")}
+          size="lg"
+          disabled={!selectedCountry || !selectedLanguage}
+          onPress={handleContinue}
+        />
+      </View>
+    </>
   );
 }
 
@@ -154,6 +156,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     zIndex: 2,
     alignItems: "center",
+    marginTop: 64,
   },
   buttonContainer: {
     flex: 1,
@@ -161,6 +164,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     flexDirection: "column",
     alignItems: "center",
+    marginHorizontal: 16,
   },
   flexGrow: { flexGrow: 1 },
 });
