@@ -71,7 +71,7 @@ export const ProviderDetails = ({
         <Avatar image={image ? { uri: image } : null} style={styles.avatar} />
         <View style={styles.headerTextContainer}>
           <AppText
-            namedStyle="h4"
+            namedStyle="h3"
             style={[styles.providerName, styles.colorBlue]}
           >
             {provider.name} {provider.patronym ? provider.patronym : ""}{" "}
@@ -83,9 +83,7 @@ export const ProviderDetails = ({
 
       <View style={styles.marginTop16}>
         <AppText style={styles.headingText}>{t("description_label")}</AppText>
-        <AppText namedStyle="smallText" style={styles.marginTop8}>
-          {provider.description}
-        </AppText>
+        <AppText style={styles.marginTop8}>{provider.description}</AppText>
       </View>
 
       <View style={styles.marginTop16}>
@@ -131,23 +129,19 @@ export const ProviderDetails = ({
 
         <View style={styles.marginTop16}>
           <AppText style={styles.headingText}>{t("languages_label")}</AppText>
-          <AppText namedStyle="smallText" style={styles.marginTop8}>
-            {renderLanguages()}
-          </AppText>
+          <AppText style={styles.marginTop8}>{renderLanguages()}</AppText>
         </View>
 
         <View style={styles.marginTop16}>
           <AppText style={styles.headingText}>{t("work_with_label")}</AppText>
-          <AppText namedStyle="smallText" style={styles.marginTop8}>
-            {renderWorkWith()}
-          </AppText>
+          <AppText style={styles.marginTop8}>{renderWorkWith()}</AppText>
         </View>
 
         <View style={styles.marginTop16}>
           <AppText style={styles.headingText}>
             {t("earliest_slot_label")}
           </AppText>
-          <AppText namedStyle="smallText" style={styles.marginTop8}>
+          <AppText style={styles.marginTop8}>
             {provider.earliestAvailableSlot
               ? earliestAvailableSlot
               : t("no_available_slot")}
@@ -156,7 +150,7 @@ export const ProviderDetails = ({
 
         <View style={styles.marginTop16}>
           <AppText style={styles.headingText}>{t("education_label")}</AppText>
-          <AppText namedStyle="smallText" style={styles.marginTop8}>
+          <AppText style={styles.marginTop8}>
             {allOptionsToString("education")}
           </AppText>
         </View>
@@ -165,7 +159,7 @@ export const ProviderDetails = ({
           <AppText style={styles.headingText}>
             {t("done_consultations_label")}
           </AppText>
-          <AppText namedStyle="smallText" style={styles.marginTop8}>
+          <AppText style={styles.marginTop8}>
             {provider.totalConsultations} {t("consultations")}
           </AppText>
         </View>

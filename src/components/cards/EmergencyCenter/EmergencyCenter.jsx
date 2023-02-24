@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     objectFit: "cover",
     objectPosition: "center",
+    marginBottom: 8,
   },
   buttonsContainer: {
     display: "flex",
