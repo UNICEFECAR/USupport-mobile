@@ -38,7 +38,7 @@ export const RegisterAnonymous = ({ navigation }) => {
   const { t } = useTranslation("register-anonymous");
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
 
-  const { setToken } = useContext(Context);
+  const { setToken, setInitialRouteName } = useContext(Context);
   const schema = Joi.object({
     password: Joi.string()
       .pattern(new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}"))
@@ -53,11 +53,11 @@ export const RegisterAnonymous = ({ navigation }) => {
     isPrivacyAndTermsSelected: false,
   });
   const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // On page load send a request to the server
   // to generate a user acces token
   const fetchUserAccessToken = async () => {
+    setInitialRouteName("TabNavigation");
     try {
       const res = await userSvc.generateClientAccesToken();
       return res.data.userAccessToken;
@@ -114,15 +114,10 @@ export const RegisterAnonymous = ({ navigation }) => {
     onError: (error) => {
       const { message: errorMessage } = useError(error);
       setErrors({ submit: errorMessage });
-      setIsSubmitting(false);
-    },
-    onSettled: () => {
-      setIsSubmitting(false);
     },
   });
   const handleRegister = async () => {
     if (!isSubmitting) {
-      setIsSubmitting(true);
       if ((await validate(data, schema, setErrors)) === null) {
         registerMutation.mutate(data);
       }
@@ -176,7 +171,7 @@ export const RegisterAnonymous = ({ navigation }) => {
           size="lg"
           style={{ marginTop: 24 }}
           onPress={handleRegister}
-          disabled={isSubmitting}
+          loading={registerMutation.isLoading}
         />
       </TransparentModal>
 
