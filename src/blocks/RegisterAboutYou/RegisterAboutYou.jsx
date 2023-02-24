@@ -153,7 +153,7 @@ export const RegisterAboutYou = ({ navigation }) => {
         <Heading
           heading={t("heading")}
           hasGoBackArrow={false}
-          // handleGoBack={() => navigation.goBack()}
+          style={styles.heading}
         />
 
         <View style={styles.inputContainer}>
@@ -217,15 +217,10 @@ export const RegisterAboutYou = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  flex1: {
-    flex: 1,
-  },
-  inputContainer: {
-    alignItems: "center",
-  },
-  marginBottom24: {
-    marginBottom: 24,
-  },
+  heading: { marginLeft: 10 },
+  flex1: { flex: 1 },
+  inputContainer: { alignItems: "center" },
+  marginBottom24: { marginBottom: 24 },
   backdrop1: { zIndex: 3 },
   backdrop2: { zIndex: 2 },
   buttonContainer: {
