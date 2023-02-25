@@ -426,16 +426,18 @@ export const Notifications = ({ navigation, openJoinConsultation }) => {
   };
 
   return (
-    <Block>
+    <Block style={styles.block}>
       <View style={styles.flashListWrapper}>
         <FlashList
           ListHeaderComponent={
-            <Heading
-              heading={t("heading")}
-              subheading={t("subheading")}
-              handleGoBack={() => navigation.goBack()}
-              buttonComponent={<MarkAllAsReadButton />}
-            />
+            <Block>
+              <Heading
+                heading={t("heading")}
+                subheading={t("subheading")}
+                handleGoBack={() => navigation.goBack()}
+                buttonComponent={<MarkAllAsReadButton />}
+              />
+            </Block>
           }
           ListEmptyComponent={
             isLoadingProviders ? (
@@ -470,6 +472,7 @@ export const Notifications = ({ navigation, openJoinConsultation }) => {
 };
 
 const styles = StyleSheet.create({
+  block: { paddingHorizontal: 0 },
   markAllAsReadButton: {
     color: appStyles.colorSecondary_9749fa,
     fontFamily: appStyles.fontSemiBold,

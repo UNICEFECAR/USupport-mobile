@@ -60,8 +60,8 @@ export const PrivacyPolicy = ({ navigation }) => {
   };
 
   return (
-    <Block>
-      <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView>
+      <Block>
         <Heading heading={t("heading")} handleGoBack={handleGoBack} />
 
         <View style={styles.privacyContainer}>
@@ -77,8 +77,8 @@ export const PrivacyPolicy = ({ navigation }) => {
             </AppText>
           )}
         </View>
-      </ScrollView>
-    </Block>
+      </Block>
+    </ScrollView>
   );
 };
 

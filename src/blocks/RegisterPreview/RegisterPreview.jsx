@@ -168,6 +168,7 @@ const styles = StyleSheet.create({
     padding: 16,
     width: "96%",
     maxWidth: 420,
+    alignSelf: "center",
   },
   carouselItemText: { marginTop: 16 },
 });

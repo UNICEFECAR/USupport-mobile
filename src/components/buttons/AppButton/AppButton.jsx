@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 4,
     backgroundColor: appStyles.colorPrimary_20809e,
-    display: "flex",
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 16,
@@ -138,7 +137,6 @@ const styles = StyleSheet.create({
 
   lg: {
     minWidth: "96%",
-    maxWidth: 420,
     paddingHorizontal: 24,
     paddingVertical: 13,
     borderRadius: 40,

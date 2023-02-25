@@ -114,15 +114,13 @@ export function Navigation() {
 
   return (
     <NavigationContainer>
-      {token ? (
-        userPin && !hasAuthenticatedWithPin ? (
-          <LocalAuthenticationScreen
-            userPin={userPin}
-            setHasAuthenticatedWithPin={setHasAuthenticatedWithPin}
-          />
-        ) : (
-          <AppNavigation />
-        )
+      {userPin && !hasAuthenticatedWithPin ? (
+        <LocalAuthenticationScreen
+          userPin={userPin}
+          setHasAuthenticatedWithPin={setHasAuthenticatedWithPin}
+        />
+      ) : token ? (
+        <AppNavigation />
       ) : (
         <AuthNavigation />
       )}

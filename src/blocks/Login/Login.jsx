@@ -113,6 +113,7 @@ export const Login = ({ navigation }) => {
             placeholder={t("email_placeholder")}
             value={data.email}
             autoCapitalize="none"
+            style={styles.input}
           />
           <InputPassword
             label={t("password_label")}
@@ -151,7 +152,11 @@ export const Login = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   keyboardAvoidingView: { flex: 1, paddingTop: 30 },
+  input: {
+    alignSelf: "center",
+  },
   inputPassword: {
+    alignSelf: "center",
     marginTop: 22,
     marginBottom: 12,
   },
