@@ -55,6 +55,7 @@ export function LocalAuthenticationScreen({
   const handleFaceId = () => {
     LocalAuthentication.authenticateAsync({
       disableDeviceFallback: true,
+      cancelLabel: "Cancel",
     }).then((result) => {
       if (result.success) setHasAuthenticatedWithPin(true);
     });
