@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
   },
-  label: { marginRight: 8 },
+  label: { marginRight: 8, marginBottom: 8 },
   creatorContainer: { flexDirection: "row", marginVertical: 8 },
   iconTime: { marginLeft: 16, marginRight: 5 },
   categoryContainer: {
@@ -93,6 +93,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 2,
     borderRadius: 25,
+    justifyContent: "center",
   },
   heading3: {
     fontSize: 20,

@@ -350,7 +350,7 @@ const styles = StyleSheet.create({
   cardMedia: { marginTop: 24, alignSelf: "center" },
   articlesBlock: {
     alignItems: "center",
-    // paddingBottom: 50,
+    paddingBottom: 50,
   },
   flashListWrapper: {
     width: appStyles.screenWidth,

@@ -103,7 +103,7 @@ export const GiveSuggestion = () => {
 };
 
 const styles = StyleSheet.create({
-  block: { paddingBottom: 70 },
+  block: { paddingBottom: 120 },
   subheading: { marginTop: 16 },
   textArea: { marginVertical: 16 },
 });

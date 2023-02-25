@@ -59,24 +59,30 @@ export const PaymentsHistoryTable = ({
     </Block>
   ) : (
     <Table style={styles.table}>
-      <FlatList
-        contentContainerStyle={{
-          overflow: "visible",
-          width: 250 + 120 + 150 + 150 + 40,
-        }}
-        ListHeaderComponent={<Row data={rowsData} widthArr={widthArr} />}
-        ListFooterComponent={
-          isLoading ? (
-            <View style={styles.loadingContainer}>
-              <Loading />
-            </View>
-          ) : null
-        }
-        estimatedItemSize={50}
-        keyExtractor={(item, index) => index.toString()}
-        data={data || []}
-        renderItem={renderRow}
-      />
+      <ScrollView horizontal>
+        <FlatList
+          directionalLockEnabled={false}
+          nestedScrollEnabled
+          contentContainerStyle={{
+            overflow: "visible",
+            width: 250 + 120 + 150 + 150 + 40,
+            marginBottom: 60,
+            paddingBottom: 60,
+          }}
+          ListHeaderComponent={<Row data={rowsData} widthArr={widthArr} />}
+          ListFooterComponent={
+            isLoading ? (
+              <View style={styles.loadingContainer}>
+                <Loading />
+              </View>
+            ) : null
+          }
+          estimatedItemSize={50}
+          keyExtractor={(item, index) => index.toString()}
+          data={data || []}
+          renderItem={renderRow}
+        />
+      </ScrollView>
     </Table>
   );
 };

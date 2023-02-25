@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Image, Pressable } from "react-native";
 
 import { AppText } from "../../texts/AppText/AppText";
 import { Icon } from "../../icons/Icon";
@@ -26,7 +26,7 @@ export const CardMedia = ({
   style,
 }) => {
   return (
-    <TouchableOpacity
+    <Pressable
       onPress={onPress}
       style={[appStyles.shadow2, styles.cardMedia, style]}
     >
@@ -63,7 +63,7 @@ export const CardMedia = ({
           onPress={onPress}
         />
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 

@@ -92,10 +92,6 @@ export const ArticleInformation = ({ navigation, route }) => {
         : false,
   });
 
-  const onArticleClick = () => {
-    window.scrollTo(0, 0);
-  };
-
   return (
     <Screen>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -123,9 +119,10 @@ export const ArticleInformation = ({ navigation, route }) => {
                   creator={articleData.creator}
                   readingTime={articleData.readingTime}
                   categoryName={articleData.categoryName}
-                  onClick={() => {
-                    navigate(`/information-portal/article/${articleData.id}`);
-                    onArticleClick();
+                  onPress={() => {
+                    navigation.push("ArticleInformation", {
+                      articleId: articleData.id,
+                    });
                   }}
                   key={index}
                   style={styles.cardMedia}

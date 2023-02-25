@@ -30,13 +30,7 @@ export const Input = ({
   const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <View
-      style={[
-        styles.inputWrapper,
-        disabled && styles.inputWrapperDisabled,
-        style,
-      ]}
-    >
+    <View style={[styles.inputWrapper, style]}>
       {label && (
         <AppText namedStyle="text" style={styles.label}>
           {label}
@@ -53,7 +47,11 @@ export const Input = ({
       >
         {preInput && preInput}
         <TextInput
-          style={[styles.textInput, isTextarea && styles.inputTextarea]}
+          style={[
+            styles.textInput,
+            isTextarea && styles.inputTextarea,
+            disabled && styles.inputWrapperDisabled,
+          ]}
           editable={!disabled}
           selectTextOnFocus={!disabled}
           secureTextEntry={isPassword}

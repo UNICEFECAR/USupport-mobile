@@ -72,25 +72,34 @@ export const MoodTracker = ({ navigation }) => {
 
   const renderEmoticons = () => {
     return emoticons.map((emoticon, index) => {
-      return (
+      const emoticonView = (
+        <View
+          style={[
+            styles.emoticonContainer,
+            !emoticon.isSelected && styles.emoticonContainerNotSelected,
+          ]}
+        >
+          <Emoticon
+            name={`${emoticon.value}`}
+            size={emoticon.isSelected ? "lg" : "sm"}
+          />
+          <AppText
+            numberOfLines={1}
+            namedStyle="smallText"
+            style={styles.textSelected}
+          >
+            {emoticon.label}
+          </AppText>
+        </View>
+      );
+      return isMoodTrackCompleted ? (
+        <View key={index}>{emoticonView}</View>
+      ) : (
         <TouchableOpacity
           onPress={() => handleEmoticonClick(emoticon.value)}
           key={index}
         >
-          <View
-            style={[
-              styles.emoticonContainer,
-              !emoticon.isSelected && styles.emoticonContainerNotSelected,
-            ]}
-          >
-            <Emoticon
-              name={`${emoticon.value}`}
-              size={emoticon.isSelected ? "lg" : "sm"}
-            />
-            <AppText namedStyle="smallText" style={styles.textSelected}>
-              {emoticon.label}
-            </AppText>
-          </View>
+          {emoticonView}
         </TouchableOpacity>
       );
     });

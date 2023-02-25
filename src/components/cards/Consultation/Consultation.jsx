@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import React from "react";
+import { View, StyleSheet, Pressable } from "react-native";
 
 import { Avatar } from "../../avatars/Avatar/Avatar";
 import { AppText } from "../../texts/AppText/AppText";
@@ -107,7 +107,7 @@ export const Consultation = ({
     handleCancelConsultation(consultation);
   };
   return (
-    <TouchableOpacity onPress={onPress} style={styles.touchableOpacity}>
+    <Pressable onPress={onPress} style={styles.touchableOpacity}>
       <View
         style={[
           styles.consultation,
@@ -231,7 +231,7 @@ export const Consultation = ({
           </View>
         )}
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 

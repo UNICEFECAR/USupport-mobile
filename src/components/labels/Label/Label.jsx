@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableOpacity, View, StyleSheet } from "react-native";
+import { View, StyleSheet, Pressable } from "react-native";
 import { AppText } from "../../texts/AppText/AppText";
 
 import { appStyles } from "#styles";
@@ -13,13 +13,13 @@ import { appStyles } from "#styles";
  */
 export const Label = ({ text, onPress, style }) => {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <Pressable onPress={onPress}>
       <View style={[styles.label, style]}>
         <AppText namedStyle="textSmall" style={styles.text}>
           {text}
         </AppText>
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 
