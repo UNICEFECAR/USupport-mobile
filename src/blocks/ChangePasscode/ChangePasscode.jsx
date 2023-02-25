@@ -62,7 +62,7 @@ export const ChangePasscode = ({ navigation, route }) => {
     },
   ]);
 
-  const pinValue = `${data[0].value}${data[1].value}${data[2].value}${data[3].value}`;
+  const pinValue = useRef();
 
   const removePin = async () => {
     await localStorage.removeItem("pin-code");
@@ -74,7 +74,7 @@ export const ChangePasscode = ({ navigation, route }) => {
 
   const submitPin = async () => {
     const salt = await BcryptReactNative.getSalt(10);
-    const hashedPin = await BcryptReactNative.hash(salt, pinValue);
+    const hashedPin = await BcryptReactNative.hash(salt, pinValue.current);
 
     try {
       await localStorage.setItem("pin-code", hashedPin);
@@ -108,6 +108,8 @@ export const ChangePasscode = ({ navigation, route }) => {
         : null;
     }
     dataCopy[currentIndex].value = text;
+    pinValue.current = dataCopy.map((x) => x.value).join("");
+
     setData(dataCopy);
 
     if (!nextIndex) {
@@ -115,21 +117,24 @@ export const ChangePasscode = ({ navigation, route }) => {
       // and we need to redirect to the confirm pin page
       if (!oldPin && !userPin && text !== "") {
         navigation.push("ChangePasscode", {
-          oldPin: pinValue,
+          oldPin: pinValue.current,
         });
 
         // If there is an oldPin then we check if its the same as the currently typed one
         // and if they match, we open the modal, and redirect
       } else if (oldPin) {
-        if (oldPin !== pinValue) {
+        if (oldPin !== pinValue.current) {
           setError(true);
           clearPin();
         } else {
           setError(false);
-          submitPin(pinValue);
+          submitPin();
         }
       } else if (userPin) {
-        const areEqual = await BcryptReactNative.compareSync(pinValue, userPin);
+        const areEqual = await BcryptReactNative.compareSync(
+          pinValue.current,
+          userPin
+        );
         if (!areEqual) {
           setError(true);
           clearPin();
@@ -148,7 +153,7 @@ export const ChangePasscode = ({ navigation, route }) => {
 
   const handleContinue = () => {
     navigation.push("ChangePasscode", {
-      oldPin: pinValue,
+      oldPin: pinValue.current,
     });
   };
 

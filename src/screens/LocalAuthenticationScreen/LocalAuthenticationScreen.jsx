@@ -45,7 +45,7 @@ export function LocalAuthenticationScreen({
     },
   ]);
 
-  const pinValue = `${data[0].value}${data[1].value}${data[2].value}${data[3].value}`;
+  const pinValue = useRef();
 
   const [isPinVisible, setIsPinVisible] = useState(false);
   const [error, setError] = useState(false);
@@ -91,11 +91,12 @@ export function LocalAuthenticationScreen({
         : null;
     }
     dataCopy[currentIndex].value = text;
+    pinValue.current = dataCopy.map((x) => x.value).join("");
     setData(dataCopy);
 
     if (!nextIndex) {
       const areEqual = await BcryptReactNative.compareSync(
-        String(pinValue),
+        String(pinValue.current),
         userPin
       );
       if (!areEqual) {
