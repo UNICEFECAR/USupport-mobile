@@ -141,6 +141,7 @@ export const FilterProviders = ({ isOpen, onClose, onSave }) => {
         label={t("language")}
         placeholder={t("language_placeholder")}
         style={[styles.dropdown, styles.marginBottom32]}
+        dropdownId="filterLanguage"
       />
       <View style={styles.toggleContainer}>
         <AppText style={styles.label}>

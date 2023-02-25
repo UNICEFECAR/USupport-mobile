@@ -130,6 +130,7 @@ export const ContactUs = ({ navigation }) => {
         setSelected={handleIssueChange}
         errorMessage={errors.issue}
         placeholder={t("issue_placeholder")}
+        dropdownId="issues"
       />
       <Textarea
         label={t("message")}

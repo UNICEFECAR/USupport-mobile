@@ -356,6 +356,7 @@ export const UserDetails = ({
                 setSelected={(option) => handleChange("sex", option)}
                 label={t("sex")}
                 style={[styles.input, styles.zIndex5]}
+                dropdownId={"sex"}
               />
 
               <Dropdown
@@ -364,6 +365,7 @@ export const UserDetails = ({
                 setSelected={(option) => handleChange("yearOfBirth", option)}
                 label={t("year_of_birth")}
                 style={[styles.input, styles.zIndex4]}
+                dropdownId={"yearOfBirth"}
               />
 
               <Dropdown
@@ -372,6 +374,7 @@ export const UserDetails = ({
                 setSelected={(option) => handleChange("urbanRural", option)}
                 label={t("living_place")}
                 style={[styles.input, styles.zIndex3]}
+                dropdownId={"livingOfPlace"}
               />
             </View>
 

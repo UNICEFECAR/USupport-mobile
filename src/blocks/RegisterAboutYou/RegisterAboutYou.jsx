@@ -182,6 +182,7 @@ export const RegisterAboutYou = ({ navigation }) => {
             setSelected={(option) => handleSelect("sex", option)}
             label={t("dropdown_sex_label")}
             style={[styles.marginBottom24, styles.backdrop1]}
+            dropdownId="registerSex"
           />
           <Dropdown
             options={getYearsOptions()}
@@ -190,6 +191,7 @@ export const RegisterAboutYou = ({ navigation }) => {
             setSelected={(option) => handleSelect("yearOfBirth", option)}
             label={t("dropdown_year_label")}
             style={[styles.marginBottom24, styles.backdrop2]}
+            dropdownId="registerYob"
           />
           <RadioButtonSelectorGroup
             name="urbanRural"
@@ -232,6 +234,5 @@ const styles = StyleSheet.create({
   scrollViewContentContainer: {
     flex: 1,
     flexGrow: 1,
-    minHeight: appStyles.screenHeight * 0.95,
   },
 });

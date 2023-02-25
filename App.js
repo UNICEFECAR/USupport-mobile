@@ -22,6 +22,7 @@ import {
 import { Navigation } from "#navigation";
 import { localStorage, Context, userSvc } from "#services";
 import { RequireRegistration } from "#modals";
+import { DropdownBackdrop } from "#backdrops";
 
 // if (__DEV__) {
 //   require("basil-ws-flipper").wsDebugPlugin;р
@@ -57,7 +58,15 @@ export default function App() {
   const [isRegistrationModalOpan, setIsRegistrationModalOpen] = useState(false);
   const [currencySymbol, setCurrencySymbol] = useState("");
   const [userPin, setUserPin] = useState(); // The value of the user's PIN code
-  const [hasUserEnteredPin, setHasUserEnteredPin] = useState(false); // If the user successfully entered the correct PIN code
+
+  const [dropdownOptions, setDropdownOptions] = useState({
+    isOpen: false,
+    options: [],
+    heading: "",
+    selectedOption: "",
+    handleChooseOption: () => {},
+    dropdownId: null,
+  });
 
   const handleRegistrationModalClose = () => setIsRegistrationModalOpen(false);
   const handleRegistrationModalOpen = () => setIsRegistrationModalOpen(true);
@@ -84,11 +93,17 @@ export default function App() {
 
   useEffect(() => {
     async function checkIsTmpUser() {
-      const tmpUser = (await userSvc.getUserID()) === "tmp-user";
+      const userId = await userSvc.getUserID();
+      const tmpUser = userId === "tmp-user";
+
       setIsTmpUser(tmpUser);
     }
     checkIsTmpUser();
   }, [token]);
+
+  useEffect(() => {
+    console.log(isTmpUser, "IS TMP USER");
+  }, [isTmpUser]);
 
   // Hide the splash screen when the fonts finish loading
   const onLayoutRootView = useCallback(async () => {
@@ -118,6 +133,8 @@ export default function App() {
     setInitialAuthRouteName,
     currencySymbol,
     setCurrencySymbol,
+    dropdownOptions,
+    setDropdownOptions,
   };
 
   return (
@@ -135,6 +152,15 @@ export default function App() {
                 handleContinue={handleRegisterRedirection}
                 isOpen={isRegistrationModalOpan}
                 onClose={handleRegistrationModalClose}
+              />
+              <DropdownBackdrop
+                onClose={() =>
+                  setDropdownOptions((options) => ({
+                    ...options,
+                    isOpen: false,
+                  }))
+                }
+                {...dropdownOptions}
               />
             </View>
           </SafeAreaProvider>

@@ -1,21 +1,17 @@
 //import liraries
-import React, { useState } from "react";
-import {
-  View,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  ScrollView,
-} from "react-native";
+import React, { useContext, useState, useEffect } from "react";
+import { View, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
-  withTiming,
 } from "react-native-reanimated";
 
 import { appStyles } from "#styles";
 import { AppText } from "../../texts";
 import { Icon } from "../../icons";
 import { Error } from "../../errors/Error";
+
+import { Context } from "#services";
 
 const DROPDOWN_HEADING_HEIGHT = 48;
 
@@ -35,24 +31,18 @@ export const Dropdown = ({
   errorMessage,
   placeholder = "Select",
   disabled,
+  dropdownId,
   style,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const { dropdownOptions, setDropdownOptions } = useContext(Context);
 
-  const dropdownHeight = useSharedValue(0);
-  const dropdownStyles = useAnimatedStyle(() => ({
-    alignSelf: "center",
-    backgroundColor: "white",
-    borderColor: "#E0E0E0",
-    borderRadius: 30,
-    borderTopWidth: 0,
-    borderWidth: isOpen ? 1 : 0,
-    height: dropdownHeight.value,
-    // position: "absolute",
-    top: 75,
-    transform: [{ translateY: -120 }],
-    width: "97%",
-  }));
+  const handleClose = () => {
+    setDropdownOptions((options) => {
+      return { ...options, isOpen: false };
+    });
+  };
+  const isOpen =
+    dropdownOptions.isOpen && dropdownOptions.dropdownId === dropdownId;
 
   const arrowRotation = useSharedValue(180);
   const arrowIconStyles = useAnimatedStyle(() => ({
@@ -63,27 +53,31 @@ export const Dropdown = ({
   const selectedLabel =
     options.find((option) => option.value === selected)?.label || "";
 
-  const handleOnClick = () => {
-    if (disabled) return;
-    handleDropdownClick();
-  };
-
-  const handleChooseOption = (option) => {
-    setSelected(option);
-    handleDropdownClick();
-  };
-
   const handleDropdownClick = () => {
-    if (isOpen) {
-      dropdownHeight.value = withTiming(0, { delay: 100 });
-      arrowRotation.value = withTiming(180, { delay: 100 });
-      setTimeout(() => {
-        setIsOpen(false);
-      }, 250);
+    if (dropdownOptions.isOpen) {
+      setDropdownOptions({
+        heading: label,
+        options,
+        selectedOption: selected,
+        handleOptionSelect: (option) => {
+          setSelected(option);
+          handleClose();
+          handleDropdownClick();
+        },
+        isOpen: false,
+      });
     } else {
-      setIsOpen(true);
-      dropdownHeight.value = withTiming(180, { delay: 100 });
-      arrowRotation.value = withTiming(0, { delay: 100 });
+      setDropdownOptions({
+        heading: label,
+        options,
+        selectedOption: selected,
+        dropdownId,
+        handleOptionSelect: (option) => {
+          setSelected(option);
+          handleClose();
+        },
+        isOpen: true,
+      });
     }
   };
 
@@ -113,31 +107,6 @@ export const Dropdown = ({
         </View>
       </TouchableWithoutFeedback>
 
-      <Animated.View style={[dropdownStyles, isOpen && styles.dropdownOpen]}>
-        <ScrollView
-          nestedScrollEnabled
-          contentContainerStyle={{
-            flexGrow: 1,
-            minHeight: 50,
-          }}
-        >
-          <TouchableWithoutFeedback onPress={handleDropdownClick}>
-            <View style={{ height: DROPDOWN_HEADING_HEIGHT + 5 }} />
-          </TouchableWithoutFeedback>
-          {options.map((option, index) => (
-            <AppText
-              style={styles.dropdownOption}
-              onPress={() => handleChooseOption(option.value)}
-              key={index}
-              namedStyle="text"
-              isBold={option.value === selected}
-            >
-              {option.label}
-            </AppText>
-          ))}
-        </ScrollView>
-      </Animated.View>
-
       {errorMessage && !disabled && <Error message={errorMessage} />}
     </View>
   );
@@ -147,15 +116,12 @@ const styles = StyleSheet.create({
   dropdown: {
     width: "96%",
     maxWidth: 420,
-    // alignSelf: "center",
     position: "relative",
-    // zIndex: 999,
     ...appStyles.shadow2,
   },
 
   dropdownOpen: {
     padding: 10,
-    // paddingTop: DROPDOWN_HEADING_HEIGHT + 5,
   },
 
   label: {

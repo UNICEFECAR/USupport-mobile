@@ -50,6 +50,7 @@ export const Backdrop = ({
   secondaryCtaType = "ghost",
   secondaryCtaStyle,
   ctaColor = "green",
+  scrollViewStyle,
   secondaryCtaColor = "green",
   showLoadingIfDisabled = false,
   children,
@@ -94,12 +95,14 @@ export const Backdrop = ({
   }, [isOpen]);
 
   const handleCloseBackdrop = () => {
+    setIsOverlayShown(false);
     backdropBottom.value = withSpring(
       appStyles.screenHeight,
       appStyles.springConfig
     );
-    setIsOverlayShown(false);
-    onClose();
+    setTimeout(() => {
+      onClose();
+    });
   };
 
   const handleClick = () => {
@@ -136,16 +139,24 @@ export const Backdrop = ({
                 {heading}
               </AppText>
             </View>
-            <View>
-              <AppText style={styles.subheading}>{text}</AppText>
-            </View>
+            {text ? (
+              <View>
+                <AppText style={styles.subheading}>{text}</AppText>
+              </View>
+            ) : (
+              <View style={{ height: 10 }} />
+            )}
 
             <ScrollView
-              contentContainerStyle={{
-                flexGrow: 1,
-                paddingTop: 32,
-                paddingBottom: buttonsContainerHeight * 2,
-              }}
+              contentContainerStyle={[
+                styles.scrollView,
+                {
+                  paddingBottom: hasButtons
+                    ? buttonsContainerHeight * 2
+                    : 32 + bottomInset,
+                },
+                scrollViewStyle,
+              ]}
               showsVerticalScrollIndicator={false}
             >
               {children}
@@ -213,7 +224,7 @@ const styles = StyleSheet.create({
     backgroundColor: appStyles.overlay,
     position: "absolute",
     zIndex: 2,
-    top: "-50%",
+    // top: "-50%",
     left: 0,
     right: 0,
     bottom: 0,
@@ -242,6 +253,7 @@ const styles = StyleSheet.create({
     color: appStyles.colorBlue_3d527b,
     alignSelf: "center",
     fontFamily: appStyles.fontSemiBold,
+    marginRight: "-10%",
   },
   subheading: {
     marginTop: 24,
@@ -251,6 +263,10 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 10,
     top: 0,
+  },
+  scrollView: {
+    flexGrow: 1,
+    paddingTop: 32,
   },
   buttonContainer: {
     alignItems: "center",
