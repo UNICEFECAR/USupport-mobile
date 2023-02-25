@@ -13,10 +13,9 @@
   "modal_text": "We will get back to you as soon as possible",
   "modal_cta_label": "Go back to Home",
 
-  "contact_reason_1": "Information about USupport",
-  "contact_reason_2": "Technical problem",
-  "contact_reason_3": "Join the network of providers",
-  "contact_reason_4": "Partnerships",
-  "contact_reason_5": "Other",
+  "contact_reason_1": "What is this platform about?",
+  "contact_reason_2": "I need more info about the services provided through the platform",
+  "contact_reason_3": "I am a client and I am experiencing a technical problem",
+  "contact_reason_4": "Something else",
   "success": "Your issue was reported successfully. We'll get back to you soon"
 }

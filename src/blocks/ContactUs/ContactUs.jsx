@@ -31,7 +31,6 @@ export const ContactUs = ({ navigation }) => {
     { label: t("contact_reason_2"), value: "reason-2", selected: false },
     { label: t("contact_reason_3"), value: "reason-3", selected: false },
     { label: t("contact_reason_4"), value: "reason-4", selected: false },
-    { label: t("contact_reason_5"), value: "reason-5", selected: false },
   ]);
   const [errors, setErrors] = useState({});
   const [canSubmit, setCanSubmit] = useState(false);
