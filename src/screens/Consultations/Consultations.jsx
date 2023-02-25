@@ -39,7 +39,8 @@ export const Consultations = ({ navigation }) => {
 
   const queryClient = useQueryClient();
 
-  const clientData = useGetClientData()[1];
+  const clientDataQuery = useGetClientData()[0];
+  const clientData = clientDataQuery.data;
 
   // Selected consultation data
   const [selectedConsultation, setSelectedConsultation] = useState();
@@ -153,7 +154,7 @@ export const Consultations = ({ navigation }) => {
   const handleScheduleConsultationClick = () => {
     if (isTmpUser) {
       handleRegistrationModalOpen();
-    } else if (!clientData.dataProcessing) {
+    } else if (!clientData?.dataProcessing) {
       openRequireDataAgreement();
     } else {
       navigation.push("SelectProvider");
