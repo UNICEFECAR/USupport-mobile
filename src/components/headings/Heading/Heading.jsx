@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginLeft: "auto",
+    maxWidth: "50%",
   },
   subheading: {
     textAlign: "left",

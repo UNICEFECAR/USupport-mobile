@@ -197,6 +197,7 @@ const styles = StyleSheet.create({
   keyboardAvoidingView: { flex: 1, paddingTop: 30 },
   input: {
     marginBottom: 22,
+    alignSelf: "center",
   },
   registerButton: {
     marginTop: 32,

@@ -56,8 +56,8 @@ export const TermsOfUse = ({ navigation }) => {
   } = useQuery(["terms-of-use", currentCountry, i18n.language], getTermsOfUse);
 
   return (
-    <Block>
-      <ScrollView>
+    <ScrollView>
+      <Block>
         <Heading
           heading={t("heading")}
           handleGoBack={() => navigation.goBack()}
@@ -75,8 +75,8 @@ export const TermsOfUse = ({ navigation }) => {
             <AppText namedStyle="h3">{t("no_results")}</AppText>
           )}
         </View>
-      </ScrollView>
-    </Block>
+      </Block>
+    </ScrollView>
   );
 };
 
