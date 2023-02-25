@@ -9,7 +9,7 @@
     },
     "ios": {
       "bundleIdentifier": "com.usupportmobile",
-      "supportsTablet": true
+      "supportsTablet": false
     },
     "assetBundlePatterns": ["**/*"],
     "jsEngine": "hermes",
