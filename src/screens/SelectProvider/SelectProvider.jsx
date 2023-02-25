@@ -60,9 +60,9 @@ export const SelectProvider = ({ navigation }) => {
       const isPriceMatching =
         maxPrice === ""
           ? true
-          : provider.price <= Number(maxPrice)
-          ? false
-          : true;
+          : provider.consultationPrice <= Number(maxPrice)
+          ? true
+          : false;
 
       const providerLanguages = provider.languages.map((x) => x.language_id);
       const providerHasLanguage = !language
