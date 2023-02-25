@@ -295,6 +295,6 @@ const styles = StyleSheet.create({
     marginTop: 24,
     alignSelf: "center",
   },
-  termsAgreement: { width: "85%", alignSelf: "center", paddingTop: 24 },
+  termsAgreement: { width: "95%", alignSelf: "center", paddingTop: 24 },
   button: { marginTop: 24 },
 });

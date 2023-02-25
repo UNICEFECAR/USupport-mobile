@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import React from "react";
+import { StyleSheet, View, Pressable } from "react-native";
 
 import { Avatar } from "../../avatars/Avatar/Avatar";
 import { Icon } from "../../icons/Icon";
@@ -23,20 +23,12 @@ export const ProviderOverview = ({
   name,
   patronym,
   surname,
-  specializations,
-  viewProfileLabel,
   freeLabel,
   price,
-  editLabel,
-  deleteLabel,
   earliestAvailableSlot,
-  earliestAvailableSlotLabel,
   onPress,
   t,
   currencySymbol,
-  handleEdit,
-  handleDelete,
-  handleViewProfile,
   style,
 }) => {
   const displayName = patronym
@@ -63,10 +55,7 @@ export const ProviderOverview = ({
     : "";
 
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      style={[styles.touchableOpacity, style]}
-    >
+    <Pressable onPress={onPress} style={[styles.touchableOpacity, style]}>
       <View
         style={[styles.providerOverview, { ...appStyles.shadow2 }]}
         classes={["provider-overview"].join(" ")}
@@ -108,7 +97,7 @@ export const ProviderOverview = ({
           </View>
         </View>
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 

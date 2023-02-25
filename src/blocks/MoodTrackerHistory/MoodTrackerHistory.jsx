@@ -391,6 +391,7 @@ const styles = StyleSheet.create({
     borderColor: "transparent",
     color: appStyles.colorPrimary_20809e,
     ...appStyles.shadow1,
+    elevation: 2,
   },
   singleDayAvailable: { backgroundColor: appStyles.colorGreen_c1eaea },
   dayOfWeek: {

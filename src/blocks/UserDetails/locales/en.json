@@ -33,7 +33,7 @@
   "place_of_living_urban": "Urban",
   "place_of_living_rural": "Rural",
   "data_processing_modal_heading": "Are you sure you want to remove the permission to process your personal data?",
-  "data_processing_modal_text": "You will not have access to the consultations as we need your permission to process your personal data fo r them.",
+  "data_processing_modal_text": "You will not be able to schedule further consultations.",
   "data_processing_modal_confirm_button": "Remove permission",
   "data_processing_modal_cancel_button": "Cancel",
   "success_message": "Profile updated successfully"
