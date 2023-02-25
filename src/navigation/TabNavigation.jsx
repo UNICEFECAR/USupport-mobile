@@ -119,6 +119,7 @@ export const TabNavigation = () => {
           </View>
         )}
         tabBar={renderTabBar}
+        style={appStyles.shadow3}
       >
         {renderScreens()}
       </CurvedBottomBar.Navigator>
