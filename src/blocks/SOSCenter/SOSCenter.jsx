@@ -75,7 +75,7 @@ export const SOSCenter = () => {
   );
 
   return (
-    <Block>
+    <Block style={styles.block}>
       {SOSCentersData && (
         <View style={styles.emergencyCenterContainer}>
           {SOSCentersData.map((sosCenter, index) => {
@@ -115,6 +115,7 @@ export const SOSCenter = () => {
 };
 
 const styles = StyleSheet.create({
+  block: { paddingBottom: 40 },
   loadingContainer: {
     minHeight: 250,
     alignItems: "center",
