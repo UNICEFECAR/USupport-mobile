@@ -14,6 +14,8 @@ import { clientSvc } from "#services";
 
 import { showToast } from "../../utils/showToast";
 
+import { WEBSITE_URL } from "@env";
+
 /**
  * RequireDataAgreement
  *
@@ -71,7 +73,7 @@ export const RequireDataAgreement = ({
       <AppText>{t("text_2")}</AppText>
       <TouchableOpacity
         onPress={() => {
-          Linking.openURL("https://staging.usupport.online/terms-of-use");
+          Linking.openURL(`${WEBSITE_URL}/terms-of-use`);
         }}
       >
         <AppText style={styles.termsAndConditionsText}>
