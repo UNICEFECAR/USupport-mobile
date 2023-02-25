@@ -1,9 +1,11 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Linking, StyleSheet } from "react-native";
 import { CheckBox } from "../../inputs";
 import { AppText } from "../../texts";
 
 import { appStyles } from "#styles";
+
+import { WEBSITE_URL } from "@env";
 
 export const TermsAgreement = ({
   isChecked,
@@ -18,11 +20,23 @@ export const TermsAgreement = ({
       <CheckBox isChecked={isChecked} setIsChecked={setIsChecked} />
       <AppText>
         <AppText namedStyle="text">{textOne}</AppText>
-        <AppText namedStyle="text" style={styles.purpleText}>
+        <AppText
+          namedStyle="text"
+          onPress={() => {
+            Linking.openURL(`${WEBSITE_URL}/privacy-policy`);
+          }}
+          style={styles.purpleText}
+        >
           {` ${textTwo} `}
         </AppText>
         <AppText namedStyle="text">{`${textThree} `}</AppText>
-        <AppText namedStyle="text" style={styles.purpleText}>
+        <AppText
+          namedStyle="text"
+          onPress={() => {
+            Linking.openURL(`${WEBSITE_URL}/terms-of-use`);
+          }}
+          style={styles.purpleText}
+        >
           {textFour}
         </AppText>
       </AppText>
