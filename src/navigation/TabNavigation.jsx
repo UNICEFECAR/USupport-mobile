@@ -82,7 +82,7 @@ export const TabNavigation = () => {
           headerShown: false,
           tabBarHideOnKeyboard: Platform.OS !== "ios",
         }}
-        strokeWidth={0}
+        strokeWidth={0.5}
         height={75}
         circleWidth={55}
         bgColor="white"
@@ -135,14 +135,6 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: Platform.OS !== "ios" && "white",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 0.5,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-    elevation: 1,
     bottom: 20,
   },
   circleButton: {

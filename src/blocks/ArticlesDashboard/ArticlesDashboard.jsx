@@ -110,7 +110,7 @@ export const ArticlesDashboard = ({ navigation }) => {
 
   const getNewestArticle = async () => {
     let categoryId = "";
-    if (selectedCategory?.value !== "all") {
+    if (selectedCategory && selectedCategory.value !== "all") {
       categoryId = selectedCategory.id;
     }
 

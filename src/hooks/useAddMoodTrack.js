@@ -17,7 +17,6 @@ export default function useAddMoodTrack(onSuccess, onError, onMutate) {
     onMutate: onMutate,
     onSuccess: onSuccess,
     onError: (error, variables, rollback) => {
-      console.log(error);
       const { message: errorMessage } = useError(error);
       onError(errorMessage, variables, rollback);
     },

@@ -149,7 +149,6 @@ export const MoodTrackerHistory = () => {
         x.time.toDateString() === day.toDateString() &&
         x.mood === emoticon.value
     );
-    // console.log(moodTrack);
     setSelectedMoodTrack(moodTrack);
     setIsMoreInformationModalOpen(true);
   };

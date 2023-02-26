@@ -133,6 +133,7 @@ export const RegisterPreview = ({ navigation }) => {
           type="ghost"
           size="lg"
           onPress={() => handleRedirect("Guest")}
+          loading={tmpLoginMutation.isLoading}
         />
       </View>
     </Block>
@@ -160,6 +161,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
     alignItems: "center",
+    paddingBottom: 45,
   },
   accessAnonymouslyButton: {
     marginVertical: 16,

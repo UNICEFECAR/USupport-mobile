@@ -95,7 +95,6 @@ export const Consultation = ({ navigation, route }) => {
   // TODO: Send a consultation add services request only when the provider leaves the consultation
   // TODO: Send a system message when the client/provider toggles camera
   useEffect(() => {
-    console.log(consultation.chatId, "chatId");
     localStorage.getItem("language").then((language) => {
       localStorage.getItem("country").then((country) => {
         socketRef.current = io(SOCKET_IO_URL, {
@@ -116,7 +115,6 @@ export const Consultation = ({ navigation, route }) => {
 
     return () => {
       if (socketRef.current) {
-        console.log("disconnect");
         socketRef.current.disconnect();
         socketRef.current.off();
       }
