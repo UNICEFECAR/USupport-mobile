@@ -117,10 +117,8 @@ export const RegisterAnonymous = ({ navigation }) => {
     },
   });
   const handleRegister = async () => {
-    if (!isSubmitting) {
-      if ((await validate(data, schema, setErrors)) === null) {
-        registerMutation.mutate(data);
-      }
+    if ((await validate(data, schema, setErrors)) === null) {
+      registerMutation.mutate(data);
     }
   };
 
