@@ -58,6 +58,7 @@ export default function App() {
   const [isRegistrationModalOpan, setIsRegistrationModalOpen] = useState(false);
   const [currencySymbol, setCurrencySymbol] = useState("");
   const [userPin, setUserPin] = useState(); // The value of the user's PIN code
+  const [hasCheckedTmpUser, setHasCheckedTmpUser] = useState(false);
 
   const [dropdownOptions, setDropdownOptions] = useState({
     isOpen: false,
@@ -93,17 +94,15 @@ export default function App() {
 
   useEffect(() => {
     async function checkIsTmpUser() {
-      const userId = await userSvc.getUserID();
-      const tmpUser = userId === "tmp-user";
-
-      setIsTmpUser(tmpUser);
+      if (token) {
+        const userId = await userSvc.getUserID();
+        const tmpUser = userId === "tmp-user";
+        setIsTmpUser(tmpUser);
+        setHasCheckedTmpUser(true);
+      }
     }
     checkIsTmpUser();
   }, [token]);
-
-  useEffect(() => {
-    console.log(isTmpUser, "IS TMP USER");
-  }, [isTmpUser]);
 
   // Hide the splash screen when the fonts finish loading
   const onLayoutRootView = useCallback(async () => {
@@ -135,6 +134,7 @@ export default function App() {
     setCurrencySymbol,
     dropdownOptions,
     setDropdownOptions,
+    hasCheckedTmpUser,
   };
 
   return (

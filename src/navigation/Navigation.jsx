@@ -24,7 +24,8 @@ export function Navigation() {
   const [hasSavedPushToken, setHasSavedPushToken] = useState(false);
   const [hasAuthenticatedWithPin, setHasAuthenticatedWithPin] = useState(false);
 
-  const { token, setCurrencySymbol, isTmpUser, userPin } = useContext(Context);
+  const { token, setCurrencySymbol, isTmpUser, userPin, hasCheckedTmpUser } =
+    useContext(Context);
   const getClientDataEnabled = !!(
     (isTmpUser === false ? true : false) && token
   );
@@ -32,13 +33,14 @@ export function Navigation() {
   const clientData = isTmpUser ? {} : clientDataQuery[0].data;
 
   const addPushNotificationTokenMutation = useAddPushNotificationToken();
-
   useEffect(() => {
     if (
       !hasSavedPushToken &&
       !isTmpUser &&
       clientData &&
-      Object.values(clientData).length !== 0
+      Object.values(clientData).length !== 0 &&
+      token &&
+      hasCheckedTmpUser
     ) {
       registerForPushNotifications().then((token) => {
         setHasSavedPushToken(true);
@@ -49,7 +51,7 @@ export function Navigation() {
         }
       });
     }
-  }, [isTmpUser, clientData]);
+  }, [isTmpUser, token, clientData, hasCheckedTmpUser]);
 
   const fetchCountries = async () => {
     const localStorageCountry = await localStorage.getItem("country");
@@ -119,7 +121,7 @@ export function Navigation() {
           userPin={userPin}
           setHasAuthenticatedWithPin={setHasAuthenticatedWithPin}
         />
-      ) : token ? (
+      ) : token && hasCheckedTmpUser ? (
         <AppNavigation />
       ) : (
         <AuthNavigation />
@@ -152,7 +154,6 @@ const registerForPushNotifications = async () => {
     let finalStatus = status;
     if (finalStatus === "granted") {
       const pushTokenData = await Notifications.getExpoPushTokenAsync();
-      console.log(pushTokenData, "pushTokenData");
       token = pushTokenData.data;
     }
   }

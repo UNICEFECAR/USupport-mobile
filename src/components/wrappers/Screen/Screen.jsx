@@ -31,12 +31,13 @@ export function Screen({
   hasHeaderNavigation = false,
   t,
 }) {
-  const { isTmpUser, token, handleRegistrationModalOpen } = useContext(Context);
+  const { isTmpUser, token, handleRegistrationModalOpen, hasCheckedTmpUser } =
+    useContext(Context);
   const navigation = useNavigation();
 
   const { top: topInset } = useSafeAreaInsets();
 
-  const queryEnabled = !isTmpUser && token;
+  const queryEnabled = !isTmpUser && !!token && hasCheckedTmpUser;
   const queryHasUnreadNotifications =
     useCheckHasUnreadNotifications(queryEnabled);
 
