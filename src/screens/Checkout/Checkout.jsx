@@ -7,10 +7,10 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { paymentsSvc, providerSvc } from "#services";
 import { Screen, AppButton, Loading, Heading, Block } from "#components";
 import { ConfirmConsultation } from "#backdrops";
-import { getDateView, getTime } from "#utils";
+import { getDateView, getTime, FIVE_MINUTES } from "#utils";
 
 import { mascotCalmBlue, mascotConfusedBlue, mascotHappyOrange } from "#assets";
-import { showToast } from "../../utils/showToast";
+import { showToast, hideToast } from "../../utils/showToast";
 
 export function Checkout({ navigation, route }) {
   const { t } = useTranslation("checkout-page");
@@ -30,12 +30,17 @@ export function Checkout({ navigation, route }) {
   const [consultationTime, setConsultationTime] = useState();
 
   const [isConfirmBackdropOpen, setIsConfirmBackdropOpen] = useState(false);
+  const [isCheckoutButtonDisabled, setIsCheckoutButtonDisabled] =
+    useState(false);
+
+  const consultationCreationTime = useRef();
 
   const paymentIntentId = useRef();
   const clientSecretRef = useRef();
   const params = route.params;
   const consultationId = params?.consultationId;
   const selectedSlot = params?.selectedSlot;
+  const entryTime = params?.entryTime;
 
   const fetchPaymentIntent = async () => {
     const res = await paymentsSvc.createPaymentIntent(consultationId);
@@ -45,13 +50,19 @@ export function Checkout({ navigation, route }) {
   const initializePaymentSheet = async () => {
     const {
       clientSecret,
-      ephemeralKey,
       customer,
       currency,
       publishableKey,
       price,
       paymentIntentId: intentId,
+      consultationCreationTime: creationTime,
     } = await fetchPaymentIntent();
+
+    if (entryTime) {
+      consultationCreationTime.current = entryTime;
+    } else {
+      consultationCreationTime.current = creationTime;
+    }
 
     if (!paymentIntentId.current) {
       paymentIntentId.current = intentId;
@@ -81,7 +92,15 @@ export function Checkout({ navigation, route }) {
   };
 
   const openPaymentSheet = async () => {
-    const { error } = await presentPaymentSheet();
+    const timeOfTimeout =
+      new Date(consultationCreationTime.current).getTime() + FIVE_MINUTES;
+    const now = new Date().getTime();
+
+    const difference = timeOfTimeout - now;
+
+    const { error } = await presentPaymentSheet({
+      timeout: difference,
+    });
 
     if (error) {
       // setIsConfirmBackdropOpen(true);
@@ -162,9 +181,6 @@ export function Checkout({ navigation, route }) {
 
   useQuery(["consultation", consultationId], getConsultation, {
     onSuccess: (data) => {
-      const date = getDateView(data.time);
-      const time = getTime(data.time);
-      // console.log(date, time);
       setConsultationDate(getDateView(data.time));
       setConsultationTime(getTime(data.time));
     },
@@ -172,15 +188,19 @@ export function Checkout({ navigation, route }) {
     enabled: !!consultationId,
   });
 
+  const [hasPadding, setHasPadding] = useState(false);
+
   useEffect(() => {
     const timeout = setTimeout(() => {
-      cancelPaymentIntentMutation.mutate();
+      setIsCheckoutButtonDisabled(true);
       resetPaymentSheetCustomer();
+      cancelPaymentIntentMutation.mutate();
       showToast({
-        message: "ERROR",
+        message: t("session_timeout"),
         type: "error",
         autoHide: false,
       });
+      setHasPadding(true);
     }, 60 * 5 * 1000);
 
     return () => clearTimeout(timeout);
@@ -194,11 +214,14 @@ export function Checkout({ navigation, route }) {
 
   return (
     <Screen>
-      <Block>
+      <Block style={{ paddingTop: hasPadding ? 65 : 0 }}>
         <Heading
           heading={t("heading")}
           subheading={t("subheading")}
-          handleGoBack={() => navigation.goBack()}
+          handleGoBack={() => {
+            navigation.goBack();
+            hideToast();
+          }}
         />
       </Block>
       {loading ? (
@@ -208,20 +231,15 @@ export function Checkout({ navigation, route }) {
       ) : (
         <View />
       )}
-      {/* <AppButton
-        disabled={loading}
-        label="Cancel intent"
-        onPress={cancelPaymentIntentMutation.mutate}
-        size="lg"
-        style={{ alignSelf: "center" }}
-      />
-      <AppButton
-        disabled={loading}
-        label="Checkout"
-        onPress={openPaymentSheet}
-        size="lg"
-        style={{ alignSelf: "center" }}
-      /> */}
+      <View style={{ flexGrow: 1, justifyContent: "flex-end" }}>
+        <AppButton
+          disabled={loading || isCheckoutButtonDisabled}
+          label="Checkout"
+          onPress={openPaymentSheet}
+          size="lg"
+          style={{ alignSelf: "center", marginBottom: 80 }}
+        />
+      </View>
       {selectedSlot && (
         <ConfirmConsultation
           isOpen={isConfirmBackdropOpen}

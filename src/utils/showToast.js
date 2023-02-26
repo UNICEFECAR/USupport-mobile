@@ -1,4 +1,4 @@
-import { showMessage } from "react-native-flash-message";
+import { showMessage, hideMessage } from "react-native-flash-message";
 import { appStyles } from "#styles";
 
 export const showToast = ({ message, type = "success", autoHide = true }) => {
@@ -25,3 +25,5 @@ export const showToast = ({ message, type = "success", autoHide = true }) => {
     },
   });
 };
+
+export const hideToast = () => hideMessage();
