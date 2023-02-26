@@ -35,10 +35,13 @@ export const SharePlatform = ({}) => {
       url: "https://www.staging.usupport.online",
     };
     try {
-      // const ShareResponse = await Share.shareSingle(shareOptions);
-      Linking.openURL(
-        "tg://msg_url?url=https://www.staging.usupport.online&text=test text"
-      );
+      const url =
+        "tg://msg_url?url=https://www.staging.usupport.online&text=Download USupport app";
+      const canOpen = await Linking.canOpenURL(url);
+      // TODO: Create a deep link
+      if (canOpen) {
+        Linking.openURL(url);
+      }
     } catch (error) {
       console.log("Error =>", error);
     }
@@ -67,7 +70,7 @@ export const SharePlatform = ({}) => {
 };
 
 const styles = StyleSheet.create({
-  block: { alignItems: "center" },
+  block: { alignItems: "center", paddingBottom: 64 },
   marginTop32: {
     marginTop: 32,
   },
