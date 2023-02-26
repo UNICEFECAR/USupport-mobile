@@ -129,7 +129,7 @@ export function LocalAuthenticationScreen({
   };
 
   return (
-    <Screen style={styles.screen}>
+    <Screen style={styles.screen} hasEmergencyButton={false}>
       <View style={styles.pinAndTextContainer}>
         {hasFaceId && hasBiometricsEnabled ? (
           <TouchableOpacity
