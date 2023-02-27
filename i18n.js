@@ -72,6 +72,7 @@ import {
   DeleteAccount,
   ChangePassword,
   SelectAvatar,
+  DeleteProfilePicture,
 } from "./src/backdrops/locales.js";
 
 import {
@@ -153,6 +154,7 @@ const resources = {
     "change-password": ChangePassword.en,
     "delete-account": DeleteAccount.en,
     "select-avatar": SelectAvatar.en,
+    "delete-profile-picture": DeleteProfilePicture.en,
 
     // Modals
     "require-registration": RequireRegistration.en,

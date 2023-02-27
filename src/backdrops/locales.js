@@ -7,3 +7,4 @@ export * as JoinConsultation from "./JoinConsultation/locales";
 export * as DeleteAccount from "./DeleteAccount/locales";
 export * as ChangePassword from "./ChangePassword/locales";
 export * as SelectAvatar from "./SelectAvatar/locales";
+export * as DeleteProfilePicture from "./DeleteProfilePicture/locales";

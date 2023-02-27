@@ -22,9 +22,10 @@ import {
 
 import { appStyles } from "#styles";
 
-import { useGetClientData, useUpdateClientData } from "#hooks";
+import { useGetClientData, useUpdateClientData, useLogout } from "#hooks";
 
 import { localStorage, clientSvc, Context } from "#services";
+
 import { validate, validateProperty, showToast } from "#utils";
 
 /**
@@ -255,10 +256,7 @@ export const UserDetails = ({
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setToken(null);
-  };
+  const handleLogout = useLogout(setToken);
 
   const handleGoBack = () => {
     navigation.goBack();
