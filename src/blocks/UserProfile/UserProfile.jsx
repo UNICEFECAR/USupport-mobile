@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { View, StyleSheet, ScrollView } from "react-native";
+
 import {
   Block,
   Heading,
@@ -13,9 +14,11 @@ import { useGetClientData } from "#hooks";
 
 import { appStyles } from "#styles";
 
-import { localStorage, Context } from "#services";
+import { Context } from "#services";
 
 import { AMAZON_S3_BUCKET } from "@env";
+
+import { useLogout } from "#hooks";
 
 /**
  * UserProfile
@@ -59,10 +62,7 @@ export const UserProfile = ({ navigation }) => {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setToken(null);
-  };
+  const handleLogout = useLogout(setToken);
 
   return (
     <Block style={styles.block}>
