@@ -8,6 +8,8 @@ import { Backdrop, InputPassword } from "#components";
 
 import { validate, validateProperty, showToast } from "#utils";
 
+import { useError } from "#hooks";
+
 import { userSvc } from "#services";
 
 /**
