@@ -92,7 +92,7 @@ export const GiveSuggestion = () => {
       />
       <TransparentModal
         isOpen={isSuccessModalOpen}
-        closeModal={closeSuccessModal}
+        handleClose={closeSuccessModal}
         heading={t("modal_title")}
         text={t("modal_text")}
         ctaLabel={t("modal_cta_label")}

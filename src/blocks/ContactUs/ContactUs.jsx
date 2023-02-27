@@ -1,7 +1,13 @@
 import "fast-text-encoding";
 import Joi from "joi";
 import React, { useState, useEffect } from "react";
-import { StyleSheet } from "react-native";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  View,
+} from "react-native";
 import { useTranslation } from "react-i18next";
 
 import { Block, Heading, Dropdown, Textarea, AppButton } from "#components";
@@ -116,45 +122,58 @@ export const ContactUs = ({ navigation }) => {
   };
 
   return (
-    <Block style={styles.block}>
-      <Heading
-        heading={t("heading")}
-        subheading={t("subheading")}
-        handleGoBack={handleGoBack}
-      />
-      <Dropdown
-        label={t("issue")}
-        style={styles.dropdown}
-        options={issues}
-        selected={data.issue}
-        setSelected={handleIssueChange}
-        errorMessage={errors.issue}
-        placeholder={t("issue_placeholder")}
-        dropdownId="issues"
-      />
-      <Textarea
-        label={t("message")}
-        style={styles.textarea}
-        errorMessage={errors.message}
-        onChange={(value) => handleChange("message", value)}
-        value={data.message}
-        placeholder={t("message_placeholder")}
-      />
-      <AppButton
-        size="lg"
-        label={t("button")}
-        style={styles.button}
-        disabled={!canSubmit}
-        loading={sendIssueEmailMutation.isLoading}
-        onPress={handleSubmit}
-      />
-    </Block>
+    <KeyboardAvoidingView
+      style={styles.flexGrow}
+      behavior={Platform.OS === "ios" ? "padding" : null}
+    >
+      <ScrollView
+        contentContainerStyle={styles.flexGrow}
+        keyboardShouldPersistTaps="never"
+      >
+        <Block style={styles.block}>
+          <Heading
+            heading={t("heading")}
+            subheading={t("subheading")}
+            handleGoBack={handleGoBack}
+          />
+          <Dropdown
+            label={t("issue")}
+            style={styles.dropdown}
+            options={issues}
+            selected={data.issue}
+            setSelected={handleIssueChange}
+            errorMessage={errors.issue}
+            placeholder={t("issue_placeholder")}
+            dropdownId="issues"
+          />
+          <Textarea
+            label={t("message")}
+            style={styles.textarea}
+            errorMessage={errors.message}
+            onChange={(value) => handleChange("message", value)}
+            value={data.message}
+            placeholder={t("message_placeholder")}
+          />
+          <View style={{ flex: 1, justifyContent: "flex-end" }}>
+            <AppButton
+              size="lg"
+              label={t("button")}
+              style={styles.button}
+              disabled={!canSubmit}
+              loading={sendIssueEmailMutation.isLoading}
+              onPress={handleSubmit}
+            />
+          </View>
+        </Block>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
-  block: { alignItems: "center" },
+  block: { alignItems: "center", flex: 1, flexGrow: 1 },
+  flexGrow: { flexGrow: 1 },
   dropdown: { marginTop: 32, zIndex: 3 },
   textarea: { marginTop: 22 },
-  button: { marginTop: 32 },
+  button: { marginTop: 32, marginBottom: 75 },
 });

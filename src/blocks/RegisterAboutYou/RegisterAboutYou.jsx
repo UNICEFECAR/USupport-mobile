@@ -48,7 +48,7 @@ export const RegisterAboutYou = ({ navigation }) => {
     { label: t("sex_male"), value: "male" },
     { label: t("sex_female"), value: "female" },
     { label: t("sex_unspecified"), value: "unspecified" },
-    { label: t("sex_none"), value: "none" },
+    { label: t("sex_none"), value: "notMentioned" },
   ];
 
   const urbanRuralOptions = [
@@ -158,6 +158,7 @@ export const RegisterAboutYou = ({ navigation }) => {
 
         <View style={styles.inputContainer}>
           <Input
+            autocapitalize
             label={t("input_name_label")}
             placeholder={t("input_name_placeholder")}
             name="name"
@@ -167,6 +168,7 @@ export const RegisterAboutYou = ({ navigation }) => {
             style={styles.marginBottom24}
           />
           <Input
+            autocapitalize
             label={t("input_surname_label")}
             placeholder={t("input_surname_placeholder")}
             name="surname"
