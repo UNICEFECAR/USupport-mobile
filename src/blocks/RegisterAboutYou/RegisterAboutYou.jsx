@@ -158,7 +158,7 @@ export const RegisterAboutYou = ({ navigation }) => {
 
         <View style={styles.inputContainer}>
           <Input
-            autocapitalize
+            autoCapitalize={true}
             label={t("input_name_label")}
             placeholder={t("input_name_placeholder")}
             name="name"
@@ -168,7 +168,7 @@ export const RegisterAboutYou = ({ navigation }) => {
             style={styles.marginBottom24}
           />
           <Input
-            autocapitalize
+            autoCapitalize={true}
             label={t("input_surname_label")}
             placeholder={t("input_surname_placeholder")}
             name="surname"

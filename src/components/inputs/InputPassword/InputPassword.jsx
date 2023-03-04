@@ -17,7 +17,7 @@ export const InputPassword = ({ ...props }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(true);
 
   return (
-    <Input isPassword={isPasswordVisible} {...props}>
+    <Input isPassword={isPasswordVisible} autoCapitalize="none" {...props}>
       <TouchableOpacity
         onPress={() => setIsPasswordVisible(!isPasswordVisible)}
       >

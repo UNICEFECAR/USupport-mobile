@@ -25,6 +25,7 @@ export const Input = ({
   onBlur,
   onFocus,
   onChange,
+  autoCapitalize = "sentences",
   ...props
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -57,8 +58,9 @@ export const Input = ({
           secureTextEntry={isPassword}
           placeholderTextColor={appStyles.colorGray_92989b}
           autoCorrect={false}
+          autoComplete="email"
           spellCheck={false}
-          autoCapitalize={false}
+          autoCapitalize={autoCapitalize}
           onChangeText={(value) => onChange(value)}
           onFocus={() => {
             setIsFocused(true);
