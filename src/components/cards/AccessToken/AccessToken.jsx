@@ -1,11 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 
 import { AppText } from "../../texts/AppText";
 import { Loading } from "../../loaders/Loading/Loading";
 import { Icon } from "../../icons/Icon";
 
+import { showToast } from "#utils";
 import { appStyles } from "#styles";
 
 /**
@@ -17,13 +18,17 @@ import { appStyles } from "#styles";
  */
 export const AccessToken = ({
   accessTokenLabel,
+  successLabel,
   isLoading = false,
   accessToken,
   style,
 }) => {
   // TODO: Show confirmation for copying ?
-  const handleCopyToClipboard = () => {
-    navigator.clipboard.writeText(accessToken);
+  const handleCopyToClipboard = async () => {
+    await Clipboard.setStringAsync(accessToken);
+    showToast({
+      message: successLabel,
+    });
   };
 
   return (
@@ -37,12 +42,12 @@ export const AccessToken = ({
         ) : (
           <>
             <AppText namedStyle="h3">{accessToken}</AppText>
-            <Icon
-              name="copy"
-              color={appStyles.colorSecondary_9749fa}
-              onClick={handleCopyToClipboard}
+            <TouchableOpacity
               style={styles.icon}
-            />
+              onPress={handleCopyToClipboard}
+            >
+              <Icon name="copy" color={appStyles.colorSecondary_9749fa} />
+            </TouchableOpacity>
           </>
         )}
       </View>
