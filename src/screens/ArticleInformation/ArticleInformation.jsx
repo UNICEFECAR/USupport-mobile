@@ -124,6 +124,7 @@ export const ArticleInformation = ({ navigation, route }) => {
                       articleId: articleData.id,
                     });
                   }}
+                  t={t}
                   key={index}
                   style={styles.cardMedia}
                 />

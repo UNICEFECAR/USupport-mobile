@@ -1,0 +1,8 @@
+{
+  "error_email_message": "Пожалуйста, введите свой адрес электронной почты",
+  "input_email_label": "Электронная почта",
+  "reset_password_button_label": "Сброс пароля",
+  "register_redirect_button_label": "У меня нет аккаунта",
+  "modal_heading": "Проверьте свою электронную почту",
+  "modal_text": "Мы отправили Вам электронное письмо со ссылкой для сброса пароля"
+}

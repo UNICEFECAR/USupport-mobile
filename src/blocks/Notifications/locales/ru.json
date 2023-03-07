@@ -1,0 +1,19 @@
+{
+  "heading": "Уведомления",
+  "mark_read": "Отметить все как прочитанное",
+  "subheading": "Здесь Вы можете найти все уведомления, которые когда-либо получали в своем аккаунте.",
+  "consultation_booking": "Ваша консультация с {{providerName}} была успешно запланирована на {{date}} с {{startHour}} до {{endHour}}",
+  "consultation_reschedule": "Вы успешно перенесли консультацию с {{date}} с {{startHour}} до {{endHour}} на {{newDate}} с {{newStartHour}} до {{newEndHour}}",
+  "consultation_cancellation": "Вы успешно отменили консультацию с {{providerName}}, запланированную на {{date}} с {{startHour}} до {{endHour}}",
+  "consultation_cancellation_provider": "Консультант {{providerName}} отменил консультацию, запланированную на {{date}} с {{startHour}} до {{endHour}}",
+  "consultation_remind_start": "Предстоящая консультация начнется через {{minutes}} минут",
+  "consultation_suggestion": "{{providerName}} предложил консультацию на {{date}} с {{startHour}} до {{endHour}}",
+  "consultation_suggestion_booking": "Вы приняли предложенную консультацию от {{providerName}} на {{date}} с {{startHour}} до {{endHour}}",
+  "consultation_suggestion_cancellation": "Вы отклонили предложенную консультацию от {{providerName}} на {{date}} с {{startHour}} до {{endHour}}",
+  "join": "Присоединиться",
+  "accept": "Принять",
+  "accept_consultation_success": "Консультация успешно принята ",
+  "reject": "Отклонить",
+  "reject_consultation_success": "Консультация успешно отклонена",
+  "no_notifications": "У вас пока нет уведомлений."
+}

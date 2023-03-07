@@ -1,0 +1,19 @@
+{
+  "heading": "Электронды пошта арқылы тіркеліңіз",
+  "email_label": "Электрондық пошта",
+  "email_placeholder": "user@mail.com",
+  "password_label": "Кілтсөз",
+  "password_placeholder": "Кілтсөзіңізді енгізіңіз",
+  "email_error": "Өтінеміз қолданыстағы электронды поштаңызды енгізіңіз",
+  "password_error": "Кілтсөз кемінде 8 таңбадан, 1 бас әріптен, 1 кіші әріптен және 1 саннан тұруы керек.",
+  "nickname_label": "Лақап аты",
+  "nickname_placeholder": "Лақап атыңызды енгізіңіз",
+  "nickname_error": "Лақап атыңызды көрсету қажет",
+  "terms_agreement_text_1": "Мен келісемін",
+  "terms_agreement_text_2": "Құпиялық саясаты",
+  "terms_agreement_text_3": "және",
+  "terms_agreement_text_4": "Пайдалану шарттары",
+  "register_button": "Тіркелу",
+  "paragraph": "Немесе келесілер арқылы тіркеліңіз:",
+  "login_button_label": "Менің аккаунтым бар"
+}

@@ -1,0 +1,19 @@
+{
+  "heading": "Хабарландырулар",
+  "mark_read": "Барлығын оқылған деп белгілеу",
+  "subheading": "Мұнда Сіз аккаунтыңызда алған барлық хабарландыруларды таба аласыз.",
+  "consultation_booking": "{{providerName}} консультантімен консультацияңыз {{date}} {{startHour}} бастап {{endHour}} дейін сәтті жоспарланған.",
+  "consultation_reschedule": "Сіз {{date}} күнгі {{startHour}} бастап {{endHour}} дейінгі консультацияны {{newDate}} күніне {{newStartHour}} бастап {{newEndHour}} дейін ауыстырдыңыз.",
+  "consultation_cancellation": "Сіз {{providerName}} консультантімен {{date}} күнгі {{startHour}} бастап {{endHour}} дейін жоспарланған консультациядан сәтті бас тарттыңыз",
+  "consultation_cancellation_provider": "{{providerName}} консультанті {{date}} күнгі {{startHour}} бастап {{endHour}} дейін жоспарланған консультациядан бас тартты",
+  "consultation_remind_start": "Алдағы консультация {{minutes}} минуттан кейін басталады",
+  "consultation_suggestion": "{{providerName}} {{date}} күні {{startHour}} бастап {{endHour}} дейін консультация беруді ұсынды",
+  "consultation_suggestion_booking": "Сіз {{providerName}} ұсынған {{date}} күнгі {{startHour}} бастап {{endHour}} дейін берілетін консультацияны қабылдадыңыз",
+  "consultation_suggestion_cancellation": "Сіз {{providerName}} ұсынған {{date}} күнгі {{startHour}} бастап {{endHour}} дейін берілетін консультациядан бас тарттыңыз.",
+  "join": "Қосылу",
+  "accept": "Қабылдау",
+  "accept_consultation_success": "Консультация сәтті қабылданды",
+  "reject": "Бас тарту",
+  "reject_consultation_success": "Консультациядан сәтті бас тарттыңыз",
+  "no_notifications": "Сізде әлі хабарландырулар жоқ."
+}

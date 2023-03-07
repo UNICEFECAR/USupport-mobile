@@ -1,0 +1,21 @@
+{
+  "heading": "Сіздің парақшаңыз",
+  "subheading": "Мұнда парақшаңыз және аккаунтыңыздың баптаулары үшін қажетті барлық ақпаратты таба аласыз.",
+  "button_label": "Шығу",
+
+  "first_group_heading": "Парақшаның мәліметтері",
+  "guest": "Қонақ",
+  "second_group_heading": "Баптаулар",
+  "rate_share": "Бағалау және бөлісу",
+  "other": "Басқа",
+  "notifications_settings_button_label": "Хабарландыру баптаулары",
+  "rate_us_button_label": "Бізге баға беріңіз",
+  "share_button_label": "Қосымшамен бөлісу",
+  "contact_us_button_label": "Бізге хабарласыңыз",
+  "privacy_policy_button_label": "Құпиялық саясаты",
+  "FAQ_button_label": "Жиі қойылатын сұрақтар",
+  "mood_tracker_button_label": "Көңіл-күй трекері",
+  "passcoode_and_biometrics_button_label": "Passcode and biometrics",
+  "payments_history_button_label": "Payment History",
+  "terms_and_conditions": "Шарттар мен ережелер"
+}

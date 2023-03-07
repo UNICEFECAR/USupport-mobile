@@ -366,7 +366,7 @@ const HeadingBlockContent = ({
       {isTmpUser ? (
         <>
           <AppText namedStyle="h3" style={styles.colorTextBlue}>
-            {t("no_registration_heading", { name: clientName })}
+            {t("no_registration_heading", { clientName: clientName })}
           </AppText>
           <AppText style={[styles.marginTop16, styles.colorTextBlue]}>
             {t("no_registration_subheading")}

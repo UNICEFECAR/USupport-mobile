@@ -1,0 +1,19 @@
+{
+  "heading": "Payment",
+  "subheading": "Enter your card details to pay for this session.",
+  "payment_succeded_heading": "Your payment was successful.",
+  "payment_succeded_subheading": "Thank you for your purchase your consultation is scheduled for {{consultationDate}} at {{consultationTime}}.",
+
+  "payment_processing_heading": "Your payment is being processed.",
+  "payment_processing_subheading": "We are processing your payment, please wait a moment.",
+
+  "payment_requires_payment_method_heading": "Your payment was not successful, please try again.",
+  "payment_requires_payment_method_subheading": "There was a problem while trying to process your payment. We are sorry about that.",
+
+  "payment_failed_heading": "Your payment was not successful, please try again.",
+  "payment_failed_subheading": "There was a problem while trying to process your payment. We are sorry about that.",
+
+  "continue_button_label": "Жалғастыру",
+  "try_again_button_label": "Try again",
+  "session_timeout": "Your session has expired. Please go back and book your consultation again"
+}

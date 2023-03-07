@@ -1,0 +1,21 @@
+{
+  "heading": "Свяжитесь с нами",
+  "subheading": "Здесь Вы можете сообщить о любых технических проблемах.",
+  "issue": "Проблема",
+  "issue_placeholder": "Выберите проблему",
+  "issue_error": "Пожалуйста, выберите проблему",
+  "message": "Сообщение",
+  "message_placeholder": "Ваше сообщение для нас",
+  "message_error": "Пожалуйста, введите свое сообщение",
+  "button": "Отправить сообщение",
+
+  "modal_title": "Ваше сообщение было успешно отправлено",
+  "modal_text": "Мы свяжемся с Вами в самое ближайшее время",
+  "modal_cta_label": "Вернуться на главную страницу",
+
+  "contact_reason_1": "What is this platform about?",
+  "contact_reason_2": "I need more info about the services provided through the platform",
+  "contact_reason_3": "I am a client and I am experiencing a technical problem",
+  "contact_reason_4": "Something else",
+  "success": "Your issue was reported successfully. We'll get back to you soon"
+}

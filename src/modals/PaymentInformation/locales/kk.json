@@ -1,0 +1,14 @@
+{
+  "heading": "Order details",
+  "service": "Service: ",
+  "date_of_consultation": "Date of Consultation: ",
+  "date_of_payment": "Date of Payment: ",
+  "time_of_payment": "Time of Payment: ",
+  "payment_method": "Payment Method: ",
+  "recipient": "Recipient: ",
+  "address": "Company address: ",
+  "email_address": "Email Address: ",
+  "price": "Price: ",
+  "view_receipt": "View Receipt",
+  "text_audio_video_consultation": "Онлайн консультациялар"
+}

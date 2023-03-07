@@ -1,0 +1,21 @@
+{
+  "heading": "Бізге хабарласыңыз",
+  "subheading": "Мұнда кез келген техникалық ақаулар туралы хабарлай аласыз.",
+  "issue": "Мәселе",
+  "issue_placeholder": "Мәселені таңдаңыз",
+  "issue_error": "Өтінеміз, мәселені таңдаңыз",
+  "message": "Хабарлама",
+  "message_placeholder": "Сіздің бізге арналған хабарламаңыз",
+  "message_error": "Өтінеміз, хабарламаңызды енгізіңіз",
+  "button": "Хабарламаны жіберу",
+
+  "modal_title": "Хабарлама сәтті жіберілді",
+  "modal_text": "Біз Сізге жақын арада хабарласамыз",
+  "modal_cta_label": "Бас бетке оралу",
+
+  "contact_reason_1": "What is this platform about?",
+  "contact_reason_2": "I need more info about the services provided through the platform",
+  "contact_reason_3": "I am a client and I am experiencing a technical problem",
+  "contact_reason_4": "Something else",
+  "success": "Your issue was reported successfully. We'll get back to you soon"
+}

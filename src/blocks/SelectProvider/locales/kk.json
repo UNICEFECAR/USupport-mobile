@@ -1,0 +1,15 @@
+{
+  "psychologist": "Психолог",
+  "psychiatrist": "Психиатр",
+  "psychotherapist": "Психотерапевт",
+  "no_match": "Талаптарыңызға сай келетін консультанттар жоқ",
+  "free": "Бос",
+  "earliest_available_slot": "First available consultation:",
+  "sunday": "Вс",
+  "monday": "Дс",
+  "tuesday": "Сс",
+  "wednesday": "Ср",
+  "thursday": "Бс",
+  "friday": "Жм",
+  "saturday": "Сб"
+}

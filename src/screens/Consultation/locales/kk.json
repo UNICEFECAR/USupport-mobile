@@ -1,0 +1,16 @@
+{
+  "sunday": "Жс",
+  "monday": "Дс",
+  "tuesday": "Сс",
+  "wednesday": "Ср",
+  "thursday": "Бс",
+  "friday": "Жм",
+  "saturday": "Сб",
+  "client_joined": "Клиент консультацияға қосылды",
+  "client_left": "Клиент консультациядан шығып кетті",
+  "client_camera_off": "Клиент камераны өшірді",
+  "client_camera_on": "Клиент камераны қосты",
+  "client_microphone_off": "Клиент микрофонды өшірді",
+  "client_microphone_on": "Клиент микрофонды қосты",
+  "send_message": "Type your message here..."
+}

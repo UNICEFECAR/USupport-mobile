@@ -1,0 +1,21 @@
+{
+  "heading": "Ваш профиль",
+  "subheading": "Здесь Вы можете найти всю информацию, необходимую для Вашего профиля и настроек аккаунта.",
+  "button_label": "Выйти",
+
+  "first_group_heading": "Детали профиля",
+  "guest": "Гость",
+  "second_group_heading": "Настройки",
+  "rate_share": "Оценить и поделиться",
+  "other": "Другое",
+  "notifications_settings_button_label": "Настройки уведомлений",
+  "rate_us_button_label": "Дайте нам оценку",
+  "share_button_label": "Поделиться приложением",
+  "contact_us_button_label": "Свяжитесь с нами",
+  "privacy_policy_button_label": "Политика конфиденциальности",
+  "FAQ_button_label": "Часто задаваемые вопросы",
+  "mood_tracker_button_label": "Трекер настроения",
+  "passcoode_and_biometrics_button_label": "Passcode and biometrics",
+  "payments_history_button_label": "Payment History",
+  "terms_and_conditions": "Условия и положения"
+}

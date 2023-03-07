@@ -1,0 +1,18 @@
+{
+  "heading": "Консультанттарды сүзгілеу",
+  "subheading": "Аудио/бейне консультация арқылы сөйлескіңіз келетін консультантты таңдаңыз",
+  "provider_psychologist": "Психолог",
+  "provider_psychotherapist": "Психотерапевт",
+  "provider_psychiatrist": "Психиатр",
+  "male": "Ер",
+  "female": "Әйел",
+  "unspecified": "Көрсетілмеген",
+  "provider_type_checkbox_group_label": "Консультант түрі",
+  "provider_sex_checkbox_group_label": "Консультанттын жынысы",
+  "max_price": "Ең жоғары баға",
+  "max_price_placeholder": "Ең жоғары бағаны таңдаңыз",
+  "language": "Тіл",
+  "language_placeholder": "Тілді таңдаңыз",
+  "providers_free_consultation_label": "Тек тегін консультация",
+  "button_label": "Сақтау"
+}

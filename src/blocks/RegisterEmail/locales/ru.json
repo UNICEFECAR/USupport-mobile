@@ -1,0 +1,19 @@
+{
+  "heading": "Зарегистрируйтесь с помощью электронной почты",
+  "email_label": "Электронная почта",
+  "email_placeholder": "user@mail.com",
+  "password_label": "Пароль",
+  "password_placeholder": "Введите свой пароль",
+  "email_error": "Пожалуйста, введите действительный адрес электронной почты",
+  "password_error": "Пароль должен содержать не менее 8 символов, 1 заглавную букву, 1 строчную букву и 1 цифру.",
+  "nickname_label": "Псевдоним",
+  "nickname_placeholder": "Введите свой псевдоним",
+  "nickname_error": "Необходимо указать псевдоним",
+  "terms_agreement_text_1": "Я согласен с",
+  "terms_agreement_text_2": "Политикой конфиденциальности",
+  "terms_agreement_text_3": "и",
+  "terms_agreement_text_4": "Условиями использования",
+  "register_button": "Зарегистрироваться",
+  "paragraph": "Или зарегистрируйтесь через:",
+  "login_button_label": "У меня уже есть аккаунт"
+}

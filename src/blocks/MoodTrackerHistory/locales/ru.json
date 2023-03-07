@@ -1,0 +1,16 @@
+{
+  "sunday": "Вс",
+  "monday": "Пн",
+  "tuesday": "Вт",
+  "wednesday": "Ср",
+  "thursday": "Чт",
+  "friday": "Пт",
+  "saturday": "Сб",
+  "happy": "Отлично",
+  "good": "Счастливый",
+  "sad": "Грустный",
+  "depressed": "В депрессии",
+  "worried": "Взволнованный",
+  "overall_mood": "Your overall feeling for the current week",
+  "view_more": "View more"
+}

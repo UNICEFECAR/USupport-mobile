@@ -23,6 +23,7 @@ export const CardMedia = ({
   readingTime,
   categoryName,
   onPress,
+  t,
   style,
 }) => {
   return (
@@ -57,7 +58,7 @@ export const CardMedia = ({
         </View>
         <AppButton
           type="secondary"
-          label="Read more"
+          label={t("read_more")}
           size="sm"
           style={styles.readMoreButton}
           onPress={onPress}

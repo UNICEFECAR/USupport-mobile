@@ -1,0 +1,22 @@
+{
+  "heading": "О Вас",
+
+  "input_name_label": "Имя",
+  "input_name_placeholder": "Введите свое имя",
+  "input_surname_label": "Фамилия",
+  "input_surname_placeholder": "Введите свою фамилию",
+  "dropdown_sex_label": "Пол *",
+  "dropdown_year_label": "Год рождения *",
+  "living_place_label": "Место жительства *",
+  "button_continue_label": "Продолжить",
+  "sex_male": "Мужчина",
+  "sex_female": "Женщина",
+  "sex_unspecified": "Не указан",
+  "sex_none": "Предпочитаю не говорить",
+  "place_of_living_urban": "Город",
+  "place_of_living_rural": "Село",
+  "sex_error": "Пожалуйста, укажите свой пол",
+  "year_of_birth_error": "Пожалуйста, укажите свой год рождения",
+  "place_of_living_error": "Пожалуйста, укажите свое место жительства"
+}
+

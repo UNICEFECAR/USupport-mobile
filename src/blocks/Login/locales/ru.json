@@ -1,0 +1,11 @@
+{
+  "heading": "С возвращением,",
+  "email_label": "Электронная почта / токен доступа",
+  "email_placeholder": "Введите свою электронную почту или токен доступа",
+  "password_label": "Пароль",
+  "password_placeholder": "Введите свой пароль",
+  "forgot_password_label": "Я забыл(-а) свой пароль",
+  "login_label": "Авторизация",
+  "paragraph": "Или войдите с помощью:",
+  "register_button_label": "У меня аккаунта"
+}

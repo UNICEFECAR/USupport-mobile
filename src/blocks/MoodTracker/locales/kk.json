@@ -1,0 +1,12 @@
+{
+  "happy": "Керемет",
+  "good": "Бақытты",
+  "sad": "Қайғылы",
+  "depressed": "Депрессияда",
+  "worried": "Қобалжыған",
+  "heading": "Бүгін хал-жағдайыңыз қалай?",
+  "mood_tracker": "Көңіл-күй трекері",
+  "additional_comment_placeholder": "What made you feel this way?",
+  "submit_mood_track": "Жіберу",
+  "add_mood_tracker_success": "Your daily mood was added successfully"
+}

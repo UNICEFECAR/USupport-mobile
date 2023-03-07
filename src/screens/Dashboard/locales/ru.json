@@ -1,0 +1,15 @@
+{
+  "welcome": "С возвращением, {{name}}!",
+  "no_registration_heading": "Вы используете приложение без регистрации",
+  "no_registration_subheading": "Чтобы использовать все функции приложения, Вам нужен анонимный или обычный аккаунт.",
+  "create_account_button": "Создать аккаунт",
+  "next_consultation": "Следующая консультация:",
+  "change_button_label": "Change",
+  "accept_button_label": "Принять консультацию",
+  "join_button_label": "Присоединиться",
+  "schedule_button_label": "Запланировать",
+  "live_label": "Сейчас",
+  "no_consultations": "В настоящее время у Вас нет предстоящих консультаций",
+  "emergency_button_label": "Emergency help",
+  "accept_success": "Консультация успешно принята"
+}

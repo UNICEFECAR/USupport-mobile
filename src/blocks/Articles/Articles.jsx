@@ -280,6 +280,7 @@ export const Articles = ({
             articleId: item.id,
           });
         }}
+        t={t}
         key={index}
       />
     );

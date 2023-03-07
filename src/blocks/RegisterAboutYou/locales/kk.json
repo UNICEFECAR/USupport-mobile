@@ -1,0 +1,22 @@
+{
+  "heading": "Сіз туралы",
+
+  "input_name_label": "Аты",
+  "input_name_placeholder": "Атыңызды енгізіңіз",
+  "input_surname_label": "Тегі",
+  "input_surname_placeholder": "Тегіңізді енгізіңіз",
+  "dropdown_sex_label": "Жынысы *",
+  "dropdown_year_label": "Туған жылы *",
+  "living_place_label": "Тұрғылықты жері *",
+  "button_continue_label": "Жалғастыру",
+  "sex_male": "Ер",
+  "sex_female": "Әйел",
+  "sex_unspecified": "Көрсетілмеген",
+  "sex_none": "Айтпауды жөн көремін",
+  "place_of_living_urban": "Қала",
+  "place_of_living_rural": "Ауыл",
+  "sex_error": "Өтінеміз, жынысыңызды көрсетіңіз",
+  "year_of_birth_error": "Өтінеміз, туған жылыңызды көрсетіңіз",
+  "place_of_living_error": "Өтінеміз, тұрғылықты жеріңізді көрсетіңіз"
+}
+

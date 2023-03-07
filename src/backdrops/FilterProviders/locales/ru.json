@@ -1,0 +1,18 @@
+{
+  "heading": "Отфильтровать консультантов",
+  "subheading": "Выберите консультанта, с которым хотите поговорить на аудио/видео консультации",
+  "provider_psychologist": "Психолог",
+  "provider_psychotherapist": "Психотерапевт",
+  "provider_psychiatrist": "Психиатр",
+  "male": "Мужчина",
+  "female": "Женщина",
+  "unspecified": "Не указан",
+  "provider_type_checkbox_group_label": "Вид консультанта",
+  "provider_sex_checkbox_group_label": "Пол консультанта",
+  "max_price": "Максимальная цена",
+  "max_price_placeholder": "Выберите максимальную цену",
+  "language": "Язык",
+  "language_placeholder": "Выберите язык",
+  "providers_free_consultation_label": "Только бесплатная консультация",
+  "button_label": "Сохранить"
+}

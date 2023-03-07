@@ -202,6 +202,7 @@ export const ArticlesDashboard = ({ navigation }) => {
                           articleId: article.id,
                         });
                       }}
+                      t={t}
                       key={index}
                     />
                   );

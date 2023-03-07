@@ -167,6 +167,7 @@ export const InformationalPortal = ({ navigation }) => {
                     articleId: article.id,
                   });
                 }}
+                t={t}
                 key={index}
                 style={styles.article}
               />
@@ -209,6 +210,7 @@ export const InformationalPortal = ({ navigation }) => {
                   });
                 }}
                 key={index}
+                t={t}
                 style={styles.article}
               />
             );

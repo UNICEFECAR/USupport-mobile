@@ -1,0 +1,15 @@
+{
+  "welcome": "Қайта оралуыңызбен, {{name}}!",
+  "no_registration_heading": "Вы используете приложение без регистрации",
+  "no_registration_subheading": "Қосымшаның барлық функцияларын пайдалану үшін Сізге анонимді немесе кәдімгі аккаунт қажет.",
+  "create_account_button": "Аккаунт ашу",
+  "next_consultation": "Келесі консультация:",
+  "change_button_label": "Change",
+  "accept_button_label": "Консультацияны қабылдау",
+  "join_button_label": "Қосылу",
+  "schedule_button_label": "Жоспарлау",
+  "live_label": "Қазір",
+  "no_consultations": "Қазіргі Сізде алдағы консультациялар жоқ",
+  "emergency_button_label": "Emergency help",
+  "accept_success": "Консультация сәтті қабылданды"
+}
