@@ -232,6 +232,13 @@ function getOrdinal(n) {
   return `ordinal_${s[(v - 20) % 10] || s[v] || s[0]}`;
 }
 
+const parseUTCDate = (dateString) => {
+  const dateParams = dateString.replace(/ UTC/, "").split(/[\s-:]/);
+  dateParams[1] = (parseInt(dateParams[1], 10) - 1).toString();
+
+  return new Date(Date.UTC(...dateParams));
+};
+
 export {
   getDayOfTheWeek,
   getDateView,
@@ -249,4 +256,5 @@ export {
   getOrdinal,
   ONE_HOUR,
   FIVE_MINUTES,
+  parseUTCDate,
 };
