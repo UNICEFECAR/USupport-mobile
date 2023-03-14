@@ -38,7 +38,7 @@ Notifications.setNotificationHandler({
 
 // Create a react-query client
 const queryClient = new QueryClient({
-  defaultOptions: { queries: { refetchOnWindowFocus: false } },
+  defaultOptions: { queries: { refetchInterval: 1000 * 60 } },
 });
 
 export default function App() {
