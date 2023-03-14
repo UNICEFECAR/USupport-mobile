@@ -3,5 +3,7 @@
   "no_results": "No Results Found",
   "could_not_load_content": "There are no results for the current selected country and language.",
   "all": "All",
-  "read_more": "Read more"
+  "read_more": "Read more",
+  "min_read": "min read",
+  "by": "By {{creator}}"
 }

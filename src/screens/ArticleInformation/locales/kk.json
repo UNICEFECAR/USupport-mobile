@@ -1,4 +1,7 @@
 {
   "heading": "Көбірек мақалалар",
-  "no_results": "Таңдалған тілде ұқсас мақалалар жоқ."
+  "no_results": "Таңдалған тілде ұқсас мақалалар жоқ.",
+  "read_more": "Read more",
+  "min_read": "min read",
+  "by": "By {{creator}}"
 }

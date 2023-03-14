@@ -47,14 +47,16 @@ export const CardMedia = ({
           </View>
         </View>
         <View style={styles.creatorContainer}>
-          <AppText namedStyle="smallText">By {creator}</AppText>
+          <AppText namedStyle="smallText">{t("by", { creator })}</AppText>
           <Icon
             size="sm"
             name="time"
             color={appStyles.colorGray_66768d}
             style={styles.icon}
           />
-          <AppText namedStyle="smallText">{readingTime} min read</AppText>
+          <AppText namedStyle="smallText">
+            {readingTime} {t("min_read")}
+          </AppText>
         </View>
         <AppButton
           type="secondary"

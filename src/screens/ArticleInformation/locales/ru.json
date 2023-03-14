@@ -1,4 +1,7 @@
 {
   "heading": "Больше статей",
-  "no_results": "На выбранном языке нет похожих статей."
+  "no_results": "На выбранном языке нет похожих статей.",
+  "read_more": "Read more",
+  "min_read": "min read",
+  "by": "By {{creator}}"
 }

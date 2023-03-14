@@ -1,4 +1,7 @@
 {
   "heading": "More Articles",
-  "no_results": "There are no similar articles for the current selected language. "
+  "no_results": "There are no similar articles for the current selected language. ",
+  "read_more": "Read more",
+  "min_read": "min read",
+  "by": "By {{creator}}"
 }
