@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   iconTime: { marginLeft: 16, marginRight: 5 },
   categoryContainer: {
     marginLeft: 12,
-    backgroundColor: appStyles.$colorBlue_20809E_0_3,
+    backgroundColor: appStyles.colorBlue_20809E_0_3,
     paddingHorizontal: 12,
     paddingVertical: 2,
     borderRadius: 25,

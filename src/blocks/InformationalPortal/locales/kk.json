@@ -2,5 +2,7 @@
     "heading_newest": "Соңғы мақалалар",
     "view_all": "Барлығын көру",
     "heading_popular": "Ең танымал",
-    "read_more": "Read more"
+    "read_more": "Read more",
+    "min_read": "min read",
+    "by": "By {{creator}}"
 }

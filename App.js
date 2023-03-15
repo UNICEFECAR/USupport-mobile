@@ -23,6 +23,7 @@ import { Navigation } from "#navigation";
 import { localStorage, Context, userSvc } from "#services";
 import { RequireRegistration } from "#modals";
 import { DropdownBackdrop } from "#backdrops";
+import { FIVE_MINUTES } from "#utils";
 
 // if (__DEV__) {
 //   require("basil-ws-flipper").wsDebugPlugin;р
@@ -38,7 +39,7 @@ Notifications.setNotificationHandler({
 
 // Create a react-query client
 const queryClient = new QueryClient({
-  defaultOptions: { queries: { refetchOnWindowFocus: false } },
+  defaultOptions: { queries: { refetchInterval: FIVE_MINUTES } },
 });
 
 export default function App() {

@@ -2,5 +2,7 @@
     "heading_newest": "Newest Articles",
     "view_all": "View all",
     "heading_popular": "Most popular",
-    "read_more": "Read more"
+    "read_more": "Read more",
+    "min_read": "min read",
+    "by": "By {{creator}}"
 }

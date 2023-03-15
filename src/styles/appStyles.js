@@ -47,7 +47,8 @@ export default {
   colorBlue_2a54bc: "#2a54bc",
   colorBlue_3d527b: "#3d527b",
   colorBlue_263238: "#263238",
-  $colorBlue_20809E_0_3: "rgba(32, 128, 158, 0.3)",
+  colorBlue_20809E_0_3: "rgba(32, 128, 158, 0.3)",
+  color_blue_c1d7e0: "#c1d7e0",
 
   colorRed_eb5757: "#eb5757",
   colorRed_cc4c4c: "#cc4c4c",
