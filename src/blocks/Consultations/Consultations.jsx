@@ -173,6 +173,7 @@ export const Consultations = ({
           key={consultation.consultationId}
           t={t}
           style={styles.consultation}
+          sponsorImage={consultation.sponsorImage}
         />
       );
     });

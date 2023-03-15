@@ -13,7 +13,7 @@ import { Context } from "#services";
  *
  * @returns {JSX.Element}
  */
-export const SelectProvider = ({ providers, navigation }) => {
+export const SelectProvider = ({ providers, navigation, activeCoupon }) => {
   const { t } = useTranslation("select-provider");
   const { currencySymbol } = useContext(Context);
 
@@ -36,7 +36,7 @@ export const SelectProvider = ({ providers, navigation }) => {
           name={provider.name}
           onPress={() => handleProviderClick(provider.providerDetailId)}
           patronym={provider.patronym}
-          price={provider.consultationPrice}
+          price={activeCoupon ? null : provider.consultationPrice}
           provider={provider}
           specializations={provider.specializations.map((x) => t(x))}
           surname={provider.surname}

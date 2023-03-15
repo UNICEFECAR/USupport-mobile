@@ -40,7 +40,7 @@ import {
   useGetClientData,
 } from "#hooks";
 
-import { ONE_HOUR, showToast } from "#utils";
+import { ONE_HOUR, showToast, parseUTCDate } from "#utils";
 
 /**
  * Dashboard
@@ -243,6 +243,16 @@ export const Dashboard = ({ navigation }) => {
   const isSelectConsultationLoading =
     blockSlotMutation.isLoading || rescheduleConsultationMutation.isLoading;
 
+  const isWithCampaign = useMemo(() => {
+    return !!selectedSlot.current?.time;
+  }, [selectedSlot.current]);
+
+  const time = useMemo(() => {
+    return isWithCampaign
+      ? parseUTCDate(selectedSlot.current.time)
+      : new Date(selectedSlot.current);
+  }, [isWithCampaign, selectedSlot.current]);
+
   return (
     <Screen hasHeaderNavigation t={t} hasEmergencyButton={false}>
       <ScrollView
@@ -274,7 +284,7 @@ export const Dashboard = ({ navigation }) => {
           )}
         </MascotHeadingBlock>
         <MoodTracker navigation={navigation} />
-        <ArticlesDashboard navigation={navigation} />
+        {/* <ArticlesDashboard navigation={navigation} /> */}
         <ConsultationsDashboard
           openJoinConsultation={openJoinConsultation}
           openEditConsultation={openEditConsultation}
@@ -304,6 +314,7 @@ export const Dashboard = ({ navigation }) => {
         isCtaLoading={isSelectConsultationLoading}
         errorMessage={blockSlotError}
         isInDashboard
+        campaignId={selectedConsultation?.campaignId}
       />
       {selectedConsultation && (
         <>
@@ -332,11 +343,9 @@ export const Dashboard = ({ navigation }) => {
           onClose={closeConfirmConsultationBackdrop}
           ctaStyle={styles.marginBottom85}
           consultation={{
-            startDate: new Date(selectedSlot.current),
+            startDate: time,
             endDate: new Date(
-              new Date(selectedSlot.current).setHours(
-                new Date(selectedSlot.current).getHours() + 1
-              )
+              new Date(time).setHours(new Date(time).getHours() + 1)
             ),
           }}
         />

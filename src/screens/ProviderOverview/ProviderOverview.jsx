@@ -1,4 +1,10 @@
-import React, { useState, useRef } from "react";
+import React, {
+  useState,
+  useRef,
+  useContext,
+  useCallback,
+  useMemo,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, ScrollView } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
@@ -11,6 +17,8 @@ import {
   useBlockSlot,
   useScheduleConsultation,
 } from "#hooks";
+import { Context } from "#services";
+import { parseUTCDate } from "#utils";
 
 /**
  * ProviderOverview
@@ -22,6 +30,7 @@ import {
 export const ProviderOverview = ({ navigation, route }) => {
   const { t } = useTranslation("provider-overview-scren");
   const queryClient = useQueryClient();
+  const { activeCoupon, setActiveCoupon } = useContext(Context);
 
   const providerId = route.params.providerId;
 
@@ -59,7 +68,11 @@ export const ProviderOverview = ({ navigation, route }) => {
   const closeRequireDataAgreement = () => setIsRequireDataAgreementOpen(false);
 
   const onBlockSlotSuccess = (consultationId) => {
-    if (consultationPrice.current && consultationPrice.current > 0) {
+    if (
+      consultationPrice.current &&
+      consultationPrice.current > 0 &&
+      !selectedSlot.current?.campaign_id
+    ) {
       navigation.navigate("Checkout", {
         consultationId,
         selectedSlot: selectedSlot.current,
@@ -79,6 +92,9 @@ export const ProviderOverview = ({ navigation, route }) => {
     openConfirmConsultationBackdrop();
     setBlockSlotError(null);
     queryClient.invalidateQueries({ queryKey: ["all-consultations"] });
+    if (activeCoupon) {
+      setActiveCoupon(null);
+    }
   };
   const onScheduleConsultationError = (error) => {
     setBlockSlotError(error);
@@ -99,6 +115,16 @@ export const ProviderOverview = ({ navigation, route }) => {
 
   const isLoading =
     blockSlotMutation.isLoading || scheduleConsultationMutation.isLoading;
+
+  const isWithCampaign = useMemo(() => {
+    return !!selectedSlot.current?.time;
+  }, [selectedSlot.current]);
+
+  const time = useMemo(() => {
+    return isWithCampaign
+      ? parseUTCDate(selectedSlot.current.time)
+      : new Date(selectedSlot.current);
+  }, [isWithCampaign, selectedSlot.current]);
 
   return (
     <Screen hasEmergencyButton={false} style={styles.flexGrow1}>
@@ -135,11 +161,9 @@ export const ProviderOverview = ({ navigation, route }) => {
           isOpen={isConfirmBackdropOpen}
           onClose={closeConfirmConsultationBackdrop}
           consultation={{
-            startDate: new Date(selectedSlot.current),
+            startDate: time,
             endDate: new Date(
-              new Date(selectedSlot.current).setHours(
-                new Date(selectedSlot.current).getHours() + 1
-              )
+              new Date(time).setHours(new Date(time).getHours() + 1)
             ),
           }}
         />

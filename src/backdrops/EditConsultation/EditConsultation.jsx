@@ -15,7 +15,6 @@ export const EditConsultation = ({
   currencySymbol,
 }) => {
   const { t } = useTranslation("edit-consultation");
-
   const { providerName, timestamp, image, price } = consultation;
 
   const imageUrl = image || "default";
@@ -46,9 +45,8 @@ export const EditConsultation = ({
         endDate={endDate}
         providerName={providerName}
         providerImage={imageUrl}
-        price={price}
+        price={consultation.campaignId ? null : price}
         currencySymbol={currencySymbol}
-        classes="edit-consultation__provider-consultation"
         t={t}
       />
       <View style={styles.buttonContainer}>

@@ -18,6 +18,9 @@ export default function useGetAllConsultations(enabled = true) {
         timestamp: new Date(consultation.time).getTime(),
         status: consultation.status,
         price: consultation.price,
+        campaignId: consultation.campaign_id,
+        sponsorName: consultation.sponsor_name,
+        sponsorImage: consultation.sponsor_image,
       });
     }
     return formattedData;

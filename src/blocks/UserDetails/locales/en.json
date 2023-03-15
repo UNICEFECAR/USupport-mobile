@@ -36,5 +36,6 @@
   "data_processing_modal_text": "You will not be able to schedule further consultations.",
   "data_processing_modal_confirm_button": "Remove permission",
   "data_processing_modal_cancel_button": "Cancel",
-  "success_message": "Profile updated successfully"
+  "success_message": "Profile updated successfully",
+  "access_token_copy": "Succesfully copied the code"
 }

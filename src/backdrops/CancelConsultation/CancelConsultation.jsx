@@ -45,7 +45,10 @@ export const CancelConsultation = ({
     cancelConsultationMutation.mutate({
       consultationId: consultation.consultationId,
       price: consultation.price,
-      shouldRefund: isConsultationLessThan24HoursBefore ? false : true,
+      shouldRefund:
+        isConsultationLessThan24HoursBefore || consultation.campaignId
+          ? false
+          : true,
     });
   };
 
@@ -54,20 +57,29 @@ export const CancelConsultation = ({
       title="CancelConsultation"
       isOpen={isOpen}
       onClose={onClose}
+      // handleCloseIconPress={onClose}
       heading={
-        isConsultationLessThan24HoursBefore
+        isConsultationLessThan24HoursBefore && !consultation.campaignId
           ? t("paid_heading", {
               price: consultation.price,
               currencySymbol,
             })
           : t("heading")
       }
-      text={isConsultationLessThan24HoursBefore && t("paid_cancel_subheading")}
+      text={
+        isConsultationLessThan24HoursBefore &&
+        !consultation.campaignId &&
+        t("paid_cancel_subheading")
+      }
       ctaLabel={t("cancel_button_label")}
       ctaHandleClick={handleCancelClick}
       isCtaDisabled={cancelConsultationMutation.isLoading}
       showLoadingIfDisabled
-      ctaColor={isConsultationLessThan24HoursBefore ? "red" : "green"}
+      ctaColor={
+        isConsultationLessThan24HoursBefore || consultation.campaignId
+          ? "red"
+          : "green"
+      }
       secondaryCtaLabel={t("keep_button_label")}
       secondaryCtaHandleClick={onClose}
       secondaryCtaStyle={secondaryCtaStyle}
@@ -78,7 +90,7 @@ export const CancelConsultation = ({
         endDate={endDate}
         providerName={providerName}
         providerImage={image || "default"}
-        price={price}
+        price={consultation.campaignId ? null : price}
         currencySymbol={currencySymbol}
         t={t}
       />

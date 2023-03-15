@@ -66,8 +66,19 @@ export const ProviderOverview = ({
             <View style={styles.textContent}>
               <View style={styles.nameContainer}>
                 <AppText style={styles.nameText}>{displayName}</AppText>
-                <View style={styles.priceBadge}>
-                  <AppText namedStyle="smallText" style={styles.priceBadgeText}>
+                <View
+                  style={[
+                    styles.priceBadge,
+                    !price && styles.priceBadgeFreeColor,
+                  ]}
+                >
+                  <AppText
+                    namedStyle="smallText"
+                    style={[
+                      styles.priceBadgeText,
+                      !price && styles.priceBadgeFreeText,
+                    ]}
+                  >
                     {price > 0 ? `${price}${currencySymbol}` : freeLabel}
                   </AppText>
                 </View>
@@ -140,6 +151,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     borderRadius: 16,
     alignSelf: "flex-start",
+  },
+  priceBadgeFreeColor: {
+    backgroundColor: "rgba(32, 128, 158, 0.3)",
+  },
+  priceBadgeFreeText: {
+    color: appStyles.colorPrimary_20809e,
   },
   priceBadgeText: {
     color: appStyles.colorSecondary_9749fa,

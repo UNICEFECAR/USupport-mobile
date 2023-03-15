@@ -4,12 +4,12 @@ import { providerSvc } from "#services";
 /**
  * Reuseable hook to get and transform the provider data in a desired format
  */
-export default function useGetProviderDataById(id) {
+export default function useGetProviderDataById(id, campaignId, calledFrom) {
   //   const queryClient = useQueryClient();
   const fetchProvidersData = async () => {
     let data;
 
-    const response = await providerSvc.getProviderById(id);
+    const response = await providerSvc.getProviderById(id, campaignId);
     data = response.data;
 
     const formattedData = {
@@ -52,6 +52,7 @@ export default function useGetProviderDataById(id) {
     {
       enabled: !!id,
       notifyOnChangeProps: ["data"],
+      refetchOnWindowFocus: true,
     }
   );
 

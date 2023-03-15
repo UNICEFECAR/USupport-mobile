@@ -21,9 +21,12 @@ import { AMAZON_S3_BUCKET } from "@env";
  */
 export const ProviderOverview = ({ providerId }) => {
   const { t } = useTranslation("provider-overview");
-  const { currencySymbol } = useContext(Context);
+  const { currencySymbol, activeCoupon } = useContext(Context);
 
-  const { data: provider, isLoading } = useGetProviderDataById(providerId);
+  const { data: provider, isLoading } = useGetProviderDataById(
+    providerId,
+    activeCoupon?.campaignId
+  );
 
   const image = AMAZON_S3_BUCKET + "/" + (provider?.image || "default");
 

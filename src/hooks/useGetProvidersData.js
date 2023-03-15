@@ -5,11 +5,13 @@ import { providerSvc } from "#services";
 /**
  * Reuseable hook to get and transform the client data in a desired format
  */
-export default function useGetProvidersData() {
+export default function useGetProvidersData(activeCoupon = null) {
   //   const queryClient = useQueryClient();
   const [providersData, setProvidersData] = useState();
   const fetchProvidersData = async () => {
-    const { data } = await providerSvc.getAllProviders();
+    const { data } = await providerSvc.getAllProviders(
+      activeCoupon?.campaignId
+    );
     const formattedData = [];
     for (let i = 0; i < data.length; i++) {
       const providerData = data[i];
@@ -32,6 +34,7 @@ export default function useGetProvidersData() {
         workWith: providerData.work_with || [],
         totalConsultations: providerData.total_consultations || 0,
         earliestAvailableSlot: providerData.earliest_available_slot || "",
+        couponPrice: providerData.price_per_coupon || 0,
       };
       formattedData.push(formattedProvider);
     }
@@ -46,7 +49,7 @@ export default function useGetProvidersData() {
   };
 
   const providersDataQuery = useQuery(
-    ["all-providers-data"],
+    ["all-providers-data", activeCoupon],
     fetchProvidersData,
     {
       onSuccess: (data) => {
@@ -54,6 +57,7 @@ export default function useGetProvidersData() {
         setProvidersData([...dataCopy]);
       },
       notifyOnChangeProps: ["data"],
+      enabled: activeCoupon === null ? true : !!activeCoupon,
     }
   );
 

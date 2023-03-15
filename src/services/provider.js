@@ -1,5 +1,6 @@
 import http from "./http";
 import { API_URL_ENDPOINT } from "@env";
+import { parseUTCDate } from "#utils";
 
 const API_ENDPOINT = `${API_URL_ENDPOINT}/v1/provider`;
 
@@ -101,16 +102,21 @@ async function addTemplateAvailability(data) {
   return response;
 }
 
-async function getAllProviders() {
-  const response = await http.get(`${API_ENDPOINT}/all`);
+async function getAllProviders(campaignId) {
+  const response = await http.get(
+    `${API_ENDPOINT}/all${campaignId ? `?campaignId=${campaignId}` : ""}`
+  );
   return response;
 }
 
-async function getProviderById(id) {
-  const response = await http.get(`${API_ENDPOINT}/by-id?providerId=${id}`);
+async function getProviderById(id, campaignId) {
+  const response = await http.get(
+    `${API_ENDPOINT}/by-id?providerId=${id}${
+      campaignId ? `&campaignId=${campaignId}` : ""
+    }`
+  );
   return response;
 }
-
 /**
  *
  * @param {number} startDate the timestamp of the start date of the week
@@ -118,9 +124,16 @@ async function getProviderById(id) {
  * @param {String} providerId the id of the provider
  * @returns {Promise} resolving to an array with all the slots for the day
  */
-async function getAvailableSlotsForSingleDay(startDate, day, providerId) {
+async function getAvailableSlotsForSingleDay(
+  startDate,
+  day,
+  providerId,
+  campaignId
+) {
   const response = await http.get(
-    `${API_ENDPOINT}/availability/single-day?providerId=${providerId}&startDate=${startDate}&day=${day}`
+    `${API_ENDPOINT}/availability/single-day?providerId=${providerId}&startDate=${startDate}&day=${day}${
+      campaignId ? `&campaignId=${campaignId}` : ""
+    }`
   );
   return response;
 }
@@ -136,7 +149,15 @@ async function blockSlot(clientId, providerId, slotTimestamp) {
   const response = await http.post(`${API_ENDPOINT}/consultation/block`, {
     clientId,
     providerId,
-    time: JSON.stringify(slotTimestamp / 1000),
+    time:
+      typeof slotTimestamp === "object"
+        ? {
+            campaign_id: slotTimestamp.campaign_id,
+            time: JSON.stringify(
+              parseUTCDate(slotTimestamp.time).getTime() / 1000
+            ),
+          }
+        : JSON.stringify(slotTimestamp / 1000),
   });
   return response;
 }

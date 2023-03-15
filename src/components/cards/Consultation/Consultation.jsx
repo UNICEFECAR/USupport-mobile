@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Pressable } from "react-native";
+import { View, StyleSheet, Pressable, Image } from "react-native";
 
 import { Avatar } from "../../avatars/Avatar/Avatar";
 import { AppText } from "../../texts/AppText/AppText";
@@ -42,6 +42,7 @@ export const Consultation = ({
     image,
     status,
     price,
+    sponsorImage,
   } = consultation;
   const renderIn = "client";
   //   const isPast = consultation
@@ -106,6 +107,7 @@ export const Consultation = ({
   const handleCancel = () => {
     handleCancelConsultation(consultation);
   };
+
   return (
     <Pressable onPress={onPress} style={styles.touchableOpacity}>
       <View
@@ -131,9 +133,36 @@ export const Consultation = ({
                 {name}
               </AppText>
               {hasPriceBadge && (
-                <View style={styles.priceBadge}>
-                  <AppText namedStyle="smallText" style={styles.textPurple}>
-                    {price ? `${price}${currencySymbol}` : t("free")}
+                <View
+                  style={[
+                    styles.priceBadge,
+                    consultation.campaignId && styles.priceBadgeFreeColor,
+                    { flexDirection: "row" },
+                  ]}
+                >
+                  {sponsorImage ? (
+                    <Image
+                      style={styles.sponsorImage}
+                      resizeMode="contain"
+                      source={{
+                        uri:
+                          AMAZON_S3_BUCKET +
+                          "/" +
+                          (sponsorImage || "default-sponsor"),
+                      }}
+                    />
+                  ) : null}
+                  <AppText
+                    namedStyle="smallText"
+                    style={[
+                      styles.textPurple,
+                      consultation.campaignId && styles.priceBadgeFreeText,
+                      sponsorImage && { marginLeft: 30 },
+                    ]}
+                  >
+                    {price && !consultation.campaignId
+                      ? `${price}${currencySymbol}`
+                      : t("free")}
                   </AppText>
                 </View>
               )}
@@ -274,6 +303,12 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     alignSelf: "flex-end",
   },
+  priceBadgeFreeColor: {
+    backgroundColor: "rgba(32, 128, 158, 0.3)",
+  },
+  priceBadgeFreeText: {
+    color: appStyles.colorPrimary_20809e,
+  },
   buttonContainer: {
     width: "100%",
     display: "flex",
@@ -298,4 +333,11 @@ const styles = StyleSheet.create({
     color: appStyles.colorSecondary_9749fa,
   },
   oneButton: { minWidth: 120 },
+  sponsorImage: {
+    width: 25,
+    height: 25,
+    alignSelf: "flex-start",
+    position: "absolute",
+    left: 0,
+  },
 });

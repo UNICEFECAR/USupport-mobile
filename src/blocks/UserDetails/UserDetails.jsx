@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useContext } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, View } from "react-native";
@@ -24,7 +24,7 @@ import { appStyles } from "#styles";
 
 import { useGetClientData, useUpdateClientData, useLogout } from "#hooks";
 
-import { localStorage, clientSvc, Context } from "#services";
+import { localStorage, clientSvc } from "#services";
 
 import { validate, validateProperty, showToast } from "#utils";
 
@@ -43,8 +43,6 @@ export const UserDetails = ({
   navigation,
 }) => {
   const { t } = useTranslation("user-details");
-
-  const { setToken } = useContext(Context);
 
   const queryClient = useQueryClient();
 
@@ -256,7 +254,7 @@ export const UserDetails = ({
     }
   };
 
-  const handleLogout = useLogout(setToken);
+  const handleLogout = useLogout();
 
   const handleGoBack = () => {
     navigation.goBack();
@@ -304,6 +302,7 @@ export const UserDetails = ({
               <AccessToken
                 accessToken={clientData.accessToken}
                 accessTokenLabel={t("access_token")}
+                successLabel={t("access_token_copy")}
                 classes="user-details__grid-item__access-token"
                 style={styles.accessToken}
               />
@@ -341,6 +340,7 @@ export const UserDetails = ({
               <Input
                 label={t("email")}
                 value={clientData.email}
+                autoCapitalize="none"
                 onChange={(value) => handleChange("email", value)}
                 onBlur={handleEmailBlur}
                 placeholder={t("email_placeholder")}

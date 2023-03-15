@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { View, StyleSheet } from "react-native";
@@ -13,8 +13,8 @@ import {
 import { appStyles } from "#styles";
 
 import { useGetProviderDataById } from "#hooks";
-import { getTimestampFromUTC } from "#utils";
-import { providerSvc } from "#services";
+import { getTimestampFromUTC, parseUTCDate } from "#utils";
+import { providerSvc, Context } from "#services";
 
 /**
  * SelectConsultation
@@ -33,11 +33,21 @@ export const SelectConsultation = ({
   isCtaLoading = false,
   errorMessage,
   isInDashboard,
+  campaignId: campaingIdFromProps,
 }) => {
   const { t } = useTranslation("select-consultation");
-  let providerData = useGetProviderDataById(providerId).data;
   const [startDate, setStartDate] = useState(null);
   const [currentDay, setCurrentDay] = useState(new Date().getTime());
+
+  const { activeCoupon } = useContext(Context);
+
+  const campaignId = activeCoupon?.campaignId || campaingIdFromProps;
+
+  let providerData = useGetProviderDataById(
+    providerId,
+    campaignId,
+    "select-consultation"
+  ).data;
 
   useEffect(() => {
     if (providerData) {
@@ -52,8 +62,10 @@ export const SelectConsultation = ({
     const { data } = await providerSvc.getAvailableSlotsForSingleDay(
       getTimestampFromUTC(startDate),
       getTimestampFromUTC(currentDay),
-      providerId
+      providerId,
+      campaignId
     );
+    // console.log(data, "data");
     return data;
   };
   const availableSlotsQuery = useQuery(
@@ -74,8 +86,18 @@ export const SelectConsultation = ({
 
   const renderFreeSlots = () => {
     const todaySlots = availableSlots?.filter((slot) => {
-      const slotDate = new Date(slot).getDate();
+      if (!slot) return false;
+      // console.log(new Date(slot.time), slot.time, "slot time");
+      // console.log(slot, "slot");
+      const slotDate = campaignId
+        ? parseUTCDate(slot.time).getDate()
+        : new Date(slot).getDate();
       const currentDayDate = new Date(currentDay).getDate();
+      // console.log(slotDate, currentDayDate);
+      // Check if the slot is for the current campaign
+      if (campaignId && campaignId !== slot.campaign_id) {
+        return false;
+      }
       return slotDate === currentDayDate;
     });
     if (!todaySlots || todaySlots?.length === 0)
@@ -84,8 +106,10 @@ export const SelectConsultation = ({
       );
     const options = todaySlots?.map(
       (slot) => {
-        const slotLocal = new Date(slot);
-        const value = new Date(slot).getTime();
+        const slotLocal = campaignId ? parseUTCDate(slot.time) : new Date(slot);
+        const value = campaignId
+          ? parseUTCDate(slot.time).getTime()
+          : new Date(slot).getTime();
         const getDoubleDigitHour = (hour) =>
           hour === 24 ? "00" : hour < 10 ? `0${hour}` : hour;
 
@@ -112,7 +136,14 @@ export const SelectConsultation = ({
   };
 
   const handleSave = () => {
-    handleBlockSlot(selectedSlot, providerData.consultationPrice);
+    let slotObject;
+    if (campaignId) {
+      slotObject = availableSlots.find((slot) => {
+        return parseUTCDate(slot.time).getTime() === selectedSlot;
+      });
+    }
+    const time = campaignId ? slotObject : selectedSlot;
+    handleBlockSlot(time, providerData.consultationPrice);
   };
 
   return (

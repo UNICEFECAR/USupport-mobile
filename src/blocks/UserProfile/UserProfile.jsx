@@ -30,8 +30,7 @@ import { useLogout } from "#hooks";
 export const UserProfile = ({ navigation }) => {
   const { t } = useTranslation("user-profile");
 
-  const { setToken, isTmpUser, handleRegistrationModalOpen } =
-    useContext(Context);
+  const { isTmpUser, handleRegistrationModalOpen } = useContext(Context);
 
   const [displayName, setDisplayName] = useState("");
 
@@ -62,7 +61,7 @@ export const UserProfile = ({ navigation }) => {
     }
   };
 
-  const handleLogout = useLogout(setToken);
+  const handleLogout = useLogout();
 
   return (
     <Block style={styles.block}>

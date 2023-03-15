@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, RefreshControl } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
@@ -23,6 +23,8 @@ import {
   useRescheduleConsultation,
   useGetClientData,
 } from "#hooks";
+
+import { parseUTCDate } from "#utils";
 
 /**
  * Consultations
@@ -166,6 +168,16 @@ export const Consultations = ({ navigation }) => {
   const isSelectConsultationLoading =
     rescheduleConsultationMutation.isLoading || blockSlotMutation.isLoading;
 
+  const isWithCampaign = useMemo(() => {
+    return !!selectedSlot.current?.time;
+  }, [selectedSlot.current]);
+
+  const time = useMemo(() => {
+    return isWithCampaign
+      ? parseUTCDate(selectedSlot.current.time)
+      : new Date(selectedSlot.current);
+  }, [isWithCampaign, selectedSlot.current]);
+
   return (
     <Screen
       style={styles.screen}
@@ -210,6 +222,8 @@ export const Consultations = ({ navigation }) => {
         isCtaLoading={isSelectConsultationLoading}
         errorMessage={blockSlotError}
         isInDashboard
+        edit
+        campaignId={selectedConsultation?.campaignId}
       />
       {selectedConsultation ? (
         <>
@@ -236,11 +250,9 @@ export const Consultations = ({ navigation }) => {
           onClose={closeConfirmConsultationBackdrop}
           ctaStyle={{ marginBottom: 85 }}
           consultation={{
-            startDate: new Date(selectedSlot.current),
+            startDate: time,
             endDate: new Date(
-              new Date(selectedSlot.current).setHours(
-                new Date(selectedSlot.current).getHours() + 1
-              )
+              new Date(time).setHours(new Date(time).getHours() + 1)
             ),
           }}
         />

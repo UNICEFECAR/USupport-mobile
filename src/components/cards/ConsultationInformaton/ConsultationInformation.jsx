@@ -64,8 +64,16 @@ export const ConsultationInformation = ({
       </View>
       {showPriceBadge ? (
         <View style={styles.priceBadgeContainer}>
-          <View style={styles.priceBadge}>
-            <AppText namedStyle="smallText" style={styles.priceBadgeText}>
+          <View
+            style={[styles.priceBadge, !price && styles.priceBadgeFreeColor]}
+          >
+            <AppText
+              namedStyle="smallText"
+              style={[
+                styles.priceBadgeText,
+                !price && styles.priceBadgeFreeText,
+              ]}
+            >
               {price > 0 ? `${price}${currencySymbol}` : t("free")}
             </AppText>
           </View>
@@ -106,6 +114,12 @@ const styles = StyleSheet.create({
   },
   priceBadgeText: {
     color: appStyles.colorSecondary_9749fa,
+  },
+  priceBadgeFreeColor: {
+    backgroundColor: "rgba(32, 128, 158, 0.3)",
+  },
+  priceBadgeFreeText: {
+    color: appStyles.colorPrimary_20809e,
   },
 });
 
