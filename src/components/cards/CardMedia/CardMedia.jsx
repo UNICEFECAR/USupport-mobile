@@ -21,6 +21,7 @@ export const CardMedia = ({
   title,
   creator,
   readingTime,
+  description,
   categoryName,
   onPress,
   t,
@@ -35,16 +36,14 @@ export const CardMedia = ({
         source={image ? { uri: image } : articlePlaceholder}
         style={styles.image}
       />
+      <View style={styles.categoryContainer}>
+        <AppText namedStyle="smallText" style={styles.categoryText}>
+          {categoryName}
+        </AppText>
+      </View>
       <View style={styles.textContainer}>
         <View style={styles.headingContainer}>
-          <AppText namedStyle="h3" numberOfLines={1}>
-            {title}
-          </AppText>
-          <View style={styles.categoryContainer}>
-            <AppText namedStyle="smallText" style={styles.categoryText}>
-              {categoryName}
-            </AppText>
-          </View>
+          <AppText namedStyle="h3">{title}</AppText>
         </View>
         <View style={styles.creatorContainer}>
           <AppText namedStyle="smallText">{t("by", { creator })}</AppText>
@@ -58,8 +57,12 @@ export const CardMedia = ({
             {readingTime} {t("min_read")}
           </AppText>
         </View>
+        <View style={styles.descriptionContainer}>
+          <AppText namedStyle="smallText" id="description" numberOfLines={2}>
+            {description}
+          </AppText>
+        </View>
         <AppButton
-          type="secondary"
           label={t("read_more")}
           size="sm"
           style={styles.readMoreButton}
@@ -88,10 +91,13 @@ const styles = StyleSheet.create({
   },
   categoryContainer: {
     marginLeft: 12,
-    backgroundColor: appStyles.$colorBlue_20809E_0_3,
+    backgroundColor: appStyles.color_blue_c1d7e0,
     paddingHorizontal: 12,
     paddingVertical: 2,
     borderRadius: 25,
+    position: "absolute",
+    top: 12,
+    left: 12,
   },
   image: {
     width: "100%",
@@ -101,6 +107,9 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     padding: 16,
+  },
+  descriptionContainer: {
+    marginTop: 8,
   },
   creatorContainer: { flexDirection: "row", marginTop: 8 },
   icon: { marginLeft: 16, marginRight: 5 },
