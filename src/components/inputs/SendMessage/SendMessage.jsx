@@ -22,7 +22,7 @@ export const SendMessage = ({ handleSubmit, t }) => {
         iconSize="md"
         iconColor="#FFFFFF"
         onlyIcon
-        onPress={handleSend}
+        onPress={message.length > 0 ? handleSend : () => {}}
         circleSize="sm"
         style={styles.button}
       />
