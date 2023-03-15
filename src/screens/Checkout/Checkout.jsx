@@ -4,7 +4,7 @@ import { View } from "react-native";
 import { useStripe } from "@stripe/stripe-react-native";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { paymentsSvc, providerSvc } from "#services";
+import { paymentsSvc, providerSvc, clientSvc } from "#services";
 import { Screen, AppButton, Loading, Heading, Block } from "#components";
 import { ConfirmConsultation } from "#backdrops";
 import { getDateView, getTime, FIVE_MINUTES } from "#utils";
@@ -41,9 +41,13 @@ export function Checkout({ navigation, route }) {
   const consultationId = params?.consultationId;
   const selectedSlot = params?.selectedSlot;
   const entryTime = params?.entryTime;
+  const campaignId = params?.campaignId;
 
   const fetchPaymentIntent = async () => {
-    const res = await paymentsSvc.createPaymentIntent(consultationId);
+    const res = await paymentsSvc.createPaymentIntent(
+      consultationId,
+      campaignId
+    );
     return res?.data;
   };
 
@@ -212,16 +216,19 @@ export function Checkout({ navigation, route }) {
   };
   const cancelPaymentIntentMutation = useMutation(cancelPaymentIntent);
 
+  const handleGoBack = () => {
+    clientSvc.unblockSlot(consultationId);
+    navigation.goBack();
+    hideToast();
+  };
+
   return (
     <Screen>
       <Block style={{ paddingTop: hasPadding ? 65 : 0 }}>
         <Heading
           heading={t("heading")}
           subheading={t("subheading")}
-          handleGoBack={() => {
-            navigation.goBack();
-            hideToast();
-          }}
+          handleGoBack={handleGoBack}
         />
       </Block>
       {loading ? (
@@ -243,7 +250,12 @@ export function Checkout({ navigation, route }) {
       {selectedSlot && (
         <ConfirmConsultation
           isOpen={isConfirmBackdropOpen}
-          onClose={() => setIsConfirmBackdropOpen(false)}
+          onClose={() => {
+            setIsConfirmBackdropOpen(false);
+          }}
+          handleCustomClose={() => {
+            navigation.navigate("Consultations");
+          }}
           customHeading={statusData?.heading}
           customDescription={statusData?.subHeading}
           customButtonLabel={statusData?.buttonLabel}

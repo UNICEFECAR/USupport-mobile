@@ -128,6 +128,13 @@ async function checkIsCouponAvailable(couponCode) {
   return response;
 }
 
+async function unblockSlot(consultationId) {
+  const response = await http.put(`${API_ENDPOINT}/consultation/unblock-slot`, {
+    consultationId,
+  });
+  return response;
+}
+
 const exportedFunctions = {
   addMoodTrack,
   getClientData,
@@ -147,6 +154,7 @@ const exportedFunctions = {
   getMoodTrackForWeek,
   addPushNotificationToken,
   checkIsCouponAvailable,
+  unblockSlot,
 };
 
 export default exportedFunctions;
