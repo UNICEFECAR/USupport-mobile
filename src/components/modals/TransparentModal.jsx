@@ -14,6 +14,7 @@ import {
 import { AppText } from "../texts";
 import { Icon } from "../icons";
 import { AppButton } from "../buttons/AppButton/AppButton";
+import { Error } from "../errors/Error";
 
 import { appStyles } from "#styles";
 
@@ -32,6 +33,7 @@ export function TransparentModal({
   isCtaLoading = false,
   secondaryCtaType,
   isOpen,
+  errorMessage,
   style,
 }) {
   return (
@@ -58,6 +60,9 @@ export function TransparentModal({
                 </View>
                 {text && <AppText style={styles.text}>{text}</AppText>}
                 {children}
+                {errorMessage ? (
+                  <Error style={styles.error} message={errorMessage} />
+                ) : null}
                 {ctaLabel ? (
                   <AppButton
                     label={ctaLabel}
@@ -115,6 +120,11 @@ const styles = StyleSheet.create({
   },
   secondaryButton: {
     marginTop: 12,
+  },
+  error: {
+    marginBottom: 12,
+    alignSelf: "center",
+    marginLeft: 0,
   },
 });
 
