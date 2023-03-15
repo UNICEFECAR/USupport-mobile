@@ -18,5 +18,6 @@
   "modal_heading": "Подтвердите, что Вы сохранили свой код доступа",
   "modal_copy_text": "Убедитесь, что Вы сохранили или записали свой код доступа. В противном случае Вы потеряете доступ к свому анонимному аккаунту и своему прогрессу в приложении.",
   "modal_button_label": "Я сохранил(-а) код доступа",
-  "copy_success": "Succesfully copied the code"
+  "copy_success": "Succesfully copied the code",
+  "warning": "I understand, that i will not have access to the account if i lose this code"
 }

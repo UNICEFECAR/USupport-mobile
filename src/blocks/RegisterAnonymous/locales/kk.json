@@ -18,5 +18,6 @@
   "modal_heading": "Кіру кодын сақтап қойғаныңызды растаңыз",
   "modal_copy_text": "Кіру кодын сақтап қойғаныңызға немесе жазып алғаныңызға көз жеткізіңіз. Әйтпесе, анонимді аккаунтыңызға кіру және қосымшадағы жетістіктеріңізді көру мүмкіндігінен айырыласыз.",
   "modal_button_label": "Мен кіру кодын сақтап қойдым",
-  "copy_success": "Succesfully copied the code"
+  "copy_success": "Succesfully copied the code",
+  "warning": "I understand, that i will not have access to the account if i lose this code"
 }

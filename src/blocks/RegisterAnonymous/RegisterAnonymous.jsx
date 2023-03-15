@@ -27,6 +27,7 @@ import {
   Screen,
   TermsAgreement,
   TransparentModal,
+  CheckBox,
 } from "#components";
 
 import { userSvc, localStorage, Context } from "#services";
@@ -46,6 +47,8 @@ export const RegisterAnonymous = ({ navigation }) => {
     nickname: Joi.string().label(t("nickname_error")),
     isPrivacyAndTermsSelected: Joi.boolean().invalid(false),
   });
+
+  const [hasAgreed, setHasAgreed] = useState(false);
 
   const [data, setData] = useState({
     password: "",
@@ -164,11 +167,32 @@ export const RegisterAnonymous = ({ navigation }) => {
           <Icon style={styles.warningIcon} name="warning" />
           <AppText namedStyle="text">{t("modal_copy_text")}</AppText>
         </View>
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "row",
+            marginTop: 18,
+          }}
+        >
+          <CheckBox
+            isChecked={hasAgreed}
+            setIsChecked={() => setHasAgreed(!hasAgreed)}
+          />
+          <AppText
+            style={{ paddingLeft: 10 }}
+            onPress={() => setHasAgreed(!hasAgreed)}
+            namedStyle="text"
+          >
+            {t("warning")}
+          </AppText>
+        </View>
         <AppButton
           label={t("modal_button_label")}
           size="lg"
           style={{ marginTop: 24 }}
           onPress={handleRegister}
+          disabled={!hasAgreed}
           loading={registerMutation.isLoading}
         />
       </TransparentModal>
