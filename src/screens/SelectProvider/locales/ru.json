@@ -1,5 +1,13 @@
 {
   "heading": "Выбрать консультанта",
   "subheading": "Выберите консультанта, с которым хотите поговорить на видео, аудио или текстовой консультации",
-  "button_label": "Фильтр"
+  "button_label": "Фильтр",
+  "button_coupon_label": "Используйте купон",
+  "modal_coupon_heading": "Введите свой купон, чтобы использовать его",
+  "modal_coupon_text": "Введите номер своего купона, чтобы просмотреть консультантов и их доступность. Купон будет помечен как использованный только тогда, когда Вы запишетесь на консультацию.",
+  "modal_coupon_button_label": "Отправить купон",
+  "modal_coupon_input_label": "Номер купона",
+  "modal_coupon_input_placeholder": "КУПОН1",
+  "heading_with_coupon": "Select a  Provider to use Coupon: {{coupon}}",
+  "remove_coupon_label": "Remove coupon"
 }

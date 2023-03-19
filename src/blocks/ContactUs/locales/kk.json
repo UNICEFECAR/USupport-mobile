@@ -13,9 +13,9 @@
   "modal_text": "Біз Сізге жақын арада хабарласамыз",
   "modal_cta_label": "Бас бетке оралу",
 
-  "contact_reason_1": "What is this platform about?",
-  "contact_reason_2": "I need more info about the services provided through the platform",
-  "contact_reason_3": "I am a client and I am experiencing a technical problem",
-  "contact_reason_4": "Something else",
-  "success": "Your issue was reported successfully. We'll get back to you soon"
+  "contact_reason_1": "Бұл платформа не туралы?",
+  "contact_reason_2": "Маған бұл платформа арқылы көрсетілетін қызметтер туралы көбірек ақпарат қажет",
+  "contact_reason_3": "Мен клиентпін және менде техникалық мәселе туындады",
+  "contact_reason_4": "Басқа",
+  "success": "Сіздің мәселеңіз туралы хабарлама сәтті қабылданды. Жақында біз Сізбен байланысамыз"
 }

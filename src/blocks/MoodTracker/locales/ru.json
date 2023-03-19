@@ -6,7 +6,7 @@
   "worried": "Взволнованный",
   "heading": "Как самочувствие сегодня?",
   "mood_tracker": "Трекер настроения",
-  "additional_comment_placeholder": "What made you feel this way?",
+  "additional_comment_placeholder": "Что заставило Вас так себя чувствовать?",
   "submit_mood_track": "Отправить",
-  "add_mood_tracker_success": "Your daily mood was added successfully"
+  "add_mood_tracker_success": "Ваше настроение было успешно добавлено "
 }

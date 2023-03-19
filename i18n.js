@@ -194,7 +194,6 @@ const resources = {
     "user-details": UserDetails.ru,
     "user-profile": UserProfile.ru,
     welcome: Welcome.ru,
-    // "change-passcode": ChangePasscode.ru,
 
     // Screens
     "activity-history": ActivityHistory.ru,
@@ -274,7 +273,6 @@ const resources = {
     "user-details": UserDetails.kk,
     "user-profile": UserProfile.kk,
     welcome: Welcome.kk,
-    // "change-passcode": ChangePasscode.kk,
 
     // Screens
     "activity-history": ActivityHistory.kk,

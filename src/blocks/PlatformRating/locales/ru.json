@@ -3,6 +3,6 @@
   "textarea_label": "Ваш комментарий",
   "textarea_placeholder": "Оставьте свой комментарий здесь",
   "button_label": "Отправить оценку",
-  "rating_success": "Rating sent successfully",
-  "rating_error": "An unexpected error occured. Please try again."
+  "rating_success": "Оценка отправлена успешно",
+  "rating_error": "Произошла неожиданная ошибка. Пожалуйста, попробуйте снова."
 }

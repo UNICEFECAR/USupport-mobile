@@ -1,8 +1,8 @@
 {
-  "service": "Service",
-  "price": "Price",
-  "date_of_payment": "Date of payment",
-  "more_details": "More detais",
-  "no_payments_history_found": "You don't have any payments history yet",
+  "service": "Услуга",
+  "price": "Цена",
+  "date_of_payment": "Дата платежа",
+  "more_details": "Более подробная информация",
+  "no_payments_history_found": "У вас еще нет истории платежей",
   "text_audio_video_consultation": "Онлайн консультации"
 }

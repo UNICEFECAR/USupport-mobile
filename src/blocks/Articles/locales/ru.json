@@ -3,7 +3,7 @@
   "no_results": "Ничего не нашлось",
   "could_not_load_content": "Для выбранной страны и языка ничего не нашлось.",
   "all": "Все",
-  "read_more": "Read more",
-  "min_read": "min read",
+  "read_more": "Узнать больше",
+  "min_read": "минут на прочтение",
   "by": "By {{creator}}"
 }

@@ -1,5 +1,13 @@
 {
   "heading": "Консультантты таңдау",
   "subheading": "Бейне, аудио немесе мәтіндік консультация арқылы сөйлескіңіз келетін консультантты таңдаңыз",
-  "button_label": "Сүзгі"
+  "button_label": "Сүзгі",
+  "button_coupon_label": "Купонды пайдаланыңыз",
+  "modal_coupon_heading": "Купонды пайдалану үшін оны енгізіңіз",
+  "modal_coupon_text": "Консультанттарды көру және олардың қолжетімділігін білу үшін купон нөмірін енгізіңіз. Купон консультацияға жазылу кезінде ғана пайдаланылған деп белгіленеді.",
+  "modal_coupon_button_label": "Купон жіберу",
+  "modal_coupon_input_label": "Купон нөмірі",
+  "modal_coupon_input_placeholder": "КУПОН1",
+  "heading_with_coupon": "Select a  Provider to use Coupon: {{coupon}}",
+  "remove_coupon_label": "Remove coupon"
 }

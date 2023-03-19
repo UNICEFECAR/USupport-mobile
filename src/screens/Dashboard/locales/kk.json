@@ -4,12 +4,12 @@
   "no_registration_subheading": "Қосымшаның барлық функцияларын пайдалану үшін Сізге анонимді немесе кәдімгі аккаунт қажет.",
   "create_account_button": "Аккаунт ашу",
   "next_consultation": "Келесі консультация:",
-  "change_button_label": "Change",
+  "change_button_label": "Өзгерту",
   "accept_button_label": "Консультацияны қабылдау",
   "join_button_label": "Қосылу",
   "schedule_button_label": "Жоспарлау",
   "live_label": "Қазір",
   "no_consultations": "Қазіргі Сізде алдағы консультациялар жоқ",
-  "emergency_button_label": "Emergency help",
+  "emergency_button_label": "Шұғыл көмек",
   "accept_success": "Консультация сәтті қабылданды"
 }

@@ -3,6 +3,6 @@
   "textarea_label": "Сіздің алып-қосарыңыз",
   "textarea_placeholder": "Алып-қосарыңыз осында қалдырыңыз",
   "button_label": "Бағаны жіберу",
-  "rating_success": "Rating sent successfully",
-  "rating_error": "An unexpected error occured. Please try again."
+  "rating_success": "Бағалау сәтті жіберілді",
+  "rating_error": "Күтпеген қате болды. Қайталап көріңіз."
 }
