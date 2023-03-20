@@ -33,8 +33,9 @@
   "place_of_living_urban": "Город",
   "place_of_living_rural": "Село",
   "data_processing_modal_heading": "Уверены, что хотите отозвать разрешение на обработку своих персональных данных?",
-  "data_processing_modal_text": "You will not be able to schedule further consultations.",
+  "data_processing_modal_text": "Вы не сможете запланировать дальнейшие консультации.",
   "data_processing_modal_confirm_button": "Удалить разрешение",
   "data_processing_modal_cancel_button": "Отмена",
-  "success_message": "Профиль успешно обновлен"
+  "success_message": "Профиль успешно обновлен",
+  "access_token_copy": "Успешно скопированный код"
 }

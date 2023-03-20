@@ -4,12 +4,12 @@
   "no_registration_subheading": "Чтобы использовать все функции приложения, Вам нужен анонимный или обычный аккаунт.",
   "create_account_button": "Создать аккаунт",
   "next_consultation": "Следующая консультация:",
-  "change_button_label": "Change",
+  "change_button_label": "Изменить",
   "accept_button_label": "Принять консультацию",
   "join_button_label": "Присоединиться",
   "schedule_button_label": "Запланировать",
   "live_label": "Сейчас",
   "no_consultations": "В настоящее время у Вас нет предстоящих консультаций",
-  "emergency_button_label": "Emergency help",
+  "emergency_button_label": "Экстренная помощь",
   "accept_success": "Консультация успешно принята"
 }

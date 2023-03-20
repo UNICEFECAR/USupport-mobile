@@ -1,19 +1,19 @@
 {
-  "heading": "Payment",
-  "subheading": "Enter your card details to pay for this session.",
-  "payment_succeded_heading": "Your payment was successful.",
-  "payment_succeded_subheading": "Thank you for your purchase your consultation is scheduled for {{consultationDate}} at {{consultationTime}}.",
+  "heading": "Платеж",
+  "subheading": "Введите данные своей карты для оплаты этого сеанса.",
+  "payment_succeded_heading": "Ваш платеж прошел успешно.",
+  "payment_succeded_subheading": "Благодарим Вас за покупку, Ваша консультация запланирована на  {{consultationDate}} в {{consultationTime}}.",
 
-  "payment_processing_heading": "Your payment is being processed.",
-  "payment_processing_subheading": "We are processing your payment, please wait a moment.",
+  "payment_processing_heading": "Ваш платеж обрабатывается.",
+  "payment_processing_subheading": "Мы обрабатываем Ваш платеж, пожалуйста, подождите немного.",
 
-  "payment_requires_payment_method_heading": "Your payment was not successful, please try again.",
-  "payment_requires_payment_method_subheading": "There was a problem while trying to process your payment. We are sorry about that.",
+  "payment_requires_payment_method_heading": "Ваш платеж не прошел, пожалуйста, попробуйте еще раз.",
+  "payment_requires_payment_method_subheading": "При попытке обработать Ваш платеж возникла проблема. Мы сожалеем об этом.",
 
-  "payment_failed_heading": "Your payment was not successful, please try again.",
-  "payment_failed_subheading": "There was a problem while trying to process your payment. We are sorry about that.",
+  "payment_failed_heading": "Ваш платеж не прошел успешно, пожалуйста, попробуйте еще раз.",
+  "payment_failed_subheading": "При попытке обработать Ваш платеж возникла проблема. Мы сожалеем об этом.",
 
   "continue_button_label": "Продолжить",
-  "try_again_button_label": "Try again",
-  "session_timeout": "Your session has expired. Please go back and book your consultation again"
+  "try_again_button_label": "Попробуйте снова",
+  "session_timeout": "Срок действия Вашего сеанса истек. Пожалуйста, вернитесь и запишитесь на консультацию еще раз"
 }

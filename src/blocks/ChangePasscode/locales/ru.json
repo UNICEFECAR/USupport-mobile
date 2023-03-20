@@ -1,11 +1,11 @@
 {
-  "enter_passcode": "Enter current passcode",
-  "view_pin": "View PIN Code",
-  "hide_pin": "Hide PIN Code",
-  "create_passcode": "Create PIN",
-  "confirm_passcode": "Confirm PIN",
-  "pin_not_matching": "The PIN Code is incorrect",
-  "success": "PIN Code set successfully",
-  "remove_success": "PIN Code removed successfully",
-  "error": "There was an error setting your PIN Code. Please try again."
+  "enter_passcode": "Введите текущий код доступа",
+  "view_pin": "Просмотреть PIN-код",
+  "hide_pin": "Скрыть PIN-код",
+  "create_passcode": "Создать PIN-код",
+  "confirm_passcode": "Подтвердите PIN-код",
+  "pin_not_matching": "PIN-код неверен",
+  "success": "PIN-код установлен успешно",
+  "remove_success": "PIN-код удален успешно",
+  "error": "Произошла ошибка при установке вашего PIN-кода. Пожалуйста, попробуйте снова."
 }

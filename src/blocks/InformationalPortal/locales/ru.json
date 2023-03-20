@@ -2,7 +2,7 @@
     "heading_newest": "Новейшие статьи",
     "view_all": "Посмотреть все",
     "heading_popular": "Самые популярные",
-    "read_more": "Read more",
-    "min_read": "min read",
+    "read_more": "Узнать больше",
+    "min_read": "минут на прочтение",
     "by": "By {{creator}}"
 }

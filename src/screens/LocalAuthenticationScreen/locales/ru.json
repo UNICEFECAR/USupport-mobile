@@ -1,6 +1,6 @@
 {
-  "enter_pin": "Enter your PIN Code",
-  "view_pin": "View pin",
-  "hide_pin": "Hide pin",
-  "wrong_pin": "The PIN Code is incorrect"
+  "enter_pin": "Введите свой PIN код",
+  "view_pin": "Просмотр PIN кода",
+  "hide_pin": "Скрыть PIN код",
+  "wrong_pin": "PIN код неверен"
 }

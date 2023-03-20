@@ -1,8 +1,8 @@
 {
-  "service": "Service",
-  "price": "Price",
-  "date_of_payment": "Date of payment",
-  "more_details": "More detais",
-  "no_payments_history_found": "You don't have any payments history yet",
+  "service": "Қызмет",
+  "price": "Бағасы",
+  "date_of_payment": "Төлем күні",
+  "more_details": "Толығырақ ақпарат",
+  "no_payments_history_found": "Сізде әлі төлем тарихы жоқ",
   "text_audio_video_consultation": "Онлайн консультациялар"
 }

@@ -1,19 +1,19 @@
 {
-  "heading": "Payment",
-  "subheading": "Enter your card details to pay for this session.",
-  "payment_succeded_heading": "Your payment was successful.",
-  "payment_succeded_subheading": "Thank you for your purchase your consultation is scheduled for {{consultationDate}} at {{consultationTime}}.",
+  "heading": "Төлем",
+  "subheading": "Осы сеансты төлеу үшін карта деректерін енгізіңіз.",
+  "payment_succeded_heading": "Сіздің төлеміңіз сәтті өтті.",
+  "payment_succeded_subheading": "Сатып алғаныңыз үшін рахмет, Сіздің консультацияңыз {{consultationDate}} {{consultationTime}} жоспарланған.",
 
-  "payment_processing_heading": "Your payment is being processed.",
-  "payment_processing_subheading": "We are processing your payment, please wait a moment.",
+  "payment_processing_heading": "Сіздің төлеміңіз өңделеді.",
+  "payment_processing_subheading": "Сіздің төлеміңіз өңделуде, сәл күте тұрыңыз.",
 
-  "payment_requires_payment_method_heading": "Your payment was not successful, please try again.",
-  "payment_requires_payment_method_subheading": "There was a problem while trying to process your payment. We are sorry about that.",
+  "payment_requires_payment_method_heading": "Сіздің төлеміңіз сәтті орындалмады, қайталап көріңіз.",
+  "payment_requires_payment_method_subheading": "Төлеміңізді өңдеуге тырысқанда мәселе туындады. Біз өкінеміз.",
 
-  "payment_failed_heading": "Your payment was not successful, please try again.",
-  "payment_failed_subheading": "There was a problem while trying to process your payment. We are sorry about that.",
+  "payment_failed_heading": "Сіздің төлеміңіз сәтті болмады, қайталап көріңіз.",
+  "payment_failed_subheading": "Төлеміңізді өңдеуге тырысқанда мәселе туындады. Біз өкінеміз.",
 
   "continue_button_label": "Жалғастыру",
-  "try_again_button_label": "Try again",
-  "session_timeout": "Your session has expired. Please go back and book your consultation again"
+  "try_again_button_label": "Қайталап көріңіз",
+  "session_timeout": "Сеанстың мерзімі аяқталды. Қайта оралыңыз және консультацияға тағы бір рет жазылыңыз"
 }

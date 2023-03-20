@@ -1,11 +1,11 @@
 {
-  "enter_passcode": "Enter current passcode",
-  "view_pin": "View PIN Code",
-  "hide_pin": "Hide PIN Code",
-  "create_passcode": "Create PIN",
-  "confirm_passcode": "Confirm PIN",
-  "pin_not_matching": "The PIN Code is incorrect",
-  "success": "PIN Code set successfully",
-  "remove_success": "PIN Code removed successfully",
-  "error": "There was an error setting your PIN Code. Please try again."
+  "enter_passcode": "Ағымдағы кіру кодын енгізіңіз",
+  "view_pin": "PIN кодты қарау",
+  "hide_pin": "PIN кодты жасыру",
+  "create_passcode": "PIN кодты жасау",
+  "confirm_passcode": "PIN кодты растау",
+  "pin_not_matching": "PIN код дұрыс емес",
+  "success": "PIN код сәтті орнатылды",
+  "remove_success": "PIN код сәтті жойылды",
+  "error": "PIN кодты орнату кезінде қате пайда болды. Қайталап көріңіз."
 }

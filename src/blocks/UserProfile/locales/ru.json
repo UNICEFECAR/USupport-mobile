@@ -15,7 +15,7 @@
   "privacy_policy_button_label": "Политика конфиденциальности",
   "FAQ_button_label": "Часто задаваемые вопросы",
   "mood_tracker_button_label": "Трекер настроения",
-  "passcoode_and_biometrics_button_label": "Passcode and biometrics",
-  "payments_history_button_label": "Payment History",
+  "passcoode_and_biometrics_button_label": "Код доступа и биометрические данные",
+  "payments_history_button_label": "История платежей",
   "terms_and_conditions": "Условия и положения"
 }
