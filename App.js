@@ -60,6 +60,7 @@ export default function App() {
   const [currencySymbol, setCurrencySymbol] = useState("");
   const [userPin, setUserPin] = useState(); // The value of the user's PIN code
   const [hasCheckedTmpUser, setHasCheckedTmpUser] = useState(false);
+  const [activeCoupon, setActiveCoupon] = useState();
 
   const [dropdownOptions, setDropdownOptions] = useState({
     isOpen: false,
@@ -136,6 +137,8 @@ export default function App() {
     dropdownOptions,
     setDropdownOptions,
     hasCheckedTmpUser,
+    activeCoupon,
+    setActiveCoupon,
   };
 
   return (
