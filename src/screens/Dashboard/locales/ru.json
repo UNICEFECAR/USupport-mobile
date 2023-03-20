@@ -1,5 +1,5 @@
 {
-  "welcome": "С возвращением, {{name}}!",
+  "welcome": "С возвращением, {{clientName}}!",
   "no_registration_heading": "Вы используете приложение без регистрации",
   "no_registration_subheading": "Чтобы использовать все функции приложения, Вам нужен анонимный или обычный аккаунт.",
   "create_account_button": "Создать аккаунт",
