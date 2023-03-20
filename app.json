@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "USupport-mobile",
-    "slug": "USupport-mobile",
+    "name": "USupport",
+    "slug": "USupport",
     "version": "1.0.0",
     "orientation": "portrait",
     "android": {
