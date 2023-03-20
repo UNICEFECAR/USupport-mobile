@@ -1,6 +1,6 @@
 {
   "heading": "Register anonymously",
-  "subheading": "You will be register anonymously so we will not link this account to phisical person in any way.",
+  "subheading": "You will be registered anonymously so we will not link this account to a physical person in any way.",
   "access_code": "Your anonymous access code is",
   "nickname_label": "Nickname *",
   "nickname_placeholder": "Enter your nickname",
@@ -14,7 +14,7 @@
   "password_error": "Password should contain at least 8 characters, 1 uppercase letter, 1 lowercase letter and 1 number",
   "register_button_label": "Register",
   "login_button_label": "I already have an account",
-  "copy_text": "Copy and save or write down your anonymous code, if you lose it you cannot get access to your account anymore",
+  "copy_text": "Copy and save or write down your anonymous code, if you lose it you cannot get access to your account anymore.",
   "modal_heading": "Confirm you have saved your access code",
   "modal_copy_text": "Be sure that you have saved or written down your access code. Otherwise you will lose access to your anonymous account and your progress in the app.",
   "modal_button_label": "I’ve saved the access code",
