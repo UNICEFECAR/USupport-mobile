@@ -11,5 +11,21 @@
   "live_label": "Now",
   "no_consultations": "Currently you do not have upcoming consultations",
   "emergency_button_label": "Emergency help",
-  "accept_success": "Consultation accepted successfully"
+  "accept_success": "Consultation accepted successfully",
+  "ordinal_st": "st",
+  "ordinal_nd": "nd",
+  "ordinal_rd": "rd",
+  "ordinal_th": "th",
+  "january": "January",
+  "february": "February",
+  "march": "March",
+  "april": "April",
+  "may": "May",
+  "june": "June",
+  "july": "July",
+  "august": "August",
+  "september": "September",
+  "october": "October",
+  "november": "November",
+  "december": "December"
 }

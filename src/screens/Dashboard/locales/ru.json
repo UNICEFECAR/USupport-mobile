@@ -11,5 +11,21 @@
   "live_label": "Сейчас",
   "no_consultations": "В настоящее время у Вас нет предстоящих консультаций",
   "emergency_button_label": "Экстренная помощь",
-  "accept_success": "Консультация успешно принята"
+  "accept_success": "Консультация успешно принята",
+  "ordinal_st": "-ый",
+  "ordinal_nd": "-ой",
+  "ordinal_rd": "-ий",
+  "ordinal_th": "-ый",
+  "january": "Январь",
+  "february": "Февраль",
+  "march": "Март",
+  "april": "Апрель",
+  "may": "Май",
+  "june": "Июнь",
+  "july": "Июль",
+  "august": "Август",
+  "september": "Сентябрь",
+  "october": "Октябрь",
+  "november": "Ноябрь",
+  "december": "Декабрь"
 }

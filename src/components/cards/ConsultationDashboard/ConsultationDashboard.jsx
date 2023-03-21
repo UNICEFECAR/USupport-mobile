@@ -5,7 +5,12 @@ import { AppText } from "../../texts/AppText/AppText";
 import { AppButton } from "../../buttons/AppButton/AppButton";
 import { appStyles } from "#styles";
 
-import { checkIsFiveMinutesBefore, getDateView, getMonthName } from "#utils";
+import {
+  checkIsFiveMinutesBefore,
+  getDateView,
+  getMonthName,
+  getOrdinal,
+} from "#utils";
 import { AMAZON_S3_BUCKET } from "@env";
 
 /**
@@ -31,9 +36,10 @@ export const ConsultationDashboard = ({
   const isLive = checkIsFiveMinutesBefore(timestamp);
 
   const startDate = new Date(timestamp);
+  const ordinal = getOrdinal(startDate?.getDate());
 
-  const dateText = `${getDateView(startDate).slice(0, 2)}th ${getMonthName(
-    startDate
+  const dateText = `${getDateView(startDate).slice(0, 2)}${t(ordinal)} ${t(
+    getMonthName(startDate).toLowerCase()
   )}`;
 
   const time = startDate.getHours();

@@ -11,5 +11,21 @@
   "live_label": "Қазір",
   "no_consultations": "Қазіргі Сізде алдағы консультациялар жоқ",
   "emergency_button_label": "Шұғыл көмек",
-  "accept_success": "Консультация сәтті қабылданды"
+  "accept_success": "Консультация сәтті қабылданды",
+  "ordinal_st": "-ші",
+  "ordinal_nd": "-ші",
+  "ordinal_rd": "-ші",
+  "ordinal_th": "-ші/-шы",
+  "january": "Январь",
+  "february": "Февраль",
+  "march": "Март",
+  "april": "Апрель",
+  "may": "Май",
+  "june": "Июнь",
+  "july": "Июль",
+  "august": "Август",
+  "september": "Сентябрь",
+  "october": "Октябрь",
+  "november": "Ноябрь",
+  "december": "Декабрь"
 }

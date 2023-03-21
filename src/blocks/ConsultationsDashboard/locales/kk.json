@@ -5,5 +5,21 @@
   "live_text": "Қазір",
   "accept_button_label": "Консультацияны қабылдау",
   "join_button_label": "Қосылу",
-  "change_button_label": "Кілтсөзді өзгерту"
+  "change_button_label": "Кілтсөзді өзгерту",
+  "ordinal_st": "-ші",
+  "ordinal_nd": "-ші",
+  "ordinal_rd": "-ші",
+  "ordinal_th": "-ші/-шы",
+  "january": "Январь",
+  "february": "Февраль",
+  "march": "Март",
+  "april": "Апрель",
+  "may": "Май",
+  "june": "Июнь",
+  "july": "Июль",
+  "august": "Август",
+  "september": "Сентябрь",
+  "october": "Октябрь",
+  "november": "Ноябрь",
+  "december": "Декабрь"
 }
