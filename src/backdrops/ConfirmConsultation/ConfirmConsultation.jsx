@@ -72,6 +72,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   textContainer: { width: "80%" },
-  image: { width: 200, height: 159, marginBottom: 40 },
+  image: { width: 200, height: 159, marginBottom: 40, resizeMode: "contain" },
   text: { marginTop: 40 },
 });
