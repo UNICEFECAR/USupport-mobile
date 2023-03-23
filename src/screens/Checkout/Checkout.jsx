@@ -259,7 +259,7 @@ export function Checkout({ navigation, route }) {
           customHeading={statusData?.heading}
           customDescription={statusData?.subHeading}
           customButtonLabel={statusData?.buttonLabel}
-          mascotImage={statusData?.mascotToUse}
+          customMascotImage={statusData?.mascotToUse}
           consultation={{
             startDate: new Date(selectedSlot),
             endDate: new Date(
