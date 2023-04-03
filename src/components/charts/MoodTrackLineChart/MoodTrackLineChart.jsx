@@ -32,7 +32,6 @@ export const MoodTrackLineChart = ({
     }
   };
 
-  console.log(selectedItemId);
   const [selectedItemIndex, setSelectedItemIndex] = useState("");
 
   useEffect(() => {
@@ -62,7 +61,7 @@ export const MoodTrackLineChart = ({
     color: () => appStyles.colorGray_a6b4b8,
     propsForDots: {
       r: "8",
-      strokeWidth: "1",
+      strokeWidth: "2",
       stroke: appStyles.colorPrimary_20809e,
     },
   };
@@ -77,11 +76,8 @@ export const MoodTrackLineChart = ({
       getDotColor={(dataPoint, dataPointIndex) => {
         const index = dataPointIndex;
 
-        console.log("index: " + index);
-        console.log(selectedItemIndex);
-
         if (index === selectedItemIndex) {
-          return "#54CFD9";
+          return appStyles.colorGreen_54cfd9;
         } else {
           return appStyles.colorGreen_c1eaea;
         }

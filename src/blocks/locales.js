@@ -29,7 +29,7 @@ export * as ActivityHistory from "./ActivityHistory/locales";
 export * as ForgotPassword from "./ForgotPassword/locales";
 export * as Notifications from "./Notifications/locales";
 export * as MoodTracker from "./MoodTracker/locales";
-export * as MoodTrackerHistory from "./MoodTrackerHistory/locales";
 export * as PaymentHistory from "./PaymentHistory/locales";
 export * as ChangePasscode from "./ChangePasscode/locales";
 export * as TermsOfUse from "./TermsOfUse/locales";
+export * as MoodTrackHistory from "./MoodTrackHistory/locales";

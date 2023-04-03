@@ -32,7 +32,7 @@ export * from "./ForgotPassword";
 export * from "./VideoRoom";
 export * from "./Notifications";
 export * from "./MoodTracker";
-export * from "./MoodTrackerHistory";
+export * from "./MoodTrackHistory";
 export * from "./PaymentHistory";
 export * from "./ChangePasscode";
 export * from "./TermsOfUse";

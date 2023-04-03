@@ -15,7 +15,6 @@ import {
   InformationalPortal,
   Login,
   MoodTracker,
-  MoodTrackerHistory,
   NotificationPreferences,
   Notifications,
   Passcode,
@@ -36,6 +35,7 @@ import {
   UserDetails,
   UserProfile,
   Welcome,
+  MoodTrackHistory,
 } from "./src/blocks/locales.js";
 
 import {
@@ -92,7 +92,6 @@ const resources = {
     faq: FAQ.en,
     "forgot-password": ForgotPassword.en,
     login: Login.en,
-    "mood-tracker-history": MoodTrackerHistory.en,
     "mood-tracker": MoodTracker.en,
     "notification-preferences": NotificationPreferences.en,
     notifications: Notifications.en,
@@ -114,7 +113,7 @@ const resources = {
     "user-details": UserDetails.en,
     "user-profile": UserProfile.en,
     welcome: Welcome.en,
-    // "change-passcode": ChangePasscode.en,
+    "mood-track-history": MoodTrackHistory.en,
 
     // Screens
     "activity-history": ActivityHistory.en,
@@ -172,7 +171,6 @@ const resources = {
     faq: FAQ.ru,
     "forgot-password": ForgotPassword.ru,
     login: Login.ru,
-    "mood-tracker-history": MoodTrackerHistory.ru,
     "mood-tracker": MoodTracker.ru,
     "notification-preferences": NotificationPreferences.ru,
     notifications: Notifications.ru,
@@ -194,6 +192,7 @@ const resources = {
     "user-details": UserDetails.ru,
     "user-profile": UserProfile.ru,
     welcome: Welcome.ru,
+    "mood-track-history": MoodTrackHistory.ru,
 
     // Screens
     "activity-history": ActivityHistory.ru,
@@ -251,7 +250,6 @@ const resources = {
     faq: FAQ.kk,
     "forgot-password": ForgotPassword.kk,
     login: Login.kk,
-    "mood-tracker-history": MoodTrackerHistory.kk,
     "mood-tracker": MoodTracker.kk,
     "notification-preferences": NotificationPreferences.kk,
     notifications: Notifications.kk,
@@ -273,6 +271,7 @@ const resources = {
     "user-details": UserDetails.kk,
     "user-profile": UserProfile.kk,
     welcome: Welcome.kk,
+    "mood-track-history": MoodTrackHistory.kk,
 
     // Screens
     "activity-history": ActivityHistory.kk,

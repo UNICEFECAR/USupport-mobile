@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { useTranslation } from "react-i18next";
 
 import {
   Block,
@@ -12,8 +13,6 @@ import {
 } from "#components";
 import { useGetMoodTrackEntries } from "#hooks";
 
-import { appStyles } from "#styles";
-
 /**
  * MoodTrackerHistory
  *
@@ -22,6 +21,7 @@ import { appStyles } from "#styles";
  * @return {JSX.Element}
  */
 export const MoodTrackHistory = ({}) => {
+  const { t } = useTranslation("mood-track-history");
   const [pageNum, setPageNum] = useState(0);
   const limit = `pageNum_${pageNum}_limitToLoad_5`;
 
@@ -182,6 +182,7 @@ export const MoodTrackHistory = ({}) => {
                 (x) => x.mood_tracker_id === selectedItemId
               )}
               handleClose={() => setSelectedItemId(null)}
+              t={t}
             />
           ) : null}
         </>

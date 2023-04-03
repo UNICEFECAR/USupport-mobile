@@ -23,3 +23,4 @@ export * from "./tabs";
 export * from "./calendar";
 export * from "./consultation";
 export * from "./tables";
+export * from "./charts";

@@ -14,7 +14,7 @@ import { appStyles } from "#styles";
  *
  * @return {jsx}
  */
-export const MoodTrackDetails = ({ mood, handleClose }) => {
+export const MoodTrackDetails = ({ mood, handleClose, t = { t } }) => {
   const dateText = `${
     mood.time.getDate() > 9 ? mood.time.getDate() : `0${mood.time.getDate()}`
   }.${
@@ -37,9 +37,13 @@ export const MoodTrackDetails = ({ mood, handleClose }) => {
         {dateText}, {timeText}
       </AppText>
       <View style={styles.subheadingContainer}>
-        <AppText>You felt</AppText>
+        <AppText numberOfLines={1} adjustsFontSizeToFit={true}>
+          {t("you_felt")}
+        </AppText>
         <Emoticon name={mood.mood} size="sm" style={styles.emoticon} />
-        <AppText>happy and you commented:</AppText>
+        <AppText numberOfLines={1} adjustsFontSizeToFit={true}>
+          {t(mood.mood)} {t("comment_text")}
+        </AppText>
       </View>
       <AppText style={styles.commentText}>{mood.comment}</AppText>
     </View>
@@ -60,10 +64,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     width: "100%",
-    backgroundColor: "gold",
   },
   emoticon: {
-    marginHorizontal: 8,
+    marginHorizontal: 6,
   },
   commentText: {
     marginTop: 12,

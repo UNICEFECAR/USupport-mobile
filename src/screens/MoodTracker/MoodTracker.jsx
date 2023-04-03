@@ -3,7 +3,7 @@ import { ScrollView } from "react-native";
 import { useTranslation } from "react-i18next";
 
 import { Screen, Block, Heading } from "#components";
-import { MoodTrackerHistory } from "#blocks";
+import { MoodTrackHistory } from "#blocks";
 
 /**
  * MoodTracker
@@ -25,7 +25,7 @@ export const MoodTracker = ({ navigation }) => {
             subheading={t("subheading")}
           />
         </Block>
-        <MoodTrackerHistory />
+        <MoodTrackHistory />
       </ScrollView>
     </Screen>
   );

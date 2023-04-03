@@ -104,9 +104,9 @@ async function getMoodTrackForToday() {
   return response;
 }
 
-async function getMoodTrackForWeek(startDate) {
+async function getMoodTrackEntries(limit, pageNum) {
   const response = await http.get(
-    `${API_ENDPOINT}/mood-tracker/week?startDate=${JSON.stringify(startDate)}`
+    `${API_ENDPOINT}/mood-tracker/entries?limit=${limit}&pageNum=${pageNum}`
   );
   return response;
 }
@@ -151,7 +151,7 @@ const exportedFunctions = {
   createConsultationSecurityCheck,
   updateConsultationSecurityCheck,
   getMoodTrackForToday,
-  getMoodTrackForWeek,
+  getMoodTrackEntries,
   addPushNotificationToken,
   checkIsCouponAvailable,
   unblockSlot,
