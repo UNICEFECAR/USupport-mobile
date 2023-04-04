@@ -42,22 +42,6 @@ export const MoodTracker = ({ navigation }) => {
   const [comment, setComment] = useState("");
   const [emoticons, setEmoticons] = useState([...emoticonsInitialState]);
 
-  const onGetMoodTrackSuccess = (data) => {
-    if (data) {
-      handleEmoticonClick(data.mood);
-      setComment(data.comment);
-      setIsMoodTrackCompleted(true);
-    } else {
-      setIsMoodTrackCompleted(false);
-      setComment("");
-      setEmoticons([...emoticonsInitialState]);
-    }
-  };
-  const useGetMoodTrackForTodayQuery = useGetMoodTrackForToday({
-    onSuccess: onGetMoodTrackSuccess,
-    enabled: !!isTmpUser,
-  });
-
   const hasSelectedMoodtracker = useCallback(() => {
     return emoticons.some((emoticon) => emoticon.isSelected);
   }, [emoticons]);
@@ -151,35 +135,27 @@ export const MoodTracker = ({ navigation }) => {
           </AppText>
         </TouchableOpacity>
       </View>
-      {!useGetMoodTrackForTodayQuery.isLoading || isTmpUser ? (
-        <>
-          <View style={styles.rating}>{renderEmoticons()}</View>
-          {hasSelectedMoodtracker() && (
-            <View style={styles.additionalCommentContainer}>
-              <Textarea
-                value={comment}
-                onChange={(value) => setComment(value)}
-                placeholder={t("additional_comment_placeholder")}
-                size="md"
-                disabled={isMoodTrackCompleted}
+      <View style={styles.rating}>{renderEmoticons()}</View>
+      {hasSelectedMoodtracker() && (
+        <View style={styles.additionalCommentContainer}>
+          <Textarea
+            value={comment}
+            onChange={(value) => setComment(value)}
+            placeholder={t("additional_comment_placeholder")}
+            size="md"
+            disabled={isMoodTrackCompleted}
+          />
+          {!isMoodTrackCompleted && (
+            <View className="mood-tracker__additional-comment__button-container">
+              <AppButton
+                label={t("submit_mood_track")}
+                size="lg"
+                onPress={handleSubmit}
+                loading={addMoodTrackMutation.isLoading}
+                style={styles.submitButton}
               />
-              {!isMoodTrackCompleted && (
-                <View className="mood-tracker__additional-comment__button-container">
-                  <AppButton
-                    label={t("submit_mood_track")}
-                    size="lg"
-                    onPress={handleSubmit}
-                    loading={addMoodTrackMutation.isLoading}
-                    style={styles.submitButton}
-                  />
-                </View>
-              )}
             </View>
           )}
-        </>
-      ) : (
-        <View style={styles.loadingContianer}>
-          <Loading size="md" />
         </View>
       )}
     </Block>

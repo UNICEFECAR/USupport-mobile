@@ -115,10 +115,18 @@ export const MoodTrackHistory = ({}) => {
     setSelectedItemId(moodTrackerData[limit].entries[index].mood_tracker_id);
   };
 
+  console.log(moodTrackerData);
+
   return (
     <Block style={styles.block}>
       {!moodTrackerData[limit] ? (
-        <Loading />
+        <View style={styles.loadingContainer}>
+          <Loading />
+        </View>
+      ) : moodTrackerData[limit].entries.length === 0 ? (
+        <View style={styles.loadingContainer}>
+          <AppText>{t("no_result")}</AppText>
+        </View>
       ) : (
         <>
           <View style={styles.chartContainer}>
@@ -194,6 +202,12 @@ export const MoodTrackHistory = ({}) => {
 const styles = StyleSheet.create({
   block: {
     paddingBottom: 40,
+  },
+  loadingContainer: {
+    width: "100%",
+    height: 200,
+    justifyContent: "center",
+    alignItems: "center",
   },
   chartContainer: {
     marginTop: 20,

@@ -6,5 +6,6 @@
   "depressed": "Depressed",
   "worried": "Worried",
   "you_felt": "You felt",
-  "comment_text": "and you commented:"
+  "comment_text": "and you commented:",
+  "no_result": "No results found."
 }
