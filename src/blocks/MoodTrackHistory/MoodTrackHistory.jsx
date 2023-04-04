@@ -115,8 +115,6 @@ export const MoodTrackHistory = ({}) => {
     setSelectedItemId(moodTrackerData[limit].entries[index].mood_tracker_id);
   };
 
-  console.log(moodTrackerData);
-
   return (
     <Block style={styles.block}>
       {!moodTrackerData[limit] ? (
