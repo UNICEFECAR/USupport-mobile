@@ -63,6 +63,7 @@ export function Screen({
           <ButtonOnlyIcon
             style={styles.emergencyButton}
             onPress={() => navigation.push("SOSCenter")}
+            color="red"
           />
         )}
       </View>

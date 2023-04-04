@@ -37,7 +37,7 @@ export const HeaderNavigation = ({
         iconName="phone-emergency"
         size="sm"
         label={t("emergency_button_label")}
-        color="purple"
+        color="red"
         onPress={() => navigation.navigate("SOSCenter")}
       />
       <TouchableOpacity

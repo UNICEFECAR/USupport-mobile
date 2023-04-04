@@ -15,6 +15,7 @@ import { appStyles } from "#styles";
 export const ButtonOnlyIcon = ({
   iconName = "phone-emergency",
   iconSize = "xl",
+  color = "purple",
   style,
   ...props
 }) => {
@@ -25,6 +26,7 @@ export const ButtonOnlyIcon = ({
           appStyles.shadow1,
           styles.btn,
           pressed && styles.pressed,
+          color === "red" ? styles.red : styles.purple,
           style,
         ];
       }}
@@ -45,6 +47,12 @@ const styles = StyleSheet.create({
   pressed: {
     backgroundColor: appStyles.colorSecondaryPressed_6c16d9,
   },
+  purple: {
+    backgroundColor: appStyles.colorSecondary_9749fa,
+  },
+  red: {
+    backgroundColor: appStyles.colorRed_eb5757,
+  },
 });
 
 ButtonOnlyIcon.propTypes = {
@@ -58,12 +66,18 @@ ButtonOnlyIcon.propTypes = {
    * Icon size
    * @default: "xl"
    **/
-  iconSize: PropTypes.oneOf([, "sm", "md", "lg", "xl"]),
+  iconSize: PropTypes.oneOf(["sm", "md", "lg", "xl"]),
 
   /**
    * Additional styles to pass
    * */
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+
+  /**
+   * Button color
+   * @default: "purple"
+   * */
+  color: PropTypes.oneOf(["purple", "red"]),
 
   /**
    * Additional props to pass
