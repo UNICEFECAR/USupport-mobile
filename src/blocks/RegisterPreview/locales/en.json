@@ -2,5 +2,11 @@
   "login": "Login to the app",
   "register_email": "Register with email",
   "register_anonymously": "Access anonymously",
-  "continue_as_guest": "Continue without registration"
+  "continue_as_guest": "Continue without registration",
+  "heading_1": "About the platform",
+  "text_1": "The first platform created to make your mental health a priority, providing highly personalized psychological care.",
+  "heading_2": "About the support",
+  "text_2": "USupport provides personalized, discreet and fast psychological care for your overall well-being.",
+  "heading_3": "About you",
+  "text_3": "Your story matters! Dare to share it."
 }
