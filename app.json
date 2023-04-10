@@ -8,14 +8,16 @@
       "googleServicesFile": "./android/app/google-services.json"
     },
     "ios": {
-      "bundleIdentifier": "com.usupportmobile",
+      "bundleIdentifier": "org.unicef.ecar.usupport",
       "supportsTablet": false
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "jsEngine": "hermes",
     "extra": {
       "eas": {
-        "projectId": "600cf7c4-2e9b-4ac3-9b41-bde04a22d2fe"
+        "projectId": "94d84ded-b71b-4716-b049-e53d470a99de"
       }
     }
   }

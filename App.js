@@ -145,7 +145,7 @@ export default function App() {
     <StripeProvider
       publishableKey={STRIPE_PUBLIC_KEY}
       // urlScheme="your-url-scheme" // required for 3D Secure and bank redirects
-      // merchantIdentifier="merchant.com.{{YOUR_APP_NAME}}" // required for Apple Pay
+      // merchantIdentifier="merchant.org.unicef.ecar.usupport" // required for Apple Pay
     >
       <Context.Provider value={contextValues}>
         <QueryClientProvider client={queryClient}>

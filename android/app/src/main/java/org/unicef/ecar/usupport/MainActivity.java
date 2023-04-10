@@ -1,4 +1,4 @@
-package com.usupportmobile;
+package org.unicef.ecar.usupport;
 
 import android.os.Build;
 import android.os.Bundle;

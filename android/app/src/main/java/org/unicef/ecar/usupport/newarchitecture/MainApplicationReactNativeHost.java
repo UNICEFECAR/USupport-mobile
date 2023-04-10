@@ -1,4 +1,4 @@
-package com.usupportmobile.newarchitecture;
+package org.unicef.ecar.usupport.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -20,9 +20,9 @@ import com.facebook.react.fabric.EmptyReactNativeConfig;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.usupportmobile.BuildConfig;
-import com.usupportmobile.newarchitecture.components.MainComponentsRegistry;
-import com.usupportmobile.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import org.unicef.ecar.usupport.BuildConfig;
+import org.unicef.ecar.usupport.newarchitecture.components.MainComponentsRegistry;
+import org.unicef.ecar.usupport.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

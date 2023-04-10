@@ -1,4 +1,4 @@
-package com.usupportmobile.newarchitecture.modules;
+package org.unicef.ecar.usupport.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;

@@ -24,8 +24,8 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = USupportmobile/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = USupportmobile/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = USupportmobile/main.m; sourceTree = "<group>"; };
-		43183A5729A36F5D00474D8D /* USupportmobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = USupportmobile.entitlements; path = USupportmobile/USupportmobile.entitlements; sourceTree = "<group>"; };
-		43C724CD299D64110018940A /* USupportmobileDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = USupportmobileDebug.entitlements; path = USupportmobile/USupportmobileDebug.entitlements; sourceTree = "<group>"; };
+		43183A5729A36F5D00474D8D /* USupport.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = USupport.entitlements; path = USupportmobile/USupport.entitlements; sourceTree = "<group>"; };
+		43C724CD299D64110018940A /* USupportDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = USupportDebug.entitlements; path = USupportmobile/USupportDebug.entitlements; sourceTree = "<group>"; };
 		58EEBF8E8E6FB1BC6CAF49B5 /* libPods-USupportmobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-USupportmobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C2E3173556A471DD304B334 /* Pods-USupportmobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-USupportmobile.debug.xcconfig"; path = "Target Support Files/Pods-USupportmobile/Pods-USupportmobile.debug.xcconfig"; sourceTree = "<group>"; };
 		7A4D352CD337FB3A3BF06240 /* Pods-USupportmobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-USupportmobile.release.xcconfig"; path = "Target Support Files/Pods-USupportmobile/Pods-USupportmobile.release.xcconfig"; sourceTree = "<group>"; };
@@ -47,11 +47,11 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		13B07FAE1A68108700A75B9A /* USupportmobile */ = {
+		13B07FAE1A68108700A75B9A /* USupport */ = {
 			isa = PBXGroup;
 			children = (
-				43183A5729A36F5D00474D8D /* USupportmobile.entitlements */,
-				43C724CD299D64110018940A /* USupportmobileDebug.entitlements */,
+				43183A5729A36F5D00474D8D /* USupport.entitlements */,
+				43C724CD299D64110018940A /* USupportDebug.entitlements */,
 				BB2F792B24A3F905000567C9 /* Supporting */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -61,7 +61,7 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
 			);
-			name = USupportmobile;
+			name = USupport;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -83,7 +83,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				13B07FAE1A68108700A75B9A /* USupportmobile */,
+				13B07FAE1A68108700A75B9A /* USupport */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
@@ -140,9 +140,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		13B07F861A680F5B00A75B9A /* USupportmobile */ = {
+		13B07F861A680F5B00A75B9A /* USupport */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "USupportmobile" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "USupport" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
@@ -157,7 +157,7 @@
 			);
 			dependencies = (
 			);
-			name = USupportmobile;
+			name = USupport;
 			productName = USupportmobile;
 			productReference = 13B07F961A680F5B00A75B9A /* USupport.app */;
 			productType = "com.apple.product-type.application";
@@ -171,13 +171,12 @@
 				LastUpgradeCheck = 1130;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 36HSMFX546;
 						LastSwiftMigration = 1250;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "USupportmobile" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "USupport" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -190,7 +189,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* USupportmobile */,
+				13B07F861A680F5B00A75B9A /* USupport */,
 			);
 		};
 /* End PBXProject section */
@@ -344,9 +343,9 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = USupportmobile/USupportmobileDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 36HSMFX546;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -362,7 +361,7 @@
 					"-lc++",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = com.usupportmobile;
+				PRODUCT_BUNDLE_IDENTIFIER = org.unicef.ecar.usupport;
 				PRODUCT_NAME = USupport;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -382,8 +381,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = USupportmobile/USupportmobile.entitlements;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 36HSMFX546;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = USupportmobile/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = USupport;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -394,8 +394,9 @@
 					"-lc++",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
-				PRODUCT_BUNDLE_IDENTIFIER = com.usupportmobile;
+				PRODUCT_BUNDLE_IDENTIFIER = org.unicef.ecar.usupport;
 				PRODUCT_NAME = USupport;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
@@ -517,7 +518,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "USupportmobile" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "USupport" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -526,7 +527,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "USupportmobile" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "USupport" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
