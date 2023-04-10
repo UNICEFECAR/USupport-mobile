@@ -57,3 +57,6 @@ dist/
 
 .history
 .env
+android/app/google-services.json
+extract-translations.py
+jsonToCsv.js
