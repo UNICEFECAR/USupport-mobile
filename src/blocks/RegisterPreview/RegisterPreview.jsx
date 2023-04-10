@@ -55,23 +55,23 @@ export const RegisterPreview = ({ navigation }) => {
 
   const carouselItems = [
     {
-      heading: "What to expect from us",
-      text: "The first platform created to make your mental health a priority, providing highly personalized psychological care.",
+      heading: "heading_1",
+      text: "text_1",
     },
     {
-      heading: "What to expect from us",
-      text: "The first platform created to make your mental health a priority, providing highly personalized psychological care.",
+      heading: "heading_2",
+      text: "text_2",
     },
     {
-      heading: "What to expect from us",
-      text: "The first platform created to make your mental health a priority, providing highly personalized psychological care.",
+      heading: "heading_3",
+      text: "text_3",
     },
   ];
 
   const renderCarouselItems = ({ item, index }) => (
     <View key={index} style={styles.carouselItem}>
-      <AppText namedStyle="h3">{item.heading}</AppText>
-      <AppText style={styles.carouselItemText}>{item.text}</AppText>
+      <AppText namedStyle="h3">{t(item.heading)}</AppText>
+      <AppText style={styles.carouselItemText}>{t(item.text)}</AppText>
     </View>
   );
 

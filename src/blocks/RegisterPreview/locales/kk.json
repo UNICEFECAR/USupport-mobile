@@ -2,5 +2,11 @@
   "login": "Қосымшаға кіру",
   "register_email": "Электронды пошта арқылы тіркеліңіз",
   "register_anonymously": "Анонимді түрде қол жеткізіңіз",
-  "continue_as_guest": "Тіркеусіз жалғастыру"
+  "continue_as_guest": "Тіркеусіз жалғастыру",
+  "heading_1": "About the platform",
+  "text_1": "The first platform created to make your mental health a priority, providing highly personalized psychological care.",
+  "heading_2": "About the support",
+  "text_2": "USupport provides personalized, discreet and fast psychological care for your overall well-being.",
+  "heading_3": "About you",
+  "text_3": "Your story matters! Dare to share it."
 }
