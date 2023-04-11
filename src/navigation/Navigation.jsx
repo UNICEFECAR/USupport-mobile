@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Platform } from "react-native";
+import { Platform, PermissionsAndroid } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { NavigationContainer } from "@react-navigation/native";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
+
+import messaging from "@react-native-firebase/messaging";
 
 import { AppNavigation } from "./AppNavigation";
 import { AuthNavigation } from "./AuthNavigation";
@@ -20,12 +22,21 @@ const kazakhstanCountry = {
   iconName: "KZ",
 };
 
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
+
 export function Navigation() {
   const [hasSavedPushToken, setHasSavedPushToken] = useState(false);
   const [hasAuthenticatedWithPin, setHasAuthenticatedWithPin] = useState(false);
 
   const { token, setCurrencySymbol, isTmpUser, userPin, hasCheckedTmpUser } =
     useContext(Context);
+
   const getClientDataEnabled = !!(
     (isTmpUser === false ? true : false) && token
   );
@@ -130,9 +141,7 @@ export function Navigation() {
   );
 }
 
-const registerForPushNotifications = async () => {
-  let token;
-
+const askForPermissions = async () => {
   if (Platform.OS === "android") {
     await Notifications.setNotificationChannelAsync("default", {
       name: "default",
@@ -140,22 +149,45 @@ const registerForPushNotifications = async () => {
       vibrationPattern: [0, 250, 250, 250],
       lightColor: "#FF231F7C",
     });
+
+    if (Device.platformApiLevel >= 33) {
+      const alreadyGranted = await PermissionsAndroid.check(
+        PermissionsAndroid.PERMISSIONS.POST_NOTIFICATION
+      );
+
+      if (!alreadyGranted) {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.POST_NOTIFICATION
+        );
+
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
+    return true;
+  } else {
+    await messaging().registerDeviceForRemoteMessages();
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+    if (enabled) {
+      return true;
+    }
+    return false;
   }
+};
 
-  if (Device.isDevice) {
-    const permissionsData = await Notifications.getPermissionsAsync();
-    let status = permissionsData.status;
+const registerForPushNotifications = async () => {
+  let token;
 
-    if (permissionsData.canAskAgain && status !== "granted") {
-      const { status: newStatus } =
-        await Notifications.requestPermissionsAsync();
-      status = newStatus;
-    }
-    let finalStatus = status;
-    if (finalStatus === "granted") {
-      const pushTokenData = await Notifications.getExpoPushTokenAsync();
-      token = pushTokenData.data;
-    }
+  const hasPermission = await askForPermissions();
+  if (hasPermission) {
+    token = await messaging().getToken();
   }
   return token;
 };

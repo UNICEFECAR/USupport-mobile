@@ -9,11 +9,10 @@
     },
     "ios": {
       "bundleIdentifier": "org.unicef.ecar.usupport",
-      "supportsTablet": false
+      "supportsTablet": false,
+      "googleServicesFile": "./ios/GoogleService-Info.plist"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "jsEngine": "hermes",
     "extra": {
       "eas": {

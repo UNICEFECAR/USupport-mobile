@@ -3,12 +3,6 @@
 <plist version="1.0">
 	<dict>
 		<key>aps-environment</key>
-		<string>production</string>
-		<key>com.apple.developer.in-app-payments</key>
-		<array>
-			<string>merchant.org.unicef.ecar.usupport</string>
-		</array>
-		<key>com.apple.developer.push-to-talk</key>
-		<true/>
+		<string>development</string>
 	</dict>
 </plist>

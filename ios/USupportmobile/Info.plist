@@ -46,6 +46,11 @@
 	<string>Allow $(PRODUCT_NAME) to use FaceID</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Please allow access to your microphone</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>SplashScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
