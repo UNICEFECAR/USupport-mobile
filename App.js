@@ -1,6 +1,8 @@
+import codePush from "react-native-code-push";
+
 import React, { useCallback, useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Alert, Platform } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import FlashMessage from "react-native-flash-message";
@@ -42,7 +44,7 @@ const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchInterval: FIVE_MINUTES } },
 });
 
-export default function App() {
+function App() {
   let [loaded, error] = useFonts({
     Nunito_300Light,
     Nunito_400Regular,
@@ -81,6 +83,60 @@ export default function App() {
     localStorage.removeItem("expires-in");
     setToken(null);
   };
+
+  const showToast = ({ message, type = "info" }) => {
+    Alert.alert(message);
+  };
+
+  useEffect(() => {
+    codePush.notifyApplicationReady();
+    codePush
+      .sync(
+        {
+          installMode: codePush.InstallMode.IMMEDIATE,
+          minimumBackgroundDuration: 5,
+          updateDialog: true,
+          rollbackRetryOptions: 0,
+          maxRetryAttempts: 999,
+          deploymentKey:
+            Platform.OS === "android"
+              ? process.env.CODEPUSH_ANDROID_DEPLOYMENT_KEY
+              : process.env.CODEPUSH_IOS_DEPLOYMENT_KEY,
+        },
+        (status) => {
+          console.log(status, "status here");
+          switch (status) {
+            case codePush.SyncStatus.CHECKING_FOR_UPDATE:
+              showToast({ message: "Checking for updates." });
+              break;
+            case codePush.SyncStatus.DOWNLOADING_PACKAGE:
+              showToast({ message: "Downloading package." });
+              break;
+            case codePush.SyncStatus.INSTALLING_UPDATE:
+              showToast({ message: "Installing update." });
+              break;
+            case codePush.SyncStatus.UP_TO_DATE:
+              showToast({ message: "App up to date." });
+              break;
+            case codePush.SyncStatus.UPDATE_IGNORED:
+              showToast({
+                message: "Update cancelled by user.",
+                type: "error",
+              });
+              break;
+            case codePush.SyncStatus.UPDATE_INSTALLED:
+              showToast({
+                message: "Update installed and will be applied on restart.",
+                type: "success",
+              });
+              break;
+          }
+        }
+      )
+      .catch((err) => {
+        console.log(err, "err");
+      });
+  }, []);
 
   useEffect(() => {
     SplashScreen.preventAutoHideAsync();
@@ -174,6 +230,17 @@ export default function App() {
     </StripeProvider>
   );
 }
+
+let codePushOptions = {
+  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
+  installMode: codePush.InstallMode.IMMEDIATE,
+  deploymentKey:
+    Platform.OS === "android"
+      ? process.env.CODEPUSH_ANDROID_DEPLOYMENT_KEY
+      : process.env.CODEPUSH_IOS_DEPLOYMENT_KEY,
+};
+
+export default codePush(codePushOptions)(App);
 
 const styles = StyleSheet.create({
   container: {

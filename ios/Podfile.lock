@@ -1,9 +1,15 @@
 PODS:
+  - Base64 (1.1.2)
   - BCrypt (1.0.0)
   - bcrypt-react-native (1.1.1):
     - BCrypt
     - React
   - boost (1.76.0)
+  - CodePush (8.0.0):
+    - Base64 (~> 1.1)
+    - JWT (~> 3.0.0-beta.12)
+    - React-Core
+    - SSZipArchive (~> 2.2.2)
   - DoubleConversion (1.1.6)
   - EXApplication (5.0.1):
     - ExpoModulesCore
@@ -157,6 +163,8 @@ PODS:
   - GoogleUtilities/UserDefaults (7.11.1):
     - GoogleUtilities/Logger
   - hermes-engine (0.70.5)
+  - JWT (3.0.0-beta.14):
+    - Base64 (~> 1.1.2)
   - libevent (2.1.12)
   - lottie-ios (3.4.1)
   - lottie-react-native (5.1.4):
@@ -517,6 +525,7 @@ PODS:
     - React-Core
   - RNSVG (13.4.0):
     - React-Core
+  - SSZipArchive (2.2.3)
   - Stripe (23.3.4):
     - StripeApplePay (= 23.3.4)
     - StripeCore (= 23.3.4)
@@ -559,6 +568,7 @@ PODS:
 DEPENDENCIES:
   - bcrypt-react-native (from `../node_modules/bcrypt-react-native`)
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
+  - CodePush (from `../node_modules/react-native-code-push`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - EXApplication (from `../node_modules/expo-application/ios`)
   - EXConstants (from `../node_modules/expo-constants/ios`)
@@ -630,6 +640,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - Base64
     - BCrypt
     - Firebase
     - FirebaseAnalytics
@@ -642,9 +653,11 @@ SPEC REPOS:
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleUtilities
+    - JWT
     - libevent
     - nanopb
     - PromisesObjC
+    - SSZipArchive
     - Stripe
     - StripeApplePay
     - StripeCore
@@ -660,6 +673,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/bcrypt-react-native"
   boost:
     :podspec: "../node_modules/react-native/third-party-podspecs/boost.podspec"
+  CodePush:
+    :path: "../node_modules/react-native-code-push"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
   EXApplication:
@@ -788,9 +803,11 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
+  Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   BCrypt: 712b656110e5020d319c547e4d8f3053ded82b2a
   bcrypt-react-native: 399775585257ae6c8717370a1119c7da0113e3bf
   boost: a7c83b31436843459a1961bfd74b96033dc77234
+  CodePush: aa3cc7e07b4e9396ab2e5d7dbbf317037cba6ff4
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
   EXApplication: 034b1c40a8e9fe1bff76a1e511ee90dff64ad834
   EXConstants: 3c86653c422dd77e40d10cbbabb3025003977415
@@ -823,6 +840,7 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 8378d1fa8ac49753ea6ce70d65a7cb70ce5f66e6
   GoogleUtilities: 9aa0ad5a7bc171f8bae016300bfcfa3fb8425749
   hermes-engine: 7fe5fc6ef707b7fdcb161b63898ec500e285653d
+  JWT: ef71dfb03e1f842081e64dc42eef0e164f35d251
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   lottie-ios: 016449b5d8be0c3dcbcfa0a9988469999cd04c5d
   lottie-react-native: b702fab740cdb952a8e2354713d3beda63ff97b0
@@ -866,6 +884,7 @@ SPEC CHECKSUMS:
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
   RNShare: eaee3dd5a06dad397c7d3b14762007035c5de405
   RNSVG: 07dbd870b0dcdecc99b3a202fa37c8ca163caec2
+  SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   Stripe: 7393b16fe555d4a68e6555044e7b57eff11ae547
   stripe-react-native: a61faec75ab20f53fd866074c4f71021ab4807c7
   StripeApplePay: 174b09c0211134417e340c68af199a3dd34f3cd6

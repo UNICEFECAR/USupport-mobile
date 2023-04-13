@@ -1,5 +1,5 @@
 {
-  "name": "usupport-mobile",
+  "name": "UsupportMobile",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -45,6 +45,7 @@
     "react-native": "0.70.5",
     "react-native-animated-pagination-dot": "^0.4.0",
     "react-native-chart-kit": "^6.12.0",
+    "react-native-code-push": "7.1.0",
     "react-native-curved-bottom-bar": "^2.1.4",
     "react-native-dotenv": "^3.4.7",
     "react-native-flash-message": "^0.4.0",
