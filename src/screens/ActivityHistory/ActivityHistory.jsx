@@ -61,7 +61,7 @@ export const ActivityHistory = ({ navigation, route }) => {
         selectedSlot: selectedSlot.current,
       });
     } else {
-      scheduleConsultationMutation.mutate({ consultationId });
+      scheduleConsultationMutation.mutate(consultationId);
     }
   };
   const onBlockSlotError = (error) => {
