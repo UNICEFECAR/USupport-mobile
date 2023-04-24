@@ -9,6 +9,8 @@ export function useGetClientQuestions(enabled) {
   const getClientQuestions = async () => {
     const { data } = await clientSvc.getClientQuestions();
     return data.map((question) => {
+      const questionProviderData = question.providerData || {};
+
       return {
         answerId: question.answer_id,
         answerText: question.answer_text,
@@ -16,12 +18,13 @@ export function useGetClientQuestions(enabled) {
         dislikes: question.dislikes,
         likes: question.likes,
         providerData: {
-          providerId: question.providerData.provider_detail_id,
-          ...question.providerData,
+          providerId: questionProviderData?.provider_detail_id,
+          ...questionProviderData,
         },
         providerDetailId: question.provider_detail_id,
         question: question.question,
-        tags: tags,
+        questionCreatedAt: question.question_created_at,
+        tags: question.tags,
       };
     });
   };
@@ -29,7 +32,7 @@ export function useGetClientQuestions(enabled) {
   const getClientQuestionsQuery = useQuery(
     ["getClientQuestions"],
     getClientQuestions,
-    { enabled: !!enabled }
+    { enabled: !!enabled, onError: console.error }
   );
 
   return getClientQuestionsQuery;

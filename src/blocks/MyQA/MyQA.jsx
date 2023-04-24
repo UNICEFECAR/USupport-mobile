@@ -9,6 +9,7 @@ import {
   Tabs,
   AppButton,
   Answer,
+  AppText,
 } from "#components";
 
 /**
@@ -48,7 +49,7 @@ export const MyQA = ({
   };
 
   const renderQuestions = () => {
-    return questions.map((question, index) => {
+    const filteredQuestions = questions.filter((question) => {
       if (filterTag) {
         const tags = question.tags;
         if (!tags.includes(filterTag)) {
@@ -56,16 +57,29 @@ export const MyQA = ({
         }
       }
 
-      if (searchValue) {
+      const value = searchValue.toLowerCase();
+      if (value) {
         if (
-          !question.answerTitle
-            .toLowerCase()
-            .includes(searchValue.toLowerCase()) &&
-          !question.answerText.toLowerCase().includes(searchValue.toLowerCase())
-        )
+          !question.answerTitle?.toLowerCase().includes(value) &&
+          !question.answerText?.toLowerCase().includes(value) &&
+          !question.tags?.find((x) => x.toLowerCase().includes(value))
+        ) {
           return null;
+        }
       }
 
+      return question;
+    });
+
+    if (!filteredQuestions.length) {
+      return (
+        <AppText style={styles.noQuestionsText}>
+          {t("no_questions_found")}
+        </AppText>
+      );
+    }
+
+    return filteredQuestions.map((question, index) => {
       return (
         <Answer
           question={question}
@@ -133,4 +147,5 @@ const styles = StyleSheet.create({
   askButton: { marginTop: 20 },
   answer: { marginTop: 24 },
   answersContainer: { width: "100%", paddingBottom: 90 },
+  noQuestionsText: { marginTop: 20, alignSelf: "center" },
 });

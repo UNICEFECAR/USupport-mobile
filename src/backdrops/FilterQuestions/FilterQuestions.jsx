@@ -28,7 +28,7 @@ export const FilterQuestions = ({ isOpen, onClose, selectedTag, setTag }) => {
   };
   const tagsQuery = useGetQuestionsTags(onSuccess);
 
-  const [selectedTagId, setSelectedTagId] = useState({});
+  const [selectedTagId, setSelectedTagId] = useState();
 
   const handleSave = () => {
     const selectedTag = tags.find((tag) => tag.id === selectedTagId).label;
@@ -52,6 +52,7 @@ export const FilterQuestions = ({ isOpen, onClose, selectedTag, setTag }) => {
       secondaryCtaStyle={{ marginBottom: 85 }}
       secondaryCtaLabel={t("reset_label")}
       secondaryCtaHandleClick={handleReset}
+      secondaryCtaType="secondary"
     >
       {tagsQuery.isLoading ? (
         <View style={styles.loadingContainer}>
