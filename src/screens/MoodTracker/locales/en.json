@@ -1,4 +1,5 @@
 {
     "heading": "Mood tracker",
-    "subheading": "Here you can check your mood tracking and progress "
+    "subheading": "Here you can check your mood tracking and progress ",
+    "emergency_button_label": "Emergency help"
 }

@@ -5,7 +5,13 @@ import { View, StyleSheet, TouchableOpacity, Pressable } from "react-native";
 
 import { Icon } from "#components";
 
-import { Dashboard, InformationalPortal, Consultations } from "#screens";
+import {
+  Dashboard,
+  InformationalPortal,
+  MyQA,
+  Consultations,
+  MoodTracker,
+} from "#screens";
 
 import { appStyles } from "#styles";
 
@@ -17,10 +23,22 @@ const screens = [
     position: "LEFT",
   },
   {
+    name: "MoodTrackHistory",
+    component: MoodTracker,
+    iconName: "mood",
+    position: "RIGHT",
+  },
+  {
+    name: "MyQA",
+    component: MyQA,
+    iconName: "my-qa",
+    position: "RIGHT",
+  },
+  {
     name: "InformationalPortal",
     component: InformationalPortal,
     iconName: "read-book",
-    position: "RIGHT",
+    position: "LEFT",
   },
   {
     name: "Consultations",

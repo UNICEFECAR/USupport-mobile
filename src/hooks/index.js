@@ -39,3 +39,8 @@ export * from "./useGetMoodTrackForToday.js";
 export * from "./useGetMoodTrackEntries.js";
 export * from "./useAddPushNotificationToken.js";
 export * from "./useLogout.js";
+export * from "./useAddQuestion";
+export * from "./useAddVoteQuestion.js";
+export * from "./useGetClientQuestions.js";
+export * from "./useGetQuestions.js";
+export * from "./useGetQuestionsTags.js";

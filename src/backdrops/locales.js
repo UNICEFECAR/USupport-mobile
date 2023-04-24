@@ -8,3 +8,6 @@ export * as DeleteAccount from "./DeleteAccount/locales";
 export * as ChangePassword from "./ChangePassword/locales";
 export * as SelectAvatar from "./SelectAvatar/locales";
 export * as DeleteProfilePicture from "./DeleteProfilePicture/locales";
+export * as CreateQuestion from "./CreateQuestion/locales";
+export * as QuestionDetails from "./QuestionDetails/locales";
+export * as FilterQuestions from "./FilterQuestions/locales";

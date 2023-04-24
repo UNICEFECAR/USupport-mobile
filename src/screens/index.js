@@ -34,3 +34,4 @@ export * from "./PaymentHistory";
 export * from "./ChangePasscode";
 export * from "./LocalAuthenticationScreen";
 export * from "./TermsOfUse";
+export * from "./MyQA";

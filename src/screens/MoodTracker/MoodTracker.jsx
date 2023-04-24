@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
 
 import { Screen, Block, Heading } from "#components";
@@ -16,13 +16,19 @@ export const MoodTracker = ({ navigation }) => {
   const { t } = useTranslation("mood-tracker-screen");
 
   return (
-    <Screen>
+    <Screen
+      hasEmergencyButton={false}
+      hasHeaderNavigation
+      t={t}
+      style={styles.screen}
+    >
       <ScrollView>
         <Block>
           <Heading
             heading={t("heading")}
             handleGoBack={() => navigation.goBack()}
             subheading={t("subheading")}
+            hasGoBackArrow={false}
           />
         </Block>
         <MoodTrackHistory />
@@ -30,3 +36,9 @@ export const MoodTracker = ({ navigation }) => {
     </Screen>
   );
 };
+
+const styles = StyleSheet.create({
+  screen: {
+    paddingTop: 55,
+  },
+});

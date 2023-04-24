@@ -24,17 +24,18 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     objectFit: "cover",
   },
-
+  xs: {
+    width: 26,
+    height: 26,
+  },
   sm: {
     width: 32,
     height: 32,
   },
-
   md: {
     width: 56,
     height: 56,
   },
-
   lg: {
     width: 80,
     height: 80,
@@ -52,7 +53,7 @@ Avatar.propTypes = {
    * @default "sm"
    * @type {"sm" | "md"}
    * */
-  size: PropTypes.oneOf(["sm", "md", "lg"]),
+  size: PropTypes.oneOf(["xs", "sm", "md", "lg"]),
 
   /**
    * Additional styles for the component

@@ -302,6 +302,11 @@ async function getConsultationsTime(consultationId) {
   return res;
 }
 
+async function getQuestionTags() {
+  const res = await http.get(`${API_ENDPOINT}/my-qa/tags`);
+  return res;
+}
+
 const exportedFunctions = {
   addAvailableSlot,
   addTemplateAvailability,
@@ -336,5 +341,6 @@ const exportedFunctions = {
   deleteProviderByIdAsAdmin,
   leaveConsultation,
   getConsultationsTime,
+  getQuestionTags,
 };
 export default exportedFunctions;

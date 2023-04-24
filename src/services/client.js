@@ -135,6 +135,34 @@ async function unblockSlot(consultationId) {
   return response;
 }
 
+async function addQuestion(question) {
+  const response = await http.post(
+    `${API_ENDPOINT}/my-qa/create-question`,
+    question
+  );
+  return response;
+}
+
+async function getClientQuestions() {
+  const response = await http.get(`${API_ENDPOINT}/my-qa/client-questions`);
+  return response;
+}
+
+async function getQuestions(orderBy) {
+  const response = await http.get(
+    `${API_ENDPOINT}/my-qa/questions?orderBy=${orderBy}`
+  );
+  return response;
+}
+
+async function addQuestionVote(answerId, vote) {
+  const response = await http.post(`${API_ENDPOINT}/my-qa/answer-vote`, {
+    answerId,
+    vote,
+  });
+  return response;
+}
+
 const exportedFunctions = {
   addMoodTrack,
   getClientData,
@@ -155,6 +183,10 @@ const exportedFunctions = {
   addPushNotificationToken,
   checkIsCouponAvailable,
   unblockSlot,
+  addQuestion,
+  getClientQuestions,
+  getQuestions,
+  addQuestionVote,
 };
 
 export default exportedFunctions;

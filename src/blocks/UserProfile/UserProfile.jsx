@@ -92,14 +92,6 @@ export const UserProfile = ({ navigation }) => {
             }}
             style={[styles.buttonSelector, styles.buttonSelectorFirstInGroup]}
           />
-          {!isTmpUser && (
-            <ButtonSelector
-              label={t("mood_tracker_button_label")}
-              onPress={() => handleRedirect("MoodTracker")}
-              iconName="mood"
-              style={styles.buttonSelector}
-            />
-          )}
         </View>
 
         <View style={styles.group}>

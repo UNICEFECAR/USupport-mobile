@@ -36,6 +36,7 @@ import {
   UserProfile,
   Welcome,
   MoodTrackHistory,
+  MyQA,
 } from "./src/blocks/locales.js";
 
 import {
@@ -60,6 +61,7 @@ import {
   SharePlatform as SharePlatformScreen,
   SOSCenter as SOSCenterScreen,
   LocalAuthenticationScreen,
+  MyQA as MyQAScreen,
 } from "./src/screens/locales.js";
 
 import {
@@ -73,6 +75,9 @@ import {
   JoinConsultation,
   SelectAvatar,
   SelectConsultation,
+  CreateQuestion,
+  QuestionDetails,
+  FilterQuestions,
 } from "./src/backdrops/locales.js";
 
 import {
@@ -80,6 +85,7 @@ import {
   PaymentInformation,
   RequireDataAgreemant,
   RequireRegistration,
+  HowItWorksMyQA,
 } from "./src/modals/locales.js";
 
 const resources = {
@@ -114,6 +120,7 @@ const resources = {
     "user-profile": UserProfile.en,
     welcome: Welcome.en,
     "mood-track-history": MoodTrackHistory.en,
+    "my-qa": MyQA.en,
 
     // Screens
     "activity-history": ActivityHistory.en,
@@ -142,6 +149,7 @@ const resources = {
     "select-provider-screen": SelectProviderScreen.en,
     "share-platform-screen": SharePlatformScreen.en,
     "sos-center-screen": SOSCenterScreen.en,
+    "my-qa-screen": MyQAScreen.en,
 
     // Backdrops
     "cancel-consultation": CancelConsultation.en,
@@ -154,12 +162,16 @@ const resources = {
     "join-consultation": JoinConsultation.en,
     "select-avatar": SelectAvatar.en,
     "select-consultation": SelectConsultation.en,
+    "create-question": CreateQuestion.en,
+    "question-details": QuestionDetails.en,
+    "filter-questions": FilterQuestions.en,
 
     // Modals
     "mood-tracker-more-information": MoodTrackerMoreInformation.en,
     "payment-information": PaymentInformation.en,
     "require-data-agreement": RequireDataAgreemant.en,
     "require-registration": RequireRegistration.en,
+    "how-it-works-my-qa": HowItWorksMyQA.en,
   },
 
   ru: {
@@ -233,12 +245,16 @@ const resources = {
     "join-consultation": JoinConsultation.ru,
     "select-avatar": SelectAvatar.ru,
     "select-consultation": SelectConsultation.ru,
+    "create-question": CreateQuestion.ru,
+    "question-details": QuestionDetails.ru,
+    "filter-questions": FilterQuestions.ru,
 
     // Modals
     "mood-tracker-more-information": MoodTrackerMoreInformation.ru,
     "payment-information": PaymentInformation.ru,
     "require-data-agreement": RequireDataAgreemant.ru,
     "require-registration": RequireRegistration.ru,
+    "how-it-works-my-qa": HowItWorksMyQA.ru,
   },
 
   kk: {
@@ -312,12 +328,16 @@ const resources = {
     "join-consultation": JoinConsultation.kk,
     "select-avatar": SelectAvatar.kk,
     "select-consultation": SelectConsultation.kk,
+    "create-question": CreateQuestion.kk,
+    "question-details": QuestionDetails.kk,
+    "filter-questions": FilterQuestions.kk,
 
     // Modals
     "mood-tracker-more-information": MoodTrackerMoreInformation.kk,
     "payment-information": PaymentInformation.kk,
     "require-data-agreement": RequireDataAgreemant.kk,
     "require-registration": RequireRegistration.kk,
+    "how-it-works-my-qa": HowItWorksMyQA.kk,
   },
 };
 
