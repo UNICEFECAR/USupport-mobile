@@ -89,8 +89,14 @@ project.ext.react = [
     composeSourceMapsPath: "${reactNativeRoot}/scripts/compose-source-maps.js",
 ]
 
+project.ext.envConfigFiles = [
+    debug: ".env.development",
+    release: ".env.production",
+]
+
 apply from: new File(reactNativeRoot, "react.gradle")
 apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:

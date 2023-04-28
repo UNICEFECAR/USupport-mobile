@@ -11,7 +11,7 @@ install! 'cocoapods',
 
 
 
-target 'USupport' do
+abstract_target 'USupportCommonPods' do
   use_expo_modules!
   config = use_native_modules!
 
@@ -38,6 +38,13 @@ target 'USupport' do
     # Note that if you have use_frameworks! enabled, Flipper will not work
     # :flipper_configuration => !ENV['CI'] ? FlipperConfiguration.enabled : FlipperConfiguration.disabled,
   )
+
+  target 'USupport' do
+  end
+  
+  target 'USupportDev' do
+  end
+  
 
   post_install do |installer|
     react_native_post_install(
