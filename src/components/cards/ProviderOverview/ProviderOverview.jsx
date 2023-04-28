@@ -9,7 +9,8 @@ import { getDayOfTheWeek, getDateView } from "#utils";
 
 import { appStyles } from "#styles";
 
-import { AMAZON_S3_BUCKET } from "@env";
+import Config from "react-native-config";
+const { AMAZON_S3_BUCKET } = Config;
 
 /**
  * ProviderOverview

@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 
-import { SelectConsultation, ConfirmConsultation } from "#backdrops";
+import { SelectConsultation } from "../SelectConsultation";
+import { ConfirmConsultation } from "../ConfirmConsultation";
 import { RequireDataAgreement } from "#modals";
 import { useBlockSlot, useScheduleConsultation } from "#hooks";
 

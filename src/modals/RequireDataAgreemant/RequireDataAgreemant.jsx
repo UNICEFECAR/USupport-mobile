@@ -14,7 +14,8 @@ import { clientSvc } from "#services";
 
 import { showToast } from "../../utils/showToast";
 
-import { WEBSITE_URL } from "@env";
+import Config from "react-native-config";
+const { WEBSITE_URL } = Config;
 
 /**
  * RequireDataAgreement

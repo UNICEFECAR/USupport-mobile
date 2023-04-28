@@ -10,7 +10,8 @@ import { useGetClientData } from "#hooks";
 
 import { appStyles } from "#styles";
 
-import { AMAZON_S3_BUCKET } from "@env";
+import Config from "react-native-config";
+const { AMAZON_S3_BUCKET } = Config;
 
 export const HeaderNavigation = ({
   t,

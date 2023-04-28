@@ -14,7 +14,8 @@ import { useError } from "#hooks";
 import { appStyles } from "#styles";
 import { showToast } from "#utils";
 
-import { AMAZON_S3_BUCKET } from "@env";
+import Config from "react-native-config";
+const { AMAZON_S3_BUCKET } = Config;
 
 /**
  * SelectAvatar

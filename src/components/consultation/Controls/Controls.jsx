@@ -149,9 +149,12 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     justifyContent: "center",
-    width: 40,
-    height: 40,
-    borderRadius: 40 / 2,
+    width: 55,
+    height: 55,
+    borderRadius: 55 / 2,
+    borderWidth: 1,
+    borderColor: appStyles.colorPrimary_20809e,
+    padding: 11,
     // backgroundColor: appStyles.colorPrimary_20809e,
   },
   buttonHangup: {

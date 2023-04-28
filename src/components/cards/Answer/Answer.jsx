@@ -1,5 +1,5 @@
 import React from "react";
-
+import Config from "react-native-config";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 
 import { AppText } from "../../texts";
@@ -11,7 +11,7 @@ import { Line } from "../../separators";
 
 import { appStyles } from "#styles";
 
-import { AMAZON_S3_BUCKET } from "@env";
+const { AMAZON_S3_BUCKET } = Config;
 
 /**
  * Answer

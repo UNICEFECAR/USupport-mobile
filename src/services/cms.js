@@ -1,6 +1,7 @@
 import http from "./http";
 
-import { CMS_API_URL_ENDPOINT } from "@env";
+import Config from "react-native-config";
+const { CMS_API_URL_ENDPOINT } = Config;
 
 const CMS_API_URL = `${CMS_API_URL_ENDPOINT}`;
 

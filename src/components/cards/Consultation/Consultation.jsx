@@ -7,7 +7,8 @@ import { appStyles } from "#styles";
 import { Icon } from "../../icons/Icon";
 import { AppButton } from "../../buttons/AppButton/AppButton";
 
-import { AMAZON_S3_BUCKET } from "@env";
+import Config from "react-native-config";
+const { AMAZON_S3_BUCKET } = Config;
 import { getDayOfTheWeek, getDateView, checkIsFiveMinutesBefore } from "#utils";
 
 /**

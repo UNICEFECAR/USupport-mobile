@@ -13,7 +13,8 @@ import {
   getOrdinal,
 } from "#utils";
 import { mascotHappyBlue } from "#assets";
-import { AMAZON_S3_BUCKET } from "@env";
+import Config from "react-native-config";
+const { AMAZON_S3_BUCKET } = Config;
 
 /**
  * CardConsultationBig

@@ -57,6 +57,7 @@ export const Backdrop = ({
   errorMessage,
   customRender = false,
   hasKeyboardListener = false,
+  handleCloseIconPress,
 }) => {
   const hasButtons = ctaLabel || secondaryCtaLabel;
   const [isOverlayShown, setIsOverlayShown] = useState(false);
@@ -112,6 +113,11 @@ export const Backdrop = ({
     }
   };
 
+  const handleCustomClose = () => {
+    handleCloseBackdrop();
+    handleCloseIconPress();
+  };
+
   const Overlay = () => (
     <TouchableWithoutFeedback onPress={handleCloseBackdrop}>
       <View style={styles.overlay} />
@@ -126,7 +132,11 @@ export const Backdrop = ({
           children
         ) : (
           <View>
-            <TouchableOpacity onPress={handleCloseBackdrop}>
+            <TouchableOpacity
+              onPress={
+                handleCloseIconPress ? handleCustomClose : handleCloseBackdrop
+              }
+            >
               <Icon
                 name="close-x"
                 size="md"
@@ -247,7 +257,7 @@ const styles = StyleSheet.create({
     zIndex: 99,
   },
   header: {
-    width: "90%",
+    width: "80%",
   },
   headingText: {
     color: appStyles.colorBlue_3d527b,
@@ -273,7 +283,6 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     backgroundColor: "white",
     position: "absolute",
-    bottom: 0,
     width: "100%",
     alignSelf: "center",
   },

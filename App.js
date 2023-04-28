@@ -9,7 +9,9 @@ import FlashMessage from "react-native-flash-message";
 import { StripeProvider } from "@stripe/stripe-react-native";
 import * as Notifications from "expo-notifications";
 
-import { STRIPE_PUBLIC_KEY } from "@env";
+import Config from "react-native-config";
+
+const { STRIPE_PUBLIC_KEY } = Config;
 
 import {
   useFonts,

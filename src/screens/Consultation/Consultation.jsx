@@ -30,7 +30,8 @@ import { localStorage } from "#services";
 import { showToast } from "#utils";
 import { appStyles } from "#styles";
 
-import { SOCKET_IO_URL } from "@env";
+import Config from "react-native-config";
+const { SOCKET_IO_URL } = Config;
 
 /**
  * Consultation

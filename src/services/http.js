@@ -2,7 +2,10 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 import localStorage from "./storage";
 import { log } from "./log";
-import { API_URL_ENDPOINT, CMS_API_URL_ENDPOINT } from "@env";
+import Config from "react-native-config";
+
+const { API_URL_ENDPOINT, CMS_API_URL_ENDPOINT } = Config;
+
 const API_ENDPOINT = `${API_URL_ENDPOINT}/v1/user`;
 
 // On every request add the JWT token, language and country to the headers

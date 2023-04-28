@@ -10,7 +10,8 @@ import { useGetProviderDataById } from "#hooks";
 
 import { Context } from "#services";
 
-import { AMAZON_S3_BUCKET } from "@env";
+import Config from "react-native-config";
+const { AMAZON_S3_BUCKET } = Config;
 
 /**
  * ProviderOverview

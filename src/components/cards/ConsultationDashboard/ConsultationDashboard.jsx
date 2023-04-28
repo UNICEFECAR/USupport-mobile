@@ -11,7 +11,8 @@ import {
   getMonthName,
   getOrdinal,
 } from "#utils";
-import { AMAZON_S3_BUCKET } from "@env";
+import Config from "react-native-config";
+const { AMAZON_S3_BUCKET } = Config;
 
 /**
  * ConsultationDashboard

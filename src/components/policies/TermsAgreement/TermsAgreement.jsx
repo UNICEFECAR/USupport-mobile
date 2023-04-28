@@ -5,7 +5,8 @@ import { AppText } from "../../texts";
 
 import { appStyles } from "#styles";
 
-import { WEBSITE_URL } from "@env";
+import Config from "react-native-config";
+const { WEBSITE_URL } = Config;
 
 export const TermsAgreement = ({
   isChecked,

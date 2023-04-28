@@ -5,8 +5,9 @@ import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Backdrop, AppText, Icon, Like, Label, Avatar } from "#components";
 import { appStyles } from "#styles";
 import { isDateToday } from "#utils";
+import Config from "react-native-config";
 
-import { AMAZON_S3_BUCKET } from "@env";
+const { AMAZON_S3_BUCKET } = Config;
 
 /**
  * QuestionDetails

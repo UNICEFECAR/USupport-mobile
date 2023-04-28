@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -12,8 +12,6 @@ import * as Clipboard from "expo-clipboard";
 
 import "fast-text-encoding";
 import Joi from "joi";
-
-import { showToast } from "#utils";
 
 import {
   AppButton,
@@ -31,13 +29,20 @@ import {
 } from "#components";
 
 import { userSvc, localStorage, Context } from "#services";
-import { validate, validateProperty } from "#utils";
+import { validate, validateProperty, showToast } from "#utils";
 import { useError } from "#hooks";
-import { appStyles } from "#styles";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withSequence,
+  withTiming,
+} from "react-native-reanimated";
 
 export const RegisterAnonymous = ({ navigation }) => {
   const { t } = useTranslation("register-anonymous");
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const [hasCopied, setHasCopied] = useState(false);
 
   const { setToken, setInitialRouteName } = useContext(Context);
   const schema = Joi.object({
@@ -47,8 +52,6 @@ export const RegisterAnonymous = ({ navigation }) => {
     nickname: Joi.string().label(t("nickname_error")),
     isPrivacyAndTermsSelected: Joi.boolean().invalid(false),
   });
-
-  const [hasAgreed, setHasAgreed] = useState(false);
 
   const [data, setData] = useState({
     password: "",
@@ -73,7 +76,6 @@ export const RegisterAnonymous = ({ navigation }) => {
   const { data: userAccessToken, isLoading: userAccessTokenIsLoading } =
     useQuery(["access-token"], fetchUserAccessToken, {
       cacheTime: 0,
-      // onSucces: (data) => console.log(data, "data"),
     });
 
   const register = async () => {
@@ -141,6 +143,7 @@ export const RegisterAnonymous = ({ navigation }) => {
   };
 
   const copyToClipboard = async () => {
+    setHasCopied(true);
     await Clipboard.setStringAsync(userAccessToken);
     showToast({ message: t("copy_success") });
   };
@@ -148,55 +151,24 @@ export const RegisterAnonymous = ({ navigation }) => {
   const canContinue =
     data.password && data.isPrivacyAndTermsSelected && data.nickname;
 
+  const handleRegisterButtonClick = () => {
+    if (hasCopied) {
+      handleRegister();
+    } else {
+      setIsConfirmationModalOpen(true);
+    }
+  };
+
   return (
     <Screen hasEmergencyButton={false}>
-      <TransparentModal
-        heading={t("modal_heading")}
+      <SaveAccessCodeConfirmation
         isOpen={isConfirmationModalOpen}
         handleClose={() => setIsConfirmationModalOpen(false)}
-      >
-        {userAccessToken && (
-          <View style={styles.copyCodeContainer}>
-            <AppText namedStyle="h3">{userAccessToken}</AppText>
-            <TouchableOpacity onPress={copyToClipboard}>
-              <Icon style={styles.copyIcon} name="copy" />
-            </TouchableOpacity>
-          </View>
-        )}
-        <View style={styles.warningContainer}>
-          <Icon style={styles.warningIcon} name="warning" />
-          <AppText namedStyle="text">{t("modal_copy_text")}</AppText>
-        </View>
-        <View
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            flexDirection: "row",
-            marginTop: 18,
-          }}
-        >
-          <CheckBox
-            isChecked={hasAgreed}
-            setIsChecked={() => setHasAgreed(!hasAgreed)}
-          />
-          <AppText
-            style={{ paddingLeft: 10 }}
-            onPress={() => setHasAgreed(!hasAgreed)}
-            namedStyle="text"
-          >
-            {t("warning")}
-          </AppText>
-        </View>
-        <AppButton
-          label={t("modal_button_label")}
-          size="lg"
-          style={{ marginTop: 24 }}
-          onPress={handleRegister}
-          disabled={!hasAgreed}
-          loading={registerMutation.isLoading}
-        />
-      </TransparentModal>
-
+        userAccessToken={userAccessToken}
+        handleRegister={handleRegister}
+        isRegisterLoading={registerMutation.isLoading}
+        t={t}
+      />
       <Block style={{ flex: 1, flexGrow: 1 }}>
         <KeyboardAvoidingView
           style={styles.keyboardAvoidingView}
@@ -276,7 +248,8 @@ export const RegisterAnonymous = ({ navigation }) => {
               label={t("register_button_label")}
               style={styles.button}
               size="lg"
-              onPress={() => setIsConfirmationModalOpen(true)}
+              onPress={handleRegisterButtonClick}
+              loading={registerMutation.isLoading}
             />
             <AppButton
               label={t("login_button_label")}
@@ -288,6 +261,106 @@ export const RegisterAnonymous = ({ navigation }) => {
         </KeyboardAvoidingView>
       </Block>
     </Screen>
+  );
+};
+
+const SaveAccessCodeConfirmation = ({
+  isOpen,
+  handleClose,
+  userAccessToken,
+  handleRegister,
+  isRegisterLoading,
+  copyLabel = "Click to copy",
+  t,
+}) => {
+  const [hasAgreed, setHasAgreed] = useState(false);
+  const [hasCopied, setHasCopied] = useState(false);
+  const [shouldAnimate, setShouldAnimate] = useState(false);
+
+  const handleCopy = () => {
+    setShouldAnimate(false);
+    setHasCopied(true);
+    showToast({ message: t("copy_success") });
+  };
+
+  const handleCheckboxClick = () => {
+    setHasAgreed(!hasAgreed);
+    if (!hasAgreed && !hasCopied) {
+      setShouldAnimate(true);
+    } else if (hasAgreed) {
+      setShouldAnimate(false);
+    }
+  };
+
+  const translateX = useSharedValue(5);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateX: translateX.value }],
+    };
+  });
+
+  useEffect(() => {
+    if (shouldAnimate) {
+      translateX.value = withRepeat(
+        withSequence(
+          withTiming(-5, { duration: 500 }),
+          withTiming(5, { duration: 500 })
+        ),
+        100
+      );
+    }
+  }, [shouldAnimate]);
+
+  return (
+    <TransparentModal
+      heading={t("modal_heading")}
+      isOpen={isOpen}
+      handleClose={handleClose}
+    >
+      {userAccessToken && (
+        <View style={styles.copyCodeContainer}>
+          <AppText namedStyle="h3">{userAccessToken}</AppText>
+          <TouchableOpacity onPress={handleCopy}>
+            <Icon style={styles.copyIcon} name="copy" />
+          </TouchableOpacity>
+          <Animated.View
+            style={[
+              {
+                flexDirection: "row",
+                alignItems: "center",
+              },
+              animatedStyle,
+            ]}
+          >
+            <Icon name="arrow-chevron-back" color="#3d527b" size="sm" />
+            <AppText namedStyle="smallText">{copyLabel}</AppText>
+          </Animated.View>
+        </View>
+      )}
+      <View style={styles.warningContainer}>
+        <Icon style={styles.warningIcon} name="warning" />
+        <AppText namedStyle="text">{t("modal_copy_text")}</AppText>
+      </View>
+      <View style={styles.checkboxContainer}>
+        <CheckBox isChecked={hasAgreed} setIsChecked={handleCheckboxClick} />
+        <AppText
+          style={{ paddingLeft: 10 }}
+          onPress={handleCheckboxClick}
+          namedStyle="text"
+        >
+          {t("warning")}
+        </AppText>
+      </View>
+      <AppButton
+        label={t("modal_button_label")}
+        size="lg"
+        style={{ marginTop: 24 }}
+        onPress={handleRegister}
+        disabled={!hasAgreed || !hasCopied}
+        loading={isRegisterLoading}
+      />
+    </TransparentModal>
   );
 };
 
@@ -319,4 +392,10 @@ const styles = StyleSheet.create({
   },
   termsAgreement: { width: "95%", alignSelf: "center", paddingTop: 24 },
   button: { marginTop: 24 },
+  checkboxContainer: {
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "row",
+    marginTop: 18,
+  },
 });
