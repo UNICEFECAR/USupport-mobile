@@ -31,7 +31,7 @@ export const TermsAgreement = ({
           {` ${textTwo} `}
         </AppText>
         <AppText namedStyle="text">{`${textThree} `}</AppText>
-        <AppText
+        {/* <AppText
           namedStyle="text"
           onPress={() => {
             Linking.openURL(`${WEBSITE_URL}/terms-of-use`);
@@ -39,7 +39,7 @@ export const TermsAgreement = ({
           style={styles.purpleText}
         >
           {textFour}
-        </AppText>
+        </AppText> */}
       </AppText>
     </View>
   );
