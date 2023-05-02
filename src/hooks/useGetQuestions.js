@@ -28,6 +28,7 @@ export function useGetQuestions(orderBy = "all", enabled) {
         questionCreatedAt: question.question_created_at,
         questionId: question.question_id,
         tags: question.tags,
+        isAskedByCurrentClient: question.isAskedByCurrentClient,
       };
     });
   };

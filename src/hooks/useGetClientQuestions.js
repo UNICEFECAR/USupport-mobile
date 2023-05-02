@@ -25,6 +25,7 @@ export function useGetClientQuestions(enabled) {
         question: question.question,
         questionCreatedAt: question.question_created_at,
         tags: question.tags,
+        isAskedByCurrentClient: true,
       };
     });
   };

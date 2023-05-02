@@ -25,6 +25,7 @@ export const QuestionDetails = ({
 }) => {
   const { t } = useTranslation("question-details");
 
+  const isInMyQuestions = question.isAskedByCurrentClient;
   const providerInfo = question.providerData;
 
   const imageUrl = AMAZON_S3_BUCKET + "/" + (providerInfo.image || "default");
@@ -49,17 +50,31 @@ export const QuestionDetails = ({
         <Icon name="calendar" color="#92989B" />
         <AppText style={styles.dateContainerText}>{getDateText()}</AppText>
       </View>
-      <AppText namedStyle="h3" style={styles.headingText}>
-        {question.answerTitle}
-      </AppText>
-      <Like
-        handleClick={handleLike}
-        likes={question.likes}
-        dislikes={question.dislikes}
-        answerId={question.answerId}
-        isLiked={question.isLiked}
-        isDisliked={question.isDisliked}
-      />
+      {isInMyQuestions ? (
+        <AppText>{question.question}</AppText>
+      ) : (
+        <AppText namedStyle="h3" style={styles.headingText}>
+          {question.answerTitle}
+        </AppText>
+      )}
+      {question.answerId ? (
+        <Like
+          handleClick={handleLike}
+          likes={question.likes}
+          dislikes={question.dislikes}
+          answerId={question.answerId}
+          isLiked={question.isLiked}
+          isDisliked={question.isDisliked}
+        />
+      ) : null}
+      {question.answerId && isInMyQuestions ? (
+        <AppText
+          namedStyle="h3"
+          style={[styles.headingText, styles.marginTop12]}
+        >
+          {question.answerTitle}
+        </AppText>
+      ) : null}
       {question.tags ? (
         <View style={styles.labelsContainer}>
           {question.tags.map((label, index) => {
@@ -124,5 +139,8 @@ const styles = StyleSheet.create({
     marginLeft: 12,
     color: appStyles.colorPrimary_20809e,
     fontFamily: appStyles.fontBold,
+  },
+  marginTop12: {
+    marginTop: 12,
   },
 });
