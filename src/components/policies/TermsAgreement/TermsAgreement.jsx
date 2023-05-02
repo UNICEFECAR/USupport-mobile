@@ -30,7 +30,7 @@ export const TermsAgreement = ({
         >
           {` ${textTwo} `}
         </AppText>
-        <AppText namedStyle="text">{`${textThree} `}</AppText>
+        {/* <AppText namedStyle="text">{`${textThree} `}</AppText> */}
         {/* <AppText
           namedStyle="text"
           onPress={() => {
