@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     fontFamily: "Nunito_600SemiBold",
     color: appStyles.colorBlue_3d527b,
+    marginTop: 12,
   },
   paragraph: {
     color: appStyles.colorGray_66768d,
@@ -118,5 +119,11 @@ const styles = StyleSheet.create({
   categoryText: {
     fontFamily: appStyles.fontBold,
     color: appStyles.colorBlue_3d527b,
+  },
+  list_item: {
+    color: appStyles.colorGray_66768d,
+    fontSize: 16,
+    fontFamily: "Nunito_400Regular",
+    lineHeight: 24,
   },
 });
