@@ -1,8 +1,9 @@
 {
-    "heading_newest": "Newest Articles",
-    "view_all": "View all",
-    "heading_popular": "Most popular",
-    "read_more": "Read more",
-    "min_read": "min read",
-    "by": "By {{creator}}"
+  "heading_newest": "Newest Articles",
+  "view_all": "View all",
+  "heading_popular": "Most popular",
+  "read_more": "Read more",
+  "min_read": "min read",
+  "by": "By {{creator}}",
+  "heading_no_language_results": "We could not find any articles based on your selected language."
 }
