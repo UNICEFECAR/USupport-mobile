@@ -15,6 +15,7 @@ import { useAddPushNotificationToken, useGetClientData } from "#hooks";
 import { countrySvc, localStorage, Context } from "#services";
 
 import { getCountryFromTimezone } from "#utils";
+import { useTranslation } from "react-i18next";
 
 const kazakhstanCountry = {
   value: "KZ",
@@ -33,6 +34,7 @@ Notifications.setNotificationHandler({
 export function Navigation() {
   const [hasSavedPushToken, setHasSavedPushToken] = useState(false);
   const [hasAuthenticatedWithPin, setHasAuthenticatedWithPin] = useState(false);
+  const { i18n } = useTranslation();
 
   const { token, setCurrencySymbol, isTmpUser, userPin, hasCheckedTmpUser } =
     useContext(Context);
@@ -66,6 +68,9 @@ export function Navigation() {
 
   const fetchCountries = async () => {
     const localStorageCountry = await localStorage.getItem("country");
+    const localStorageLanguage = await localStorage.getItem("language");
+
+    i18n.changeLanguage(localStorageLanguage);
 
     const res = await countrySvc.getActiveCountries();
     const usersCountry = getCountryFromTimezone();
