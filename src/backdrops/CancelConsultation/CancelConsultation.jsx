@@ -29,7 +29,7 @@ export const CancelConsultation = ({
     new Date().getTime() + 24 * ONE_HOUR >= startDate.getTime();
 
   const onCancelSuccess = () => {
-    queryClient.invalidateQueries(["all-consultations"]);
+    queryClient.invalidateQueries({ queryKey: ["all-consultations"] });
     onClose();
     showToast({ message: t("cancel_success") });
   };
