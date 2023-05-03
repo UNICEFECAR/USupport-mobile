@@ -92,7 +92,7 @@ export function Welcome({ navigation }) {
     localStorage.setItem("country", country);
     localStorage.setItem("country_id", selectedCountryObject.id);
     localStorage.setItem("language", language);
-    localStorage.setItem("currencySymbol", currencySymbol);
+    localStorage.setItem("currency_symbol", currencySymbol);
 
     i18n.changeLanguage(language);
 
