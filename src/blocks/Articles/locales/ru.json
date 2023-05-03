@@ -5,5 +5,6 @@
   "all": "Все",
   "read_more": "Узнать больше",
   "min_read": "минут на прочтение",
-  "by": "By {{creator}}"
+  "by": "By {{creator}}",
+  "number_of_more_options": "{{count}} moreRU"
 }

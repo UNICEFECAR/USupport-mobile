@@ -313,6 +313,7 @@ export const Articles = ({
           options={categories}
           handleSelect={handleCategoryOnPress}
           style={styles.tabs}
+          t={t}
         />
       ) : null}
 

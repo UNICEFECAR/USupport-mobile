@@ -173,6 +173,7 @@ export const ArticlesDashboard = ({ navigation }) => {
               options={categories}
               handleSelect={handleCategoryOnPress}
               style={styles.tabs}
+              t={t}
             />
           )}
           {newestArticlesLoading && (
