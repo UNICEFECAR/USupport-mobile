@@ -125,24 +125,31 @@ export const InformationalPortal = ({ navigation }) => {
       ? navigation.push("Articles", { sort: "createdAt" })
       : navigation.push("Articles", { sort: "read_count" });
 
+  const noArticlesForLanguage =
+    isNewestArticlesFetched &&
+    isMostReadArticlesFetched &&
+    newestArticles?.length === 0 &&
+    mostReadArticles?.length === 0;
+
   return (
     <Block style={styles.informationalPortalBlock}>
-      {isNewestArticlesFetched &&
-      isMostReadArticlesFetched &&
-      newestArticles?.length === 0 &&
-      mostReadArticles?.length === 0 ? (
-        <AppText namedStyle="h3">{t("heading_no_language_results")}</AppText>
+      {noArticlesForLanguage ? (
+        <AppText style={styles.headingNoLanguageResults} namedStyle="h3">
+          {t("heading_no_language_results")}
+        </AppText>
       ) : null}
 
-      <View style={styles.headingContainer}>
-        <AppText namedStyle="h3">{t("heading_newest")}</AppText>
-        <AppText
-          style={styles.viewAllText}
-          onPress={() => handleRedirect("createdAt")}
-        >
-          {t("view_all")}
-        </AppText>
-      </View>
+      {noArticlesForLanguage ? null : (
+        <View style={styles.headingContainer}>
+          <AppText namedStyle="h3">{t("heading_newest")}</AppText>
+          <AppText
+            style={styles.viewAllText}
+            onPress={() => handleRedirect("createdAt")}
+          >
+            {t("view_all")}
+          </AppText>
+        </View>
+      )}
 
       {newestArticlesLoading ? (
         <View style={styles.loadingContainer}>
@@ -176,15 +183,17 @@ export const InformationalPortal = ({ navigation }) => {
         </View>
       ) : null}
 
-      <View style={styles.headingContainer}>
-        <AppText namedStyle="h3">{t("heading_popular")}</AppText>
-        <AppText
-          style={styles.viewAllText}
-          onPress={() => handleRedirect("read_count")}
-        >
-          {t("view_all")}
-        </AppText>
-      </View>
+      {noArticlesForLanguage ? null : (
+        <View style={styles.headingContainer}>
+          <AppText namedStyle="h3">{t("heading_popular")}</AppText>
+          <AppText
+            style={styles.viewAllText}
+            onPress={() => handleRedirect("read_count")}
+          >
+            {t("view_all")}
+          </AppText>
+        </View>
+      )}
 
       {mostReadArticlesLoading ? (
         <View style={styles.loadingContainer}>
@@ -223,6 +232,9 @@ export const InformationalPortal = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   informationalPortalBlock: { paddingTop: 40 },
+  headingNoLanguageResults: {
+    marginBottom: 16,
+  },
   headingContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
