@@ -146,12 +146,14 @@ export const Notifications = ({ navigation, openJoinConsultation }) => {
   const handleAcceptSuggestion = (
     consultationId,
     consultationPrice,
-    notificationId
+    notificationId,
+    slot
   ) => {
     markAllAsReadMutation.mutate([notificationId]);
     acceptConsultationMutation.mutate({
       consultationId,
       price: consultationPrice,
+      slot,
     });
   };
 
@@ -349,7 +351,8 @@ export const Notifications = ({ navigation, openJoinConsultation }) => {
                     handleAcceptSuggestion(
                       notification.content.consultationId,
                       notification.content.consultationPrice,
-                      notification.notificationId
+                      notification.notificationId,
+                      notification.content.time
                     )
                   }
                   size="sm"
