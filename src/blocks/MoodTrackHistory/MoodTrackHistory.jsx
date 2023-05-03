@@ -35,7 +35,7 @@ export const MoodTrackHistory = ({}) => {
 
     let dataCopy = { ...moodTrackerData };
 
-    if (!dataCopy[limit]) {
+    if (!dataCopy[limit] || pageNum === 0) {
       dataCopy[limit] = {
         entries: curEntries,
         hasMore: prevEntries.length > 0,
@@ -61,12 +61,7 @@ export const MoodTrackHistory = ({}) => {
     return !loadedPages.includes(pageNum);
   }, [loadedPages, pageNum]);
 
-  const moodTrackEntriesQuery = useGetMoodTrackEntries(
-    pageNum,
-    onSuccess,
-    enabled
-  );
-
+  useGetMoodTrackEntries(pageNum, onSuccess, enabled);
   const emoticons = [
     { name: "happy", label: "Perfect", value: 4 },
     { name: "good", label: "Happy", value: 3 },

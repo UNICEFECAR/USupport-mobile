@@ -28,7 +28,10 @@ export function useGetMoodTrackEntries(pageNum = 0, onSuccess, enabled) {
   const getMoodTrackEntriesQuery = useQuery(
     ["getMoodTrackEntries", limit, pageNum],
     getMoodTrackEntries,
-    { onSuccess: onSuccess, enabled: !!enabled }
+    {
+      onSuccess: onSuccess,
+      enabled: pageNum === 0 ? true : !!enabled,
+    }
   );
 
   return getMoodTrackEntriesQuery;

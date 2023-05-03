@@ -1,17 +1,11 @@
 import React, { useState, useCallback, useContext } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { useTranslation } from "react-i18next";
 
-import {
-  Block,
-  Emoticon,
-  AppText,
-  Loading,
-  Textarea,
-  AppButton,
-} from "#components";
+import { Block, Emoticon, AppText, Textarea, AppButton } from "#components";
 
-import { useAddMoodTrack, useGetMoodTrackForToday } from "#hooks";
+import { useAddMoodTrack } from "#hooks";
 
 import { showToast } from "#utils";
 
@@ -29,6 +23,7 @@ import { Context } from "#services";
 export const MoodTracker = ({ navigation }) => {
   const { t } = useTranslation("mood-tracker");
   const { isTmpUser, handleRegistrationModalOpen } = useContext(Context);
+  const queryClient = useQueryClient();
 
   const emoticonsInitialState = [
     { value: "happy", label: t("happy"), isSelected: false },
@@ -48,6 +43,10 @@ export const MoodTracker = ({ navigation }) => {
 
   const onSuccess = () => {
     setIsMoodTrackCompleted(true);
+    queryClient.refetchQueries({
+      queryKey: ["getMoodTrackEntries", 5, 0],
+      refetchType: "all",
+    });
     showToast({ message: t("add_mood_tracker_success") });
   };
   const onError = (error) => {
