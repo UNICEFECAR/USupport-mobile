@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useMemo } from "react";
 
 import { SelectConsultation } from "../SelectConsultation";
 import { ConfirmConsultation } from "../ConfirmConsultation";
@@ -78,6 +78,10 @@ export const ScheduleConsultationGroup = ({
   const isSelectConsultationLoading =
     blockSlotMutation.isLoading || scheduleConsultationMutation.isLoading;
 
+  const time = useMemo(() => {
+    return new Date(selectedSlot.current);
+  }, [selectedSlot.current]);
+
   return (
     <>
       <SelectConsultation
@@ -89,20 +93,19 @@ export const ScheduleConsultationGroup = ({
         errorMessage={blockSlotError}
         isInDashboard={isInDashboard}
       />
-      {selectedSlot && (
+      {selectedSlot.current ? (
         <ConfirmConsultation
           isOpen={isConfirmBackdropOpen}
           onClose={closeConfirmConsultationBackdrop}
+          ctaStyle={{ marginBottom: 85 }}
           consultation={{
-            startDate: new Date(selectedSlot),
+            startDate: time,
             endDate: new Date(
-              new Date(selectedSlot).setHours(
-                new Date(selectedSlot).getHours() + 1
-              )
+              new Date(time).setHours(new Date(time).getHours() + 1)
             ),
           }}
         />
-      )}
+      ) : null}
       <RequireDataAgreement
         isOpen={isRequireDataAgreementOpen}
         onClose={closeRequireDataAgreement}
