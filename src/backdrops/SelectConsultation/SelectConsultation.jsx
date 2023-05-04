@@ -43,11 +43,8 @@ export const SelectConsultation = ({
 
   const campaignId = activeCoupon?.campaignId || campaingIdFromProps;
 
-  let providerData = useGetProviderDataById(
-    providerId,
-    campaignId,
-    "select-consultation"
-  ).data;
+  const providerDataQuery = useGetProviderDataById(providerId, campaignId);
+  const providerData = providerDataQuery.data;
 
   useEffect(() => {
     if (providerData) {
@@ -159,22 +156,26 @@ export const SelectConsultation = ({
       isCtaLoading={isCtaLoading}
       errorMessage={errorMessage}
     >
-      <View className="select-consultation__content-container">
-        <Header
-          handleDayChange={handleDayChange}
-          setStartDate={setStartDate}
-          startDate={providerData?.earliestAvailableSlot}
-          style={styles.calendarHeader}
-        />
-        <View style={styles.slotsContainer}>
-          {availableSlotsQuery.isLoading &&
-          availableSlotsQuery.fetchStatus !== "idle" ? (
-            <Loading size="md" />
-          ) : (
-            renderFreeSlots()
-          )}
+      {providerDataQuery.isLoading ? (
+        <Loading size="lg" />
+      ) : (
+        <View className="select-consultation__content-container">
+          <Header
+            handleDayChange={handleDayChange}
+            setStartDate={setStartDate}
+            startDate={providerData?.earliestAvailableSlot}
+            style={styles.calendarHeader}
+          />
+          <View style={styles.slotsContainer}>
+            {availableSlotsQuery.isLoading &&
+            availableSlotsQuery.fetchStatus !== "idle" ? (
+              <Loading size="md" />
+            ) : (
+              renderFreeSlots()
+            )}
+          </View>
         </View>
-      </View>
+      )}
     </Backdrop>
   );
 };
