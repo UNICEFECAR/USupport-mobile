@@ -157,7 +157,9 @@ export const SelectConsultation = ({
       errorMessage={errorMessage}
     >
       {providerDataQuery.isLoading ? (
-        <Loading size="lg" />
+        <View style={{ alignItems: "center" }}>
+          <Loading size="lg" />
+        </View>
       ) : (
         <View className="select-consultation__content-container">
           <Header

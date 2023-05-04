@@ -118,12 +118,11 @@ export const Answer = ({
           <AppText style={styles.marginTop_0_8} numberOfLines={2}>
             {question.question}
           </AppText>
-          <AppButton
-            type="ghost"
-            label={t("read_more")}
-            size="md"
-            style={styles.readMoreButton}
-          />
+          <TouchableOpacity onPress={() => handleReadMore(question)}>
+            <View style={styles.readMoreContainer}>
+              <AppText style={styles.readMoreText}>{t("read_more")}</AppText>
+            </View>
+          </TouchableOpacity>
         </>
       )}
       <Line style={styles.marginTop_0_8} />
