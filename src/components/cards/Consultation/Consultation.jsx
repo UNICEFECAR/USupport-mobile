@@ -137,7 +137,8 @@ export const Consultation = ({
                 <View
                   style={[
                     styles.priceBadge,
-                    consultation.campaignId && styles.priceBadgeFreeColor,
+                    (consultation.campaignId || !price) &&
+                      styles.priceBadgeFreeColor,
                     { flexDirection: "row" },
                   ]}
                 >
@@ -157,7 +158,8 @@ export const Consultation = ({
                     namedStyle="smallText"
                     style={[
                       styles.textPurple,
-                      consultation.campaignId && styles.priceBadgeFreeText,
+                      (consultation.campaignId || !price) &&
+                        styles.priceBadgeFreeText,
                       sponsorImage && { marginLeft: 30 },
                     ]}
                   >
