@@ -9,6 +9,8 @@ import { Label } from "../../labels";
 import { Avatar } from "../../avatars";
 import { Line } from "../../separators";
 
+import { isDateToday } from "#utils";
+
 import { appStyles } from "#styles";
 
 const { AMAZON_S3_BUCKET } = Config;
