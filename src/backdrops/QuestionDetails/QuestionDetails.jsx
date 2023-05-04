@@ -83,27 +83,29 @@ export const QuestionDetails = ({
         </View>
       ) : null}
       <AppText style={styles.answerText}>{question.answerText}</AppText>
-      <View style={styles.bottomContainer}>
-        <View style={styles.answerByContainer}>
-          <AppText>{t("answered_by")}</AppText>
-          <Avatar
-            image={imageUrl && { uri: imageUrl }}
-            size="xs"
-            style={styles.avatar}
-          />
-          <AppText>
-            {providerInfo.name} {providerInfo.surname}
-          </AppText>
-        </View>
-        <TouchableOpacity onPress={() => handleSchedulePress(question)}>
-          <View style={styles.scheduleButton}>
-            <Icon name="calendar" color="#20809e" />
-            <AppText style={styles.scheduleButtonText}>
-              {t("schedule_consultation")}
+      {question.answerId ? (
+        <View style={styles.bottomContainer}>
+          <View style={styles.answerByContainer}>
+            <AppText>{t("answered_by")}</AppText>
+            <Avatar
+              image={imageUrl && { uri: imageUrl }}
+              size="xs"
+              style={styles.avatar}
+            />
+            <AppText>
+              {providerInfo.name} {providerInfo.surname}
             </AppText>
           </View>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity onPress={() => handleSchedulePress(question)}>
+            <View style={styles.scheduleButton}>
+              <Icon name="calendar" color="#20809e" />
+              <AppText style={styles.scheduleButtonText}>
+                {t("schedule_consultation")}
+              </AppText>
+            </View>
+          </TouchableOpacity>
+        </View>
+      ) : null}
     </Backdrop>
   );
 };
