@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
@@ -11,8 +11,6 @@ import {
   Answer,
   AppText,
 } from "#components";
-
-import { Context } from "#services";
 
 /**
  * MyQA
@@ -34,7 +32,6 @@ export const MyQA = ({
   filterTag,
 }) => {
   const { t } = useTranslation("my-qa");
-  const { isTmpUser, handleRegistrationModalOpen } = useContext(Context);
 
   const [searchValue, setSearchValue] = useState("");
 
@@ -98,14 +95,6 @@ export const MyQA = ({
     });
   };
 
-  const handleAskQuestionClick = () => {
-    if (isTmpUser) {
-      handleRegistrationModalOpen();
-    } else {
-      handleAskQuestion();
-    }
-  };
-
   return (
     <>
       <Block style={styles.block}>
@@ -139,7 +128,7 @@ export const MyQA = ({
           label={t("ask_button_label")}
           size="lg"
           style={styles.askButton}
-          onPress={handleAskQuestionClick}
+          onPress={handleAskQuestion}
         />
         <View style={styles.answersContainer}>{renderQuestions()}</View>
       </Block>

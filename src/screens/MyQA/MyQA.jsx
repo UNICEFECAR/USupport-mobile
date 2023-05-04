@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View, ScrollView } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
@@ -25,6 +25,8 @@ import { appStyles } from "#styles";
 
 import { mascotHappyPurple } from "#assets";
 
+import { Context } from "#services";
+
 /**
  * MyQA
  *
@@ -34,6 +36,8 @@ import { mascotHappyPurple } from "#assets";
  */
 export const MyQA = ({ navigation }) => {
   const { t } = useTranslation("my-qa-screen");
+
+  const { isTmpUser, handleRegistrationModalOpen } = useContext(Context);
 
   const [isCreateQuestionOpen, setIsCreateQuestionOpen] = useState(false);
   const [isQuestionDetailsOpen, setIsQuestionDetailsOpen] = useState(false);
@@ -52,6 +56,12 @@ export const MyQA = ({ navigation }) => {
   const [filterTag, setFilterTag] = useState();
 
   const clientData = useGetClientData()[1];
+
+  const checkTmpUser = () => {
+    if (isTmpUser) {
+      handleRegistrationModalOpen();
+    }
+  };
 
   const queryClient = useQueryClient();
 
@@ -141,7 +151,11 @@ export const MyQA = ({ navigation }) => {
   // }, [questions]);
 
   const handleLike = (vote, answerId) => {
-    addVoteQuestionMutation.mutate({ vote, answerId });
+    if (isTmpUser) {
+      handleRegistrationModalOpen();
+    } else {
+      addVoteQuestionMutation.mutate({ vote, answerId });
+    }
   };
 
   const [isSelectConsultationOpen, setIsSelectConsultationOpen] =
@@ -153,18 +167,30 @@ export const MyQA = ({ navigation }) => {
   const openRequireDataAgreement = () => setIsRequireDataAgreementOpen(true);
 
   const handleScheduleConsultationPress = (question) => {
-    setProviderId(question.providerData.providerId);
-    if (!clientData.dataProcessing) {
-      openRequireDataAgreement();
-      // setIsSelectConsultationOpen(true);
+    if (isTmpUser) {
+      handleRegistrationModalOpen();
     } else {
-      setIsSelectConsultationOpen(true);
+      setProviderId(question.providerData.providerId);
+      if (!clientData.dataProcessing) {
+        openRequireDataAgreement();
+        // setIsSelectConsultationOpen(true);
+      } else {
+        setIsSelectConsultationOpen(true);
+      }
     }
   };
 
   const handleSetIsQuestionDetailsOpen = (question) => {
     setSelectedQuestion(question);
     setIsQuestionDetailsOpen(true);
+  };
+
+  const handleAskQuestion = () => {
+    if (isTmpUser) {
+      handleRegistrationModalOpen();
+    } else {
+      setIsCreateQuestionOpen(true);
+    }
   };
 
   return (
@@ -181,7 +207,7 @@ export const MyQA = ({ navigation }) => {
           setTabs={setTabs}
           questions={questions}
           handleLike={handleLike}
-          handleAskQuestion={() => setIsCreateQuestionOpen(true)}
+          handleAskQuestion={handleAskQuestion}
           handleSchedulePress={handleScheduleConsultationPress}
           handleReadMore={handleSetIsQuestionDetailsOpen}
           handleFilterTags={() => setIsFilterQuestionsBackdropOpen(true)}
