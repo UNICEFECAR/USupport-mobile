@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Platform } from "react-native";
 
 import { Backdrop, AppText, Icon, Like, Label, Avatar } from "#components";
 import { appStyles } from "#styles";
@@ -45,7 +45,7 @@ export const QuestionDetails = ({
   };
 
   return (
-    <Backdrop classes="question-details" isOpen={isOpen} onClose={onClose}>
+    <Backdrop isOpen={isOpen} onClose={onClose}>
       <View style={styles.dateContainer}>
         <Icon name="calendar" color="#92989B" />
         <AppText style={styles.dateContainerText}>{getDateText()}</AppText>
@@ -106,6 +106,11 @@ export const QuestionDetails = ({
           </TouchableOpacity>
         </View>
       ) : null}
+      <View
+        style={{
+          height: Platform.OS === "ios" ? 85 : 100,
+        }}
+      />
     </Backdrop>
   );
 };
