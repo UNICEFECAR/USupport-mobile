@@ -10,6 +10,7 @@ import {
   AppButton,
   Answer,
   AppText,
+  Loading,
 } from "#components";
 
 /**
@@ -30,10 +31,13 @@ export const MyQA = ({
   isUserQuestionsEnabled,
   handleFilterTags,
   filterTag,
+  userQuestionsLoading,
+  allQuestionsLoading,
 }) => {
   const { t } = useTranslation("my-qa");
 
   const [searchValue, setSearchValue] = useState("");
+  const selectedTab = tabs.find((x) => x.isSelected)?.value;
 
   const handleTabChange = (index) => {
     const tabsCopy = [...tabs];
@@ -49,6 +53,15 @@ export const MyQA = ({
   };
 
   const renderQuestions = () => {
+    if (
+      (selectedTab === "your_questions" && userQuestionsLoading) ||
+      (selectedTab !== "your_questions" && allQuestionsLoading)
+    )
+      return (
+        <View style={styles.loadingContainer}>
+          <Loading size="md" />
+        </View>
+      );
     const filteredQuestions = questions.filter((question) => {
       if (filterTag) {
         const tags = question.tags;
@@ -148,4 +161,8 @@ const styles = StyleSheet.create({
   answer: { marginTop: 24 },
   answersContainer: { width: "100%", paddingBottom: 90 },
   noQuestionsText: { marginTop: 20, alignSelf: "center" },
+  loadingContainer: {
+    alignItems: "center",
+    marginTop: 24,
+  },
 });

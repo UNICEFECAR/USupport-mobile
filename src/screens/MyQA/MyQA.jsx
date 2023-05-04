@@ -122,8 +122,8 @@ export const MyQA = ({ navigation }) => {
     tabs.filter((tab) => tab.value === "your_questions" && tab.isSelected)
       .length > 0;
 
-  const userQuestions = useGetClientQuestions(isUserQuestionsEnabled);
-  const allQuestions = useGetQuestions(
+  const userQuestionsQuery = useGetClientQuestions(isUserQuestionsEnabled);
+  const allQuestionsQuery = useGetQuestions(
     tabs.find((tab) => tab.isSelected).value,
     !isUserQuestionsEnabled
   );
@@ -135,14 +135,14 @@ export const MyQA = ({ navigation }) => {
   }, [isTmpUser]);
 
   useEffect(() => {
-    if (isUserQuestionsEnabled && userQuestions.data) {
-      setQuestions(userQuestions.data);
+    if (isUserQuestionsEnabled && userQuestionsQuery.data) {
+      setQuestions(userQuestionsQuery.data);
     }
 
-    if (!isUserQuestionsEnabled && allQuestions.data) {
-      setQuestions(allQuestions.data);
+    if (!isUserQuestionsEnabled && allQuestionsQuery.data) {
+      setQuestions(allQuestionsQuery.data);
     }
-  }, [tabs, userQuestions.data, allQuestions.data]);
+  }, [tabs, userQuestionsQuery.data, allQuestionsQuery.data]);
 
   //Removed because it was causing a bug when the user likes a question in QuestionDetails modal
   // useEffect(() => {
@@ -214,6 +214,8 @@ export const MyQA = ({ navigation }) => {
           handleReadMore={handleSetIsQuestionDetailsOpen}
           handleFilterTags={() => setIsFilterQuestionsBackdropOpen(true)}
           filterTag={filterTag}
+          userQuestionsLoading={userQuestionsQuery.isLoading}
+          allQuestionsLoading={allQuestionsQuery.isLoading}
         />
       </ScrollView>
       {isHowItWorksOpen ? (
