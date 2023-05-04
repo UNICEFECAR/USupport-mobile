@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useContext } from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { useTranslation } from "react-i18next";
 
@@ -22,6 +22,7 @@ import { useGetMoodTrackEntries } from "#hooks";
  */
 export const MoodTrackHistory = ({}) => {
   const { t } = useTranslation("mood-track-history");
+
   const [pageNum, setPageNum] = useState(0);
   const limit = `pageNum_${pageNum}_limitToLoad_5`;
 

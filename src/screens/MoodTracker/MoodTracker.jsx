@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
 
 import { Screen, Block, Heading } from "#components";
 import { MoodTrackHistory } from "#blocks";
+import { Context } from "#services";
 
 /**
  * MoodTracker
@@ -14,6 +15,13 @@ import { MoodTrackHistory } from "#blocks";
  */
 export const MoodTracker = ({ navigation }) => {
   const { t } = useTranslation("mood-tracker-screen");
+  const { isTmpUser, handleRegistrationModalOpen } = useContext(Context);
+
+  useEffect(() => {
+    if (isTmpUser) {
+      handleRegistrationModalOpen();
+    }
+  }, [isTmpUser]);
 
   return (
     <Screen
@@ -31,7 +39,7 @@ export const MoodTracker = ({ navigation }) => {
             hasGoBackArrow={false}
           />
         </Block>
-        <MoodTrackHistory />
+        {!isTmpUser ? <MoodTrackHistory /> : null}
       </ScrollView>
     </Screen>
   );
