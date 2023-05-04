@@ -58,7 +58,6 @@ export const CreateQuestion = ({ isOpen, onClose }) => {
       isOpen={isOpen}
       onClose={onClose}
       errorMessage={errors.query}
-      hasKeyboardListener={true}
     >
       <Textarea
         label={t("text_area_label")}
