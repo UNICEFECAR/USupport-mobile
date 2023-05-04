@@ -69,7 +69,7 @@ export const SelectConsultation = ({
     return data;
   };
   const availableSlotsQuery = useQuery(
-    ["available-slots", startDate, currentDay, providerId],
+    ["available-slots", startDate, currentDay, providerId, campaignId],
     () => getAvailableSlots(startDate, currentDay, providerId),
     { enabled: !!startDate && !!currentDay && !!providerId }
   );
@@ -87,13 +87,11 @@ export const SelectConsultation = ({
   const renderFreeSlots = () => {
     const todaySlots = availableSlots?.filter((slot) => {
       if (!slot) return false;
-      // console.log(new Date(slot.time), slot.time, "slot time");
-      // console.log(slot, "slot");
       const slotDate = campaignId
         ? parseUTCDate(slot.time).getDate()
         : new Date(slot).getDate();
       const currentDayDate = new Date(currentDay).getDate();
-      // console.log(slotDate, currentDayDate);
+
       // Check if the slot is for the current campaign
       if (campaignId && campaignId !== slot.campaign_id) {
         return false;
