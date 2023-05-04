@@ -57,12 +57,6 @@ export const MyQA = ({ navigation }) => {
 
   const clientData = useGetClientData()[1];
 
-  const checkTmpUser = () => {
-    if (isTmpUser) {
-      handleRegistrationModalOpen();
-    }
-  };
-
   const queryClient = useQueryClient();
 
   const onSuccess = () => {
@@ -133,6 +127,12 @@ export const MyQA = ({ navigation }) => {
     tabs.find((tab) => tab.isSelected).value,
     !isUserQuestionsEnabled
   );
+
+  useEffect(() => {
+    if (isTmpUser) {
+      setTabs(tabs.filter((tab) => tab.value !== "your_questions"));
+    }
+  }, [isTmpUser]);
 
   useEffect(() => {
     if (userQuestions.data || allQuestions.data) {
