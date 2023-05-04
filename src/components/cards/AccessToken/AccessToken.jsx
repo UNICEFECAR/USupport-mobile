@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
+import * as Clipboard from "expo-clipboard";
 
 import { AppText } from "../../texts/AppText";
 import { Loading } from "../../loaders/Loading/Loading";
