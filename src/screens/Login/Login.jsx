@@ -12,7 +12,7 @@ import { Login as LoginBlock } from "#blocks";
  */
 export const Login = ({ navigation }) => {
   return (
-    <Screen>
+    <Screen hasEmergencyButton={false}>
       <LoginBlock navigation={navigation} />
     </Screen>
   );
