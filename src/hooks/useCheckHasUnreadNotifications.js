@@ -3,6 +3,7 @@ import { notificationsSvc } from "#services";
 
 export const useCheckHasUnreadNotifications = (enabled = true) => {
   const checkHasUnreadNotifications = async () => {
+    if (!enabled) return false;
     const { data } = await notificationsSvc.checkHasUnreadNotifications();
     return data;
   };
