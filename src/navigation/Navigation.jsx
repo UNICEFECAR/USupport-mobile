@@ -174,7 +174,6 @@ const askForPermissions = async () => {
     }
     return true;
   } else {
-    await messaging().registerDeviceForRemoteMessages();
     const authStatus = await messaging().requestPermission();
     const enabled =
       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
