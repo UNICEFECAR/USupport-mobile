@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { StyleSheet, ScrollView, View, FlatList } from "react-native";
-import { FlashList } from "@shopify/flash-list";
 import { Table, TableWrapper, Row } from "react-native-table-component";
 
 import { Loading } from "../../loaders";
@@ -45,11 +44,17 @@ export const PaymentsHistoryTable = ({
     ];
     return (
       <TableWrapper>
-        <Row data={itemData} widthArr={widthArr} style={styles.row} />
+        <Row
+          key={index}
+          data={itemData}
+          widthArr={widthArr}
+          style={styles.row}
+        />
       </TableWrapper>
     );
   };
-  return !rowsData.length > 0 ? (
+
+  return !data.length > 0 ? (
     <Block>
       <View style={styles.noPayments}>
         <AppText namedStyle="h3" style={styles.noHistoryText}>
