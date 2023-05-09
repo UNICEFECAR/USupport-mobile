@@ -187,6 +187,7 @@ export const ChangePasscode = ({ navigation, route }) => {
                 onKeyPress={({ nativeEvent: { key: keyValue } }) =>
                   goToPreviousBox(box.previousIndex, keyValue)
                 }
+                maxFontSizeMultiplier={appStyles.maxFontSizeMultiplier}
                 style={styles.textInput}
               />
             );

@@ -50,7 +50,10 @@ export const ButtonSelector = ({
           </View>
         )}
         {!iconName && avatar && <Avatar style={styles.avatar} image={avatar} />}
-        <Text style={[styles.text, isPressed && styles.textPressed]}>
+        <Text
+          style={[styles.text, isPressed && styles.textPressed]}
+          maxFontSizeMultiplier={appStyles.maxFontSizeMultiplier}
+        >
           {label}
         </Text>
       </View>

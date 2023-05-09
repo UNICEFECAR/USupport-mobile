@@ -22,6 +22,7 @@ export const AppText = ({
         underlined && styles.underlined,
         style,
       ]}
+      maxFontSizeMultiplier={appStyles.maxFontSizeMultiplier}
       {...props}
     >
       {children}

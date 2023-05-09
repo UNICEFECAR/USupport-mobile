@@ -69,6 +69,7 @@ export const AppButton = ({
               styles[color + "Pressed" + "Text"],
             color === "red" && type != "primary" && styles.btnTextRed,
           ]}
+          maxFontSizeMultiplier={appStyles.maxFontSizeMultiplier}
         >
           {label}
         </Text>

@@ -4,6 +4,8 @@ export default {
   screenWidth: Dimensions.get("window").width,
   screenHeight: Dimensions.get("window").height,
 
+  maxFontSizeMultiplier: 1.5,
+
   platform: Platform.OS,
 
   //Fonts

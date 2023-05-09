@@ -70,6 +70,7 @@ export const Input = ({
             setIsFocused(false);
             onBlur && onBlur(e);
           }}
+          maxFontSizeMultiplier={appStyles.maxFontSizeMultiplier}
           {...props}
         />
         {children && children}

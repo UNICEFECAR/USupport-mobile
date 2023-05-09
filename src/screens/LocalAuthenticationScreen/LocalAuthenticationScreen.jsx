@@ -159,6 +159,7 @@ export function LocalAuthenticationScreen({
                 onKeyPress={({ nativeEvent: { key: keyValue } }) =>
                   goToPreviousBox(box.previousIndex, keyValue)
                 }
+                maxFontSizeMultiplier={appStyles.maxFontSizeMultiplier}
                 style={styles.textInput}
               />
             );

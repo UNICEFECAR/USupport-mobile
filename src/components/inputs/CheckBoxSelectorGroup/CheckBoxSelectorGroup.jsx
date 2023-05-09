@@ -55,7 +55,11 @@ export const CheckBoxSelectorGroup = ({
   return (
     <View style={[styles.checkBoxSelectorGroup, style]}>
       {label && (
-        <Text namedStyle="text" style={styles.text}>
+        <Text
+          namedStyle="text"
+          style={styles.text}
+          maxFontSizeMultiplier={appStyles.maxFontSizeMultiplier}
+        >
           {label}
         </Text>
       )}
