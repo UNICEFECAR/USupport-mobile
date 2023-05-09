@@ -28,7 +28,6 @@ export const MyQA = ({
   questions,
   tabs,
   setTabs,
-  isUserQuestionsEnabled,
   handleFilterTags,
   filterTag,
   userQuestionsLoading,
@@ -98,7 +97,6 @@ export const MyQA = ({
           question={question}
           key={index}
           style={styles.answer}
-          isInYourQuestions={isUserQuestionsEnabled}
           handleLike={handleLike}
           handleReadMore={handleReadMore}
           handleSchedulePress={handleSchedulePress}

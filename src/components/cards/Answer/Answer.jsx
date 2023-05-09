@@ -24,16 +24,14 @@ const { AMAZON_S3_BUCKET } = Config;
  */
 export const Answer = ({
   question,
-  isInYourQuestions = false,
   handleLike = () => {},
   handleReadMore = () => {},
   handleSchedulePress = () => {},
-  handleRespond = () => {},
-  handleArchive = () => {},
   style,
   t,
 }) => {
   const providerInfo = question.providerData;
+  const isAskedByCurrentClient = question.isAskedByCurrentClient;
 
   const imageUrl = AMAZON_S3_BUCKET + "/" + (providerInfo.image || "default");
 
@@ -53,8 +51,8 @@ export const Answer = ({
 
   const renderHeadingAndLabels = () => {
     return (
-      <View style={styles.headingAndLabelsContainer}>
-        <>
+      <View style={styles.width100}>
+        <View style={styles.headingAndLabelsContainer}>
           <AppText
             namedStyle="h3"
             style={styles.questionAnswerTitle}
@@ -62,23 +60,31 @@ export const Answer = ({
           >
             {question.answerTitle}
           </AppText>
-          <View style={styles.labelsContainer}>
-            {question.tags &&
-              question.tags.map((label, index) => {
-                return <Label text={label} key={index} style={styles.label} />;
-              })}
-          </View>
-        </>
+          <Like
+            handleClick={handleLike}
+            likes={question.likes}
+            dislikes={question.dislikes}
+            answerId={question.answerId}
+            isLiked={question.isLiked}
+            isDisliked={question.isDisliked}
+          />
+        </View>
+        <View style={styles.labelsContainer}>
+          {question.tags &&
+            question.tags.map((label, index) => {
+              return <Label text={label} key={index} style={styles.label} />;
+            })}
+        </View>
       </View>
     );
   };
 
   return (
     <View style={[styles.answer, style]}>
-      {question.answerTitle ? (
+      {!isAskedByCurrentClient ? (
         <>
           <View style={styles.headingContainer}>
-            {isInYourQuestions ? (
+            {isAskedByCurrentClient ? (
               <View>
                 <View style={styles.dateContainer}>
                   <Icon name="calendar" color="#92989B" />
@@ -97,14 +103,6 @@ export const Answer = ({
             ) : (
               renderHeadingAndLabels()
             )}
-            <Like
-              handleClick={handleLike}
-              likes={question.likes}
-              dislikes={question.dislikes}
-              answerId={question.answerId}
-              isLiked={question.isLiked}
-              isDisliked={question.isDisliked}
-            />
           </View>
         </>
       ) : (
@@ -118,18 +116,19 @@ export const Answer = ({
           <AppText style={styles.marginTop_0_8} numberOfLines={2}>
             {question.question}
           </AppText>
-          <TouchableOpacity onPress={() => handleReadMore(question)}>
-            <View style={styles.readMoreContainer}>
-              <AppText style={styles.readMoreText}>{t("read_more")}</AppText>
-            </View>
-          </TouchableOpacity>
         </>
       )}
       <Line style={styles.marginTop_0_8} />
+      {question.answerTitle && isAskedByCurrentClient ? (
+        <View style={{ flexDirection: "row" }}>{renderHeadingAndLabels()}</View>
+      ) : null}
       {question.answerTitle ? (
         <>
-          {isInYourQuestions && renderHeadingAndLabels()}
-          <AppText namedStyle="text" numberOfLines={2}>
+          <AppText
+            namedStyle="text"
+            numberOfLines={2}
+            style={isAskedByCurrentClient && styles.marginTop_0_8}
+          >
             {question.answerText}
           </AppText>
           <TouchableOpacity onPress={() => handleReadMore(question)}>
@@ -182,14 +181,16 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
   },
   headingAndLabelsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
     textAlign: "left",
     marginBottom: 8,
-    width: "72%",
   },
   labelsContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
-    marginTop: 20,
   },
   label: {
     marginRight: 4,
@@ -197,6 +198,7 @@ const styles = StyleSheet.create({
   },
   questionAnswerTitle: {
     paddingTop: 12,
+    width: "100%",
   },
   marginTop_0_8: {
     marginTop: 8,
@@ -222,4 +224,5 @@ const styles = StyleSheet.create({
     fontFamily: appStyles.fontBold,
   },
   dateContainerText: { marginLeft: 4, color: appStyles.colorGray_92989b },
+  width100: { width: "100%" },
 });
