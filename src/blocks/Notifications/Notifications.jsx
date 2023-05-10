@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation, Trans } from "react-i18next";
 import { TouchableOpacity, StyleSheet, View } from "react-native";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { FlashList } from "@shopify/flash-list";
@@ -29,6 +29,7 @@ import {
   useMarkNotificationsAsRead,
   useAcceptConsultation,
   useRejectConsultation,
+  useGetAllConsultations,
 } from "#hooks";
 
 /**
@@ -46,6 +47,14 @@ export const Notifications = ({ navigation, openJoinConsultation }) => {
   const consultationsData = queryClient.getQueryData(["all-consultations"]);
 
   const [isLoadingProviders, setIsLoadingProviders] = useState(true);
+
+  let shouldFetchConsultations;
+  if (!consultationsData) {
+    shouldFetchConsultations = true;
+  }
+  const consultationsDataQuery = useGetAllConsultations(
+    !!shouldFetchConsultations
+  );
 
   const getNotifications = async ({ pageParam }) => {
     const { data } = await notificationsSvc.getNotifications(pageParam);
@@ -224,13 +233,23 @@ export const Notifications = ({ navigation, openJoinConsultation }) => {
             date={notification.createdAt}
             isRead={notification.isRead}
             title="USupport"
-            text={t(notification.type, {
-              providerName:
-                notificationProviders[notification.content.providerDetailId],
-              date,
-              startHour,
-              endHour,
-            })}
+            text={
+              <Trans
+                components={[
+                  <AppText namedStyle="smallText" style={styles.fontBold} />,
+                ]}
+              >
+                {t(notification.type, {
+                  providerName:
+                    notificationProviders[
+                      notification.content.providerDetailId
+                    ],
+                  date,
+                  startHour,
+                  endHour,
+                })}
+              </Trans>
+            }
             icon="calendar"
             handleClick={() =>
               handleNotificationClick(notification.notificationId)
@@ -243,16 +262,26 @@ export const Notifications = ({ navigation, openJoinConsultation }) => {
             date={notification.createdAt}
             isRead={notification.isRead}
             title="USupport"
-            text={t(notification.type, {
-              providerName:
-                notificationProviders[notification.content.providerDetailId],
-              date,
-              startHour,
-              endHour,
-              newDate,
-              newStartHour,
-              newEndHour,
-            })}
+            text={
+              <Trans
+                components={[
+                  <AppText namedStyle="smallText" style={styles.fontBold} />,
+                ]}
+              >
+                {t(notification.type, {
+                  providerName:
+                    notificationProviders[
+                      notification.content.providerDetailId
+                    ],
+                  date,
+                  startHour,
+                  endHour,
+                  newDate,
+                  newStartHour,
+                  newEndHour,
+                })}
+              </Trans>
+            }
             icon="calendar"
             handleClick={() =>
               handleNotificationClick(notification.notificationId)
@@ -265,13 +294,23 @@ export const Notifications = ({ navigation, openJoinConsultation }) => {
             date={notification.createdAt}
             isRead={notification.isRead}
             title="USupport"
-            text={t(notification.type, {
-              providerName:
-                notificationProviders[notification.content.providerDetailId],
-              date,
-              startHour,
-              endHour,
-            })}
+            text={
+              <Trans
+                components={[
+                  <AppText namedStyle="smallText" style={styles.fontBold} />,
+                ]}
+              >
+                {t(notification.type, {
+                  providerName:
+                    notificationProviders[
+                      notification.content.providerDetailId
+                    ],
+                  date,
+                  startHour,
+                  endHour,
+                })}
+              </Trans>
+            }
             icon="calendar"
             handleClick={() =>
               handleNotificationClick(notification.notificationId)
@@ -284,13 +323,23 @@ export const Notifications = ({ navigation, openJoinConsultation }) => {
             date={notification.createdAt}
             isRead={notification.isRead}
             title="USupport"
-            text={t(notification.type, {
-              providerName:
-                notificationProviders[notification.content.providerDetailId],
-              date,
-              startHour,
-              endHour,
-            })}
+            text={
+              <Trans
+                components={[
+                  <AppText namedStyle="smallText" style={styles.fontBold} />,
+                ]}
+              >
+                {t(notification.type, {
+                  providerName:
+                    notificationProviders[
+                      notification.content.providerDetailId
+                    ],
+                  date,
+                  startHour,
+                  endHour,
+                })}
+              </Trans>
+            }
             icon="calendar"
             handleClick={() =>
               handleNotificationClick(notification.notificationId)
@@ -303,9 +352,17 @@ export const Notifications = ({ navigation, openJoinConsultation }) => {
             date={notification.createdAt}
             isRead={notification.isRead}
             title="USupport"
-            text={t(notification.type, {
-              minutes: notification.content.minToConsultation,
-            })}
+            text={
+              <Trans
+                components={[
+                  <AppText namedStyle="smallText" style={styles.fontBold} />,
+                ]}
+              >
+                {t(notification.type, {
+                  minutes: notification.content.minToConsultation,
+                })}
+              </Trans>
+            }
             handleClick={() =>
               handleNotificationClick(notification.notificationId)
             }
@@ -335,13 +392,23 @@ export const Notifications = ({ navigation, openJoinConsultation }) => {
             date={notification.createdAt}
             isRead={notification.isRead}
             title="USupport"
-            text={t(notification.type, {
-              providerName:
-                notificationProviders[notification.content.providerDetailId],
-              date,
-              startHour,
-              endHour,
-            })}
+            text={
+              <Trans
+                components={[
+                  <AppText namedStyle="smallText" style={styles.fontBold} />,
+                ]}
+              >
+                {t(notification.type, {
+                  providerName:
+                    notificationProviders[
+                      notification.content.providerDetailId
+                    ],
+                  date,
+                  startHour,
+                  endHour,
+                })}
+              </Trans>
+            }
             icon="calendar"
           >
             {!notification.isRead ? (
@@ -383,13 +450,23 @@ export const Notifications = ({ navigation, openJoinConsultation }) => {
             date={notification.createdAt}
             isRead={notification.isRead}
             title="USupport"
-            text={t(notification.type, {
-              providerName:
-                notificationProviders[notification.content.providerDetailId],
-              date,
-              startHour,
-              endHour,
-            })}
+            text={
+              <Trans
+                components={[
+                  <AppText namedStyle="smallText" style={styles.fontBold} />,
+                ]}
+              >
+                {t(notification.type, {
+                  providerName:
+                    notificationProviders[
+                      notification.content.providerDetailId
+                    ],
+                  date,
+                  startHour,
+                  endHour,
+                })}
+              </Trans>
+            }
             icon="calendar"
             handleClick={() =>
               handleNotificationClick(notification.notificationId)
@@ -402,18 +479,75 @@ export const Notifications = ({ navigation, openJoinConsultation }) => {
             date={notification.createdAt}
             isRead={notification.isRead}
             title="USupport"
-            text={t(notification.type, {
-              providerName:
-                notificationProviders[notification.content.providerDetailId],
-              date,
-              startHour,
-              endHour,
-            })}
+            text={
+              <Trans
+                components={[
+                  <AppText namedStyle="smallText" style={styles.fontBold} />,
+                ]}
+              >
+                {t(notification.type, {
+                  providerName:
+                    notificationProviders[
+                      notification.content.providerDetailId
+                    ],
+                  date,
+                  startHour,
+                  endHour,
+                })}
+              </Trans>
+            }
             icon="calendar"
             handleClick={() =>
               handleNotificationClick(notification.notificationId)
             }
           />
+        );
+      case "consultation_started":
+        const canJoin = checkIsFiveMinutesBefore(notification.content.time);
+        return (
+          <Notification
+            date={notification.createdAt}
+            isRead={notification.isRead}
+            title="USupport"
+            text={
+              <Trans
+                components={[
+                  <AppText namedStyle="smallText" style={styles.fontBold} />,
+                ]}
+              >
+                {t(notification.type, {
+                  providerName:
+                    notificationProviders[
+                      notification.content.providerDetailId
+                    ],
+                })}
+              </Trans>
+            }
+            icon="calendar"
+            handleClick={() =>
+              handleNotificationClick(
+                notification.notificationId,
+                canJoin ? null : "Consultations"
+              )
+            }
+          >
+            {canJoin && (
+              <AppButton
+                size="md"
+                label={t("join")}
+                color="purple"
+                style={styles.centerButton}
+                onPress={() =>
+                  openJoinConsultation(
+                    consultationsData.find(
+                      (x) =>
+                        x.consultationId === notification.content.consultationId
+                    )
+                  )
+                }
+              />
+            )}
+          </Notification>
         );
       default:
         return null;
@@ -495,4 +629,5 @@ const styles = StyleSheet.create({
     paddingTop: 16,
   },
   suggestButton: { minWidth: 120 },
+  fontBold: { fontFamily: appStyles.fontBold },
 });
