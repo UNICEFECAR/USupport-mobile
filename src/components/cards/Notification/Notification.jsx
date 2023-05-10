@@ -105,7 +105,7 @@ Notification.propTypes = {
   /**
    *  Text
    **/
-  text: PropTypes.string,
+  text: PropTypes.object,
 
   /**
    * Read status
