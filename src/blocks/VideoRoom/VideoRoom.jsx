@@ -196,6 +196,7 @@ export const VideoRoom = ({
           leaveConsultation={disconnect}
           handleSendMessage={handleSendMessage}
           handleClose={handleControlsToggle}
+          isRoomConnecting={status !== "connected"}
           t={t}
           style={{ marginTop: topInset, elevation: 10, zIndex: 10 }}
         />
@@ -225,15 +226,7 @@ export const VideoRoom = ({
             left: 0,
           }}
         >
-          <Icon
-            name="stop-camera"
-            size="xl"
-            color="#ffffff"
-            style={{
-              width: 100,
-              height: 100,
-            }}
-          />
+          <Icon name="stop-camera" size="lg" color="#ffffff" />
         </View>
       )}
       {isVideoEnabled ? (
@@ -301,7 +294,7 @@ const styles = StyleSheet.create({
   },
   localVideoOff: {
     alignItems: "center",
-    backgroundColor: appStyles.colorGray_a6b4b8,
+    backgroundColor: appStyles.colorBlack_37,
     borderColor: appStyles.colorPrimary_20809e,
     borderRadius: 25,
     borderWidth: 1,

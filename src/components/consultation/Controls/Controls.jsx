@@ -24,11 +24,10 @@ export const Controls = ({
   handleClose,
   isCameraOn,
   isMicrophoneOn,
+  isRoomConnecting,
   style,
   t,
 }) => {
-  const renderIn = "client";
-
   const [isMicOpen, setIsMicOpen] = useState(isMicrophoneOn);
   const [isCameraOpen, setIsCameraOpen] = useState(isCameraOn);
 
@@ -39,6 +38,8 @@ export const Controls = ({
   const endDate = new Date(timestamp + ONE_HOUR);
 
   const handleMicClick = () => {
+    if (isRoomConnecting) return;
+
     const content = isMicOpen
       ? t("client_microphone_off")
       : t("client_microphone_on");
@@ -49,6 +50,8 @@ export const Controls = ({
   };
 
   const handleCameraClick = () => {
+    if (isRoomConnecting) return;
+
     const content = isCameraOpen
       ? t("client_camera_off")
       : t("client_camera_on");
@@ -95,7 +98,7 @@ export const Controls = ({
         </TouchableOpacity>
         <TouchableOpacity onPress={handleHangUp}>
           <Icon
-            style={styles.buttonHangup}
+            style={[styles.button, styles.buttonHangup]}
             name="hang-up"
             size="sm"
             color={appStyles.colorWhite_ff}
@@ -155,15 +158,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: appStyles.colorPrimary_20809e,
     padding: 11,
-    // backgroundColor: appStyles.colorPrimary_20809e,
   },
   buttonHangup: {
     backgroundColor: appStyles.colorRed_eb5757,
-    alignItems: "center",
-    justifyContent: "center",
-    width: 40,
-    height: 40,
-    borderRadius: 40 / 2,
+    borderColor: "transparent",
   },
 });
 

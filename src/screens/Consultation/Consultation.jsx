@@ -316,7 +316,7 @@ export const Consultation = ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: appStyles.colorGray_66768d,
+    backgroundColor: appStyles.colorBlack_37,
     flex: 1,
     flexGrow: 1,
   },
