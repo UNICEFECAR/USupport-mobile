@@ -106,16 +106,6 @@ export const ProviderDetails = ({
             ) : null}
           </>
         ) : null}
-        <View style={styles.iconAndTextContainer}>
-          <Icon name="call" size="md" color="#66768D" />
-          <AppText
-            style={styles.marginLeft12}
-          >{`${provider.phonePrefix} ${provider.phone}`}</AppText>
-        </View>
-        <View style={styles.iconAndTextContainer}>
-          <Icon name="mail-admin" size="md" />
-          <AppText style={styles.marginLeft12}>{provider.email}</AppText>
-        </View>
 
         {provider.consultationPrice > 0 ? (
           <View style={styles.iconAndTextContainer}>
