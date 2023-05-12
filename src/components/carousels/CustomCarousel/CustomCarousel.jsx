@@ -22,6 +22,7 @@ export const CustomCarousel = ({ data, style, ...props }) => {
         height={140}
         width={appStyles.screenWidth}
         autoPlay={true}
+        autoPlayInterval={3500}
         scrollAnimationDuration={2000}
         onProgressChange={(_, progress) => {
           setCurPage(Math.round(progress));
