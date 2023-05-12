@@ -166,6 +166,7 @@ export const RegisterEmail = ({ navigation }) => {
                 !data.isPrivacyAndTermsSelected
               )
             }
+            navigation={navigation}
             textOne={t("terms_agreement_text_1")}
             textTwo={t("terms_agreement_text_2")}
             textThree={t("terms_agreement_text_3")}

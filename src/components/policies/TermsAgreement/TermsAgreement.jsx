@@ -13,6 +13,7 @@ export const TermsAgreement = ({
   setIsChecked,
   textOne,
   textTwo,
+  navigation,
   textThree,
   textFour,
 }) => {
@@ -24,7 +25,7 @@ export const TermsAgreement = ({
         <AppText
           namedStyle="text"
           onPress={() => {
-            Linking.openURL(`${WEBSITE_URL}/privacy-policy`);
+            navigation.navigate("PrivacyPolicy");
           }}
           style={styles.purpleText}
         >

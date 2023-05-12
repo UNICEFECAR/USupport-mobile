@@ -8,6 +8,7 @@ import {
   Login,
   RegisterPreview,
   ForgotPassword,
+  PrivacyPolicy,
 } from "#screens";
 
 import { Context } from "#services";
@@ -27,6 +28,7 @@ export const AuthNavigation = () => {
       <Stack.Screen name="RegisterAnonymous" component={RegisterAnonymous} />
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
       <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
     </Stack.Navigator>
   );
 };
