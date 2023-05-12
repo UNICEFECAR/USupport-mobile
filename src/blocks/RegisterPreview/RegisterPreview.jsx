@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { StyleSheet, View, Image } from "react-native";
+import { StyleSheet, View, Image, ScrollView } from "react-native";
 
 import {
   Block,
@@ -84,63 +84,65 @@ export const RegisterPreview = ({ navigation }) => {
   };
 
   return (
-    <Block style={styles.block}>
-      <Heading
-        buttonComponent={
+    <ScrollView contentContainerStyle={styles.scrollView}>
+      <Block style={styles.block}>
+        <Heading
+          handleGoBack={() => {
+            if (navigation.canGoBack()) {
+              navigation.goBack();
+            } else {
+              navigation.navigate("Welcome");
+            }
+          }}
+        />
+
+        <View style={styles.imageContainer}>
+          <Image
+            source={require("../../assets/mascot-happy-blue.png")}
+            style={styles.image}
+          />
+        </View>
+
+        <View style={styles.contentContainer}>
+          <CustomCarousel
+            data={carouselItems}
+            renderItem={renderCarouselItems}
+            style={styles.carousel}
+          />
           <AppButton
             label={t("login")}
-            size="sm"
+            size="lg"
             color="purple"
             onPress={() => handleRedirect("Login")}
+            style={styles.accessAnonymouslyButton}
           />
-        }
-        handleGoBack={() => {
-          if (navigation.canGoBack()) {
-            navigation.goBack();
-          } else {
-            navigation.navigate("Welcome");
-          }
-        }}
-      />
-
-      <View style={styles.imageContainer}>
-        <Image
-          source={require("../../assets/mascot-happy-blue.png")}
-          style={styles.image}
-        />
-      </View>
-
-      <View style={styles.contentContainer}>
-        <CustomCarousel
-          data={carouselItems}
-          renderItem={renderCarouselItems}
-          style={{ marginBottom: 20 }}
-        />
-        <AppButton
-          label={t("register_email")}
-          size="lg"
-          onPress={() => handleRedirect("RegisterEmail")}
-        />
-        <AppButton
-          label={t("register_anonymously")}
-          size="lg"
-          type="secondary"
-          onPress={() => handleRedirect("RegisterAnonymous")}
-          style={styles.accessAnonymouslyButton}
-        />
-        <AppButton
-          label={t("continue_as_guest")}
-          type="ghost"
-          size="lg"
-          onPress={() => handleRedirect("Guest")}
-          loading={tmpLoginMutation.isLoading}
-        />
-      </View>
-    </Block>
+          <AppButton
+            label={t("register_email")}
+            size="lg"
+            onPress={() => handleRedirect("RegisterEmail")}
+          />
+          <AppButton
+            label={t("register_anonymously")}
+            size="lg"
+            type="secondary"
+            onPress={() => handleRedirect("RegisterAnonymous")}
+            style={styles.accessAnonymouslyButton}
+          />
+          <AppButton
+            label={t("continue_as_guest")}
+            type="ghost"
+            size="lg"
+            onPress={() => handleRedirect("Guest")}
+            loading={tmpLoginMutation.isLoading}
+          />
+        </View>
+      </Block>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollView: { flexGrow: 1 },
   block: {
     flex: 1,
   },
@@ -163,6 +165,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingBottom: 45,
   },
+  carousel: { marginBottom: 20 },
   accessAnonymouslyButton: {
     marginVertical: 16,
   },
