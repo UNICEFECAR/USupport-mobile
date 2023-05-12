@@ -41,7 +41,7 @@ export const Collapsible = ({ heading, content, style }) => {
       }, 250);
     } else {
       setIsExpanded(true);
-      expandableContainerHeight.value = withTiming(220, { delay: 100 });
+      expandableContainerHeight.value = withTiming(1500, { delay: 100 });
       arrowRotation.value = withTiming(180, { delay: 100 });
     }
   };
