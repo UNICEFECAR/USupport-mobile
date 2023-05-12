@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useContext } from "react";
+import React, { useState, useMemo } from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { useTranslation } from "react-i18next";
 
@@ -11,7 +11,7 @@ import {
   MoodTrackLineChart,
   MoodTrackDetails,
 } from "#components";
-import { useGetMoodTrackEntries } from "#hooks";
+import { useGetMoodTrackEntries, useSwipe } from "#hooks";
 
 /**
  * MoodTrackerHistory
@@ -88,16 +88,10 @@ export const MoodTrackHistory = ({}) => {
           ? mood.time.getMonth() + 1
           : `0${mood.time.getMonth() + 1}`
       }`;
-      const timeText = `${mood.time.getHours()}:${
-        mood.time.getMinutes() > 9
-          ? mood.time.getMinutes()
-          : `0${mood.time.getMinutes()}`
-      }`;
 
       return (
         <View key={index}>
           <AppText namedStyle="small-text">{dateText}</AppText>
-          <AppText namedStyle="small-text">{timeText}</AppText>
         </View>
       );
     });
@@ -111,6 +105,19 @@ export const MoodTrackHistory = ({}) => {
     setSelectedItemId(moodTrackerData[limit].entries[index].mood_tracker_id);
   };
 
+  const onSwipeLeft = () => {
+    if (pageNum > 0) {
+      handlePageChange();
+    }
+  };
+  const onSwipeRight = () => {
+    if (moodTrackerData[limit].hasMore) {
+      handlePageChange(true);
+    }
+  };
+
+  const { onTouchStart, onTouchEnd } = useSwipe(onSwipeLeft, onSwipeRight, 30);
+
   return (
     <Block style={styles.block}>
       {!moodTrackerData[limit] ? (
@@ -123,57 +130,63 @@ export const MoodTrackHistory = ({}) => {
         </View>
       ) : (
         <>
-          <View style={styles.chartContainer}>
-            <View style={styles.emoticonsContainer}>
-              <View
-                style={[
-                  styles.loadPreviusContainer,
-                  !moodTrackerData[limit].hasMore && styles.disabled,
-                ]}
-              >
-                <TouchableOpacity
-                  onPress={() =>
-                    moodTrackerData[limit].hasMore ? handlePageChange(true) : {}
-                  }
-                  disabled={!moodTrackerData[limit].hasMore}
-                >
-                  <Icon name="arrow-chevron-back" size="sm" color="#20809E" />
-                </TouchableOpacity>
-              </View>
-              {renderEmoticons()}
-            </View>
-            <View style={styles.lineChartContainer}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-                {renderDates()}
+          <View onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+            <View style={styles.chartContainer}>
+              <View style={styles.emoticonsContainer}>
                 <View
                   style={[
-                    styles.loadNextContainer,
-                    pageNum === 0 && styles.disabled,
+                    styles.loadPreviusContainer,
+                    !moodTrackerData[limit].hasMore && styles.disabled,
                   ]}
                 >
                   <TouchableOpacity
-                    onPress={() => (pageNum === 0 ? {} : handlePageChange())}
-                    disabled={pageNum === 0}
+                    onPress={() =>
+                      moodTrackerData[limit].hasMore
+                        ? handlePageChange(true)
+                        : {}
+                    }
+                    disabled={!moodTrackerData[limit].hasMore}
                   >
-                    <Icon
-                      name="arrow-chevron-forward"
-                      size="sm"
-                      color="#20809E"
-                      style={{ marginRight: 16 }}
-                    />
+                    <Icon name="arrow-chevron-back" size="sm" color="#20809E" />
                   </TouchableOpacity>
                 </View>
+                {renderEmoticons()}
               </View>
-              <MoodTrackLineChart
-                data={moodTrackerData[limit]?.entries || []}
-                handleSelectItem={handleMoodClick}
-                selectedItemId={selectedItemId}
-              />
+              <View style={styles.lineChartContainer}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  {renderDates()}
+                  <View
+                    style={[
+                      styles.loadNextContainer,
+                      pageNum === 0 && styles.disabled,
+                    ]}
+                  >
+                    <TouchableOpacity
+                      onPress={() => (pageNum === 0 ? {} : handlePageChange())}
+                      disabled={pageNum === 0}
+                    >
+                      <Icon
+                        name="arrow-chevron-forward"
+                        size="sm"
+                        color="#20809E"
+                        style={{ marginRight: 16 }}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+                <MoodTrackLineChart
+                  data={moodTrackerData[limit]?.entries || []}
+                  handleSelectItem={handleMoodClick}
+                  selectedItemId={selectedItemId}
+                  hidePointsAtIndex={[1, 2, 3, 4, 5]}
+                />
+              </View>
             </View>
           </View>
           {moodTrackerData[limit]?.entries.find(
