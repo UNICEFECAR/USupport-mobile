@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
   slide: {
     width: "96%",
     alignItems: "center",
+    paddingHorizontal: 16,
   },
   image: {
     width: appStyles.screenWidth * 0.85,
