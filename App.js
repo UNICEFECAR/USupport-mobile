@@ -86,55 +86,20 @@ function App() {
     setToken(null);
   };
 
-  const showToast = ({ message, type = "info" }) => {
-    Alert.alert(message);
-  };
-
   useEffect(() => {
     codePush.notifyApplicationReady();
     codePush
-      .sync(
-        {
-          installMode: codePush.InstallMode.IMMEDIATE,
-          minimumBackgroundDuration: 5,
-          updateDialog: true,
-          rollbackRetryOptions: 0,
-          maxRetryAttempts: 999,
-          deploymentKey:
-            Platform.OS === "android"
-              ? process.env.CODEPUSH_ANDROID_DEPLOYMENT_KEY
-              : process.env.CODEPUSH_IOS_DEPLOYMENT_KEY,
-        },
-        (status) => {
-          console.log(status, "status here");
-          switch (status) {
-            case codePush.SyncStatus.CHECKING_FOR_UPDATE:
-              showToast({ message: "Checking for updates." });
-              break;
-            case codePush.SyncStatus.DOWNLOADING_PACKAGE:
-              showToast({ message: "Downloading package." });
-              break;
-            case codePush.SyncStatus.INSTALLING_UPDATE:
-              showToast({ message: "Installing update." });
-              break;
-            case codePush.SyncStatus.UP_TO_DATE:
-              showToast({ message: "App up to date." });
-              break;
-            case codePush.SyncStatus.UPDATE_IGNORED:
-              showToast({
-                message: "Update cancelled by user.",
-                type: "error",
-              });
-              break;
-            case codePush.SyncStatus.UPDATE_INSTALLED:
-              showToast({
-                message: "Update installed and will be applied on restart.",
-                type: "success",
-              });
-              break;
-          }
-        }
-      )
+      .sync({
+        installMode: codePush.InstallMode.IMMEDIATE,
+        minimumBackgroundDuration: 5,
+        updateDialog: true,
+        rollbackRetryOptions: 0,
+        maxRetryAttempts: 999,
+        deploymentKey:
+          Platform.OS === "android"
+            ? process.env.CODEPUSH_ANDROID_DEPLOYMENT_KEY
+            : process.env.CODEPUSH_IOS_DEPLOYMENT_KEY,
+      })
       .catch((err) => {
         console.log(err, "err");
       });
