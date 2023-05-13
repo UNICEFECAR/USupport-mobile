@@ -54,7 +54,7 @@ export function Welcome({ navigation }) {
     const languages = res.data.map((x) => {
       const languageObject = {
         value: x.alpha2,
-        label: x.name,
+        label: x.name === "English" ? x.name : `${x.name} (${x.local_name})`,
         id: x["language_id"],
       };
       if (localStorageLanguage === x.alpha2) {
