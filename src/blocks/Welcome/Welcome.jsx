@@ -28,12 +28,13 @@ export function Welcome({ navigation }) {
       const countryObject = {
         value: x.alpha2,
         label: x.name,
-        id: x["country_id"],
-        minAge: x["min_client_age"],
-        maxAge: x["max_client_age"],
-        currencySymbol: x["symbol"],
+        id: x.country_id,
+        minAge: x.min_client_age,
+        maxAge: x.max_client_age,
+        currencySymbol: x.symbol,
+        localName: x.local_name,
       };
-
+      console.log(countryObject);
       if (localStorageCountry === x.alpha2) {
         if (!localStorageCountryID) {
           localStorage.setItem("country_id", x["country_id"]);
@@ -112,7 +113,12 @@ export function Welcome({ navigation }) {
         </View>
         <View style={styles.dropdownsContainer}>
           <Dropdown
-            options={countriesQuery.data}
+            options={countriesQuery.data?.map((x) => {
+              return {
+                ...x,
+                label: `${x.label} (${x.localName})`,
+              };
+            })}
             selected={selectedCountry}
             setSelected={handleSelectCountry}
             label={t("country")}
