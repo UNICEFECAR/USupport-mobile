@@ -25,6 +25,7 @@ export const JoinConsultation = ({ isOpen, onClose, consultation }) => {
       navigation.navigate("Consultation", {
         consultation,
         videoOn: redirectTo === "video",
+        microphoneOn: redirectTo === "video",
         token,
       });
     } catch (err) {

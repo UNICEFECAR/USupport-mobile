@@ -37,8 +37,8 @@ export const VideoRoom = ({
   t,
 }) => {
   const { top: topInset, bottom: bottomInset } = useSafeAreaInsets();
-  const [isAudioEnabled, setIsAudioEnabled] = useState(true);
-  const [isVideoEnabled, setIsVideoEnabled] = useState(true);
+  const [isAudioEnabled, setIsAudioEnabled] = useState(joinWithMicrophone);
+  const [isVideoEnabled, setIsVideoEnabled] = useState(joinWithVideo);
   const [status, setStatus] = useState("disconnected");
   const [participants, setParticipants] = useState(new Map());
   const [videoTracks, setVideoTracks] = useState(new Map());

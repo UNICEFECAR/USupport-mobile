@@ -48,6 +48,7 @@ export const Consultation = ({ navigation, route }) => {
 
   const consultation = location?.consultation;
   const joinWithVideo = location?.videoOn;
+  const joinWithMicrophone = location?.microphoneOn;
   const token = location?.token;
 
   if (!consultation || !token) return null;
@@ -256,6 +257,7 @@ export const Consultation = ({ navigation, route }) => {
       <View style={{ flexGrow: 1 }}>
         <VideoRoom
           joinWithVideo={joinWithVideo}
+          joinWithMicrophone={joinWithMicrophone}
           consultation={consultation}
           toggleChat={toggleChat}
           leaveConsultation={leaveConsultation}
