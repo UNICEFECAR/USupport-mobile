@@ -53,6 +53,7 @@ export const VideoRoom = ({
       roomName: consultation.consultationId,
       accessToken: token,
       enableVideo: joinWithVideo,
+      enableAudio: joinWithMicrophone,
       encodingParameters: {
         enableH264Codec: true,
         audioBitrate: 16,
