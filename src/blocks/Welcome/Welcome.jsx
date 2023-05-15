@@ -34,7 +34,6 @@ export function Welcome({ navigation }) {
         currencySymbol: x.symbol,
         localName: x.local_name,
       };
-      console.log(countryObject);
       if (localStorageCountry === x.alpha2) {
         if (!localStorageCountryID) {
           localStorage.setItem("country_id", x["country_id"]);
