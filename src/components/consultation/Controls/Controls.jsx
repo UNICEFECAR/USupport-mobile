@@ -107,27 +107,43 @@ export const Controls = ({
       </View>
     );
   };
-
+  const [isConsultationInformationShown, setConsultationInformationShown] =
+    useState(true);
   return (
-    <View style={[styles.container, style]}>
-      <ConsultationInformation
-        startDate={startDate}
-        endDate={endDate}
-        providerName={consultation.providerName}
-        providerImage={consultation.image}
-        showPriceBadge={false}
-        t={t}
-      />
+    <View
+      style={[
+        styles.container,
+        style,
+        {
+          paddingTop: isConsultationInformationShown ? 16 : 40,
+        },
+      ]}
+    >
       <TouchableOpacity
-        onPress={handleClose}
-        style={{
-          position: "absolute",
-          top: 16,
-          right: 16,
+        onPress={() => {
+          setConsultationInformationShown(!isConsultationInformationShown);
         }}
+        hitSlop={styles.arrowHitSlop}
+        style={styles.arrow}
       >
-        <Icon name="close-x" size="md" color="#000000" />
+        <Icon
+          name={`arrow-chevron-${
+            isConsultationInformationShown ? "up" : "down"
+          }`}
+          size="md"
+          color="#000000"
+        />
       </TouchableOpacity>
+      {isConsultationInformationShown ? (
+        <ConsultationInformation
+          startDate={startDate}
+          endDate={endDate}
+          providerName={consultation.providerName}
+          providerImage={consultation.image}
+          showPriceBadge={false}
+          t={t}
+        />
+      ) : null}
       {renderAllButtons()}
     </View>
   );
@@ -136,7 +152,7 @@ export const Controls = ({
 const styles = StyleSheet.create({
   container: {
     alignSelf: "center",
-    backgroundColor: appStyles.colorWhite_ff,
+    backgroundColor: "rgba(255, 255, 255, 0.75)",
     borderRadius: 20,
     maxWidth: 420,
     paddingBottom: 16,
@@ -163,6 +179,14 @@ const styles = StyleSheet.create({
     backgroundColor: appStyles.colorRed_eb5757,
     borderColor: "transparent",
   },
+  arrow: {
+    alignSelf: "flex-start",
+    position: "absolute",
+    top: 10,
+    right: 16,
+    zIndex: 10,
+  },
+  arrowHitSlop: { top: 20, bottom: 20, left: 20, right: 20 },
 });
 
 Controls.propTypes = {
