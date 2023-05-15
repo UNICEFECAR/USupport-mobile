@@ -121,7 +121,7 @@ export const MoodTracker = ({ navigation }) => {
       handleRegistrationModalOpen();
       return;
     }
-    navigation.push("MoodTracker");
+    navigation.navigate("MoodTrackHistory");
   };
 
   return (
