@@ -87,6 +87,29 @@ function App() {
   };
 
   useEffect(() => {
+    async function checkCurencySymbol() {
+      const localStorageCurrencySymbol = await localStorage.getItem(
+        "currencySymbol"
+      );
+      if (!currencySymbol && localStorageCurrencySymbol) {
+        setCurrencySymbol(localStorageCurrencySymbol);
+      }
+      if (!localStorageCurrencySymbol && currencySymbol) {
+        await localStorage.setItem("currencySymbol", currencySymbol);
+      }
+
+      if (
+        localStorageCurrencySymbol &&
+        currencySymbol &&
+        localStorageCurrencySymbol !== currencySymbol
+      ) {
+        await localStorage.setItem("currencySymbol", currencySymbol);
+      }
+    }
+    checkCurencySymbol();
+  }, [currencySymbol]);
+
+  useEffect(() => {
     codePush.notifyApplicationReady();
     codePush
       .sync({
