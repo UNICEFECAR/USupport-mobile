@@ -32,11 +32,12 @@ export const EmergencyCenter = ({
   };
 
   const handlePress = (link, isPhone = false) => {
+    console.log(phone, "link");
     if (isPhone) {
       if (Platform.OS === "android") {
-        Linking.openURL("tel:+777721772");
+        Linking.openURL(`tel:${phone}`);
       } else {
-        Linking.openURL("tel://+777721772");
+        Linking.openURL(`tel://${phone}`);
       }
     } else {
       Linking.openURL(link);
