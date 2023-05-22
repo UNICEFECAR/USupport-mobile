@@ -57,6 +57,18 @@ STRIPE_PUBLIC_KEY=pk_test_51MPzPVEFe7qoLe5D8bfwXpGuYvL0I98ui3P2lfM1cWoG1b0oRU8Gf
 
 The CODEPUSH_ANDROID_DEPLOYMENT_KEY and CODEPUSH_IOS_DEPLOYMENT_KEY enviorment variables are used for over-the-air updates, which is not required for local development. You can leave them empty or with the placeholder value.
 
+6. Install the Expo CLI globally:
+
+```sh
+npm install -g expo-cli
+```
+
+7. Run the following command to start the development server:
+
+```sh
+npm start
+```
+
 # Android
 
 1. Install Android Studio: Make sure you have Android Studio installed on your system. You can download it from the official website and follow the installation instructions.
