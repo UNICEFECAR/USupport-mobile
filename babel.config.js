@@ -1,3 +1,5 @@
+const path = require("path");
+
 module.exports = function (api) {
   api.cache(true);
   return {
@@ -6,19 +8,19 @@ module.exports = function (api) {
       [
         "module-resolver",
         {
-          root: ["./"],
+          root: [path.resolve("./")],
           alias: {
-            "#components": ["./src/components/index"],
-            "#styles": ["./src/styles/index"],
-            "#blocks": ["./src/blocks/index"],
-            "#services": ["./src/services/index"],
-            "#hooks": ["./src/hooks/index"],
-            "#screens": ["./src/screens/index"],
-            "#utils": ["./src/utils/index"],
-            "#navigation": ["./src/navigation/index"],
-            "#backdrops": ["./src/backdrops/index"],
-            "#assets": ["./src/assets/index"],
-            "#modals": ["./src/modals/index"],
+            "#components": [path.resolve("./src/components/index")],
+            "#styles": [path.resolve("./src/styles/index")],
+            "#blocks": [path.resolve("./src/blocks/index")],
+            "#services": [path.resolve("./src/services/index")],
+            "#hooks": [path.resolve("./src/hooks/index")],
+            "#screens": [path.resolve("./src/screens/index")],
+            "#utils": [path.resolve("./src/utils/index")],
+            "#navigation": [path.resolve("./src/navigation/index")],
+            "#backdrops": [path.resolve("./src/backdrops/index")],
+            "#assets": [path.resolve("./src/assets/index")],
+            "#modals": [path.resolve("./src/modals/index")],
           },
           extensions: [
             ".ios.js",
