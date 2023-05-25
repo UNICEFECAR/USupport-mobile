@@ -101,16 +101,27 @@ If you get an error saying "adb: command not found", make sure you have adb inst
 
 # iOS
 
-1. Make sure you have Xcode installed on your system. You can download it from the Mac App Store or the Apple Developer website. Note that an Apple Developer account is required to setup all the necessary certificates and provisioning profiles for running the project on a physical device. Running the project on the iOS Simulator does not require a paid Apple Developer account.
+1. Make sure you have Xcode and cocoapods installed on your system. You can download it from the Mac App Store or the Apple Developer website. Note that an Apple Developer account is required to setup all the necessary certificates and provisioning profiles for running the project on a physical device. Running the project on the iOS Simulator does not require a paid Apple Developer account.
 
 - [Download Xcode](https://developer.apple.com/xcode/)
+- install cocoapods
 
-2. Launch the Xcode app.
+```sh
+sudo gem install cocoapods
+```
 
-3. Open the project: In Xcode, select "Open another project" or "Open a project or file" from the welcome screen. Navigate to the root directory of the project and select the `USupport.xcworkspace` file. Xcode will then open the project.
+2. In a terminal run the following command:
 
-4. From the scheme dropdown in the toolbar(located in the top middle), open the dropdown and select the "USupport Dev" scheme.
+```sh
+npx pod-install
+```
 
-5. Next to the scheme dropdown, open the simulators dropdown and select a simulator or a physical device to run the project on.
+3. Launch the Xcode app.
 
-6. Click on the "Run" button or press Command+R to build and run the project. Xcode will compile the project, launch the chosen device or simulator, and deploy the React Native app onto it.
+4. Open the project: In Xcode, select "Open another project" or "Open a project or file" from the welcome screen. Navigate to the root directory of the project and select the `USupport.xcworkspace` file. Xcode will then open the project.
+
+5. From the scheme dropdown in the toolbar(located in the top middle), open the dropdown and select the "USupport Dev" scheme.
+
+6. Next to the scheme dropdown, open the simulators dropdown and select a simulator or a physical device to run the project on.
+
+7. Click on the "Run" button or press Command+R to build and run the project. Xcode will compile the project, launch the chosen device or simulator, and deploy the React Native app onto it.
