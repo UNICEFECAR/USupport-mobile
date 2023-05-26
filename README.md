@@ -2,6 +2,13 @@
 
 Importing and Running USupport mobile project in Android Studio and Xcode
 
+# Before you start
+
+1. Make sure that Node.js is installed on your system.
+   [Download Node.js](https://nodejs.org/en/download/)
+
+# Setup
+
 1. Clone the project with one of the following commands:
 
 ```sh
@@ -14,9 +21,10 @@ or
 git clone git@github.com:UNICEFECAR/USupport-mobile.git
 ```
 
-2. Enter in the project folder and run
+2. Enter inside the project directory and install the JavaScript dependencies:
 
 ```sh
+cd Usupport-mobile
 npm install
 ```
 
@@ -93,6 +101,8 @@ npm start
 adb reverse tcp:8081 tcp:8081
 ```
 
+and then reload the app on the device or emulator(by pressing "R" key in the terminal that is running the React Native server).
+
 If you get an error saying "adb: command not found", make sure you have adb installed on your system and that it is added to your PATH environment variable. [More Info](https://medium.com/androiddevelopers/help-adb-is-not-found-93e9ed8a67ee)
 
 # Useful links
@@ -110,7 +120,13 @@ If you get an error saying "adb: command not found", make sure you have adb inst
 sudo gem install cocoapods
 ```
 
-2. In a terminal run the following command:
+2. In a terminal run one of following commands to install the native dependencies:
+
+```sh
+cd ios && pod install
+```
+
+or
 
 ```sh
 npx pod-install
@@ -125,3 +141,23 @@ npx pod-install
 6. Next to the scheme dropdown, open the simulators dropdown and select a simulator or a physical device to run the project on.
 
 7. Click on the "Run" button or press Command+R to build and run the project. Xcode will compile the project, launch the chosen device or simulator, and deploy the React Native app onto it.
+
+## Committing changes
+
+```
+git commit -a -m "{commit message}"
+git push
+```
+
+## Please follow these naming conventions for your branches
+
+- Features `feature/{JIRA_ID}-{branch_name}`
+- Bugs `bug/{JIRA_ID}-{branch_name}`
+- Hotfixes `hotfix/{JIRA_ID}-{branch_name}`
+
+## Guidelines for writing a commit message when committing changes to any of the git submodules
+
+- Create: `[commit message]` (create a new component)
+- Add: `[commit message]` (addition to an existing component)
+- Fix: `[commit message]` (fix a bug within an existing component)
+- Refactor: `[commit message]` (refactor an existing component)
