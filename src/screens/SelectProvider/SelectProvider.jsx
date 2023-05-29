@@ -139,13 +139,13 @@ export const SelectProvider = ({ navigation }) => {
 
   return (
     <Screen>
-      <ScrollView>
+      <Heading
+        heading={t("heading")}
+        subheading={t("subheading")}
+        handleGoBack={handleGoBack}
+      />
+      <ScrollView style={{ marginTop: 112 }}>
         <Block>
-          <Heading
-            heading={t("heading")}
-            subheading={t("subheading")}
-            handleGoBack={handleGoBack}
-          />
           <View style={styles.buttonContainer}>
             <AppButton
               label={

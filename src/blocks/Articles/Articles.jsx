@@ -288,7 +288,7 @@ export const Articles = ({
 
   return (
     <>
-      <Block>
+      <Block style={{ marginTop: 100 }}>
         {showAgeGroups &&
         categoriesQuery?.data.length > 1 &&
         ageGroupsQuery?.data.length > 0 &&

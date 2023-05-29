@@ -6,6 +6,7 @@ import { PaymentsHistoryTable } from "#components";
 import { PaymentInformation } from "#modals";
 
 import { paymentsSvc } from "#services";
+import { View } from "react-native";
 
 export const PaymentHistory = () => {
   const { t } = useTranslation("payment-history");
@@ -76,7 +77,7 @@ export const PaymentHistory = () => {
   };
 
   return (
-    <>
+    <View style={{ marginTop: 112 }}>
       <PaymentsHistoryTable
         isLoading={
           paymentHistoryQuery.isLoading || paymentHistoryQuery.isFetching
@@ -93,6 +94,6 @@ export const PaymentHistory = () => {
           data={selectedPaymentData}
         />
       ) : null}
-    </>
+    </View>
   );
 };

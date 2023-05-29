@@ -54,7 +54,7 @@ export const PaymentsHistoryTable = ({
     );
   };
 
-  return !data.length > 0 ? (
+  return !isLoading && !data.length > 0 ? (
     <Block>
       <View style={styles.noPayments}>
         <AppText namedStyle="h3" style={styles.noHistoryText}>

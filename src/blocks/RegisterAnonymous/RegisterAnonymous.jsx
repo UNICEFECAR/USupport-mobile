@@ -169,19 +169,19 @@ export const RegisterAnonymous = ({ navigation }) => {
         isRegisterLoading={registerMutation.isLoading}
         t={t}
       />
-      <Block style={{ flex: 1, flexGrow: 1 }}>
+      <Heading
+        heading={t("heading")}
+        subheading={t("subheading")}
+        handleGoBack={() => navigation.goBack()}
+      />
+      <Block style={{ flex: 1, flexGrow: 1, marginTop: 112 }}>
         <KeyboardAvoidingView
           style={styles.keyboardAvoidingView}
           behavior={Platform.OS === "ios" ? "padding" : null}
           enabled
         >
           <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            <Heading
-              heading={t("heading")}
-              subheading={t("subheading")}
-              handleGoBack={() => navigation.goBack()}
-            />
-            <View style={styles.codeContainer}>
+            <View>
               <AppText isSemibold>{t("access_code")}</AppText>
               {userAccessToken ? (
                 <View style={styles.copyCodeContainer}>
@@ -367,9 +367,6 @@ const SaveAccessCodeConfirmation = ({
 
 const styles = StyleSheet.create({
   keyboardAvoidingView: { flex: 1, paddingTop: 20 },
-  codeContainer: {
-    paddingTop: 40,
-  },
   copyCodeContainer: {
     flexDirection: "row",
     alignSelf: "center",

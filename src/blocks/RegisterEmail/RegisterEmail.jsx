@@ -1,5 +1,10 @@
 import React, { useContext, useState } from "react";
-import { StyleSheet, KeyboardAvoidingView, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  KeyboardAvoidingView,
+  ScrollView,
+  View,
+} from "react-native";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -121,14 +126,14 @@ export const RegisterEmail = ({ navigation }) => {
       behavior={Platform.OS === "ios" ? "padding" : null}
     >
       <Block style={styles.flexGrow}>
+        <Heading
+          heading={t("heading")}
+          handleGoBack={() => navigation.goBack()}
+        />
         <ScrollView
-          contentContainerStyle={styles.flexGrow}
+          contentContainerStyle={[styles.flexGrow, { marginTop: 64 }]}
           keyboardShouldPersistTaps="handled"
         >
-          <Heading
-            heading={t("heading")}
-            handleGoBack={() => navigation.goBack()}
-          />
           <Input
             label={t("email_label")}
             style={styles.input}

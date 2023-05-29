@@ -126,16 +126,16 @@ export const ContactUs = ({ navigation }) => {
       style={styles.flexGrow}
       behavior={Platform.OS === "ios" ? "padding" : null}
     >
+      <Heading
+        heading={t("heading")}
+        subheading={t("subheading")}
+        handleGoBack={handleGoBack}
+      />
       <ScrollView
-        contentContainerStyle={styles.flexGrow}
+        contentContainerStyle={[styles.flexGrow, { marginTop: 84 }]}
         keyboardShouldPersistTaps="never"
       >
         <Block style={styles.block}>
-          <Heading
-            heading={t("heading")}
-            subheading={t("subheading")}
-            handleGoBack={handleGoBack}
-          />
           <Dropdown
             label={t("issue")}
             style={styles.dropdown}

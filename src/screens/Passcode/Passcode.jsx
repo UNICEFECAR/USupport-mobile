@@ -16,13 +16,11 @@ export const Passcode = ({ navigation }) => {
 
   return (
     <Screen>
-      <Block>
-        <Heading
-          heading={t("heading")}
-          subheading={t("subheading")}
-          handleGoBack={() => navigation.goBack()}
-        />
-      </Block>
+      <Heading
+        heading={t("heading")}
+        subheading={t("subheading")}
+        handleGoBack={() => navigation.goBack()}
+      />
       <PasscodeBlock navigation={navigation} />
     </Screen>
   );

@@ -1,15 +1,17 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 
-import { Screen, CardMedia, Block, Loading, AppText } from "#components";
+import { Screen, CardMedia, Block, Loading, AppText, Icon } from "#components";
 
 import { ArticleView } from "#blocks";
 
 import { cmsSvc, adminSvc } from "#services";
 
 import { destructureArticleData } from "#utils";
+
+import { appStyles } from "#styles";
 
 /**
  * ArticleInformation
@@ -94,6 +96,12 @@ export const ArticleInformation = ({ navigation, route }) => {
 
   return (
     <Screen>
+      <TouchableOpacity
+        style={styles.goBackIconContainer}
+        onPress={() => navigation.goBack()}
+      >
+        <Icon name="arrow-chevron-back" color={appStyles.colorPrimary_20809e} />
+      </TouchableOpacity>
       <ScrollView showsVerticalScrollIndicator={false}>
         {articleData ? (
           <ArticleView articleData={articleData} navigation={navigation} />
@@ -149,6 +157,20 @@ export const ArticleInformation = ({ navigation, route }) => {
 };
 
 const styles = StyleSheet.create({
+  goBackIconContainer: {
+    position: "absolute",
+    top: 20,
+    left: 20,
+    padding: 2,
+    backgroundColor: appStyles.colorWhite_ff,
+    borderRadius: 50,
+    borderWidht: 1,
+    borderColor: "transparent",
+    ...appStyles.shadow_1,
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 999,
+  },
   moreArticlesHeading: {
     marginTop: 40,
     marginBottom: 24,

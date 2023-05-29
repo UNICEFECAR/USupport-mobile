@@ -1,8 +1,7 @@
 import React from "react";
-import { ScrollView } from "react-native";
 import { useTranslation } from "react-i18next";
 
-import { Screen, Heading, Block } from "#components";
+import { Screen, Heading } from "#components";
 
 import { Articles as ArticlesBlock } from "#blocks";
 
@@ -40,16 +39,12 @@ export const Articles = ({ navigation, route }) => {
 
   return (
     <Screen>
-      {/* <ScrollView> */}
-      <Block>
-        <Heading
-          heading={heading}
-          subheading={subheading}
-          handleGoBack={() => navigation.goBack()}
-        />
-      </Block>
+      <Heading
+        heading={heading}
+        subheading={subheading}
+        handleGoBack={() => navigation.goBack()}
+      />
       <ArticlesBlock navigation={navigation} route={route} />
-      {/* </ScrollView> */}
     </Screen>
   );
 };

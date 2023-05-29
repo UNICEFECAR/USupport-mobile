@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 import Markdown from "react-native-markdown-display";
 
 import { Icon, Label, Block, AppText } from "#components";
@@ -15,7 +15,7 @@ import articlePlaceholder from "#assets";
  *
  * @return {jsx}
  */
-export const ArticleView = ({ articleData, navigation }) => {
+export const ArticleView = ({ articleData }) => {
   return (
     <>
       <View style={styles.imageContainer}>
@@ -27,15 +27,6 @@ export const ArticleView = ({ articleData, navigation }) => {
           }
           style={styles.image}
         />
-        <TouchableOpacity
-          style={styles.goBackIconContainer}
-          onPress={() => navigation.goBack()}
-        >
-          <Icon
-            name="arrow-chevron-back"
-            color={appStyles.colorPrimary_20809e}
-          />
-        </TouchableOpacity>
       </View>
 
       <Block style={styles.block}>
@@ -78,19 +69,7 @@ const styles = StyleSheet.create({
   block: { paddingBottom: 40, paddingTop: 16 },
   imageContainer: { width: "100%", height: 264, position: "relative" },
   image: { flex: 1 },
-  goBackIconContainer: {
-    position: "absolute",
-    top: 20,
-    left: 20,
-    padding: 2,
-    backgroundColor: appStyles.colorWhite_ff,
-    borderRadius: 50,
-    borderWidht: 1,
-    borderColor: "transparent",
-    ...appStyles.shadow_1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
+
   labelsContainer: {
     display: "flex",
     flexDirection: "row",

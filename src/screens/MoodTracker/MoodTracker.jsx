@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { Screen, Block, Heading } from "#components";
 import { MoodTrackHistory } from "#blocks";
 import { Context } from "#services";
+import { AppText } from "../../components/texts";
 
 /**
  * MoodTracker
@@ -31,13 +32,9 @@ export const MoodTracker = ({ navigation }) => {
       style={styles.screen}
     >
       <ScrollView>
-        <Block>
-          <Heading
-            heading={t("heading")}
-            handleGoBack={() => navigation.goBack()}
-            subheading={t("subheading")}
-            hasGoBackArrow={false}
-          />
+        <Block style={{ marginTop: 18 }}>
+          <AppText namedStyle="h3">{t("heading")}</AppText>
+          <AppText>{t("subheading")}</AppText>
         </Block>
         {!isTmpUser ? <MoodTrackHistory /> : null}
       </ScrollView>

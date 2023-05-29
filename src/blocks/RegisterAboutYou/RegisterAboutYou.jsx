@@ -149,13 +149,12 @@ export const RegisterAboutYou = ({ navigation }) => {
 
   return (
     <Block style={styles.flex1}>
+      <Heading
+        heading={t("heading")}
+        hasGoBackArrow={false}
+        style={styles.heading}
+      />
       <ScrollView contentContainerStyle={styles.scrollViewContentContainer}>
-        <Heading
-          heading={t("heading")}
-          hasGoBackArrow={false}
-          style={styles.heading}
-        />
-
         <View style={styles.inputContainer}>
           <Input
             autoCapitalize={true}
@@ -236,5 +235,6 @@ const styles = StyleSheet.create({
   scrollViewContentContainer: {
     flex: 1,
     flexGrow: 1,
+    marginTop: 64,
   },
 });

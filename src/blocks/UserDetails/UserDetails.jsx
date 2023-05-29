@@ -275,11 +275,11 @@ export const UserDetails = ({
 
   return (
     <Block style={styles.block}>
+      <Heading heading={t("heading")} handleGoBack={handleGoBack} />
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
       >
-        <Heading heading={t("heading")} handleGoBack={handleGoBack} />
         {clientDataQuery.isLoading || !clientData ? (
           <View
             style={{
@@ -462,7 +462,7 @@ export const UserDetails = ({
 
 const styles = StyleSheet.create({
   block: { flex: 1 },
-  profilePicturePreview: { alignSelf: "center" },
+  profilePicturePreview: { alignSelf: "center", marginTop: 84 },
   accessToken: {
     marginTop: 20,
     width: "93%",

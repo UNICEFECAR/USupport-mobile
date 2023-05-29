@@ -21,13 +21,12 @@ export const ChangePasscode = ({ navigation, route }) => {
 
   return (
     <Screen>
-      <Block>
-        <Heading
-          heading={t("heading")}
-          subheading={subheading}
-          handleGoBack={() => navigation.goBack()}
-        />
-      </Block>
+      <Heading
+        heading={t("heading")}
+        subheading={subheading}
+        handleGoBack={() => navigation.goBack()}
+      />
+      <Block></Block>
       <ChangePasscodeBlock route={route} navigation={navigation} />
     </Screen>
   );

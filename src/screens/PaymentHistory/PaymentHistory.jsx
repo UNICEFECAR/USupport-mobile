@@ -17,13 +17,11 @@ export const PaymentHistory = ({ navigation }) => {
 
   return (
     <Screen>
-      <Block>
-        <Heading
-          heading={t("heading")}
-          subheading={t("subheading")}
-          handleGoBack={() => navigation.goBack()}
-        />
-      </Block>
+      <Heading
+        heading={t("heading")}
+        subheading={t("subheading")}
+        handleGoBack={() => navigation.goBack()}
+      />
       <PaymentHistoryBlock />
     </Screen>
   );

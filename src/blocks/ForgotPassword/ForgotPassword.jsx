@@ -53,7 +53,7 @@ export const ForgotPassword = ({ navigation }) => {
   };
 
   return (
-    <Block>
+    <Block style={{ marginTop: 100 }}>
       <View style={styles.contentContainer}>
         <Input
           label={t("input_email_label")}

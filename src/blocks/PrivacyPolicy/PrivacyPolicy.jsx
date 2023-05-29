@@ -60,25 +60,26 @@ export const PrivacyPolicy = ({ navigation }) => {
   };
 
   return (
-    <ScrollView>
-      <Block>
-        <Heading heading={t("heading")} handleGoBack={handleGoBack} />
-
-        <View style={styles.privacyContainer}>
-          {policiesData && <Markdown style={styles}>{policiesData}</Markdown>}
-          {!policiesData && policiesLoading && (
-            <View style={styles.loadingContainer}>
-              <Loading />
-            </View>
-          )}
-          {!policiesData && !policiesLoading && isPoliciesFetched && (
-            <AppText namedStlye="h3" className="privacy-policy__no-results">
-              {t("no_results")}
-            </AppText>
-          )}
-        </View>
-      </Block>
-    </ScrollView>
+    <React.Fragment>
+      <Heading heading={t("heading")} handleGoBack={handleGoBack} />
+      <ScrollView>
+        <Block style={{ marginTop: 48 }}>
+          <View style={styles.privacyContainer}>
+            {policiesData && <Markdown style={styles}>{policiesData}</Markdown>}
+            {!policiesData && policiesLoading && (
+              <View style={styles.loadingContainer}>
+                <Loading />
+              </View>
+            )}
+            {!policiesData && !policiesLoading && isPoliciesFetched && (
+              <AppText namedStlye="h3" className="privacy-policy__no-results">
+                {t("no_results")}
+              </AppText>
+            )}
+          </View>
+        </Block>
+      </ScrollView>
+    </React.Fragment>
   );
 };
 

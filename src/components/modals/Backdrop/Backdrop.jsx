@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
     height: appStyles.screenHeight,
     backgroundColor: appStyles.overlay,
     position: "absolute",
-    zIndex: 2,
+    zIndex: 5,
     // top: "-50%",
     left: 0,
     right: 0,

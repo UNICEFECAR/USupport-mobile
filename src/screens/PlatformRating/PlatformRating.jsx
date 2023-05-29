@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { PlatformRating as PlatformRatingBlock } from "#blocks";
 
-import { Screen, Heading, Block } from "#components";
+import { Screen, Heading } from "#components";
 
 /**
  * PlatformRating
@@ -17,13 +17,11 @@ export const PlatformRating = ({ navigation }) => {
 
   return (
     <Screen>
-      <Block>
-        <Heading
-          heading={t("heading")}
-          subheading={t("subheading")}
-          handleGoBack={() => navigation.goBack()}
-        />
-      </Block>
+      <Heading
+        heading={t("heading")}
+        subheading={t("subheading")}
+        handleGoBack={() => navigation.goBack()}
+      />
       <PlatformRatingBlock navigation={navigation} />
     </Screen>
   );

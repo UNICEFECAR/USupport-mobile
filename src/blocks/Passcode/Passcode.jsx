@@ -100,7 +100,7 @@ export const Passcode = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  block: { paddingTop: 32 },
+  block: { paddingTop: 118 },
   label: {
     color: appStyles.colorBlue_3d527b,
     fontFamily: appStyles.fontSemiBold,

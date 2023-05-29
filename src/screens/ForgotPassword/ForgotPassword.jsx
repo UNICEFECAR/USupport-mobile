@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-import { Screen, Block, Heading } from "#components";
+import { Screen, Heading } from "#components";
 import { ForgotPassword as ForgotPasswordBlock } from "#blocks";
 
 /**
@@ -16,9 +16,7 @@ export const ForgotPassword = ({ navigation }) => {
 
   return (
     <Screen hasEmergencyButton={false}>
-      <Block>
-        <Heading heading={t("heading")} handleGoBack={navigation.goBack} />
-      </Block>
+      <Heading heading={t("heading")} handleGoBack={navigation.goBack} />
       <ForgotPasswordBlock navigation={navigation} />
     </Screen>
   );

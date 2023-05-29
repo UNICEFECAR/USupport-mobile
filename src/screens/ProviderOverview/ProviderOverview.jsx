@@ -128,14 +128,14 @@ export const ProviderOverview = ({ navigation, route }) => {
 
   return (
     <Screen hasEmergencyButton={false} style={styles.flexGrow1}>
-      <ScrollView contentContainerStyle={styles.flexGrow1}>
-        <Block>
-          <Heading
-            heading={t("heading")}
-            subheading={t("subheading")}
-            handleGoBack={() => navigation.goBack()}
-          />
-        </Block>
+      <Heading
+        heading={t("heading")}
+        subheading={t("subheading")}
+        handleGoBack={() => navigation.goBack()}
+      />
+      <ScrollView
+        contentContainerStyle={[styles.flexGrow1, { marginTop: 112 }]}
+      >
         <ProviderOverviewBlock
           navigation={navigation}
           openScheduleBackdrop={openScheduleBackdrop}

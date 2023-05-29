@@ -98,15 +98,15 @@ export const Login = ({ navigation }) => {
       style={styles.keyboardAvoidingView}
       behavior={Platform.OS === "ios" ? "padding" : null}
     >
-      <Block style={styles.flexGrow}>
+      <Heading
+        heading={t("heading")}
+        handleGoBack={() => navigation.goBack()}
+      />
+      <Block style={[styles.flexGrow, { marginTop: 84 }]}>
         <ScrollView
           contentContainerStyle={styles.flexGrow}
           keyboardShouldPersistTaps="handled"
         >
-          <Heading
-            heading={t("heading")}
-            handleGoBack={() => navigation.goBack()}
-          />
           <Input
             label={t("email_label")}
             onChange={(value) => handleChange("email", value)}
@@ -151,7 +151,7 @@ export const Login = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  keyboardAvoidingView: { flex: 1, paddingTop: 30 },
+  keyboardAvoidingView: { flex: 1 },
   input: {
     alignSelf: "center",
   },

@@ -79,12 +79,15 @@ export const FAQ = ({ navigation }) => {
 
   return (
     <Block>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <Heading
-          heading={t("heading")}
-          subheading={t("subheading")}
-          handleGoBack={handleGoBack}
-        />
+      <Heading
+        heading={t("heading")}
+        subheading={t("subheading")}
+        handleGoBack={handleGoBack}
+      />
+      <ScrollView
+        style={{ marginTop: 84 }}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.faqContainer}>
           {isFaqLoading && FAQsData?.length ? (
             <Loading style={styles.loading} />

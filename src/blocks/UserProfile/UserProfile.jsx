@@ -65,111 +65,118 @@ export const UserProfile = ({ navigation }) => {
   const handleLogout = useLogout();
 
   return (
-    <Block style={styles.block}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <Heading
-          heading={t("heading")}
-          subheading={t("subheading")}
-          buttonComponent={
-            <ButtonWithIcon
-              iconName="exit"
-              label={t("button_label")}
-              onPress={handleLogout}
-              size="md"
-            />
-          }
-          handleGoBack={() => navigation.goBack()}
-        />
-
-        <View style={styles.group}>
-          <AppText style={styles.groupHeading}>
-            {t("first_group_heading")}
-          </AppText>
-          <ButtonSelector
-            label={displayName || t("guest")}
-            onPress={() => handleRedirect("UserDetails")}
-            avatar={{
-              uri: `${AMAZON_S3_BUCKET}/${clientData?.image || "default"}`,
-            }}
-            style={[styles.buttonSelector, styles.buttonSelectorFirstInGroup]}
+    <React.Fragment>
+      <Heading
+        heading={t("heading")}
+        subheading={t("subheading")}
+        buttonComponent={
+          <ButtonWithIcon
+            iconName="exit"
+            label={t("button_label")}
+            onPress={handleLogout}
+            size="md"
           />
-        </View>
-
-        <View style={styles.group}>
-          <AppText style={styles.groupHeading}>
-            {t("second_group_heading")}
-          </AppText>
-          <ButtonSelector
-            iconName="fingerprint"
-            label={t("passcoode_and_biometrics_button_label")}
-            onPress={() => handleRedirect("Passcode")}
-            style={[styles.buttonSelector, styles.buttonSelectorFirstInGroup]}
-          />
-          <ButtonSelector
-            label={t("notifications_settings_button_label")}
-            iconName="notification"
-            onPress={() => handleRedirect("NotificationPreferences")}
-            style={styles.buttonSelector}
-          />
-        </View>
-
-        <View style={styles.group}>
-          <AppText style={styles.groupHeading}>{t("rate_share")}</AppText>
-          <ButtonSelector
-            label={t("rate_us_button_label")}
-            iconName="star"
-            onPress={() => handleRedirect("PlatformRating")}
-            style={[styles.buttonSelector, styles.buttonSelectorFirstInGroup]}
-          />
-          <ButtonSelector
-            label={t("share_button_label")}
-            iconName="share"
-            onPress={() => handleRedirect("SharePlatform")}
-            style={styles.buttonSelector}
-          />
-        </View>
-
-        <View style={[styles.group, styles.lastGroup]}>
-          <AppText style={styles.groupHeading}>{t("other")}</AppText>
-          {!isTmpUser ? (
+        }
+        handleGoBack={() => navigation.goBack()}
+      />
+      <Block style={styles.block}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.group}>
+            <AppText style={styles.groupHeading}>
+              {t("first_group_heading")}
+            </AppText>
             <ButtonSelector
-              label={t("payments_history_button_label")}
-              iconName="payment-history"
+              label={displayName || t("guest")}
+              onPress={() => handleRedirect("UserDetails")}
+              avatar={{
+                uri: `${AMAZON_S3_BUCKET}/${clientData?.image || "default"}`,
+              }}
               style={[styles.buttonSelector, styles.buttonSelectorFirstInGroup]}
-              onPress={() => handleRedirect("PaymentHistory")}
             />
-          ) : null}
-          <ButtonSelector
-            label={t("contact_us_button_label")}
-            iconName="comment"
-            onPress={() => handleRedirect("ContactUs")}
-            style={styles.buttonSelector}
-          />
-          <ButtonSelector
-            label={t("privacy_policy_button_label")}
-            iconName="document"
-            onPress={() => handleRedirect("PrivacyPolicy")}
-            style={styles.buttonSelector}
-          />
-          {/* <ButtonSelector
+          </View>
+
+          <View style={styles.group}>
+            <AppText style={styles.groupHeading}>
+              {t("second_group_heading")}
+            </AppText>
+            <ButtonSelector
+              iconName="fingerprint"
+              label={t("passcoode_and_biometrics_button_label")}
+              onPress={() => handleRedirect("Passcode")}
+              style={[styles.buttonSelector, styles.buttonSelectorFirstInGroup]}
+            />
+            <ButtonSelector
+              label={t("notifications_settings_button_label")}
+              iconName="notification"
+              onPress={() => handleRedirect("NotificationPreferences")}
+              style={styles.buttonSelector}
+            />
+          </View>
+
+          <View style={styles.group}>
+            <AppText style={styles.groupHeading}>{t("rate_share")}</AppText>
+            <ButtonSelector
+              label={t("rate_us_button_label")}
+              iconName="star"
+              onPress={() => handleRedirect("PlatformRating")}
+              style={[styles.buttonSelector, styles.buttonSelectorFirstInGroup]}
+            />
+            <ButtonSelector
+              label={t("share_button_label")}
+              iconName="share"
+              onPress={() => handleRedirect("SharePlatform")}
+              style={styles.buttonSelector}
+            />
+          </View>
+
+          <View style={[styles.group, styles.lastGroup]}>
+            <AppText style={styles.groupHeading}>{t("other")}</AppText>
+            {!isTmpUser ? (
+              <ButtonSelector
+                label={t("payments_history_button_label")}
+                iconName="payment-history"
+                style={[
+                  styles.buttonSelector,
+                  styles.buttonSelectorFirstInGroup,
+                ]}
+                onPress={() => handleRedirect("PaymentHistory")}
+              />
+            ) : null}
+            <ButtonSelector
+              label={t("contact_us_button_label")}
+              iconName="comment"
+              onPress={() => handleRedirect("ContactUs")}
+              style={styles.buttonSelector}
+            />
+            <ButtonSelector
+              label={t("privacy_policy_button_label")}
+              iconName="document"
+              onPress={() => handleRedirect("PrivacyPolicy")}
+              style={styles.buttonSelector}
+            />
+            {/* <ButtonSelector
             label={t("terms_and_conditions")}
             iconName="document"
             onPress={() => handleRedirect("TermsOfUse")}
             style={styles.buttonSelector}
           /> */}
-          <ButtonSelector
-            label={t("FAQ_button_label")}
-            iconName="info"
-            onPress={() => handleRedirect("FAQ")}
-            style={styles.buttonSelector}
-          />
-        </View>
-      </ScrollView>
-    </Block>
+            <ButtonSelector
+              label={t("FAQ_button_label")}
+              iconName="info"
+              onPress={() => handleRedirect("FAQ")}
+              style={styles.buttonSelector}
+            />
+          </View>
+        </ScrollView>
+      </Block>
+    </React.Fragment>
   );
 };
 
 const styles = StyleSheet.create({
+  block: {
+    marginTop: 112,
+  },
   group: {
     marginTop: 24,
     display: "flex",

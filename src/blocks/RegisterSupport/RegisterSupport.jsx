@@ -101,43 +101,49 @@ export const RegisterSupport = ({ navigation }) => {
   const canContinue = data !== null;
 
   return (
-    <Block style={[styles.flex1, styles.alignItemsCenter]}>
+    <React.Fragment>
       <Heading
         heading={t("heading")}
         handleGoBack={() => navigation.goBack()}
       />
-      <RadioButtonSelectorGroup
-        name="doYouNeedHelp"
-        options={options}
-        selected={data}
-        setSelected={handleChange}
-        style={styles.radioButtonSelectorGroup}
-      />
-      {showError ? <Error message={t("error")} /> : null}
-      <View
-        style={[styles.buttonContainer, styles.flex1, styles.alignItemsCenter]}
-      >
-        <AppButton
-          disabled={!canContinue}
-          label={t("button_continue_label")}
-          size="lg"
-          onPress={() => handleContinue()}
+      <Block style={[styles.flex1, styles.alignItemsCenter, { marginTop: 48 }]}>
+        <RadioButtonSelectorGroup
+          name="doYouNeedHelp"
+          options={options}
+          selected={data}
+          setSelected={handleChange}
+          style={styles.radioButtonSelectorGroup}
         />
-      </View>
-      <TransparentModal
-        heading={t("modal_heading")}
-        text={t("modal_paragraph")}
-        isOpen={isModalOpen}
-        handleClose={closeModal}
-        ctaLabel={t("modal_cta_1")}
-        ctaHandleClick={handleGivePermission}
-        isCtaDisabled={isSubmitting}
-        secondaryCtaLabel={t("modal_cta_2")}
-        secondaryCtaType="secondary"
-        secondaryCtaHandleClick={closeModal}
-        errorMessage={submitError}
-      />
-    </Block>
+        {showError ? <Error message={t("error")} /> : null}
+        <View
+          style={[
+            styles.buttonContainer,
+            styles.flex1,
+            styles.alignItemsCenter,
+          ]}
+        >
+          <AppButton
+            disabled={!canContinue}
+            label={t("button_continue_label")}
+            size="lg"
+            onPress={() => handleContinue()}
+          />
+        </View>
+        <TransparentModal
+          heading={t("modal_heading")}
+          text={t("modal_paragraph")}
+          isOpen={isModalOpen}
+          handleClose={closeModal}
+          ctaLabel={t("modal_cta_1")}
+          ctaHandleClick={handleGivePermission}
+          isCtaDisabled={isSubmitting}
+          secondaryCtaLabel={t("modal_cta_2")}
+          secondaryCtaType="secondary"
+          secondaryCtaHandleClick={closeModal}
+          errorMessage={submitError}
+        />
+      </Block>
+    </React.Fragment>
   );
 };
 

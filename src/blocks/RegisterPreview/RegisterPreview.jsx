@@ -84,60 +84,62 @@ export const RegisterPreview = ({ navigation }) => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollView}>
-      <Block style={styles.block}>
-        <Heading
-          handleGoBack={() => {
-            if (navigation.canGoBack()) {
-              navigation.goBack();
-            } else {
-              navigation.navigate("Welcome");
-            }
-          }}
-        />
+    <React.Fragment>
+      <Heading
+        handleGoBack={() => {
+          if (navigation.canGoBack()) {
+            navigation.goBack();
+          } else {
+            navigation.navigate("Welcome");
+          }
+        }}
+        hasBackground={false}
+      />
+      <ScrollView contentContainerStyle={styles.scrollView}>
+        <Block style={styles.block}>
+          <View style={styles.imageContainer}>
+            <Image
+              source={require("../../assets/mascot-happy-blue.png")}
+              style={styles.image}
+            />
+          </View>
 
-        <View style={styles.imageContainer}>
-          <Image
-            source={require("../../assets/mascot-happy-blue.png")}
-            style={styles.image}
-          />
-        </View>
-
-        <View style={styles.contentContainer}>
-          <CustomCarousel
-            data={carouselItems}
-            renderItem={renderCarouselItems}
-            style={styles.carousel}
-          />
-          <AppButton
-            label={t("login")}
-            size="lg"
-            color="purple"
-            onPress={() => handleRedirect("Login")}
-            style={styles.accessAnonymouslyButton}
-          />
-          <AppButton
-            label={t("register_email")}
-            size="lg"
-            onPress={() => handleRedirect("RegisterEmail")}
-          />
-          <AppButton
-            label={t("register_anonymously")}
-            size="lg"
-            type="secondary"
-            onPress={() => handleRedirect("RegisterAnonymous")}
-            style={styles.accessAnonymouslyButton}
-          />
-          <AppButton
-            label={t("continue_as_guest")}
-            type="ghost"
-            size="lg"
-            onPress={() => handleRedirect("Guest")}
-            loading={tmpLoginMutation.isLoading}
-          />
-        </View>
-      </Block>
-    </ScrollView>
+          <View style={styles.contentContainer}>
+            <CustomCarousel
+              data={carouselItems}
+              renderItem={renderCarouselItems}
+              style={styles.carousel}
+            />
+            <AppButton
+              label={t("login")}
+              size="lg"
+              color="purple"
+              onPress={() => handleRedirect("Login")}
+              style={styles.accessAnonymouslyButton}
+            />
+            <AppButton
+              label={t("register_email")}
+              size="lg"
+              onPress={() => handleRedirect("RegisterEmail")}
+            />
+            <AppButton
+              label={t("register_anonymously")}
+              size="lg"
+              type="secondary"
+              onPress={() => handleRedirect("RegisterAnonymous")}
+              style={styles.accessAnonymouslyButton}
+            />
+            <AppButton
+              label={t("continue_as_guest")}
+              type="ghost"
+              size="lg"
+              onPress={() => handleRedirect("Guest")}
+              loading={tmpLoginMutation.isLoading}
+            />
+          </View>
+        </Block>
+      </ScrollView>
+    </React.Fragment>
   );
 };
 

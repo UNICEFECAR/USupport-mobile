@@ -12,10 +12,20 @@ export const Heading = ({
   hasGoBackArrow = true,
   handleGoBack,
   buttonComponent,
+  hasBackground = true,
   style,
 }) => {
   return (
-    <>
+    <View
+      style={[
+        styles.wrapper,
+        {
+          backgroundColor: hasBackground
+            ? appStyles.colorWhite_ff
+            : "transparent",
+        },
+      ]}
+    >
       <View style={[styles.container, style]}>
         {hasGoBackArrow && (
           <TouchableOpacity onPress={handleGoBack}>
@@ -29,21 +39,29 @@ export const Heading = ({
         <AppText namedStyle="h3">{heading}</AppText>
         <View style={styles.button}>{buttonComponent}</View>
       </View>
-      <AppText style={styles.subheading} namedStyle="text">
-        {subheading}
-      </AppText>
-    </>
+      {subheading && (
+        <AppText style={styles.subheading} namedStyle="text">
+          {subheading}
+        </AppText>
+      )}
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  wrapper: {
+    position: "absolute",
+    top: 0,
+    zIndex: 3,
+    width: "100%",
+    paddingLeft: 16,
+  },
   container: {
-    paddingTop: 16,
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "flex-start",
     paddingBottom: 16,
-    width: "100%",
+    paddingTop: 16,
   },
   backArrow: {
     marginRight: 16,
@@ -51,6 +69,7 @@ const styles = StyleSheet.create({
   button: {
     marginLeft: "auto",
     maxWidth: "50%",
+    marginRight: 8,
   },
   subheading: {
     textAlign: "left",

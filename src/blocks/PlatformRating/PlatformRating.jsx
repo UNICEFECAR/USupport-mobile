@@ -61,7 +61,7 @@ export const PlatformRating = ({ navigation }) => {
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1 }}
+      style={{ flex: 1, marginTop: 120 }}
       behavior={Platform.OS === "ios" ? "padding" : null}
       keyboardVerticalOffset={50}
     >

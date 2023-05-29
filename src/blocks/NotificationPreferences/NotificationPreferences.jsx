@@ -14,6 +14,7 @@ import {
   useGetNotificationPreferences,
   useUpdateNotificationPreferences,
   useError,
+  useGetClientData,
 } from "#hooks";
 
 /**
@@ -34,6 +35,8 @@ export const NotificationPreferences = () => {
 
   const [error, setError] = useState();
   const [notificationPreferencesQuery] = useGetNotificationPreferences();
+  const clientDataQuery = useGetClientData()[0];
+
   const data = notificationPreferencesQuery.data;
 
   const onUpdateError = (error) => {
@@ -54,20 +57,23 @@ export const NotificationPreferences = () => {
   return (
     <Block>
       {notificationPreferencesQuery.isLoading &&
+      !clientDataQuery.isLoading &&
       !notificationPreferencesQuery.data ? (
         <View style={styles.loadingContainer}>
           <Loading size="lg" />
         </View>
       ) : (
         <View>
-          <View style={styles.toggleContainer}>
-            <AppText>{t("email")}</AppText>
-            <Toggle
-              isToggled={data?.email}
-              handleToggle={(value) => handleChange("email", value)}
-              style={styles.toggle}
-            />
-          </View>
+          {!clientDataQuery.data.accesToken && (
+            <View style={styles.toggleContainer}>
+              <AppText>{t("email")}</AppText>
+              <Toggle
+                isToggled={data?.email}
+                handleToggle={(value) => handleChange("email", value)}
+                style={styles.toggle}
+              />
+            </View>
+          )}
           <View style={styles.toggleContainer}>
             <AppText>{t("appointment")}</AppText>
             <Toggle

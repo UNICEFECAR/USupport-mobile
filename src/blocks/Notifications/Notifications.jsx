@@ -564,18 +564,14 @@ export const Notifications = ({ navigation, openJoinConsultation }) => {
 
   return (
     <Block style={styles.block}>
+      <Heading
+        heading={t("heading")}
+        subheading={t("subheading")}
+        handleGoBack={() => navigation.goBack()}
+        buttonComponent={<MarkAllAsReadButton />}
+      />
       <View style={styles.flashListWrapper}>
         <FlashList
-          ListHeaderComponent={
-            <Block>
-              <Heading
-                heading={t("heading")}
-                subheading={t("subheading")}
-                handleGoBack={() => navigation.goBack()}
-                buttonComponent={<MarkAllAsReadButton />}
-              />
-            </Block>
-          }
           ListEmptyComponent={
             isLoadingProviders ? (
               <View style={styles.loadingContainer}>
@@ -621,6 +617,7 @@ const styles = StyleSheet.create({
   },
   flashListWrapper: {
     height: "100%",
+    marginTop: 112,
   },
   centerButton: { alignSelf: "center", minWidth: 120, marginTop: 16 },
   suggestButtonContainer: {
