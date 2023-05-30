@@ -98,7 +98,7 @@ export const ArticleInformation = ({ navigation, route }) => {
     <Screen>
       <TouchableOpacity
         style={styles.goBackIconContainer}
-        onPress={() => navigation.goBack()}
+        onPress={() => navigation.navigate("InformationalPortal")}
       >
         <Icon name="arrow-chevron-back" color={appStyles.colorPrimary_20809e} />
       </TouchableOpacity>
