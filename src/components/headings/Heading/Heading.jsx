@@ -13,6 +13,8 @@ export const Heading = ({
   handleGoBack,
   buttonComponent,
   hasBackground = true,
+  hasCloseIcon = false,
+  handleCloseIconPress,
   style,
 }) => {
   return (
@@ -27,7 +29,7 @@ export const Heading = ({
       ]}
     >
       <View style={[styles.container, style]}>
-        {hasGoBackArrow && (
+        {hasGoBackArrow && !hasCloseIcon && (
           <TouchableOpacity onPress={handleGoBack}>
             <Icon
               style={styles.backArrow}
@@ -38,6 +40,16 @@ export const Heading = ({
         )}
         <AppText namedStyle="h3">{heading}</AppText>
         <View style={styles.button}>{buttonComponent}</View>
+        {hasCloseIcon && (
+          <TouchableOpacity onPress={handleCloseIconPress}>
+            <Icon
+              style={styles.backArrow}
+              name="close-x"
+              color={appStyles.colorPrimary_20809e}
+              onPress={handleCloseIconPress}
+            />
+          </TouchableOpacity>
+        )}
       </View>
       {subheading && (
         <AppText style={styles.subheading} namedStyle="text">
