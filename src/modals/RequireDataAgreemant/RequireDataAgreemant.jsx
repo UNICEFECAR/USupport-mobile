@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Image, StyleSheet, TouchableOpacity, Linking } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { Image, StyleSheet, TouchableOpacity, Modal } from "react-native";
 
-import { TransparentModal, AppText } from "#components";
+import { TransparentModal, AppText, Screen } from "#components";
+
+import { PrivacyPolicy } from "../../blocks/PrivacyPolicy";
 
 import { appStyles } from "#styles";
 
@@ -13,9 +14,6 @@ import { mascotHappyBlue } from "#assets";
 import { clientSvc } from "#services";
 
 import { showToast } from "../../utils/showToast";
-
-import Config from "react-native-config";
-const { WEBSITE_URL } = Config;
 
 /**
  * RequireDataAgreement
@@ -27,11 +25,12 @@ const { WEBSITE_URL } = Config;
 export const RequireDataAgreement = ({
   isOpen,
   onClose,
+  onGivePermission,
+  isLoading,
   onSuccess = () => {},
 }) => {
   const queryClient = useQueryClient();
   const { t } = useTranslation("require-data-agreement");
-  const navigation = useNavigation();
 
   const updateDataProcessing = async () => {
     await clientSvc.changeDataProcessingAgreement(true);
@@ -53,35 +52,53 @@ export const RequireDataAgreement = ({
   });
 
   const handleGivePermission = () => {
-    updateDataProcessingMutation.mutate();
+    if (onGivePermission) {
+      onGivePermission();
+    } else {
+      updateDataProcessingMutation.mutate();
+    }
   };
 
+  const [isPrivacyPolicyOpen, setIsPrivacyPolicyOpen] = useState(false);
+
   return (
-    <TransparentModal
-      classes="require-data-agreement"
-      heading={t("heading")}
-      isOpen={isOpen}
-      handleClose={onClose}
-      ctaLabel={t("give_permission")}
-      ctaHandleClick={handleGivePermission}
-      isCtaLoading={updateDataProcessingMutation.isLoading}
-      secondaryCtaLabel={t("cancel")}
-      secondaryCtaHandleClick={onClose}
-      secondaryCtaType="secondary"
-    >
-      <Image source={mascotHappyBlue} alt="Mascot" style={styles.image} />
-      <AppText style={styles.text}>{t("text")}</AppText>
-      <AppText>{t("text_2")}</AppText>
-      <TouchableOpacity
-        onPress={() => {
-          Linking.openURL(`${WEBSITE_URL}/terms-of-use`);
-        }}
+    <React.Fragment>
+      <TransparentModal
+        classes="require-data-agreement"
+        heading={t("heading")}
+        isOpen={isOpen}
+        handleClose={onClose}
+        ctaLabel={t("give_permission")}
+        ctaHandleClick={handleGivePermission}
+        isCtaLoading={updateDataProcessingMutation.isLoading || isLoading}
+        secondaryCtaLabel={t("cancel")}
+        secondaryCtaHandleClick={onClose}
+        secondaryCtaType="secondary"
       >
-        <AppText style={styles.termsAndConditionsText}>
-          {t("terms_and_conditions")}
-        </AppText>
-      </TouchableOpacity>
-    </TransparentModal>
+        {isPrivacyPolicyOpen && (
+          <Modal open={isPrivacyPolicyOpen} animationType="slide">
+            <Screen>
+              <PrivacyPolicy
+                isModal
+                handleModalClose={() => setIsPrivacyPolicyOpen(false)}
+              />
+            </Screen>
+          </Modal>
+        )}
+        <Image source={mascotHappyBlue} alt="Mascot" style={styles.image} />
+        <AppText style={styles.text}>{t("text")}</AppText>
+        <AppText>{t("text_2")}</AppText>
+        <TouchableOpacity
+          onPress={() => {
+            setIsPrivacyPolicyOpen(true);
+          }}
+        >
+          <AppText style={styles.termsAndConditionsText}>
+            {t("privacy_policy")}
+          </AppText>
+        </TouchableOpacity>
+      </TransparentModal>
+    </React.Fragment>
   );
 };
 

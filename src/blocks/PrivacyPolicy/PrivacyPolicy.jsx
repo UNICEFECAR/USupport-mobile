@@ -19,7 +19,11 @@ import { localStorage, cmsSvc } from "#services";
  *
  * @return {jsx}
  */
-export const PrivacyPolicy = ({ navigation }) => {
+export const PrivacyPolicy = ({
+  navigation,
+  isModal = false,
+  handleModalClose,
+}) => {
   const { i18n, t } = useTranslation("privacy-policy");
 
   //--------------------- Country Change Event Listener ----------------------//
@@ -61,7 +65,12 @@ export const PrivacyPolicy = ({ navigation }) => {
 
   return (
     <React.Fragment>
-      <Heading heading={t("heading")} handleGoBack={handleGoBack} />
+      <Heading
+        heading={t("heading")}
+        handleGoBack={handleGoBack}
+        hasCloseIcon={isModal}
+        handleCloseIconPress={handleModalClose}
+      />
       <ScrollView>
         <Block style={{ marginTop: 48 }}>
           <View style={styles.privacyContainer}>
