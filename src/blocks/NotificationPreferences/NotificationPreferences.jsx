@@ -64,7 +64,7 @@ export const NotificationPreferences = () => {
         </View>
       ) : (
         <View>
-          {!clientDataQuery.data.accesToken && (
+          {clientDataQuery.data.email && (
             <View style={styles.toggleContainer}>
               <AppText>{t("email")}</AppText>
               <Toggle
