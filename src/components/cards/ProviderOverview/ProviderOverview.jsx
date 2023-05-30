@@ -96,8 +96,20 @@ export const ProviderOverview = ({
                 style={styles.calendarIcon}
               />
               <View>
-                <AppText namedStyle="smallText">{dateText}</AppText>
-                <AppText namedStyle="smallText">{timeText}</AppText>
+                <AppText
+                  style={{ color: appStyles.colorBlue_3d527b }}
+                  isBold
+                  namedStyle="smallText"
+                >
+                  {dateText}
+                </AppText>
+                <AppText
+                  style={{ color: appStyles.colorBlue_3d527b }}
+                  isBold
+                  namedStyle="smallText"
+                >
+                  {timeText}
+                </AppText>
               </View>
             </View>
           </View>
