@@ -195,6 +195,7 @@ const styles = StyleSheet.create({
   label: {
     marginRight: 4,
     marginBottom: 4,
+    backgroundColor: appStyles.colorGray_ea,
   },
   questionAnswerTitle: {
     paddingTop: 12,
