@@ -12,7 +12,7 @@ import {
   PlatformRating,
   SelectProvider,
   ProviderOverview,
-  SharePlatform,
+  // SharePlatform,
   NotificationPreferences,
   SOSCenter,
   Articles,
@@ -58,7 +58,7 @@ export const AppNavigation = () => {
       <Stack.Screen name="ContactUs" component={ContactUs} />
       <Stack.Screen name="PlatformRating" component={PlatformRating} />
       <Stack.Screen name="ProviderOverview" component={ProviderOverview} />
-      <Stack.Screen name="SharePlatform" component={SharePlatform} />
+      {/* <Stack.Screen name="SharePlatform" component={SharePlatform} /> */}
       <Stack.Screen
         name="NotificationPreferences"
         component={NotificationPreferences}

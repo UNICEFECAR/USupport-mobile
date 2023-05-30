@@ -121,12 +121,12 @@ export const UserProfile = ({ navigation }) => {
               onPress={() => handleRedirect("PlatformRating")}
               style={[styles.buttonSelector, styles.buttonSelectorFirstInGroup]}
             />
-            <ButtonSelector
+            {/* <ButtonSelector
               label={t("share_button_label")}
               iconName="share"
               onPress={() => handleRedirect("SharePlatform")}
               style={styles.buttonSelector}
-            />
+            /> */}
           </View>
 
           <View style={[styles.group, styles.lastGroup]}>
