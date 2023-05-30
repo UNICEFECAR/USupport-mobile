@@ -30,9 +30,7 @@ export const EmergencyCenter = ({
       window.open(link, "_blank");
     }
   };
-
-  const handlePress = (link, isPhone = false) => {
-    console.log(phone, "link");
+  const handlePress = (isPhone = false) => {
     if (isPhone) {
       if (Platform.OS === "android") {
         Linking.openURL(`tel:${phone}`);
@@ -71,7 +69,7 @@ export const EmergencyCenter = ({
             color="purple"
             size="sm"
             label={btnLabelLink}
-            onPress={() => handlePress("https://staging.usupport.online/")}
+            onPress={() => handlePress()}
           />
         ) : null}
       </View>
