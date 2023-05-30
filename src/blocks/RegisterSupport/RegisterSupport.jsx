@@ -8,13 +8,16 @@ import {
   Heading,
   RadioButtonSelectorGroup,
   AppButton,
-  TransparentModal,
   Error,
 } from "#components";
 
 import { clientSvc } from "#services";
 
 import { useGetClientData } from "#hooks";
+
+import { RequireDataAgreement } from "#modals";
+
+import { showToast } from "#utils";
 
 /**
  * RegisterSupport
@@ -33,8 +36,6 @@ export const RegisterSupport = ({ navigation }) => {
   const [data, setData] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showError, setShowError] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState();
 
   const hasGivenPermission = useRef();
 
@@ -64,22 +65,21 @@ export const RegisterSupport = ({ navigation }) => {
   };
   const updateDataProcessingMutation = useMutation(updateDataProcessing, {
     onSuccess: () => {
-      setSubmitError(null);
       setShowError(false);
-      setIsSubmitting(false);
       queryClient.invalidateQueries({ queryKey: ["client-data"] });
       setIsModalOpen(false);
     },
     onError: (error) => {
       hasGivenPermission.current = false;
-      setIsSubmitting(false);
       const { message: errorMessage } = useError(error);
-      setSubmitError(errorMessage);
+      showToast({
+        message: errorMessage,
+        type: "error",
+      });
     },
   });
 
   const handleGivePermission = () => {
-    setIsSubmitting(true);
     updateDataProcessingMutation.mutate();
   };
 
@@ -129,18 +129,11 @@ export const RegisterSupport = ({ navigation }) => {
             onPress={() => handleContinue()}
           />
         </View>
-        <TransparentModal
-          heading={t("modal_heading")}
-          text={t("modal_paragraph")}
+        <RequireDataAgreement
           isOpen={isModalOpen}
-          handleClose={closeModal}
-          ctaLabel={t("modal_cta_1")}
-          ctaHandleClick={handleGivePermission}
-          isCtaDisabled={isSubmitting}
-          secondaryCtaLabel={t("modal_cta_2")}
-          secondaryCtaType="secondary"
-          secondaryCtaHandleClick={closeModal}
-          errorMessage={submitError}
+          onClose={closeModal}
+          onGivePermission={handleGivePermission}
+          isLoading={updateDataProcessingMutation.isLoading}
         />
       </Block>
     </React.Fragment>
