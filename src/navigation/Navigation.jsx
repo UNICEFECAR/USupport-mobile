@@ -1,5 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Platform, PermissionsAndroid } from "react-native";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { AppState, Platform, PermissionsAndroid } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { NavigationContainer } from "@react-navigation/native";
 import * as Device from "expo-device";
@@ -14,8 +15,7 @@ import { LocalAuthenticationScreen } from "#screens";
 import { useAddPushNotificationToken, useGetClientData } from "#hooks";
 import { countrySvc, localStorage, Context } from "#services";
 
-import { getCountryFromTimezone } from "#utils";
-import { useTranslation } from "react-i18next";
+import { getCountryFromTimezone, FIVE_MINUTES } from "#utils";
 
 const kazakhstanCountry = {
   value: "KZ",
@@ -31,10 +31,33 @@ Notifications.setNotificationHandler({
   }),
 });
 
+const TWENTY_MINUTES = FIVE_MINUTES * 4;
+
 export function Navigation() {
   const [hasSavedPushToken, setHasSavedPushToken] = useState(false);
   const [hasAuthenticatedWithPin, setHasAuthenticatedWithPin] = useState(false);
   const { i18n } = useTranslation();
+
+  const hasClearedTimeout = useRef();
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener("change", (state) => {
+      let timeout;
+      if (state === "background") {
+        hasClearedTimeout.current = false;
+        timeout = setTimeout(() => {
+          if (!hasClearedTimeout.current) {
+            setHasAuthenticatedWithPin(false);
+          }
+        }, TWENTY_MINUTES);
+      } else {
+        clearTimeout(timeout);
+        hasClearedTimeout.current = true;
+      }
+    });
+
+    return () => subscription.remove();
+  }, []);
 
   const { token, setCurrencySymbol, isTmpUser, userPin, hasCheckedTmpUser } =
     useContext(Context);
