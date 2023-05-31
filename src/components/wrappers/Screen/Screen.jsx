@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -35,11 +35,18 @@ export function Screen({
     useContext(Context);
   const navigation = useNavigation();
 
+  const [hasUnreadNotifications, setHasUnreadNotifications] = useState();
+
   const { top: topInset } = useSafeAreaInsets();
 
+  const onCheckHasUnreadNotificationsSuccess = (data) => {
+    setHasUnreadNotifications(data);
+  };
   const queryEnabled = !isTmpUser && !!token && hasCheckedTmpUser;
-  const queryHasUnreadNotifications =
-    useCheckHasUnreadNotifications(queryEnabled);
+  useCheckHasUnreadNotifications(
+    queryEnabled,
+    onCheckHasUnreadNotificationsSuccess
+  );
 
   return (
     <SafeAreaView
@@ -89,7 +96,7 @@ export function Screen({
                 ? StatusBar.currentHeight + 7
                 : topInset + 7,
           }}
-          hasUnreadNotifications={queryHasUnreadNotifications.data}
+          hasUnreadNotifications={hasUnreadNotifications}
           isTmpUser={isTmpUser}
           handleRegistrationModalOpen={handleRegistrationModalOpen}
         />
