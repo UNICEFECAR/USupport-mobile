@@ -31,10 +31,16 @@ async function markNotificationsAsRead(notificationIds) {
   return response;
 }
 
+async function markAllNotificationsAsRead() {
+  const response = await http.put(`${API_ENDPOINT}/read-all`);
+  return response;
+}
+
 const exportedFunctions = {
   getNotifications,
   checkHasUnreadNotifications,
   markNotificationsAsRead,
+  markAllNotificationsAsRead,
 };
 
 export default exportedFunctions;

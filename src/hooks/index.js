@@ -45,3 +45,4 @@ export * from "./useGetClientQuestions.js";
 export * from "./useGetQuestions.js";
 export * from "./useGetQuestionsTags.js";
 export * from "./useSwipe.js";
+export * from "./useMarkAllNotificationsAsRead.js";

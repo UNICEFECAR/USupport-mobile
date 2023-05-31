@@ -30,6 +30,8 @@ import {
   useAcceptConsultation,
   useRejectConsultation,
   useGetAllConsultations,
+  useMarkAllNotificationsAsRead,
+  useGetClientData,
 } from "#hooks";
 
 /**
@@ -39,12 +41,17 @@ import {
  *
  * @returns {JSX.Element}
  */
-export const Notifications = ({ navigation, openJoinConsultation }) => {
+export const Notifications = ({
+  navigation,
+  openJoinConsultation,
+  openRequireDataAgreement,
+}) => {
   const { t } = useTranslation("notifications");
 
   const queryClient = useQueryClient();
 
   const consultationsData = queryClient.getQueryData(["all-consultations"]);
+  const clientDataQuery = useGetClientData()[0];
 
   const [isLoadingProviders, setIsLoadingProviders] = useState(true);
 
@@ -158,12 +165,16 @@ export const Notifications = ({ navigation, openJoinConsultation }) => {
     notificationId,
     slot
   ) => {
-    markAllAsReadMutation.mutate([notificationId]);
-    acceptConsultationMutation.mutate({
-      consultationId,
-      price: consultationPrice,
-      slot,
-    });
+    if (!clientDataQuery.data?.dataProcessing) {
+      openRequireDataAgreement();
+    } else {
+      markNotificationAsReadByIdMutation.mutate([notificationId]);
+      acceptConsultationMutation.mutate({
+        consultationId,
+        price: consultationPrice,
+        slot,
+      });
+    }
   };
 
   // Reject consultation loggic
@@ -179,7 +190,7 @@ export const Notifications = ({ navigation, openJoinConsultation }) => {
   );
   const rejectConsultation = (consultationId, notificationId) => {
     rejectConsultationMutation.mutate(consultationId);
-    markAllAsReadMutation.mutate([notificationId]);
+    markNotificationAsReadByIdMutation.mutate([notificationId]);
   };
 
   // Mark all notificartions as read logic
@@ -187,14 +198,15 @@ export const Notifications = ({ navigation, openJoinConsultation }) => {
   // only the currently shown/fetched notifications
   const onMarkAllAsReadError = (error) =>
     showToast({ message: error }, { type: "error" });
-  const markAllAsReadMutation =
+
+  const markNotificationAsReadByIdMutation =
     useMarkNotificationsAsRead(onMarkAllAsReadError);
+
+  const markAllAsReadMutation =
+    useMarkAllNotificationsAsRead(onMarkAllAsReadError);
+
   const handleMarkAllAsRead = async () => {
-    const unreadNotificationsIds = notificationsQuery.data?.pages
-      .flat()
-      ?.filter((x) => !x.isRead)
-      .map((x) => x.notificationId);
-    markAllAsReadMutation.mutate(unreadNotificationsIds);
+    markAllAsReadMutation.mutate();
   };
 
   const renderNotification = ({ item, index }) => {
@@ -222,7 +234,7 @@ export const Notifications = ({ navigation, openJoinConsultation }) => {
       notificationId,
       redirectTo = "Consultations"
     ) => {
-      markAllAsReadMutation.mutate([notificationId]);
+      markNotificationAsReadByIdMutation.mutate([notificationId]);
       navigation.navigate(redirectTo);
     };
 
