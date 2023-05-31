@@ -84,6 +84,7 @@ import {
   IconLike,
   IconDislike,
   IconMyQA,
+  IconGlobe,
 } from "./assets/sprite";
 
 /**
@@ -331,6 +332,9 @@ export const Icon = ({ name, size = "md", color, style }) => {
       break;
     case "my-qa":
       icon = <IconMyQA color={color} />;
+      break;
+    case "globe":
+      icon = <IconGlobe color={color} />;
       break;
     default:
       icon = null;
