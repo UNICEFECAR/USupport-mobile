@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
+import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import Joi from "joi";
 
@@ -18,11 +19,13 @@ import { validate, showToast } from "#utils";
  */
 export const CreateQuestion = ({ isOpen, onClose }) => {
   const { t } = useTranslation("create-question");
+  const queryClient = useQueryClient();
 
   const [data, setData] = useState({ question: "" });
   const [errors, setErrors] = useState("");
 
   const onSuccess = () => {
+    queryClient.invalidateQueries({ queryKey: ["getClientQuestions"] });
     showToast({ message: t("success_toast") });
     onClose();
   };
