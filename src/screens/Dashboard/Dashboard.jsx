@@ -55,7 +55,8 @@ export const Dashboard = ({ navigation }) => {
   const { isTmpUser, handleRegistrationModalOpen, currencySymbol } =
     useContext(Context);
   const getClientDataEnabled = isTmpUser === false ? true : false;
-  const clientData = useGetClientData(getClientDataEnabled)[1];
+  const clientDataQuery = useGetClientData(getClientDataEnabled)[0];
+  const clientData = clientDataQuery.data;
   const clientName = clientData
     ? clientData?.name
       ? `${clientData.name} ${clientData.surname}`
@@ -99,9 +100,18 @@ export const Dashboard = ({ navigation }) => {
     setRefreshing(false);
   };
 
+  const [shouldRedirectToSelectProvider, setShouldRedirectToSelectProvider] =
+    useState(true);
   const [isRequireDataAgreementOpen, setIsRequireDataAgreementOpen] =
     useState(false);
-  const openRequireDataAgreement = () => setIsRequireDataAgreementOpen(true);
+  const openRequireDataAgreement = (successAction) => {
+    if (successAction) {
+      setShouldRedirectToSelectProvider(false);
+    } else {
+      setShouldRedirectToSelectProvider(true);
+    }
+    setIsRequireDataAgreementOpen(true);
+  };
   const closeRequireDataAgreement = () => setIsRequireDataAgreementOpen(false);
 
   const [selectedConsultation, setSelectedConsultation] = useState();
@@ -168,11 +178,15 @@ export const Dashboard = ({ navigation }) => {
   );
 
   const handleAcceptSuggestion = (consultationId, price, slot) => {
-    acceptConsultationMutation.mutate({
-      consultationId,
-      price,
-      slot,
-    });
+    if (!clientDataQuery.data?.dataProcessing) {
+      openRequireDataAgreement(true);
+    } else {
+      acceptConsultationMutation.mutate({
+        consultationId,
+        price,
+        slot,
+      });
+    }
   };
 
   // Schedule consultation logic
@@ -239,7 +253,11 @@ export const Dashboard = ({ navigation }) => {
     }
   };
 
-  const handleDataAgreementSucess = () => navigation.navigate("SelectProvider");
+  const handleDataAgreementSucess = () => {
+    if (shouldRedirectToSelectProvider) {
+      navigation.navigate("SelectProvider");
+    }
+  };
   const isSelectConsultationLoading =
     blockSlotMutation.isLoading || rescheduleConsultationMutation.isLoading;
 
