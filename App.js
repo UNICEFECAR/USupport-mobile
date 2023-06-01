@@ -2,7 +2,7 @@ import codePush from "react-native-code-push";
 
 import React, { useCallback, useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { StyleSheet, View, Alert, Platform } from "react-native";
+import { StyleSheet, View, Platform } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import FlashMessage from "react-native-flash-message";
