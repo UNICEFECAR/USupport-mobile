@@ -1,9 +1,9 @@
 {
-    "heading": "Ask your question here",
-    "subheading": "Your question will be 100% anonymously and no one will see that you are the author of this question.",
-    "text_area_label": "Your question",
-    "send_your_question": "Send your question",
-    "cancel": "Cancel",
-    "success_toast" :"Your question has been sent!",
-    "text_area_error_label": "Question should be at least 10 characters long"
+  "heading": "Ask your question here",
+  "subheading": "Your question will be 100% anonymous and no one will see that you are the author of this question.",
+  "text_area_label": "Your question",
+  "send_your_question": "Send your question",
+  "cancel": "Cancel",
+  "success_toast": "Your question has been sent!",
+  "text_area_error_label": "Question should be at least 10 characters long"
 }
