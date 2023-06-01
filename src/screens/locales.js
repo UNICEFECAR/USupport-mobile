@@ -21,3 +21,4 @@ export * as PaymentHistory from "./PaymentHistory/locales";
 export * as ChangePasscode from "./ChangePasscode/locales";
 export * as LocalAuthenticationScreen from "./LocalAuthenticationScreen/locales";
 export * as MyQA from "./MyQA/locales";
+export * as ChangeLanguage from "./ChangeLanguage/locales";
