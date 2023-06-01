@@ -193,6 +193,13 @@ function transformUserData(data) {
   };
 }
 
+async function changeLanguage(language) {
+  const response = await http.put(`${API_ENDPOINT}/change-language`, {
+    language,
+  });
+  return response;
+}
+
 const exportedFunctions = {
   changePassword,
   generateClientAccesToken,
@@ -212,6 +219,7 @@ const exportedFunctions = {
   uploadFileAsAdmin,
   createProvider,
   transformUserData,
+  changeLanguage,
 };
 
 export default exportedFunctions;
