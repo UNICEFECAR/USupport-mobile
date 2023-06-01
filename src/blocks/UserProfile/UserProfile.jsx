@@ -131,14 +131,17 @@ export const UserProfile = ({ navigation }) => {
 
           <View style={[styles.group, styles.lastGroup]}>
             <AppText style={styles.groupHeading}>{t("other")}</AppText>
+            <ButtonSelector
+              label={t("language_button_label")}
+              iconName="globe"
+              onPress={() => handleRedirect("ChangeLanguage")}
+              style={[styles.buttonSelector, styles.buttonSelectorFirstInGroup]}
+            />
             {!isTmpUser ? (
               <ButtonSelector
                 label={t("payments_history_button_label")}
                 iconName="payment-history"
-                style={[
-                  styles.buttonSelector,
-                  styles.buttonSelectorFirstInGroup,
-                ]}
+                style={styles.buttonSelector}
                 onPress={() => handleRedirect("PaymentHistory")}
               />
             ) : null}
