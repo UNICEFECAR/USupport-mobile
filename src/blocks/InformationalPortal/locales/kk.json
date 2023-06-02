@@ -4,6 +4,6 @@
   "heading_popular": "Ең танымал",
   "read_more": "Ары қарай оқу",
   "min_read": "минут оқуға",
-  "by": "By {{creator}}",
+  "by": "Дайындаушы {{creator}}",
   "heading_no_language_results": "Сіз таңдаған тілде мақалалар таба алмадық."
 }

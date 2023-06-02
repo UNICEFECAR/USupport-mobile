@@ -1,14 +1,14 @@
 {
-    "search_input_placeholder": "Search",
-    "filter_button_label": "Filter",
-    "ask_button_label": "Ask anonymously",
+    "search_input_placeholder": "Поиск",
+    "filter_button_label": "Фильтр",
+    "ask_button_label": "Спросить анонимно",
     "read_more": "Узнать больше",
     "all": "Все",
     "most_popular": "Самые популярные",
-    "newest": "Newest",
-    "your_questions": "Your Questions",
-    "answer_by": "Answer by:",
-    "schedule_consultation": "Schedule consultation",
-    "today": "Today",
-    "no_questions_found": "No questions found"
+    "newest": "Новые",
+    "your_questions": "Ваш вопрос",
+    "answer_by": "Ответ от:",
+    "schedule_consultation": "Консультацияны жоспарлау",
+    "today": "Сегодня",
+    "no_questions_found": "Вопросы не найдены"
 }

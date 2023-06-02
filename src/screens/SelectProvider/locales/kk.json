@@ -8,6 +8,6 @@
   "modal_coupon_button_label": "Купон жіберу",
   "modal_coupon_input_label": "Купон нөмірі",
   "modal_coupon_input_placeholder": "КУПОН1",
-  "heading_with_coupon": "Select a  Provider to use Coupon: {{coupon}}",
-  "remove_coupon_label": "Remove coupon"
+  "heading_with_coupon": "Купонды пайдалану үшін консультантті таңдаңыз",
+  "remove_coupon_label": "Купонды жою"
 }

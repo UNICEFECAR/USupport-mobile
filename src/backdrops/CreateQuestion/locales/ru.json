@@ -1,7 +1,17 @@
 {
+<<<<<<< Updated upstream
   "heading": "Ask your question here",
   "subheading": "Your question will be 100% anonymous and no one will see that you are the author of this question.",
   "text_area_label": "Your question",
   "send_your_question": "Send your question",
   "cancel": "Отмена"
+=======
+    "heading": "Задайте свой вопрос здесь",
+    "subheading": "Ваш вопрос будет 100% анонимным и никто не увидит, что Вы автор этого вопроса.",
+    "text_area_label": "Ваш вопрос",
+    "send_your_question": "Отправьте свой вопрос",
+    "cancel": "Отмена",
+    "success_toast": "Ваш вопрос был отправлен!",
+    "text_area_error_label": "Вопрос должен содержать не менее 10 символов"
+>>>>>>> Stashed changes
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation, Trans } from "react-i18next";
 import { StyleSheet, View, ScrollView } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -269,15 +269,16 @@ const Heading = ({ t, handleButtonPress }) => {
         {t("heading")}
       </AppText>
       <AppText namedStyle="text" style={styles.textBlack}>
-        {t("subheading_its")}{" "}
-        <AppText namedStyle="text" style={[styles.textBold, styles.textBlack]}>
-          {t("subheading_anonymous")}
-        </AppText>
-        ! {t("subheading_text1")}{" "}
-        <AppText namedStyle="text" style={[styles.textBold, styles.textBlack]}>
-          {t("subheading_not")}
-        </AppText>{" "}
-        {t("subheading_text2")}
+        <Trans
+          components={
+            <AppText
+              namedStyle="text"
+              style={[styles.textBold, styles.textBlack]}
+            ></AppText>
+          }
+        >
+          {t("subheading")}
+        </Trans>
       </AppText>
       <AppButton
         label={t("heading_button_label")}

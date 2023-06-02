@@ -4,6 +4,6 @@
   "heading_popular": "Самые популярные",
   "read_more": "Узнать больше",
   "min_read": "минут на прочтение",
-  "by": "By {{creator}}",
+  "by": "От {{creator}}",
   "heading_no_language_results": "Мы не смогли найти статьи на выбранном вами языке."
 }

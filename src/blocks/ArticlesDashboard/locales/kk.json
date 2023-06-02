@@ -5,6 +5,6 @@
   "all": "Барлығы",
   "read_more": "Ары қарай оқу",
   "min_read": "минут оқуға",
-  "by": "By {{creator}}",
-  "number_of_more_options": "{{count}} moreKK"
+  "by": "Дайындаушы {{creator}}",
+  "number_of_more_options": "тағы {{count}}"
 }

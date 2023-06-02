@@ -8,6 +8,6 @@
   "modal_coupon_button_label": "Отправить купон",
   "modal_coupon_input_label": "Номер купона",
   "modal_coupon_input_placeholder": "КУПОН1",
-  "heading_with_coupon": "Select a  Provider to use Coupon: {{coupon}}",
-  "remove_coupon_label": "Remove coupon"
+  "heading_with_coupon": "Выберите консультанта для использования купона: {{coupon}}",
+  "remove_coupon_label": "Удалить купон"
 }
