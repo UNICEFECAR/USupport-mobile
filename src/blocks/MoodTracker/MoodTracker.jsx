@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext } from "react";
+import React, { useState, useCallback, useContext, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { useTranslation } from "react-i18next";
@@ -21,7 +21,7 @@ import { Context } from "#services";
  * @return {jsx}
  */
 export const MoodTracker = ({ navigation }) => {
-  const { t } = useTranslation("mood-tracker");
+  const { t, i18n } = useTranslation("mood-tracker");
   const { isTmpUser, handleRegistrationModalOpen } = useContext(Context);
   const queryClient = useQueryClient();
 
@@ -36,6 +36,14 @@ export const MoodTracker = ({ navigation }) => {
   const [isMoodTrackCompleted, setIsMoodTrackCompleted] = useState(false);
   const [comment, setComment] = useState("");
   const [emoticons, setEmoticons] = useState([...emoticonsInitialState]);
+
+  useEffect(() => {
+    const emoticonsCopy = [...emoticonsInitialState];
+    emoticonsCopy.forEach((emoticon, i) => {
+      emoticonsCopy[i].label = t(emoticon.value);
+    });
+    setEmoticons(emoticonsCopy);
+  }, [i18n.language]);
 
   const hasSelectedMoodtracker = useCallback(() => {
     return emoticons.some((emoticon) => emoticon.isSelected);
