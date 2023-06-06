@@ -9,5 +9,7 @@
   "modal_coupon_input_label": "Купон нөмірі",
   "modal_coupon_input_placeholder": "КУПОН1",
   "heading_with_coupon": "Купонды пайдалану үшін консультантті таңдаңыз",
-  "remove_coupon_label": "Купонды жою"
+  "remove_coupon_label": "Купонды жою",
+  "coupon_paragraph": "Coupons provide “no-cost” sessions and are sponsored by our partners.KK",
+  "coupon_paragraph_two": "If you received a coupon code from a social media campaign or a partner, please copy and paste that below. After you submit the coupon code, you will see any providers that support it and their availability. A coupon may support one or more sessions. The platform will indicate if the coupon has expired or reached the maximum session usage.KK"
 }

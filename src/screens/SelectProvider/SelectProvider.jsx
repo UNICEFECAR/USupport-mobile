@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, View } from "react-native";
 
 import {
+  AppText,
   Screen,
   Heading,
   Block,
@@ -192,6 +193,8 @@ export const SelectProvider = ({ navigation }) => {
         isCtaLoading={isLoading}
         errorMessage={couponError}
       >
+        <AppText namedStyle="text">{t("coupon_paragraph")}</AppText>
+        <AppText namedStyle="text">{t("coupon_paragraph_two")}</AppText>
         <Input
           label={t("modal_coupon_input_label")}
           placeholder={t("modal_coupon_input_placeholder")}
