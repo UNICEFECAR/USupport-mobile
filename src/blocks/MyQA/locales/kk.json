@@ -1,14 +1,14 @@
 {
-    "search_input_placeholder": "Іздеу",
-    "filter_button_label": "Сүзгі",
-    "ask_button_label": "Анонимді сұрау",
-    "read_more": "Ары қарай оқу",
-    "all": "Барлығы",
-    "most_popular": "Ең танымал",
-    "newest": "Жаңа",
-    "your_questions": "Сіздің сұрағыңыз",
-    "answer_by": "Жауап беруші:",
-    "schedule_consultation": "Консультацияны жоспарлау",
-    "today": "Бүгін",
-    "no_questions_found": "Бірде-бір сұрақ табылмады"
+  "search_input_placeholder": "Іздеу",
+  "filter_button_label": "Сүзгі",
+  "ask_button_label": "Анонимді сұрау",
+  "read_more": "Ары қарай оқу",
+  "all": "Барлығы",
+  "most_popular": "Ең танымал",
+  "newest": "Жаңа",
+  "your_questions": "Сіздің сұрағыңыз",
+  "answer_by": "Жауап беруші:",
+  "schedule_consultation": "Консультацияны жоспарлау",
+  "today": "Бүгін",
+  "no_questions_found": "Бірде-бір сұрақ табылмады"
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
@@ -33,7 +33,7 @@ export const MyQA = ({
   userQuestionsLoading,
   allQuestionsLoading,
 }) => {
-  const { t } = useTranslation("my-qa");
+  const { t, i18n } = useTranslation("my-qa");
 
   const [searchValue, setSearchValue] = useState("");
   const selectedTab = tabs.find((x) => x.isSelected)?.value;
@@ -51,7 +51,7 @@ export const MyQA = ({
     setTabs(tabsCopy);
   };
 
-  const renderQuestions = () => {
+  const renderQuestions = useCallback(() => {
     if (
       (selectedTab === "your_questions" && userQuestionsLoading) ||
       (selectedTab !== "your_questions" && allQuestionsLoading)
@@ -104,7 +104,7 @@ export const MyQA = ({
         />
       );
     });
-  };
+  }, [questions, i18n.language, userQuestionsLoading, allQuestionsLoading]);
 
   return (
     <>

@@ -207,6 +207,7 @@ const resources = {
     "user-profile": UserProfile.ru,
     welcome: Welcome.ru,
     "mood-track-history": MoodTrackHistory.ru,
+    "my-qa": MyQA.ru,
 
     // Screens
     "activity-history": ActivityHistory.ru,
@@ -235,6 +236,7 @@ const resources = {
     "select-provider-screen": SelectProviderScreen.ru,
     "share-platform-screen": SharePlatformScreen.ru,
     "sos-center-screen": SOSCenterScreen.ru,
+    "my-qa-screen": MyQAScreen.ru,
     "change-language": ChangeLanguage.ru,
 
     // Backdrops
@@ -291,6 +293,7 @@ const resources = {
     "user-profile": UserProfile.kk,
     welcome: Welcome.kk,
     "mood-track-history": MoodTrackHistory.kk,
+    "my-qa": MyQA.kk,
 
     // Screens
     "activity-history": ActivityHistory.kk,
@@ -319,6 +322,7 @@ const resources = {
     "select-provider-screen": SelectProviderScreen.kk,
     "share-platform-screen": SharePlatformScreen.kk,
     "sos-center-screen": SOSCenterScreen.kk,
+    "my-qa-screen": MyQAScreen.kk,
     "change-language": ChangeLanguage.kk,
 
     // Backdrops
