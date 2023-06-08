@@ -124,6 +124,8 @@ export const RegisterAnonymous = ({ navigation }) => {
   const handleRegister = async () => {
     if ((await validate(data, schema, setErrors)) === null) {
       registerMutation.mutate(data);
+    } else {
+      setIsConfirmationModalOpen(false);
     }
   };
 
@@ -221,7 +223,7 @@ export const RegisterAnonymous = ({ navigation }) => {
               placeholder={t("Enter your password")}
               value={data.password}
               onChange={(value) => handleChange("password", value)}
-              errorMessage={errors.pssword}
+              errorMessage={errors.password}
               onBlur={() => {
                 handleBlur("password", data.password);
               }}
