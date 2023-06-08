@@ -85,6 +85,7 @@ import {
   IconDislike,
   IconMyQA,
   IconGlobe,
+  IconConsultationNavigation,
 } from "./assets/sprite";
 
 /**
@@ -335,6 +336,9 @@ export const Icon = ({ name, size = "md", color, style }) => {
       break;
     case "globe":
       icon = <IconGlobe color={color} />;
+      break;
+    case "consultation-tab-navigation":
+      icon = <IconConsultationNavigation color={color} />;
       break;
     default:
       icon = null;

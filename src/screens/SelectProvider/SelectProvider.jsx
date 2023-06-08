@@ -156,7 +156,6 @@ export const SelectProvider = ({ navigation }) => {
               }
               size="sm"
               color="green"
-              type="secondary"
               onPress={activeCoupon ? removeCoupon : openCouponModal}
               style={{ marginRight: 8 }}
             />
@@ -187,7 +186,6 @@ export const SelectProvider = ({ navigation }) => {
         isOpen={isCouponModalOpen}
         handleClose={closeCouponModal}
         heading={t("modal_coupon_heading")}
-        text={t("modal_coupon_text")}
         ctaLabel={t("modal_coupon_button_label")}
         ctaHandleClick={handleSubmitCoupon}
         isCtaLoading={isLoading}
@@ -222,6 +220,6 @@ const styles = StyleSheet.create({
   buttonContainer: {
     justifyContent: "flex-end",
     flexDirection: "row",
-    paddingTop: 16,
+    paddingTop: 32,
   },
 });
