@@ -2,9 +2,16 @@ import { useQuery } from "@tanstack/react-query";
 
 import { messageSvc } from "#services";
 
-export default function useGetChatData(chatId, onSuccess = () => {}) {
+export default function useGetAllChatHistoryData(
+  providerDetailId,
+  clientDetailId,
+  enabled
+) {
   const fetchChatData = async () => {
-    const { data } = await messageSvc.getChatData(chatId);
+    const { data } = await messageSvc.getAllChatData(
+      providerDetailId,
+      clientDetailId
+    );
     const formattedData = {
       chatId: data.chat_id,
       clientDetailId: data.client_detail_id,
@@ -19,12 +26,15 @@ export default function useGetChatData(chatId, onSuccess = () => {}) {
       nonSystemMessages,
     };
   };
-  const query = useQuery(["chat-data", chatId], fetchChatData, {
-    enabled: !!chatId,
-    onSuccess,
-  });
+  const query = useQuery(
+    ["all-chat-data", providerDetailId, clientDetailId],
+    fetchChatData,
+    {
+      enabled: !!enabled,
+    }
+  );
 
   return query;
 }
 
-export { useGetChatData };
+export { useGetAllChatHistoryData };

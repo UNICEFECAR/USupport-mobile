@@ -14,9 +14,17 @@ async function sendMessage(payload) {
   return response;
 }
 
+async function getAllChatData(providerDetailId, clientDetailId) {
+  const response = await http.get(
+    `${API_ENDPOINT}/all-chat-data?providerDetailId=${providerDetailId}&clientDetailId=${clientDetailId}`
+  );
+  return response;
+}
+
 const exportedFunctions = {
   getChatData,
   sendMessage,
+  getAllChatData,
 };
 
 export default exportedFunctions;
