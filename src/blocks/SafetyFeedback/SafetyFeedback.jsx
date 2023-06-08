@@ -100,7 +100,7 @@ export const SafetyFeedback = ({ navigation, consultationId, answers }) => {
   };
 
   return (
-    <Block>
+    <Block style={{ marginTop: 112 }}>
       <View style={styles.warningContainer}>
         <Icon name="warning" size="md" />
         <AppText namedStyle="smallText" style={styles.warningText}>
