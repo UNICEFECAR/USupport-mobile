@@ -4,5 +4,7 @@
   "date_of_payment": "Дата платежа",
   "more_details": "Более подробная информация",
   "no_payments_history_found": "У вас еще нет истории платежей",
-  "text_audio_video_consultation": "Онлайн консультации"
+  "text_audio_video_consultation": "Онлайн консультации",
+  "download_success": "File downloaded successfullyRU",
+  "export_label": "Экспорт"
 }

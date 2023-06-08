@@ -1,15 +1,18 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
+import { View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
+import ReactNativeBlobUtil from "react-native-blob-util";
 
-import { PaymentsHistoryTable } from "#components";
+import { PaymentsHistoryTable, AppButton } from "#components";
 import { PaymentInformation } from "#modals";
 
-import { paymentsSvc } from "#services";
-import { View } from "react-native";
+import { paymentsSvc, Context } from "#services";
+import { getDateView, getTimeFromDate, showToast } from "#utils";
 
 export const PaymentHistory = () => {
   const { t } = useTranslation("payment-history");
+  const { currencySymbol } = useContext(Context);
   const rows = [t("service"), t("price"), t("date_of_payment"), ""];
 
   const [paymentsData, setPaymentsData] = useState([]);
@@ -76,8 +79,59 @@ export const PaymentHistory = () => {
     paymentHistoryQuery.refetch();
   };
 
+  const handleExport = () => {
+    // Construct the csv file
+    let csv = `${rows
+      .slice(0, rows.length - 1)
+      .map((x) => x)
+      .join(",")},${t("more_details")}\n`;
+    paymentsData.forEach((p) => {
+      csv += `${t(p.service)},${p.price}${currencySymbol},${getDateView(
+        p.date
+      )} - ${getTimeFromDate(new Date(p.date))},${p.receipt_url}\n`;
+    });
+
+    // The path where the file will be saved
+    const path = `${
+      Platform.OS === "ios"
+        ? ReactNativeBlobUtil.fs.dirs.DocumentDir
+        : ReactNativeBlobUtil.fs.dirs.DownloadDir
+    }/payments.csv`;
+
+    // Save the file
+    ReactNativeBlobUtil.fs.writeFile(path, csv, "utf8").then(() => {
+      showToast({
+        message: t("download_success"),
+      });
+      // Try to open the file
+      if (Platform.OS === "ios") {
+        ReactNativeBlobUtil.ios
+          .previewDocument(
+            ReactNativeBlobUtil.fs.dirs.DocumentDir + "/payments.csv"
+          )
+          .catch((err) => console.log(err, "err"));
+      } else {
+        ReactNativeBlobUtil.android
+          .actionViewIntent(
+            ReactNativeBlobUtil.fs.dirs.DocumentDir + "/payments.csv"
+          )
+          .catch((err) => console.log(err, "err"));
+      }
+    });
+  };
+
   return (
     <View style={{ marginTop: 112 }}>
+      <AppButton
+        label={t("export_label")}
+        onPress={handleExport}
+        disabled={
+          paymentsData.length === 0 ||
+          paymentHistoryQuery.data?.hasMore === true
+        }
+        size="sm"
+        style={{ marginLeft: 12 }}
+      />
       <PaymentsHistoryTable
         isLoading={
           paymentHistoryQuery.isLoading || paymentHistoryQuery.isFetching

@@ -4,5 +4,7 @@
   "date_of_payment": "Date of payment",
   "more_details": "More detais",
   "no_payments_history_found": "You don't have any payments history yet",
-  "text_audio_video_consultation": "Online consultation"
+  "text_audio_video_consultation": "Online consultation",
+  "download_success": "File downloaded successfully",
+  "export_label": "Export"
 }

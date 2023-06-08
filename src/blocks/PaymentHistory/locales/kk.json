@@ -4,5 +4,7 @@
   "date_of_payment": "Төлем күні",
   "more_details": "Толығырақ ақпарат",
   "no_payments_history_found": "Сізде әлі төлем тарихы жоқ",
-  "text_audio_video_consultation": "Онлайн консультациялар"
+  "text_audio_video_consultation": "Онлайн консультациялар",
+  "download_success": "File downloaded successfullyKK",
+  "export_label": "Экспорт"
 }
