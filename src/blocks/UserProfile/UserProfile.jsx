@@ -111,6 +111,12 @@ export const UserProfile = ({ navigation }) => {
               onPress={() => handleRedirect("NotificationPreferences")}
               style={styles.buttonSelector}
             />
+            <ButtonSelector
+              label={t("language_button_label")}
+              iconName="globe"
+              onPress={() => handleRedirect("ChangeLanguage")}
+              style={styles.buttonSelector}
+            />
           </View>
 
           <View style={styles.group}>
@@ -131,12 +137,6 @@ export const UserProfile = ({ navigation }) => {
 
           <View style={[styles.group, styles.lastGroup]}>
             <AppText style={styles.groupHeading}>{t("other")}</AppText>
-            <ButtonSelector
-              label={t("language_button_label")}
-              iconName="globe"
-              onPress={() => handleRedirect("ChangeLanguage")}
-              style={[styles.buttonSelector, styles.buttonSelectorFirstInGroup]}
-            />
             {!isTmpUser ? (
               <ButtonSelector
                 label={t("payments_history_button_label")}
@@ -157,12 +157,12 @@ export const UserProfile = ({ navigation }) => {
               onPress={() => handleRedirect("PrivacyPolicy")}
               style={styles.buttonSelector}
             />
-            {/* <ButtonSelector
-            label={t("terms_and_conditions")}
-            iconName="document"
-            onPress={() => handleRedirect("TermsOfUse")}
-            style={styles.buttonSelector}
-          /> */}
+            <ButtonSelector
+              label={t("terms_and_conditions")}
+              iconName="document"
+              onPress={() => handleRedirect("TermsOfUse")}
+              style={styles.buttonSelector}
+            />
             <ButtonSelector
               label={t("FAQ_button_label")}
               iconName="info"
