@@ -18,6 +18,7 @@ export default function useUpdateClientData(
   const updateClientData = async (data) => {
     // Delete the fields which the API doesn't accept
     const dataCopy = JSON.parse(JSON.stringify(data));
+    dataCopy.userAccessToken = dataCopy.accessToken || undefined;
 
     delete dataCopy.accessToken;
     delete dataCopy.dataProcessing;
@@ -25,7 +26,10 @@ export default function useUpdateClientData(
     delete dataCopy.clientID;
     delete dataCopy.pushNotificationTokens;
 
-    dataCopy.email = dataCopy.email.toLowerCase();
+    dataCopy.email = dataCopy.email.toLowerCase().trim() || undefined;
+    dataCopy.sex = dataCopy.sex || undefined;
+    dataCopy.yearOfBirth = dataCopy.yearOfBirth || undefined;
+    dataCopy.urbanRural = dataCopy.urbanRural || undefined;
 
     const res = await clientSvc.updateClientData(dataCopy);
     return res.data;
