@@ -116,7 +116,7 @@ function App() {
         installMode: codePush.InstallMode.IMMEDIATE,
         minimumBackgroundDuration: 5,
         updateDialog: true,
-        rollbackRetryOptions: 0,
+        rollbackRetryOptions: 5,
         maxRetryAttempts: 999,
         deploymentKey:
           Platform.OS === "android"
