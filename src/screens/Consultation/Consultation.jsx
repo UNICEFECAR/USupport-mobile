@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   FlatList,
   KeyboardAvoidingView,
@@ -10,11 +10,15 @@ import { useTranslation } from "react-i18next";
 import { io } from "socket.io-client";
 
 import {
-  SendMessage,
-  Message,
-  SystemMessage,
-  Icon,
+  AppButton,
+  AppText,
   Backdrop,
+  Icon,
+  InputSearch,
+  Message,
+  SendMessage,
+  SystemMessage,
+  Toggle,
 } from "#components";
 
 import {
@@ -22,6 +26,8 @@ import {
   useSendMessage,
   useLeaveConsultation,
   useGetSecurityCheckAnswersByConsultationId,
+  useDebounce,
+  useGetAllChatHistoryData,
 } from "#hooks";
 
 import { VideoRoom } from "#blocks";
@@ -59,7 +65,39 @@ export const Consultation = ({ navigation, route }) => {
   const [isChatShown, setIsChatShown] = useState(!joinWithVideo);
 
   const [messages, setMessages] = useState([]);
+  const [areSystemMessagesShown, setAreSystemMessagesShown] = useState(true);
   const [isSafetyFeedbackShown, setIsSafetyFeedbackShown] = useState(false);
+
+  const [showAllMessages, setShowAllMessages] = useState(false);
+  const [showOptions, setShowOptions] = useState(false);
+  const [search, setSearch] = useState("");
+  const [hasUnreadMessages, setHasUnreadMessages] = useState(false);
+
+  const debouncedSearch = useDebounce(search, 500);
+
+  const chatDataQuery = useGetChatData(consultation?.chatId, (data) =>
+    setMessages([...data.messages].reverse())
+  );
+
+  const clientId = chatDataQuery.data?.clientDetailId;
+  const providerId = chatDataQuery.data?.providerDetailId;
+  const allChatHistoryQuery = useGetAllChatHistoryData(
+    providerId,
+    clientId,
+    showAllMessages
+  );
+
+  // Filter the messages based on the search input
+  useEffect(() => {
+    if (debouncedSearch) {
+      const filteredMessages = chatDataQuery.data.messages.filter((message) =>
+        message.content.toLowerCase().includes(debouncedSearch.toLowerCase())
+      );
+      setMessages([...filteredMessages].reverse());
+    } else if (!debouncedSearch && chatDataQuery.data?.messages) {
+      setMessages([...chatDataQuery.data.messages].reverse());
+    }
+  }, [debouncedSearch]);
 
   useEffect(() => {
     if (
@@ -74,6 +112,22 @@ export const Consultation = ({ navigation, route }) => {
     }
   }, [messages, backdropMessagesContainerRef.current?.scrollHeight]);
 
+  useEffect(() => {
+    if (showAllMessages && allChatHistoryQuery.data?.messages) {
+      // let msgs = allChatHistoryQuery.data?.messages;
+      // if (areSystemMessagesShown) {
+      //   msgs = msgs.filter((x) => x.type !== "system");
+      // }
+      setMessages([...allChatHistoryQuery.data.messages].reverse());
+    } else if (!showAllMessages) {
+      let msgs = chatDataQuery.data?.messages || [];
+      // if (areSystemMessagesShown) {
+      //   msgs = msgs.filter((x) => x.type !== "system");
+      // }
+      setMessages([...msgs].reverse());
+    }
+  }, [showAllMessages, areSystemMessagesShown, allChatHistoryQuery.data]);
+
   // Mutations
   const onSendSuccess = (data) => {
     setMessages([...data.messages.reverse()]);
@@ -84,18 +138,10 @@ export const Consultation = ({ navigation, route }) => {
   const sendMessageMutation = useSendMessage(onSendSuccess, onSendError);
   const leaveConsultationMutation = useLeaveConsultation();
 
-  const chatDataQuery = useGetChatData(consultation?.chatId, (data) =>
-    setMessages(data.messages.reverse())
-  );
-
-  const clientId = chatDataQuery.data?.clientDetailId;
-
   const flatListRef = useRef();
   const socketRef = useRef();
 
-  // TODO: Send a system message when the user joins the consultation
   // TODO: Send a consultation add services request only when the provider leaves the consultation
-  // TODO: Send a system message when the client/provider toggles camera
   useEffect(() => {
     localStorage.getItem("language").then((language) => {
       localStorage.getItem("country").then((country) => {
@@ -125,11 +171,16 @@ export const Consultation = ({ navigation, route }) => {
   }, []);
 
   const receiveMessage = (message) => {
+    setHasUnreadMessages(true);
     flatListRef.current?.scrollToOffset({ animated: true, offset: 0 });
     setMessages((messages) => [message, ...messages]);
   };
 
   const handleSendMessage = async (content, type = "text") => {
+    if (hasUnreadMessages) {
+      setHasUnreadMessages(false);
+    }
+
     const language = await localStorage.getItem("language");
     const country = await localStorage.getItem("country");
 
@@ -153,6 +204,9 @@ export const Consultation = ({ navigation, route }) => {
   };
 
   const toggleChat = () => {
+    if (hasUnreadMessages) {
+      setHasUnreadMessages(false);
+    }
     if (!isChatShown) {
       setTimeout(() => {
         flatListRef.current?.scrollToOffset({ animated: true, offset: 0 });
@@ -192,6 +246,7 @@ export const Consultation = ({ navigation, route }) => {
 
   const renderMessage = (message) => {
     if (message.type === "system") {
+      if (!areSystemMessagesShown) return null;
       return (
         <SystemMessage
           key={message.time}
@@ -265,23 +320,74 @@ export const Consultation = ({ navigation, route }) => {
           sendJoinConsultationMessage={sendJoinConsultationMessage}
           token={token}
           navigation={navigation}
+          hasUnread={hasUnreadMessages}
           t={t}
         />
       </View>
 
       <Backdrop
         isOpen={isChatShown}
-        onClose={() => setIsChatShown(false)}
+        onClose={() => {
+          setIsChatShown(false);
+          setHasUnreadMessages(false);
+        }}
         customRender
         hasKeyboardListener
       >
-        <View style={styles.closeIcon}>
-          <TouchableOpacity
-            hitSlop={styles.hitSlop}
-            onPress={() => setIsChatShown(false)}
+        <View
+          style={{
+            backgroundColor: "white",
+            // height: 200,
+            width: "100%",
+            paddingBottom: 20,
+          }}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
           >
-            <Icon name="close-x" color="#000000" />
-          </TouchableOpacity>
+            <TouchableOpacity
+              hitSlop={styles.hitSlop}
+              onPress={() => setIsChatShown(false)}
+            >
+              <Icon name="arrow-chevron-back" color="#000000" />
+            </TouchableOpacity>
+            <AppButton
+              label={t(showOptions ? "hide_options" : "show_options")}
+              size="sm"
+              onPress={() => setShowOptions(!showOptions)}
+            />
+          </View>
+          {showOptions ? (
+            <View>
+              <View style={styles.toggleContainer}>
+                <Toggle
+                  isToggled={areSystemMessagesShown}
+                  handleToggle={() =>
+                    setAreSystemMessagesShown(!areSystemMessagesShown)
+                  }
+                  style={styles.mr12}
+                />
+                <AppText>{t("show_system_messages")}</AppText>
+              </View>
+              <View style={styles.toggleContainer}>
+                <Toggle
+                  isToggled={showAllMessages}
+                  handleToggle={() => setShowAllMessages(!showAllMessages)}
+                  style={styles.mr12}
+                />
+                <AppText>{t("show_previous_consultations")}</AppText>
+              </View>
+              <InputSearch
+                value={search}
+                onChange={setSearch}
+                style={{ marginTop: 12 }}
+                placeholder={t("search")}
+              />
+            </View>
+          ) : null}
         </View>
         <View style={{ flex: 1, flexGrow: 1 }}>
           <KeyboardAvoidingView
@@ -329,4 +435,10 @@ const styles = StyleSheet.create({
     left: 20,
     right: 20,
   },
+  toggleContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 12,
+  },
+  mr12: { marginRight: 12 },
 });

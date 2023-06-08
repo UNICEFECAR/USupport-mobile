@@ -33,6 +33,7 @@ export const VideoRoom = ({
   sendJoinConsultationMessage,
   handleSendMessage,
   token,
+  hasUnread,
   navigation,
   t,
 }) => {
@@ -198,6 +199,7 @@ export const VideoRoom = ({
           handleSendMessage={handleSendMessage}
           handleClose={handleControlsToggle}
           isRoomConnecting={status !== "connected"}
+          hasUnread={hasUnread}
           t={t}
           style={{ marginTop: topInset, elevation: 10, zIndex: 10 }}
         />

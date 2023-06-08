@@ -25,6 +25,7 @@ export const Controls = ({
   isCameraOn,
   isMicrophoneOn,
   isRoomConnecting,
+  hasUnread,
   style,
   t,
 }) => {
@@ -89,6 +90,7 @@ export const Controls = ({
           />
         </TouchableOpacity>
         <TouchableOpacity onPress={handleChat}>
+          {hasUnread && <View style={styles.unread} />}
           <Icon
             style={styles.button}
             name="comment"
@@ -187,6 +189,15 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   arrowHitSlop: { top: 20, bottom: 20, left: 20, right: 20 },
+  unread: {
+    position: "absolute",
+    width: 15,
+    height: 15,
+    borderRadius: 15 / 2,
+    backgroundColor: appStyles.colorRed_eb5757,
+    zIndex: 999,
+    left: 2,
+  },
 });
 
 Controls.propTypes = {

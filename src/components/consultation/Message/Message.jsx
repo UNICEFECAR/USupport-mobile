@@ -4,8 +4,15 @@ import { View, StyleSheet } from "react-native";
 
 import { AppText } from "../../texts/AppText";
 import { appStyles } from "#styles";
+import { getDateView, getTimeFromDate } from "#utils";
 
-export const Message = ({ message, sent = false, received = false, style }) => {
+export const Message = ({
+  message,
+  sent = false,
+  received = false,
+  date,
+  style,
+}) => {
   return (
     <View
       style={[
@@ -16,6 +23,9 @@ export const Message = ({ message, sent = false, received = false, style }) => {
       ]}
     >
       <AppText style={styles.text}>{message}</AppText>
+      <AppText style={styles.smallText}>
+        {getDateView(date)},{getTimeFromDate(date)}
+      </AppText>
     </View>
   );
 };
