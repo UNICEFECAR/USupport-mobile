@@ -12,5 +12,10 @@
   "client_camera_on": "Клиент включил камеру",
   "client_microphone_off": "Клиент выключил микрофон",
   "client_microphone_on": "Клиент включил микрофон",
-  "send_message": "Введите Ваше сообщение здесь..."
+  "send_message": "Введите Ваше сообщение здесь...",
+  "show_system_messages": "Show system messagesRU",
+  "show_previous_consultations": "Show previous consultationsRU",
+  "hide_options": "Hide optionsRU",
+  "show_options": "Show optionsRU",
+  "search": "SearchRU"
 }

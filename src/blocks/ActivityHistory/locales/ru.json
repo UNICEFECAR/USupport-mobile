@@ -1,3 +1,9 @@
 {
-  "button_label": "Запланировать консультацию"
+  "button_label": "Запланировать консультацию",
+  "search": "Поиск",
+  "no_messages": "No messages foundRU",
+  "show_system_messages": "Show system messagesRU",
+  "show_previous_consultations": "Show previous consultationsRU",
+  "export_label": "ExportRU",
+  "chat_history": "Consultation chat history withRU"
 }

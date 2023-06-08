@@ -1,3 +1,9 @@
 {
-  "button_label": "Schedule consultation"
+  "button_label": "Schedule consultation",
+  "search": "Search",
+  "no_messages": "No messages found",
+  "show_system_messages": "Show system messages",
+  "show_previous_consultations": "Show previous consultations",
+  "export_label": "Export",
+  "chat_history": "Consultation chat history with"
 }

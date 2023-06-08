@@ -12,5 +12,10 @@
   "client_camera_on": "Клиент камераны қосты",
   "client_microphone_off": "Клиент микрофонды өшірді",
   "client_microphone_on": "Клиент микрофонды қосты",
-  "send_message": "Хабарламаңызды осы жерге енгізіңіз..."
+  "send_message": "Хабарламаңызды осы жерге енгізіңіз...",
+  "show_system_messages": "Show system messagesKK",
+  "show_previous_consultations": "Show previous consultationsKK",
+  "hide_options": "Hide optionsKK",
+  "show_options": "Show optionsKK",
+  "search": "SearchKK"
 }
