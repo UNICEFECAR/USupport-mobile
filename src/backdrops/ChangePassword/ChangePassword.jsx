@@ -29,11 +29,15 @@ export const ChangePassword = ({ isOpen, onClose }) => {
     newPassword: Joi.string()
       .pattern(new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}"))
       .label(t("password_error")),
+    confirmPassword: Joi.string()
+      .pattern(new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}"))
+      .label(t("password_match_error")),
   });
 
   const [data, setData] = useState({
     oldPassword: "",
     newPassword: "",
+    confirmPassword: "",
   });
   const [errors, setErrors] = useState({});
 
@@ -62,6 +66,13 @@ export const ChangePassword = ({ isOpen, onClose }) => {
   });
 
   const handleBlur = (field, value) => {
+    if (field === "confirmPassword" && value !== data.newPassword) {
+      setErrors({
+        ...errors,
+        confirmPassword: t("password_match_error"),
+      });
+      return;
+    }
     validateProperty(field, value, schema, setErrors);
   };
 
@@ -73,6 +84,13 @@ export const ChangePassword = ({ isOpen, onClose }) => {
   };
 
   const handleSubmit = async () => {
+    if (data.confirmPassword !== data.newPassword) {
+      setErrors({
+        ...errors,
+        confirmPassword: t("password_match_error"),
+      });
+      return;
+    }
     if ((await validate(data, schema, setErrors)) === null) {
       changePasswordMutation.mutate();
     }
@@ -103,6 +121,14 @@ export const ChangePassword = ({ isOpen, onClose }) => {
         value={data.newPassword}
         onBlur={() => handleBlur("newPassword", data.newPassword)}
         onChange={(value) => handleChange("newPassword", value)}
+        style={styles.marginTop32}
+      />
+      <InputPassword
+        errorMessage={errors.confirmPassword}
+        label={t("confirm_password")}
+        value={data.confirmPassword}
+        onBlur={() => handleBlur("confirmPassword", data.confirmPassword)}
+        onChange={(value) => handleChange("confirmPassword", value)}
         style={styles.marginTop32}
       />
     </Backdrop>

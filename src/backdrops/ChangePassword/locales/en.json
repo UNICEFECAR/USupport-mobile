@@ -4,5 +4,7 @@
   "new_password": "New password",
   "button_label": "Reset",
   "password_error": "Password should contain at least 8 characters, 1 uppercase letter, 1 lowercase letter and 1 number",
-  "password_changed_message": "Password changed successfully"
+  "password_changed_message": "Password changed successfully",
+  "confirm_password": "Confirm password",
+  "password_match_error": "The New password and Confirm Password fields do not match"
 }

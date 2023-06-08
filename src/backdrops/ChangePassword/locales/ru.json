@@ -4,5 +4,7 @@
   "new_password": "Новый пароль",
   "button_label": "Сброс настроек",
   "password_error": "Пароль должен содержать не менее 8 символов, 1 заглавную букву, 1 строчную букву и 1 цифру.",
-  "password_changed_message": "Пароль успешно изменен"
+  "password_changed_message": "Пароль успешно изменен",
+  "confirm_password": "Confirm passwordRU",
+  "password_match_error": "The New password and Confirm Password fields do not matchRU"
 }
