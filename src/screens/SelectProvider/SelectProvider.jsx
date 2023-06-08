@@ -187,7 +187,6 @@ export const SelectProvider = ({ navigation }) => {
         isOpen={isCouponModalOpen}
         handleClose={closeCouponModal}
         heading={t("modal_coupon_heading")}
-        text={t("modal_coupon_text")}
         ctaLabel={t("modal_coupon_button_label")}
         ctaHandleClick={handleSubmitCoupon}
         isCtaLoading={isLoading}

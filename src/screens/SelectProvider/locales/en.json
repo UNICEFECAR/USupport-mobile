@@ -4,7 +4,6 @@
   "button_label": "Filter",
   "button_coupon_label": "Use coupon",
   "modal_coupon_heading": "Enter your coupon to use it",
-  "modal_coupon_text": "Enter your coupon number to see the providers and their availability. The coupon will be marked as used only when you schedule a consultation. ",
   "modal_coupon_button_label": "Submit coupon",
   "modal_coupon_input_label": "Coupon number",
   "modal_coupon_input_placeholder": "COUPON1",
