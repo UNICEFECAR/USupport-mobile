@@ -136,7 +136,7 @@ export const TabNavigation = () => {
                 ]}
               >
                 <Icon
-                  name="consultation"
+                  name="consultation-tab-navigation"
                   color={
                     selectedTab === "Consultations"
                       ? appStyles.colorPrimary_20809e
