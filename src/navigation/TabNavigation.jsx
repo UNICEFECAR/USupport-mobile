@@ -1,9 +1,9 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { CurvedBottomBar } from "react-native-curved-bottom-bar";
-import { NavigationContainer } from "@react-navigation/native";
 import { View, StyleSheet, TouchableOpacity, Pressable } from "react-native";
 
-import { Icon } from "#components";
+import { Icon, AppText } from "#components";
 
 import {
   Dashboard,
@@ -19,6 +19,7 @@ const screens = [
   {
     name: "Dashboard",
     component: Dashboard,
+    text: "home",
     iconName: "home",
     position: "LEFT",
   },
@@ -26,18 +27,21 @@ const screens = [
     name: "MoodTrackHistory",
     component: MoodTracker,
     iconName: "mood",
+    text: "mood",
     position: "RIGHT",
   },
   {
     name: "MyQA",
     component: MyQA,
     iconName: "my-qa",
+    text: "qaa",
     position: "RIGHT",
   },
   {
     name: "InformationalPortal",
     component: InformationalPortal,
     iconName: "read-book",
+    text: "articles",
     position: "LEFT",
   },
   {
@@ -49,12 +53,18 @@ const screens = [
 ];
 
 export const TabNavigation = () => {
+  const { t } = useTranslation("tab-navigation");
+
   const takeIconName = ({ routeName, selectedTab }) => {
     return screens.find((screen) => screen.name === routeName).iconName;
+  };
+  const takeText = ({ routeName, selectedTab }) => {
+    return screens.find((screen) => screen.name === routeName).text;
   };
 
   const renderTabBar = ({ routeName, selectedTab, navigate }) => {
     const iconName = takeIconName({ routeName, selectedTab });
+    const text = takeText({ routeName, selectedTab });
 
     return (
       <TouchableOpacity
@@ -75,6 +85,7 @@ export const TabNavigation = () => {
               : appStyles.colorGray_92989b
           }
         />
+        <AppText namedStyle="smallText">{t(text)}</AppText>
       </TouchableOpacity>
     );
   };

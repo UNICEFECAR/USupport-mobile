@@ -89,6 +89,8 @@ import {
   HowItWorksMyQA,
 } from "./src/modals/locales.js";
 
+import { TabNavigation } from "./src/navigation/locales.js";
+
 const resources = {
   en: {
     // Blocks
@@ -174,6 +176,9 @@ const resources = {
     "require-data-agreement": RequireDataAgreemant.en,
     "require-registration": RequireRegistration.en,
     "how-it-works-my-qa": HowItWorksMyQA.en,
+
+    // Navigation
+    "tab-navigation": TabNavigation.en,
   },
 
   ru: {
@@ -260,6 +265,9 @@ const resources = {
     "require-data-agreement": RequireDataAgreemant.ru,
     "require-registration": RequireRegistration.ru,
     "how-it-works-my-qa": HowItWorksMyQA.ru,
+
+    // Navigation
+    "tab-navigation": TabNavigation.ru,
   },
 
   kk: {
@@ -346,6 +354,9 @@ const resources = {
     "require-data-agreement": RequireDataAgreemant.kk,
     "require-registration": RequireRegistration.kk,
     "how-it-works-my-qa": HowItWorksMyQA.kk,
+
+    // Navigation
+    "tab-navigation": TabNavigation.kk,
   },
 };
 
