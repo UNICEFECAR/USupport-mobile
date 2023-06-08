@@ -31,16 +31,16 @@ export const TermsAgreement = ({
         >
           {` ${textTwo} `}
         </AppText>
-        {/* <AppText namedStyle="text">{`${textThree} `}</AppText> */}
-        {/* <AppText
+        <AppText namedStyle="text">{`${textThree} `}</AppText>
+        <AppText
           namedStyle="text"
           onPress={() => {
-            Linking.openURL(`${WEBSITE_URL}/terms-of-use`);
+            navigation.navigate("TermsOfUse");
           }}
           style={styles.purpleText}
         >
           {textFour}
-        </AppText> */}
+        </AppText>
       </AppText>
     </View>
   );
