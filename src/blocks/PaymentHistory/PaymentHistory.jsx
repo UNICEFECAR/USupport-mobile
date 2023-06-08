@@ -2,7 +2,7 @@ import React, { useState, useRef, useContext } from "react";
 import { View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
-import ReactNativeBlobUtil from "react-native-blob-util";
+// import ReactNativeBlobUtil from "react-native-blob-util";
 
 import { PaymentsHistoryTable, AppButton } from "#components";
 import { PaymentInformation } from "#modals";
@@ -92,32 +92,32 @@ export const PaymentHistory = () => {
     });
 
     // The path where the file will be saved
-    const path = `${
-      Platform.OS === "ios"
-        ? ReactNativeBlobUtil.fs.dirs.DocumentDir
-        : ReactNativeBlobUtil.fs.dirs.DownloadDir
-    }/payments.csv`;
+    // const path = `${
+    //   Platform.OS === "ios"
+    //     ? ReactNativeBlobUtil.fs.dirs.DocumentDir
+    //     : ReactNativeBlobUtil.fs.dirs.DownloadDir
+    // }/payments.csv`;
 
-    // Save the file
-    ReactNativeBlobUtil.fs.writeFile(path, csv, "utf8").then(() => {
-      showToast({
-        message: t("download_success"),
-      });
-      // Try to open the file
-      if (Platform.OS === "ios") {
-        ReactNativeBlobUtil.ios
-          .previewDocument(
-            ReactNativeBlobUtil.fs.dirs.DocumentDir + "/payments.csv"
-          )
-          .catch((err) => console.log(err, "err"));
-      } else {
-        ReactNativeBlobUtil.android
-          .actionViewIntent(
-            ReactNativeBlobUtil.fs.dirs.DocumentDir + "/payments.csv"
-          )
-          .catch((err) => console.log(err, "err"));
-      }
-    });
+    // // Save the file
+    // ReactNativeBlobUtil.fs.writeFile(path, csv, "utf8").then(() => {
+    //   showToast({
+    //     message: t("download_success"),
+    //   });
+    //   // Try to open the file
+    //   if (Platform.OS === "ios") {
+    //     ReactNativeBlobUtil.ios
+    //       .previewDocument(
+    //         ReactNativeBlobUtil.fs.dirs.DocumentDir + "/payments.csv"
+    //       )
+    //       .catch((err) => console.log(err, "err"));
+    //   } else {
+    //     ReactNativeBlobUtil.android
+    //       .actionViewIntent(
+    //         ReactNativeBlobUtil.fs.dirs.DocumentDir + "/payments.csv"
+    //       )
+    //       .catch((err) => console.log(err, "err"));
+    //   }
+    // });
   };
 
   return (
