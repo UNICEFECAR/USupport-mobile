@@ -68,19 +68,33 @@ export const MyQA = ({
           return null;
         }
       }
-
       const value = searchValue.toLowerCase();
+
       if (value) {
-        if (
-          !question.answerTitle?.toLowerCase().includes(value) &&
-          !question.answerText?.toLowerCase().includes(value) &&
-          !question.tags?.find((x) => x.toLowerCase().includes(value))
-        ) {
-          return null;
-        }
+        const isTitleMatching = question.answerTitle
+          ?.toLowerCase()
+          .includes(value);
+        const isTextMatching = question.answerText
+          ?.toLowerCase()
+          .includes(value);
+        const isTagMatching = question.tags?.find((x) =>
+          x.toLowerCase().includes(value)
+        );
+        const isQuestionMatching = question.question
+          ?.toLowerCase()
+          .includes(value);
+
+        const isMatching =
+          isTitleMatching ||
+          isTextMatching ||
+          isTagMatching ||
+          isQuestionMatching
+            ? true
+            : false;
+        return !!isMatching;
       }
 
-      return question;
+      return true;
     });
 
     if (!filteredQuestions.length) {
@@ -104,7 +118,13 @@ export const MyQA = ({
         />
       );
     });
-  }, [questions, i18n.language, userQuestionsLoading, allQuestionsLoading]);
+  }, [
+    questions,
+    i18n.language,
+    userQuestionsLoading,
+    allQuestionsLoading,
+    searchValue,
+  ]);
 
   return (
     <>
