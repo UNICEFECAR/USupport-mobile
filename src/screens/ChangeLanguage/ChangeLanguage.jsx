@@ -6,7 +6,7 @@ import { localStorage, languageSvc, userSvc } from "#services";
 import { StyleSheet } from "react-native";
 
 export default function ChangeLanguage({ navigation }) {
-  const { t, i18n } = useTranslation("welcome");
+  const { t, i18n } = useTranslation("change-language");
   const [data, setData] = useState({
     language: "",
   });
