@@ -62,7 +62,7 @@ export default function ChangeLanguage({ navigation }) {
             setSelected={handleChangeLanguage}
             label={t("language")}
             placeholder={t("language_placeholder")}
-            style={[styles.dropdown, styles.marginBottom32]}
+            style={[styles.dropdown, styles.marginBottom32, styles.center]}
             dropdownId="filterLanguage"
           />
         )}
