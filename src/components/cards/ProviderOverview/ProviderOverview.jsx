@@ -30,6 +30,7 @@ export const ProviderOverview = ({
   onPress,
   t,
   currencySymbol,
+  specializations,
   style,
 }) => {
   const displayName = patronym
@@ -85,6 +86,12 @@ export const ProviderOverview = ({
                 </View>
               </View>
             </View>
+            <AppText
+              namedStyle="smallText"
+              style={{ paddingBottom: 6, color: appStyles.colorBlue_3d527b }}
+            >
+              {specializations.join(", ")}
+            </AppText>
             <AppText namedStyle="smallText" style={styles.typesText}>
               {t("earliest_available_slot")}
             </AppText>
