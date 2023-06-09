@@ -48,7 +48,7 @@ export const PaymentsHistoryTable = ({
           key={index}
           data={itemData}
           widthArr={widthArr}
-          style={styles.row}
+          style={[styles.row, index % 2 && { backgroundColor: "#eaeaea" }]}
         />
       </TableWrapper>
     );
@@ -74,7 +74,13 @@ export const PaymentsHistoryTable = ({
             marginBottom: 60,
             paddingBottom: 60,
           }}
-          ListHeaderComponent={<Row data={rowsData} widthArr={widthArr} />}
+          ListHeaderComponent={
+            <Row
+              style={{ backgroundColor: "#66768d" }}
+              data={rowsData}
+              widthArr={widthArr}
+            />
+          }
           ListFooterComponent={
             isLoading ? (
               <View style={styles.loadingContainer}>
@@ -118,6 +124,7 @@ const styles = StyleSheet.create({
     fontFamily: appStyles.fontBold,
     textAlign: "center",
     marginBottom: 8,
+    color: appStyles.colorWhite_ff,
   },
   text: { textAlign: "center", marginBottom: 8, marginTop: 4 },
   row: { borderBottomWidth: 1, borderBottomColor: appStyles.colorGray_a6b4b8 },
