@@ -149,7 +149,7 @@ export const Controls = ({
             t={t}
           />
           {consultation.sponsorName ? (
-            <AppText>
+            <AppText style={{ paddingBottom: 12 }}>
               <Trans
                 components={[
                   <AppText key="sponsorName" namedStyle="h4" isBold />,
