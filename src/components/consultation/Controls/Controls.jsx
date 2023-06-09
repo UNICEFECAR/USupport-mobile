@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Trans } from "react-i18next";
 import PropTypes from "prop-types";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Icon } from "../../icons";
@@ -6,6 +7,7 @@ import { ConsultationInformation } from "../../cards/";
 
 import { ONE_HOUR } from "#utils";
 import { appStyles } from "#styles";
+import { AppText } from "../../texts";
 
 /**
  * Controls
@@ -137,14 +139,27 @@ export const Controls = ({
         />
       </TouchableOpacity>
       {isConsultationInformationShown ? (
-        <ConsultationInformation
-          startDate={startDate}
-          endDate={endDate}
-          providerName={consultation.providerName}
-          providerImage={consultation.image}
-          showPriceBadge={false}
-          t={t}
-        />
+        <>
+          <ConsultationInformation
+            startDate={startDate}
+            endDate={endDate}
+            providerName={consultation.providerName}
+            providerImage={consultation.image}
+            showPriceBadge={false}
+            t={t}
+          />
+          {consultation.sponsorName ? (
+            <AppText>
+              <Trans
+                components={[
+                  <AppText key="sponsorName" namedStyle="h4" isBold />,
+                ]}
+              >
+                {t("sponsored_by", { sponsorName: consultation.sponsorName })}
+              </Trans>
+            </AppText>
+          ) : null}
+        </>
       ) : null}
       {renderAllButtons()}
     </View>

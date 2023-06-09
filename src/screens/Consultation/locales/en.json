@@ -17,5 +17,6 @@
   "show_previous_consultations": "Show previous consultations",
   "hide_options": "Hide options",
   "show_options": "Show options",
-  "search": "Search"
+  "search": "Search",
+  "sponsored_by": "This session is sponsored by: <0>{{sponsorName}}<0>"
 }

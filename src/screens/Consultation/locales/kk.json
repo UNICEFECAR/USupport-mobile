@@ -17,5 +17,6 @@
   "show_previous_consultations": "Show previous consultationsKK",
   "hide_options": "Hide optionsKK",
   "show_options": "Show optionsKK",
-  "search": "Іздеу"
+  "search": "Іздеу",
+  "sponsored_by": "This session is sponsored by: <0>{{sponsorName}}<0>KK"
 }

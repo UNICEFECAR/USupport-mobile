@@ -17,5 +17,6 @@
   "show_previous_consultations": "Show previous consultationsRU",
   "hide_options": "Hide optionsRU",
   "show_options": "Show optionsRU",
-  "search": "Поиск"
+  "search": "Поиск",
+  "sponsored_by": "This session is sponsored by: <0>{{sponsorName}}<0>RU"
 }
