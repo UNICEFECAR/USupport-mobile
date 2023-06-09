@@ -147,7 +147,7 @@ export const ActivityHistory = ({
           height: "28%",
           // flex:0.3,
           backgroundColor: "white",
-          zIndex: 10,
+          zIndex: 1,
         }}
       >
         <View style={[styles.container]}>
