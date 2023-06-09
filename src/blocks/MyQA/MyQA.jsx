@@ -32,6 +32,7 @@ export const MyQA = ({
   filterTag,
   userQuestionsLoading,
   allQuestionsLoading,
+  handleProviderClick,
 }) => {
   const { t, i18n } = useTranslation("my-qa");
 
@@ -114,6 +115,7 @@ export const MyQA = ({
           handleLike={handleLike}
           handleReadMore={handleReadMore}
           handleSchedulePress={handleSchedulePress}
+          handleProviderClick={handleProviderClick}
           t={t}
         />
       );

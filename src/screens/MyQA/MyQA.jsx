@@ -194,7 +194,9 @@ export const MyQA = ({ navigation }) => {
       setIsCreateQuestionOpen(true);
     }
   };
-
+  const handleProviderClick = (providerId) => {
+    navigation.push("ProviderOverview", { providerId });
+  };
   return (
     <Screen hasEmergencyButton={false} hasHeaderNavigation t={t}>
       <ScrollView>
@@ -216,6 +218,7 @@ export const MyQA = ({ navigation }) => {
           filterTag={filterTag}
           userQuestionsLoading={userQuestionsQuery.isLoading}
           allQuestionsLoading={allQuestionsQuery.isLoading}
+          handleProviderClick={handleProviderClick}
         />
       </ScrollView>
       {isHowItWorksOpen ? (
@@ -237,6 +240,7 @@ export const MyQA = ({ navigation }) => {
           question={selectedQuestion}
           handleLike={handleLike}
           handleSchedulePress={handleScheduleConsultationPress}
+          handleProviderClick={handleProviderClick}
         />
       ) : null}
       <ScheduleConsultationGroup

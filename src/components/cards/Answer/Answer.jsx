@@ -12,6 +12,7 @@ import { Line } from "../../separators";
 import { isDateToday } from "#utils";
 
 import { appStyles } from "#styles";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 const { AMAZON_S3_BUCKET } = Config;
 
@@ -27,6 +28,7 @@ export const Answer = ({
   handleLike = () => {},
   handleReadMore = () => {},
   handleSchedulePress = () => {},
+  handleProviderClick = () => {},
   style,
   t,
 }) => {
@@ -139,12 +141,19 @@ export const Answer = ({
           <View style={styles.bottomContainer}>
             <View style={styles.answeredByContainer}>
               <AppText namedStyle="text">{t("answer_by")}</AppText>
-              <Avatar
-                image={imageUrl && { uri: imageUrl }}
-                size="xs"
-                style={styles.avatar}
-              />
-              <AppText namedStyle="text">
+              <TouchableWithoutFeedback
+                onPress={() => handleProviderClick(providerInfo.providerId)}
+              >
+                <Avatar
+                  image={imageUrl && { uri: imageUrl }}
+                  size="xs"
+                  style={styles.avatar}
+                />
+              </TouchableWithoutFeedback>
+              <AppText
+                namedStyle="text"
+                onPress={() => handleProviderClick(providerInfo.providerId)}
+              >
                 {providerInfo.name} {providerInfo.surname}
               </AppText>
             </View>

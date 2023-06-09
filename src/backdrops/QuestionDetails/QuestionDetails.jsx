@@ -6,6 +6,7 @@ import { Backdrop, AppText, Icon, Like, Label, Avatar } from "#components";
 import { appStyles } from "#styles";
 import { isDateToday } from "#utils";
 import Config from "react-native-config";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 const { AMAZON_S3_BUCKET } = Config;
 
@@ -22,6 +23,7 @@ export const QuestionDetails = ({
   isOpen,
   onClose,
   handleSchedulePress,
+  handleProviderClick,
 }) => {
   const { t } = useTranslation("question-details");
 
@@ -87,12 +89,18 @@ export const QuestionDetails = ({
         <View style={styles.bottomContainer}>
           <View style={styles.answerByContainer}>
             <AppText>{t("answered_by")}</AppText>
-            <Avatar
-              image={imageUrl && { uri: imageUrl }}
-              size="xs"
-              style={styles.avatar}
-            />
-            <AppText>
+            <TouchableWithoutFeedback
+              onPress={() => handleProviderClick(providerInfo.providerId)}
+            >
+              <Avatar
+                image={imageUrl && { uri: imageUrl }}
+                size="xs"
+                style={styles.avatar}
+              />
+            </TouchableWithoutFeedback>
+            <AppText
+              onPress={() => handleProviderClick(providerInfo.providerId)}
+            >
               {providerInfo.name} {providerInfo.surname}
             </AppText>
           </View>
