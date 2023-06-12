@@ -57,7 +57,7 @@ export const TermsOfUse = ({ navigation }) => {
 
   return (
     <ScrollView>
-      <Block>
+      <Block style={styles.termsOfUse}>
         <Heading
           heading={t("heading")}
           handleGoBack={() => navigation.goBack()}
@@ -81,16 +81,40 @@ export const TermsOfUse = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  termsOfUse: {},
+  termsOfUse: {
+    paddingTop: 24,
+  },
+  heading1: {
+    fontSize: 40,
+    lineHeight: 48,
+    fontFamily: "Nunito_600SemiBold",
+    color: "#3d527b",
+  },
   heading2: {
+    fontSize: 32,
+    lineHeight: 38,
+    fontFamily: "Nunito_600SemiBold",
+    color: "#3d527b",
+  },
+  heading3: {
     fontSize: 20,
     lineHeight: 24,
     fontFamily: "Nunito_600SemiBold",
-    color: appStyles.colorBlue_3d527b,
-    marginTop: 32,
-    marginBottom: 16,
+    color: "#3d527b",
+  },
+  heading4: {
+    fontSize: 18,
+    lineHeight: 22,
+    fontFamily: "Nunito_600SemiBold",
+    color: "#3d527b",
   },
   paragraph: {
+    color: appStyles.colorGray_66768d,
+    fontSize: 16,
+    fontFamily: "Nunito_400Regular",
+    lineHeight: 24,
+  },
+  list_item: {
     color: appStyles.colorGray_66768d,
     fontSize: 16,
     fontFamily: "Nunito_400Regular",
