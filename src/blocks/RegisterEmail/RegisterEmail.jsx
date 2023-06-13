@@ -1,4 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, {
+  useContext,
+  useRef,
+  useState,
+  useCallback,
+  useEffect,
+} from "react";
 import {
   StyleSheet,
   KeyboardAvoidingView,
@@ -7,6 +13,7 @@ import {
 } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { CodeVerification } from "#backdrops";
 
 import "fast-text-encoding";
 import Joi from "joi";
@@ -43,13 +50,73 @@ export const RegisterEmail = ({ navigation }) => {
   });
 
   const [data, setData] = useState({
-    email: "",
-    nickname: "",
-    password: "",
+    email: "georgi@7digit.io",
+    nickname: "asdasd",
+    password: "asdasdA1",
     isPrivacyAndTermsSelected: false,
   });
   const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isCodeVerificationOpen, setIsCodeVerificationOpen] = useState(false);
+  const [showTimer, setShowTimer] = useState(false);
+  const [canRequestNewOTP, setCanRequestNewOTP] = useState(false);
+  const [seconds, setSeconds] = useState(60);
+  const [shouldShowCodeVerification, setShouldShowCodeVerification] =
+    useState(false);
+  const intervalId = useRef();
+
+  const requestEmailOtp = useCallback(async () => {
+    const countryID = localStorage.getItem("country_id");
+    if (!countryID) {
+      navigate("/");
+      return;
+    }
+    if (seconds === 60 || !shouldShowCodeVerification) {
+      setShouldShowCodeVerification(true);
+      return await userSvc.requestEmailOTP(data.email.toLowerCase());
+    } else {
+      setIsCodeVerificationOpen(true);
+      return false;
+    }
+  });
+
+  const requestEmailOTPMutation = useMutation(requestEmailOtp, {
+    onSuccess: (res) => {
+      if (res) {
+        setSeconds(60);
+        setCanRequestNewOTP(false);
+        disableOtpRequestFor60Seconds();
+        setIsCodeVerificationOpen(true);
+        setErrors({ submit: null });
+      }
+    },
+    onError: (error) => {
+      const { message: errorMessage } = useError(error);
+      setErrors({ submit: errorMessage });
+    },
+  });
+
+  const disableOtpRequestFor60Seconds = () => {
+    setShowTimer(true);
+    if (intervalId.current) {
+      clearInterval(intervalId.current);
+    }
+    const interval = setInterval(() => {
+      setSeconds((sec) => {
+        if (sec - 1 === 0) {
+          clearInterval(interval);
+          setShowTimer(false);
+          setSeconds(60);
+          setCanRequestNewOTP(true);
+        }
+        return sec - 1;
+      });
+    }, 1000);
+    intervalId.current = interval;
+  };
+
+  useEffect(() => {
+    setShouldShowCodeVerification(false);
+  }, [data]);
 
   const handleChange = (field, value) => {
     let newData = { ...data };
@@ -61,10 +128,10 @@ export const RegisterEmail = ({ navigation }) => {
     validateProperty(field, data[field], schema, setErrors);
   };
 
-  const register = async () => {
+  const register = async (code) => {
     const countryID = await localStorage.getItem("country_id");
     if (!countryID) {
-      navigate("Welcome");
+      navigation.navigate("Welcome");
       return;
     }
     // Send data to server
@@ -75,6 +142,7 @@ export const RegisterEmail = ({ navigation }) => {
       clientData: {
         email: data.email.toLowerCase().trim(),
         nickname: data.nickname,
+        code,
       },
     });
   };
@@ -98,21 +166,14 @@ export const RegisterEmail = ({ navigation }) => {
       setToken(token);
     },
     onError: (error) => {
-      setIsSubmitting(false);
       const { message: errorMessage } = useError(error);
       setErrors({ submit: errorMessage });
     },
-    onSettled: () => {
-      setIsSubmitting(false);
-    },
   });
 
-  const handleRegister = async () => {
-    setIsSubmitting(true);
+  const handleRegister = async (code) => {
     if ((await validate(data, schema, setErrors)) === null) {
-      registerMutation.mutate();
-    } else {
-      setIsSubmitting(false);
+      registerMutation.mutate(code);
     }
   };
 
@@ -120,82 +181,101 @@ export const RegisterEmail = ({ navigation }) => {
     navigation.navigate("Login");
   };
 
+  const handleOtpRequest = async () => {
+    if ((await validate(data, schema, setErrors)) === null) {
+      requestEmailOTPMutation.mutate();
+    }
+  };
+
   return (
-    <KeyboardAvoidingView
-      style={styles.keyboardAvoidingView}
-      behavior={Platform.OS === "ios" ? "padding" : null}
-    >
-      <Block style={styles.flexGrow}>
-        <Heading
-          heading={t("heading")}
-          handleGoBack={() => navigation.goBack()}
-        />
-        <ScrollView
-          contentContainerStyle={[styles.flexGrow, { marginTop: 64 }]}
-          keyboardShouldPersistTaps="handled"
-        >
-          <Input
-            label={t("email_label")}
-            style={styles.input}
-            placeholder="user@mail.com"
-            value={data.email}
-            onChange={(value) => handleChange("email", value)}
-            onBlur={() => handleBlur("email")}
-            errorMessage={errors.email}
-            autoCapitalize="none"
+    <>
+      <KeyboardAvoidingView
+        style={styles.keyboardAvoidingView}
+        behavior={Platform.OS === "ios" ? "padding" : null}
+      >
+        <Block style={styles.flexGrow}>
+          <Heading
+            heading={t("heading")}
+            handleGoBack={() => navigation.goBack()}
           />
-          <Input
-            label={t("nickname_label")}
-            style={styles.input}
-            placeholder={t("nickname_placeholder")}
-            value={data.nickname}
-            onChange={(value) => handleChange("nickname", value)}
-            onBlur={() => handleBlur("nickname")}
-            errorMessage={errors.nickname}
-          />
-          <InputPassword
-            style={styles.input}
-            label={t("password_label")}
-            value={data.password}
-            placeholder={t("password_placeholder")}
-            onChange={(value) => handleChange("password", value)}
-            onBlur={() => handleBlur("password")}
-            errorMessage={errors.password}
-            autoCapitalize="none"
-          />
-          <TermsAgreement
-            isChecked={data.isPrivacyAndTermsSelected}
-            setIsChecked={() =>
-              handleChange(
-                "isPrivacyAndTermsSelected",
-                !data.isPrivacyAndTermsSelected
-              )
-            }
-            navigation={navigation}
-            textOne={t("terms_agreement_text_1")}
-            textTwo={t("terms_agreement_text_2")}
-            textThree={t("terms_agreement_text_3")}
-            textFour={t("terms_agreement_text_4")}
-          />
-          <Error message={errors.submit || ""} />
-          <AppButton
-            size="lg"
-            label={t("register_button")}
-            onPress={handleRegister}
-            type="primary"
-            color="green"
-            disabled={!data.isPrivacyAndTermsSelected}
-            loading={isSubmitting}
-            style={styles.registerButton}
-          />
-          <AppButton
-            label={t("login_button_label")}
-            type="ghost"
-            onPress={handleLoginRedirect}
-          />
-        </ScrollView>
-      </Block>
-    </KeyboardAvoidingView>
+          <ScrollView
+            contentContainerStyle={[styles.flexGrow, { marginTop: 64 }]}
+            keyboardShouldPersistTaps="handled"
+          >
+            <Input
+              label={t("email_label")}
+              style={styles.input}
+              placeholder="user@mail.com"
+              value={data.email}
+              onChange={(value) => handleChange("email", value)}
+              onBlur={() => handleBlur("email")}
+              errorMessage={errors.email}
+              autoCapitalize="none"
+            />
+            <Input
+              label={t("nickname_label")}
+              style={styles.input}
+              placeholder={t("nickname_placeholder")}
+              value={data.nickname}
+              onChange={(value) => handleChange("nickname", value)}
+              onBlur={() => handleBlur("nickname")}
+              errorMessage={errors.nickname}
+            />
+            <InputPassword
+              style={styles.input}
+              label={t("password_label")}
+              value={data.password}
+              placeholder={t("password_placeholder")}
+              onChange={(value) => handleChange("password", value)}
+              onBlur={() => handleBlur("password")}
+              errorMessage={errors.password}
+              autoCapitalize="none"
+            />
+            <TermsAgreement
+              isChecked={data.isPrivacyAndTermsSelected}
+              setIsChecked={() =>
+                handleChange(
+                  "isPrivacyAndTermsSelected",
+                  !data.isPrivacyAndTermsSelected
+                )
+              }
+              navigation={navigation}
+              textOne={t("terms_agreement_text_1")}
+              textTwo={t("terms_agreement_text_2")}
+              textThree={t("terms_agreement_text_3")}
+              textFour={t("terms_agreement_text_4")}
+            />
+            <Error message={errors.submit || ""} />
+            <AppButton
+              size="lg"
+              label={t("register_button")}
+              onPress={handleOtpRequest}
+              type="primary"
+              color="green"
+              disabled={!data.isPrivacyAndTermsSelected}
+              loading={requestEmailOTPMutation.isLoading}
+              style={styles.registerButton}
+            />
+            <AppButton
+              label={t("login_button_label")}
+              type="ghost"
+              onPress={handleLoginRedirect}
+            />
+          </ScrollView>
+        </Block>
+      </KeyboardAvoidingView>
+      <CodeVerification
+        isOpen={isCodeVerificationOpen}
+        onClose={() => setIsCodeVerificationOpen(false)}
+        requestOTP={requestEmailOTPMutation.mutate}
+        canRequestOTP={canRequestNewOTP}
+        resendTimer={seconds}
+        showTimer={showTimer}
+        handleRegister={handleRegister}
+        submitError={errors.submit}
+        isMutating={registerMutation.isLoading}
+      />
+    </>
   );
 };
 

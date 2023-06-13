@@ -200,6 +200,13 @@ async function changeLanguage(language) {
   return response;
 }
 
+async function requestEmailOTP(email) {
+  const response = await http.post(`${API_ENDPOINT}/email-otp`, {
+    email,
+  });
+  return response;
+}
+
 const exportedFunctions = {
   changePassword,
   generateClientAccesToken,
@@ -220,6 +227,7 @@ const exportedFunctions = {
   createProvider,
   transformUserData,
   changeLanguage,
+  requestEmailOTP,
 };
 
 export default exportedFunctions;
