@@ -79,6 +79,7 @@ import {
   CreateQuestion,
   QuestionDetails,
   FilterQuestions,
+  CodeVerification,
 } from "./src/backdrops/locales.js";
 
 import {
@@ -169,6 +170,7 @@ const resources = {
     "create-question": CreateQuestion.en,
     "question-details": QuestionDetails.en,
     "filter-questions": FilterQuestions.en,
+    "code-verification": CodeVerification.en,
 
     // Modals
     "mood-tracker-more-information": MoodTrackerMoreInformation.en,
@@ -258,6 +260,7 @@ const resources = {
     "create-question": CreateQuestion.ru,
     "question-details": QuestionDetails.ru,
     "filter-questions": FilterQuestions.ru,
+    "code-verification": CodeVerification.ru,
 
     // Modals
     "mood-tracker-more-information": MoodTrackerMoreInformation.ru,
@@ -347,6 +350,7 @@ const resources = {
     "create-question": CreateQuestion.kk,
     "question-details": QuestionDetails.kk,
     "filter-questions": FilterQuestions.kk,
+    "code-verification": CodeVerification.kk,
 
     // Modals
     "mood-tracker-more-information": MoodTrackerMoreInformation.kk,
