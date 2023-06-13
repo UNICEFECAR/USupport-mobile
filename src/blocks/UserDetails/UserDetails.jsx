@@ -328,8 +328,8 @@ export const UserDetails = ({
               />
 
               <Input
+                label={t("nickname") + "*"}
                 value={clientData.nickname}
-                label={t("nickname")}
                 onChange={(value) => handleChange("nickname", value)}
                 onBlur={handleNicknameBlur}
                 placeholder={t("nickname_placeholder")}
@@ -338,7 +338,7 @@ export const UserDetails = ({
               />
 
               <Input
-                label={t("email")}
+                label={t("email") + (!clientData.accessToken ? "*" : "")}
                 value={clientData.email}
                 autoCapitalize="none"
                 onChange={(value) => handleChange("email", value)}
