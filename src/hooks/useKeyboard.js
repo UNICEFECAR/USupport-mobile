@@ -27,6 +27,11 @@ export const useKeyboard = (enabled, onShow, onHide) => {
       );
     }
 
+    if (!enabled) {
+      showKeyboardListener?.remove();
+      hideKeyboardListener?.remove();
+    }
+
     return () => {
       if (enabled) {
         try {
@@ -37,7 +42,7 @@ export const useKeyboard = (enabled, onShow, onHide) => {
         }
       }
     };
-  }, []);
+  }, [enabled]);
 
   return keyboardHeight;
 };
