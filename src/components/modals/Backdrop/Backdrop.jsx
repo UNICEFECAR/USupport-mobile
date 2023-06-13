@@ -58,6 +58,7 @@ export const Backdrop = ({
   customRender = false,
   hasKeyboardListener = false,
   handleCloseIconPress,
+  footerComponent,
 }) => {
   const hasButtons = ctaLabel || secondaryCtaLabel;
   const [isOverlayShown, setIsOverlayShown] = useState(false);
@@ -73,10 +74,7 @@ export const Backdrop = ({
 
   const onShowKeyboard = (height) => {
     if (Platform.OS === "ios") {
-      backdropBottom.value = withSpring(
-        -(height / 1.25),
-        appStyles.springConfig
-      );
+      backdropBottom.value = withSpring(-height + 24, appStyles.springConfig);
     }
   };
   const onHideKeyboard = () => {
@@ -187,7 +185,9 @@ export const Backdrop = ({
               setButtonsContainerHeight(height);
             }}
           >
-            {errorMessage ? <Error message={errorMessage} /> : null}
+            {errorMessage ? (
+              <Error style={{ marginBottom: 6 }} message={errorMessage} />
+            ) : null}
             {ctaLabel ? (
               isCtaDisabled && showLoadingIfDisabled ? (
                 <Loading />
@@ -221,6 +221,7 @@ export const Backdrop = ({
                 />
               )
             ) : null}
+            {footerComponent}
           </View>
         ) : null}
       </Animated.View>
