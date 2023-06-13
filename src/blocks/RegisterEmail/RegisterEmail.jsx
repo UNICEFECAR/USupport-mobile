@@ -50,9 +50,9 @@ export const RegisterEmail = ({ navigation }) => {
   });
 
   const [data, setData] = useState({
-    email: "georgi@7digit.io",
-    nickname: "asdasd",
-    password: "asdasdA1",
+    email: "",
+    nickname: "",
+    password: "",
     isPrivacyAndTermsSelected: false,
   });
   const [errors, setErrors] = useState({});
