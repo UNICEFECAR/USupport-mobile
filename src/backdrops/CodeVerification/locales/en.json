@@ -1,0 +1,8 @@
+{
+  "heading": "Code verification",
+  "text": "Please enter the code you received via email. It is valid for 30 minutes after you received the email.",
+  "send": "Send",
+  "didnt_get_code": "Didnt get code?",
+  "resend": "Resend email",
+  "seconds": " in {{seconds}} seconds"
+}

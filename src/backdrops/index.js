@@ -13,3 +13,4 @@ export * from "./CreateQuestion";
 export * from "./QuestionDetails";
 export * from "./ScheduleConsultationGroup";
 export * from "./FilterQuestions";
+export * from "./CodeVerification";
