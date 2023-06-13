@@ -154,7 +154,10 @@ export const RegisterAboutYou = ({ navigation }) => {
         hasGoBackArrow={false}
         style={styles.heading}
       />
-      <ScrollView contentContainerStyle={styles.scrollViewContentContainer}>
+      <ScrollView
+        contentContainerStyle={styles.scrollViewContentContainer}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.inputContainer}>
           <Input
             autoCapitalize={true}
@@ -233,8 +236,9 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   scrollViewContentContainer: {
-    flex: 1,
+    // flex: 1,
     flexGrow: 1,
     marginTop: 64,
+    paddingBottom: 100,
   },
 });
