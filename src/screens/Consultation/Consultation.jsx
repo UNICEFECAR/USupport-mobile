@@ -332,7 +332,7 @@ export const Consultation = ({ navigation, route }) => {
           setHasUnreadMessages(false);
         }}
         customRender
-        hasKeyboardListener
+        hasKeyboardListener={Platform.OS === "android" ? false : !showOptions}
       >
         <View
           style={{
@@ -391,7 +391,7 @@ export const Consultation = ({ navigation, route }) => {
         </View>
         <View style={{ flex: 1, flexGrow: 1 }}>
           <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : null}
+            behavior={null}
             style={{
               flex: 1,
               // paddingBottom: 50,
@@ -413,7 +413,11 @@ export const Consultation = ({ navigation, route }) => {
                 paddingBottom: 20,
               }}
             >
-              <SendMessage handleSubmit={handleSendMessage} t={t} />
+              <SendMessage
+                handleSubmit={handleSendMessage}
+                t={t}
+                hideOptions={() => setShowOptions(false)}
+              />
             </View>
           </KeyboardAvoidingView>
         </View>
