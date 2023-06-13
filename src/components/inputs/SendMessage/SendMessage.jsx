@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { Input } from "../Input";
 import { ButtonWithIcon } from "../../buttons";
 
-export const SendMessage = ({ handleSubmit, t }) => {
+export const SendMessage = ({ handleSubmit, t, hideOptions = () => {} }) => {
   const [message, setMessage] = useState("");
   const handleSend = () => {
     handleSubmit(message);
@@ -16,6 +16,7 @@ export const SendMessage = ({ handleSubmit, t }) => {
         placeholder={t("send_message")}
         value={message}
         onChangeText={setMessage}
+        onFocus={hideOptions}
       />
       <ButtonWithIcon
         iconName="comment"
