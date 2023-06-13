@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     zIndex: 3,
-    width: "100%",
+    width: appStyles.screenWidth,
     paddingLeft: 16,
   },
   container: {
