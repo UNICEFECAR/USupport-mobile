@@ -89,13 +89,16 @@ export const Consultation = ({ navigation, route }) => {
 
   // Filter the messages based on the search input
   useEffect(() => {
+    const messagesToFilter = showAllMessages
+      ? allChatHistoryQuery.data?.messages
+      : chatDataQuery.data?.messages;
     if (debouncedSearch) {
-      const filteredMessages = chatDataQuery.data.messages.filter((message) =>
+      const filteredMessages = messagesToFilter.filter((message) =>
         message.content.toLowerCase().includes(debouncedSearch.toLowerCase())
       );
       setMessages([...filteredMessages].reverse());
     } else if (!debouncedSearch && chatDataQuery.data?.messages) {
-      setMessages([...chatDataQuery.data.messages].reverse());
+      setMessages([...messagesToFilter].reverse());
     }
   }, [debouncedSearch]);
 
@@ -126,7 +129,7 @@ export const Consultation = ({ navigation, route }) => {
       // }
       setMessages([...msgs].reverse());
     }
-  }, [showAllMessages, areSystemMessagesShown, allChatHistoryQuery.data]);
+  }, [showAllMessages, allChatHistoryQuery.data]);
 
   // Mutations
   const onSendSuccess = (data) => {
@@ -244,38 +247,41 @@ export const Consultation = ({ navigation, route }) => {
     });
   };
 
-  const renderMessage = (message) => {
-    if (message.type === "system") {
-      if (!areSystemMessagesShown) return null;
-      return (
-        <SystemMessage
-          key={message.time}
-          title={message.content}
-          date={new Date(Number(message.time))}
-        />
-      );
-    } else {
-      if (message.senderId === clientId) {
+  const renderMessage = useCallback(
+    (message) => {
+      if (message.type === "system") {
+        if (!areSystemMessagesShown) return null;
         return (
-          <Message
+          <SystemMessage
             key={message.time}
-            message={message.content}
-            sent
+            title={message.content}
             date={new Date(Number(message.time))}
           />
         );
       } else {
-        return (
-          <Message
-            key={message.time}
-            message={message.content}
-            received
-            date={new Date(Number(message.time))}
-          />
-        );
+        if (message.senderId === clientId) {
+          return (
+            <Message
+              key={message.time}
+              message={message.content}
+              sent
+              date={new Date(Number(message.time))}
+            />
+          );
+        } else {
+          return (
+            <Message
+              key={message.time}
+              message={message.content}
+              received
+              date={new Date(Number(message.time))}
+            />
+          );
+        }
       }
-    }
-  };
+    },
+    [messages, areSystemMessagesShown]
+  );
 
   const sendJoinConsultationMessage = async () => {
     const language = await localStorage.getItem("language");
@@ -332,7 +338,10 @@ export const Consultation = ({ navigation, route }) => {
           setHasUnreadMessages(false);
         }}
         customRender
-        hasKeyboardListener={Platform.OS === "android" ? false : !showOptions}
+        hasKeyboardListener
+        style={{
+          height: appStyles.screenHeight * 0.55,
+        }}
       >
         <View
           style={{
@@ -402,7 +411,9 @@ export const Consultation = ({ navigation, route }) => {
               inverted
               scrollEnabled
               data={chatDataQuery.isLoading ? [] : messages}
-              keyExtractor={(item) => item.time.toString()}
+              keyExtractor={(item, index) =>
+                item.time.toString() + index.toString()
+              }
               renderItem={({ item }) => renderMessage(item)}
               ref={flatListRef}
             />
