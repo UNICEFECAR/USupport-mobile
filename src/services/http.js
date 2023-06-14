@@ -4,7 +4,7 @@ import localStorage from "./storage";
 import { log } from "./log";
 import Config from "react-native-config";
 
-const { API_URL_ENDPOINT, CMS_API_URL_ENDPOINT } = Config;
+const { API_URL_ENDPOINT, CMS_API_URL_ENDPOINT, WEBSITE_URL } = Config;
 
 const API_ENDPOINT = `${API_URL_ENDPOINT}/v1/user`;
 
@@ -14,6 +14,7 @@ axios.interceptors.request.use(async (config) => {
   const language = await localStorage.getItem("language");
   config.headers["x-country-alpha-2"] = country || "KZ";
   config.headers["x-language-alpha-2"] = language || "en";
+  config.headers["Origin"] = WEBSITE_URL;
   const requestURI = axios.getUri(config) || "VITE CMS API URL";
 
   if (!requestURI.includes(CMS_API_URL_ENDPOINT)) {
