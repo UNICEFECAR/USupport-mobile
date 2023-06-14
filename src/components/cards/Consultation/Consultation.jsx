@@ -301,6 +301,7 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     marginRight: 14,
+    marginLeft: 3,
     maxHeight: 30,
     paddingHorizontal: 8,
     paddingVertical: 4,
@@ -339,6 +340,7 @@ const styles = StyleSheet.create({
   sponsorImage: {
     width: 25,
     height: 25,
+    borderRadius: 25 / 2,
     alignSelf: "flex-start",
     position: "absolute",
     left: 0,
