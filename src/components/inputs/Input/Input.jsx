@@ -26,6 +26,7 @@ export const Input = ({
   onFocus,
   onChange,
   autoCapitalize = "sentences",
+  inputStyles,
   ...props
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -52,6 +53,7 @@ export const Input = ({
             styles.textInput,
             isTextarea && styles.inputTextarea,
             disabled && styles.inputWrapperDisabled,
+            inputStyles,
           ]}
           editable={!disabled}
           selectTextOnFocus={!disabled}
