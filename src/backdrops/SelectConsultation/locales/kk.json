@@ -4,5 +4,8 @@
   "subheading_edit": "Осы кездесуді ауыстыратын күн мен уақытты ұсыныңыз.",
   "subheading_new": "Кездесу күні мен уақытын таңдаңыз.",
   "cta_button_label": "Сақтау",
-  "no_slots_available": "Таңдалған күні бос орындар жоқ."
+  "no_slots_available": "Таңдалған күні бос орындар жоқ.",
+  "coupon_code": "Купон коды",
+  "apply_coupon": "Apply coupon",
+  "remove_coupon": "Купонды жою"
 }

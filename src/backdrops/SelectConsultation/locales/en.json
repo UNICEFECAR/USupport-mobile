@@ -4,5 +4,8 @@
   "subheading_edit": "Suggest the date and time for rescedule of this appointment.",
   "subheading_new": "Select the date and time of the appointment.",
   "cta_button_label": "Save",
-  "no_slots_available": "There are no available slots for the selected day."
+  "no_slots_available": "There are no available slots for the selected day.",
+  "coupon_code": "Coupon code",
+  "apply_coupon": "Apply coupon",
+  "remove_coupon": "Remove coupon"
 }

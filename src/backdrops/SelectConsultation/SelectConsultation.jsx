@@ -5,16 +5,19 @@ import { View, StyleSheet } from "react-native";
 
 import {
   AppText,
+  AppButton,
   Backdrop,
+  Error,
   Header,
   Loading,
   RadioButtonSelectorGroup,
+  Input,
 } from "#components";
 import { appStyles } from "#styles";
 
-import { useGetProviderDataById } from "#hooks";
+import { useGetProviderDataById, useError } from "#hooks";
 import { getTimestampFromUTC, parseUTCDate } from "#utils";
-import { providerSvc, Context } from "#services";
+import { providerSvc, Context, clientSvc } from "#services";
 
 /**
  * SelectConsultation
@@ -41,7 +44,12 @@ export const SelectConsultation = ({
 
   const { activeCoupon } = useContext(Context);
 
-  const campaignId = activeCoupon?.campaignId || campaingIdFromProps;
+  const [couponCode, setCouponCode] = useState("");
+  const [campaignId, setCampaignId] = useState(
+    activeCoupon?.campaignId || campaingIdFromProps
+  );
+  const [isCouponLoading, setIsCouponLoading] = useState(false);
+  const [couponError, setCouponError] = useState();
 
   const providerDataQuery = useGetProviderDataById(providerId, campaignId);
   const providerData = providerDataQuery.data;
@@ -141,6 +149,26 @@ export const SelectConsultation = ({
     handleBlockSlot(time, providerData.consultationPrice);
   };
 
+  const handleSubmitCoupon = async () => {
+    setIsCouponLoading(true);
+    try {
+      const { data } = await clientSvc.checkIsCouponAvailable(couponCode);
+
+      if (data?.campaign_id) {
+        setCampaignId(data.campaign_id);
+      }
+    } catch (err) {
+      const { message: errorMessage } = useError(err);
+      setCouponError(errorMessage);
+    } finally {
+      setIsCouponLoading(false);
+    }
+  };
+  const removeCoupon = () => {
+    setCouponCode("");
+    setCampaignId("");
+  };
+
   return (
     <Backdrop
       classes="select-consultation"
@@ -156,6 +184,25 @@ export const SelectConsultation = ({
       isCtaLoading={isCtaLoading}
       errorMessage={errorMessage}
     >
+      <View style={styles.couponContainer}>
+        <Input
+          value={couponCode}
+          onChange={(e) => setCouponCode(e)}
+          label={t("coupon_code")}
+          style={styles.couponInput}
+          inputStyles={{ height: 10 }}
+        />
+        <AppButton
+          label={
+            campaignId && couponCode ? t("remove_coupon") : t("apply_coupon")
+          }
+          onPress={campaignId && couponCode ? removeCoupon : handleSubmitCoupon}
+          size="sm"
+          loading={isCouponLoading}
+          style={{ width: "100%" }}
+        />
+        {couponError && <Error message={couponError} />}
+      </View>
       {providerDataQuery.isLoading ? (
         <View style={{ alignItems: "center" }}>
           <Loading size="lg" />
@@ -190,4 +237,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   noSlotsText: { color: appStyles.colorRed_ed5657 },
+  couponContainer: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+    paddingBottom: 16,
+  },
+  couponInput: { width: "50%", marginRight: 12 },
 });
