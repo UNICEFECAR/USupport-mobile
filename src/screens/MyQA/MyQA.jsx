@@ -252,7 +252,7 @@ export const MyQA = ({ navigation }) => {
         setIsRequireDataAgreementOpen={setIsRequireDataAgreementOpen}
         navigation={navigation}
         providerId={providerId}
-        isInDashboard={true}
+        isInMyQA
       />
       {isFilterQuestionsBackdropOpen && (
         <FilterQuestions

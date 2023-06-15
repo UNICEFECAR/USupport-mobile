@@ -4,6 +4,7 @@ import { SelectConsultation } from "../SelectConsultation";
 import { ConfirmConsultation } from "../ConfirmConsultation";
 import { RequireDataAgreement } from "#modals";
 import { useBlockSlot, useScheduleConsultation } from "#hooks";
+import { parseUTCDate } from "#utils";
 
 /**
  * ScheduleConsultationGroup
@@ -20,7 +21,7 @@ export const ScheduleConsultationGroup = ({
   setIsConfirmBackdropOpen,
   isRequireDataAgreementOpen,
   setIsRequireDataAgreementOpen,
-  isInDashboard = false,
+  isInMyQA = false,
   navigation,
 }) => {
   const [blockSlotError, setBlockSlotError] = useState();
@@ -79,7 +80,9 @@ export const ScheduleConsultationGroup = ({
     blockSlotMutation.isLoading || scheduleConsultationMutation.isLoading;
 
   const time = useMemo(() => {
-    return new Date(selectedSlot.current);
+    return selectedSlot.current?.campaign_id
+      ? parseUTCDate(selectedSlot.current?.time)
+      : new Date(selectedSlot.current);
   }, [selectedSlot.current]);
 
   return (
@@ -91,13 +94,13 @@ export const ScheduleConsultationGroup = ({
         providerId={providerId}
         isCtaLoading={isSelectConsultationLoading}
         errorMessage={blockSlotError}
-        isInDashboard={isInDashboard}
+        isInDashboard={isInMyQA}
       />
       {selectedSlot.current ? (
         <ConfirmConsultation
           isOpen={isConfirmBackdropOpen}
           onClose={closeConfirmConsultationBackdrop}
-          ctaStyle={{ marginBottom: 85 }}
+          ctaStyle={isInMyQA ? { marginBottom: 85 } : {}}
           consultation={{
             startDate: time,
             endDate: new Date(
