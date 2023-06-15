@@ -212,13 +212,11 @@ export const ActivityHistory = ({
           <View style={{ paddingBottom: 100 }} />
         </ScrollView>
         <View style={styles.buttonContainer}>
-          {!consultation.campaignId ? (
-            <AppButton
-              label={t("button_label")}
-              size="lg"
-              onPress={handleSchedule}
-            />
-          ) : null}
+          <AppButton
+            label={t("button_label")}
+            size="lg"
+            onPress={handleSchedule}
+          />
         </View>
       </Block>
     </>
