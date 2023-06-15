@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, View } from "react-native";
 
@@ -12,6 +12,7 @@ import {
   AppButton,
   TransparentModal,
   Input,
+  Toggle,
 } from "#components";
 import { SelectProvider as SelectProviderBlock } from "#blocks";
 import { FilterProviders } from "#backdrops";
@@ -37,6 +38,10 @@ export const SelectProvider = ({ navigation }) => {
   const [couponValue, setCouponValue] = useState("");
   const [couponError, setCouponError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [sharedFilters, setSharedFilters] = useState({
+    maxPrice: "",
+    onlyFreeConsultation: false,
+  });
 
   const [providersDataQuery, providersData, setProvidersData] =
     useGetProvidersData(activeCoupon);
@@ -148,17 +153,6 @@ export const SelectProvider = ({ navigation }) => {
       <ScrollView style={{ marginTop: 112 }}>
         <Block>
           <View style={styles.buttonContainer}>
-            <AppButton
-              label={
-                activeCoupon
-                  ? t("remove_coupon_label")
-                  : t("button_coupon_label")
-              }
-              size="sm"
-              color="green"
-              onPress={activeCoupon ? removeCoupon : openCouponModal}
-              style={{ marginRight: 8 }}
-            />
             <ButtonWithIcon
               size="sm"
               color="purple"
@@ -169,6 +163,14 @@ export const SelectProvider = ({ navigation }) => {
             />
           </View>
         </Block>
+        <FiltersBlock
+          handleSave={handleFilterSave}
+          t={t}
+          activeCoupon={activeCoupon}
+          removeCoupon={removeCoupon}
+          openCouponModal={openCouponModal}
+          sharedFilters={sharedFilters}
+        />
         {providersDataQuery.isFetching ||
         (providersDataQuery.isLoading && !providersData) ? (
           <View style={styles.loadingContainer}>
@@ -206,8 +208,63 @@ export const SelectProvider = ({ navigation }) => {
         onClose={() => setIsFilterOpen(false)}
         onSave={handleFilterSave}
         navigation={navigation}
+        sharedFilters={sharedFilters}
       />
     </Screen>
+  );
+};
+
+const FiltersBlock = ({
+  handleSave,
+  activeCoupon,
+  removeCoupon,
+  openCouponModal,
+  sharedFilters,
+  t,
+}) => {
+  const [data, setData] = useState({
+    maxPrice: "",
+    onlyFreeConsultation: false,
+  });
+
+  useEffect(() => {
+    setData({ ...sharedFilters });
+  }, [sharedFilters]);
+
+  const handleChange = (field, val) => {
+    const newData = { ...data };
+    newData[field] = val;
+    setData(newData);
+    handleSave(newData);
+  };
+
+  return (
+    <Block>
+      <AppButton
+        label={
+          activeCoupon ? t("remove_coupon_label") : t("button_coupon_label")
+        }
+        size="sm"
+        color="green"
+        onClick={activeCoupon ? removeCoupon : openCouponModal}
+      />
+      <Input
+        type="number"
+        label={t("max_price")}
+        placeholder={t("max_price")}
+        value={data.maxPrice}
+        onChange={(e) => handleChange("maxPrice", e)}
+        style={{ marginTop: 16 }}
+      />
+      <Toggle
+        isToggled={data.onlyFreeConsultation}
+        handleToggle={(val) => handleChange("onlyFreeConsultation", val)}
+        label={t("providers_free_consultation_label")}
+        wrapperStyles={{
+          marginTop: 16,
+        }}
+      />
+    </Block>
   );
 };
 
@@ -218,8 +275,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   buttonContainer: {
-    justifyContent: "flex-end",
-    flexDirection: "row",
-    paddingTop: 32,
+    // justifyContent: "flex-end",
+    // flexDirection: "row",
+    paddingTop: 16,
+    paddingBottom: 16,
   },
 });

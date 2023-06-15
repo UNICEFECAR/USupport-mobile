@@ -10,5 +10,7 @@
   "heading_with_coupon": "Выберите консультанта для использования купона: {{coupon}}",
   "remove_coupon_label": "Удалить купон",
   "coupon_paragraph": "Coupons provide “no-cost” sessions and are sponsored by our partners.RU",
-  "coupon_paragraph_two": "If you received a coupon code from a social media campaign or a partner, please copy and paste that below. After you submit the coupon code, you will see any providers that support it and their availability. A coupon may support one or more sessions. The platform will indicate if the coupon has expired or reached the maximum session usage.RU"
+  "coupon_paragraph_two": "If you received a coupon code from a social media campaign or a partner, please copy and paste that below. After you submit the coupon code, you will see any providers that support it and their availability. A coupon may support one or more sessions. The platform will indicate if the coupon has expired or reached the maximum session usage.RU",
+  "max_price": "Максимальная цена",
+  "providers_free_consultation_label": "Только бесплатная консультация"
 }

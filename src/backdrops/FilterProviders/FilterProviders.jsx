@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
@@ -22,7 +22,7 @@ import { languageSvc } from "#services";
  *
  * @return {jsx}
  */
-export const FilterProviders = ({ isOpen, onClose, onSave }) => {
+export const FilterProviders = ({ isOpen, onClose, onSave, sharedFilters }) => {
   const { t } = useTranslation("filter-providers");
 
   const fetchLanguages = async () => {
@@ -51,6 +51,14 @@ export const FilterProviders = ({ isOpen, onClose, onSave }) => {
     language: null,
     onlyFreeConsultation: false,
   });
+
+  useEffect(() => {
+    setData((data) => ({
+      ...data,
+      maxPrice: sharedFilters.maxPrice,
+      onlyFreeConsultation: sharedFilters.onlyFreeConsultation,
+    }));
+  }, [sharedFilters]);
 
   const [providerTypes, setProviderTypes] = useState([
     {
