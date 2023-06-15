@@ -190,7 +190,8 @@ export const SelectConsultation = ({
           onChange={(e) => setCouponCode(e)}
           label={t("coupon_code")}
           style={styles.couponInput}
-          inputStyles={{ height: 10 }}
+          inputStyles={{ height: 18 }}
+          placeholder="COUPON1"
         />
         <AppButton
           label={
@@ -201,7 +202,7 @@ export const SelectConsultation = ({
           loading={isCouponLoading}
           style={{ width: "100%" }}
         />
-        {couponError && <Error message={couponError} />}
+        {couponError && <Error style={styles.error} message={couponError} />}
       </View>
       {providerDataQuery.isLoading ? (
         <View style={{ alignItems: "center" }}>
@@ -239,8 +240,16 @@ const styles = StyleSheet.create({
   noSlotsText: { color: appStyles.colorRed_ed5657 },
   couponContainer: {
     flexDirection: "row",
+    flexWrap: "wrap",
     alignItems: "flex-end",
-    paddingBottom: 16,
+    marginBottom: 16,
+    height: 90,
   },
   couponInput: { width: "50%", marginRight: 12 },
+  error: {
+    width: "100%",
+    alignSelf: "center",
+    marginBottom: 12,
+    textAlign: "center",
+  },
 });
