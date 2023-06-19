@@ -30,7 +30,8 @@ export default function useGetAllChatHistoryData(
     ["all-chat-data", providerDetailId, clientDetailId],
     fetchChatData,
     {
-      enabled: !!enabled,
+      enabled: !!enabled && !!providerDetailId && !!clientDetailId,
+      onError: console.log,
     }
   );
 

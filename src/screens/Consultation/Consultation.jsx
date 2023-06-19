@@ -48,7 +48,6 @@ const { SOCKET_IO_URL } = Config;
  */
 export const Consultation = ({ navigation, route }) => {
   const { t } = useTranslation("consultation-page");
-  const navigate = navigation.navigate;
   const location = route.params;
   const backdropMessagesContainerRef = useRef();
 
@@ -64,7 +63,12 @@ export const Consultation = ({ navigation, route }) => {
 
   const [isChatShown, setIsChatShown] = useState(!joinWithVideo);
 
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState({
+    currentSession: [],
+    previousSessions: [],
+  });
+  const [displayedMessages, setDisplayedMessages] = useState([]);
+
   const [areSystemMessagesShown, setAreSystemMessagesShown] = useState(true);
   const [isSafetyFeedbackShown, setIsSafetyFeedbackShown] = useState(false);
 
@@ -76,7 +80,10 @@ export const Consultation = ({ navigation, route }) => {
   const debouncedSearch = useDebounce(search, 500);
 
   const chatDataQuery = useGetChatData(consultation?.chatId, (data) =>
-    setMessages([...data.messages].reverse())
+    setMessages((prev) => ({
+      ...prev,
+      currentSession: data.messages,
+    }))
   );
 
   const clientId = chatDataQuery.data?.clientDetailId;
@@ -84,27 +91,27 @@ export const Consultation = ({ navigation, route }) => {
   const allChatHistoryQuery = useGetAllChatHistoryData(
     providerId,
     clientId,
-    showAllMessages
+    true
   );
-
-  // Filter the messages based on the search input
-  useEffect(() => {
-    const messagesToFilter = showAllMessages
-      ? allChatHistoryQuery.data?.messages
-      : chatDataQuery.data?.messages;
-    if (debouncedSearch) {
-      const filteredMessages = messagesToFilter.filter((message) =>
-        message.content.toLowerCase().includes(debouncedSearch.toLowerCase())
-      );
-      setMessages([...filteredMessages].reverse());
-    } else if (!debouncedSearch && chatDataQuery.data?.messages) {
-      setMessages([...messagesToFilter].reverse());
-    }
-  }, [debouncedSearch]);
 
   useEffect(() => {
     if (
-      messages?.length > 0 &&
+      allChatHistoryQuery.data?.messages &&
+      !messages.previousSessions.length
+    ) {
+      setMessages((prev) => {
+        return {
+          ...prev,
+          previousSessions: allChatHistoryQuery.data.messages,
+        };
+      });
+    }
+  }, [allChatHistoryQuery.data]);
+
+  useEffect(() => {
+    if (
+      (messages.currentSession?.length > 0 ||
+        messages.previousSessions?.length > 0) &&
       backdropMessagesContainerRef.current &&
       backdropMessagesContainerRef.current.scrollHeight > 0
     ) {
@@ -113,27 +120,41 @@ export const Consultation = ({ navigation, route }) => {
         behavior: "smooth",
       });
     }
-  }, [messages, backdropMessagesContainerRef.current?.scrollHeight]);
+  }, [
+    messages,
+    backdropMessagesContainerRef.current?.scrollHeight,
+    debouncedSearch,
+  ]);
 
   useEffect(() => {
-    if (showAllMessages && allChatHistoryQuery.data?.messages) {
-      // let msgs = allChatHistoryQuery.data?.messages;
-      // if (areSystemMessagesShown) {
-      //   msgs = msgs.filter((x) => x.type !== "system");
-      // }
-      setMessages([...allChatHistoryQuery.data.messages].reverse());
-    } else if (!showAllMessages) {
-      let msgs = chatDataQuery.data?.messages || [];
-      // if (areSystemMessagesShown) {
-      //   msgs = msgs.filter((x) => x.type !== "system");
-      // }
-      setMessages([...msgs].reverse());
+    let messagesToShow = showAllMessages
+      ? [...messages.previousSessions, ...messages.currentSession]
+      : messages.currentSession;
+    messagesToShow?.sort((a, b) => new Date(a.time) - new Date(b.time));
+    if (debouncedSearch) {
+      messagesToShow = messagesToShow.filter((message) =>
+        message.content?.toLowerCase().includes(debouncedSearch.toLowerCase())
+      );
     }
-  }, [showAllMessages, allChatHistoryQuery.data]);
+
+    setDisplayedMessages([...messagesToShow].reverse());
+  }, [
+    messages,
+    chatDataQuery.isLoading,
+    clientId,
+    areSystemMessagesShown,
+    debouncedSearch,
+    showAllMessages,
+  ]);
 
   // Mutations
-  const onSendSuccess = (data) => {
-    setMessages([...data.messages.reverse()]);
+  const onSendSuccess = (newMessage) => {
+    const message = newMessage.message;
+    message.senderId = clientId;
+    setMessages((prev) => ({
+      ...prev,
+      currentSession: [...prev.currentSession, message],
+    }));
   };
   const onSendError = (err) => {
     showToast({ message: err, type: "error" });
@@ -176,7 +197,12 @@ export const Consultation = ({ navigation, route }) => {
   const receiveMessage = (message) => {
     setHasUnreadMessages(true);
     flatListRef.current?.scrollToOffset({ animated: true, offset: 0 });
-    setMessages((messages) => [message, ...messages]);
+    setMessages((messages) => {
+      return {
+        ...messages,
+        currentSession: [...messages.currentSession, message],
+      };
+    });
   };
 
   const handleSendMessage = async (content, type = "text") => {
@@ -343,14 +369,7 @@ export const Consultation = ({ navigation, route }) => {
           height: appStyles.screenHeight * 0.55,
         }}
       >
-        <View
-          style={{
-            backgroundColor: "white",
-            // height: 200,
-            width: "100%",
-            paddingBottom: 20,
-          }}
-        >
+        <View style={styles.optionsContainer}>
           <View
             style={{
               flexDirection: "row",
@@ -410,7 +429,7 @@ export const Consultation = ({ navigation, route }) => {
             <FlatList
               inverted
               scrollEnabled
-              data={chatDataQuery.isLoading ? [] : messages}
+              data={chatDataQuery.isLoading ? [] : displayedMessages}
               keyExtractor={(item, index) =>
                 item.time.toString() + index.toString()
               }
@@ -449,6 +468,12 @@ const styles = StyleSheet.create({
     bottom: 20,
     left: 20,
     right: 20,
+  },
+  optionsContainer: {
+    backgroundColor: "white",
+    // height: 200,
+    width: "100%",
+    paddingBottom: 20,
   },
   toggleContainer: {
     flexDirection: "row",

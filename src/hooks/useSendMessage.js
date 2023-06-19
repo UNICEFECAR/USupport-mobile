@@ -7,8 +7,8 @@ export default function useSendMessage(
   onError = () => {}
 ) {
   const sendMessage = async (payload) => {
-    const { data } = await messageSvc.sendMessage(payload);
-    return data;
+    await messageSvc.sendMessage(payload);
+    return payload;
   };
   const mutation = useMutation(["send-message"], sendMessage, {
     onSuccess,
