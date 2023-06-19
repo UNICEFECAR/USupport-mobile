@@ -9,8 +9,8 @@
   "modal_coupon_input_placeholder": "КУПОН1",
   "heading_with_coupon": "Купонды пайдалану үшін консультантті таңдаңыз",
   "remove_coupon_label": "Купонды жою",
-  "coupon_paragraph": "Coupons provide “no-cost” sessions and are sponsored by our partners.KK",
-  "coupon_paragraph_two": "If you received a coupon code from a social media campaign or a partner, please copy and paste that below. After you submit the coupon code, you will see any providers that support it and their availability. A coupon may support one or more sessions. The platform will indicate if the coupon has expired or reached the maximum session usage.KK",
+  "coupon_paragraph": "Купондар «тегін» сессияларды қамтамасыз етеді және серіктестеріміздің демеушілігімен жүзеге асырылады.",
+  "coupon_paragraph_two": "Егер Сіз әлеуметтік желілер арқылы немесе серіктесімізден купон кодын алсаңыз, кодты көшіріп, төменде қойыңыз. Купон кодын жібергеннен кейін Сіз оны қолдайтын барлық консультанттарды және олардың қолжетімділігін көресіз. Купон бір немесе бірнеше сеансты қамтамасыз ете алады. Платформа купонның мерзімі өткенін немесе барлық сеанстардың қолданылғанын көрсетеді.",
   "max_price": "Ең жоғары баға",
   "providers_free_consultation_label": "Тек тегін консультация"
 }

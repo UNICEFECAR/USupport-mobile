@@ -1,10 +1,10 @@
 {
-  "heading": "Кілтсөзді өзгрету",
-  "current_password": "Қазіргі кілтсөз",
-  "new_password": "Жаңа пароль",
+  "heading": "Құпия сөзді өзгрету",
+  "current_password": "Қазіргі құпия сөз",
+  "new_password": "Жаңа құпия сөз",
   "button_label": "Баптауларды өзгерту",
-  "password_error": "Кілтсөз кемінде 8 таңбадан, 1 бас әріптен, 1 кіші әріптен және 1 саннан тұруы керек.",
-  "password_changed_message": "Кілтсөз сәтті өзгертілді",
-  "confirm_password": "Confirm passwordKK",
-  "password_match_error": "The New password and Confirm Password fields do not matchKK"
+  "password_error": "Құпия сөз кемінде 8 таңбадан, 1 бас әріптен, 1 кіші әріптен және 1 саннан тұруы керек.",
+  "password_changed_message": "Құпия сөз сәтті өзгертілді",
+  "confirm_password": "Құпия сөзді растаңыз",
+  "password_match_error": "Жаңа құпия сөз және Құпия сөзді растаңыз өрістері сәйкес келмейді"
 }
