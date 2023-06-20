@@ -121,7 +121,7 @@ export const PaymentHistory = () => {
         } else {
           ReactNativeBlobUtil.android
             .actionViewIntent(
-              `${ReactNativeBlobUtil.fs.dirs.DocumentDir}/${fileName}`
+              `${ReactNativeBlobUtil.fs.dirs.DownloadDir}/${fileName}`
             )
             .catch((err) => {
               console.log(err);
