@@ -115,16 +115,22 @@ export const PaymentHistory = () => {
             .previewDocument(
               `${ReactNativeBlobUtil.fs.dirs.DocumentDir}/${fileName}`
             )
-            .catch((err) => showToast({ message: err, type: "error" }));
+            .catch((err) => {
+              console.log(err);
+            });
         } else {
           ReactNativeBlobUtil.android
             .actionViewIntent(
               `${ReactNativeBlobUtil.fs.dirs.DocumentDir}/${fileName}`
             )
-            .catch((err) => showToast({ message: err, type: "error" }));
+            .catch((err) => {
+              console.log(err);
+            });
         }
       })
-      .catch((err) => showToast({ message: err, type: "error" }));
+      .catch((err) => {
+        console.log(err);
+      });
     setIsExportLoading(false);
   };
 
@@ -133,10 +139,10 @@ export const PaymentHistory = () => {
       <AppButton
         label={t("export_label")}
         onPress={handleExport}
-        disabled={
-          paymentsData.length === 0 ||
-          paymentHistoryQuery.data?.hasMore === true
-        }
+        // disabled={
+        //   paymentsData.length === 0 ||
+        //   paymentHistoryQuery.data?.hasMore === true
+        // }
         size="sm"
         style={{ marginLeft: 12 }}
         loading={isExportLoading}
