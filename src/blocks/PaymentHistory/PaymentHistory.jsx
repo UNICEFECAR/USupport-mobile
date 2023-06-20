@@ -79,8 +79,9 @@ export const PaymentHistory = () => {
     paymentHistoryQuery.refetch();
   };
   const [isExportLoading, setIsExportLoading] = useState(false);
-  const handleExport = () => {
+  const handleExport = async () => {
     setIsExportLoading(true);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     // Construct the csv file
     let csv = `${rows
       .slice(0, rows.length - 1)
@@ -92,34 +93,36 @@ export const PaymentHistory = () => {
       )} - ${getTimeFromDate(new Date(p.date))},${p.receipt_url}\n`;
     });
 
+    const fileName = `Payment-history-${getDateView(new Date())}.csv`;
     // The path where the file will be saved
     const path = `${
       Platform.OS === "ios"
         ? ReactNativeBlobUtil.fs.dirs.DocumentDir
         : ReactNativeBlobUtil.fs.dirs.DownloadDir
-    }/Payment-history-${getDateView(new Date())}.csv`;
+    }/${fileName}}`;
 
     // Save the file
-    ReactNativeBlobUtil.fs.writeFile(path, csv, "utf8").then(() => {
-      showToast({
-        message: t("download_success"),
-      });
-      setIsExportLoading(false);
-      // Try to open the file
-      if (Platform.OS === "ios") {
-        ReactNativeBlobUtil.ios
-          .previewDocument(
-            ReactNativeBlobUtil.fs.dirs.DocumentDir + "/payments.csv"
-          )
-          .catch((err) => console.log(err, "err"));
-      } else {
-        ReactNativeBlobUtil.android
-          .actionViewIntent(
-            ReactNativeBlobUtil.fs.dirs.DocumentDir + "/payments.csv"
-          )
-          .catch((err) => console.log(err, "err"));
-      }
-    });
+    ReactNativeBlobUtil.fs
+      .writeFile(path, csv, "utf8")
+      .then(() => {
+        showToast({
+          message: t("download_success"),
+        });
+        setIsExportLoading(false);
+        // Try to open the file
+        if (Platform.OS === "ios") {
+          ReactNativeBlobUtil.ios
+            .previewDocument(ReactNativeBlobUtil.fs.dirs.DocumentDir + fileName)
+            .catch((err) => showToast({ message: err, type: "error" }));
+        } else {
+          ReactNativeBlobUtil.android
+            .actionViewIntent(
+              ReactNativeBlobUtil.fs.dirs.DocumentDir + fileName
+            )
+            .catch((err) => showToast({ message: err, type: "error" }));
+        }
+      })
+      .catch((err) => showToast({ message: err, type: "error" }));
     setIsExportLoading(false);
   };
 
