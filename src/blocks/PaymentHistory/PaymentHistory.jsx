@@ -93,13 +93,13 @@ export const PaymentHistory = () => {
       )} - ${getTimeFromDate(new Date(p.date))},${p.receipt_url}\n`;
     });
 
-    const fileName = `Payment-history-${getDateView(new Date())}.csv`;
+    const fileName = `payment-history.csv`;
     // The path where the file will be saved
     const path = `${
       Platform.OS === "ios"
         ? ReactNativeBlobUtil.fs.dirs.DocumentDir
         : ReactNativeBlobUtil.fs.dirs.DownloadDir
-    }/${fileName}}`;
+    }/${fileName}`;
 
     // Save the file
     ReactNativeBlobUtil.fs
@@ -112,12 +112,14 @@ export const PaymentHistory = () => {
         // Try to open the file
         if (Platform.OS === "ios") {
           ReactNativeBlobUtil.ios
-            .previewDocument(ReactNativeBlobUtil.fs.dirs.DocumentDir + fileName)
+            .previewDocument(
+              `${ReactNativeBlobUtil.fs.dirs.DocumentDir}/${fileName}`
+            )
             .catch((err) => showToast({ message: err, type: "error" }));
         } else {
           ReactNativeBlobUtil.android
             .actionViewIntent(
-              ReactNativeBlobUtil.fs.dirs.DocumentDir + fileName
+              `${ReactNativeBlobUtil.fs.dirs.DocumentDir}/${fileName}`
             )
             .catch((err) => showToast({ message: err, type: "error" }));
         }
