@@ -246,7 +246,7 @@ const FiltersBlock = ({
         }
         size="sm"
         color="green"
-        onClick={activeCoupon ? removeCoupon : openCouponModal}
+        onPress={activeCoupon ? removeCoupon : openCouponModal}
       />
       <Input
         type="number"
