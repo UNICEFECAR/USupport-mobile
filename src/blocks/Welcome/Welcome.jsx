@@ -94,8 +94,6 @@ export function Welcome({ navigation }) {
     localStorage.setItem("language", language);
     localStorage.setItem("currency_symbol", currencySymbol);
 
-    i18n.changeLanguage(language);
-
     navigation.push("RegisterPreview");
   };
 
@@ -128,7 +126,10 @@ export function Welcome({ navigation }) {
           <Dropdown
             options={languagesQuery.data}
             selected={selectedLanguage}
-            setSelected={setSelectedLanguage}
+            setSelected={(lang) => {
+              setSelectedLanguage(lang);
+              i18n.changeLanguage(lang);
+            }}
             label={t("language")}
             placeholder={t("placeholder")}
             style={[styles.dropdown, { zIndex: 2 }]}
