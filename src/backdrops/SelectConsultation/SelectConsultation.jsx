@@ -198,9 +198,13 @@ export const SelectConsultation = ({
             campaignId && couponCode ? t("remove_coupon") : t("apply_coupon")
           }
           onPress={campaignId && couponCode ? removeCoupon : handleSubmitCoupon}
-          size="sm"
+          size="lg"
           loading={isCouponLoading}
-          style={{ width: "100%" }}
+          style={{
+            // width: appStyles.screenWidth * 0.4,
+            minWidth: appStyles.screenWidth * 0.34,
+            paddingVertical: 10,
+          }}
         />
         {couponError && <Error style={styles.error} message={couponError} />}
       </View>
