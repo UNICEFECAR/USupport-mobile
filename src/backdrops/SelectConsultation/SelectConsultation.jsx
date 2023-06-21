@@ -44,7 +44,7 @@ export const SelectConsultation = ({
 
   const { activeCoupon } = useContext(Context);
 
-  const [couponCode, setCouponCode] = useState("");
+  const [couponCode, setCouponCode] = useState(activeCoupon?.couponValue || "");
   const [campaignId, setCampaignId] = useState(
     activeCoupon?.campaignId || campaingIdFromProps
   );
