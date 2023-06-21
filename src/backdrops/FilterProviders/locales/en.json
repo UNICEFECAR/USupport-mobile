@@ -14,5 +14,8 @@
   "language": "Language",
   "language_placeholder": "Select a language",
   "providers_free_consultation_label": "Only free consultation",
-  "button_label": "Save"
+  "button_label": "Apply filters",
+  "reset_filter": "Reset filters",
+  "available_before": "Available before",
+  "available_after": "Available after"
 }

@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
+import DatePicker from "react-native-date-picker";
 
 import {
   Backdrop,
@@ -14,6 +15,7 @@ import {
 import { appStyles } from "#styles";
 
 import { languageSvc } from "#services";
+import { getDateView } from "#utils";
 
 /**
  * FilterProviders
@@ -44,12 +46,17 @@ export const FilterProviders = ({ isOpen, onClose, onSave, sharedFilters }) => {
     retry: false,
   });
 
-  const [data, setData] = useState({
+  const initialFilters = {
     providerTypes: [],
     providerSex: [],
     maxPrice: "",
     language: null,
     onlyFreeConsultation: false,
+    availableAfter: "",
+    availableBefore: "",
+  };
+  const [data, setData] = useState({
+    ...initialFilters,
   });
 
   useEffect(() => {
@@ -107,7 +114,17 @@ export const FilterProviders = ({ isOpen, onClose, onSave, sharedFilters }) => {
     setData(dataCopy);
     onSave(dataCopy);
   };
+  const [availableAfterOpen, setAvailableAfterOpen] = useState();
+  const [availableBeforeOpen, setAvailableBeforeOpen] = useState();
 
+  const availableAfterRef = useRef();
+  const availableBeforeRef = useRef();
+  const handleFilterReset = () => {
+    setData(initialFilters);
+    onSave(initialFilters);
+    setProviderTypes((prev) => prev.map((x) => ({ ...x, isSelected: false })));
+    setProviderSex((prev) => prev.map((x) => ({ ...x, isSelected: false })));
+  };
   return (
     <Backdrop
       isOpen={isOpen}
@@ -117,6 +134,9 @@ export const FilterProviders = ({ isOpen, onClose, onSave, sharedFilters }) => {
       ctaLabel={t("button_label")}
       ctaHandleClick={handleSave}
       closeBackdropOnCtaClick
+      secondaryCtaLabel={t("reset_filter")}
+      secondaryCtaHandleClick={handleFilterReset}
+      secondaryCtaType="secondary"
     >
       <CheckBoxGroup
         name="providerType"
@@ -139,6 +159,54 @@ export const FilterProviders = ({ isOpen, onClose, onSave, sharedFilters }) => {
         placeholder={t("max_price_placeholder")}
         type="number"
         style={styles.marginBottom32}
+      />
+      <Input
+        value={data.availableAfter ? getDateView(data.availableAfter) : ""}
+        onChange={(value) => handleSelect("availableAfter", value)}
+        onFocus={() => setAvailableAfterOpen(true)}
+        reference={availableAfterRef}
+        label={t("available_after")}
+        placeholder={"DD/MM/YYYY"}
+        style={styles.marginBottom32}
+      />
+      <Input
+        value={data.availableBefore ? getDateView(data.availableBefore) : ""}
+        onChange={(value) => handleSelect("availableBefore", value)}
+        onFocus={() => setAvailableBeforeOpen(true)}
+        reference={availableBeforeRef}
+        label={t("available_before")}
+        placeholder={"DD/MM/YYYY"}
+        style={styles.marginBottom32}
+      />
+      <DatePicker
+        modal
+        open={availableAfterOpen}
+        date={data.availableAfter || new Date()}
+        onConfirm={(date) => {
+          setAvailableAfterOpen(false);
+          availableAfterRef.current.blur();
+          handleSelect("availableAfter", date);
+        }}
+        onCancel={() => {
+          setAvailableAfterOpen(false);
+          availableAfterRef.current.blur();
+        }}
+        mode="date"
+      />
+      <DatePicker
+        modal
+        open={availableBeforeOpen}
+        date={data.availableBefore || new Date()}
+        onConfirm={(date) => {
+          setAvailableBeforeOpen(false);
+          availableBeforeRef.current.blur();
+          handleSelect("availableBefore", date);
+        }}
+        onCancel={() => {
+          setAvailableBeforeOpen(false);
+          availableBeforeRef.current.blur();
+        }}
+        mode="date"
       />
       <Dropdown
         options={languagesQuery.data || []}

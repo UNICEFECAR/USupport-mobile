@@ -27,6 +27,7 @@ export const Input = ({
   onChange,
   autoCapitalize = "sentences",
   inputStyles,
+  reference,
   ...props
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -73,6 +74,7 @@ export const Input = ({
             onBlur && onBlur(e);
           }}
           maxFontSizeMultiplier={appStyles.maxFontSizeMultiplier}
+          ref={reference}
           {...props}
         />
         {children && children}

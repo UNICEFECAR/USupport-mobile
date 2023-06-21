@@ -67,6 +67,8 @@ export const SelectProvider = ({ navigation }) => {
       maxPrice,
       language,
       onlyFreeConsultation,
+      availableAfter,
+      availableBefore,
     } = data;
     const initialData = JSON.parse(JSON.stringify(providersDataQuery.data));
     const filteredData = [];
@@ -97,12 +99,27 @@ export const SelectProvider = ({ navigation }) => {
       const providesFreeConsultation = !onlyFreeConsultation
         ? true
         : provider.consultationPrice === 0 || !provider.consultationPrice;
+
+      const isAvailableAfter = !availableAfter
+        ? true
+        : new Date(new Date(availableAfter).setHours(0, 0, 0, 0)).getTime() <=
+          new Date(provider.earliestAvailableSlot).getTime();
+
+      const isAvailableBefore = !availableBefore
+        ? true
+        : new Date(availableBefore).getTime() >=
+          new Date(
+            new Date(provider.earliestAvailableSlot).setHours(0, 0, 0, 0)
+          ).getTime();
+
       if (
         hasType &&
         isDesiredSex &&
         isPriceMatching &&
         providerHasLanguage &&
-        providesFreeConsultation
+        providesFreeConsultation &&
+        isAvailableAfter &&
+        isAvailableBefore
       ) {
         filteredData.push(provider);
       }

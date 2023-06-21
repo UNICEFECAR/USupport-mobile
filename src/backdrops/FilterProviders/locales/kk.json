@@ -14,5 +14,8 @@
   "language": "Тіл",
   "language_placeholder": "Тілді таңдаңыз",
   "providers_free_consultation_label": "Тек тегін консультация",
-  "button_label": "Сақтау"
+  "button_label": "Сүзгілерді қолданыңыз",
+  "reset_filter": "Сүзгілерді қалпына келтіру",
+  "available_before": "Дейін қол жетімді",
+  "available_after": "Кейін қол жетімді"
 }
