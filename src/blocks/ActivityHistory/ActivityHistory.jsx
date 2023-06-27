@@ -79,7 +79,6 @@ export const ActivityHistory = ({
   ]);
 
   useEffect(() => {
-    // if (shownMessages?.length && !isFiltering) {
     if (shownMessages?.length) {
       setTimeout(() => {
         messagesContainerRef.current?.scrollToEnd();
@@ -145,7 +144,6 @@ export const ActivityHistory = ({
           position: "absolute",
           top: 0,
           height: "28%",
-          // flex:0.3,
           backgroundColor: "white",
           zIndex: 1,
         }}
@@ -230,7 +228,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     flex: 1,
     width: "100%",
-    // paddingBottom: 100,
   },
   message: { marginVertical: 8 },
   buttonContainer: {

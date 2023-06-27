@@ -106,10 +106,7 @@ export function Checkout({ navigation, route }) {
       timeout: difference,
     });
 
-    if (error) {
-      // setIsConfirmBackdropOpen(true);
-      // Alert.alert(`Error code: ${error.code}`, error.message);
-    } else {
+    if (!error) {
       if (clientSecretRef.current) {
         let newStatusData;
         retrievePaymentIntent(clientSecretRef.current).then(

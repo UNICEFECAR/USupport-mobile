@@ -31,7 +31,6 @@ export const ConsultationDashboard = ({
   t,
 }) => {
   const { providerName, timestamp, image, status, price } = consultation || {};
-  // const name = consultation.providerName || consultation.clientName;
   const imageUrl = AMAZON_S3_BUCKET + "/" + (image || "default");
 
   const isLive = checkIsFiveMinutesBefore(timestamp);

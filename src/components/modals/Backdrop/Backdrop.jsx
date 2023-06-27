@@ -235,7 +235,6 @@ const styles = StyleSheet.create({
     backgroundColor: appStyles.overlay,
     position: "absolute",
     zIndex: 5,
-    // top: "-50%",
     left: 0,
     right: 0,
     bottom: 0,
@@ -245,7 +244,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 32,
     padding: 16,
     backgroundColor: appStyles.colorWhite_ff,
-    // top: 0,
     bottom: 0,
     height: appStyles.screenHeight * 0.8,
     zIndex: 999, // Put higher zIndex in order to show the backdrop above the emergency button

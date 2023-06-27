@@ -29,10 +29,6 @@ import { RequireRegistration } from "#modals";
 import { DropdownBackdrop } from "#backdrops";
 import { FIVE_MINUTES } from "#utils";
 
-// if (__DEV__) {
-//   require("basil-ws-flipper").wsDebugPlugin;р
-// }
-
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -188,11 +184,7 @@ function App() {
   };
 
   return (
-    <StripeProvider
-      publishableKey={STRIPE_PUBLIC_KEY}
-      // urlScheme="your-url-scheme" // required for 3D Secure and bank redirects
-      // merchantIdentifier="merchant.org.unicef.ecar.usupport" // required for Apple Pay
-    >
+    <StripeProvider publishableKey={STRIPE_PUBLIC_KEY}>
       <Context.Provider value={contextValues}>
         <QueryClientProvider client={queryClient}>
           <SafeAreaProvider>

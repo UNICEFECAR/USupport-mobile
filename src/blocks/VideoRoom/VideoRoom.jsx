@@ -76,19 +76,15 @@ export const VideoRoom = ({
   };
 
   const _onRoomDidConnect = () => {
-    // console.log(videoTracks);
     sendJoinConsultationMessage();
     setStatus("connected");
   };
 
   const _onRoomDidDisconnect = ({ error }) => {
-    // console.log("ERROR: ", error);
     setStatus("disconnected");
   };
 
   const _onParticipantAddedVideoTrack = ({ participant, track }) => {
-    // console.log("onParticipantAddedVideoTrack: ", participant, track);
-
     setVideoTracks(
       new Map([
         ...videoTracks,
@@ -101,11 +97,8 @@ export const VideoRoom = ({
   };
 
   const _onParticipantRemovedVideoTrack = ({ participant, track }) => {
-    // console.log("onParticipantRemovedVideoTrack: ", participant, track);
-
     const newVideoTracks = new Map(videoTracks);
     newVideoTracks.delete(track.trackSid);
-    // console.log(newVideoTracks, "new video tracks");
     setVideoTracks(newVideoTracks);
   };
 
@@ -135,12 +128,10 @@ export const VideoRoom = ({
 
   const toggleVideo = async () => {
     if (isVideoEnabled) {
-      // twilioVideo.current._stopLocalVideo();
       await twilioVideo.current.setLocalVideoEnabled(false);
     } else {
       if (!hasStartedCameraInitially) {
         setHasStartedCameraInitially(true);
-        // await twilioVideo.current._startLocalVideo();
         await twilioVideo.current.setLocalVideoEnabled(true);
       } else {
         await twilioVideo.current.setLocalVideoEnabled(true);
@@ -207,7 +198,6 @@ export const VideoRoom = ({
       {status === "connected" && videoTracks.size !== 0 ? (
         <View>
           {Array.from(videoTracks, ([trackSid, trackIdentifier]) => {
-            // console.log(videoTracks, "videoTracks");
             return (
               <TwilioVideoParticipantView
                 style={styles.remoteVideo}
@@ -257,7 +247,6 @@ export const VideoRoom = ({
         onParticipantEnabledVideoTrack={_onParticipantAddedVideoTrack}
         onParticipantDisabledVideoTrack={_onParticipantRemovedVideoTrack}
         onVideoChanged={(changed) => setIsVideoEnabled(changed.videoEnabled)}
-        // autoInitializeCamera={isVideoEnabledInitially ? true : false}
       />
     </ScrollView>
   );

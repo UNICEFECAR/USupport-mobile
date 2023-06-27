@@ -37,7 +37,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
-    // marginBottom: 18,
   },
   input: {
     width: "85%",
@@ -48,7 +47,5 @@ const styles = StyleSheet.create({
     height: 48,
     minWidth: 48,
     paddingLeft: 18,
-    // padding: 30,
-    // justifyContent: "center",
   },
 });

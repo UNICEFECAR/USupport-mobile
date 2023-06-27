@@ -112,8 +112,6 @@ export const PlatformRating = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   block: {
-    // alignItems: "center",
-    // justifyContent: "space-between",
     flex: 1,
   },
   marginTop32: {
@@ -123,6 +121,5 @@ const styles = StyleSheet.create({
   textarea: {
     marginTop: 24,
     width: "98%",
-    // marginHorizontal: 20,
   },
 });

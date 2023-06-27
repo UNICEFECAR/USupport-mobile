@@ -6,7 +6,6 @@ import { providerSvc } from "#services";
  * Reuseable hook to get and transform the client data in a desired format
  */
 export default function useGetProvidersData(activeCoupon = null) {
-  //   const queryClient = useQueryClient();
   const [providersData, setProvidersData] = useState();
   const fetchProvidersData = async () => {
     const { data } = await providerSvc.getAllProviders(

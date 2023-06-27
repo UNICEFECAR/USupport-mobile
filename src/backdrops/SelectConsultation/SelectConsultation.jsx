@@ -70,7 +70,6 @@ export const SelectConsultation = ({
       providerId,
       campaignId
     );
-    // console.log(data, "data");
     return data;
   };
   const availableSlotsQuery = useQuery(
@@ -201,7 +200,6 @@ export const SelectConsultation = ({
           size="lg"
           loading={isCouponLoading}
           style={{
-            // width: appStyles.screenWidth * 0.4,
             minWidth: appStyles.screenWidth * 0.34,
             paddingVertical: 10,
           }}

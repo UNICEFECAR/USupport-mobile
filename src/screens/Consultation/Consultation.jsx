@@ -422,9 +422,7 @@ export const Consultation = ({ navigation, route }) => {
             behavior={null}
             style={{
               flex: 1,
-              // paddingBottom: 50,
             }}
-            // keyboardVerticalOffset={64}
           >
             <FlatList
               inverted
@@ -471,7 +469,6 @@ const styles = StyleSheet.create({
   },
   optionsContainer: {
     backgroundColor: "white",
-    // height: 200,
     width: "100%",
     paddingBottom: 20,
   },

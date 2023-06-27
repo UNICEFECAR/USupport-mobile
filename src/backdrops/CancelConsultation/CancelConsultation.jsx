@@ -57,7 +57,6 @@ export const CancelConsultation = ({
       title="CancelConsultation"
       isOpen={isOpen}
       onClose={onClose}
-      // handleCloseIconPress={onClose}
       heading={
         isConsultationLessThan24HoursBefore && !consultation.campaignId
           ? t("paid_heading", {

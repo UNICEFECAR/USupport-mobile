@@ -5,7 +5,6 @@ import { providerSvc } from "#services";
  * Reuseable hook to get and transform the provider data in a desired format
  */
 export default function useGetProviderDataById(id, campaignId) {
-  //   const queryClient = useQueryClient();
   const fetchProvidersData = async () => {
     let data;
 
