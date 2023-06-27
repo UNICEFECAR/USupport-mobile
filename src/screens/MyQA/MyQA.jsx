@@ -144,14 +144,6 @@ export const MyQA = ({ navigation }) => {
     }
   }, [tabs, userQuestionsQuery.data, allQuestionsQuery.data]);
 
-  //Removed because it was causing a bug when the user likes a question in QuestionDetails modal
-  // useEffect(() => {
-  //   if (selectedQuestion)
-  //     setSelectedQuestion(
-  //       questions.find((question) => question.answerId === question.answerId)
-  //     );
-  // }, [questions]);
-
   const handleLike = (vote, answerId) => {
     if (isTmpUser) {
       handleRegistrationModalOpen();
@@ -175,7 +167,6 @@ export const MyQA = ({ navigation }) => {
       setProviderId(question.providerData.providerId);
       if (!clientData.dataProcessing) {
         openRequireDataAgreement();
-        // setIsSelectConsultationOpen(true);
       } else {
         setIsSelectConsultationOpen(true);
       }
