@@ -131,9 +131,12 @@ export const RegisterEmail = ({ navigation }) => {
       setErrors({ confirmPassword: t("password_match_error") });
     }
     if (
-      field === "confirmPassword" &&
-      value.length >= 8 &&
-      data.password === value
+      (field === "password" &&
+        data.confirmPassword.length >= 8 &&
+        value === data.confirmPassword) ||
+      (field === "confirmPassword" &&
+        value.length >= 8 &&
+        data.password === value)
     ) {
       setErrors({ confirmPassword: "" });
     }
