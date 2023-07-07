@@ -42,6 +42,9 @@ export const RegisterEmail = ({ navigation }) => {
     password: Joi.string()
       .pattern(new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}"))
       .label(t("password_error")),
+    confirmPassword: Joi.string()
+      .pattern(new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}"))
+      .label(t("password_match_error")),
     email: Joi.string()
       .email({ tlds: { allow: false } })
       .label(t("email_error")),
@@ -54,6 +57,7 @@ export const RegisterEmail = ({ navigation }) => {
     nickname: "",
     password: "",
     isPrivacyAndTermsSelected: false,
+    confirmPassword: "",
   });
   const [errors, setErrors] = useState({});
   const [isCodeVerificationOpen, setIsCodeVerificationOpen] = useState(false);
@@ -119,12 +123,35 @@ export const RegisterEmail = ({ navigation }) => {
   }, [data]);
 
   const handleChange = (field, value) => {
+    if (
+      field === "confirmPassword" &&
+      value.length >= 8 &&
+      data.password !== value
+    ) {
+      setErrors({ confirmPassword: t("password_match_error") });
+    }
+    if (
+      field === "confirmPassword" &&
+      value.length >= 8 &&
+      data.password === value
+    ) {
+      setErrors({ confirmPassword: "" });
+    }
     let newData = { ...data };
     newData[field] = value;
     setData(newData);
   };
 
   const handleBlur = (field) => {
+    if (
+      (field === "password" && data.confirmPassword.length >= 8) ||
+      field === "confirmPassword"
+    ) {
+      if (data.password !== data.confirmPassword) {
+        setErrors({ confirmPassword: t("password_match_error") });
+        return;
+      }
+    }
     validateProperty(field, data[field], schema, setErrors);
   };
 
@@ -182,6 +209,10 @@ export const RegisterEmail = ({ navigation }) => {
   };
 
   const handleOtpRequest = async () => {
+    if (data.password !== data.confirmPassword) {
+      setErrors({ confirmPassword: t("password_match_error") });
+      return;
+    }
     if ((await validate(data, schema, setErrors)) === null) {
       requestEmailOTPMutation.mutate();
     }
@@ -229,6 +260,16 @@ export const RegisterEmail = ({ navigation }) => {
               onChange={(value) => handleChange("password", value)}
               onBlur={() => handleBlur("password")}
               errorMessage={errors.password}
+              autoCapitalize="none"
+            />
+            <InputPassword
+              style={styles.input}
+              label={t("confirm_password_label")}
+              value={data.confirmPassword}
+              placeholder={t("password_placeholder")}
+              onChange={(value) => handleChange("confirmPassword", value)}
+              onBlur={() => handleBlur("confirmPassword")}
+              errorMessage={errors.confirmPassword}
               autoCapitalize="none"
             />
             <TermsAgreement

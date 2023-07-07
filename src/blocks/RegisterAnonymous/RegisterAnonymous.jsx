@@ -49,12 +49,16 @@ export const RegisterAnonymous = ({ navigation }) => {
     password: Joi.string()
       .pattern(new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}"))
       .label(t("password_error")),
+    confirmPassword: Joi.string()
+      .pattern(new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}"))
+      .label(t("password_match_error")),
     nickname: Joi.string().label(t("nickname_error")),
     isPrivacyAndTermsSelected: Joi.boolean().invalid(false),
   });
 
   const [data, setData] = useState({
     password: "",
+    confirmPassword: "",
     nickname: "",
     isPrivacyAndTermsSelected: false,
   });
@@ -130,13 +134,37 @@ export const RegisterAnonymous = ({ navigation }) => {
   };
 
   const handleChange = (field, value) => {
+    console.log(field, value);
+    if (
+      field === "confirmPassword" &&
+      value.length >= 8 &&
+      data.password !== value
+    ) {
+      setErrors({ confirmPassword: t("password_match_error") });
+    }
+    if (
+      field === "confirmPassword" &&
+      value.length >= 8 &&
+      data.password === value
+    ) {
+      setErrors({ confirmPassword: "" });
+    }
     let newData = { ...data };
     newData[field] = value;
     setData(newData);
-    validateProperty("password", data.password, schema, setErrors);
+    // validateProperty("password", data.password, schema, setErrors);
   };
 
   const handleBlur = (field, value) => {
+    if (
+      (field === "password" && data.confirmPassword.length >= 8) ||
+      field === "confirmPassword"
+    ) {
+      if (data.password !== data.confirmPassword) {
+        setErrors({ confirmPassword: t("password_match_error") });
+        return;
+      }
+    }
     validateProperty(field, value, schema, setErrors);
   };
 
@@ -154,6 +182,10 @@ export const RegisterAnonymous = ({ navigation }) => {
     data.password && data.isPrivacyAndTermsSelected && data.nickname;
 
   const handleRegisterButtonClick = () => {
+    if (data.password !== data.confirmPassword) {
+      setErrors({ confirmPassword: t("password_match_error") });
+      return;
+    }
     if (hasCopied) {
       handleRegister();
     } else {
@@ -220,12 +252,23 @@ export const RegisterAnonymous = ({ navigation }) => {
             />
             <InputPassword
               label={t("password_label")}
-              placeholder={t("Enter your password")}
+              placeholder={t("password_placeholder")}
               value={data.password}
               onChange={(value) => handleChange("password", value)}
               errorMessage={errors.password}
               onBlur={() => {
                 handleBlur("password", data.password);
+              }}
+              style={styles.input}
+            />
+            <InputPassword
+              label={t("confirm_password_label")}
+              placeholder={t("password_placeholder")}
+              value={data.confirmPassword}
+              onChange={(value) => handleChange("confirmPassword", value)}
+              errorMessage={errors.confirmPassword}
+              onBlur={() => {
+                handleBlur("confirmPassword", data.confirmPassword);
               }}
               style={styles.input}
             />

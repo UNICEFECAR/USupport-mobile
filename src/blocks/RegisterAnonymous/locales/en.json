@@ -19,5 +19,8 @@
   "modal_copy_text": "Be sure that you have saved or written down your access code. Otherwise you will lose access to your anonymous account and your progress in the app.",
   "modal_button_label": "I’ve saved the access code",
   "copy_success": "Succesfully copied the code",
-  "warning": "I understand, that i will not have access to the account if i lose this code"
+  "warning": "I understand, that i will not have access to the account if i lose this code",
+  "confirm_password_label": "Confirm password",
+  "password_match_error": "The Password and Confirm Password fields do not match",
+  "password_placeholder": "Enter your password"
 }
