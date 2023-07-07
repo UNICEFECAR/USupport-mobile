@@ -233,7 +233,7 @@ export const RegisterEmail = ({ navigation }) => {
             handleGoBack={() => navigation.goBack()}
           />
           <ScrollView
-            contentContainerStyle={[styles.flexGrow, { marginTop: 64 }]}
+            contentContainerStyle={[styles.flexGrow, { marginTop: 84 }]}
             keyboardShouldPersistTaps="handled"
           >
             <Input
