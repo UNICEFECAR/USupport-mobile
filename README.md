@@ -4,7 +4,7 @@ Importing and Running USupport mobile project in Android Studio and Xcode
 
 # Before you start
 
-1. Make sure that Node.js is installed on your system.
+1. Make sure that Node.js and NPM is installed on your system.
    [Download Node.js](https://nodejs.org/en/download/)
 
 # Setup
@@ -105,6 +105,21 @@ and then reload the app on the device or emulator(by pressing "R" key in the ter
 
 If you get an error saying "adb: command not found", make sure you have adb installed on your system and that it is added to your PATH environment variable. [More Info](https://medium.com/androiddevelopers/help-adb-is-not-found-93e9ed8a67ee)
 
+# Known issues
+
+1. If you encounter the following error when running the app on iOS
+   React-Codegen
+   FBReactNativeSpec
+   'value' is unavailable:
+   introduced in iOS 12.0
+   Follow those steps to fix it:
+
+1. Click on the top left it say React-Codegen
+   ![Alt text](https://usupport-staging.s3.eu-central-1.amazonaws.com/xcode-codegen.jpeg)
+1. On the pane that appears find the React-Codegen
+   ![Alt text](https://usupport-staging.s3.eu-central-1.amazonaws.com/xcode-codegen2.jpeg)
+1. On the right, find the iOS Deployment Target and change it to iOS 13.0
+
 # Useful links
 
 - [Java OpenJDK ](https://www.azul.com/downloads/?package=jdk#zulu)
@@ -141,6 +156,16 @@ npx pod-install
 6. Next to the scheme dropdown, open the simulators dropdown and select a simulator or a physical device to run the project on.
 
 7. Click on the "Run" button or press Command+R to build and run the project. Xcode will compile the project, launch the chosen device or simulator, and deploy the React Native app onto it.
+
+If you run in any permission issues run:
+
+```sh
+sudo chown -R yourusername:yourgroupname directoryname
+```
+
+## Tips
+
+1. You can reload the running app by pressing the "R" button inside of the terminal that is running the React Native server.
 
 ## Committing changes
 
