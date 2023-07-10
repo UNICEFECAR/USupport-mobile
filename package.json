@@ -63,7 +63,7 @@
     "react-native-share": "^8.1.0",
     "react-native-svg": "13.4.0",
     "react-native-table-component": "^1.2.2",
-    "react-native-twilio-video-webrtc": "3.2.0",
+    "react-native-twilio-video-webrtc": "^3.2.0",
     "react-native-webview": "11.23.1",
     "react-native-youtube-iframe": "^2.2.2",
     "socket.io-client": "^4.2.0"
