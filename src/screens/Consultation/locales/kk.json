@@ -13,10 +13,10 @@
   "client_microphone_off": "Клиент микрофонды өшірді",
   "client_microphone_on": "Клиент микрофонды қосты",
   "send_message": "Хабарламаңызды осы жерге енгізіңіз...",
-  "show_system_messages": "Show system messagesKK",
-  "show_previous_consultations": "Show previous consultationsKK",
-  "hide_options": "Hide optionsKK",
-  "show_options": "Show optionsKK",
+  "show_system_messages": "Жүйелік хабарламаларды көрсету",
+  "show_previous_consultations": "Алдыңғы кеңестерді көрсетіңіз",
+  "hide_options": "Параметрлерді жасыру",
+  "show_options": "Параметрлерді көрсету",
   "search": "Іздеу",
-  "sponsored_by": "This session is sponsored by: <0>{{sponsorName}}<0>KK"
+  "sponsored_by": "Бұл сессияның демеушісі: <0>{{sponsorName}}<0>"
 }
