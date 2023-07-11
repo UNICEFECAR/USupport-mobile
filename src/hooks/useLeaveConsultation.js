@@ -1,5 +1,6 @@
 import { providerSvc } from "#services";
 import { useMutation } from "@tanstack/react-query";
+import { useError } from "./useError";
 
 export default function useLeaveConsultation(
   onSuccess = () => {},

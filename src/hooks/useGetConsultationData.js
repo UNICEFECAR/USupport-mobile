@@ -64,7 +64,7 @@ export default function useGetConsultationData(consultationId) {
       },
     ],
   };
-  const getConsultationData = async (consultationId) => {
+  const getConsultationData = async () => {
     await new Promise((resolve) => setTimeout(resolve, 2500));
     return placeholderData;
   };
