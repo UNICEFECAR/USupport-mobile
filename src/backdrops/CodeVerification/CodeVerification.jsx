@@ -65,8 +65,6 @@ export default function CodeVerification({
 
     setData(dataCopy);
     if (!nextIndex) {
-      console.log(pinValue.current);
-      console.log("submit");
     }
   };
 
