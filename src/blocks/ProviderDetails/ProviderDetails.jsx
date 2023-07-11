@@ -97,10 +97,6 @@ export const ProviderDetails = ({
                   width={appStyles.screenWidth * 0.85}
                   play={false}
                   videoId={provider.videoId}
-                  // webViewProps={{
-                  //   androidHardwareAccelerationDisabled:
-                  //     Platform.OS === "android" ? true : false,
-                  // }}
                 />
               </View>
             ) : null}

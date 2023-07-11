@@ -1,9 +1,9 @@
 {
   "button_label": "Консультацияны жоспарлау",
   "search": "Іздеу",
-  "no_messages": "No messages foundKK",
-  "show_system_messages": "Show system messagesKK",
-  "show_previous_consultations": "Show previous consultationsKK",
-  "export_label": "ExportKK",
-  "chat_history": "Consultation chat history withKK"
+  "no_messages": "Хабарлармалар табылмады",
+  "show_system_messages": "Жүйелік хабарламаларды көрсету",
+  "show_previous_consultations": "Алдыңғы кеңестерді көрсетіңіз",
+  "export_label": "Экспорт",
+  "chat_history": "Чат тарихы - консультант: "
 }

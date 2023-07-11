@@ -292,8 +292,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   buttonContainer: {
-    // justifyContent: "flex-end",
-    // flexDirection: "row",
     paddingTop: 16,
     paddingBottom: 16,
   },

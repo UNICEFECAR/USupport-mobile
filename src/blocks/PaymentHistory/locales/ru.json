@@ -3,8 +3,8 @@
   "price": "Цена",
   "date_of_payment": "Дата платежа",
   "more_details": "Более подробная информация",
-  "no_payments_history_found": "У вас еще нет истории платежей",
+  "no_payments_history_found": "У Вас еще нет платежей",
   "text_audio_video_consultation": "Онлайн консультации",
-  "download_success": "File downloaded successfullyRU",
+  "download_success": "Файл успешно загружен",
   "export_label": "Экспорт"
 }

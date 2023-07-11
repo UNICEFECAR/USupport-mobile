@@ -1,9 +1,9 @@
 {
   "button_label": "Запланировать консультацию",
   "search": "Поиск",
-  "no_messages": "No messages foundRU",
-  "show_system_messages": "Show system messagesRU",
-  "show_previous_consultations": "Show previous consultationsRU",
-  "export_label": "ExportRU",
-  "chat_history": "Consultation chat history withRU"
+  "no_messages": "Сообщения не найдены",
+  "show_system_messages": "Показать системные сообщения",
+  "show_previous_consultations": "Показать предыдущие консультации",
+  "export_label": "Экспорт",
+  "chat_history": "История чата консультаций с"
 }

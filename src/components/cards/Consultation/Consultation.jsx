@@ -46,9 +46,6 @@ export const Consultation = ({
     sponsorImage,
   } = consultation;
   const renderIn = "client";
-  //   const isPast = consultation
-  //     ? new Date(timestamp).getTime() < new Date().getTime()
-  //     : false;
 
   const name = consultation.providerName || consultation.clientName;
 
@@ -331,7 +328,6 @@ const styles = StyleSheet.create({
   text: {
     color: appStyles.colorBlue_3d527b,
     fontFamily: appStyles.fontBold,
-    // wordBreak: "break-word",
   },
   textPurple: {
     color: appStyles.colorSecondary_9749fa,

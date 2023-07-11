@@ -28,7 +28,6 @@ export const Login = ({ navigation }) => {
   const queryClient = useQueryClient();
 
   const { setToken } = useContext(Context);
-  // const navigate = useNavigate();
 
   const [data, setData] = useState({
     email: "",

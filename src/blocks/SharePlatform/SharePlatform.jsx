@@ -37,8 +37,6 @@ export const SharePlatform = ({}) => {
     try {
       const url =
         "tg://msg_url?url=https://www.staging.usupport.online&text=Download USupport app";
-      // const canOpen = await Linking.canOpenURL(url);
-      // TODO: Create a deep link
       Linking.openURL(url);
     } catch (error) {
       console.log("Error =>", error);

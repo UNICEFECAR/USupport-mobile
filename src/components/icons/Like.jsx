@@ -66,7 +66,7 @@ export const Like = ({
 
 const styles = StyleSheet.create({
   like: { flexDirection: "row" },
-  voteWrapper: {}, //position: "relative"
+  voteWrapper: {},
   iconContainer: {
     flexDirection: "column",
     alignItems: "center",

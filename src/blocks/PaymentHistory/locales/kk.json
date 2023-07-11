@@ -3,8 +3,8 @@
   "price": "Бағасы",
   "date_of_payment": "Төлем күні",
   "more_details": "Толығырақ ақпарат",
-  "no_payments_history_found": "Сізде әлі төлем тарихы жоқ",
+  "no_payments_history_found": "Сізде әлі төлемдер жоқ",
   "text_audio_video_consultation": "Онлайн консультациялар",
-  "download_success": "File downloaded successfullyKK",
+  "download_success": "Файл сәтті жүктелді",
   "export_label": "Экспорт"
 }

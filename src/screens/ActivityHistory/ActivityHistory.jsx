@@ -15,8 +15,6 @@ export const ActivityHistory = ({ navigation, route }) => {
 
   const clientData = useGetClientData()[1];
 
-  // const [consultationId, setConsultationId] = useState();
-
   // Modal state variables
   const [isSelectConsultationOpen, setIsSelectConsultationOpen] =
     useState(false);
@@ -30,7 +28,6 @@ export const ActivityHistory = ({ navigation, route }) => {
   const openSelectConsultation = () => {
     if (!clientData.dataProcessing) {
       openRequireDataAgreement();
-      // setIsSelectConsultationOpen(true);
     } else {
       setIsSelectConsultationOpen(true);
     }

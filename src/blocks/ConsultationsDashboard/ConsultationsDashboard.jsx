@@ -60,7 +60,6 @@ export const ConsultationsDashboard = ({
         handleAcceptSuggestion={handleAcceptSuggestion}
         handleSchedule={handleSchedule}
         t={t}
-        // key={consultation.consultationId}
         key={index}
       />
     );

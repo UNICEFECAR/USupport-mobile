@@ -15,5 +15,7 @@
   "terms_agreement_text_4": "Условиями использования",
   "register_button": "Зарегистрироваться",
   "paragraph": "Или зарегистрируйтесь через:",
-  "login_button_label": "У меня уже есть аккаунт"
+  "login_button_label": "У меня уже есть аккаунт",
+  "confirm_password_label": "Подтвердите пароль",
+  "password_match_error": "Поля Пароль и Подтвердите пароль не совпадают"
 }

@@ -59,7 +59,6 @@ export const ScheduleConsultationGroup = ({
   const openConfirmConsultationBackdrop = () => setIsConfirmBackdropOpen(true);
 
   const onScheduleConsultationSuccess = (data) => {
-    // setConsultationId(consultationId);
     closeSelectConsultation();
     openConfirmConsultationBackdrop();
     setBlockSlotError(null);

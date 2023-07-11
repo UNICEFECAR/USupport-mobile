@@ -29,7 +29,6 @@ const initialData = {
  * @return {jsx}
  */
 export const ContactUs = ({ navigation }) => {
-  // const navigate = useNavigate();
   const { t } = useTranslation("contact-us-block");
   const [data, setData] = useState({ ...initialData });
   const [issues, setIssues] = useState([
@@ -55,12 +54,6 @@ export const ContactUs = ({ navigation }) => {
       setCanSubmit(false);
     }
   }, [data]);
-
-  // const handleModalSuccessCtaClick = () => {
-  //   navigate("/dashboard");
-  // };
-
-  // const closeSuccessModal = () => setIsSuccessModalOpen(false);
 
   const handleChange = (field, value) => {
     setData({

@@ -147,7 +147,9 @@ async function getArticleById(id, locale) {
   try {
     // Increment read count for the given article id
     await addArticleReadCount(id);
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 
   const { data } = await http.get(`${articlesEndpoint}/${id}${querryString}`);
 
@@ -169,25 +171,25 @@ async function getArticleLocales(id) {
   return data;
 }
 
-/**
- * send request to get available locales for all the articles ids within an array - Only used for testing from Postman
- *
- * @param {array} arrayOfArticleIds - array of article ids e.g [10,12]
- *
- * @returns {object} all available article locales e.g {"10": {"en": 10,"kk": 15},"12": {"en": 12,"kk": 17,"ru": 18}}
- */
-async function getArticleLocalesMapping(arrayOfArticleIds) {
-  try {
-    // Increment read count for the given article id
-    await addArticleReadCount(id);
-  } catch (error) {}
+// /**
+//  * send request to get available locales for all the articles ids within an array - Only used for testing from Postman
+//  *
+//  * @param {array} arrayOfArticleIds - array of article ids e.g [10,12]
+//  *
+//  * @returns {object} all available article locales e.g {"10": {"en": 10,"kk": 15},"12": {"en": 12,"kk": 17,"ru": 18}}
+//  */
+// async function getArticleLocalesMapping(arrayOfArticleIds) {
+//   try {
+//     // Increment read count for the given article id
+//     await addArticleReadCount(id);
+//   } catch (error) {}
 
-  const { data } = await http.get(
-    `${articlesEndpoint}/locales/mapping?ids=${arrayOfArticleIds}`
-  );
+//   const { data } = await http.get(
+//     `${articlesEndpoint}/locales/mapping?ids=${arrayOfArticleIds}`
+//   );
 
-  return data;
-}
+//   return data;
+// }
 
 /**
  * send request to get all the categories

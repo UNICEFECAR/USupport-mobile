@@ -13,10 +13,10 @@
   "client_microphone_off": "Клиент выключил микрофон",
   "client_microphone_on": "Клиент включил микрофон",
   "send_message": "Введите Ваше сообщение здесь...",
-  "show_system_messages": "Show system messagesRU",
-  "show_previous_consultations": "Show previous consultationsRU",
-  "hide_options": "Hide optionsRU",
-  "show_options": "Show optionsRU",
+  "show_system_messages": "Показать системные сообщения",
+  "show_previous_consultations": "Показать предыдущие консультации",
+  "hide_options": "Скрыть параметры",
+  "show_options": "Показать параметры",
   "search": "Поиск",
-  "sponsored_by": "This session is sponsored by: <0>{{sponsorName}}<0>RU"
+  "sponsored_by": "Эта сессия спонсируется: <0>{{sponsorName}}<0>"
 }

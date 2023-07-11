@@ -15,5 +15,7 @@
   "terms_agreement_text_4": "Пайдалану шарттары",
   "register_button": "Тіркелу",
   "paragraph": "Немесе келесілер арқылы тіркеліңіз:",
-  "login_button_label": "Менің аккаунтым бар"
+  "login_button_label": "Менің аккаунтым бар",
+  "confirm_password_label": "Құпия сөзді растаңыз",
+  "password_match_error": "Құпия сөз және Құпия сөзді растау өрістері сәйкес келмейді"
 }

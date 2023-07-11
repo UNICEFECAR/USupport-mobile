@@ -1,4 +1,4 @@
-//import liraries
+//import libraries
 import React, { useContext, useState, useEffect } from "react";
 import { View, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import Animated, {

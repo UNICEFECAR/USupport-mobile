@@ -12,8 +12,10 @@
   "terms_agreement_text_1": "I agree with the",
   "terms_agreement_text_2": "Privacy Policy",
   "terms_agreement_text_3": "and",
-  "terms_agreement_text_4": "Terms of Conditions",
+  "terms_agreement_text_4": "Terms of Use",
   "register_button": "Register",
   "paragraph": "Or register with:",
-  "login_button_label": "I already have an account"
+  "login_button_label": "I already have an account",
+  "confirm_password_label": "Confirm password",
+  "password_match_error": "The Password and Confirm Password fields do not match"
 }
