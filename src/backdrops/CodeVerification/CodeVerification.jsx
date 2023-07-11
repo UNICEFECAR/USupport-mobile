@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { TextInput, View, StyleSheet } from "react-native";
 import { Backdrop, AppText } from "#components";
 import { useTranslation } from "react-i18next";
