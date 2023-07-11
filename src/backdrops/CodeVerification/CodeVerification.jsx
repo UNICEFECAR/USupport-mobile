@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { TextInput, View, StyleSheet } from "react-native";
 import { Backdrop, AppText } from "#components";
 import { useTranslation } from "react-i18next";
@@ -64,10 +64,6 @@ export default function CodeVerification({
     pinValue.current = dataCopy.map((x) => x.value).join("");
 
     setData(dataCopy);
-    if (!nextIndex) {
-      console.log(pinValue.current);
-      console.log("submit");
-    }
   };
 
   // This function changes the focus to the previous input box
