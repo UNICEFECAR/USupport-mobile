@@ -18,5 +18,6 @@
   "hide_options": "Hide options",
   "show_options": "Show options",
   "search": "Search",
-  "sponsored_by": "This session is sponsored by: <0>{{sponsorName}}<0>"
+  "sponsored_by": "This session is sponsored by: <0>{{sponsorName}}<0>",
+  "consultation_end_reminder": "Your consultation will end in {{minutes}} minutes"
 }

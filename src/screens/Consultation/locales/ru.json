@@ -18,5 +18,6 @@
   "hide_options": "Скрыть параметры",
   "show_options": "Показать параметры",
   "search": "Поиск",
-  "sponsored_by": "Эта сессия спонсируется: <0>{{sponsorName}}<0>"
+  "sponsored_by": "Эта сессия спонсируется: <0>{{sponsorName}}<0>",
+  "consultation_end_reminder": "Ваша консультация закончится через {{minutes}} минут"
 }

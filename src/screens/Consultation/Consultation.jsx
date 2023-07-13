@@ -33,7 +33,7 @@ import {
 import { VideoRoom } from "#blocks";
 import { SafetyFeedback } from "../SafetyFeedback";
 import { localStorage } from "#services";
-import { showToast } from "#utils";
+import { showToast, ONE_HOUR } from "#utils";
 import { appStyles } from "#styles";
 
 import Config from "react-native-config";
@@ -93,6 +93,39 @@ export const Consultation = ({ navigation, route }) => {
     clientId,
     true
   );
+
+  useEffect(() => {
+    const endTime = new Date(consultation.timestamp + ONE_HOUR);
+    let isTenMinAlertShown,
+      isFiveMinAlertShown = false;
+
+    const interval = setInterval(() => {
+      const now = new Date();
+      const timeDifferenceInMinutes = Math.floor((endTime - now) / (1000 * 60));
+
+      if (timeDifferenceInMinutes <= 10 && !isTenMinAlertShown) {
+        showToast({
+          message: t("consultation_end_reminder", { minutes: 10 }),
+          autoHide: false,
+          type: "info",
+        });
+        isTenMinAlertShown = true;
+      }
+      if (timeDifferenceInMinutes <= 5 && !isFiveMinAlertShown) {
+        showToast({
+          message: t("consultation_end_reminder", { minutes: 5 }),
+          autoHide: false,
+          type: "info",
+        });
+        isFiveMinAlertShown;
+        clearInterval(interval);
+      }
+    }, 20000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   useEffect(() => {
     if (
