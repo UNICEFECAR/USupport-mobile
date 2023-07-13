@@ -358,7 +358,7 @@ export default {
   getArticles,
   getArticleById,
   getArticleLocales,
-  getArticleLocalesMapping,
+  // getArticleLocalesMapping,
   getCategories,
   getAgeGroups,
   addArticleReadCount,
