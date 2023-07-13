@@ -116,9 +116,9 @@ If you get an error saying "adb: command not found", make sure you have adb inst
 
 1. Click on the top left it say React-Codegen
    ![Alt text](https://usupport-staging.s3.eu-central-1.amazonaws.com/xcode-codegen.jpeg)
-1. On the pane that appears find the React-Codegen
+1. On the pane that appears find the React-Codegen Pod and click on it
    ![Alt text](https://usupport-staging.s3.eu-central-1.amazonaws.com/xcode-codegen2.jpeg)
-1. On the right, find the iOS Deployment Target and change it to iOS 13.0
+1. On the right, find the iOS Deployment Target in the "Deployment" section and change it to iOS 13.0
 
 # Useful links
 
@@ -176,9 +176,9 @@ git push
 
 ## Please follow these naming conventions for your branches
 
-- Features `feature/{JIRA_ID}-{branch_name}`
-- Bugs `bug/{JIRA_ID}-{branch_name}`
-- Hotfixes `hotfix/{JIRA_ID}-{branch_name}`
+- Features `feature-{branch_name}`
+- Bugs `bug-{branch_name}`
+- Hotfixes `hotfix-{branch_name}`
 
 ## Guidelines for writing a commit message when committing changes to any of the git submodules
 
