@@ -19,8 +19,6 @@ import { validateProperty, validate } from "#utils";
 
 import { localStorage } from "#services";
 
-import { appStyles } from "#styles";
-
 /**
  * RegisterAboutYou
  *
@@ -111,7 +109,7 @@ export const RegisterAboutYou = ({ navigation }) => {
   const [errors, setErrors] = useState({});
 
   const onMutateSuccess = () => {
-    navigation.push("RegisterSupport");
+    navigation.push("Dashboard");
   };
 
   const onMutateError = (error) => {
