@@ -22,5 +22,6 @@
   "warning": "I understand, that i will not have access to the account if i lose this code",
   "confirm_password_label": "Confirm password",
   "password_match_error": "The Password and Confirm Password fields do not match",
-  "password_placeholder": "Enter your password"
+  "password_placeholder": "Enter your password",
+  "age_terms_agreement_text": "I am over 13 years old"
 }

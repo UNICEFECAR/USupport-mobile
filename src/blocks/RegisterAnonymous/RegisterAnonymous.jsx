@@ -54,6 +54,7 @@ export const RegisterAnonymous = ({ navigation }) => {
       .label(t("password_match_error")),
     nickname: Joi.string().label(t("nickname_error")),
     isPrivacyAndTermsSelected: Joi.boolean().invalid(false),
+    isAgeTermsSelected: Joi.boolean().invalid(false),
   });
 
   const [data, setData] = useState({
@@ -61,6 +62,7 @@ export const RegisterAnonymous = ({ navigation }) => {
     confirmPassword: "",
     nickname: "",
     isPrivacyAndTermsSelected: false,
+    isAgeTermsSelected: false,
   });
   const [errors, setErrors] = useState({});
 
@@ -182,7 +184,9 @@ export const RegisterAnonymous = ({ navigation }) => {
   };
 
   const canContinue =
-    data.password && data.isPrivacyAndTermsSelected && data.nickname;
+    data.password &&
+    data.isPrivacyAndTermsSelected & data.isAgeTermsSelected &&
+    data.nickname;
 
   const handleRegisterButtonClick = () => {
     if (data.password !== data.confirmPassword) {
@@ -290,6 +294,16 @@ export const RegisterAnonymous = ({ navigation }) => {
                 textTwo={t("terms_agreement_text_2")}
                 textThree={t("terms_agreement_text_3")}
                 textFour={t("terms_agreement_text_4")}
+              />
+              <TermsAgreement
+                isChecked={data.isAgeTermsSelected}
+                setIsChecked={() =>
+                  handleChange(
+                    "isPrivacyAndTermsSelected",
+                    !data.isPrivacyAndTermsSelected
+                  )
+                }
+                textOne={t("age_terms_agreement_text")}
               />
             </View>
             <AppButton

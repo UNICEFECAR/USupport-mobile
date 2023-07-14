@@ -5,12 +5,7 @@ import React, {
   useCallback,
   useEffect,
 } from "react";
-import {
-  StyleSheet,
-  KeyboardAvoidingView,
-  ScrollView,
-  View,
-} from "react-native";
+import { StyleSheet, KeyboardAvoidingView, ScrollView } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CodeVerification } from "#backdrops";
@@ -50,6 +45,7 @@ export const RegisterEmail = ({ navigation }) => {
       .label(t("email_error")),
     nickname: Joi.string().label(t("nickname_error")),
     isPrivacyAndTermsSelected: Joi.boolean(),
+    isAgeTermsSelected: Joi.boolean(),
   });
 
   const [data, setData] = useState({
@@ -57,6 +53,7 @@ export const RegisterEmail = ({ navigation }) => {
     nickname: "",
     password: "",
     isPrivacyAndTermsSelected: false,
+    isAgeTermsSelected: false,
     confirmPassword: "",
   });
   const [errors, setErrors] = useState({});
@@ -221,6 +218,14 @@ export const RegisterEmail = ({ navigation }) => {
     }
   };
 
+  const canContinue =
+    data.password &&
+    data.confirmPassword &&
+    data.isPrivacyAndTermsSelected &&
+    data.isAgeTermsSelected &&
+    data.email &&
+    data.nickname;
+
   return (
     <>
       <KeyboardAvoidingView
@@ -289,6 +294,16 @@ export const RegisterEmail = ({ navigation }) => {
               textThree={t("terms_agreement_text_3")}
               textFour={t("terms_agreement_text_4")}
             />
+            <TermsAgreement
+              isChecked={data.isAgeTermsSelected}
+              setIsChecked={() =>
+                handleChange(
+                  "isPrivacyAndTermsSelected",
+                  !data.isPrivacyAndTermsSelected
+                )
+              }
+              textOne={t("age_terms_agreement_text")}
+            />
             <Error message={errors.submit || ""} />
             <AppButton
               size="lg"
@@ -296,7 +311,7 @@ export const RegisterEmail = ({ navigation }) => {
               onPress={handleOtpRequest}
               type="primary"
               color="green"
-              disabled={!data.isPrivacyAndTermsSelected}
+              disabled={!canContinue}
               loading={requestEmailOTPMutation.isLoading}
               style={styles.registerButton}
             />
