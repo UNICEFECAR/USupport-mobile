@@ -22,5 +22,6 @@
   "warning": "Егер мен бұл кодты жоғалтсам, аккаунтқа қол жеткізе алмайтынымды түсінемін",
   "password_placeholder": "Құпия сөзіңізді енгізіңіз",
   "confirm_password_label": "Құпия сөзді растаңыз",
-  "password_match_error": "Құпия сөз және Құпия сөзді растау өрістері сәйкес келмейді"
+  "password_match_error": "Құпия сөз және Құпия сөзді растау өрістері сәйкес келмейді",
+  "age_terms_agreement_text": "I am over 13 years oldKK"
 }

@@ -44,7 +44,8 @@ export const RegisterAnonymous = ({ navigation }) => {
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [hasCopied, setHasCopied] = useState(false);
 
-  const { setToken, setInitialRouteName } = useContext(Context);
+  const { setToken, setInitialRouteName, setIsAnonymousRegister } =
+    useContext(Context);
   const schema = Joi.object({
     password: Joi.string()
       .pattern(new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}"))
@@ -102,6 +103,8 @@ export const RegisterAnonymous = ({ navigation }) => {
 
   const registerMutation = useMutation(register, {
     onSuccess: async (response) => {
+      setIsAnonymousRegister(true);
+      setInitialRouteName("RegisterAboutYou");
       const { token: tokenData } = response.data;
       const { token, expiresIn, refreshToken } = tokenData;
 
@@ -136,7 +139,6 @@ export const RegisterAnonymous = ({ navigation }) => {
   };
 
   const handleChange = (field, value) => {
-    console.log(field, value, data.password, data.confirmPassword);
     if (
       field === "confirmPassword" &&
       value.length >= 8 &&
@@ -294,14 +296,12 @@ export const RegisterAnonymous = ({ navigation }) => {
                 textTwo={t("terms_agreement_text_2")}
                 textThree={t("terms_agreement_text_3")}
                 textFour={t("terms_agreement_text_4")}
+                style={{ marginBottom: 12 }}
               />
               <TermsAgreement
                 isChecked={data.isAgeTermsSelected}
                 setIsChecked={() =>
-                  handleChange(
-                    "isPrivacyAndTermsSelected",
-                    !data.isPrivacyAndTermsSelected
-                  )
+                  handleChange("isAgeTermsSelected", !data.isAgeTermsSelected)
                 }
                 textOne={t("age_terms_agreement_text")}
               />

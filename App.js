@@ -61,6 +61,7 @@ function App() {
   const [userPin, setUserPin] = useState(); // The value of the user's PIN code
   const [hasCheckedTmpUser, setHasCheckedTmpUser] = useState(false);
   const [activeCoupon, setActiveCoupon] = useState();
+  const [isAnonymousRegister, setIsAnonymousRegister] = useState(false);
 
   const [dropdownOptions, setDropdownOptions] = useState({
     isOpen: false,
@@ -181,6 +182,8 @@ function App() {
     hasCheckedTmpUser,
     activeCoupon,
     setActiveCoupon,
+    isAnonymousRegister,
+    setIsAnonymousRegister,
   };
 
   return (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
@@ -17,7 +17,7 @@ import { useUpdateClientData, useGetClientData } from "#hooks";
 
 import { validateProperty, validate } from "#utils";
 
-import { localStorage } from "#services";
+import { localStorage, Context } from "#services";
 
 /**
  * RegisterAboutYou
@@ -31,6 +31,7 @@ export const RegisterAboutYou = ({ navigation }) => {
 
   const queryClient = useQueryClient();
   const countriesData = queryClient.getQueryData(["countries"]);
+  const { isAnonymousRegister } = useContext(Context);
 
   const schema = Joi.object({
     name: Joi.string().allow(null, "", " ").label(t("nickname_error")),
@@ -40,7 +41,8 @@ export const RegisterAboutYou = ({ navigation }) => {
     urbanRural: Joi.string().invalid(null).label(t("place_of_living_error")),
   });
 
-  const clientData = useGetClientData()[1];
+  const clientDataQuery = useGetClientData(true, true)[0];
+  const clientData = clientDataQuery?.data;
 
   const sexOptions = [
     { label: t("sex_male"), value: "male" },
@@ -109,7 +111,7 @@ export const RegisterAboutYou = ({ navigation }) => {
   const [errors, setErrors] = useState({});
 
   const onMutateSuccess = () => {
-    navigation.push("Dashboard");
+    navigation.replace("TabNavigation");
   };
 
   const onMutateError = (error) => {
@@ -133,10 +135,33 @@ export const RegisterAboutYou = ({ navigation }) => {
     setData(newData);
   };
 
+  // Make sure we get the freshest data before sending it to the mutation function
+  const getDataToSend = useCallback(() => {
+    if (isAnonymousRegister) {
+      const dataCopy = { ...data };
+      delete dataCopy["name"];
+      delete dataCopy["surname"];
+
+      return {
+        ...dataCopy,
+        nickname: clientData?.nickname,
+        name: "",
+        surname: "",
+        accessToken: clientData?.accessToken,
+      };
+    }
+    return {
+      ...data,
+      email: clientData?.email,
+      nickname: clientData?.nickname,
+    };
+  }, [clientData, data, isAnonymousRegister]);
+
   const handleContinue = async () => {
     if ((await validate(data, schema, setErrors)) === null) {
+      const dataToSend = getDataToSend();
       updateClientDetailsMutation.mutate({
-        ...data,
+        ...dataToSend,
         email: clientData?.email,
         nickname: clientData?.nickname,
       });
@@ -157,26 +182,30 @@ export const RegisterAboutYou = ({ navigation }) => {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.inputContainer}>
-          <Input
-            autoCapitalize={true}
-            label={t("input_name_label")}
-            placeholder={t("input_name_placeholder")}
-            name="name"
-            onChange={(value) => handleSelect("name", value)}
-            value={data.name}
-            onBlur={() => handleBlur("name")}
-            style={styles.marginBottom24}
-          />
-          <Input
-            autoCapitalize={true}
-            label={t("input_surname_label")}
-            placeholder={t("input_surname_placeholder")}
-            name="surname"
-            onChange={(value) => handleSelect("surname", value)}
-            value={data.surname}
-            onBlur={() => handleBlur("surname")}
-            style={styles.marginBottom24}
-          />
+          {isAnonymousRegister ? null : (
+            <>
+              <Input
+                autoCapitalize={true}
+                label={t("input_name_label")}
+                placeholder={t("input_name_placeholder")}
+                name="name"
+                onChange={(value) => handleSelect("name", value)}
+                value={data.name}
+                onBlur={() => handleBlur("name")}
+                style={styles.marginBottom24}
+              />
+              <Input
+                autoCapitalize={true}
+                label={t("input_surname_label")}
+                placeholder={t("input_surname_placeholder")}
+                name="surname"
+                onChange={(value) => handleSelect("surname", value)}
+                value={data.surname}
+                onBlur={() => handleBlur("surname")}
+                style={styles.marginBottom24}
+              />
+            </>
+          )}
           <Dropdown
             options={sexOptions}
             selected={data.sex}

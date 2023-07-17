@@ -1,15 +1,25 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { clientSvc } from "#services";
 
 /**
  * Reuseable hook to get and transform the client data in a desired format
  */
-export default function useGetClientData(enabled = true) {
+export default function useGetClientData(
+  enabled = true,
+  shouldInvalidate = false
+) {
   const queryClient = useQueryClient();
   const oldData = queryClient.getQueryData({ queryKey: ["client-data"] });
   const [clientData, setClientData] = useState(oldData || null);
   const [oldDataCopy, setOldDataCopy] = useState(oldData || null);
+
+  useEffect(() => {
+    if (shouldInvalidate) {
+      queryClient.invalidateQueries({ queryKey: ["client-data"] });
+    }
+  }, [shouldInvalidate]);
+
   const fetchClientData = async () => {
     const res = await clientSvc.getClientData();
 

@@ -22,5 +22,6 @@
   "warning": "Я понимаю, что у меня не будет доступа к аккаунту, если я потеряю этот код",
   "password_placeholder": "Введите свой пароль",
   "confirm_password_label": "Подтвердите пароль",
-  "password_match_error": "Поля Пароль и Подтвердите пароль не совпадают"
+  "password_match_error": "Поля Пароль и Подтвердите пароль не совпадают",
+  "age_terms_agreement_text": "I am over 13 years oldRU"
 }
