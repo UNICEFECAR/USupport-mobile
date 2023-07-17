@@ -26,7 +26,7 @@ export default function useUpdateClientData(
     delete dataCopy.clientID;
     delete dataCopy.pushNotificationTokens;
 
-    dataCopy.email = dataCopy.email.toLowerCase().trim() || undefined;
+    dataCopy.email = dataCopy.email?.toLowerCase().trim() || undefined;
     dataCopy.sex = dataCopy.sex || undefined;
     dataCopy.yearOfBirth = dataCopy.yearOfBirth || undefined;
     dataCopy.urbanRural = dataCopy.urbanRural || undefined;
