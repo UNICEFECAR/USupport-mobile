@@ -293,14 +293,12 @@ export const RegisterEmail = ({ navigation }) => {
               textTwo={t("terms_agreement_text_2")}
               textThree={t("terms_agreement_text_3")}
               textFour={t("terms_agreement_text_4")}
+              style={{ marginBottom: 12 }}
             />
             <TermsAgreement
               isChecked={data.isAgeTermsSelected}
               setIsChecked={() =>
-                handleChange(
-                  "isPrivacyAndTermsSelected",
-                  !data.isPrivacyAndTermsSelected
-                )
+                handleChange("isAgeTermsSelected", !data.isAgeTermsSelected)
               }
               textOne={t("age_terms_agreement_text")}
             />

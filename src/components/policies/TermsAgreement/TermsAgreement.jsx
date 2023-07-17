@@ -16,31 +16,36 @@ export const TermsAgreement = ({
   navigation,
   textThree,
   textFour,
+  style,
 }) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <CheckBox isChecked={isChecked} setIsChecked={setIsChecked} />
       <AppText>
         <AppText namedStyle="text">{textOne}</AppText>
-        <AppText
-          namedStyle="text"
-          onPress={() => {
-            navigation.navigate("PrivacyPolicy");
-          }}
-          style={styles.purpleText}
-        >
-          {` ${textTwo} `}
-        </AppText>
-        <AppText namedStyle="text">{`${textThree} `}</AppText>
-        <AppText
-          namedStyle="text"
-          onPress={() => {
-            navigation.navigate("TermsOfUse");
-          }}
-          style={styles.purpleText}
-        >
-          {textFour}
-        </AppText>
+        {textTwo && (
+          <AppText
+            namedStyle="text"
+            onPress={() => {
+              navigation.navigate("PrivacyPolicy");
+            }}
+            style={styles.purpleText}
+          >
+            {` ${textTwo} `}
+          </AppText>
+        )}
+        {textThree && <AppText namedStyle="text">{`${textThree} `}</AppText>}
+        {textFour && (
+          <AppText
+            namedStyle="text"
+            onPress={() => {
+              navigation.navigate("TermsOfUse");
+            }}
+            style={styles.purpleText}
+          >
+            {textFour}
+          </AppText>
+        )}
       </AppText>
     </View>
   );
@@ -49,7 +54,7 @@ export const TermsAgreement = ({
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    alignSelf: "center",
+    alignSelf: "flex-start",
     flexDirection: "row",
     marginHorizontal: 40,
   },

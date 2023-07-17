@@ -1,5 +1,5 @@
 {
-  "login": "Login to the app",
+  "login": "Login with Email/Access Token",
   "register_email": "Register with email",
   "register_anonymously": "Access anonymously",
   "continue_as_guest": "Continue without registration",
