@@ -1,7 +1,7 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import { View } from "react-native";
 import { useTranslation } from "react-i18next";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import ReactNativeBlobUtil from "react-native-blob-util";
 
 import { PaymentsHistoryTable, AppButton } from "#components";
@@ -11,6 +11,7 @@ import { paymentsSvc, Context } from "#services";
 import { getDateView, getTimeFromDate, showToast } from "#utils";
 
 export const PaymentHistory = () => {
+  const queryClient = useQueryClient();
   const { t } = useTranslation("payment-history");
   const { currencySymbol } = useContext(Context);
   const rows = [t("service"), t("price"), t("date_of_payment"), ""];
@@ -21,15 +22,29 @@ export const PaymentHistory = () => {
 
   const [selectedPaymentData, setSelectedPaymentData] = useState();
   const lastPaymentId = useRef(null);
+  const [isScreenFocused, setIsScreenFocused] = useState(true);
 
-  const getPaymentHistory = async () => {
+  useEffect(() => {
+    setIsScreenFocused(true);
+    return () => {
+      setIsScreenFocused(false);
+      lastPaymentId.current = null;
+      if (paymentHistoryQuery.isFetching) {
+        queryClient.cancelQueries({ queryKey: ["paymentHistoryData"] });
+      }
+    };
+  }, []);
+
+  const getPaymentHistory = async (signal) => {
     try {
       const res = await paymentsSvc.getPaymentHistory({
         limit: 5,
         startingAfterPaymentIntentId: lastPaymentId.current,
+        signal,
       });
       return res.data;
     } catch (err) {
+      console.log(err, "err");
       return [];
     }
   };
@@ -38,7 +53,7 @@ export const PaymentHistory = () => {
 
   const paymentHistoryQuery = useQuery(
     ["paymentHistoryData"],
-    getPaymentHistory,
+    ({ signal }) => getPaymentHistory(signal),
     {
       onSuccess: (data) => {
         const lastPayment = data.lastPaymentId;
@@ -48,13 +63,15 @@ export const PaymentHistory = () => {
           shouldCallLoadMore.current = true;
         }
 
-        if (payments) {
-          setPaymentsData((prevPayments) => [...prevPayments, ...payments]);
-        }
-        lastPaymentId.current = lastPayment;
+        if (isScreenFocused) {
+          if (payments) {
+            setPaymentsData((prevPayments) => [...prevPayments, ...payments]);
+          }
+          lastPaymentId.current = lastPayment;
 
-        if (data.hasMore) {
-          loadMore();
+          if (data.hasMore) {
+            loadMore();
+          }
         }
       },
       onError: (err) => {
