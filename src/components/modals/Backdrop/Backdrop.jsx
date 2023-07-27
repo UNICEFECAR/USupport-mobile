@@ -59,6 +59,7 @@ export const Backdrop = ({
   hasKeyboardListener = false,
   handleCloseIconPress,
   footerComponent,
+  overlayStyles,
 }) => {
   const hasButtons = ctaLabel || secondaryCtaLabel;
   const [isOverlayShown, setIsOverlayShown] = useState(false);
@@ -118,7 +119,7 @@ export const Backdrop = ({
 
   const Overlay = () => (
     <TouchableWithoutFeedback onPress={handleCloseBackdrop}>
-      <View style={styles.overlay} />
+      <View style={[styles.overlay, overlayStyles]} />
     </TouchableWithoutFeedback>
   );
 
