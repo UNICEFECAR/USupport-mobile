@@ -11,6 +11,7 @@ import { appStyles } from "#styles";
 import { getDayOfTheWeek, getDateView } from "#utils";
 import { specialistPlaceholder } from "#assets";
 import Config from "react-native-config";
+// import { IconCheckCircle, IconForbidden } from "../../icons/assets/sprite";
 const { AMAZON_S3_BUCKET } = Config;
 
 /**
@@ -29,6 +30,7 @@ export const ConsultationInformation = ({
   currencySymbol,
   style,
   showPriceBadge = true,
+  isProviderInSession = false,
   t,
 }) => {
   const dayOfWeek = t(getDayOfTheWeek(startDate));
@@ -49,7 +51,19 @@ export const ConsultationInformation = ({
       <View style={styles.inormationContainer}>
         <Avatar image={imageUrl && { uri: imageUrl }} size="md" />
         <View style={styles.content}>
-          <AppText style={styles.nameText}>{providerName}</AppText>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <AppText style={styles.nameText}>{providerName}</AppText>
+            <View
+              style={{
+                width: 16,
+                height: 16,
+                borderRadius: 16,
+                backgroundColor: isProviderInSession
+                  ? appStyles.colorGreen_7ec680
+                  : "red",
+              }}
+            />
+          </View>
           <View style={styles.dateContainer}>
             <Icon
               name="calendar"
@@ -101,6 +115,7 @@ const styles = StyleSheet.create({
   nameText: {
     color: appStyles.colorBlue_3d527b,
     fontFamily: appStyles.fontBold,
+    marginRight: 10,
   },
   dateContainer: { flexDirection: "row", alignItems: "center", marginTop: 4 },
   dateContainerContent: { marginLeft: 6 },

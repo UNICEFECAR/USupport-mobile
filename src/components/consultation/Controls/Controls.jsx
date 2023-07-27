@@ -29,6 +29,7 @@ export const Controls = ({
   isRoomConnecting,
   hasUnread,
   style,
+  isProviderInSession,
   t,
 }) => {
   const [isMicOpen, setIsMicOpen] = useState(isMicrophoneOn);
@@ -44,8 +45,8 @@ export const Controls = ({
     if (isRoomConnecting) return;
 
     const content = isMicOpen
-      ? t("client_microphone_off")
-      : t("client_microphone_on");
+      ? "client_microphone_off"
+      : "client_microphone_on";
     handleSendMessage(content, "system");
 
     setIsMicOpen(!isMicOpen);
@@ -55,9 +56,7 @@ export const Controls = ({
   const handleCameraClick = () => {
     if (isRoomConnecting) return;
 
-    const content = isCameraOpen
-      ? t("client_camera_off")
-      : t("client_camera_on");
+    const content = isCameraOpen ? "client_camera_off" : "client_camera_on";
     handleSendMessage(content, "system");
 
     setIsCameraOpen(!isCameraOpen);
@@ -146,6 +145,7 @@ export const Controls = ({
             providerName={consultation.providerName}
             providerImage={consultation.image}
             showPriceBadge={false}
+            isProviderInSession={isProviderInSession}
             t={t}
           />
           {consultation.sponsorName ? (
