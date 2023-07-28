@@ -1,4 +1,11 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo,
+} from "react";
+
 import {
   FlatList,
   KeyboardAvoidingView,
@@ -34,7 +41,7 @@ import {
 import { VideoRoom } from "#blocks";
 import { SafetyFeedback } from "../SafetyFeedback";
 import { localStorage } from "#services";
-import { showToast, ONE_HOUR } from "#utils";
+import { showToast, ONE_HOUR, getDateView, systemMessageTypes } from "#utils";
 import { appStyles } from "#styles";
 
 import Config from "react-native-config";
@@ -86,10 +93,13 @@ export const Consultation = ({ navigation, route }) => {
     // Then check which one of the following two cases is true:
     const joinMessages = messages
       .filter(
-        (x) => x.content === "provider_joined" || x.content === "provider_left"
+        (x) =>
+          x?.content === "provider_joined" || x?.content === "provider_left"
       )
-      .sort((a, b) => new Date(Number(b.time)) - new Date(Number(a.time)));
-    return joinMessages[0].content === "provider_joined";
+      ?.sort((a, b) => new Date(Number(b.time)) - new Date(Number(a.time)));
+    return joinMessages[0]
+      ? joinMessages[0].content === "provider_joined"
+      : false;
   };
 
   const chatDataQuery = useGetChatData(consultation?.chatId, (data) => {
@@ -336,21 +346,6 @@ export const Consultation = ({ navigation, route }) => {
     });
   };
 
-  const systemMessageTypes = [
-    "client_joined",
-    "client_left",
-    "client_microphone_on",
-    "client_microphone_off",
-    "client_camera_on",
-    "client_camera_off",
-    "provider_joined",
-    "provider_left",
-    "provider_microphone_on",
-    "provider_microphone_off",
-    "provider_camera_on",
-    "provider_camera_off",
-  ];
-
   const renderMessage = useCallback(
     (message) => {
       if (message.type === "typing") {
@@ -367,6 +362,7 @@ export const Consultation = ({ navigation, route }) => {
                 : message.content
             }
             date={new Date(Number(message.time))}
+            showDate={message.showDate}
           />
         );
       } else {
@@ -377,6 +373,7 @@ export const Consultation = ({ navigation, route }) => {
               message={message.content}
               sent
               date={new Date(Number(message.time))}
+              showDate={message.showDate}
             />
           );
         } else {
@@ -386,6 +383,7 @@ export const Consultation = ({ navigation, route }) => {
               message={message.content}
               received
               date={new Date(Number(message.time))}
+              showDate={message.showDate}
             />
           );
         }
@@ -430,6 +428,20 @@ export const Consultation = ({ navigation, route }) => {
       type,
     });
   };
+
+  const lastDate = useRef();
+  const calculateMessagesToShowDate = useMemo(() => {
+    const messagesToShow = [...displayedMessages].reverse().map((message) => {
+      const currentMessageDate = getDateView(new Date(Number(message.time)));
+      if (currentMessageDate !== lastDate.current) {
+        lastDate.current = currentMessageDate;
+        message.showDate = true;
+      }
+
+      return message;
+    });
+    return messagesToShow.reverse();
+  }, [displayedMessages]);
 
   return isSafetyFeedbackShown ? (
     <SafetyFeedback
@@ -536,9 +548,9 @@ export const Consultation = ({ navigation, route }) => {
             <FlatList
               inverted
               scrollEnabled
-              data={chatDataQuery.isLoading ? [] : displayedMessages}
+              data={chatDataQuery.isLoading ? [] : calculateMessagesToShowDate}
               keyExtractor={(item, index) =>
-                item.time.toString() + index.toString()
+                item.time.toString() + index.toString() + new Date().getTime()
               }
               renderItem={({ item }) => renderMessage(item)}
               ref={flatListRef}

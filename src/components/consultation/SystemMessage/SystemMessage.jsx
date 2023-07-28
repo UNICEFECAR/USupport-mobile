@@ -12,40 +12,87 @@ export const SystemMessage = ({
   title,
   date,
   style,
+  showDate,
 }) => {
   return (
-    <View style={[styles.container, style]}>
-      <Icon name={iconName} size="md" color={appStyles.colorPrimary_20809e} />
-      <View style={styles.textContainer}>
+    <React.Fragment>
+      <View style={[styles.container, style]}>
+        <View style={{ width: "10%" }}>
+          <Icon
+            name={iconName}
+            size="md"
+            color={appStyles.colorPrimary_20809e}
+          />
+        </View>
         <AppText namedStyle="smallText" style={styles.title}>
           {title}
         </AppText>
-        <AppText namedStyle="smallText">{getTimeAsString(date)}</AppText>
-        <AppText namedStyle="smallText">{getDateView(date)}</AppText>
+        <View style={styles.timeTextContainer}>
+          <AppText
+            style={{
+              alignSelf: "flex-end",
+              paddingLeft: 16,
+            }}
+            namedStyle="smallText"
+          >
+            {getTimeAsString(date)}
+          </AppText>
+        </View>
       </View>
+      {showDate ? <DateContainer date={date} /> : null}
+    </React.Fragment>
+  );
+};
+
+export const DateContainer = ({ date }) => {
+  return (
+    <View style={styles.dateContainer}>
+      <AppText isBold namedStyle="smallText">
+        {getDateView(date)}
+      </AppText>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    paddingVertical: 16,
-    paddingHorizontal: 24,
-    borderWidth: 1,
+    alignItems: "center",
+    alignSelf: "center",
     borderColor: appStyles.colorPrimary_20809e,
     borderRadius: 24,
+    borderWidth: 1,
+    flexDirection: "row",
+    marginBottom: 12,
+    maxWidth: 280,
+    paddingHorizontal: 18,
+    paddingVertical: 12,
     textAlign: "left",
     width: "85%",
-    maxWidth: 280,
-    alignSelf: "center",
-    marginBottom: 12,
   },
   title: {
     color: appStyles.colorPrimary_20809e,
     fontFamily: appStyles.fontBold,
+    width: 250,
+    marginLeft: 16,
+  },
+  timeTextContainer: {
+    display: "flex",
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    marginTop: "auto",
   },
   textContainer: { marginLeft: 16 },
+  dateContainer: {
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    backgroundColor: appStyles.colorGreen_f4f7fe,
+    marginLeft: 0,
+    marginRight: 0,
+    width: "auto",
+    alignSelf: "center",
+    borderRadius: 16,
+    marginBottom: 12,
+  },
 });
 
 SystemMessage.propTypes = {

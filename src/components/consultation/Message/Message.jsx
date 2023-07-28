@@ -4,7 +4,8 @@ import { View, StyleSheet } from "react-native";
 
 import { AppText } from "../../texts/AppText";
 import { appStyles } from "#styles";
-import { getDateView, getTimeFromDate } from "#utils";
+import { getTimeAsString } from "#utils";
+import { DateContainer } from "../SystemMessage/SystemMessage";
 
 export const Message = ({
   message,
@@ -12,21 +13,27 @@ export const Message = ({
   received = false,
   date,
   style,
+  showDate,
 }) => {
   return (
-    <View
-      style={[
-        styles.message,
-        sent && styles.messageSent,
-        received && styles.messageReceived,
-        style,
-      ]}
-    >
-      <AppText style={styles.text}>{message}</AppText>
-      <AppText style={styles.smallText}>
-        {getDateView(date)},{getTimeFromDate(date)}
-      </AppText>
-    </View>
+    <React.Fragment>
+      <View
+        style={[
+          styles.message,
+          sent && styles.messageSent,
+          received && styles.messageReceived,
+          style,
+        ]}
+      >
+        <AppText style={styles.text}>{message}</AppText>
+        <View style={styles.timeTextContainer}>
+          <AppText namedStyle="smallText" style={styles.smallText}>
+            {getTimeAsString(date)}
+          </AppText>
+        </View>
+      </View>
+      {showDate ? <DateContainer date={date} /> : null}
+    </React.Fragment>
   );
 };
 
@@ -38,6 +45,8 @@ const styles = StyleSheet.create({
     maxWidth: 280,
     borderRadius: 24,
     marginBottom: 12,
+    flexDirection: "row",
+    alignItems: "center",
   },
   messageSent: {
     backgroundColor: appStyles.colorGreen_54cfd9,
@@ -47,7 +56,18 @@ const styles = StyleSheet.create({
     backgroundColor: appStyles.colorGreen_e6f1f4,
     alignSelf: "flex-start",
   },
-  text: { color: appStyles.colorBlack_37 },
+  text: {
+    color: appStyles.colorBlack_37,
+    alignSelf: "flex-end",
+  },
+  timeTextContainer: {
+    display: "flex",
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    width: "auto",
+    marginTop: "auto",
+    marginLeft: "auto",
+  },
 });
 
 Message.propTypes = {
