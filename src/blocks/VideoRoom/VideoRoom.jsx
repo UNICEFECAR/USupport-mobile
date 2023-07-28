@@ -34,6 +34,8 @@ export const VideoRoom = ({
   handleSendMessage,
   token,
   hasUnread,
+  isProviderInSession,
+  isChatShown,
   navigation,
   t,
 }) => {
@@ -43,6 +45,23 @@ export const VideoRoom = ({
   const [status, setStatus] = useState("disconnected");
   const [participants, setParticipants] = useState(new Map());
   const [videoTracks, setVideoTracks] = useState(new Map());
+
+  const [shrinkVideo, setShrinkVideo] = useState(false);
+
+  useEffect(() => {
+    let timeout;
+    if (isChatShown) {
+      timeout = setTimeout(() => {
+        setShrinkVideo(isChatShown);
+      }, 550);
+    } else {
+      setShrinkVideo(false);
+    }
+
+    return () => {
+      if (timeout) clearTimeout(timeout);
+    };
+  }, [isChatShown]);
 
   const twilioVideo = useRef();
   const connect = async () => {
@@ -163,6 +182,7 @@ export const VideoRoom = ({
       width: "100%",
     };
   });
+
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1, flex: 1 }}>
       {!areControlsShown ? (
@@ -179,28 +199,38 @@ export const VideoRoom = ({
         </TouchableOpacity>
       ) : null}
       <Animated.View style={controlsStyles}>
-        <Controls
-          consultation={consultation}
-          isMicrophoneOn={isAudioEnabled}
-          isCameraOn={isVideoEnabled}
-          toggleMicrophone={toggleAudio}
-          toggleCamera={toggleVideo}
-          toggleChat={toggleChat}
-          leaveConsultation={disconnect}
-          handleSendMessage={handleSendMessage}
-          handleClose={handleControlsToggle}
-          isRoomConnecting={status !== "connected"}
-          hasUnread={hasUnread}
-          t={t}
-          style={{ marginTop: topInset, elevation: 10, zIndex: 10 }}
-        />
+        {!isChatShown ? (
+          <Controls
+            consultation={consultation}
+            isMicrophoneOn={isAudioEnabled}
+            isCameraOn={isVideoEnabled}
+            toggleMicrophone={toggleAudio}
+            toggleCamera={toggleVideo}
+            toggleChat={toggleChat}
+            leaveConsultation={disconnect}
+            handleSendMessage={handleSendMessage}
+            handleClose={handleControlsToggle}
+            isRoomConnecting={status !== "connected"}
+            hasUnread={hasUnread}
+            isProviderInSession={isProviderInSession}
+            t={t}
+            style={{ marginTop: topInset, elevation: 10, zIndex: 10 }}
+          />
+        ) : null}
       </Animated.View>
       {status === "connected" && videoTracks.size !== 0 ? (
         <View>
           {Array.from(videoTracks, ([trackSid, trackIdentifier]) => {
             return (
               <TwilioVideoParticipantView
-                style={styles.remoteVideo}
+                style={[
+                  styles.remoteVideo,
+                  {
+                    height: shrinkVideo
+                      ? appStyles.screenHeight * 0.5
+                      : appStyles.screenHeight,
+                  },
+                ]}
                 key={trackSid}
                 trackIdentifier={trackIdentifier}
               />
@@ -278,6 +308,7 @@ const styles = StyleSheet.create({
     marginRight: 0,
     height: appStyles.screenHeight,
     width: "100%",
+    // height: "50%",
     zIndex: 10,
     elevation: 10,
     transform: [{ rotateY: "180deg" }],

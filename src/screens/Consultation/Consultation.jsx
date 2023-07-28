@@ -19,6 +19,7 @@ import {
   SendMessage,
   SystemMessage,
   Toggle,
+  TypingIndicator,
 } from "#components";
 
 import {
@@ -76,15 +77,28 @@ export const Consultation = ({ navigation, route }) => {
   const [showOptions, setShowOptions] = useState(false);
   const [search, setSearch] = useState("");
   const [hasUnreadMessages, setHasUnreadMessages] = useState(false);
+  const [isProviderInSession, setIsProviderInSession] = useState(false);
 
   const debouncedSearch = useDebounce(search, 500);
 
-  const chatDataQuery = useGetChatData(consultation?.chatId, (data) =>
+  const checkHasProviderJoined = (messages) => {
+    // Sort the messages by time descending so the latest messages are first
+    // Then check which one of the following two cases is true:
+    const joinMessages = messages
+      .filter(
+        (x) => x.content === "provider_joined" || x.content === "provider_left"
+      )
+      .sort((a, b) => new Date(Number(b.time)) - new Date(Number(a.time)));
+    return joinMessages[0].content === "provider_joined";
+  };
+
+  const chatDataQuery = useGetChatData(consultation?.chatId, (data) => {
+    setIsProviderInSession(checkHasProviderJoined(data.messages));
     setMessages((prev) => ({
       ...prev,
       currentSession: data.messages,
-    }))
-  );
+    }));
+  });
 
   const clientId = chatDataQuery.data?.clientDetailId;
   const providerId = chatDataQuery.data?.providerDetailId;
@@ -158,6 +172,7 @@ export const Consultation = ({ navigation, route }) => {
     backdropMessagesContainerRef.current?.scrollHeight,
     debouncedSearch,
   ]);
+  const [isProviderTyping, setIsProviderTyping] = useState(false);
 
   useEffect(() => {
     let messagesToShow = showAllMessages
@@ -178,6 +193,7 @@ export const Consultation = ({ navigation, route }) => {
     areSystemMessagesShown,
     debouncedSearch,
     showAllMessages,
+    isProviderTyping,
   ]);
 
   // Mutations
@@ -214,6 +230,15 @@ export const Consultation = ({ navigation, route }) => {
           chatId: consultation?.chatId,
           userType: "client",
         });
+
+        socketRef.current.on("typing", (type) => {
+          if (!isProviderTyping && type == "typing") {
+            setIsProviderTyping(true);
+          } else if (type === "stop") {
+            setIsProviderTyping(false);
+          }
+        });
+
         socketRef.current?.on("receive message", receiveMessage);
       });
     });
@@ -230,6 +255,11 @@ export const Consultation = ({ navigation, route }) => {
   const receiveMessage = (message) => {
     setHasUnreadMessages(true);
     flatListRef.current?.scrollToOffset({ animated: true, offset: 0 });
+    if (message.content === "provider_left") {
+      setIsProviderInSession(false);
+    } else if (message.content === "provider_joined") {
+      setIsProviderInSession(true);
+    }
     setMessages((messages) => {
       return {
         ...messages,
@@ -288,7 +318,7 @@ export const Consultation = ({ navigation, route }) => {
     setIsSafetyFeedbackShown(true);
     const leaveMessage = {
       time: JSON.stringify(new Date().getTime()),
-      content: t("client_left"),
+      content: "client_left",
       type: "system",
     };
 
@@ -306,14 +336,36 @@ export const Consultation = ({ navigation, route }) => {
     });
   };
 
+  const systemMessageTypes = [
+    "client_joined",
+    "client_left",
+    "client_microphone_on",
+    "client_microphone_off",
+    "client_camera_on",
+    "client_camera_off",
+    "provider_joined",
+    "provider_left",
+    "provider_microphone_on",
+    "provider_microphone_off",
+    "provider_camera_on",
+    "provider_camera_off",
+  ];
+
   const renderMessage = useCallback(
     (message) => {
+      if (message.type === "typing") {
+        return <TypingIndicator text={t("typing")} />;
+      }
       if (message.type === "system") {
         if (!areSystemMessagesShown) return null;
         return (
           <SystemMessage
             key={message.time}
-            title={message.content}
+            title={
+              systemMessageTypes.includes(message.content)
+                ? t(message.content)
+                : message.content
+            }
             date={new Date(Number(message.time))}
           />
         );
@@ -348,7 +400,7 @@ export const Consultation = ({ navigation, route }) => {
 
     const joinMessage = {
       time: JSON.stringify(new Date().getTime()),
-      content: t("client_joined"),
+      content: "client_joined",
       type: "system",
     };
 
@@ -363,6 +415,19 @@ export const Consultation = ({ navigation, route }) => {
       chatId: consultation.chatId,
       to: "provider",
       message: joinMessage,
+    });
+  };
+
+  const emitTyping = async (type) => {
+    const language = await localStorage.getItem("language");
+    const country = await localStorage.getItem("country");
+
+    socketRef.current.emit("typing", {
+      to: "provider",
+      language,
+      country,
+      chatId: consultation.chatId,
+      type,
     });
   };
 
@@ -386,6 +451,8 @@ export const Consultation = ({ navigation, route }) => {
           token={token}
           navigation={navigation}
           hasUnread={hasUnreadMessages}
+          isProviderInSession={isProviderInSession}
+          isChatShown={isChatShown}
           t={t}
         />
       </View>
@@ -399,8 +466,17 @@ export const Consultation = ({ navigation, route }) => {
         customRender
         hasKeyboardListener
         style={{
-          height: appStyles.screenHeight * 0.55,
+          height: appStyles.screenHeight * 0.5,
+          borderTopLeftRadius: 0,
+          borderTopRightRadius: 0,
         }}
+        overlayStyles={
+          isChatShown
+            ? {
+                backgroundColor: "transparent",
+              }
+            : {}
+        }
       >
         <View style={styles.optionsContainer}>
           <View
@@ -467,6 +543,7 @@ export const Consultation = ({ navigation, route }) => {
               renderItem={({ item }) => renderMessage(item)}
               ref={flatListRef}
             />
+            {isProviderTyping && <TypingIndicator text={t("typing")} />}
 
             <View
               style={{
@@ -478,6 +555,7 @@ export const Consultation = ({ navigation, route }) => {
                 handleSubmit={handleSendMessage}
                 t={t}
                 hideOptions={() => setShowOptions(false)}
+                emitTyping={emitTyping}
               />
             </View>
           </KeyboardAvoidingView>
