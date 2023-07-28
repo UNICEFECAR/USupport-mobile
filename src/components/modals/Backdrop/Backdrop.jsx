@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import {
   View,
@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Platform,
+  Keyboard,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, {
@@ -60,11 +61,18 @@ export const Backdrop = ({
   handleCloseIconPress,
   footerComponent,
   overlayStyles,
+  handleShowKeyboard,
+  handleHideKeyboard,
+  isInVideoTherapy = false,
+  setKeyboardHeight,
 }) => {
   const hasButtons = ctaLabel || secondaryCtaLabel;
   const [isOverlayShown, setIsOverlayShown] = useState(false);
   const [buttonsContainerHeight, setButtonsContainerHeight] = useState(0);
   const { bottom: bottomInset } = useSafeAreaInsets();
+
+  const isClosing = useRef(false);
+  const [shrinkBackdrop, setShrinkBackdrop] = useState(false);
 
   const backdropBottom = useSharedValue(appStyles.screenHeight);
   const backdropStyle = useAnimatedStyle(() => {
@@ -77,24 +85,45 @@ export const Backdrop = ({
     if (Platform.OS === "ios") {
       backdropBottom.value = withSpring(-height + 24, appStyles.springConfig);
     }
-  };
-  const onHideKeyboard = () => {
-    if (Platform.OS === "ios") {
-      backdropBottom.value = withSpring(0, appStyles.springConfig);
+    if (isInVideoTherapy) {
+      handleShowKeyboard();
+      setShrinkBackdrop(true);
     }
   };
-  useKeyboard(hasKeyboardListener, onShowKeyboard, onHideKeyboard);
+  const onHideKeyboard = () => {
+    if (Platform.OS === "ios" && !isClosing.current) {
+      backdropBottom.value = withSpring(0, appStyles.springConfig);
+    }
+    if (isInVideoTherapy) {
+      handleHideKeyboard();
+      setShrinkBackdrop(false);
+    }
+  };
+  const keyboardHeight = useKeyboard(
+    hasKeyboardListener,
+    onShowKeyboard,
+    onHideKeyboard
+  );
+
+  useEffect(() => {
+    if (keyboardHeight) {
+      setKeyboardHeight(keyboardHeight);
+    }
+  }, [keyboardHeight]);
 
   useEffect(() => {
     if (isOpen) {
+      isClosing.current = false;
       setIsOverlayShown(true);
       backdropBottom.value = withSpring(0, appStyles.springConfig);
     } else {
+      Keyboard.dismiss();
       handleCloseBackdrop();
     }
   }, [isOpen]);
 
   const handleCloseBackdrop = () => {
+    isClosing.current = true;
     setIsOverlayShown(false);
     backdropBottom.value = withSpring(
       appStyles.screenHeight,
@@ -122,11 +151,17 @@ export const Backdrop = ({
       <View style={[styles.overlay, overlayStyles]} />
     </TouchableWithoutFeedback>
   );
-
   return (
     <>
       {isOverlayShown ? <Overlay /> : null}
-      <Animated.View style={[styles.backdrop, backdropStyle, style]}>
+      <Animated.View
+        style={[
+          styles.backdrop,
+          backdropStyle,
+          style,
+          shrinkBackdrop ? { height: appStyles.screenHeight * 0.3 } : {},
+        ]}
+      >
         {customRender ? (
           children
         ) : (

@@ -18,11 +18,11 @@ export const useKeyboard = (enabled, onShow, onHide) => {
     let showKeyboardListener, hideKeyboardListener;
     if (enabled) {
       showKeyboardListener = Keyboard.addListener(
-        "keyboardWillShow",
+        Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow",
         onKeyboardDidShow
       );
       hideKeyboardListener = Keyboard.addListener(
-        "keyboardWillHide",
+        Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide",
         onKeyboardDidHide
       );
     }

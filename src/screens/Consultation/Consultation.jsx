@@ -86,6 +86,8 @@ export const Consultation = ({ navigation, route }) => {
   const [hasUnreadMessages, setHasUnreadMessages] = useState(false);
   const [isProviderInSession, setIsProviderInSession] = useState(false);
 
+  const [keyboardHeight, setKeyboardHeight] = useState(200);
+
   const debouncedSearch = useDebounce(search, 500);
 
   const checkHasProviderJoined = (messages) => {
@@ -443,6 +445,7 @@ export const Consultation = ({ navigation, route }) => {
     return messagesToShow.reverse();
   }, [displayedMessages]);
 
+  const [isKeyboardShown, setIsKeyboardShown] = useState(false);
   return isSafetyFeedbackShown ? (
     <SafetyFeedback
       answers={securityCheckAnswers}
@@ -464,7 +467,10 @@ export const Consultation = ({ navigation, route }) => {
           navigation={navigation}
           hasUnread={hasUnreadMessages}
           isProviderInSession={isProviderInSession}
+          setIsProviderInSession={setIsProviderInSession}
           isChatShown={isChatShown}
+          isKeyboardShown={isKeyboardShown}
+          keyboardHeight={keyboardHeight}
           t={t}
         />
       </View>
@@ -475,10 +481,16 @@ export const Consultation = ({ navigation, route }) => {
           setIsChatShown(false);
           setHasUnreadMessages(false);
         }}
+        setKeyboardHeight={setKeyboardHeight}
         customRender
         hasKeyboardListener
+        isInVideoTherapy
+        handleShowKeyboard={() => {
+          setIsKeyboardShown(true);
+        }}
+        handleHideKeyboard={() => setIsKeyboardShown(false)}
         style={{
-          height: appStyles.screenHeight * 0.5,
+          height: appStyles.screenHeight * (isKeyboardShown ? 0.3 : 0.5),
           borderTopLeftRadius: 0,
           borderTopRightRadius: 0,
         }}

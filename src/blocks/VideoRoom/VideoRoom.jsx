@@ -35,7 +35,10 @@ export const VideoRoom = ({
   token,
   hasUnread,
   isProviderInSession,
+  setIsProviderInSession,
   isChatShown,
+  isKeyboardShown,
+  keyboardHeight,
   navigation,
   t,
 }) => {
@@ -227,7 +230,9 @@ export const VideoRoom = ({
                   styles.remoteVideo,
                   {
                     height: shrinkVideo
-                      ? appStyles.screenHeight * 0.5
+                      ? isKeyboardShown
+                        ? appStyles.screenHeight * 0.7 - keyboardHeight * 0.85
+                        : appStyles.screenHeight * 0.5
                       : appStyles.screenHeight,
                   },
                 ]}
@@ -277,6 +282,8 @@ export const VideoRoom = ({
         onParticipantEnabledVideoTrack={_onParticipantAddedVideoTrack}
         onParticipantDisabledVideoTrack={_onParticipantRemovedVideoTrack}
         onVideoChanged={(changed) => setIsVideoEnabled(changed.videoEnabled)}
+        onRoomParticipantDidConnect={() => setIsProviderInSession(true)}
+        onRoomParticipantDidDisconnect={() => setIsProviderInSession(false)}
       />
     </ScrollView>
   );
