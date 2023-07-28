@@ -16,6 +16,8 @@ import {
 } from "#components";
 import { appStyles } from "#styles";
 import { useGetChatData, useGetAllChatHistoryData, useDebounce } from "#hooks";
+import { systemMessageTypes } from "#utils";
+
 import Config from "react-native-config";
 const { AMAZON_S3_BUCKET } = Config;
 
@@ -102,7 +104,11 @@ export const ActivityHistory = ({
         return (
           <SystemMessage
             key={index + message.time}
-            title={message.content}
+            title={
+              systemMessageTypes.includes(message.content)
+                ? t(message.content)
+                : message.content
+            }
             date={new Date(Number(message.time))}
             style={styles.message}
           />

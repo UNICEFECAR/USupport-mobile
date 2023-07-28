@@ -6,12 +6,21 @@
   "thursday": "Бс",
   "friday": "Жм",
   "saturday": "Сб",
+
   "client_joined": "Клиент консультацияға қосылды",
   "client_left": "Клиент консультациядан шығып кетті",
   "client_camera_off": "Клиент камераны өшірді",
   "client_camera_on": "Клиент камераны қосты",
   "client_microphone_off": "Клиент микрофонды өшірді",
   "client_microphone_on": "Клиент микрофонды қосты",
+
+  "provider_joined": "Консультант консультацияға қосылды",
+  "provider_left": "Консультант консультациядан шықты",
+  "provider_camera_off": "Консультант камераны өшірді",
+  "provider_camera_on": "Консультант камераны қосты",
+  "provider_microphone_off": "Консультант микрофонды өшірді",
+  "provider_microphone_on": "Консультант микрофонды қосты",
+
   "send_message": "Хабарламаңызды осы жерге енгізіңіз...",
   "show_system_messages": "Жүйелік хабарламаларды көрсету",
   "show_previous_consultations": "Алдыңғы кеңестерді көрсетіңіз",

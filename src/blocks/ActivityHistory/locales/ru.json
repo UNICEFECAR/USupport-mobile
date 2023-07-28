@@ -5,5 +5,19 @@
   "show_system_messages": "Показать системные сообщения",
   "show_previous_consultations": "Показать предыдущие консультации",
   "export_label": "Экспорт",
-  "chat_history": "История чата консультаций с"
+  "chat_history": "История чата консультаций с",
+
+  "client_joined": "Клиент присоединился к консультации",
+  "client_left": "Клиент покинул консультацию",
+  "client_camera_off": "Клиент выключил камеру",
+  "client_camera_on": "Клиент включил камеру",
+  "client_microphone_off": "Клиент выключил микрофон",
+  "client_microphone_on": "Клиент включил микрофон",
+
+  "provider_joined": "Консультант присоединился к консультации",
+  "provider_left": "Консультант покинул консультацию",
+  "provider_camera_off": "Консультант отключил камеру",
+  "provider_camera_on": "Консультант включил камеру",
+  "provider_microphone_off": "Консультант отключил микрофон",
+  "provider_microphone_on": "Консультант включил микрофон"
 }

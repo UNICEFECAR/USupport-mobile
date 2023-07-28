@@ -12,6 +12,14 @@
   "client_camera_on": "The client has turned on the camera",
   "client_microphone_off": "The client has turned off the microphone",
   "client_microphone_on": "The client has turned on the microphone",
+
+  "provider_joined": "Provider joined the consultation",
+  "provider_left": "The provider has left the consultation",
+  "provider_camera_off": "The provider has turned off the camera",
+  "provider_camera_on": "The provider has turned on the camera",
+  "provider_microphone_off": "The provider has turned off the microphone",
+  "provider_microphone_on": "The provider has turned on the microphone",
+
   "send_message": "Type your message here...",
   "show_system_messages": "Show system messages",
   "show_previous_consultations": "Show previous consultations",
