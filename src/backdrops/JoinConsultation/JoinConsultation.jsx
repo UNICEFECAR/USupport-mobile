@@ -29,7 +29,6 @@ export const JoinConsultation = ({ isOpen, onClose, consultation }) => {
         token,
       });
     } catch (err) {
-      console.log(err);
       showToast({ message: t("error"), type: "error" });
     }
 

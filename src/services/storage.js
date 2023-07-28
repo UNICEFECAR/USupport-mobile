@@ -4,7 +4,7 @@ const setItem = async (key, value) => {
   try {
     await SecureStore.setItemAsync(key, value);
   } catch (err) {
-    console.log(err, "zxc");
+    console.log(err);
   }
 };
 
