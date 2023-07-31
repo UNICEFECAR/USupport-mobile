@@ -13,8 +13,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+
 import { useTranslation } from "react-i18next";
 import { io } from "socket.io-client";
+import { useKeepAwake } from "expo-keep-awake";
 
 import {
   AppButton,
@@ -63,6 +65,8 @@ export const Consultation = ({ navigation, route }) => {
   const joinWithVideo = location?.videoOn;
   const joinWithMicrophone = location?.microphoneOn;
   const token = location?.token;
+
+  useKeepAwake();
 
   if (!consultation || !token) return null;
 
