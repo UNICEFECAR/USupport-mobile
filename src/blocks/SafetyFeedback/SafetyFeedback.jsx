@@ -115,6 +115,7 @@ export const SafetyFeedback = ({ navigation, consultationId, answers }) => {
             handleAnswerSelect={handleAnswerSelect}
             t={t}
             key={index}
+            numeration={index + 1}
           />
         ))}
         {questions[3].value === true && (
@@ -148,10 +149,12 @@ export const SafetyFeedback = ({ navigation, consultationId, answers }) => {
   );
 };
 
-const Question = ({ question, handleAnswerSelect, t }) => {
+const Question = ({ question, handleAnswerSelect, t, numeration }) => {
   return (
     <View style={styles.marginTop40}>
-      <AppText>{question.label}</AppText>
+      <AppText>
+        {numeration}. {question.label}
+      </AppText>
       <View style={styles.questionAnswersContainer}>
         <RadioButtonSelector
           label={t("yes")}
