@@ -292,13 +292,15 @@ const styles = StyleSheet.create({
     zIndex: 99,
   },
   header: {
-    width: "80%",
+    width: "100%",
+    paddingLeft: 30,
+    paddingRight: 30,
   },
   headingText: {
     color: appStyles.colorBlue_3d527b,
     alignSelf: "center",
     fontFamily: appStyles.fontSemiBold,
-    marginRight: "-10%",
+    // marginRight: "-10%",
   },
   subheading: {
     marginTop: 24,
