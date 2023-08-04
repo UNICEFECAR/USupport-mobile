@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useTranslation } from "react-i18next";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { Trans, useTranslation } from "react-i18next";
+import { ScrollView, StyleSheet, View, Modal } from "react-native";
 import Joi from "joi";
+
+import { PrivacyPolicy } from "../PrivacyPolicy";
 
 import {
   AccessToken,
@@ -55,6 +57,7 @@ export const UserDetails = ({
 
   const [dataProcessing, setDataProcessing] = useState(null);
   const [dataProcessingModalOpen, setDataProcessingModalOpen] = useState(false);
+  const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
 
   const defaultSchema = {
     nickname: Joi.string().required().label(t("nickname_error")),
@@ -418,7 +421,7 @@ export const UserDetails = ({
                 style={styles.textButton}
               />
               <ButtonWithIcon
-                iconName="circle-actions-close"
+                iconName="exit"
                 iconSize="md"
                 size="lg"
                 iconColor={appStyles.colorPrimary_20809e}
@@ -445,7 +448,21 @@ export const UserDetails = ({
       <TransparentModal
         isOpen={dataProcessingModalOpen}
         handleClose={() => closeDataProcessingModal(true)}
-        heading={t("data_processing_modal_heading")}
+        heading={
+          <Trans
+            components={[
+              <AppText
+                style={{
+                  color: appStyles.colorSecondary_9749fa,
+                }}
+                isBold
+                onPress={() => setShowPrivacyPolicy(true)}
+              />,
+            ]}
+          >
+            {t("data_processing_modal_heading")}
+          </Trans>
+        }
         text={t("data_processing_modal_text")}
         ctaLabel={t("data_processing_modal_confirm_button")}
         ctaHandleClick={() => {
@@ -456,6 +473,14 @@ export const UserDetails = ({
         secondaryCtaType="secondary"
         secondaryCtaHandleClick={() => closeDataProcessingModal(true)}
       />
+      {showPrivacyPolicy && (
+        <Modal open={showPrivacyPolicy} animationType="slide">
+          <PrivacyPolicy
+            isModal
+            handleModalClose={() => setShowPrivacyPolicy(false)}
+          />
+        </Modal>
+      )}
     </Block>
   );
 };
