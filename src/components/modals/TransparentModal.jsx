@@ -132,7 +132,7 @@ TransparentModal.propTypes = {
   /**
    * Heading of the modal
    */
-  heading: PropTypes.string.isRequired,
+  heading: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
 
   /**
    * If the modal should have a close icon in the heading
