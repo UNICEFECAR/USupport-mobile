@@ -401,10 +401,26 @@ export const UserDetails = ({
             </View>
 
             <View style={styles.privacyPolicyContainer}>
-              <AppText style={styles.privacyPolicyText}>{t("privacy")}</AppText>
+              <AppText namedStyle="paragraph" style={styles.privacyPolicyText}>
+                {t("privacy")}
+              </AppText>
 
               <View style={styles.toggleContainer}>
-                <AppText namedStyle="smallText">{t("consent")}</AppText>
+                <AppText namedStyle="text">
+                  <Trans
+                    components={[
+                      <AppText
+                        style={{
+                          color: appStyles.colorPrimary_20809e,
+                        }}
+                        isBold
+                        onPress={() => setShowPrivacyPolicy(true)}
+                      />,
+                    ]}
+                  >
+                    {t("consent")}
+                  </Trans>
+                </AppText>
                 <Toggle
                   isToggled={dataProcessing ? true : false}
                   handleToggle={handleToggleClick}
@@ -453,7 +469,7 @@ export const UserDetails = ({
             components={[
               <AppText
                 style={{
-                  color: appStyles.colorSecondary_9749fa,
+                  color: appStyles.colorPrimary_20809e,
                 }}
                 isBold
                 onPress={() => setShowPrivacyPolicy(true)}
@@ -512,6 +528,7 @@ const styles = StyleSheet.create({
   privacyPolicyText: {
     fontFamily: "Nunito_600SemiBold",
     color: appStyles.colorBlue_3d527b,
+    fontSize: 18,
   },
   toggleContainer: {
     flexDirection: "row",

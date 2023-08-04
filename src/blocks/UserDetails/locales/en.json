@@ -19,7 +19,7 @@
   "button_text": "Save changes",
   "button_secondary_text": "Discard changes",
   "privacy": "Privacy and security",
-  "consent": "Consent for personal data usage",
+  "consent": "Consent for personal data usage as defined by the <0>Privacy Policy</0>",
   "change_password": "Change password",
   "delete_account": "Delete account",
   "logout": "Logout",
