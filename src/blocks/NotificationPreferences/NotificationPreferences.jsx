@@ -55,7 +55,7 @@ export const NotificationPreferences = () => {
   };
 
   return (
-    <Block>
+    <Block style={{ paddingBottom: 30 }}>
       {notificationPreferencesQuery.isLoading &&
       !clientDataQuery.isLoading &&
       !notificationPreferencesQuery.data ? (
