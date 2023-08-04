@@ -41,7 +41,7 @@ export const RadioButtonSelectorGroup = ({
   };
 
   return (
-    <View style={[style]}>
+    <View style={[style, styles.container]}>
       {label && (
         <AppText namedStyle="text" style={styles.text}>
           {label}
@@ -53,6 +53,8 @@ export const RadioButtonSelectorGroup = ({
 };
 
 const styles = StyleSheet.create({
+  container: { width: "96%", backgroundColor: "gold" },
+
   text: {
     color: appStyles.colorBlue_3d527b,
     marginBottom: 4,

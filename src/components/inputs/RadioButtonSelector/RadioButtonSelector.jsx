@@ -23,7 +23,8 @@ const styles = StyleSheet.create({
   radioButtonSelector: {
     paddingVertical: 12,
     paddingHorizontal: 16,
-    width: 343,
+    width: "97%",
+    alignSelf: "center",
   },
 });
 
