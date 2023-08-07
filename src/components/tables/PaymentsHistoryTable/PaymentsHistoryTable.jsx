@@ -48,7 +48,11 @@ export const PaymentsHistoryTable = ({
           key={index}
           data={itemData}
           widthArr={widthArr}
-          style={[styles.row, index % 2 && { backgroundColor: "#eaeaea" }]}
+          style={{
+            borderBottomWidth: 1,
+            borderBottomColor: appStyles.colorGray_a6b4b8,
+            backgroundColor: index % 2 ? "#eaeaea" : appStyles.colorWhite_ff,
+          }}
         />
       </TableWrapper>
     );
@@ -127,6 +131,5 @@ const styles = StyleSheet.create({
     color: appStyles.colorWhite_ff,
   },
   text: { textAlign: "center", marginBottom: 8, marginTop: 4 },
-  row: { borderBottomWidth: 1, borderBottomColor: appStyles.colorGray_a6b4b8 },
   noHistoryText: { textAlign: "center" },
 });

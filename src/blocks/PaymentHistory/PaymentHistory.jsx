@@ -44,7 +44,6 @@ export const PaymentHistory = () => {
       });
       return res.data;
     } catch (err) {
-      console.log(err, "err");
       return [];
     }
   };
