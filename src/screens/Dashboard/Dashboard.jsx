@@ -303,7 +303,7 @@ export const Dashboard = ({ navigation }) => {
           )}
         </MascotHeadingBlock>
         <MoodTracker navigation={navigation} />
-        {/* <ArticlesDashboard navigation={navigation} /> */}
+        <ArticlesDashboard navigation={navigation} />
         <ConsultationsDashboard
           openJoinConsultation={openJoinConsultation}
           openEditConsultation={openEditConsultation}
