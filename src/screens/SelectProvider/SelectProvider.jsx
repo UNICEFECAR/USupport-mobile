@@ -1,13 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import {
   AppText,
   Screen,
   Heading,
-  Block,
-  Loading,
   ButtonWithIcon,
   AppButton,
   TransparentModal,
@@ -38,13 +36,35 @@ export const SelectProvider = ({ navigation }) => {
   const [couponValue, setCouponValue] = useState("");
   const [couponError, setCouponError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [sharedFilters, setSharedFilters] = useState({
+
+  const initialFilters = {
+    providerTypes: [],
+    providerSex: [],
     maxPrice: "",
+    language: null,
     onlyFreeConsultation: false,
+    availableAfter: "",
+    availableBefore: "",
+  };
+  const [allFilters, setAllFilters] = useState({
+    ...initialFilters,
   });
 
-  const [providersDataQuery, providersData, setProvidersData] =
-    useGetProvidersData(activeCoupon);
+  const onSuccess = () => {
+    setIsFiltering(false);
+  };
+  const providersQuery = useGetProvidersData(
+    activeCoupon,
+    allFilters,
+    onSuccess
+  );
+  const [providersData, setProvidersData] = useState();
+
+  useEffect(() => {
+    if (providersQuery.data) {
+      setProvidersData(providersQuery.data.pages.flat());
+    }
+  }, [providersQuery.data]);
 
   const closeFilter = () => setIsFilterOpen(false);
 
@@ -52,79 +72,14 @@ export const SelectProvider = ({ navigation }) => {
     setIsFilterOpen(true);
   };
 
-  const checkProviderHasType = (provider, types) => {
-    return types
-      .map((x) => {
-        return provider.specializations.includes(x);
-      })
-      .some((x) => x === true);
-  };
-
+  // Set this to true when the filters have been changed and set
+  // it back to false when the providers data has been fetched
+  const [isFiltering, setIsFiltering] = useState(false);
   const handleFilterSave = (data) => {
-    const {
-      providerTypes,
-      providerSex,
-      maxPrice,
-      language,
-      onlyFreeConsultation,
-      availableAfter,
-      availableBefore,
-    } = data;
-    const initialData = JSON.parse(JSON.stringify(providersDataQuery.data));
-    const filteredData = [];
-    for (let i = 0; i < initialData.length; i++) {
-      const provider = initialData[i];
-      const hasType =
-        !providerTypes || providerTypes.length === 0
-          ? true
-          : checkProviderHasType(provider, providerTypes);
+    setIsFiltering(true);
 
-      const isDesiredSex =
-        !providerSex || providerSex.length === 0
-          ? true
-          : providerSex.includes(provider.sex);
+    setAllFilters((prev) => ({ ...prev, ...data }));
 
-      const isPriceMatching =
-        maxPrice === ""
-          ? true
-          : provider.consultationPrice <= Number(maxPrice)
-          ? true
-          : false;
-
-      const providerLanguages = provider.languages.map((x) => x.language_id);
-      const providerHasLanguage = !language
-        ? true
-        : providerLanguages.includes(language);
-
-      const providesFreeConsultation = !onlyFreeConsultation
-        ? true
-        : provider.consultationPrice === 0 || !provider.consultationPrice;
-
-      const isAvailableAfter = !availableAfter
-        ? true
-        : new Date(new Date(availableAfter).setHours(0, 0, 0, 0)).getTime() <=
-          new Date(provider.earliestAvailableSlot).getTime();
-
-      const isAvailableBefore = !availableBefore
-        ? true
-        : new Date(availableBefore).getTime() >=
-          new Date(
-            new Date(provider.earliestAvailableSlot).setHours(0, 0, 0, 0)
-          ).getTime();
-
-      if (
-        hasType &&
-        isDesiredSex &&
-        isPriceMatching &&
-        providerHasLanguage &&
-        providesFreeConsultation &&
-        isAvailableAfter &&
-        isAvailableBefore
-      ) {
-        filteredData.push(provider);
-      }
-    }
-    setProvidersData(filteredData);
     closeFilter();
   };
 
@@ -167,40 +122,39 @@ export const SelectProvider = ({ navigation }) => {
         subheading={t("subheading")}
         handleGoBack={handleGoBack}
       />
-      <ScrollView style={{ marginTop: 112 }}>
-        <Block>
-          <View style={styles.buttonContainer}>
-            <ButtonWithIcon
-              size="sm"
-              color="purple"
-              label={t("button_label")}
-              iconName="filter"
-              iconSize="sm"
-              onPress={handleFilterClick}
+      <View style={{ marginTop: 90 }} />
+
+      <SelectProviderBlock
+        providers={providersData}
+        navigation={navigation}
+        activeCoupon={activeCoupon}
+        providersQuery={providersQuery}
+        isFiltering={isFiltering}
+        setIsFiltering={setIsFiltering}
+        HeaderComponent={
+          <>
+            <View style={styles.buttonContainer}>
+              <ButtonWithIcon
+                size="sm"
+                color="purple"
+                label={t("button_label")}
+                iconName="filter"
+                iconSize="sm"
+                onPress={handleFilterClick}
+              />
+            </View>
+            <FiltersBlock
+              handleSave={handleFilterSave}
+              t={t}
+              activeCoupon={activeCoupon}
+              removeCoupon={removeCoupon}
+              openCouponModal={openCouponModal}
+              allFilters={allFilters}
+              setAllFilters={setAllFilters}
             />
-          </View>
-        </Block>
-        <FiltersBlock
-          handleSave={handleFilterSave}
-          t={t}
-          activeCoupon={activeCoupon}
-          removeCoupon={removeCoupon}
-          openCouponModal={openCouponModal}
-          sharedFilters={sharedFilters}
-        />
-        {providersDataQuery.isFetching ||
-        (providersDataQuery.isLoading && !providersData) ? (
-          <View style={styles.loadingContainer}>
-            <Loading size="lg" />
-          </View>
-        ) : (
-          <SelectProviderBlock
-            providers={providersData}
-            navigation={navigation}
-            activeCoupon={activeCoupon}
-          />
-        )}
-      </ScrollView>
+          </>
+        }
+      />
       <TransparentModal
         isOpen={isCouponModalOpen}
         handleClose={closeCouponModal}
@@ -225,7 +179,8 @@ export const SelectProvider = ({ navigation }) => {
         onClose={() => setIsFilterOpen(false)}
         onSave={handleFilterSave}
         navigation={navigation}
-        sharedFilters={sharedFilters}
+        allFilters={allFilters}
+        setAllFilters={setAllFilters}
       />
     </Screen>
   );
@@ -236,7 +191,8 @@ const FiltersBlock = ({
   activeCoupon,
   removeCoupon,
   openCouponModal,
-  sharedFilters,
+  allFilters,
+  setAllFilters,
   t,
 }) => {
   const [data, setData] = useState({
@@ -245,18 +201,18 @@ const FiltersBlock = ({
   });
 
   useEffect(() => {
-    setData({ ...sharedFilters });
-  }, [sharedFilters]);
+    setData({ ...allFilters });
+  }, [allFilters]);
 
   const handleChange = (field, val) => {
     const newData = { ...data };
     newData[field] = val;
-    setData(newData);
+    setAllFilters(newData);
     handleSave(newData);
   };
 
   return (
-    <Block>
+    <View style={{ paddingBottom: 20 }}>
       <AppButton
         label={
           activeCoupon ? t("remove_coupon_label") : t("button_coupon_label")
@@ -269,19 +225,19 @@ const FiltersBlock = ({
         type="number"
         label={t("max_price")}
         placeholder={t("max_price")}
-        value={data.maxPrice}
+        value={allFilters.maxPrice}
         onChange={(e) => handleChange("maxPrice", e)}
         style={{ marginTop: 16 }}
       />
       <Toggle
-        isToggled={data.onlyFreeConsultation}
+        isToggled={allFilters.onlyFreeConsultation}
         handleToggle={(val) => handleChange("onlyFreeConsultation", val)}
         label={t("providers_free_consultation_label")}
         wrapperStyles={{
           marginTop: 16,
         }}
       />
-    </Block>
+    </View>
   );
 };
 

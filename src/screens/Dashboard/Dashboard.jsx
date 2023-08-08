@@ -178,6 +178,7 @@ export const Dashboard = ({ navigation }) => {
   );
 
   const handleAcceptSuggestion = (consultationId, price, slot) => {
+    if (!clientDataQuery.data) return;
     if (!clientDataQuery.data?.dataProcessing) {
       openRequireDataAgreement(true);
     } else {
@@ -302,7 +303,7 @@ export const Dashboard = ({ navigation }) => {
           )}
         </MascotHeadingBlock>
         <MoodTracker navigation={navigation} />
-        <ArticlesDashboard navigation={navigation} />
+        {/* <ArticlesDashboard navigation={navigation} /> */}
         <ConsultationsDashboard
           openJoinConsultation={openJoinConsultation}
           openEditConsultation={openEditConsultation}

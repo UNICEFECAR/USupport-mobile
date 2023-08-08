@@ -17,5 +17,6 @@
   "button_label": "Примените фильтры",
   "reset_filter": "Сбросить фильтр",
   "available_before": "Доступно до",
-  "available_after": "Доступно после"
+  "available_after": "Доступно после",
+  "not_mentioned": "Предпочитаю не говорить"
 }

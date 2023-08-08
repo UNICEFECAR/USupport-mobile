@@ -103,9 +103,16 @@ async function addTemplateAvailability(data) {
   return response;
 }
 
-async function getAllProviders(campaignId) {
+async function getAllProviders(
+  campaignId,
+  limit = 5,
+  offset,
+  filtersQueryString
+) {
   const response = await http.get(
-    `${API_ENDPOINT}/all${campaignId ? `?campaignId=${campaignId}` : ""}`
+    `${API_ENDPOINT}/all?offset=${offset}&limit=${limit}&${filtersQueryString}&${
+      campaignId ? `campaignId=${campaignId}` : ""
+    }`
   );
   return response;
 }

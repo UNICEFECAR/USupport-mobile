@@ -24,27 +24,14 @@ import { getDateView } from "#utils";
  *
  * @return {jsx}
  */
-export const FilterProviders = ({ isOpen, onClose, onSave, sharedFilters }) => {
+export const FilterProviders = ({
+  isOpen,
+  onClose,
+  onSave,
+  allFilters,
+  setAllFilters,
+}) => {
   const { t } = useTranslation("filter-providers");
-
-  const fetchLanguages = async () => {
-    const res = await languageSvc.getAllLanguages();
-    const languages = res.data.map((x) => {
-      const languageObject = {
-        value: x["language_id"],
-        alpha2: x.alpha2,
-        label: x.name,
-        id: x["language_id"],
-      };
-      return languageObject;
-    });
-    return languages.sort((a, b) =>
-      a.label > b.label ? 1 : b.label > a.label ? -1 : 0
-    );
-  };
-  const languagesQuery = useQuery(["languages"], fetchLanguages, {
-    retry: false,
-  });
 
   const initialFilters = {
     providerTypes: [],
@@ -55,17 +42,8 @@ export const FilterProviders = ({ isOpen, onClose, onSave, sharedFilters }) => {
     availableAfter: "",
     availableBefore: "",
   };
-  const [data, setData] = useState({
-    ...initialFilters,
-  });
 
-  useEffect(() => {
-    setData((data) => ({
-      ...data,
-      maxPrice: sharedFilters.maxPrice,
-      onlyFreeConsultation: sharedFilters.onlyFreeConsultation,
-    }));
-  }, [sharedFilters]);
+  const [data, setData] = useState({ ...allFilters });
 
   const [providerTypes, setProviderTypes] = useState([
     {
@@ -93,7 +71,53 @@ export const FilterProviders = ({ isOpen, onClose, onSave, sharedFilters }) => {
     },
     { label: t("female"), value: "female", isSelected: false },
     { label: t("unspecified"), value: "unspecified", isSelected: false },
+    { label: t("not_mentioned"), value: "notMentioned", isSelected: false },
   ]);
+
+  useEffect(() => {
+    const dataCopy = JSON.stringify(data);
+    const allFiltersCopy = JSON.stringify(allFilters);
+    if (dataCopy !== allFiltersCopy) {
+      setData(allFilters);
+    }
+
+    setProviderTypes((prev) => {
+      return prev.map((x) => {
+        return {
+          ...x,
+          isSelected: allFilters.providerTypes.includes(x.value),
+        };
+      });
+    });
+
+    setProviderSex((prev) => {
+      return prev.map((x) => {
+        return {
+          ...x,
+          isSelected: allFilters.providerSex.includes(x.value),
+        };
+      });
+    });
+  }, [allFilters]);
+
+  const fetchLanguages = async () => {
+    const res = await languageSvc.getAllLanguages();
+    const languages = res.data.map((x) => {
+      const languageObject = {
+        value: x["language_id"],
+        alpha2: x.alpha2,
+        label: x.name,
+        id: x["language_id"],
+      };
+      return languageObject;
+    });
+    return languages.sort((a, b) =>
+      a.label > b.label ? 1 : b.label > a.label ? -1 : 0
+    );
+  };
+  const languagesQuery = useQuery(["languages"], fetchLanguages, {
+    retry: false,
+  });
 
   const handleSelect = (field, value) => {
     const dataCopy = { ...data };
@@ -111,7 +135,7 @@ export const FilterProviders = ({ isOpen, onClose, onSave, sharedFilters }) => {
       .filter((x) => x.isSelected)
       .map((x) => x.value);
 
-    setData(dataCopy);
+    setAllFilters();
     onSave(dataCopy);
   };
   const [availableAfterOpen, setAvailableAfterOpen] = useState();
@@ -119,12 +143,14 @@ export const FilterProviders = ({ isOpen, onClose, onSave, sharedFilters }) => {
 
   const availableAfterRef = useRef();
   const availableBeforeRef = useRef();
+
   const handleFilterReset = () => {
-    setData(initialFilters);
+    setAllFilters(initialFilters);
     onSave(initialFilters);
     setProviderTypes((prev) => prev.map((x) => ({ ...x, isSelected: false })));
     setProviderSex((prev) => prev.map((x) => ({ ...x, isSelected: false })));
   };
+
   return (
     <Backdrop
       isOpen={isOpen}

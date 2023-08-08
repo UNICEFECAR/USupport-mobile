@@ -8,7 +8,7 @@
   "female": "Female",
   "unspecified": "Unspecified",
   "provider_type_checkbox_group_label": "Provider type",
-  "provider_sex_checkbox_group_label": "Gender of the provider",
+  "provider_sex_checkbox_group_label": "Sex of the provider",
   "max_price": "Maximum price",
   "max_price_placeholder": "Select a maximum price",
   "language": "Language",
@@ -17,5 +17,6 @@
   "button_label": "Apply filters",
   "reset_filter": "Reset filters",
   "available_before": "Available before",
-  "available_after": "Available after"
+  "available_after": "Available after",
+  "not_mentioned": "Prefer not to say"
 }
