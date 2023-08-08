@@ -235,6 +235,7 @@ const FiltersBlock = ({
         label={t("providers_free_consultation_label")}
         wrapperStyles={{
           marginTop: 16,
+          alignItems: "flex-start",
         }}
       />
     </View>
