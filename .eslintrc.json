@@ -1,16 +1,36 @@
 {
-  "env": {
-    "browser": true,
-    "es2021": true
-  },
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "extends": [
+    "plugin:prettier/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:react-native/all"
+  ],
   "parserOptions": {
-    "ecmaVersion": "latest",
-    "sourceType": "module"
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest"
   },
-  "plugins": ["react"],
+  "settings": {
+    "import/resolver": {
+      "babel-module": {}
+    }
+  },
   "rules": {
-    "no-undefined": "off",
-    "no-undef": "off"
-  }
+    "prettier/prettier": ["error"],
+    "react/prop-types": "off",
+    "react/jsx-props-no-spreading": "off",
+    "semi": ["error", "always"],
+    "react-native/no-color-literals": "off",
+    "import/namespace": "off",
+
+    "import/export": 0
+  },
+  "ignorePatterns": ["node_modules/", "build/", "*.config.js"],
+  "plugins": ["react", "react-hooks", "react-native"],
+  "env": {
+    "react-native/react-native": true
+  },
+  "parser": "@babel/eslint-parser"
 }

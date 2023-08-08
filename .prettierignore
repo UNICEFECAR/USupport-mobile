@@ -1,0 +1,19 @@
+# Ignore artifacts:
+build
+coverage
+
+# Ignore expo generated files
+/.expo
+
+# Ignore npm dependencies:
+node_modules
+
+# Ignore ios and android directories
+ios
+android
+
+# Ignore log files
+*.log
+
+# Ignore the service worker
+service-worker.js

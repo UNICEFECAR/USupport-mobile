@@ -1,0 +1,19 @@
+# Don't lint build output
+build
+
+# Don't lint node_modules directory
+node_modules/
+
+# Don't lint expo generated files
+/.expo
+
+# Don't lint code in the coverage directory
+coverage
+
+# Don't lint log files
+*.log
+
+# Don't lint the service worker
+service-worker.js
+
+babel.config.js
