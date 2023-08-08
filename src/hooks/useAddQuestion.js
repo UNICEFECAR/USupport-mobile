@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { clientSvc } from "#services";
-import useError from "./useError";
+import { useError } from "../hooks/useError";
 
 export default function useAddQuestion(onSuccess, onError, onMutate) {
   /**

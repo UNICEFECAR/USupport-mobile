@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { notificationsSvc } from "#services";
-import useError from "./useError";
+import { useError } from "../hooks/useError";
 
 export const useMarkAllNotificationsAsRead = (onError = () => {}) => {
   const queryClient = useQueryClient();

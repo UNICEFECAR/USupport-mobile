@@ -1,1 +1,1 @@
-export * from './TypingIndicator.jsx';
+export * from "./TypingIndicator.jsx";

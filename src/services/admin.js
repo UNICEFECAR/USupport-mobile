@@ -1,7 +1,7 @@
 import http from "./http";
 import localStorage from "./storage";
-import Config from "react-native-config"
-const {API_URL_ENDPOINT} = Config
+import Config from "react-native-config";
+const { API_URL_ENDPOINT } = Config;
 
 const API_ENDPOINT = `${API_URL_ENDPOINT}/v1/admin`;
 const API_ENDPOINT_COUNTRIES_FAQ = API_ENDPOINT + "/country/faqs";
