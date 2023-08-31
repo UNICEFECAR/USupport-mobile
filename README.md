@@ -2,6 +2,9 @@
 
 Importing and Running USupport mobile project in Android Studio and Xcode
 
+# Usage Manual
+Use the following link to access [Mobile App Usage Manual](https://7digit-1.gitbook.io/usupport/y0yJCW2nZ6Sb52p4arjv/ui-usage-manuals/mobile#_toc109836811)
+
 # Before you start
 
 1. Make sure that Node.js and NPM is installed on your system.

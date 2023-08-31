@@ -1,12 +1,11 @@
 import React, { useContext } from "react";
-import { FlatList, ScrollView, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
 
 import { Block, AppText, ProviderOverview, Loading } from "#components";
 
-import { Context, providerSvc } from "#services";
+import { Context } from "#services";
 import { FlashList } from "@shopify/flash-list";
-import { useInfiniteQuery } from "@tanstack/react-query";
 
 /**
  * SelectProvider
