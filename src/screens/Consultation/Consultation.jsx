@@ -9,6 +9,7 @@ import React, {
 import {
   FlatList,
   KeyboardAvoidingView,
+  Platform,
   StyleSheet,
   TouchableOpacity,
   View,
@@ -17,6 +18,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { io } from "socket.io-client";
 import { activateKeepAwake, deactivateKeepAwake } from "expo-keep-awake";
+import VIForegroundService from "@voximplant/react-native-foreground-service";
 
 import {
   AppButton,
@@ -66,9 +68,48 @@ export const Consultation = ({ navigation, route }) => {
   const joinWithMicrophone = location?.microphoneOn;
   const token = location?.token;
 
+  const setupNotificationChannel = async () => {
+    const channelConfig = {
+      id: "channelId",
+      name: "Channel name",
+      description: "Channel description",
+      enableVibration: false,
+    };
+    await VIForegroundService.getInstance().createNotificationChannel(
+      channelConfig
+    );
+  };
+
+  const startForegroundService = async () => {
+    const notificationConfig = {
+      channelId: "channelId",
+      id: 3456,
+      title: "Title",
+      text: "Some text",
+      icon: "ic_icon",
+      button: "Some text",
+    };
+    try {
+      await VIForegroundService.getInstance().startService(notificationConfig);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   useEffect(() => {
     activateKeepAwake();
-    return () => deactivateKeepAwake();
+    if (Platform.OS === "android") {
+      setupNotificationChannel().then(() => {
+        startForegroundService();
+      });
+    }
+
+    return () => {
+      deactivateKeepAwake();
+      if (Platform.OS === "android") {
+        VIForegroundService.getInstance().stopService();
+      }
+    };
   }, []);
 
   if (!consultation || !token) return null;
