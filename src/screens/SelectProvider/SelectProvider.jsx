@@ -122,7 +122,7 @@ export const SelectProvider = ({ navigation }) => {
         subheading={t("subheading")}
         handleGoBack={handleGoBack}
       />
-      <View style={{ marginTop: 90 }} />
+      <View style={{ marginTop: 170 }} />
 
       <SelectProviderBlock
         providers={providersData}
