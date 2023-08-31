@@ -11,6 +11,7 @@ import { appStyles } from "#styles";
 import { getDayOfTheWeek, getDateView } from "#utils";
 import { specialistPlaceholder } from "#assets";
 import Config from "react-native-config";
+import { IconWifiOff, IconWifiOn } from "../../icons/assets/sprite";
 // import { IconCheckCircle, IconForbidden } from "../../icons/assets/sprite";
 const { AMAZON_S3_BUCKET } = Config;
 
@@ -55,14 +56,20 @@ export const ConsultationInformation = ({
             <AppText style={styles.nameText}>{providerName}</AppText>
             <View
               style={{
-                width: 16,
-                height: 16,
-                borderRadius: 16,
+                // width: 16,
+                // height: 16,
+                borderRadius: 8,
+                padding: 3,
+                justifyContent: "center",
+                alignItems: "center",
+
                 backgroundColor: isProviderInSession
                   ? appStyles.colorGreen_7ec680
                   : "red",
               }}
-            />
+            >
+              {isProviderInSession ? <IconWifiOn /> : <IconWifiOff />}
+            </View>
           </View>
           <View style={styles.dateContainer}>
             <Icon
