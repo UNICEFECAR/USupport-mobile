@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   TwilioVideo,
   TwilioVideoLocalView,
@@ -9,9 +9,9 @@ import {
   Platform,
   View,
   PermissionsAndroid,
-  Image,
   ScrollView,
   TouchableOpacity,
+  AppState,
 } from "react-native";
 
 import { Controls, Icon } from "#components";
@@ -39,14 +39,12 @@ export const VideoRoom = ({
   isChatShown,
   isKeyboardShown,
   keyboardHeight,
-  navigation,
   t,
 }) => {
   const { top: topInset, bottom: bottomInset } = useSafeAreaInsets();
   const [isAudioEnabled, setIsAudioEnabled] = useState(joinWithMicrophone);
   const [isVideoEnabled, setIsVideoEnabled] = useState(joinWithVideo);
   const [status, setStatus] = useState("disconnected");
-  const [participants, setParticipants] = useState(new Map());
   const [videoTracks, setVideoTracks] = useState(new Map());
 
   const [shrinkVideo, setShrinkVideo] = useState(false);
@@ -66,6 +64,7 @@ export const VideoRoom = ({
     };
   }, [isChatShown]);
 
+  const currentAppState = useRef(AppState.currentState);
   const twilioVideo = useRef();
   const connect = async () => {
     if (Platform.OS === "android") {
@@ -84,12 +83,49 @@ export const VideoRoom = ({
       },
     });
   };
+
+  // If the app goes into background, we need to send a message to the provider
+  // to hide the client's video, because on iOS twilio doesn't send an event
+  // When the app is brought back to active state, send a message to show the video
+  const handleBackgroundChanges = useCallback(
+    (nextState) => {
+      if (Platform.OS === "ios") {
+        if (nextState === "background" && token && isVideoEnabled) {
+          twilioVideo.current?.sendString("videoOff");
+          currentAppState.current = "background";
+        } else if (
+          (currentAppState.current === "background" ||
+            currentAppState.current === "inactive") &&
+          nextState === "active" &&
+          isVideoEnabled
+        ) {
+          twilioVideo.current?.sendString("videoOn");
+        }
+      }
+    },
+    [isVideoEnabled, twilioVideo.current]
+  );
+
+  useEffect(() => {
+    // Listen for changes in the app's state
+    const appStateSubscription = AppState.addEventListener(
+      "change",
+      (nextState) => {
+        handleBackgroundChanges(nextState);
+      }
+    );
+
+    return () => appStateSubscription?.remove();
+  }, [handleBackgroundChanges]);
+
   useEffect(() => {
     if (token) {
       connect();
     }
 
-    return () => twilioVideo.current?.disconnect();
+    return () => {
+      twilioVideo.current?.disconnect();
+    };
   }, []);
 
   const disconnect = async () => {
