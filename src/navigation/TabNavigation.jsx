@@ -47,7 +47,7 @@ const screens = [
   {
     name: "Consultations",
     component: Consultations,
-    iconName: "consultation",
+    iconName: "calendar",
     position: "CENTER",
   },
 ];
@@ -136,7 +136,7 @@ export const TabNavigation = () => {
                 ]}
               >
                 <Icon
-                  name="consultation-tab-navigation"
+                  name="calendar"
                   color={
                     selectedTab === "Consultations"
                       ? appStyles.colorPrimary_20809e
