@@ -56,6 +56,10 @@
 			<string>remote-notification</string>
 			<string>voip</string>
 		</array>
+		<key>BGTaskSchedulerPermittedIdentifiers</key>
+		<array>
+			<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+		</array>
 		<key>UILaunchStoryboardName</key>
 		<string>SplashScreen</string>
 		<key>UIRequiredDeviceCapabilities</key>
