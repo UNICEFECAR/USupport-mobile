@@ -167,6 +167,10 @@ export const Backdrop = ({
         ) : (
           <View>
             <TouchableOpacity
+              hitSlop={appStyles.hitSlop}
+              style={{
+                zIndex: 999,
+              }}
               onPress={
                 handleCloseIconPress ? handleCustomClose : handleCloseBackdrop
               }
@@ -310,6 +314,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 10,
     top: 0,
+    zIndex: 999,
   },
   scrollView: {
     flexGrow: 1,

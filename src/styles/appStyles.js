@@ -151,4 +151,10 @@ export default {
     restSpeedThreshold: 0.1,
     stiffness: 200,
   },
+  hitSlop: {
+    top: 20,
+    bottom: 20,
+    left: 20,
+    right: 20,
+  },
 };
