@@ -85,7 +85,7 @@ export const FAQ = ({ navigation }) => {
         handleGoBack={handleGoBack}
       />
       <ScrollView
-        style={{ marginTop: 84 }}
+        style={{ marginTop: 90 }}
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.faqContainer}>
@@ -107,7 +107,7 @@ export const FAQ = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  faqContainer: { marginTop: 30, marginBottom: 200 },
+  faqContainer: { marginTop: 50, marginBottom: 200 },
   loading: { alignSelf: "center" },
   noResultText: { alignSelf: "center" },
 });
