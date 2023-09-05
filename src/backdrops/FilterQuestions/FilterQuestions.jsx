@@ -68,6 +68,7 @@ export const FilterQuestions = ({ isOpen, onClose, selectedTag, setTag }) => {
             setSelected={setSelectedTagId}
             dropdownId="filter-questions-dropdown"
             selected={selectedTagId}
+            placeholder={t("dropdown_label")}
           />
         </View>
       )}
