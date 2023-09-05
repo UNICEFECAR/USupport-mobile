@@ -82,7 +82,7 @@ export const TermsOfUse = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   termsOfUse: {
-    paddingTop: 24,
+    paddingTop: 30,
   },
   heading1: {
     fontSize: 40,
