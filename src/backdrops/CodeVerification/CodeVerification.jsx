@@ -91,26 +91,32 @@ export default function CodeVerification({
       errorMessage={submitError}
       isCtaLoading={isMutating}
       footerComponent={
-        <View style={{ marginTop: 12, flexDirection: "row" }}>
-          <AppText>{t("didnt_get_code")} </AppText>
-          {canRequestOTP ? (
-            <AppText
-              onPress={handleResendCode}
-              style={{ color: appStyles.colorPrimary_20809e }}
-            >
-              {t("resend")}
-            </AppText>
-          ) : (
-            <AppText
-              style={{ color: appStyles.colorPrimary_20809e, opacity: 0.8 }}
-            >
-              {t("resend")}
-            </AppText>
-          )}
-          <AppText> </AppText>
-          <AppText>
-            {showTimer ? t("seconds", { seconds: resendTimer }) : ""}
+        <View
+          style={{ marginTop: 12, flexDirection: "column", paddingBottom: 10 }}
+        >
+          <AppText style={{ textAlign: "center" }}>
+            {t("didnt_get_code")}{" "}
           </AppText>
+          <View
+            style={{
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            {canRequestOTP ? (
+              <AppText
+                onPress={handleResendCode}
+                style={{ color: appStyles.colorPrimary_20809e }}
+              >
+                {t("resend")}
+              </AppText>
+            ) : (
+              <AppText>{t("resend")}</AppText>
+            )}
+            {showTimer && (
+              <AppText>{t("seconds", { seconds: resendTimer })}</AppText>
+            )}
+          </View>
         </View>
       }
     >
