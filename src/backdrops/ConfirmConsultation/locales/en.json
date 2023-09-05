@@ -1,5 +1,17 @@
 {
-    "heading": "Your appointment was booked",
-    "ctaLabel": "Continue",
-    "text": "for {{startDate}}th of {{month}} {{year}} for the slot from {{startTime}} to {{endTime}}. You can change it at any time through the app."
+  "heading": "Your appointment was booked",
+  "ctaLabel": "Continue",
+  "text": "for {{startDate}}th of {{month}} {{year}} for the slot from {{startTime}} to {{endTime}}. You can change it at any time through the app.",
+  "january": "January",
+  "february": "February",
+  "march": "March",
+  "april": "April",
+  "may": "May",
+  "june": "June",
+  "july": "July",
+  "august": "August",
+  "september": "September",
+  "october": "October",
+  "november": "November",
+  "december": "December"
 }
