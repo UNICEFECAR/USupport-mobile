@@ -37,5 +37,8 @@
   "data_processing_modal_confirm_button": "Remove permission",
   "data_processing_modal_cancel_button": "Cancel",
   "success_message": "Profile updated successfully",
-  "access_token_copy": "Succesfully copied the code"
+  "access_token_copy": "Succesfully copied the code",
+  "sex_placeholder": "Enter your sex",
+  "year_of_birth_placeholder": "Enter your year of birth",
+  "living_place_placeholder": "Enter your living place"
 }

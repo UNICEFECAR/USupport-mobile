@@ -37,5 +37,8 @@
   "data_processing_modal_confirm_button": "Рұқсатты жою",
   "data_processing_modal_cancel_button": "Болдырмау",
   "success_message": "Парақша сәтті жаңартылды",
-  "access_token_copy": "Сәтті көшірілген код"
+  "access_token_copy": "Сәтті көшірілген код",
+  "sex_placeholder": "Жынысыңызды енгізіңіз",
+  "year_of_birth_placeholder": "Туған жылыңызды енгізіңіз",
+  "living_place_placeholder": "Тұрғылықты жеріңізді енгізіңіз"
 }

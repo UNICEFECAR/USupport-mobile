@@ -358,6 +358,7 @@ export const UserDetails = ({
                 label={t("sex")}
                 style={[styles.input, styles.zIndex5]}
                 dropdownId={"sex"}
+                placeholder={t("sex_placeholder")}
               />
 
               <Dropdown
@@ -367,6 +368,7 @@ export const UserDetails = ({
                 label={t("year_of_birth")}
                 style={[styles.input, styles.zIndex4]}
                 dropdownId={"yearOfBirth"}
+                placeholder={t("year_of_birth_placeholder")}
               />
 
               <Dropdown
@@ -376,6 +378,7 @@ export const UserDetails = ({
                 label={t("living_place")}
                 style={[styles.input, styles.zIndex3]}
                 dropdownId={"livingOfPlace"}
+                placeholder={t("living_place_placeholder")}
               />
             </View>
 

@@ -37,5 +37,8 @@
   "data_processing_modal_confirm_button": "Удалить разрешение",
   "data_processing_modal_cancel_button": "Отмена",
   "success_message": "Профиль успешно обновлен",
-  "access_token_copy": "Успешно скопированный код"
+  "access_token_copy": "Успешно скопированный код",
+  "sex_placeholder": "Введите свой пол",
+  "year_of_birth_placeholder": "Введите свой год рождения",
+  "living_place_placeholder": "Введите место вашего жительства"
 }
