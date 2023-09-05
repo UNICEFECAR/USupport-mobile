@@ -17,6 +17,8 @@
   "place_of_living_rural": "Rural",
   "sex_error": "Please enter your sex",
   "year_of_birth_error": "Please enter your year of birth",
-  "place_of_living_error": "Please enter your place of living"
+  "place_of_living_error": "Please enter your place of living",
+  "sex_placeholder": "Enter your sex",
+  "year_of_birth_placeholder": "Enter your year of birth"
 }
 

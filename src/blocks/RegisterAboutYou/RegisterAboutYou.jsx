@@ -214,6 +214,7 @@ export const RegisterAboutYou = ({ navigation }) => {
             label={t("dropdown_sex_label")}
             style={[styles.marginBottom24, styles.backdrop1]}
             dropdownId="registerSex"
+            placeholder={t("sex_placeholder")}
           />
           <Dropdown
             options={getYearsOptions()}
@@ -223,6 +224,7 @@ export const RegisterAboutYou = ({ navigation }) => {
             label={t("dropdown_year_label")}
             style={[styles.marginBottom24, styles.backdrop2]}
             dropdownId="registerYob"
+            placeholder={t("year_of_birth_placeholder")}
           />
           <RadioButtonSelectorGroup
             name="urbanRural"
