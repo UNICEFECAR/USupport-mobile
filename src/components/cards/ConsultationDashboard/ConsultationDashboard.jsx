@@ -143,5 +143,5 @@ const styles = StyleSheet.create({
     wordBreak: "break-word",
   },
   noConsultationText: { marginBottom: 16 },
-  marginTop8: { marginTop: 8 },
+  marginTop8: { marginTop: 8, alignSelf: 'center' },
 });
