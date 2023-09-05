@@ -197,21 +197,23 @@ export const SelectConsultation = ({
             campaignId && couponCode ? t("remove_coupon") : t("apply_coupon")
           }
           onPress={campaignId && couponCode ? removeCoupon : handleSubmitCoupon}
-          size="lg"
+          size="sm"
           loading={isCouponLoading}
           style={{
-            minWidth: appStyles.screenWidth * 0.34,
+            width: appStyles.screenWidth * 0.4,
+            minWidth: 'auto',
+            borderRadius: 40,
             paddingVertical: 10,
           }}
         />
-        {couponError && <Error style={styles.error} message={couponError} />}
       </View>
+        {couponError && <Error style={styles.error} message={couponError} />}
       {providerDataQuery.isLoading ? (
         <View style={{ alignItems: "center" }}>
           <Loading size="lg" />
         </View>
       ) : (
-        <View className="select-consultation__content-container">
+        <View style={{marginTop: 20}}>
           <Header
             handleDayChange={handleDayChange}
             setStartDate={setStartDate}
@@ -242,10 +244,11 @@ const styles = StyleSheet.create({
   noSlotsText: { color: appStyles.colorRed_ed5657 },
   couponContainer: {
     flexDirection: "row",
-    flexWrap: "wrap",
     alignItems: "flex-end",
+    flex: 1,
     marginBottom: 16,
     height: 90,
+    
   },
   couponInput: { width: "50%", marginRight: 12 },
   error: {
