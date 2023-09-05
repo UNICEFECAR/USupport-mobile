@@ -147,6 +147,7 @@ const styles = StyleSheet.create({
   },
 
   selectedOption: {
+    fontSize: 14,
     paddingLeft: 16,
   },
 
