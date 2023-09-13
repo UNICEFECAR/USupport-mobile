@@ -15,7 +15,8 @@
   "settings": {
     "import/resolver": {
       "babel-module": {}
-    }
+    },
+    "import/ignore": ["node_modules/react-native/index\\.js$"]
   },
   "rules": {
     "prettier/prettier": ["error"],
@@ -24,8 +25,8 @@
     "semi": ["error", "always"],
     "react-native/no-color-literals": "off",
     "import/namespace": "off",
-
-    "import/export": 0
+    "import/export": 0,
+    "import/no-named-as-default": 0
   },
   "ignorePatterns": ["node_modules/", "build/", "*.config.js"],
   "plugins": ["react", "react-hooks", "react-native"],
