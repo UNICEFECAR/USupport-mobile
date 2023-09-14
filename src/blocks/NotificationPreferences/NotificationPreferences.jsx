@@ -85,19 +85,19 @@ export const NotificationPreferences = () => {
               }
               style={styles.toggle}
             />
-            <View style={styles.radioButtonSelectorGroup}>
-              {data?.consultationReminder && (
-                <RadioButtonSelectorGroup
-                  selected={data.consultationReminderMin}
-                  setSelected={(value) =>
-                    handleChange("consultationReminderMin", value)
-                  }
-                  options={consultationReminderOptions}
-                />
-              )}
-            </View>
-            {error ? <ErrorComponent message={error} /> : null}
           </View>
+          <View style={styles.radioButtonSelectorGroup}>
+            {data?.consultationReminder && (
+              <RadioButtonSelectorGroup
+                selected={data.consultationReminderMin}
+                setSelected={(value) =>
+                  handleChange("consultationReminderMin", value)
+                }
+                options={consultationReminderOptions}
+              />
+            )}
+          </View>
+          {error ? <ErrorComponent message={error} /> : null}
         </View>
       )}
     </Block>
@@ -113,12 +113,12 @@ const styles = StyleSheet.create({
   },
   toggleContainer: {
     marginTop: 24,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   radioButtonSelectorGroup: {
     marginTop: 24,
     alignItems: "center",
-  },
-  toggle: {
-    marginTop: 14,
   },
 });
