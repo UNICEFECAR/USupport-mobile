@@ -16,5 +16,6 @@
   "accept_consultation_success": "Консультация успешно принята ",
   "reject": "Отклонить",
   "reject_consultation_success": "Консультация успешно отклонена",
-  "no_notifications": "У вас пока нет уведомлений."
+  "no_notifications": "У вас пока нет уведомлений.",
+  "yesterday": "вчера"
 }

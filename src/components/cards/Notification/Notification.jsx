@@ -17,11 +17,14 @@ export const Notification = ({
   date = new Date(),
   children,
   handleClick,
+  t,
 }) => {
+  const isYesterday = isDateYesterday(date);
+
   const dateText = isDateToday(date)
     ? ""
-    : isDateYesterday(date)
-    ? "Yesterday"
+    : isYesterday
+    ? t("yesterday")
     : date.toLocaleDateString();
 
   const hourText = getTimeFromDate(date);
@@ -31,18 +34,28 @@ export const Notification = ({
       <View style={[styles.container, !isRead && styles.containerNew]}>
         <View style={styles.content}>
           <View style={styles.iconContainer}>
-            <Icon name={icon} color="#9749FA" size="md" />
+            <Icon
+              name={icon}
+              color={isRead ? appStyles.colorGray_66768d : "#9749FA"}
+              size="md"
+            />
           </View>
           <View style={styles.informationContainer}>
             <View style={styles.heading}>
               <View style={styles.nameContainer}>
-                <AppText className="small-text" style={styles.nameText}>
+                <AppText
+                  className="small-text"
+                  style={[
+                    styles.nameText,
+                    isRead && { color: appStyles.colorGray_66768d },
+                  ]}
+                >
                   {title}
                 </AppText>
                 {isRead ? null : <View style={styles.emptyContainer} />}
               </View>
               <AppText namedStyle="smallText">
-                {dateText} {hourText}
+                {dateText} {isDateToday(date) && hourText}
               </AppText>
             </View>
             <AppText namedStyle="smallText" style={styles.descriptionText}>

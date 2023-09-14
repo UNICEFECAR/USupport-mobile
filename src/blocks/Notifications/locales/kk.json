@@ -16,5 +16,6 @@
   "accept_consultation_success": "Консультация сәтті қабылданды",
   "reject": "Бас тарту",
   "reject_consultation_success": "Консультациядан сәтті бас тарттыңыз",
-  "no_notifications": "Сізде әлі хабарландырулар жоқ."
+  "no_notifications": "Сізде әлі хабарландырулар жоқ.",
+  "yesterday": "кеше"
 }

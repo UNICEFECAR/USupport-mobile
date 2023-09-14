@@ -16,5 +16,6 @@
   "accept_consultation_success": "Succesfully accepted consultation",
   "reject": "Reject",
   "reject_consultation_success": "Succesfully rejected consultation",
-  "no_notifications": "You have no notifications yet."
+  "no_notifications": "You have no notifications yet.",
+  "yesterday": "yesterday"
 }

@@ -11,6 +11,7 @@ import {
   Notification,
   AppButton,
   Loading,
+  Line,
 } from "#components";
 
 import { appStyles } from "#styles";
@@ -242,6 +243,7 @@ export const Notifications = ({
       case "consultation_booking":
         return (
           <Notification
+            t={t}
             date={notification.createdAt}
             isRead={notification.isRead}
             title="USupport"
@@ -271,6 +273,7 @@ export const Notifications = ({
       case "consultation_reschedule":
         return (
           <Notification
+            t={t}
             date={notification.createdAt}
             isRead={notification.isRead}
             title="USupport"
@@ -303,6 +306,7 @@ export const Notifications = ({
       case "consultation_cancellation":
         return (
           <Notification
+            t={t}
             date={notification.createdAt}
             isRead={notification.isRead}
             title="USupport"
@@ -332,6 +336,7 @@ export const Notifications = ({
       case "consultation_cancellation_provider":
         return (
           <Notification
+            t={t}
             date={notification.createdAt}
             isRead={notification.isRead}
             title="USupport"
@@ -361,6 +366,7 @@ export const Notifications = ({
       case "consultation_remind_start":
         return (
           <Notification
+            t={t}
             date={notification.createdAt}
             isRead={notification.isRead}
             title="USupport"
@@ -401,6 +407,7 @@ export const Notifications = ({
       case "consultation_suggestion":
         return (
           <Notification
+            t={t}
             date={notification.createdAt}
             isRead={notification.isRead}
             title="USupport"
@@ -459,6 +466,7 @@ export const Notifications = ({
       case "consultation_suggestion_booking":
         return (
           <Notification
+            t={t}
             date={notification.createdAt}
             isRead={notification.isRead}
             title="USupport"
@@ -488,6 +496,7 @@ export const Notifications = ({
       case "consultation_suggestion_cancellation":
         return (
           <Notification
+            t={t}
             date={notification.createdAt}
             isRead={notification.isRead}
             title="USupport"
@@ -518,6 +527,7 @@ export const Notifications = ({
         const canJoin = checkIsFiveMinutesBefore(notification.content.time);
         return (
           <Notification
+            t={t}
             date={notification.createdAt}
             isRead={notification.isRead}
             title="USupport"
@@ -605,7 +615,18 @@ export const Notifications = ({
           estimatedItemSize={25}
           keyExtractor={(item, index) => index.toString()}
           data={notificationsQuery.data?.pages?.flat() || []}
-          renderItem={renderNotification}
+          renderItem={(item) => {
+            return (
+              <>
+                {renderNotification(item)}
+                {item.item.isRead && (
+                  <Line
+                    style={{ width: "85%", alignSelf: "center", marginTop: 0 }}
+                  />
+                )}
+              </>
+            );
+          }}
           onEndReached={() => notificationsQuery.fetchNextPage()}
           contentContainerStyle={{
             paddingBottom: 200,
