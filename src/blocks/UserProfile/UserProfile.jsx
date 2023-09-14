@@ -74,7 +74,9 @@ export const UserProfile = ({ navigation }) => {
             iconName="exit"
             label={t("button_label")}
             onPress={handleLogout}
-            size="md"
+            size="lg"
+            iconSize="md"
+            style={{ paddingVertical: 5 }}
           />
         }
         handleGoBack={() => navigation.goBack()}
