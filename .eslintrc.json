@@ -16,7 +16,10 @@
     "import/resolver": {
       "babel-module": {}
     },
-    "import/ignore": ["node_modules/react-native/index\\.js$"]
+    "import/ignore": [
+      "node_modules/react-native/index\\.js$",
+      "node_modules/react-native-code-push"
+    ]
   },
   "rules": {
     "prettier/prettier": ["error"],
