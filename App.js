@@ -85,9 +85,8 @@ function App() {
 
   useEffect(() => {
     async function checkCurencySymbol() {
-      const localStorageCurrencySymbol = await localStorage.getItem(
-        "currencySymbol"
-      );
+      const localStorageCurrencySymbol =
+        await localStorage.getItem("currencySymbol");
       if (!currencySymbol && localStorageCurrencySymbol) {
         setCurrencySymbol(localStorageCurrencySymbol);
       }
@@ -191,7 +190,7 @@ function App() {
       <Context.Provider value={contextValues}>
         <QueryClientProvider client={queryClient}>
           <SafeAreaProvider>
-            <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+            <View style={styles.flex1} onLayout={onLayoutRootView}>
               <Navigation />
               <RequireRegistration
                 handleContinue={handleRegisterRedirection}
@@ -229,7 +228,8 @@ export default codePush(codePushOptions)(App);
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: "#fff",
+    flex: 1,
   },
+  flex1: { flex: 1 },
 });
