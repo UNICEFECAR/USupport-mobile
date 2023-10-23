@@ -1,6 +1,6 @@
 import React, { useContext, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, StyleSheet, RefreshControl } from "react-native";
+import { ScrollView, StyleSheet, RefreshControl, Platform } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { Screen, AppButton } from "#components";
@@ -268,7 +268,7 @@ export const Consultations = ({ navigation }) => {
 const styles = StyleSheet.create({
   button: {
     alignSelf: "center",
-    bottom: 70,
+    bottom: Platform.OS === "ios" ? 70 : 100,
     position: "absolute",
   },
   screen: { paddingTop: 48 },
