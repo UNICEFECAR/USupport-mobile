@@ -271,5 +271,8 @@ const styles = StyleSheet.create({
     bottom: Platform.OS === "ios" ? 70 : 100,
     position: "absolute",
   },
-  screen: { paddingTop: 48 },
+  screen: {
+    paddingBottom: Platform.OS === "ios" ? 50 : 100,
+    paddingTop: 48,
+  },
 });
