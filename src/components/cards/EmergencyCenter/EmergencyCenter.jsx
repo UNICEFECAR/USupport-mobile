@@ -58,7 +58,7 @@ export const EmergencyCenter = ({
       <View style={styles.buttonsContainer}>
         {phone ? (
           <AppButton
-            color="purple"
+            color="red"
             size="sm"
             label={btnLabelCall}
             onPress={() => handlePress("phone", true)}
@@ -78,39 +78,39 @@ export const EmergencyCenter = ({
 };
 
 const styles = StyleSheet.create({
-  emergencyCenter: {
-    borderRadius: 16,
-    padding: 16,
-    backgroundColor: appStyles.colorWhite_ff,
-    borderWidth: 1,
-    borderColor: "transparent",
-    ...appStyles.shadow2,
-    width: "100%",
-    maxWidth: 420,
-  },
-  image: {
-    width: "100%",
-    height: 200,
-    borderRadius: 16,
-    objectFit: "cover",
-    objectPosition: "center",
-    marginBottom: 8,
-  },
   buttonsContainer: {
+    alignItems: "center",
     display: "flex",
     flexDirection: "row",
-    alignItems: "center",
     justifyContent: "space-around",
     marginTop: 16,
   },
-
-  textHeading: {
-    fontFamily: appStyles.fontBold,
-    color: appStyles.colorBlue_3d527b,
-    textAlign: "left",
+  emergencyCenter: {
+    backgroundColor: appStyles.colorWhite_ff,
+    borderColor: "transparent",
+    borderRadius: 16,
+    borderWidth: 1,
+    padding: 16,
+    ...appStyles.shadow2,
+    maxWidth: 420,
+    width: "100%",
   },
+  image: {
+    borderRadius: 16,
+    height: 200,
+    marginBottom: 8,
+    objectFit: "cover",
+    objectPosition: "center",
+    width: "100%",
+  },
+
   text: {
     marginTop: 4,
+    textAlign: "left",
+  },
+  textHeading: {
+    color: appStyles.colorBlue_3d527b,
+    fontFamily: appStyles.fontBold,
     textAlign: "left",
   },
 });
