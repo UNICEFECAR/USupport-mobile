@@ -10,7 +10,7 @@ import {
   ButtonSelector,
 } from "#components";
 
-import { useGetClientData } from "#hooks";
+import { useGetClientData, useLogout } from "#hooks";
 
 import { appStyles } from "#styles";
 
@@ -18,8 +18,6 @@ import { Context } from "#services";
 
 import Config from "react-native-config";
 const { AMAZON_S3_BUCKET } = Config;
-
-import { useLogout } from "#hooks";
 
 /**
  * UserProfile
@@ -53,6 +51,8 @@ export const UserProfile = ({ navigation }) => {
       navigation.push(redirectTo);
     }
   };
+
+  const handleLogout = useLogout();
 
   return (
     <React.Fragment>
@@ -172,13 +172,18 @@ const styles = StyleSheet.create({
   block: {
     marginTop: 112,
   },
-  group: {
-    marginTop: 24,
-    display: "flex",
+  buttonSelector: {
+    alignSelf: "center",
+    marginTop: 16,
   },
 
-  lastGroup: {
-    paddingBottom: 50,
+  buttonSelectorFirstInGroup: {
+    marginTop: 4,
+  },
+
+  group: {
+    display: "flex",
+    marginTop: 24,
   },
 
   groupHeading: {
@@ -186,12 +191,7 @@ const styles = StyleSheet.create({
     fontFamily: "Nunito_600SemiBold",
   },
 
-  buttonSelector: {
-    marginTop: 16,
-    alignSelf: "center",
-  },
-
-  buttonSelectorFirstInGroup: {
-    marginTop: 4,
+  lastGroup: {
+    paddingBottom: 50,
   },
 });
