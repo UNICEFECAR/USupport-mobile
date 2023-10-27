@@ -3,7 +3,6 @@ import Config from "react-native-config";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 
 import { AppText } from "../../texts";
-import { AppButton } from "../../buttons";
 import { Icon, Like } from "../../icons";
 import { Label } from "../../labels";
 import { Avatar } from "../../avatars";
@@ -62,20 +61,30 @@ export const Answer = ({
           >
             {question.answerTitle}
           </AppText>
-          <Like
-            handleClick={handleLike}
-            likes={question.likes}
-            dislikes={question.dislikes}
-            answerId={question.answerId}
-            isLiked={question.isLiked}
-            isDisliked={question.isDisliked}
-          />
         </View>
-        <View style={styles.labelsContainer}>
-          {question.tags &&
-            question.tags.map((label, index) => {
-              return <Label text={label} key={index} style={styles.label} />;
-            })}
+        <View style={styles.answeredByContainer}>
+          <TouchableWithoutFeedback
+            onPress={() => handleProviderClick(providerInfo.providerId)}
+          >
+            <Avatar
+              image={imageUrl && { uri: imageUrl }}
+              size="xs"
+              style={styles.avatar}
+            />
+          </TouchableWithoutFeedback>
+          <AppText
+            namedStyle="text"
+            onPress={() => handleProviderClick(providerInfo.providerId)}
+          >
+            {providerInfo.name} {providerInfo.surname}
+          </AppText>
+          <View style={styles.scheduleContainer}>
+            <TouchableOpacity onPress={() => handleSchedulePress(question)}>
+              <View>
+                <Icon name="calendar" color={appStyles.colorPrimary_20809e} />
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     );
@@ -133,38 +142,29 @@ export const Answer = ({
           >
             {question.answerText}
           </AppText>
-          <TouchableOpacity onPress={() => handleReadMore(question)}>
-            <View style={styles.readMoreContainer}>
-              <AppText style={styles.readMoreText}>{t("read_more")}</AppText>
-            </View>
-          </TouchableOpacity>
-          <View style={styles.bottomContainer}>
-            <View style={styles.answeredByContainer}>
-              <AppText namedStyle="text">{t("answer_by")}</AppText>
-              <TouchableWithoutFeedback
-                onPress={() => handleProviderClick(providerInfo.providerId)}
-              >
-                <Avatar
-                  image={imageUrl && { uri: imageUrl }}
-                  size="xs"
-                  style={styles.avatar}
-                />
-              </TouchableWithoutFeedback>
-              <AppText
-                namedStyle="text"
-                onPress={() => handleProviderClick(providerInfo.providerId)}
-              >
-                {providerInfo.name} {providerInfo.surname}
-              </AppText>
-            </View>
-            <TouchableOpacity onPress={() => handleSchedulePress(question)}>
-              <View style={styles.scheduleButton}>
-                <Icon name="calendar" color={appStyles.colorPrimary_20809e} />
-                <AppText namedStyle="text" style={styles.scheduleButtonText}>
-                  {t("schedule_consultation")}
-                </AppText>
+          <View style={styles.likeContainer}>
+            <TouchableOpacity onPress={() => handleReadMore(question)}>
+              <View style={styles.readMoreContainer}>
+                <AppText style={styles.readMoreText}>{t("read_more")}</AppText>
               </View>
             </TouchableOpacity>
+            <Like
+              handleClick={handleLike}
+              likes={question.likes}
+              dislikes={question.dislikes}
+              answerId={question.answerId}
+              isLiked={question.isLiked}
+              isDisliked={question.isDisliked}
+            />
+          </View>
+
+          <View style={styles.labelsContainer}>
+            {question.tags &&
+              question.tags.map((label, index) => {
+                return (
+                  <Label text={`#${label}`} key={index} style={styles.label} />
+                );
+              })}
           </View>
         </>
       ) : null}
@@ -174,47 +174,49 @@ export const Answer = ({
 
 const styles = StyleSheet.create({
   answer: {
+    backgroundColor: appStyles.colorWhite_ff,
+    maxWidth: 420,
     paddingHorizontal: 16,
     paddingVertical: 20,
     width: "100%",
-    maxWidth: 420,
-    backgroundColor: appStyles.colorWhite_ff,
     ...appStyles.shadow2,
-    borderWidth: 1,
-    borderColor: "transparent",
     alignSelf: "center",
+    borderColor: "transparent",
     borderRadius: 24,
+    borderWidth: 1,
+  },
+  scheduleContainer: {
+    marginLeft: "auto",
+  },
+  answeredByContainer: { flexDirection: "row", marginTop: 10 },
+  avatar: { marginHorizontal: 4 },
+  bottomContainer: { flexDirection: "column" },
+  dateContainer: { alignItems: "center", flexDirection: "row" },
+  dateContainerText: { color: appStyles.colorGray_92989b, marginLeft: 4 },
+  headingAndLabelsContainer: {
+    textAlign: "left",
+    width: "100%",
+    paddingTop: 2,
   },
   headingContainer: {
-    flexDirection: "row",
     alignItems: "flex-start",
-  },
-  headingAndLabelsContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: "100%",
-    textAlign: "left",
-    marginBottom: 8,
+  },
+  label: {
+    marginTop: 5,
+    borderWidth: 0,
+    paddingHorizontal: 5,
   },
   labelsContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
   },
-  label: {
-    marginRight: 4,
-    marginBottom: 4,
-    backgroundColor: appStyles.colorGray_ea,
-  },
-  questionAnswerTitle: {
-    paddingTop: 12,
-    width: "100%",
-  },
   marginTop_0_8: {
     marginTop: 8,
   },
-  text: { marginLeft: 4, color: appStyles.colorGray_92989b },
-  dateContainer: { flexDirection: "row", alignItems: "center" },
+  questionAnswerTitle: {
+    width: "100%",
+  },
   readMoreContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -224,15 +226,18 @@ const styles = StyleSheet.create({
     color: appStyles.colorPrimary_20809e,
     fontFamily: appStyles.fontBold,
   },
-  bottomContainer: { flexDirection: "column" },
-  answeredByContainer: { flexDirection: "row", marginTop: 10 },
-  avatar: { marginHorizontal: 4 },
-  scheduleButton: { marginTop: 20, flexDirection: "row" },
+  scheduleButton: { flexDirection: "row", marginTop: 20 },
   scheduleButtonText: {
-    marginLeft: 14,
     color: appStyles.colorPrimary_20809e,
     fontFamily: appStyles.fontBold,
+    marginLeft: 14,
   },
-  dateContainerText: { marginLeft: 4, color: appStyles.colorGray_92989b },
+  text: { color: appStyles.colorGray_92989b, marginLeft: 4 },
   width100: { width: "100%" },
+  likeContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
 });
