@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Screen, Heading } from "#components";
+import { ArticleCategories } from "#backdrops";
 
 import { Articles as ArticlesBlock } from "#blocks";
+
+import { appStyles } from "#styles";
 
 /**
  * Articles
@@ -37,14 +40,46 @@ export const Articles = ({ navigation, route }) => {
       break;
   }
 
+  const [isArticlesModalOpen, setIsArticlesModalOpen] = useState(false);
+
+  const openArticlesModal = () => setIsArticlesModalOpen(true);
+  const [allCategories, setAllCategories] = useState();
+  const [selectedCategory, setSelectedCategory] = useState();
+
+  const handleSetCategories = (categories) => {
+    setAllCategories(categories);
+  };
+
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+    setIsArticlesModalOpen(false);
+  };
+
   return (
-    <Screen>
+    <Screen style={{ minHeight: appStyles.screenHeight }}>
       <Heading
         heading={heading}
         subheading={subheading}
         handleGoBack={() => navigation.goBack()}
       />
-      <ArticlesBlock navigation={navigation} route={route} />
+
+      <ArticlesBlock
+        navigation={navigation}
+        route={route}
+        openArticlesModal={openArticlesModal}
+        handleSetCategories={handleSetCategories}
+        handleCategorySelect={handleCategorySelect}
+        selectCategory={selectedCategory}
+        allCategories={allCategories}
+      />
+      <ArticleCategories
+        isOpen={isArticlesModalOpen}
+        onClose={() => setIsArticlesModalOpen(false)}
+        allCategories={allCategories}
+        handleCategorySelect={handleCategorySelect}
+        selectedCategory={selectedCategory}
+        handleSetCategories={handleSetCategories}
+      />
     </Screen>
   );
 };
