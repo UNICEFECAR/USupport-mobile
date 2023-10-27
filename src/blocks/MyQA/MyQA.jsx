@@ -1,17 +1,16 @@
 import React, { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
-
+import { Platform, StyleSheet, TouchableOpacity, View } from "react-native";
 import {
+  Icon,
   Block,
   InputSearch,
-  ButtonWithIcon,
   Tabs,
-  AppButton,
   Answer,
   AppText,
   Loading,
 } from "#components";
+import appStyles from "../../styles/appStyles";
 
 /**
  * MyQA
@@ -21,7 +20,6 @@ import {
  * @returns {JSX.Element}
  */
 export const MyQA = ({
-  handleAskQuestion,
   handleReadMore,
   handleLike,
   handleSchedulePress,
@@ -131,20 +129,21 @@ export const MyQA = ({
   return (
     <>
       <Block style={styles.block}>
-        <InputSearch
-          placeholder={t("search_input_placeholder")}
-          style={styles.inputSearch}
-          value={searchValue}
-          onChange={(value) => setSearchValue(value)}
-        />
-        <ButtonWithIcon
-          color="purple"
-          label={t("filter_button_label")}
-          iconName="filter"
-          iconSize="md"
-          style={styles.filterButton}
-          onPress={handleFilterTags}
-        />
+        <View style={styles.headingContainer}>
+          <InputSearch
+            placeholder={t("search_input_placeholder")}
+            style={styles.inputSearch}
+            value={searchValue}
+            onChange={(value) => setSearchValue(value)}
+          />
+
+          <TouchableOpacity
+            onPress={handleFilterTags}
+            style={styles.filterButton}
+          >
+            <Icon name="filter" color="#eaeaea" />
+          </TouchableOpacity>
+        </View>
       </Block>
       <Tabs
         options={tabs.map((tab) => {
@@ -156,13 +155,7 @@ export const MyQA = ({
         })}
         handleSelect={handleTabChange}
       />
-      <Block style={styles.block}>
-        <AppButton
-          label={t("ask_button_label")}
-          size="lg"
-          style={styles.askButton}
-          onPress={handleAskQuestion}
-        />
+      <Block style={styles.renderBlock}>
         <View style={styles.answersContainer}>{renderQuestions()}</View>
       </Block>
     </>
@@ -170,19 +163,38 @@ export const MyQA = ({
 };
 
 const styles = StyleSheet.create({
+  answer: { marginTop: 24 },
+  answersContainer: { paddingBottom: 90, width: "100%" },
   block: {
-    flexDirection: "column",
     alignItems: "center",
+    flexDirection: "column",
     paddingBottom: 20,
   },
-  inputSearch: { marginTop: 32 },
-  filterButton: { marginTop: 20, alignSelf: "flex-start", marginLeft: 10 },
-  askButton: { marginTop: 20 },
-  answer: { marginTop: 24 },
-  answersContainer: { width: "100%", paddingBottom: 90 },
-  noQuestionsText: { marginTop: 20, alignSelf: "center" },
+  filterButton: {
+    alignItems: "center",
+    backgroundColor: appStyles.colorSecondary_9749fa,
+    borderRadius: 25,
+    display: "flex",
+    justifyContent: "center",
+    maxWidth: "15%",
+    padding: 10,
+  },
+  headingContainer: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 32,
+    width: "100%",
+  },
+  inputSearch: { maxWidth: "85%" },
   loadingContainer: {
     alignItems: "center",
     marginTop: 24,
+  },
+  noQuestionsText: { alignSelf: "center", marginTop: 20 },
+  renderBlock: {
+    alignItems: "center",
+    flexDirection: "column",
+    marginBottom: Platform.OS === "ios" ? 50 : 80,
   },
 });
