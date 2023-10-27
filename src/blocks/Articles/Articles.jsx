@@ -23,6 +23,11 @@ export const Articles = ({
   showCategories = true,
   showAgeGroups,
   sort,
+  openArticlesModal,
+  handleSetCategories,
+  handleCategorySelect,
+  selectCategory,
+  allCategories,
 }) => {
   const { i18n, t } = useTranslation("articles");
 
@@ -75,8 +80,6 @@ export const Articles = ({
   };
 
   //--------------------- Categories ----------------------//
-  const [categories, setCategories] = useState();
-  const [selectedCategory, setSelectedCategory] = useState();
 
   const getCategories = async () => {
     try {
@@ -93,7 +96,7 @@ export const Articles = ({
         })
       );
 
-      setSelectedCategory(categoriesData[0]);
+      handleSetCategories(categoriesData);
       return categoriesData;
     } catch {}
   };
@@ -104,23 +107,23 @@ export const Articles = ({
     {
       refetchOnWindowFocus: false,
       onSuccess: (data) => {
-        setCategories([...data]);
+        handleCategorySelect([...data]);
       },
     }
   );
 
   const handleCategoryOnPress = (index) => {
-    const categoriesCopy = [...categories];
+    const categoriesCopy = [...allCategories];
 
     for (let i = 0; i < categoriesCopy.length; i++) {
       if (i === index) {
         categoriesCopy[i].isSelected = true;
-        setSelectedCategory(categoriesCopy[i]);
+        handleCategorySelect(categoriesCopy[i]);
       } else {
         categoriesCopy[i].isSelected = false;
       }
     }
-    setCategories(categoriesCopy);
+    handleSetCategories(categoriesCopy);
   };
 
   //--------------------- Search Input ----------------------//
@@ -164,8 +167,8 @@ export const Articles = ({
     const ageGroupId = ageGroupsQuery.data.find((x) => x.isSelected).id;
 
     let categoryId = "";
-    if (selectedCategory.value !== "all") {
-      categoryId = selectedCategory.id;
+    if (selectCategory.value !== "all") {
+      categoryId = selectCategory.id;
     }
 
     let { data } = await cmsSvc.getArticles({
@@ -199,7 +202,7 @@ export const Articles = ({
       "articles",
       debouncedSearchValue,
       selectedAgeGroup,
-      selectedCategory,
+      selectCategory,
       articleIdsQuery.data,
       usersLanguage,
     ],
@@ -212,7 +215,7 @@ export const Articles = ({
         categoriesQuery.data?.length > 0 &&
         ageGroupsQuery.data?.length > 0 &&
         articleIdsQuery.data?.length > 0 &&
-        selectedCategory !== null &&
+        selectCategory !== null &&
         selectedAgeGroup !== null,
       refetchOnWindowFocus: false,
       onSuccess: (data) => {
@@ -237,8 +240,8 @@ export const Articles = ({
     }
 
     let categoryId = "";
-    if (categories) {
-      let selectedCategory = categories.find((o) => o.isSelected === true);
+    if (allCategories) {
+      let selectedCategory = allCategories.find((o) => o.isSelected === true);
       categoryId = selectedCategory.id;
     }
 
@@ -308,12 +311,13 @@ export const Articles = ({
         ) : null}
       </Block>
 
-      {showCategories && areCategoriesAndAgeGroupsReady && categories ? (
+      {showCategories && areCategoriesAndAgeGroupsReady && allCategories ? (
         <Tabs
-          options={categories}
+          options={allCategories}
           handleSelect={handleCategoryOnPress}
           style={styles.tabs}
           t={t}
+          handleModalOpen={openArticlesModal}
         />
       ) : null}
 
@@ -347,17 +351,17 @@ export const Articles = ({
 };
 
 const styles = StyleSheet.create({
-  searchInput: { marginTop: 24, alignSelf: "center" },
-  tabs: { marginTop: 24, zIndex: 2 },
-  cardMedia: { marginTop: 24, alignSelf: "center" },
   articlesBlock: {
     alignItems: "center",
     paddingBottom: 50,
   },
+  articlesNoResultsContainer: { padding: 100, textAlign: "center" },
+  cardMedia: { alignSelf: "center", marginTop: 24 },
   flashListWrapper: {
-    width: appStyles.screenWidth,
-    paddingHorizontal: 16,
     height: "100%",
+    paddingHorizontal: 16,
+    width: appStyles.screenWidth,
   },
-  articlesNoResultsContainer: { textAlign: "center", padding: 100 },
+  searchInput: { alignSelf: "center", marginTop: 24 },
+  tabs: { marginTop: 24, zIndex: 2 },
 });
