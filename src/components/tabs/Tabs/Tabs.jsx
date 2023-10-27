@@ -17,7 +17,7 @@ import { appStyles } from "#styles";
  *
  * @return {jsx}
  */
-export const Tabs = ({ options, handleSelect, style, t }) => {
+export const Tabs = ({ options, handleSelect, style, t, handleModalOpen }) => {
   const NO_OPTIONS_TO_RENDER = 4;
   const [isOpen, setIsOpen] = useState(false);
   const [isMoreOptionSelected, setIsMoreOptionSelected] = useState(false);
@@ -30,7 +30,7 @@ export const Tabs = ({ options, handleSelect, style, t }) => {
   const renderOptions = () => {
     if (options) {
       return options
-        ? options.map((option, index) => {
+        ? options?.map((option, index) => {
             if (index >= NO_OPTIONS_TO_RENDER) {
               return null;
             }
@@ -106,7 +106,14 @@ export const Tabs = ({ options, handleSelect, style, t }) => {
                 styles.showMoreText,
                 isMoreOptionSelected && styles.showMoreTextSelected,
               ]}
-              onPress={() => setIsOpen(!isOpen)}
+              onPress={() => {
+                // setIsOpen(!isOpen)
+                if (handleModalOpen) {
+                  handleModalOpen();
+                } else {
+                  setIsOpen(!isOpen);
+                }
+              }}
             >
               +
               {t("number_of_more_options", {
