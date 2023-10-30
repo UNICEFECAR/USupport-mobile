@@ -31,20 +31,12 @@ export const UserProfile = ({ navigation }) => {
 
   const { isTmpUser, handleRegistrationModalOpen } = useContext(Context);
 
-  const [displayName, setDisplayName] = useState("");
+  const clientQuery = useGetClientData(isTmpUser ? false : true)[0];
+  const clientData = isTmpUser ? {} : clientQuery?.data;
 
-  const clientQueryArray = useGetClientData(isTmpUser ? false : true);
-  const clientData = isTmpUser ? {} : clientQueryArray[0].data;
-
-  useEffect(() => {
-    if (clientData) {
-      if (clientData.name && clientData.surname) {
-        setDisplayName(`${clientData.name} ${clientData.surname}`);
-      } else {
-        setDisplayName(clientData.nickname);
-      }
-    }
-  }, [clientData]);
+  const displayName = clientData?.name
+    ? `${clientData?.name} ${clientData?.surname}`
+    : clientData?.nickname;
 
   const protectedPages = [
     "UserDetails",
