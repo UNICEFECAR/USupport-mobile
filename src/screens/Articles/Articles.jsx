@@ -56,22 +56,7 @@ export const Articles = ({ navigation, route }) => {
   };
 
   return (
-    <Screen style={{ minHeight: appStyles.screenHeight }}>
-      <Heading
-        heading={heading}
-        subheading={subheading}
-        handleGoBack={() => navigation.goBack()}
-      />
-
-      <ArticlesBlock
-        navigation={navigation}
-        route={route}
-        openArticlesModal={openArticlesModal}
-        handleSetCategories={handleSetCategories}
-        handleCategorySelect={handleCategorySelect}
-        selectCategory={selectedCategory}
-        allCategories={allCategories}
-      />
+    <>
       <ArticleCategories
         isOpen={isArticlesModalOpen}
         onClose={() => setIsArticlesModalOpen(false)}
@@ -80,6 +65,23 @@ export const Articles = ({ navigation, route }) => {
         selectedCategory={selectedCategory}
         handleSetCategories={handleSetCategories}
       />
-    </Screen>
+      <Screen>
+        <Heading
+          heading={heading}
+          subheading={subheading}
+          handleGoBack={() => navigation.goBack()}
+        />
+
+        <ArticlesBlock
+          navigation={navigation}
+          route={route}
+          openArticlesModal={openArticlesModal}
+          handleSetCategories={handleSetCategories}
+          handleCategorySelect={handleCategorySelect}
+          selectCategory={selectedCategory}
+          allCategories={allCategories}
+        />
+      </Screen>
+    </>
   );
 };
