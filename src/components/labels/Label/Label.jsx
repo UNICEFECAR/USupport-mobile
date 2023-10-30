@@ -11,11 +11,11 @@ import { appStyles } from "#styles";
  *
  * @return {jsx}
  */
-export const Label = ({ text, onPress, style }) => {
+export const Label = ({ text, onPress, style, textStyle }) => {
   return (
     <Pressable onPress={onPress}>
       <View style={[styles.label, style]}>
-        <AppText namedStyle="textSmall" style={styles.text}>
+        <AppText namedStyle="textSmall" style={[styles.text, textStyle]}>
           {text}
         </AppText>
       </View>
@@ -25,16 +25,16 @@ export const Label = ({ text, onPress, style }) => {
 
 const styles = StyleSheet.create({
   label: {
-    borderWidth: 1,
+    alignSelf: "flex-start",
     borderColor: appStyles.colorPrimary_20809e,
     borderRadius: 16,
-    paddingVertical: 4,
-    paddingHorizontal: 16,
+    borderWidth: 1,
     display: "flex",
-    width: "auto",
-    textAlign: "center",
     justifyContent: "center",
-    alignSelf: "flex-start",
+    paddingHorizontal: 16,
+    paddingVertical: 4,
+    textAlign: "center",
+    width: "auto",
   },
   text: { color: appStyles.colorPrimary_20809e },
 });

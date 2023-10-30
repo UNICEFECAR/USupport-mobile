@@ -59,16 +59,6 @@ export const UserProfile = ({ navigation }) => {
       <Heading
         heading={t("heading")}
         subheading={t("subheading")}
-        buttonComponent={
-          <ButtonWithIcon
-            iconName="exit"
-            label={t("button_label")}
-            onPress={handleLogout}
-            size="lg"
-            iconSize="md"
-            style={{ paddingVertical: 5 }}
-          />
-        }
         handleGoBack={() => navigation.goBack()}
       />
       <Block style={styles.block}>

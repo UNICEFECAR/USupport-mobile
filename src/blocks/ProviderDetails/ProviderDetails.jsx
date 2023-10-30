@@ -169,6 +169,7 @@ const styles = StyleSheet.create({
   headerTextContainer: { marginLeft: 16 },
   providerName: {
     fontFamily: "Nunito_600SemiBold",
+    maxWidth: "90%",
   },
   avatar: { width: 66, height: 66 },
   videoContainer: {

@@ -1,10 +1,15 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { CurvedBottomBar } from "react-native-curved-bottom-bar";
-import { View, StyleSheet, TouchableOpacity, Pressable } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Pressable,
+  Platform,
+} from "react-native";
 
 import { Icon, AppText } from "#components";
-
 import {
   Dashboard,
   InformationalPortal,
@@ -14,6 +19,7 @@ import {
 } from "#screens";
 
 import { appStyles } from "#styles";
+import LinearGradient from "../components/LinearGradient";
 
 const screens = [
   {
@@ -118,34 +124,40 @@ export const TabNavigation = () => {
         initialRouteName="Dashboard"
         borderTopLeftRight={false}
         renderCircle={({ navigate, selectedTab }) => (
-          <View style={[styles.btnCircle]}>
-            <Pressable
-              style={{
-                flex: 1,
-                justifyContent: "center",
-              }}
-              onPress={() => {
-                navigate("Consultations");
-              }}
-            >
-              <View
-                style={[
-                  styles.circleButton,
-                  selectedTab === "Consultations" &&
-                    styles.selectedCircleButton,
-                ]}
+          <LinearGradient
+            gradient={appStyles.gradientPrimary}
+            style={styles.gradientCircle}
+          >
+            <View style={styles.btnCircle}>
+              <Pressable
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                onPress={() => {
+                  navigate("Consultations");
+                }}
               >
-                <Icon
-                  name="calendar"
-                  color={
-                    selectedTab === "Consultations"
-                      ? appStyles.colorPrimary_20809e
-                      : appStyles.colorGray_92989b
-                  }
-                />
-              </View>
-            </Pressable>
-          </View>
+                <View
+                  style={[
+                    styles.circleButton,
+                    selectedTab === "Consultations" &&
+                      styles.selectedCircleButton,
+                  ]}
+                >
+                  <Icon
+                    name="calendar"
+                    color={
+                      selectedTab === "Consultations"
+                        ? appStyles.colorPrimary_20809e
+                        : appStyles.colorGray_92989b
+                    }
+                  />
+                </View>
+              </Pressable>
+            </View>
+          </LinearGradient>
         )}
         tabBar={renderTabBar}
         style={appStyles.shadow3}
@@ -158,20 +170,27 @@ export const TabNavigation = () => {
 
 export const styles = StyleSheet.create({
   btnCircle: {
-    width: 60,
-    height: 60,
-    borderRadius: 35,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: Platform.OS !== "ios" && "white",
-    bottom: 20,
-  },
-  circleButton: {
-    backgroundColor: "white",
-    padding: 16,
+    backgroundColor: appStyles.colorWhite_ff,
+    borderColor: "transparent",
     borderRadius: 50,
     borderWidth: 1,
-    borderColor: "transparent",
+    elevation: Platform.OS === "android" ? 5 : 0,
+    flexGrow: 1,
+    height: 57,
+    padding: 16,
+    width: 57,
   },
+  gradientCircle: {
+    alignItems: "center",
+    borderRadius: 35,
+    bottom: 20,
+    elevation: Platform.OS === "android" ? 10 : 0,
+    height: 60,
+    justifyContent: "center",
+    overflow: "hidden",
+    padding: 2,
+    width: 60,
+  },
+
   selectedCircleButton: { borderColor: appStyles.colorPrimary_20809e },
 });

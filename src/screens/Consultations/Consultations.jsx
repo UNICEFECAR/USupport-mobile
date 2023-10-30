@@ -1,9 +1,9 @@
 import React, { useContext, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, StyleSheet, RefreshControl } from "react-native";
+import { ScrollView, StyleSheet, RefreshControl, Platform } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
 
-import { Screen, Block, AppButton } from "#components";
+import { Screen, AppButton } from "#components";
 import { Consultations as ConsultationsBlock } from "#blocks";
 
 import {
@@ -193,14 +193,6 @@ export const Consultations = ({ navigation }) => {
           />
         }
       >
-        <Block>
-          <AppButton
-            label={t("button_label")}
-            size="lg"
-            style={styles.button}
-            onPress={handleScheduleConsultationClick}
-          />
-        </Block>
         <ConsultationsBlock
           openJoinConsultation={openJoinConsultation}
           openEditConsultation={openEditConsultation}
@@ -262,11 +254,25 @@ export const Consultations = ({ navigation }) => {
         onClose={closeRequireDataAgreement}
         onSuccess={handleDataAgreementSucess}
       />
+
+      <AppButton
+        label={t("button_label")}
+        size="lg"
+        style={styles.button}
+        onPress={handleScheduleConsultationClick}
+      />
     </Screen>
   );
 };
 
 const styles = StyleSheet.create({
-  screen: { paddingTop: 70 },
-  button: { alignSelf: "center" },
+  button: {
+    alignSelf: "center",
+    bottom: Platform.OS === "ios" ? 70 : 100,
+    position: "absolute",
+  },
+  screen: {
+    paddingBottom: Platform.OS === "ios" ? 50 : 100,
+    paddingTop: 48,
+  },
 });

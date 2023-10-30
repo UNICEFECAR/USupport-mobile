@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { StyleSheet, View, TouchableOpacity, Button } from "react-native";
 
 import { Block, AppText, Tabs, Loading, CardMedia } from "#components";
 
@@ -12,6 +12,7 @@ import { localStorage, adminSvc, cmsSvc } from "#services";
 import { useEventListener } from "#hooks";
 
 import { destructureArticleData } from "#utils";
+import { Error } from "../../components/errors";
 
 /**
  * ArticlesDashboard
@@ -20,7 +21,14 @@ import { destructureArticleData } from "#utils";
  *
  * @return {jsx}
  */
-export const ArticlesDashboard = ({ navigation }) => {
+export const ArticlesDashboard = ({
+  navigation,
+  openArticlesModal,
+  handleSetCategories,
+  handleCategorySelect,
+  selectCategory,
+  allCategories,
+}) => {
   const { t, i18n } = useTranslation("articles-dashboard");
 
   const [usersLanguage, setUsersLanguage] = useState(i18n.language);
@@ -44,9 +52,6 @@ export const ArticlesDashboard = ({ navigation }) => {
   useEventListener("countryChanged", handler);
 
   //--------------------- Categories ----------------------//
-  const [categories, setCategories] = useState();
-  const [selectedCategory, setSelectedCategory] = useState();
-
   const getCategories = async () => {
     try {
       const res = await cmsSvc.getCategories(usersLanguage);
@@ -62,7 +67,7 @@ export const ArticlesDashboard = ({ navigation }) => {
         })
       );
 
-      setSelectedCategory(categoriesData[0]);
+      handleSetCategories(categoriesData);
       return categoriesData;
     } catch {}
   };
@@ -73,23 +78,23 @@ export const ArticlesDashboard = ({ navigation }) => {
     {
       refetchOnWindowFocus: false,
       onSuccess: (data) => {
-        setCategories([...data]);
+        handleSetCategories([...data]);
       },
     }
   );
 
   const handleCategoryOnPress = (index) => {
-    const categoriesCopy = [...categories];
+    const categoriesCopy = [...allCategories];
 
     for (let i = 0; i < categoriesCopy.length; i++) {
       if (i === index) {
         categoriesCopy[i].isSelected = true;
-        setSelectedCategory(categoriesCopy[i]);
+        handleCategorySelect(categoriesCopy[i]);
       } else {
         categoriesCopy[i].isSelected = false;
       }
     }
-    setCategories(categoriesCopy);
+    handleSetCategories(categoriesCopy);
   };
 
   //--------------------- Articles ----------------------//
@@ -101,17 +106,20 @@ export const ArticlesDashboard = ({ navigation }) => {
     return articlesIds;
   };
 
-  const articleIdsQuerry = useQuery(
+  const articleIdsQuery = useQuery(
     ["articleIds", currentCountry],
     getArticlesIds
   );
+
+  const { isError: isArticleIdsError, isFetched: isArticleIdsFetched } =
+    articleIdsQuery;
 
   //--------------------- Newest Article ----------------------//
 
   const getNewestArticle = async () => {
     let categoryId = "";
-    if (selectedCategory && selectedCategory.value !== "all") {
-      categoryId = selectedCategory.id;
+    if (selectCategory && selectCategory.value !== "all") {
+      categoryId = selectCategory.id;
     }
 
     let { data } = await cmsSvc.getArticles({
@@ -121,7 +129,7 @@ export const ArticlesDashboard = ({ navigation }) => {
       sortOrder: "desc", // Sort in descending order
       locale: usersLanguage,
       populate: true,
-      ids: articleIdsQuerry.data,
+      ids: articleIdsQuery.data,
     });
     for (let i = 0; i < data.data.length; i++) {
       data.data[i] = destructureArticleData(data.data[i]);
@@ -134,19 +142,21 @@ export const ArticlesDashboard = ({ navigation }) => {
     data: newestArticles,
     isLoading: newestArticlesLoading,
     isFetched: isNewestArticlesFetched,
+    isError: isNewestArticlesError,
   } = useQuery(
-    ["newestArticle", usersLanguage, selectedCategory, articleIdsQuerry.data],
+    ["newestArticle", usersLanguage, selectCategory, articleIdsQuery.data],
     getNewestArticle,
     {
       onError: (error) => console.log(error),
       enabled:
-        !articleIdsQuerry.isLoading &&
-        articleIdsQuerry.data?.length > 0 &&
+        !articleIdsQuery.isLoading &&
+        articleIdsQuery.data?.length > 0 &&
         !categoriesQuery.isLoading &&
         categoriesQuery.data?.length > 0 &&
-        selectedCategory !== null,
+        selectCategory !== null,
 
       refetchOnWindowFocus: false,
+      retry: false,
     }
   );
 
@@ -157,7 +167,7 @@ export const ArticlesDashboard = ({ navigation }) => {
 
   return (
     <>
-      {categories?.length > 1 && (
+      {allCategories?.length > 1 && (
         <>
           <Block style={styles.headingBlock}>
             <View style={styles.headingContainer}>
@@ -168,12 +178,13 @@ export const ArticlesDashboard = ({ navigation }) => {
             </View>
           </Block>
 
-          {categories?.length > 1 && (
+          {allCategories?.length > 1 && (
             <Tabs
-              options={categories}
+              options={allCategories}
               handleSelect={handleCategoryOnPress}
               style={styles.tabs}
               t={t}
+              handleModalOpen={openArticlesModal}
             />
           )}
           {newestArticlesLoading && (
@@ -186,7 +197,7 @@ export const ArticlesDashboard = ({ navigation }) => {
             <View style={styles.articlesContainer}>
               {!newestArticlesLoading &&
                 newestArticles?.length > 0 &&
-                categories.length > 1 &&
+                allCategories.length > 1 &&
                 newestArticles?.map((article, index) => {
                   return (
                     <CardMedia
@@ -209,6 +220,12 @@ export const ArticlesDashboard = ({ navigation }) => {
                   );
                 })}
             </View>
+            {((isNewestArticlesFetched && isNewestArticlesError) ||
+              (isArticleIdsError && isArticleIdsFetched)) && (
+              <View style={styles.container}>
+                <Error message={t("heading_no_results")} />
+              </View>
+            )}
             {isNewestArticlesFetched && newestArticles?.length === 0 && (
               <View style={styles.container}>
                 <AppText namedStyle="h3">{t("heading_no_results")}</AppText>
@@ -222,22 +239,22 @@ export const ArticlesDashboard = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  headingBlock: { paddingTop: 40 },
-  headingContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
+  articlesContainer: { alignItems: "center" },
+  cardMedia: { marginTop: 24 },
   container: {
+    alignItems: "center",
     height: 250,
     justifyContent: "center",
+  },
+  headingBlock: { paddingTop: 40 },
+  headingContainer: {
     alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   tabs: { marginTop: 24, zIndex: 2 },
   viewAllText: {
     color: appStyles.colorSecondary_9749fa,
     fontFamily: appStyles.fontSemiBold,
   },
-  articlesContainer: { alignItems: "center" },
-  cardMedia: { marginTop: 24 },
 });

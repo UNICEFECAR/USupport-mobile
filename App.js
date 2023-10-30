@@ -85,8 +85,9 @@ function App() {
 
   useEffect(() => {
     async function checkCurencySymbol() {
-      const localStorageCurrencySymbol =
-        await localStorage.getItem("currencySymbol");
+      const localStorageCurrencySymbol = await localStorage.getItem(
+        "currencySymbol"
+      );
       if (!currencySymbol && localStorageCurrencySymbol) {
         setCurrencySymbol(localStorageCurrencySymbol);
       }
