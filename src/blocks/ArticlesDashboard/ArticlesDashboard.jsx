@@ -12,6 +12,7 @@ import { localStorage, adminSvc, cmsSvc } from "#services";
 import { useEventListener } from "#hooks";
 
 import { destructureArticleData } from "#utils";
+import { Error } from "../../components/errors";
 
 /**
  * ArticlesDashboard
@@ -110,6 +111,9 @@ export const ArticlesDashboard = ({
     getArticlesIds
   );
 
+  const { isError: isArticleIdsError, isFetched: isArticleIdsFetched } =
+    articleIdsQuery;
+
   //--------------------- Newest Article ----------------------//
 
   const getNewestArticle = async () => {
@@ -138,6 +142,7 @@ export const ArticlesDashboard = ({
     data: newestArticles,
     isLoading: newestArticlesLoading,
     isFetched: isNewestArticlesFetched,
+    isError: isNewestArticlesError,
   } = useQuery(
     ["newestArticle", usersLanguage, selectCategory, articleIdsQuery.data],
     getNewestArticle,
@@ -151,6 +156,7 @@ export const ArticlesDashboard = ({
         selectCategory !== null,
 
       refetchOnWindowFocus: false,
+      retry: false,
     }
   );
 
@@ -214,6 +220,12 @@ export const ArticlesDashboard = ({
                   );
                 })}
             </View>
+            {((isNewestArticlesFetched && isNewestArticlesError) ||
+              (isArticleIdsError && isArticleIdsFetched)) && (
+              <View style={styles.container}>
+                <Error message={t("heading_no_results")} />
+              </View>
+            )}
             {isNewestArticlesFetched && newestArticles?.length === 0 && (
               <View style={styles.container}>
                 <AppText namedStyle="h3">{t("heading_no_results")}</AppText>
