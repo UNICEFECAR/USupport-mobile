@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useTranslation, Trans } from "react-i18next";
-import { StyleSheet, View, ScrollView } from "react-native";
+import { StyleSheet, View, ScrollView, Platform } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { Screen, AppText, AppButton } from "#components";
@@ -253,6 +253,12 @@ export const MyQA = ({ navigation }) => {
           setTag={setFilterTag}
         />
       )}
+      <AppButton
+        label={t("ask_button_label")}
+        size="lg"
+        style={styles.askButton}
+        onPress={handleAskQuestion}
+      />
     </Screen>
   );
 };
@@ -287,9 +293,14 @@ const Heading = ({ t, handleButtonPress }) => {
 };
 
 const styles = StyleSheet.create({
+  askButton: {
+    alignSelf: "center",
+    bottom: Platform.OS === "ios" ? 70 : 100,
+    position: "absolute",
+  },
   headingBlock: { paddingTop: 88 },
+  headingButton: { marginRight: 24, marginTop: 12 },
   headingText: { marginBottom: 12 },
-  textBold: { fontFamily: appStyles.fontExtraBold },
   textBlack: { color: appStyles.colorBlack_37 },
-  headingButton: { marginTop: 12, marginRight: 24 },
+  textBold: { fontFamily: appStyles.fontExtraBold },
 });

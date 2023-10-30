@@ -82,7 +82,7 @@ export const Consultation = ({
       }:00`
     : "";
 
-  const handleAccepConsultationPress = () => {
+  const handleAcceptConsultationPress = () => {
     handleAcceptConsultation(consultationId, price, timestamp);
   };
 
@@ -179,8 +179,11 @@ export const Consultation = ({
                 style={styles.calendarIcon}
               />
               <View>
-                <AppText namedStyle="smallText">{dateText}</AppText>
-                <AppText namedStyle="smallText">{timeText}</AppText>
+                <AppText namedStyle="smallText">
+                  {dateText}
+                  {", "}
+                  {timeText}
+                </AppText>
               </View>
             </View>
           </View>
@@ -192,7 +195,7 @@ export const Consultation = ({
               { flexDirection: "row", justifyContent: "center" },
             ]}
           >
-            <AppText style={[styles.textPurple]}>{t("active")}</AppText>
+            <AppText style={styles.textPurple}>{t("active")}</AppText>
             <AppButton
               onPress={() => handleJoin()}
               label={buttonLabel}
@@ -205,7 +208,7 @@ export const Consultation = ({
         {!overview && suggested && renderIn === "client" && (
           <View style={styles.requestContainer}>
             <AppButton
-              onPress={handleAccepConsultationPress}
+              onPress={handleAcceptConsultationPress}
               label={t("accept")}
               size="sm"
             />
@@ -265,44 +268,50 @@ export const Consultation = ({
 };
 
 const styles = StyleSheet.create({
-  touchableOpacity: { width: "100%", alignItems: "center" },
-  consultation: {
-    padding: 16,
-    alignItems: "center",
-    width: "100%",
-    maxWidth: 420,
-    textAlign: "left",
-    backgroundColor: appStyles.colorWhite_ff,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: "transparent",
-  },
   borderColorPurple: {
     borderColor: appStyles.colorSecondary_9749fa,
+  },
+  buttonContainer: {
+    alignItems: "center",
+    display: "flex",
+    justifyContent: "center",
+    paddingTop: 8,
+    width: "100%",
+  },
+  calendarIcon: { marginRight: 6 },
+  consultation: {
+    alignItems: "center",
+    backgroundColor: appStyles.colorWhite_ff,
+    borderColor: "transparent",
+    borderRadius: 16,
+    borderWidth: 1,
+    maxWidth: 420,
+    padding: 16,
+    textAlign: "left",
+    width: "100%",
   },
   content: {
     flexDirection: "row",
     width: "100%",
   },
-  textContainer: { paddingLeft: 16, flexGrow: 1 },
-  dateContainer: { flexDirection: "row", alignItems: "center" },
-  calendarIcon: { marginRight: 8 },
+  dateContainer: { alignItems: "center", flexDirection: "row" },
+  joinButton: { marginLeft: "auto", marginRight: "auto" },
   nameContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  oneButton: { minWidth: 120 },
   priceBadge: {
     alignItems: "center",
+    alignSelf: "flex-end",
     backgroundColor: appStyles.colorPurple_dac3f6,
     borderRadius: 16,
     display: "flex",
     justifyContent: "center",
-    marginRight: 14,
     marginLeft: 3,
     maxHeight: 30,
     paddingHorizontal: 8,
     paddingVertical: 4,
-    alignSelf: "flex-end",
   },
   priceBadgeFreeColor: {
     backgroundColor: "rgba(32, 128, 158, 0.3)",
@@ -310,35 +319,28 @@ const styles = StyleSheet.create({
   priceBadgeFreeText: {
     color: appStyles.colorPrimary_20809e,
   },
-  buttonContainer: {
-    width: "100%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingTop: 8,
-  },
   requestContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    width: "100%",
     paddingTop: 8,
+    width: "100%",
   },
-  joinButton: { marginRight: "auto", marginLeft: "auto" },
+  sponsorImage: {
+    alignSelf: "flex-start",
+    borderRadius: 25 / 2,
+    height: 25,
+    left: 0,
+    position: "absolute",
+    width: 25,
+  },
 
   text: {
     color: appStyles.colorBlue_3d527b,
     fontFamily: appStyles.fontBold,
   },
+  textContainer: { flexGrow: 1, paddingLeft: 16 },
   textPurple: {
     color: appStyles.colorSecondary_9749fa,
   },
-  oneButton: { minWidth: 120 },
-  sponsorImage: {
-    width: 25,
-    height: 25,
-    borderRadius: 25 / 2,
-    alignSelf: "flex-start",
-    position: "absolute",
-    left: 0,
-  },
+  touchableOpacity: { alignItems: "center", width: "100%" },
 });

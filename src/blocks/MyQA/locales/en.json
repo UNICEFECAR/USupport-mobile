@@ -1,14 +1,13 @@
 {
-    "search_input_placeholder": "Search",
-    "filter_button_label": "Filter",
-    "ask_button_label": "Ask anonymously",
-    "read_more": "Read more",
-    "all": "All",
-    "most_popular": "Most Popular",
-    "newest": "Newest",
-    "your_questions": "Your Questions",
-    "answer_by": "Answer by:",
-    "schedule_consultation": "Schedule consultation",
-    "today": "Today",
-    "no_questions_found": "No questions found"
+  "search_input_placeholder": "Search",
+  "filter_button_label": "Filter",
+  "read_more": "Read more",
+  "all": "All",
+  "most_popular": "Most Popular",
+  "newest": "Newest",
+  "your_questions": "Your Questions",
+  "answer_by": "Answer by:",
+  "schedule_consultation": "Schedule consultation",
+  "today": "Today",
+  "no_questions_found": "No questions found"
 }

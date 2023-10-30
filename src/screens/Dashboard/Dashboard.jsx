@@ -24,6 +24,7 @@ import {
   JoinConsultation,
   SelectConsultation,
   ConfirmConsultation,
+  ArticleCategories,
 } from "#backdrops";
 
 import { RequireDataAgreement } from "#modals";
@@ -272,6 +273,21 @@ export const Dashboard = ({ navigation }) => {
       : new Date(selectedSlot.current);
   }, [isWithCampaign, selectedSlot.current]);
 
+  const [isArticlesModalOpen, setIsArticlesModalOpen] = useState(false);
+
+  const openArticlesModal = () => setIsArticlesModalOpen(true);
+  const [allCategories, setAllCategories] = useState();
+  const [selectedCategory, setSelectedCategory] = useState();
+
+  const handleSetCategories = (categories) => {
+    setAllCategories(categories);
+  };
+
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+    setIsArticlesModalOpen(false);
+  };
+
   return (
     <Screen hasHeaderNavigation t={t} hasEmergencyButton={false}>
       <ScrollView
@@ -303,7 +319,14 @@ export const Dashboard = ({ navigation }) => {
           )}
         </MascotHeadingBlock>
         <MoodTracker navigation={navigation} />
-        <ArticlesDashboard navigation={navigation} />
+        <ArticlesDashboard
+          navigation={navigation}
+          openArticlesModal={openArticlesModal}
+          handleSetCategories={handleSetCategories}
+          handleCategorySelect={handleCategorySelect}
+          selectCategory={selectedCategory}
+          allCategories={allCategories}
+        />
         <ConsultationsDashboard
           openJoinConsultation={openJoinConsultation}
           openEditConsultation={openEditConsultation}
@@ -320,6 +343,14 @@ export const Dashboard = ({ navigation }) => {
           navigation={navigation}
         />
       </ScrollView>
+      <ArticleCategories
+        isOpen={isArticlesModalOpen}
+        onClose={() => setIsArticlesModalOpen(false)}
+        allCategories={allCategories}
+        handleCategorySelect={handleCategorySelect}
+        selectedCategory={selectedCategory}
+        handleSetCategories={handleSetCategories}
+      />
       <JoinConsultation
         isOpen={isJoinConsultationOpen}
         onClose={closeJoinConsultation}
@@ -431,9 +462,9 @@ const HeadingBlockContent = ({
 };
 
 const styles = StyleSheet.create({
-  marginTop16: { marginTop: 16 },
-  mascotHeadingBlock: { paddingTop: 70 },
   alignSelfStart: { alignSelf: "flex-start" },
   colorTextBlue: { color: appStyles.colorBlue_263238 },
   marginBottom85: { marginBottom: 85 },
+  marginTop16: { marginTop: 16 },
+  mascotHeadingBlock: { paddingTop: 70 },
 });

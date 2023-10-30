@@ -2,7 +2,15 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { View, StyleSheet, TouchableOpacity, Platform } from "react-native";
 
-import { Backdrop, AppText, Icon, Like, Label, Avatar } from "#components";
+import {
+  Backdrop,
+  AppText,
+  Icon,
+  Like,
+  Label,
+  Avatar,
+  Line,
+} from "#components";
 import { appStyles } from "#styles";
 import { isDateToday } from "#utils";
 import Config from "react-native-config";
@@ -59,16 +67,35 @@ export const QuestionDetails = ({
           {question.answerTitle}
         </AppText>
       )}
-      {question.answerId ? (
-        <Like
-          handleClick={handleLike}
-          likes={question.likes}
-          dislikes={question.dislikes}
-          answerId={question.answerId}
-          isLiked={question.isLiked}
-          isDisliked={question.isDisliked}
-        />
-      ) : null}
+      <View style={styles.providerWrapper}>
+        {question.answerId ? (
+          <View style={styles.bottomContainer}>
+            <View style={styles.answerByContainer}>
+              <TouchableWithoutFeedback
+                onPress={() => handleProviderClick(providerInfo.providerId)}
+              >
+                <Avatar
+                  image={imageUrl && { uri: imageUrl }}
+                  size="xs"
+                  style={styles.avatar}
+                />
+              </TouchableWithoutFeedback>
+              <AppText
+                onPress={() => handleProviderClick(providerInfo.providerId)}
+              >
+                {providerInfo.name} {providerInfo.surname}
+              </AppText>
+            </View>
+          </View>
+        ) : null}
+
+        <TouchableOpacity onPress={() => handleSchedulePress(question)}>
+          <View style={styles.scheduleButton}>
+            <Icon name="calendar" color="#20809e" />
+          </View>
+        </TouchableOpacity>
+      </View>
+
       {question.answerId && isInMyQuestions ? (
         <AppText
           namedStyle="h3"
@@ -77,85 +104,101 @@ export const QuestionDetails = ({
           {question.answerTitle}
         </AppText>
       ) : null}
-      {question.tags ? (
-        <View style={styles.labelsContainer}>
-          {question.tags.map((label, index) => {
-            return <Label text={label} key={index} style={styles.label} />;
-          })}
-        </View>
-      ) : null}
-      <AppText style={styles.answerText}>{question.answerText}</AppText>
-      {question.answerId ? (
-        <View style={styles.bottomContainer}>
-          <View style={styles.answerByContainer}>
-            <AppText>{t("answered_by")}</AppText>
-            <TouchableWithoutFeedback
-              onPress={() => handleProviderClick(providerInfo.providerId)}
-            >
-              <Avatar
-                image={imageUrl && { uri: imageUrl }}
-                size="xs"
-                style={styles.avatar}
-              />
-            </TouchableWithoutFeedback>
-            <AppText
-              onPress={() => handleProviderClick(providerInfo.providerId)}
-            >
-              {providerInfo.name} {providerInfo.surname}
-            </AppText>
+      <Line style={styles.line} />
+      <View style={styles.subheadingWrapper}>
+        {question.tags ? (
+          <View style={styles.labelsContainer}>
+            {question.tags.map((label, index) => {
+              return (
+                <Label text={`#${label}`} key={index} style={styles.label} />
+              );
+            })}
           </View>
-          <TouchableOpacity onPress={() => handleSchedulePress(question)}>
-            <View style={styles.scheduleButton}>
-              <Icon name="calendar" color="#20809e" />
-              <AppText style={styles.scheduleButtonText}>
-                {t("schedule_consultation")}
-              </AppText>
-            </View>
-          </TouchableOpacity>
-        </View>
-      ) : null}
-      <View
-        style={{
-          height: Platform.OS === "ios" ? 85 : 100,
-        }}
-      />
+        ) : null}
+        {question.answerId ? (
+          <Like
+            handleClick={handleLike}
+            likes={question.likes}
+            dislikes={question.dislikes}
+            answerId={question.answerId}
+            isLiked={question.isLiked}
+            isDisliked={question.isDisliked}
+          />
+        ) : null}
+      </View>
+
+      <AppText style={styles.answerText}>{question.answerText}</AppText>
+
+      <>
+        <View
+          style={{
+            height: Platform.OS === "ios" ? 85 : 100,
+          }}
+        />
+      </>
     </Backdrop>
   );
 };
 
 const styles = StyleSheet.create({
+  answerByContainer: { flexDirection: "row", marginTop: 12 },
+  answerText: { marginTop: 18 },
+  avatar: { marginHorizontal: 4 },
   dateContainer: {
-    position: "absolute",
-    flexDirection: "row",
     alignItems: "center",
+    flexDirection: "row",
+    position: "absolute",
     top: 0,
   },
   dateContainerText: {
-    marginLeft: 4,
     color: appStyles.colorGray_92989b,
+    marginLeft: 4,
   },
   headingText: {
     color: appStyles.colorPrimary_20809e,
   },
-  labelsContainer: {
-    marginTop: 8,
-    flexDirection: "row",
-    alignItems: "center",
-  },
   label: {
-    marginHorizontal: 4,
-    marginVertical: 2,
+    borderWidth: 0,
+    marginVertical: 0,
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+    margin: 2,
   },
-  answerText: { marginTop: 8 },
-  answerByContainer: { flexDirection: "row", marginTop: 12 },
-  avatar: { marginHorizontal: 4 },
-  scheduleButton: { flexDirection: "row", marginTop: 12 },
-  scheduleButtonText: {
-    marginLeft: 12,
-    color: appStyles.colorPrimary_20809e,
-    fontFamily: appStyles.fontBold,
+  labelsContainer: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    gap: 6,
+    maxWidth: "70%",
   },
   marginTop12: {
     marginTop: 12,
+  },
+  scheduleButton: { flexDirection: "row", marginTop: 12 },
+  scheduleButtonText: {
+    color: appStyles.colorPrimary_20809e,
+    fontFamily: appStyles.fontBold,
+    marginLeft: 12,
+  },
+  providerWrapper: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  likeWrapper: {
+    marginTop: 12,
+  },
+  line: {
+    marginTop: 12,
+  },
+  subheadingWrapper: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginRight: 12,
   },
 });
