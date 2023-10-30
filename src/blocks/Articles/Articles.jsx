@@ -4,7 +4,14 @@ import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { FlashList } from "@shopify/flash-list";
 
-import { Block, InputSearch, Tabs, CardMedia, AppText } from "#components";
+import {
+  Block,
+  InputSearch,
+  Tabs,
+  CardMedia,
+  AppText,
+  Loading,
+} from "#components";
 import { localStorage, adminSvc, cmsSvc } from "#services";
 import { useDebounce, useEventListener } from "#hooks";
 import { destructureArticleData } from "#utils";
@@ -327,8 +334,19 @@ export const Articles = ({
             estimatedItemSize={25}
             showsVerticalScrollIndicator={false}
             keyExtractor={(item, index) => index.toString()}
-            data={articles || []}
+            data={isArticlesFetching || isArticlesLoading ? [] : articles || []}
             renderItem={renderArticle}
+            ListFooterComponent={
+              isArticlesLoading || isArticlesFetching ? (
+                <View style={styles.loadingContainer}>
+                  <Loading />
+                </View>
+              ) : (
+                <View style={styles.articlesNoResultsContainer}>
+                  <AppText>{t("no_results")}</AppText>
+                </View>
+              )
+            }
             onEndReached={getMoreArticles}
             onEndReachedThreshold={0.2}
             contentContainerStyle={{
@@ -364,4 +382,8 @@ const styles = StyleSheet.create({
   },
   searchInput: { alignSelf: "center", marginTop: 24 },
   tabs: { marginTop: 24, zIndex: 2 },
+  loadingContainer: {
+    alignItems: "center",
+    paddingTop: 60,
+  },
 });
