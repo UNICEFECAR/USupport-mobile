@@ -124,6 +124,7 @@ export const MyQA = ({
     userQuestionsLoading,
     allQuestionsLoading,
     searchValue,
+    filterTag,
   ]);
 
   return (
