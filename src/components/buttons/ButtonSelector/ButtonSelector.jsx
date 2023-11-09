@@ -57,11 +57,13 @@ export const ButtonSelector = ({
           {label}
         </Text>
       </View>
-      <Icon
-        name="arrow-chevron-forward"
-        color={appStyles.colorBlue_3d527b}
-        size="md"
-      />
+      <View style={styles.iconContainer}>
+        <Icon
+          name="arrow-chevron-forward"
+          color={appStyles.colorBlue_3d527b}
+          size="md"
+        />
+      </View>
     </Pressable>
   );
 };
@@ -102,6 +104,7 @@ const styles = StyleSheet.create({
     marginLeft: 11,
     fontSize: 14,
     fontFamily: "Nunito_400Regular",
+    flex: 1,
   },
 
   textPressed: {
@@ -113,7 +116,10 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
+    flex: 1,
   },
+
+  iconContainer: { marginLeft: 4 },
 });
 
 ButtonSelector.propTypes = {
