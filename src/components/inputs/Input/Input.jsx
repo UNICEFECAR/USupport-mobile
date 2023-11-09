@@ -28,6 +28,7 @@ export const Input = ({
   autoCapitalize = "sentences",
   inputStyles,
   reference,
+  wrapperStyles,
   ...props
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -46,6 +47,7 @@ export const Input = ({
           errorMessage && styles.inputError,
           isTextarea && styles.textarea,
           isFocused && !errorMessage && styles.inputFocused,
+          wrapperStyles,
         ]}
       >
         {preInput && preInput}
@@ -85,58 +87,58 @@ export const Input = ({
 };
 
 const styles = StyleSheet.create({
-  inputWrapper: {
-    width: "96%",
-    maxWidth: 420,
-    display: "flex",
-    textAlign: "left",
-  },
-
-  inputWrapperDisabled: {
-    opacity: 0.4,
-  },
-
   input: {
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    backgroundColor: appStyles.colorWhite_ff,
-    borderWidth: 1,
-    borderColor: "transparent",
-    borderRadius: 53,
-    width: "97%",
-    marginTop: 4,
-    display: "flex",
-    flexDirection: "row",
     alignItems: "center",
     alignSelf: "center",
-  },
-
-  textarea: {
-    borderRadius: 32,
-  },
-
-  inputFocused: {
-    borderColor: appStyles.colorSecondary_9749fa,
+    backgroundColor: appStyles.colorWhite_ff,
+    borderColor: "transparent",
+    borderRadius: 53,
+    borderWidth: 1,
+    display: "flex",
+    flexDirection: "row",
+    marginTop: 4,
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    width: "97%",
   },
 
   inputError: {
     borderColor: appStyles.colorRed_eb5757,
   },
 
-  textInput: {
-    width: "95%",
-    height: 24,
-    color: appStyles.colorBlack_37,
-    textAlignVertical: "top",
+  inputFocused: {
+    borderColor: appStyles.colorSecondary_9749fa,
   },
 
   inputTextarea: {
     height: 120,
   },
 
+  inputWrapper: {
+    display: "flex",
+    maxWidth: 420,
+    textAlign: "left",
+    width: "96%",
+  },
+
+  inputWrapperDisabled: {
+    opacity: 0.4,
+  },
+
   label: {
     color: appStyles.colorBlue_3d527b,
     fontFamily: appStyles.fontSemiBold,
+  },
+
+  textInput: {
+    color: appStyles.colorBlack_37,
+    height: 24,
+    textAlignVertical: "top",
+    width: "95%",
+  },
+
+  textarea: {
+    borderRadius: 32,
   },
 });
 

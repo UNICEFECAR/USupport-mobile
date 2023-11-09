@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { StyleSheet, View } from "react-native";
 import { Input } from "../Input";
 import { ButtonWithIcon } from "../../buttons";
+import appStyles from "../../../styles/appStyles";
 
 export const SendMessage = ({
   handleSubmit,
@@ -52,6 +53,7 @@ export const SendMessage = ({
         value={message}
         onChangeText={handleTyping}
         onFocus={hideOptions}
+        wrapperStyles={styles.inputWrapper}
       />
       <ButtonWithIcon
         iconName="comment"
@@ -67,20 +69,23 @@ export const SendMessage = ({
 };
 
 const styles = StyleSheet.create({
+  button: {
+    borderRadius: 24,
+    height: 48,
+    minWidth: 48,
+    paddingLeft: 18,
+    width: 48,
+  },
   container: {
-    flexDirection: "row",
     alignItems: "center",
+    flexDirection: "row",
     justifyContent: "center",
     width: "100%",
   },
   input: {
     width: "85%",
   },
-  button: {
-    borderRadius: 24,
-    width: 48,
-    height: 48,
-    minWidth: 48,
-    paddingLeft: 18,
+  inputWrapper: {
+    borderColor: appStyles.colorSecondary_9749fa,
   },
 });
