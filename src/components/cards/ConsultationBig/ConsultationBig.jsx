@@ -142,6 +142,7 @@ const styles = StyleSheet.create({
     fontFamily: appStyles.fontBold,
     wordBreak: "break-all",
     textAlign: "left",
+    flex: 1,
   },
   button: { marginTop: 16 },
   imageMascot: { width: 128, height: 100 },
