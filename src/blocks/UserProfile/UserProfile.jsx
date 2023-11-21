@@ -245,6 +245,6 @@ const styles = StyleSheet.create({
   },
 
   lastGroup: {
-    paddingBottom: 50,
+    paddingBottom: 90,
   },
 });
