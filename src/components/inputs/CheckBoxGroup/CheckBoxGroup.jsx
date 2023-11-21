@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { StyleSheet, View } from "react-native";
+
 import { CheckBox } from "../CheckBox/CheckBox";
 import { AppText } from "../../texts/AppText/AppText";
-
 import { appStyles } from "#styles";
+import { useGetTheme } from "#hooks";
 
 /**
  * CheckBoxGroup
@@ -14,6 +15,8 @@ import { appStyles } from "#styles";
  * @return {jsx}
  */
 export const CheckBoxGroup = ({ label, options, setOptions, style }) => {
+  const { colors } = useGetTheme();
+
   const handleSelect = (value) => {
     let newOptions = [...options];
 
@@ -48,7 +51,10 @@ export const CheckBoxGroup = ({ label, options, setOptions, style }) => {
   return (
     <View style={[styles.checkBoxGroup, style]}>
       {label && (
-        <AppText namedStyle="text" style={styles.text}>
+        <AppText
+          namedStyle="text"
+          style={[styles.text, { color: colors.text }]}
+        >
           {label}
         </AppText>
       )}

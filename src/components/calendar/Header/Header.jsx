@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import { StyleSheet, View, TouchableOpacity, Touchable } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 
 import { Icon } from "../../icons/Icon";
 import { AppText } from "../../texts/AppText/AppText";
 import { appStyles } from "#styles";
 import { getDatesInRange, getStartAndEndOfWeek } from "#utils";
+import { useGetTheme } from "#hooks";
 
 /**
  * Header
@@ -15,6 +15,7 @@ import { getDatesInRange, getStartAndEndOfWeek } from "#utils";
  * @return {jsx}
  */
 export const Header = ({ handleDayChange, startDate, style }) => {
+  const { colors, isDarkMode } = useGetTheme();
   const currentDay = new Date();
   const [today, setToday] = useState(
     startDate ? new Date(startDate) : new Date()
@@ -78,14 +79,25 @@ export const Header = ({ handleDayChange, startDate, style }) => {
       return (
         <TouchableOpacity onPress={() => handleSelectDay(day)} key={index}>
           <View style={[styles.dayOfWeek, isToday && styles.selectedToday]}>
-            <AppText style={styles.dayLabelText}>
+            <AppText
+              style={{
+                color:
+                  isToday && isDarkMode
+                    ? appStyles.colorBlack_37
+                    : colors.textTertiary,
+              }}
+            >
               {weekDays[day.getDay()]}
             </AppText>
             <AppText
               namedStyle="smallText"
               style={[
                 styles.dateText,
+                { color: colors.textTertiary },
                 (index === 6 || index === 5) && styles.dateTextWeekend,
+                index === 6 ||
+                  index === 5 ||
+                  (isToday && isDarkMode && { color: appStyles.colorBlack_37 }),
               ]}
             >
               {day.getDate()}

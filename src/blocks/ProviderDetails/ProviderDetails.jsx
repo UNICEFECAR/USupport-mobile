@@ -3,9 +3,8 @@ import { View, StyleSheet } from "react-native";
 import YoutubeIframe from "react-native-youtube-iframe";
 
 import { Avatar, AppText, Icon } from "#components";
-
 import { getDateView, getTimeFromDate } from "#utils";
-
+import { useGetTheme } from "#hooks";
 import { appStyles } from "#styles";
 
 /**
@@ -22,6 +21,7 @@ export const ProviderDetails = ({
   buttonComponent,
   currencySymbol,
 }) => {
+  const { colors } = useGetTheme();
   const [isVideoShown, setVideoShown] = useState(false);
 
   useEffect(() => {
@@ -66,13 +66,13 @@ export const ProviderDetails = ({
   }
 
   return (
-    <View style={[styles.flexGrow1, { paddingBottom: 100 }]}>
+    <View style={[styles.flexGrow1, { paddingBottom: 250 }]}>
       <View style={[styles.header]}>
         <Avatar image={image ? { uri: image } : null} style={styles.avatar} />
         <View style={styles.headerTextContainer}>
           <AppText
             namedStyle="h3"
-            style={[styles.providerName, styles.colorBlue]}
+            style={[styles.providerName, { color: colors.text }]}
           >
             {provider.name} {provider.patronym ? provider.patronym : ""}{" "}
             {provider.surname}
@@ -82,14 +82,18 @@ export const ProviderDetails = ({
       </View>
 
       <View style={styles.marginTop16}>
-        <AppText style={styles.headingText}>{t("description_label")}</AppText>
+        <AppText style={[styles.headingText, { color: colors.text }]}>
+          {t("description_label")}
+        </AppText>
         <AppText style={styles.marginTop8}>{provider.description}</AppText>
       </View>
 
       <View style={styles.marginTop16}>
         {provider.videoLink ? (
           <>
-            <AppText style={styles.headingText}>{t("video_label")}</AppText>
+            <AppText style={[styles.headingText, { color: colors.text }]}>
+              {t("video_label")}
+            </AppText>
             {isVideoShown ? (
               <View style={styles.videoContainer}>
                 <YoutubeIframe
@@ -114,17 +118,21 @@ export const ProviderDetails = ({
         ) : null}
 
         <View style={styles.marginTop16}>
-          <AppText style={styles.headingText}>{t("languages_label")}</AppText>
+          <AppText style={[styles.headingText, { color: colors.text }]}>
+            {t("languages_label")}
+          </AppText>
           <AppText style={styles.marginTop8}>{renderLanguages()}</AppText>
         </View>
 
         <View style={styles.marginTop16}>
-          <AppText style={styles.headingText}>{t("work_with_label")}</AppText>
+          <AppText style={[styles.headingText, { color: colors.text }]}>
+            {t("work_with_label")}
+          </AppText>
           <AppText style={styles.marginTop8}>{renderWorkWith()}</AppText>
         </View>
 
         <View style={styles.marginTop16}>
-          <AppText style={styles.headingText}>
+          <AppText style={[styles.headingText, { color: colors.text }]}>
             {t("earliest_slot_label")}
           </AppText>
           <AppText style={styles.marginTop8}>
@@ -135,14 +143,16 @@ export const ProviderDetails = ({
         </View>
 
         <View style={styles.marginTop16}>
-          <AppText style={styles.headingText}>{t("education_label")}</AppText>
+          <AppText style={[styles.headingText, { color: colors.text }]}>
+            {t("education_label")}
+          </AppText>
           <AppText style={styles.marginTop8}>
             {allOptionsToString("education")}
           </AppText>
         </View>
 
         <View style={styles.marginTop16}>
-          <AppText style={styles.headingText}>
+          <AppText style={[styles.headingText, { color: colors.text }]}>
             {t("done_consultations_label")}
           </AppText>
           <AppText style={styles.marginTop8}>
@@ -159,7 +169,6 @@ const styles = StyleSheet.create({
   marginTop16: { marginTop: 16 },
   marginTop8: { marginTop: 8 },
   marginLeft12: { marginLeft: 12 },
-  colorBlue: { color: appStyles.colorBlue_3d527b },
 
   header: {
     flexDirection: "row",

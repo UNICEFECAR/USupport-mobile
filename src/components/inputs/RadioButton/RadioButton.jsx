@@ -4,6 +4,7 @@ import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 import { AppText } from "../../texts/AppText/AppText";
 
 import { appStyles } from "#styles";
+import { useGetTheme } from "#hooks";
 
 /**
  * RadioButton
@@ -20,6 +21,8 @@ export const RadioButton = ({
   disabled = false,
   ...props
 }) => {
+  const { colors } = useGetTheme();
+
   return (
     <TouchableWithoutFeedback
       onPress={() => setIsChecked(!isChecked)}
@@ -37,7 +40,13 @@ export const RadioButton = ({
           {isChecked && <View style={styles.radio} />}
         </View>
         {label && (
-          <AppText namedStyle="text" style={[isChecked && styles.textChecked]}>
+          <AppText
+            namedStyle="text"
+            style={[
+              isChecked && styles.textChecked,
+              isChecked && { color: colors.text },
+            ]}
+          >
             {label}
           </AppText>
         )}

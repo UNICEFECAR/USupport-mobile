@@ -1,7 +1,8 @@
 import React from "react";
-import { Switch, View } from "react-native";
+import { StyleSheet, Switch, View } from "react-native";
 import { AppText } from "../../texts/AppText";
 import { appStyles } from "#styles";
+import { useGetTheme } from "#hooks";
 
 /**
  * Toggle
@@ -19,12 +20,14 @@ export const Toggle = ({
   wrapperStyles,
   ...props
 }) => {
+  const { colors } = useGetTheme();
+
   return (
     <View style={wrapperStyles}>
       {label && (
         <AppText
-          style={[{ color: appStyles.colorBlue_3d527b }, labelStyle]}
           namedStyle="text"
+          style={[styles.label, { color: colors.text }, labelStyle]}
         >
           {label}
         </AppText>
@@ -46,3 +49,7 @@ export const Toggle = ({
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  label: { fontFamily: appStyles.fontSemiBold, marginBottom: 4 },
+});

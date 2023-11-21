@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
+
 import { Icon } from "../../icons/Icon";
 import { AppText } from "../../texts/AppText/AppText";
-
 import { appStyles } from "#styles";
+import { useGetTheme } from "#hooks";
 
 /**
  * CheckBox
@@ -21,6 +22,7 @@ export const CheckBox = ({
   style,
   ...props
 }) => {
+  const { colors } = useGetTheme();
   return (
     <TouchableWithoutFeedback
       onPress={() => setIsChecked()}
@@ -45,7 +47,13 @@ export const CheckBox = ({
           )}
         </View>
         {label && (
-          <AppText namedStyle="text" style={[isChecked && styles.textChecked]}>
+          <AppText
+            namedStyle="text"
+            style={[
+              isChecked && styles.textChecked,
+              isChecked && { color: colors.text },
+            ]}
+          >
             {label}
           </AppText>
         )}

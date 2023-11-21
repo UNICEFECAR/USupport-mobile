@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { StyleSheet, View } from "react-native";
 import { RadioButtonSelector } from "../RadioButtonSelector/RadioButtonSelector";
 import { AppText } from "../../texts/AppText/AppText";
-
+import { useGetTheme } from "#hooks";
 import { appStyles } from "#styles";
 
 /**
@@ -20,6 +20,7 @@ export const RadioButtonSelectorGroup = ({
   options,
   style,
 }) => {
+  const { colors } = useGetTheme();
   const renderAllOptions = () => {
     return options.map((option, index) => {
       return (
@@ -43,7 +44,10 @@ export const RadioButtonSelectorGroup = ({
   return (
     <View style={[style, styles.container]}>
       {label && (
-        <AppText namedStyle="text" style={styles.text}>
+        <AppText
+          namedStyle="text"
+          style={[styles.text, { color: colors.text }]}
+        >
           {label}
         </AppText>
       )}

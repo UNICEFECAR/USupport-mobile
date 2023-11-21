@@ -3,10 +3,9 @@ import { View, StyleSheet, Image } from "react-native";
 import Markdown from "react-native-markdown-display";
 
 import { Icon, Label, Block, AppText } from "#components";
-
 import { appStyles } from "#styles";
-
 import articlePlaceholder from "#assets";
+import { useGetTheme } from "#hooks";
 
 /**
  * ArticleView
@@ -16,6 +15,8 @@ import articlePlaceholder from "#assets";
  * @return {jsx}
  */
 export const ArticleView = ({ articleData }) => {
+  const { colors } = useGetTheme();
+
   return (
     <>
       <View style={styles.imageContainer}>
@@ -47,7 +48,10 @@ export const ArticleView = ({ articleData }) => {
           </AppText>
 
           <View style={styles.categoryContainer}>
-            <AppText namedStyle="smallText" style={styles.categoryText}>
+            <AppText
+              namedStyle="smallText"
+              style={[styles.categoryText, { color: colors.text }]}
+            >
               {articleData.categoryName}
             </AppText>
           </View>
@@ -59,7 +63,40 @@ export const ArticleView = ({ articleData }) => {
           })}
         </View>
 
-        <Markdown style={styles}>{articleData.body}</Markdown>
+        <Markdown
+          style={{
+            ...styles,
+            heading3: {
+              fontSize: 20,
+              lineHeight: 24,
+              fontFamily: "Nunito_600SemiBold",
+              color: colors.text,
+              marginTop: 20,
+              marginBottom: 8,
+            },
+            heading4: {
+              fontSize: 16,
+              lineHeight: 24,
+              fontFamily: "Nunito_600SemiBold",
+              color: colors.text,
+              marginTop: 12,
+            },
+            paragraph: {
+              color: colors.textSecondary,
+              fontSize: 16,
+              fontFamily: "Nunito_400Regular",
+              lineHeight: 24,
+            },
+            list_item: {
+              color: colors.textSecondary,
+              fontSize: 16,
+              fontFamily: "Nunito_400Regular",
+              lineHeight: 24,
+            },
+          }}
+        >
+          {articleData.body}
+        </Markdown>
       </Block>
     </>
   );
@@ -86,35 +123,8 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     justifyContent: "center",
   },
-  heading3: {
-    fontSize: 20,
-    lineHeight: 24,
-    fontFamily: "Nunito_600SemiBold",
-    color: appStyles.colorBlue_3d527b,
-    marginTop: 20,
-    marginBottom: 8,
-  },
-  heading4: {
-    fontSize: 16,
-    lineHeight: 24,
-    fontFamily: "Nunito_600SemiBold",
-    color: appStyles.colorBlue_3d527b,
-    marginTop: 12,
-  },
-  paragraph: {
-    color: appStyles.colorGray_66768d,
-    fontSize: 16,
-    fontFamily: "Nunito_400Regular",
-    lineHeight: 24,
-  },
   categoryText: {
     fontFamily: appStyles.fontBold,
     color: appStyles.colorBlue_3d527b,
-  },
-  list_item: {
-    color: appStyles.colorGray_66768d,
-    fontSize: 16,
-    fontFamily: "Nunito_400Regular",
-    lineHeight: 24,
   },
 });

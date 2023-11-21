@@ -11,6 +11,7 @@ import { appStyles } from "#styles";
 import { getTime, getDateView } from "#utils";
 
 import { Context } from "#services";
+import { useGetTheme } from "#hooks";
 
 export const PaymentsHistoryTable = ({
   isLoading,
@@ -20,6 +21,7 @@ export const PaymentsHistoryTable = ({
   handleViewMore,
 }) => {
   const { currencySymbol } = useContext(Context);
+  const { colors, isDarkMode } = useGetTheme();
 
   const rowsData = rows.map((item) => (
     <AppText style={styles.headingText}>{t(item)}</AppText>
@@ -51,7 +53,12 @@ export const PaymentsHistoryTable = ({
           style={{
             borderBottomWidth: 1,
             borderBottomColor: appStyles.colorGray_a6b4b8,
-            backgroundColor: index % 2 ? "#eaeaea" : appStyles.colorWhite_ff,
+            backgroundColor:
+              index % 2
+                ? isDarkMode
+                  ? appStyles.colorBlack_12
+                  : "#eaeaea"
+                : colors.card,
           }}
         />
       </TableWrapper>
@@ -127,7 +134,7 @@ const styles = StyleSheet.create({
   headingText: {
     fontFamily: appStyles.fontBold,
     textAlign: "center",
-    marginBottom: 8,
+    marginVertical: 2,
     color: appStyles.colorWhite_ff,
   },
   text: { textAlign: "center", marginBottom: 8, marginTop: 4 },

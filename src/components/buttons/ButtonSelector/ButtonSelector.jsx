@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import { StyleSheet, Pressable, Text, View } from "react-native";
 import { Icon } from "../../icons/Icon";
 import { Avatar } from "../../avatars/Avatar";
-
 import { appStyles } from "#styles";
+import { useGetTheme } from "#hooks";
 
 /**
  * ButtonSelector
@@ -21,6 +21,7 @@ export const ButtonSelector = ({
   style,
   ...props
 }) => {
+  const { colors, isDarkMode } = useGetTheme();
   const [isPressed, setIsPressed] = useState(false);
 
   return (
@@ -28,6 +29,7 @@ export const ButtonSelector = ({
       style={({ pressed }) => {
         return [
           styles.btn,
+          { backgroundColor: colors.card },
           pressed && styles.btnPressed,
           disabled && styles.btnDisabled,
           appStyles.shadow2,
@@ -51,7 +53,13 @@ export const ButtonSelector = ({
         )}
         {!iconName && avatar && <Avatar style={styles.avatar} image={avatar} />}
         <Text
-          style={[styles.text, isPressed && styles.textPressed]}
+          style={[
+            styles.text,
+            {
+              color: colors.textTertiary,
+            },
+            isPressed && styles.textPressed,
+          ]}
           maxFontSizeMultiplier={appStyles.maxFontSizeMultiplier}
         >
           {label}
@@ -69,7 +77,6 @@ export const ButtonSelector = ({
 // define your styles
 const styles = StyleSheet.create({
   btn: {
-    backgroundColor: appStyles.colorWhite_ff,
     borderColor: "transparent",
     borderWidth: 1,
     borderRadius: 24,
@@ -98,7 +105,6 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    color: appStyles.colorBlack_37,
     marginLeft: 11,
     fontSize: 14,
     fontFamily: "Nunito_400Regular",

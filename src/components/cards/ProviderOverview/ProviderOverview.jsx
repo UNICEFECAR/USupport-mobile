@@ -1,15 +1,13 @@
 import React from "react";
 import { StyleSheet, View, Pressable } from "react-native";
+import Config from "react-native-config";
 
 import { Avatar } from "../../avatars/Avatar/Avatar";
 import { Icon } from "../../icons/Icon";
 import { AppText } from "../../texts/AppText/AppText";
-
 import { getDayOfTheWeek, getDateView } from "#utils";
-
 import { appStyles } from "#styles";
-
-import Config from "react-native-config";
+import { useGetTheme } from "#hooks";
 const { AMAZON_S3_BUCKET } = Config;
 
 /**
@@ -33,6 +31,7 @@ export const ProviderOverview = ({
   specializations,
   style,
 }) => {
+  const { colors, isDarkMode } = useGetTheme();
   const displayName = patronym
     ? `${name} ${patronym} ${surname}`
     : `${name} ${surname}`;
@@ -59,7 +58,11 @@ export const ProviderOverview = ({
   return (
     <Pressable onPress={onPress} style={[styles.touchableOpacity, style]}>
       <View
-        style={[styles.providerOverview, { ...appStyles.shadow2 }]}
+        style={[
+          styles.providerOverview,
+          { backgroundColor: colors.card },
+          { ...appStyles.shadow2 },
+        ]}
         classes={["provider-overview"].join(" ")}
       >
         <Avatar image={{ uri: imageURI }} size="md" />
@@ -79,6 +82,7 @@ export const ProviderOverview = ({
                     style={[
                       styles.priceBadgeText,
                       !price && styles.priceBadgeFreeText,
+                      !price && isDarkMode && { color: colors.text },
                     ]}
                   >
                     {price > 0 ? `${price}${currencySymbol}` : freeLabel}
@@ -88,11 +92,14 @@ export const ProviderOverview = ({
             </View>
             <AppText
               namedStyle="smallText"
-              style={{ paddingBottom: 6, color: appStyles.colorBlue_3d527b }}
+              style={{ paddingBottom: 6, color: colors.text }}
             >
               {specializations.join(", ")}
             </AppText>
-            <AppText namedStyle="smallText" style={styles.typesText}>
+            <AppText
+              namedStyle="smallText"
+              style={[styles.typesText, { color: colors.textSecondary }]}
+            >
               {t("earliest_available_slot")}
             </AppText>
             <View style={styles.dateContainer}>
@@ -104,14 +111,14 @@ export const ProviderOverview = ({
               />
               <View>
                 <AppText
-                  style={{ color: appStyles.colorBlue_3d527b }}
+                  style={{ color: colors.text }}
                   isBold
                   namedStyle="smallText"
                 >
                   {dateText}
                 </AppText>
                 <AppText
-                  style={{ color: appStyles.colorBlue_3d527b }}
+                  style={{ color: colors.text }}
                   isBold
                   namedStyle="smallText"
                 >
@@ -143,7 +150,6 @@ const styles = StyleSheet.create({
     textAlign: "left",
     width: "96%",
     maxWidth: 420,
-    backgroundColor: appStyles.colorWhite_ff,
     borderRadius: 16,
   },
   content: {

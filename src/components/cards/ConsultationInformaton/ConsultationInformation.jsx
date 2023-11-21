@@ -13,6 +13,7 @@ import { specialistPlaceholder } from "#assets";
 import Config from "react-native-config";
 import { IconWifiOff, IconWifiOn } from "../../icons/assets/sprite";
 // import { IconCheckCircle, IconForbidden } from "../../icons/assets/sprite";
+import { useGetTheme } from "#hooks";
 const { AMAZON_S3_BUCKET } = Config;
 
 /**
@@ -34,6 +35,7 @@ export const ConsultationInformation = ({
   isProviderInSession = false,
   t,
 }) => {
+  const { colors, isDarkMode } = useGetTheme();
   const dayOfWeek = t(getDayOfTheWeek(startDate));
   const dateText = `${dayOfWeek} ${getDateView(startDate).slice(0, 5)}`;
 
@@ -53,7 +55,9 @@ export const ConsultationInformation = ({
         <Avatar image={imageUrl && { uri: imageUrl }} size="md" />
         <View style={styles.content}>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <AppText style={styles.nameText}>{providerName}</AppText>
+            <AppText style={[styles.nameText, { color: colors.text }]}>
+              {providerName}
+            </AppText>
             <View
               style={{
                 // width: 16,
@@ -72,14 +76,20 @@ export const ConsultationInformation = ({
             </View>
           </View>
           <View style={styles.dateContainer}>
-            <Icon
-              name="calendar"
-              size="sm"
-              color={appStyles.colorGray_66768d}
-            />
+            <Icon name="calendar" size="sm" color={colors.textSecondary} />
             <View style={styles.dateContainerContent}>
-              <AppText namedStyle="smallText">{dateText}</AppText>
-              <AppText namedStyle="smallText">{timeText}</AppText>
+              <AppText
+                namedStyle="smallText"
+                style={{ color: colors.textSecondary }}
+              >
+                {dateText}
+              </AppText>
+              <AppText
+                namedStyle="smallText"
+                style={{ color: colors.textSecondary }}
+              >
+                {timeText}
+              </AppText>
             </View>
           </View>
         </View>
@@ -94,6 +104,7 @@ export const ConsultationInformation = ({
               style={[
                 styles.priceBadgeText,
                 !price && styles.priceBadgeFreeText,
+                isDarkMode && { color: colors.text },
               ]}
             >
               {price > 0 ? `${price}${currencySymbol}` : t("free")}

@@ -21,9 +21,9 @@ import { Icon } from "../../icons";
 import { AppButton } from "../../buttons";
 import { Loading } from "../../loaders/";
 import { Error } from "../../errors/";
-
 import { appStyles } from "#styles";
 import { useKeyboard } from "../../../hooks/useKeyboard";
+import { useGetTheme } from "#hooks";
 
 /**
  * Backdrop
@@ -66,6 +66,7 @@ export const Backdrop = ({
   isInVideoTherapy = false,
   setKeyboardHeight,
 }) => {
+  const { colors } = useGetTheme();
   const hasButtons = ctaLabel || secondaryCtaLabel;
   const [isOverlayShown, setIsOverlayShown] = useState(false);
   const [buttonsContainerHeight, setButtonsContainerHeight] = useState(0);
@@ -157,6 +158,7 @@ export const Backdrop = ({
       <Animated.View
         style={[
           styles.backdrop,
+          { backgroundColor: colors.background },
           backdropStyle,
           style,
           shrinkBackdrop ? { height: appStyles.screenHeight * 0.3 } : {},
@@ -215,6 +217,7 @@ export const Backdrop = ({
           <View
             style={[
               styles.buttonContainer,
+              { backgroundColor: colors.background },
               {
                 bottom: -bottomInset,
                 paddingBottom: bottomInset === 0 ? 24 : bottomInset / 2,
@@ -283,7 +286,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
     padding: 16,
-    backgroundColor: appStyles.colorWhite_ff,
     bottom: 0,
     height: appStyles.screenHeight * 0.8,
     zIndex: 999, // Put higher zIndex in order to show the backdrop above the emergency button
@@ -301,7 +303,6 @@ const styles = StyleSheet.create({
     paddingRight: 30,
   },
   headingText: {
-    color: appStyles.colorBlue_3d527b,
     alignSelf: "center",
     fontFamily: appStyles.fontSemiBold,
     // marginRight: "-10%",
@@ -323,7 +324,6 @@ const styles = StyleSheet.create({
   buttonContainer: {
     alignItems: "center",
     justifyContent: "flex-end",
-    backgroundColor: "white",
     position: "absolute",
     width: "100%",
     alignSelf: "center",

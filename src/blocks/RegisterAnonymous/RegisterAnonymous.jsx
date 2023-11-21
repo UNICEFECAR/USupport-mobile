@@ -30,7 +30,7 @@ import {
 
 import { userSvc, localStorage, Context } from "#services";
 import { validate, validateProperty, showToast } from "#utils";
-import { useError } from "#hooks";
+import { useGetTheme, useError } from "#hooks";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -40,6 +40,7 @@ import Animated, {
 } from "react-native-reanimated";
 
 export const RegisterAnonymous = ({ navigation }) => {
+  const { colors } = useGetTheme();
   const { t } = useTranslation("register-anonymous");
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [hasCopied, setHasCopied] = useState(false);
@@ -225,7 +226,9 @@ export const RegisterAnonymous = ({ navigation }) => {
         >
           <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
             <View>
-              <AppText isSemibold>{t("access_code")}</AppText>
+              <AppText isSemibold style={{ color: colors.textSecondary }}>
+                {t("access_code")}
+              </AppText>
               {userAccessToken ? (
                 <View style={styles.copyCodeContainer}>
                   <AppText namedStyle="h3">{userAccessToken}</AppText>
@@ -247,7 +250,12 @@ export const RegisterAnonymous = ({ navigation }) => {
 
             <View style={styles.warningContainer}>
               <Icon style={styles.warningIcon} name="warning" />
-              <AppText namedStyle="smallText">{t("copy_text")}</AppText>
+              <AppText
+                namedStyle="smallText"
+                style={{ color: colors.textSecondary }}
+              >
+                {t("copy_text")}
+              </AppText>
             </View>
 
             <Input

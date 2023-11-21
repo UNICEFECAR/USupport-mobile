@@ -4,6 +4,7 @@ import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Icon } from "../../icons/Icon";
 import { AppText } from "../../texts/AppText/AppText";
 import { appStyles } from "#styles";
+import { useGetTheme } from "#hooks";
 
 /**
  * Rating
@@ -21,6 +22,7 @@ export const Rating = ({
 }) => {
   const [initialStarsState, setInitialStarsState] = useState();
   const [stars, setStars] = useState([]);
+  const { colors } = useGetTheme();
 
   useEffect(() => {
     let initialStarsState = [];
@@ -54,7 +56,11 @@ export const Rating = ({
 
   return (
     <View style={[style]}>
-      {label ? <AppText style={styles.label}>{label}</AppText> : null}
+      {label ? (
+        <AppText style={[styles.label, { color: colors.text }]}>
+          {label}
+        </AppText>
+      ) : null}
       <View style={styles.starsContainer}>
         {stars.map((star, index) => {
           const starColor =
@@ -82,7 +88,7 @@ export const Rating = ({
 
 const styles = StyleSheet.create({
   label: {
-    color: appStyles.colorBlue_3d527b,
+    // color: appStyles.colorBlue_3d527b,
     marginBottom: 4,
     fontFamily: "Nunito_600SemiBold",
   },

@@ -62,7 +62,6 @@ import {
   SOSCenter as SOSCenterScreen,
   LocalAuthenticationScreen,
   MyQA as MyQAScreen,
-  ChangeLanguage,
 } from "./src/screens/locales.js";
 
 import {
@@ -155,7 +154,6 @@ const resources = {
     "share-platform-screen": SharePlatformScreen.en,
     "sos-center-screen": SOSCenterScreen.en,
     "my-qa-screen": MyQAScreen.en,
-    "change-language": ChangeLanguage.en,
 
     // Backdrops
     "cancel-consultation": CancelConsultation.en,
@@ -246,7 +244,6 @@ const resources = {
     "share-platform-screen": SharePlatformScreen.ru,
     "sos-center-screen": SOSCenterScreen.ru,
     "my-qa-screen": MyQAScreen.ru,
-    "change-language": ChangeLanguage.ru,
 
     // Backdrops
     "cancel-consultation": CancelConsultation.ru,
@@ -337,7 +334,6 @@ const resources = {
     "share-platform-screen": SharePlatformScreen.kk,
     "sos-center-screen": SOSCenterScreen.kk,
     "my-qa-screen": MyQAScreen.kk,
-    "change-language": ChangeLanguage.kk,
 
     // Backdrops
     "cancel-consultation": CancelConsultation.kk,

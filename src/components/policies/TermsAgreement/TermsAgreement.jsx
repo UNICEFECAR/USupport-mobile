@@ -1,9 +1,10 @@
 import React from "react";
 import { View, Linking, StyleSheet } from "react-native";
+
 import { CheckBox } from "../../inputs";
 import { AppText } from "../../texts";
-
 import { appStyles } from "#styles";
+import { useGetTheme } from "#hooks";
 
 import Config from "react-native-config";
 const { WEBSITE_URL } = Config;
@@ -18,11 +19,15 @@ export const TermsAgreement = ({
   textFour,
   style,
 }) => {
+  const { colors } = useGetTheme();
+
   return (
     <View style={[styles.container, style]}>
       <CheckBox isChecked={isChecked} setIsChecked={setIsChecked} />
       <AppText>
-        <AppText namedStyle="text">{textOne}</AppText>
+        <AppText namedStyle="text" style={{ color: colors.text }}>
+          {textOne}
+        </AppText>
         {textTwo && (
           <AppText
             namedStyle="text"
@@ -34,7 +39,12 @@ export const TermsAgreement = ({
             {` ${textTwo} `}
           </AppText>
         )}
-        {textThree && <AppText namedStyle="text">{`${textThree} `}</AppText>}
+        {textThree && (
+          <AppText
+            namedStyle="text"
+            style={{ color: colors.text }}
+          >{`${textThree} `}</AppText>
+        )}
         {textFour && (
           <AppText
             namedStyle="text"

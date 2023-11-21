@@ -19,6 +19,7 @@ import { useGetChatData, useGetAllChatHistoryData, useDebounce } from "#hooks";
 import { systemMessageTypes } from "#utils";
 
 import Config from "react-native-config";
+import { useGetTheme } from "#hooks";
 const { AMAZON_S3_BUCKET } = Config;
 
 export const ActivityHistory = ({
@@ -28,6 +29,7 @@ export const ActivityHistory = ({
   providerId,
 }) => {
   const { t } = useTranslation("activity-history");
+  const { colors } = useGetTheme();
 
   const [shownMessages, setShownMessages] = useState();
   const messagesContainerRef = useRef();
@@ -144,16 +146,7 @@ export const ActivityHistory = ({
   };
   return (
     <>
-      <Block
-        style={{
-          paddingBottom: 10,
-          position: "absolute",
-          top: 0,
-          height: "28%",
-          backgroundColor: "white",
-          zIndex: 1,
-        }}
-      >
+      <Block style={[styles.block, { backgroundColor: colors.background }]}>
         <View style={[styles.container]}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <Icon
@@ -228,6 +221,14 @@ export const ActivityHistory = ({
 };
 
 const styles = StyleSheet.create({
+  block: {
+    paddingBottom: 10,
+    position: "absolute",
+    top: 0,
+    height: "28%",
+    backgroundColor: "white",
+    zIndex: 1,
+  },
   container: { flexDirection: "row", alignItems: "center" },
   avatar: { width: 42, height: 42, borderRadius: 100, marginHorizontal: 16 },
   messagesContainer: {

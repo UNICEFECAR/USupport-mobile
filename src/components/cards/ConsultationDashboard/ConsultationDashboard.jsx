@@ -12,6 +12,7 @@ import {
   getOrdinal,
 } from "#utils";
 import Config from "react-native-config";
+import { useGetTheme } from "#hooks";
 const { AMAZON_S3_BUCKET } = Config;
 
 /**
@@ -30,6 +31,7 @@ export const ConsultationDashboard = ({
   handleSchedule,
   t,
 }) => {
+  const { colors } = useGetTheme();
   const { providerName, timestamp, image, status, price } = consultation || {};
   const imageUrl = AMAZON_S3_BUCKET + "/" + (image || "default");
 
@@ -46,7 +48,14 @@ export const ConsultationDashboard = ({
   const timeText = startDate ? `${time < 10 ? `0${time}` : time}:00` : "";
 
   return (
-    <View style={[styles.container, style, { ...appStyles.shadow2 }]}>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: colors.card },
+        style,
+        { ...appStyles.shadow2 },
+      ]}
+    >
       {consultation ? (
         <View className="consultation-dashboard__content">
           {isLive ? (
@@ -54,11 +63,16 @@ export const ConsultationDashboard = ({
               {t("live_label")}
             </AppText>
           ) : (
-            <AppText namedStyle="smallText">{`${dateText} ${timeText}`}</AppText>
+            <AppText
+              namedStyle="smallText"
+              style={{ color: colors.textSecondary }}
+            >{`${dateText} ${timeText}`}</AppText>
           )}
           <View style={styles.providerContainer}>
             <Image source={{ uri: imageUrl }} style={styles.providerImage} />
-            <AppText style={styles.providerNameText}>{providerName}</AppText>
+            <AppText style={[styles.providerNameText, { color: colors.text }]}>
+              {providerName}
+            </AppText>
           </View>
           {status === "suggested" ? (
             <AppButton
@@ -118,7 +132,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     width: 200,
     borderRadius: 16,
-    backgroundColor: appStyles.colorWhite_ff,
     alignItems: "center",
   },
   providerContainer: {
@@ -143,5 +156,5 @@ const styles = StyleSheet.create({
     wordBreak: "break-word",
   },
   noConsultationText: { marginBottom: 16 },
-  marginTop8: { marginTop: 8, alignSelf: 'center' },
+  marginTop8: { marginTop: 8, alignSelf: "center" },
 });

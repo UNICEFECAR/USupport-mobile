@@ -3,6 +3,7 @@ import { StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 import { Box } from "../../boxes";
 import { RadioButton } from "../RadioButton/RadioButton";
+import { useGetTheme } from "#hooks";
 
 /**
  * RadioButtonSelector
@@ -12,8 +13,17 @@ import { RadioButton } from "../RadioButton/RadioButton";
  * @return {jsx}
  */
 export const RadioButtonSelector = ({ style, ...props }) => {
+  const { colors } = useGetTheme();
+
   return (
-    <Box style={[style, styles.radioButtonSelector]} boxShadow={2}>
+    <Box
+      style={[
+        style,
+        styles.radioButtonSelector,
+        { backgroundColor: colors.input },
+      ]}
+      boxShadow={2}
+    >
       <RadioButton {...props} />
     </Box>
   );

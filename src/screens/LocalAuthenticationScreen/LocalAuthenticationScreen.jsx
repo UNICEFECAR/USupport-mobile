@@ -8,11 +8,13 @@ import { TextInput } from "react-native-gesture-handler";
 import { Icon, Screen, AppText, Error } from "#components";
 import { localStorage } from "#services";
 import { appStyles } from "#styles";
+import { useGetTheme } from "#hooks";
 
 export function LocalAuthenticationScreen({
   userPin,
   setHasAuthenticatedWithPin,
 }) {
+  const { colors } = useGetTheme();
   const { t } = useTranslation("local-authentication-screen");
   const [data, setData] = useState([
     {
@@ -160,7 +162,7 @@ export function LocalAuthenticationScreen({
                   goToPreviousBox(box.previousIndex, keyValue)
                 }
                 maxFontSizeMultiplier={appStyles.maxFontSizeMultiplier}
-                style={styles.textInput}
+                style={[styles.textInput, { backgroundColor: colors.card }]}
               />
             );
           })}
@@ -187,7 +189,10 @@ export function LocalAuthenticationScreen({
 }
 
 const styles = StyleSheet.create({
-  screen: { justifyContent: "center", alignItems: "center" },
+  screen: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
   pinAndTextContainer: {
     height: appStyles.screenHeight * 0.4,
     justifyContent: "center",

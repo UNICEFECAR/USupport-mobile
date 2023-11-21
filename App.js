@@ -62,6 +62,7 @@ function App() {
   const [hasCheckedTmpUser, setHasCheckedTmpUser] = useState(false);
   const [activeCoupon, setActiveCoupon] = useState();
   const [isAnonymousRegister, setIsAnonymousRegister] = useState(false);
+  const [theme, setTheme] = useState(null);
 
   const [dropdownOptions, setDropdownOptions] = useState({
     isOpen: false,
@@ -184,6 +185,8 @@ function App() {
     setActiveCoupon,
     isAnonymousRegister,
     setIsAnonymousRegister,
+    theme,
+    setTheme,
   };
 
   return (
@@ -192,21 +195,22 @@ function App() {
         <QueryClientProvider client={queryClient}>
           <SafeAreaProvider>
             <View style={styles.flex1} onLayout={onLayoutRootView}>
-              <Navigation />
-              <RequireRegistration
-                handleContinue={handleRegisterRedirection}
-                isOpen={isRegistrationModalOpan}
-                onClose={handleRegistrationModalClose}
-              />
-              <DropdownBackdrop
-                onClose={() =>
-                  setDropdownOptions((options) => ({
-                    ...options,
-                    isOpen: false,
-                  }))
-                }
-                {...dropdownOptions}
-              />
+              <Navigation contextTheme={theme} setTheme={setTheme}>
+                <DropdownBackdrop
+                  onClose={() =>
+                    setDropdownOptions((options) => ({
+                      ...options,
+                      isOpen: false,
+                    }))
+                  }
+                  {...dropdownOptions}
+                />
+                <RequireRegistration
+                  handleContinue={handleRegisterRedirection}
+                  isOpen={isRegistrationModalOpan}
+                  onClose={handleRegistrationModalClose}
+                />
+              </Navigation>
             </View>
           </SafeAreaProvider>
           <FlashMessage position="top" />

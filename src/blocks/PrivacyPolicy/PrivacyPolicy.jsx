@@ -3,13 +3,11 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import Markdown from "react-native-markdown-display";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { appStyles } from "#styles";
-
 import { Block, Heading, AppText, Loading } from "#components";
-
 import { useEventListener } from "#hooks";
-
 import { localStorage, cmsSvc } from "#services";
 
 /**
@@ -25,6 +23,7 @@ export const PrivacyPolicy = ({
   handleModalClose,
 }) => {
   const { i18n, t } = useTranslation("privacy-policy");
+  const { top: topInset } = useSafeAreaInsets();
 
   //--------------------- Country Change Event Listener ----------------------//
   const [currentCountry, setCurrentCountry] = useState();
@@ -70,9 +69,12 @@ export const PrivacyPolicy = ({
         handleGoBack={handleGoBack}
         hasCloseIcon={isModal}
         handleCloseIconPress={handleModalClose}
+        style={isModal && { paddingTop: topInset + 10 }}
       />
       <ScrollView>
-        <Block style={{ marginTop: 48 }}>
+        <Block
+          style={[{ marginTop: 48 }, isModal && { marginTop: topInset + 48 }]}
+        >
           <View style={styles.privacyContainer}>
             {policiesData && <Markdown style={styles}>{policiesData}</Markdown>}
             {!policiesData && policiesLoading && (

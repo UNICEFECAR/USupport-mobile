@@ -15,7 +15,7 @@ import { AppText } from "../texts";
 import { Icon } from "../icons";
 import { AppButton } from "../buttons/AppButton/AppButton";
 import { Error } from "../errors/Error";
-
+import { useGetTheme } from "#hooks";
 import { appStyles } from "#styles";
 
 export function TransparentModal({
@@ -36,6 +36,8 @@ export function TransparentModal({
   errorMessage,
   style,
 }) {
+  const { colors, isDarkMode } = useGetTheme();
+
   return (
     <Modal transparent visible={isOpen}>
       <TouchableWithoutFeedback onPress={handleClose}>
@@ -47,14 +49,23 @@ export function TransparentModal({
               translucent={Platform.OS === "android" ? true : false}
             />
             <TouchableWithoutFeedback>
-              <View style={[styles.content, style]}>
+              <View
+                style={[
+                  styles.content,
+                  { backgroundColor: colors.background },
+                  style,
+                ]}
+              >
                 <View style={styles.heading}>
                   <AppText namedStyle="h3" style={styles.headingText}>
                     {heading}
                   </AppText>
                   {hasCloseIcon ? (
                     <TouchableOpacity onPress={handleClose}>
-                      <Icon name="close-x" color="#263238" />
+                      <Icon
+                        name="close-x"
+                        color={isDarkMode ? appStyles.colorWhite_ff : "#263238"}
+                      />
                     </TouchableOpacity>
                   ) : null}
                 </View>

@@ -16,6 +16,7 @@ import {
 } from "#blocks";
 import { mascotHappyPurple } from "#assets";
 import { appStyles } from "#styles";
+import { useGetTheme } from "#hooks";
 
 /**
  * InformationPortal
@@ -25,14 +26,20 @@ import { appStyles } from "#styles";
  * @returns {JSX.Element}
  */
 export const InformationalPortal = ({ navigation }) => {
+  const { isDarkMode } = useGetTheme();
   const { t } = useTranslation("informational-portal-screen");
 
   const heading = (
     <View>
-      <AppText namedStyle="h3" style={styles.heading}>
+      <AppText
+        namedStyle="h3"
+        style={[styles.heading, isDarkMode && styles.darkModeText]}
+      >
         {t("heading")}
       </AppText>
-      <AppText style={styles.subheading}>{t("subheading")}</AppText>
+      <AppText style={[styles.subheading, isDarkMode && styles.darkModeText]}>
+        {t("subheading")}
+      </AppText>
     </View>
   );
 
@@ -61,4 +68,5 @@ const styles = StyleSheet.create({
   headingBlock: { paddingTop: 65 },
   heading: { color: appStyles.colorBlue_263238 },
   subheading: { marginTop: 16, color: appStyles.colorBlue_263238 },
+  darkModeText: { color: appStyles.colorWhite_ff },
 });

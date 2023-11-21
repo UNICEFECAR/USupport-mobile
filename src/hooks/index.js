@@ -47,3 +47,4 @@ export * from "./useGetQuestionsTags.js";
 export * from "./useSwipe.js";
 export * from "./useMarkAllNotificationsAsRead.js";
 export * from "./useGetAllChatHistoryData.js";
+export * from "./useGetTheme.js";

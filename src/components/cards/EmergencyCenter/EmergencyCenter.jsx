@@ -1,10 +1,10 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { View, StyleSheet, Image, Linking } from "react-native";
 
 import { AppText } from "../../texts/";
 import { AppButton } from "../../buttons";
-
 import { appStyles } from "#styles";
+import { useGetTheme } from "#hooks";
 
 /**
  * EmergencyCenter
@@ -23,6 +23,8 @@ export const EmergencyCenter = ({
   image,
   style,
 }) => {
+  const { colors } = useGetTheme();
+
   const handleClick = (type) => {
     if (type === "phone") {
       window.open(`tel:${phone}`);
@@ -43,7 +45,9 @@ export const EmergencyCenter = ({
   };
 
   return (
-    <View style={[styles.emergencyCenter, style]}>
+    <View
+      style={[styles.emergencyCenter, { backgroundColor: colors.card }, style]}
+    >
       {image && (
         <Image
           className="emergency-center__image"
@@ -51,8 +55,13 @@ export const EmergencyCenter = ({
           style={styles.image}
         />
       )}
-      <AppText style={styles.textHeading}>{title}</AppText>
-      <AppText namedStyle="smallText" style={styles.text}>
+      <AppText style={[styles.textHeading, { color: colors.text }]}>
+        {title}
+      </AppText>
+      <AppText
+        namedStyle="smallText"
+        style={[styles.text, { color: colors.textSecondary }]}
+      >
         {text}
       </AppText>
       <View style={styles.buttonsContainer}>

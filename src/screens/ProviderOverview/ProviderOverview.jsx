@@ -135,6 +135,7 @@ export const ProviderOverview = ({ navigation, route }) => {
       />
       <ScrollView
         contentContainerStyle={[styles.flexGrow1, { marginTop: 112 }]}
+        showsVerticalScrollIndicator={false}
       >
         <ProviderOverviewBlock
           navigation={navigation}
