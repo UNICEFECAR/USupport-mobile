@@ -19,7 +19,7 @@ export const CustomCarousel = ({ data, style, ...props }) => {
   return (
     <View style={[styles.container, style]}>
       <Carousel
-        height={140}
+        height={180}
         width={appStyles.screenWidth}
         autoPlay={true}
         autoPlayInterval={3500}
