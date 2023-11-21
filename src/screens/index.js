@@ -35,4 +35,3 @@ export * from "./ChangePasscode";
 export * from "./LocalAuthenticationScreen";
 export * from "./TermsOfUse";
 export * from "./MyQA";
-export * from "./ChangeLanguage";
