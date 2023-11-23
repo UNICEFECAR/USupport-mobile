@@ -50,10 +50,26 @@ async function getPaymentHistory({
   return response;
 }
 
+/**
+ * used to refund payment intent.
+ *
+ * @param {string} consultaitonId - the id of an existing consultation
+ *
+ * @returns {Promise} - Promise object represents the response from the server containing the client secret
+ */
+async function refund(consultationId) {
+  const response = await http.post(`${API_ENDPOINT}/one-time/refund`, {
+    consultationId: consultationId,
+  });
+
+  return response;
+}
+
 const exportedFunctions = {
   createPaymentIntent,
   cancelPaymentIntent,
   getPaymentHistory,
+  refund,
 };
 
 export default exportedFunctions;
