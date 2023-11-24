@@ -31,7 +31,8 @@ export const ConsultationBig = ({
   handleAcceptSuggestion,
   t,
 }) => {
-  const { providerName, timestamp, image, status, price } = consultation;
+  const { timestamp, image, status, price } = consultation;
+  let providerName = "Sebastian LongerTigran Galustiyan";
   const imageUrl = AMAZON_S3_BUCKET + "/" + (image || "default");
 
   const isLive = checkIsFiveMinutesBefore(timestamp);
@@ -68,7 +69,9 @@ export const ConsultationBig = ({
               size="sm"
               style={styles.avatar}
             />
-            <AppText style={styles.providerNameText}>{providerName}</AppText>
+            <AppText style={styles.providerNameText} numberOfLines={3}>
+              {providerName}
+            </AppText>
           </View>
           {status === "suggested" ? (
             <AppButton
@@ -142,6 +145,7 @@ const styles = StyleSheet.create({
     fontFamily: appStyles.fontBold,
     wordBreak: "break-all",
     textAlign: "left",
+    flex: 1,
   },
   button: { marginTop: 16 },
   imageMascot: { width: 128, height: 100 },
