@@ -4,8 +4,11 @@ import { useError } from "./useError";
 
 export default function useCancelConsultation(onSuccess, onError) {
   const cancelConsultation = async (consultation) => {
-    const { consultationId } = consultation;
-    const res = await providerSvc.cancelConsultation(consultationId);
+    const { consultationId, shouldRefund } = consultation;
+    const res = await providerSvc.cancelConsultation(
+      consultationId,
+      shouldRefund
+    );
     return res;
   };
 

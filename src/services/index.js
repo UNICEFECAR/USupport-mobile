@@ -12,4 +12,5 @@ export { default as notificationsSvc } from "./notifications.js";
 export { default as localStorage } from "./storage.js";
 export { default as Context } from "./context.js";
 export { default as paymentsSvc } from "./payments.js";
+export { default as videoSvc } from "./video.js";
 export * from "./log.js";

@@ -40,6 +40,8 @@ import {
   useGetSecurityCheckAnswersByConsultationId,
   useDebounce,
   useGetAllChatHistoryData,
+  useUpdateConsultationStatus,
+  useJoinConsultation,
 } from "#hooks";
 
 import { VideoRoom } from "#blocks";
@@ -116,6 +118,8 @@ export const Consultation = ({ navigation, route }) => {
 
   const { data: securityCheckAnswers } =
     useGetSecurityCheckAnswersByConsultationId(consultation.consultationId);
+  const useUpdateConsultationStatusMutation = useUpdateConsultationStatus();
+  const joinConsultationMutation = useJoinConsultation();
 
   const [isChatShown, setIsChatShown] = useState(!joinWithVideo);
 
@@ -255,6 +259,23 @@ export const Consultation = ({ navigation, route }) => {
     showAllMessages,
     isProviderTyping,
   ]);
+
+  useEffect(() => {
+    const consultationId = consultation.consultationId;
+    if (isProviderInSession && consultationId) {
+      useUpdateConsultationStatusMutation.mutate({
+        consultationId,
+        status: "active",
+      });
+    }
+  }, [isProviderInSession]);
+
+  useEffect(() => {
+    joinConsultationMutation.mutate({
+      consultationId: consultation.consultationId,
+      userType: "client",
+    });
+  }, []);
 
   // Mutations
   const onSendSuccess = (newMessage) => {

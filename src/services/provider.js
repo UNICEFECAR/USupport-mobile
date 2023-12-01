@@ -182,9 +182,10 @@ async function scheduleConsultation(consultationId) {
   return response;
 }
 
-async function cancelConsultation(consultationId) {
+async function cancelConsultation(consultationId, shouldRefund) {
   const res = await http.put(`${API_ENDPOINT}/consultation/cancel`, {
     consultationId,
+    shouldRefund,
   });
   return res;
 }
@@ -303,6 +304,20 @@ async function leaveConsultation(consultationId, userType) {
   return res;
 }
 
+/**
+ *
+ * @param {String} consultationId the id of the consultation
+ * @param {String} userType the type of the user - client or provider
+ * @returms
+ */
+async function joinConsultation(consultationId, userType) {
+  const res = await http.put(`${API_ENDPOINT}/consultation/join`, {
+    consultationId,
+    userType,
+  });
+  return res;
+}
+
 async function getConsultationsTime(consultationId) {
   const res = await http.get(
     `${API_ENDPOINT}/consultation/time?consultationId=${consultationId}`
@@ -350,5 +365,6 @@ const exportedFunctions = {
   leaveConsultation,
   getConsultationsTime,
   getQuestionTags,
+  joinConsultation,
 };
 export default exportedFunctions;
