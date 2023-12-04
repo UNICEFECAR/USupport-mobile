@@ -1,19 +1,14 @@
-import {
-  Image,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Image, ScrollView, StyleSheet, View } from "react-native";
 import React, { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
-import { AppText, AppButton, Block, Dropdown } from "#components";
 
+import { AppText, AppButton, Block, Dropdown } from "#components";
 import { languageSvc, countrySvc, localStorage, Context } from "#services";
+import { useGetTheme } from "#hooks";
 
 export function Welcome({ navigation }) {
+  const { isDarkMode } = useGetTheme();
   const { t, i18n } = useTranslation("welcome");
   const { setCurrencySymbol } = useContext(Context);
   const [selectedCountry, setSelectedCountry] = useState(null);
@@ -104,7 +99,11 @@ export function Welcome({ navigation }) {
           <AppText namedStyle="h2">{t("heading")}</AppText>
           <Image
             resizeMode="contain"
-            source={require("../../assets/logo-vertical.png")}
+            source={
+              isDarkMode
+                ? require("../../assets/logo-vertical-dark.png")
+                : require("../../assets/logo-vertical.png")
+            }
             style={styles.logo}
           />
         </View>
