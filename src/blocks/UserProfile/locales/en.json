@@ -18,5 +18,7 @@
   "passcoode_and_biometrics_button_label": "Passcode and biometrics",
   "payments_history_button_label": "Payment History",
   "terms_and_conditions": "Terms of Use",
-  "language_button_label": "Change language"
+  "language_button_label": "Change language",
+  "dark_mode_button_label": "Dark mode",
+  "light_mode_button_label": "Light mode"
 }

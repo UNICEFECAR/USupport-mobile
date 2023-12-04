@@ -18,5 +18,7 @@
   "passcoode_and_biometrics_button_label": "Код доступа и биометрические данные",
   "payments_history_button_label": "История платежей",
   "terms_and_conditions": "Условия и положения",
-  "language_button_label": "Изменить язык"
+  "language_button_label": "Изменить язык",
+  "dark_mode_button_label": "Темный режим",
+  "light_mode_button_label": "Светлый режим"
 }

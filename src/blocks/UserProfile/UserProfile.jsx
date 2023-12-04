@@ -18,8 +18,9 @@ const { AMAZON_S3_BUCKET } = Config;
  * @return {jsx}
  */
 export const UserProfile = ({ navigation }) => {
-  const { colors } = useGetTheme();
+  const { isDarkMode, colors } = useGetTheme();
   const { t, i18n } = useTranslation("user-profile");
+  const { theme, setTheme } = useContext(Context);
 
   const { isTmpUser, handleRegistrationModalOpen } = useContext(Context);
   const [languagesData, setLanguagesData] = useState({
@@ -113,6 +114,16 @@ export const UserProfile = ({ navigation }) => {
     }
   };
 
+  const handleThemeChange = async () => {
+    if (theme === "dark") {
+      setTheme("light");
+      await localStorage.setItem("theme", "light");
+    } else {
+      setTheme("dark");
+      await localStorage.setItem("theme", "dark");
+    }
+  };
+
   return (
     <React.Fragment>
       <Heading
@@ -156,6 +167,16 @@ export const UserProfile = ({ navigation }) => {
               label={t("language_button_label")}
               iconName="globe"
               onPress={languagesData && handlOpenLanguageDropdown}
+              style={styles.buttonSelector}
+            />
+            <ButtonSelector
+              label={
+                isDarkMode
+                  ? t("light_mode_button_label")
+                  : t("dark_mode_button_label")
+              }
+              iconName={isDarkMode ? "sun" : "moon"}
+              onPress={handleThemeChange}
               style={styles.buttonSelector}
             />
           </View>
