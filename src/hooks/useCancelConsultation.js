@@ -1,12 +1,19 @@
 import { useMutation } from "@tanstack/react-query";
-import { providerSvc } from "#services";
+import { providerSvc, paymentsSvc } from "#services";
 import { useError } from "./useError";
 
 export default function useCancelConsultation(onSuccess, onError) {
-  const cancelConsultation = async (consultation) => {
-    const { consultationId } = consultation;
-    const res = await providerSvc.cancelConsultation(consultationId);
-    return res;
+  const cancelConsultation = async ({
+    consultationId,
+    price,
+    shouldRefund,
+  }) => {
+    if (price > 0 && shouldRefund) {
+      await paymentsSvc.refund(consultationId);
+    } else {
+      await providerSvc.cancelConsultation(consultationId);
+    }
+    return true;
   };
 
   const cancelConsultationMutation = useMutation(cancelConsultation, {

@@ -73,7 +73,10 @@ export const ConsultationBig = ({
               size="sm"
               style={styles.avatar}
             />
-            <AppText style={[styles.providerNameText, { color: colors.text }]}>
+            <AppText
+              style={[styles.providerNameText, { color: colors.text }]}
+              numberOfLines={3}
+            >
               {providerName}
             </AppText>
           </View>
@@ -149,6 +152,7 @@ const styles = StyleSheet.create({
     fontFamily: appStyles.fontBold,
     wordBreak: "break-all",
     textAlign: "left",
+    flex: 1,
   },
   button: { marginTop: 16 },
   imageMascot: { width: 128, height: 100 },

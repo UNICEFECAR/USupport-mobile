@@ -307,7 +307,6 @@ const styles = StyleSheet.create({
   oneButton: { minWidth: 120 },
   priceBadge: {
     alignItems: "center",
-    alignSelf: "flex-end",
     backgroundColor: appStyles.colorPurple_dac3f6,
     borderRadius: 16,
     display: "flex",
@@ -341,6 +340,7 @@ const styles = StyleSheet.create({
   text: {
     color: appStyles.colorBlue_3d527b,
     fontFamily: appStyles.fontBold,
+    flex: 1,
   },
   textContainer: { flexGrow: 1, paddingLeft: 16 },
   textPurple: {
