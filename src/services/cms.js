@@ -62,7 +62,7 @@ function generateQuerryString(queryObj) {
   }
 
   if (queryObj.sortBy && queryObj.sortOrder) {
-    querry += `&sort=${queryObj.sortBy}:${queryObj.sortOrder}`;
+    querry += `&sort[0]=${queryObj.sortBy}:${queryObj.sortOrder}`;
   }
 
   if (queryObj.excludeId) {
