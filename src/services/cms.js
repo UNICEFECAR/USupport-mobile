@@ -62,7 +62,7 @@ function generateQuerryString(queryObj) {
   }
 
   if (queryObj.sortBy && queryObj.sortOrder) {
-    querry += `&sort[0]=${queryObj.sortBy}%3A${queryObj.sortOrder}`;
+    querry += `&sort=${queryObj.sortBy}:${queryObj.sortOrder}`;
   }
 
   if (queryObj.excludeId) {
@@ -127,9 +127,9 @@ function generateQuerryString(queryObj) {
 
 async function getArticles(queryObj) {
   const querryString = generateQuerryString(queryObj);
-
+  console.log(querryString);
   const { data } = await http.get(`${articlesEndpoint}${querryString}`);
-
+  console.log(data + "data");
   return { data };
 }
 
