@@ -127,9 +127,7 @@ function generateQuerryString(queryObj) {
 
 async function getArticles(queryObj) {
   const querryString = generateQuerryString(queryObj);
-  console.log(querryString);
   const { data } = await http.get(`${articlesEndpoint}${querryString}`);
-  console.log(data + "data");
   return { data };
 }
 
