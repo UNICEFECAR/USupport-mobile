@@ -1,0 +1,7 @@
+{
+    "heading": "Are you sure you want to delete all your chat data?",
+    "subheading": "This action is irreversible.",
+    "confirm": "Yes, delete all my chat data",
+    "cancel": "No, keep my chat data",
+    "success": "Your chat data has been deleted successfully."
+}
