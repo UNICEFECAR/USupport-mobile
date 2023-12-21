@@ -11,6 +11,7 @@ export const systemMessageTypes = [
   "provider_microphone_off",
   "provider_camera_on",
   "provider_camera_off",
+  "chat_history_deleted_by_client",
 ];
 
 export default systemMessageTypes;

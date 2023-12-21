@@ -13,6 +13,7 @@
   "client_camera_on": "Клиент включил камеру",
   "client_microphone_off": "Клиент выключил микрофон",
   "client_microphone_on": "Клиент включил микрофон",
+  "chat_history_deleted_by_client": "Вы удалили историю чата",
 
   "provider_joined": "Консультант присоединился к консультации",
   "provider_left": "Консультант покинул консультацию",

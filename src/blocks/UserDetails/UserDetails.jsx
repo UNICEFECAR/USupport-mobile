@@ -42,6 +42,7 @@ export const UserDetails = ({
   openDeleteAccountBackdrop,
   openSelectAvatarBackdrop,
   openDeletePictureBackdrop,
+  openDeleteChatHistoryBackdrop,
   navigation,
 }) => {
   const { t } = useTranslation("user-details");
@@ -458,6 +459,17 @@ export const UserDetails = ({
                 label={t("delete_account")}
                 type={"ghost"}
                 onPress={openDeleteAccountBackdrop}
+                style={styles.textButton}
+              />
+              <ButtonWithIcon
+                iconName={"circle-actions-close"}
+                iconSize={"md"}
+                size="lg"
+                iconColor={"#eb5757"}
+                color={"red"}
+                label={t("delete_chat")}
+                type={"ghost"}
+                onPress={openDeleteChatHistoryBackdrop}
                 style={[styles.textButton, styles.marginBottom20]}
               />
             </View>

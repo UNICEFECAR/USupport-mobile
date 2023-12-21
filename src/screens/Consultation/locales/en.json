@@ -19,6 +19,7 @@
   "provider_camera_on": "The provider has turned on the camera",
   "provider_microphone_off": "The provider has turned off the microphone",
   "provider_microphone_on": "The provider has turned on the microphone",
+  "chat_history_deleted_by_client": "You have deleted the chat history",
 
   "send_message": "Type your message here...",
   "show_system_messages": "Show system messages",
