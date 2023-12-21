@@ -20,6 +20,7 @@
   "provider_camera_on": "Консультант включил камеру",
   "provider_microphone_off": "Консультант отключил микрофон",
   "provider_microphone_on": "Консультант включил микрофон",
+  "chat_history_deleted_by_client": "Вы удалили историю чата",
 
   "send_message": "Введите Ваше сообщение здесь...",
   "show_system_messages": "Показать системные сообщения",

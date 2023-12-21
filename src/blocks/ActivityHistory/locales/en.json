@@ -12,6 +12,7 @@
   "client_camera_on": "The client has turned on the camera",
   "client_microphone_off": "The client has turned off the microphone",
   "client_microphone_on": "The client has turned on the microphone",
+    "chat_history_deleted_by_client": "You have deleted the chat history",
 
   "provider_joined": "Provider joined the consultation",
   "provider_left": "The provider has left the consultation",
