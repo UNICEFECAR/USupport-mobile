@@ -231,6 +231,7 @@ const FiltersBlock = ({
           label={t("providers_free_consultation_label")}
           wrapperStyles={{
             alignItems: "flex-start",
+            flex: 1,
           }}
           labelStyle={{ marginBottom: 12 }}
         />
@@ -241,7 +242,7 @@ const FiltersBlock = ({
             placeholder={t("max_price")}
             value={allFilters.maxPrice}
             onChange={(e) => handleChange("maxPrice", e)}
-            style={{ maxWidth: "50%", marginLeft: 16 }}
+            style={{ marginLeft: 16, flex: 1 }}
           />
         )}
       </View>
