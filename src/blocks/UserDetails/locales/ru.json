@@ -23,6 +23,7 @@
   "change_password": "Изменить пароль",
   "delete_account": "Удалить аккаунт",
   "logout": "Выйти",
+  "delete_chat": "Очистить историю чата",
 
   "dropdown_sex_label": "Пол",
   "dropdown_year_label": "Год рождения",

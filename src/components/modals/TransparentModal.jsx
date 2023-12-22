@@ -26,6 +26,7 @@ export function TransparentModal({
   handleClose,
   ctaLabel,
   ctaHandleClick,
+  ctaColor = "green",
   isCtaDisabled = false,
   secondaryCtaLabel,
   secondaryCtaHandleClick,
@@ -81,6 +82,7 @@ export function TransparentModal({
                     size="lg"
                     disabled={isCtaDisabled}
                     loading={isCtaLoading}
+                    color={ctaColor}
                   />
                 ) : null}
                 {secondaryCtaLabel && (

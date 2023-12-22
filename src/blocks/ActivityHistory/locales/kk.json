@@ -13,6 +13,7 @@
   "client_camera_on": "Клиент камераны қосты",
   "client_microphone_off": "Клиент микрофонды өшірді",
   "client_microphone_on": "Клиент микрофонды қосты",
+  "chat_history_deleted_by_client": "Сіз чат тарихын жойдыңыз",
 
   "provider_joined": "Консультант консультацияға қосылды",
   "provider_left": "Консультант консультациядан шықты",

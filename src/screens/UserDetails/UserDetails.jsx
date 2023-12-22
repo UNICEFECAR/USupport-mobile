@@ -7,6 +7,7 @@ import {
   DeleteProfilePicture,
   SelectAvatar,
 } from "#backdrops";
+import { DeleteChatHistory } from "#modals";
 
 /**
  * UserDetails
@@ -22,17 +23,25 @@ export const UserDetails = ({ navigation }) => {
     useState(false);
   const [isDeletePictureBackdropShown, setIsDeletePictureBackdropShown] =
     useState(false);
+  const [
+    isDeleteChatHistoryBackdropShown,
+    setIsDeleteChatHistoryBackdropShown,
+  ] = useState(false);
 
   const openChangePasswordBackdrop = () => setIsChangePasswordOpen(true);
   const openDeleteAccountBackdrop = () => setIsDeleteBackdropShown(true);
   const openSelectAvatarBackdrop = () => setIsSelectAvatarBackdropShown(true);
   const openDeletePictureBackdrop = () => setIsDeletePictureBackdropShown(true);
+  const openDeleteChatHistoryBackdrop = () =>
+    setIsDeleteChatHistoryBackdropShown(true);
 
   const closeChangePasswordBackdrop = () => setIsChangePasswordOpen(false);
   const closeDeleteAccountBackdrop = () => setIsDeleteBackdropShown(false);
   const closeSelectAvatarBackdrop = () => setIsSelectAvatarBackdropShown(false);
   const closeDeletePictureBackdrop = () =>
     setIsDeletePictureBackdropShown(false);
+  const closeDeleteChatHistoryBackdrop = () =>
+    setIsDeleteChatHistoryBackdropShown(false);
 
   return (
     <Screen>
@@ -42,6 +51,7 @@ export const UserDetails = ({ navigation }) => {
         openChangePasswordBackdrop={openChangePasswordBackdrop}
         openSelectAvatarBackdrop={openSelectAvatarBackdrop}
         openDeletePictureBackdrop={openDeletePictureBackdrop}
+        openDeleteChatHistoryBackdrop={openDeleteChatHistoryBackdrop}
       />
       <SelectAvatar
         isOpen={isSelectAvatarBackdropShown}
@@ -58,6 +68,10 @@ export const UserDetails = ({ navigation }) => {
       <DeleteProfilePicture
         isOpen={isDeletePictureBackdropShown}
         onClose={closeDeletePictureBackdrop}
+      />
+      <DeleteChatHistory
+        isOpen={isDeleteChatHistoryBackdropShown}
+        onClose={closeDeleteChatHistoryBackdrop}
       />
     </Screen>
   );
