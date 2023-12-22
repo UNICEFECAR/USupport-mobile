@@ -20,6 +20,7 @@
   "provider_camera_on": "Консультант камераны қосты",
   "provider_microphone_off": "Консультант микрофонды өшірді",
   "provider_microphone_on": "Консультант микрофонды қосты",
+  "chat_history_deleted_by_client": "Сіз чат тарихын жойдыңыз",
 
   "send_message": "Хабарламаңызды осы жерге енгізіңіз...",
   "show_system_messages": "Жүйелік хабарламаларды көрсету",

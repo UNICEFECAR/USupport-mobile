@@ -23,6 +23,7 @@
   "change_password": "Change password",
   "delete_account": "Delete account",
   "logout": "Logout",
+  "delete_chat": "Clear chat history",
 
   "dropdown_sex_label": "Gender",
   "dropdown_year_label": "Year of birth",

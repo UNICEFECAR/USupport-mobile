@@ -152,20 +152,25 @@ export const Consultation = ({ navigation, route }) => {
       : false;
   };
 
-  const chatDataQuery = useGetChatData(consultation?.chatId, (data) => {
+  const onGetChatDataSuccess = (data) => {
     setIsProviderInSession(checkHasProviderJoined(data.messages));
     setMessages((prev) => ({
       ...prev,
       currentSession: data.messages,
     }));
-  });
+  };
+
+  const chatDataQuery = useGetChatData(
+    consultation?.chatId,
+    onGetChatDataSuccess
+  );
 
   const clientId = chatDataQuery.data?.clientDetailId;
   const providerId = chatDataQuery.data?.providerDetailId;
   const allChatHistoryQuery = useGetAllChatHistoryData(
     providerId,
     clientId,
-    true
+    chatDataQuery.isFetched
   );
 
   useEffect(() => {
@@ -204,16 +209,23 @@ export const Consultation = ({ navigation, route }) => {
   useEffect(() => {
     if (
       allChatHistoryQuery.data?.messages &&
+      chatDataQuery.data?.messages &&
       !messages.previousSessions.length
     ) {
       setMessages((prev) => {
+        const currentMessagesTimes = chatDataQuery.data.messages.map(
+          (x) => x.time
+        );
+        const previousFiltered = allChatHistoryQuery.data.messages
+          .flat()
+          .filter((x) => !currentMessagesTimes.includes(x.time));
         return {
           ...prev,
-          previousSessions: allChatHistoryQuery.data.messages,
+          previousSessions: previousFiltered,
         };
       });
     }
-  }, [allChatHistoryQuery.data]);
+  }, [allChatHistoryQuery.data, chatDataQuery.data]);
 
   useEffect(() => {
     if (
