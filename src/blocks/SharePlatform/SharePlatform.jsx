@@ -36,7 +36,7 @@ export const SharePlatform = ({}) => {
     };
     try {
       const url =
-        "tg://msg_url?url=https://www.staging.usupport.online&text=Download USupport app";
+        "tg://msg_url?url=https://www.staging.usupport.online&text=Download uSupport app";
       Linking.openURL(url);
     } catch (error) {
       console.log("Error =>", error);
