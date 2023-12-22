@@ -86,6 +86,8 @@ import {
   IconMyQA,
   IconGlobe,
   IconConsultationNavigation,
+  IconSun,
+  IconMoon,
 } from "./assets/sprite";
 
 /**
@@ -339,6 +341,12 @@ export const Icon = ({ name, size = "md", color, style }) => {
       break;
     case "consultation-tab-navigation":
       icon = <IconConsultationNavigation color={color} />;
+      break;
+    case "sun":
+      icon = <IconSun color={color} />;
+      break;
+    case "moon":
+      icon = <IconMoon color={color} />;
       break;
     default:
       icon = null;

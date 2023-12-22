@@ -4,10 +4,9 @@ import { View, StyleSheet, Image, Pressable } from "react-native";
 import { AppText } from "../../texts/AppText/AppText";
 import { Icon } from "../../icons/Icon";
 import { AppButton } from "../../buttons/AppButton/AppButton";
-
 import { appStyles } from "#styles";
-
 import articlePlaceholder from "#assets";
+import { useGetTheme } from "#hooks";
 
 /**
  * CardMedia
@@ -27,10 +26,17 @@ export const CardMedia = ({
   t,
   style,
 }) => {
+  const { colors } = useGetTheme();
+
   return (
     <Pressable
       onPress={onPress}
-      style={[appStyles.shadow2, styles.cardMedia, style]}
+      style={[
+        appStyles.shadow2,
+        styles.cardMedia,
+        { backgroundColor: colors.card },
+        style,
+      ]}
     >
       <Image
         source={image ? { uri: image } : articlePlaceholder}

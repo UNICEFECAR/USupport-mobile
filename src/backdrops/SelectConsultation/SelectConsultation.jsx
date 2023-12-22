@@ -132,7 +132,6 @@ export const SelectConsultation = ({
         name="free-slots"
         selected={selectedSlot}
         setSelected={handleChooseSlot}
-        classes="select-consultation__radio-button-selector-group"
       />
     );
   };
@@ -201,19 +200,19 @@ export const SelectConsultation = ({
           loading={isCouponLoading}
           style={{
             width: appStyles.screenWidth * 0.4,
-            minWidth: 'auto',
+            minWidth: "auto",
             borderRadius: 40,
             paddingVertical: 10,
           }}
         />
       </View>
-        {couponError && <Error style={styles.error} message={couponError} />}
+      {couponError && <Error style={styles.error} message={couponError} />}
       {providerDataQuery.isLoading ? (
         <View style={{ alignItems: "center" }}>
           <Loading size="lg" />
         </View>
       ) : (
-        <View style={{marginTop: 20}}>
+        <View style={{ marginTop: 20 }}>
           <Header
             handleDayChange={handleDayChange}
             setStartDate={setStartDate}
@@ -248,7 +247,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginBottom: 16,
     height: 90,
-    
   },
   couponInput: { width: "50%", marginRight: 12 },
   error: {

@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import { StyleSheet, TextInput, View } from "react-native";
 import { Error } from "../../errors/Error";
 import { AppText } from "../../texts/AppText/AppText";
-
 import { appStyles } from "#styles";
+import { useGetTheme } from "#hooks";
 
 /**
  * Input
@@ -31,18 +31,23 @@ export const Input = ({
   wrapperStyles,
   ...props
 }) => {
+  const { colors, isDarkMode } = useGetTheme();
   const [isFocused, setIsFocused] = useState(false);
 
   return (
     <View style={[styles.inputWrapper, style]}>
       {label && (
-        <AppText namedStyle="text" style={styles.label}>
+        <AppText
+          namedStyle="text"
+          style={[styles.label, { color: colors.text }]}
+        >
           {label}
         </AppText>
       )}
       <View
         style={[
           styles.input,
+          { backgroundColor: colors.input },
           appStyles.shadow2,
           errorMessage && styles.inputError,
           isTextarea && styles.textarea,
@@ -54,6 +59,7 @@ export const Input = ({
         <TextInput
           style={[
             styles.textInput,
+            { color: colors.textTertiary },
             isTextarea && styles.inputTextarea,
             disabled && styles.inputWrapperDisabled,
             inputStyles,
@@ -61,7 +67,9 @@ export const Input = ({
           editable={!disabled}
           selectTextOnFocus={!disabled}
           secureTextEntry={isPassword}
-          placeholderTextColor={appStyles.colorGray_92989b}
+          placeholderTextColor={
+            !isDarkMode ? appStyles.colorGray_92989b : appStyles.colorGray_ea
+          }
           autoCorrect={false}
           autoComplete="email"
           spellCheck={false}
@@ -90,7 +98,6 @@ const styles = StyleSheet.create({
   input: {
     alignItems: "center",
     alignSelf: "center",
-    backgroundColor: appStyles.colorWhite_ff,
     borderColor: "transparent",
     borderRadius: 53,
     borderWidth: 1,
@@ -126,7 +133,6 @@ const styles = StyleSheet.create({
   },
 
   label: {
-    color: appStyles.colorBlue_3d527b,
     fontFamily: appStyles.fontSemiBold,
   },
 

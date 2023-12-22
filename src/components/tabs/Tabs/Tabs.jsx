@@ -9,6 +9,7 @@ import {
 import { AppText } from "../../texts/AppText/AppText";
 
 import { appStyles } from "#styles";
+import { useGetTheme } from "#hooks";
 
 /**
  * Tabs
@@ -18,6 +19,7 @@ import { appStyles } from "#styles";
  * @return {jsx}
  */
 export const Tabs = ({ options, handleSelect, style, t, handleModalOpen }) => {
+  const { colors, isDarkMode } = useGetTheme();
   const NO_OPTIONS_TO_RENDER = 4;
   const [isOpen, setIsOpen] = useState(false);
   const [isMoreOptionSelected, setIsMoreOptionSelected] = useState(false);
@@ -49,11 +51,19 @@ export const Tabs = ({ options, handleSelect, style, t, handleModalOpen }) => {
                 <View
                   style={[
                     styles.tab,
+                    {
+                      backgroundColor: !isDarkMode
+                        ? appStyles.colorGreen_f4f7fe
+                        : appStyles.colorBlack_1e,
+                    },
                     option.isSelected && styles.tabSelected,
+                    option.isSelected && {
+                      backgroundColor: colors.background,
+                    },
                     option.isInactive && styles.tabInactive,
                   ]}
                 >
-                  <AppText style={styles.tabText}>{option.label}</AppText>
+                  <AppText black>{option.label}</AppText>
                 </View>
               </TouchableWithoutFeedback>
             );
@@ -146,7 +156,6 @@ const styles = StyleSheet.create({
   tab: {
     paddingVertical: 4,
     paddingHorizontal: 24,
-    backgroundColor: appStyles.colorGreen_f4f7fe,
     borderRadius: 40,
     marginHorizontal: 4,
     borderWidth: 1,
@@ -154,7 +163,6 @@ const styles = StyleSheet.create({
   },
   tabSelected: {
     borderColor: appStyles.colorSecondary_9749fa,
-    backgroundColor: appStyles.colorWhite_ff,
   },
   tabInactive: { opacity: 0.2 },
   tabText: { color: appStyles.colorBlack_37 },

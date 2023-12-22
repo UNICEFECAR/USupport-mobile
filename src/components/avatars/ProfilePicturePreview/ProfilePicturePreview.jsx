@@ -37,11 +37,7 @@ export const ProfilePicturePreview = ({
         <Icon name="circle-actions-close-purple" size="md" />
       </TouchableOpacity>
       <Image source={imageSrc} style={styles.image} />
-      <AppText
-        namedStyle="smallText"
-        onPress={handleChangeClick}
-        style={styles.text}
-      >
+      <AppText onPress={handleChangeClick} style={styles.text}>
         {changePhotoText}
       </AppText>
     </View>
@@ -73,6 +69,8 @@ const styles = StyleSheet.create({
     fontFamily: "Nunito_600SemiBold",
     marginTop: 4,
     alignSelf: "center",
+    textAlign: "center",
+    width: 100,
   },
 });
 

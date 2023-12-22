@@ -4,6 +4,7 @@ import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Icon } from "./Icon";
 import { AppText } from "../texts";
 import { appStyles } from "#styles";
+import { useGetTheme } from "#hooks";
 
 /**
  * Like
@@ -20,6 +21,8 @@ export const Like = ({
   isDisliked,
   answerId,
 }) => {
+  const { isDarkMode } = useGetTheme();
+
   return (
     <View style={styles.like}>
       <View style={styles.voteWrapper}>
@@ -36,7 +39,12 @@ export const Like = ({
           >
             <Icon name="like" />
             <View style={styles.textContainer}>
-              <AppText namedStyle="smallText">{likes}</AppText>
+              <AppText
+                namedStyle="smallText"
+                style={isDarkMode && { color: appStyles.colorBlack_37 }}
+              >
+                {likes}
+              </AppText>
             </View>
           </View>
         </TouchableOpacity>
@@ -55,7 +63,12 @@ export const Like = ({
           >
             <Icon name="dislike" />
             <View style={styles.textContainer}>
-              <AppText namedStyle="smallText">{dislikes}</AppText>
+              <AppText
+                namedStyle="smallText"
+                style={isDarkMode && { color: appStyles.colorBlack_37 }}
+              >
+                {dislikes}
+              </AppText>
             </View>
           </View>
         </TouchableOpacity>

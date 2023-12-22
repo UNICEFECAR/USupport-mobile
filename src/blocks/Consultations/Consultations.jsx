@@ -3,9 +3,7 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
 import { AppText, Block, Consultation, TabsUnderlined } from "#components";
-
 import { ONE_HOUR, showToast } from "#utils";
-
 import {
   useGetAllConsultations,
   useAcceptConsultation,

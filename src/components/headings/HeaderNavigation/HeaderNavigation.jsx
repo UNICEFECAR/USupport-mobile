@@ -1,12 +1,11 @@
 import React from "react";
 import { StyleSheet, View, TouchableOpacity, PixelRatio } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 
 import { Avatar } from "../../avatars";
 import { ButtonWithIcon, ButtonOnlyIcon } from "../../buttons/";
 import { Icon } from "../../icons";
 
-import { useGetClientData } from "#hooks";
+import { useGetClientData, useGetTheme } from "#hooks";
 
 import { appStyles } from "#styles";
 
@@ -21,6 +20,7 @@ export const HeaderNavigation = ({
   isTmpUser,
   handleRegistrationModalOpen,
 }) => {
+  const { isDarkMode } = useGetTheme();
   const fontScale = PixelRatio.getFontScale();
 
   const getClientDataEnabled = isTmpUser === false ? true : false;
@@ -28,7 +28,14 @@ export const HeaderNavigation = ({
   const clientData = isTmpUser ? {} : clientDataQuery[0].data;
 
   return (
-    <View style={[styles.container, { ...appStyles.shadow2 }, style]}>
+    <View
+      style={[
+        styles.container,
+        isDarkMode && { backgroundColor: appStyles.colorBlack_12 },
+        { ...appStyles.shadow2 },
+        style,
+      ]}
+    >
       <TouchableOpacity onPress={() => navigation.push("UserProfile")}>
         <Avatar
           image={{
@@ -62,7 +69,9 @@ export const HeaderNavigation = ({
       >
         <Icon
           name={hasUnreadNotifications ? "notification-unread" : "notification"}
-          color={appStyles.colorGray_a6b4b8}
+          color={
+            isDarkMode ? appStyles.colorWhite_ff : appStyles.colorGray_a6b4b8
+          }
         />
       </TouchableOpacity>
     </View>

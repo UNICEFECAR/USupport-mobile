@@ -4,10 +4,9 @@ import { View, StyleSheet, TouchableOpacity } from "react-native";
 
 import { Icon } from "../../icons";
 import { AppText } from "../../texts";
-
 import { appStyles } from "#styles";
-
 import { getTimeFromDate, isDateToday, isDateYesterday } from "#utils";
+import { useGetTheme } from "#hooks";
 
 export const Notification = ({
   icon,
@@ -19,6 +18,7 @@ export const Notification = ({
   handleClick,
   t,
 }) => {
+  const { isDarkMode } = useGetTheme();
   const isYesterday = isDateYesterday(date);
 
   const dateText = isDateToday(date)
@@ -31,7 +31,13 @@ export const Notification = ({
 
   return (
     <TouchableOpacity onPress={handleClick}>
-      <View style={[styles.container, !isRead && styles.containerNew]}>
+      <View
+        style={[
+          styles.container,
+          !isRead && styles.containerNew,
+          !isRead && isDarkMode && { backgroundColor: appStyles.colorBlack_1e },
+        ]}
+      >
         <View style={styles.content}>
           <View style={styles.iconContainer}>
             <Icon

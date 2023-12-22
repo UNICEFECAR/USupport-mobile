@@ -1,22 +1,13 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { View, StyleSheet, ScrollView } from "react-native";
-
-import {
-  Block,
-  Heading,
-  ButtonWithIcon,
-  AppText,
-  ButtonSelector,
-} from "#components";
-
-import { useGetClientData, useLogout } from "#hooks";
-
-import { appStyles } from "#styles";
-
-import { Context } from "#services";
-
 import Config from "react-native-config";
+import { useQuery } from "@tanstack/react-query";
+
+import { Block, Heading, AppText, ButtonSelector } from "#components";
+import { useGetTheme, useGetClientData } from "#hooks";
+import { appStyles } from "#styles";
+import { Context, localStorage, languageSvc, userSvc } from "#services";
 const { AMAZON_S3_BUCKET } = Config;
 
 /**
@@ -27,9 +18,15 @@ const { AMAZON_S3_BUCKET } = Config;
  * @return {jsx}
  */
 export const UserProfile = ({ navigation }) => {
-  const { t } = useTranslation("user-profile");
+  const { isDarkMode, colors } = useGetTheme();
+  const { t, i18n } = useTranslation("user-profile");
+  const { theme, setTheme } = useContext(Context);
 
   const { isTmpUser, handleRegistrationModalOpen } = useContext(Context);
+  const [languagesData, setLanguagesData] = useState({
+    language: "",
+  });
+  const { dropdownOptions, setDropdownOptions } = useContext(Context);
 
   const clientQuery = useGetClientData(isTmpUser ? false : true)[0];
   const clientData = isTmpUser ? {} : clientQuery?.data;
@@ -52,7 +49,80 @@ export const UserProfile = ({ navigation }) => {
     }
   };
 
-  const handleLogout = useLogout();
+  const fetchLanguages = async () => {
+    const localStorageLanguage = await localStorage.getItem("language");
+    if (localStorageLanguage) {
+      setLanguagesData({
+        language: localStorageLanguage,
+      });
+    }
+    const res = await languageSvc.getActiveLanguages();
+    const languages = res.data.map((x) => {
+      const languageObject = {
+        value: x.alpha2,
+        label: x.name === "English" ? x.name : `${x.name} (${x.local_name})`,
+        id: x["language_id"],
+      };
+      if (localStorageLanguage === x.alpha2) {
+        setLanguagesData({ language: x.alpha2 });
+        i18n.changeLanguage(localStorageLanguage);
+      }
+      return languageObject;
+    });
+    return languages;
+  };
+  const languagesQuery = useQuery(["languages"], fetchLanguages);
+
+  const handleChangeLanguage = async (lang) => {
+    setLanguagesData({ language: lang });
+    i18n.changeLanguage(lang);
+    await localStorage.setItem("language", lang);
+
+    try {
+      await userSvc.changeLanguage(lang).then((lang) => {
+        setDropdownOptions({
+          heading: t("language_button_label"),
+          options: languagesQuery.data || [],
+          selectedOption: languagesData.language,
+          handleOptionSelect: handleChangeLanguage,
+          isOpen: false,
+        });
+      });
+    } catch (err) {
+      console.log(err, "err");
+    }
+  };
+
+  const handlOpenLanguageDropdown = () => {
+    if (dropdownOptions.isOpen) {
+      setDropdownOptions({
+        heading: t("language_button_label"),
+        options: languagesQuery.data || [],
+        selectedOption: languagesData.language,
+        handleOptionSelect: handleChangeLanguage,
+        isOpen: false,
+      });
+    } else {
+      setDropdownOptions({
+        heading: t("language_button_label"),
+        options: languagesQuery.data || [],
+        selectedOption: languagesData.language,
+        dropdownId: "filterLanguage",
+        handleOptionSelect: handleChangeLanguage,
+        isOpen: true,
+      });
+    }
+  };
+
+  const handleThemeChange = async () => {
+    if (theme === "dark") {
+      setTheme("light");
+      await localStorage.setItem("theme", "light");
+    } else {
+      setTheme("dark");
+      await localStorage.setItem("theme", "dark");
+    }
+  };
 
   return (
     <React.Fragment>
@@ -64,7 +134,7 @@ export const UserProfile = ({ navigation }) => {
       <Block style={styles.block}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.group}>
-            <AppText style={styles.groupHeading}>
+            <AppText style={(styles.groupHeading, { color: colors.text })}>
               {t("first_group_heading")}
             </AppText>
             <ButtonSelector
@@ -78,7 +148,7 @@ export const UserProfile = ({ navigation }) => {
           </View>
 
           <View style={styles.group}>
-            <AppText style={styles.groupHeading}>
+            <AppText style={(styles.groupHeading, { color: colors.text })}>
               {t("second_group_heading")}
             </AppText>
             <ButtonSelector
@@ -96,13 +166,25 @@ export const UserProfile = ({ navigation }) => {
             <ButtonSelector
               label={t("language_button_label")}
               iconName="globe"
-              onPress={() => handleRedirect("ChangeLanguage")}
+              onPress={languagesData && handlOpenLanguageDropdown}
+              style={styles.buttonSelector}
+            />
+            <ButtonSelector
+              label={
+                isDarkMode
+                  ? t("light_mode_button_label")
+                  : t("dark_mode_button_label")
+              }
+              iconName={isDarkMode ? "sun" : "moon"}
+              onPress={handleThemeChange}
               style={styles.buttonSelector}
             />
           </View>
 
           <View style={styles.group}>
-            <AppText style={styles.groupHeading}>{t("rate_share")}</AppText>
+            <AppText style={(styles.groupHeading, { color: colors.text })}>
+              {t("rate_share")}
+            </AppText>
             <ButtonSelector
               label={t("rate_us_button_label")}
               iconName="star"
@@ -118,7 +200,9 @@ export const UserProfile = ({ navigation }) => {
           </View>
 
           <View style={[styles.group, styles.lastGroup]}>
-            <AppText style={styles.groupHeading}>{t("other")}</AppText>
+            <AppText style={(styles.groupHeading, { color: colors.text })}>
+              {t("other")}
+            </AppText>
             {!isTmpUser ? (
               <ButtonSelector
                 label={t("payments_history_button_label")}
@@ -182,6 +266,6 @@ const styles = StyleSheet.create({
   },
 
   lastGroup: {
-    paddingBottom: 50,
+    paddingBottom: 90,
   },
 });

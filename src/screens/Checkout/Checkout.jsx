@@ -192,17 +192,20 @@ export function Checkout({ navigation, route }) {
   const [hasPadding, setHasPadding] = useState(false);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setIsCheckoutButtonDisabled(true);
-      resetPaymentSheetCustomer();
-      cancelPaymentIntentMutation.mutate();
-      showToast({
-        message: t("session_timeout"),
-        type: "error",
-        autoHide: false,
-      });
-      setHasPadding(true);
-    }, 60 * 5 * 1000);
+    const timeout = setTimeout(
+      () => {
+        setIsCheckoutButtonDisabled(true);
+        resetPaymentSheetCustomer();
+        cancelPaymentIntentMutation.mutate();
+        showToast({
+          message: t("session_timeout"),
+          type: "error",
+          autoHide: false,
+        });
+        setHasPadding(true);
+      },
+      60 * 5 * 1000
+    );
 
     return () => clearTimeout(timeout);
   }, []);
@@ -214,6 +217,7 @@ export function Checkout({ navigation, route }) {
   const cancelPaymentIntentMutation = useMutation(cancelPaymentIntent);
 
   const handleGoBack = () => {
+    console.log("goback");
     clientSvc.unblockSlot(consultationId);
     navigation.goBack();
     hideToast();
@@ -221,29 +225,35 @@ export function Checkout({ navigation, route }) {
 
   return (
     <Screen>
-      <Block style={{ paddingTop: hasPadding ? 65 : 0 }}>
+      <Block style={{ flex: 1, paddingTop: hasPadding ? 65 : 0 }}>
         <Heading
           heading={t("heading")}
           subheading={t("subheading")}
           handleGoBack={handleGoBack}
+          style={{ zIndex: 20 }}
         />
-      </Block>
-      {loading ? (
-        <View style={{ justifyContent: "center", alignItems: "center" }}>
-          <Loading />
+        {loading ? (
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Loading />
+          </View>
+        ) : (
+          <View />
+        )}
+        <View style={{ flexGrow: 1, justifyContent: "flex-end" }}>
+          <AppButton
+            disabled={loading || isCheckoutButtonDisabled}
+            label="Checkout"
+            onPress={openPaymentSheet}
+            size="lg"
+            style={{ marginBottom: 75 }}
+          />
         </View>
-      ) : (
-        <View />
-      )}
-      <View style={{ flexGrow: 1, justifyContent: "flex-end" }}>
-        <AppButton
-          disabled={loading || isCheckoutButtonDisabled}
-          label="Checkout"
-          onPress={openPaymentSheet}
-          size="lg"
-          style={{ alignSelf: "center", marginBottom: 80 }}
-        />
-      </View>
+      </Block>
       {selectedSlot && (
         <ConfirmConsultation
           isOpen={isConfirmBackdropOpen}

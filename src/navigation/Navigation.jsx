@@ -1,6 +1,11 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { AppState, Platform, PermissionsAndroid } from "react-native";
+import {
+  AppState,
+  Platform,
+  PermissionsAndroid,
+  useColorScheme,
+} from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { NavigationContainer } from "@react-navigation/native";
 import * as Device from "expo-device";
@@ -11,6 +16,7 @@ import messaging from "@react-native-firebase/messaging";
 import { AppNavigation } from "./AppNavigation";
 import { AuthNavigation } from "./AuthNavigation";
 
+import { appColors } from "#styles";
 import { LocalAuthenticationScreen } from "#screens";
 import { useAddPushNotificationToken, useGetClientData } from "#hooks";
 import { countrySvc, localStorage, Context } from "#services";
@@ -33,10 +39,23 @@ Notifications.setNotificationHandler({
 
 const TWENTY_MINUTES = FIVE_MINUTES * 4;
 
-export function Navigation() {
+export function Navigation({ contextTheme, setTheme, children }) {
   const [hasSavedPushToken, setHasSavedPushToken] = useState(false);
   const [hasAuthenticatedWithPin, setHasAuthenticatedWithPin] = useState(false);
   const { i18n } = useTranslation();
+  const theme = useColorScheme();
+  const darkTheme = {
+    colors: {
+      ...appColors.dark,
+    },
+    dark: true,
+  };
+  const defaultTheme = {
+    colors: {
+      ...appColors.light,
+    },
+    dark: false,
+  };
 
   const hasClearedTimeout = useRef();
 
@@ -58,6 +77,16 @@ export function Navigation() {
 
     return () => subscription.remove();
   }, []);
+
+  useEffect(() => {
+    localStorage.getItem("theme").then((localStorageTheme) => {
+      if (!localStorageTheme) {
+        const newTheme = theme === "dark" ? "dark" : "light";
+        localStorage.setItem("theme", newTheme);
+      }
+      setTheme(localStorageTheme === "dark" ? "dark" : "light");
+    });
+  }, [theme]);
 
   const { token, setCurrencySymbol, isTmpUser, userPin, hasCheckedTmpUser } =
     useContext(Context);
@@ -154,7 +183,9 @@ export function Navigation() {
   });
 
   return (
-    <NavigationContainer>
+    <NavigationContainer
+      theme={contextTheme === "dark" ? darkTheme : defaultTheme}
+    >
       {userPin && !hasAuthenticatedWithPin && token ? (
         <LocalAuthenticationScreen
           userPin={userPin}
@@ -165,6 +196,7 @@ export function Navigation() {
       ) : (
         <AuthNavigation />
       )}
+      {children}
     </NavigationContainer>
   );
 }

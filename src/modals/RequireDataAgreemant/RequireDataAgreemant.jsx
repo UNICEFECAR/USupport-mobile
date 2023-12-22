@@ -4,16 +4,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Image, StyleSheet, TouchableOpacity, Modal } from "react-native";
 
 import { TransparentModal, AppText, Screen } from "#components";
-
 import { PrivacyPolicy } from "../../blocks/PrivacyPolicy";
-
 import { appStyles } from "#styles";
-
 import { mascotHappyBlue } from "#assets";
-
 import { clientSvc } from "#services";
-
 import { showToast } from "../../utils/showToast";
+import { useGetTheme } from "#hooks";
 
 /**
  * RequireDataAgreement
@@ -29,6 +25,7 @@ export const RequireDataAgreement = ({
   isLoading,
   onSuccess = () => {},
 }) => {
+  const { colors } = useGetTheme();
   const queryClient = useQueryClient();
   const { t } = useTranslation("require-data-agreement");
 
@@ -87,7 +84,7 @@ export const RequireDataAgreement = ({
         )}
         <Image source={mascotHappyBlue} alt="Mascot" style={styles.image} />
         <AppText style={styles.text}>{t("text")}</AppText>
-        <AppText>{t("text_2")}</AppText>
+        <AppText style={{ color: colors.textSecondary }}>{t("text_2")}</AppText>
         <TouchableOpacity
           onPress={() => {
             setIsPrivacyPolicyOpen(true);

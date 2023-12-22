@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { LineChart } from "react-native-chart-kit";
 
 import { appStyles } from "#styles";
+import { useGetTheme } from "#hooks";
 
 /**
  * MoodTrackLineChart
@@ -15,6 +16,8 @@ export const MoodTrackLineChart = ({
   selectedItemId,
   handleSelectItem,
 }) => {
+  const { colors } = useGetTheme();
+
   const getMoodValue = (mood) => {
     switch (mood) {
       case "happy":
@@ -56,8 +59,8 @@ export const MoodTrackLineChart = ({
   };
 
   const chartConfig = {
-    backgroundGradientFrom: appStyles.colorWhite_ff,
-    backgroundGradientTo: appStyles.colorWhite_ff,
+    backgroundGradientFrom: colors.background,
+    backgroundGradientTo: colors.background,
     color: () => appStyles.colorGray_a6b4b8,
     propsForDots: {
       r: "8",

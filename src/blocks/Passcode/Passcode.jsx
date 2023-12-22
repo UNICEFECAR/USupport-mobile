@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import * as LocalAuthentication from "expo-local-authentication";
+import { useFocusEffect } from "@react-navigation/native";
 
 import { Block, ButtonSelector, AppText, Toggle } from "#components";
 import { localStorage } from "#services";
 import { appStyles } from "#styles";
-import { useFocusEffect } from "@react-navigation/native";
+import { useGetTheme } from "#hooks";
 
 /**
  * Passcode
@@ -17,6 +18,7 @@ import { useFocusEffect } from "@react-navigation/native";
  */
 export const Passcode = ({ navigation }) => {
   const { t } = useTranslation("passcode");
+  const { colors } = useGetTheme();
 
   const [userPin, setUserPin] = useState(false);
   const [canUseBiometrics, setCanUseBiometrics] = useState(false);
@@ -68,7 +70,9 @@ export const Passcode = ({ navigation }) => {
 
   return (
     <Block style={styles.block}>
-      <AppText style={styles.label}>{t("passcode")}</AppText>
+      <AppText style={[styles.label, { color: colors.text }]}>
+        {t("passcode")}
+      </AppText>
       {userPin ? (
         <>
           <ButtonSelector
@@ -91,7 +95,9 @@ export const Passcode = ({ navigation }) => {
       )}
       {canUseBiometrics ? (
         <View style={styles.biometricsContainer}>
-          <AppText style={styles.label}>{t("biometrics")}</AppText>
+          <AppText style={[styles.label, { color: colors.text }]}>
+            {t("biometrics")}
+          </AppText>
           <Toggle isToggled={biometricsEnabled} handleToggle={handleToggle} />
         </View>
       ) : null}

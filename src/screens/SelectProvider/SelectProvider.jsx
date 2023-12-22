@@ -17,6 +17,7 @@ import { FilterProviders } from "#backdrops";
 import { useGetProvidersData, useError } from "#hooks";
 import { Context, clientSvc } from "#services";
 import { useQueryClient } from "@tanstack/react-query";
+import { ButtonOnlyIcon } from "../../components/buttons/ButtonOnlyIcon/ButtonOnlyIcon";
 
 /**
  * SelectProvider
@@ -122,7 +123,7 @@ export const SelectProvider = ({ navigation }) => {
         subheading={t("subheading")}
         handleGoBack={handleGoBack}
       />
-      <View style={{ marginTop: 170 }} />
+      <View style={{ marginTop: 160 }} />
 
       <SelectProviderBlock
         providers={providersData}
@@ -133,16 +134,6 @@ export const SelectProvider = ({ navigation }) => {
         setIsFiltering={setIsFiltering}
         HeaderComponent={
           <>
-            <View style={styles.buttonContainer}>
-              <ButtonWithIcon
-                size="sm"
-                color="purple"
-                label={t("button_label")}
-                iconName="filter"
-                iconSize="sm"
-                onPress={handleFilterClick}
-              />
-            </View>
             <FiltersBlock
               handleSave={handleFilterSave}
               t={t}
@@ -151,6 +142,7 @@ export const SelectProvider = ({ navigation }) => {
               openCouponModal={openCouponModal}
               allFilters={allFilters}
               setAllFilters={setAllFilters}
+              handleFilterClick={handleFilterClick}
             />
           </>
         }
@@ -193,6 +185,7 @@ const FiltersBlock = ({
   openCouponModal,
   allFilters,
   setAllFilters,
+  handleFilterClick,
   t,
 }) => {
   const [data, setData] = useState({
@@ -213,31 +206,46 @@ const FiltersBlock = ({
 
   return (
     <View style={{ paddingBottom: 20 }}>
-      <AppButton
-        label={
-          activeCoupon ? t("remove_coupon_label") : t("button_coupon_label")
-        }
-        size="sm"
-        color="green"
-        onPress={activeCoupon ? removeCoupon : openCouponModal}
-      />
-      <Input
-        type="number"
-        label={t("max_price")}
-        placeholder={t("max_price")}
-        value={allFilters.maxPrice}
-        onChange={(e) => handleChange("maxPrice", e)}
-        style={{ marginTop: 16 }}
-      />
-      <Toggle
-        isToggled={allFilters.onlyFreeConsultation}
-        handleToggle={(val) => handleChange("onlyFreeConsultation", val)}
-        label={t("providers_free_consultation_label")}
-        wrapperStyles={{
-          marginTop: 16,
-          alignItems: "flex-start",
-        }}
-      />
+      <View style={styles.buttonContainer}>
+        <AppButton
+          label={
+            activeCoupon ? t("remove_coupon_label") : t("button_coupon_label")
+          }
+          size="sm"
+          color="green"
+          onPress={activeCoupon ? removeCoupon : openCouponModal}
+        />
+        <ButtonWithIcon
+          size="sm"
+          color="purple"
+          label={t("button_label")}
+          iconName="filter"
+          iconSize="sm"
+          onPress={handleFilterClick}
+        />
+      </View>
+      <View style={[styles.buttonContainer]}>
+        <Toggle
+          isToggled={allFilters.onlyFreeConsultation}
+          handleToggle={(val) => handleChange("onlyFreeConsultation", val)}
+          label={t("providers_free_consultation_label")}
+          wrapperStyles={{
+            alignItems: "flex-start",
+            flex: 1,
+          }}
+          labelStyle={{ marginBottom: 12 }}
+        />
+        {!allFilters.onlyFreeConsultation && (
+          <Input
+            type="number"
+            label={t("max_price")}
+            placeholder={t("max_price")}
+            value={allFilters.maxPrice}
+            onChange={(e) => handleChange("maxPrice", e)}
+            style={{ marginLeft: 16, flex: 1 }}
+          />
+        )}
+      </View>
     </View>
   );
 };
@@ -250,6 +258,9 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     paddingTop: 16,
-    paddingBottom: 16,
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    paddingHorizontal: 8,
   },
 });

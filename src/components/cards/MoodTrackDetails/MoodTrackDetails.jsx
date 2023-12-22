@@ -4,8 +4,8 @@ import { View, StyleSheet, TouchableOpacity } from "react-native";
 
 import { AppText } from "../../texts";
 import { Icon, Emoticon } from "../../icons";
-
 import { appStyles } from "#styles";
+import { useGetTheme } from "#hooks";
 
 /**
  * MoodTrackDetails
@@ -15,6 +15,7 @@ import { appStyles } from "#styles";
  * @return {jsx}
  */
 export const MoodTrackDetails = ({ mood, handleClose, t = { t } }) => {
+  const { colors } = useGetTheme();
   const dateText = `${
     mood.time.getDate() > 9 ? mood.time.getDate() : `0${mood.time.getDate()}`
   }.${
@@ -29,7 +30,13 @@ export const MoodTrackDetails = ({ mood, handleClose, t = { t } }) => {
   }`;
 
   return (
-    <View style={[styles.moodTrackDetails, { ...appStyles.shadow2 }]}>
+    <View
+      style={[
+        styles.moodTrackDetails,
+        { backgroundColor: colors.card },
+        { ...appStyles.shadow2 },
+      ]}
+    >
       <TouchableOpacity onPress={() => handleClose()} style={styles.closeIcon}>
         <Icon name="close-x" size="sm" color={appStyles.colorBlack_37} />
       </TouchableOpacity>
@@ -37,11 +44,19 @@ export const MoodTrackDetails = ({ mood, handleClose, t = { t } }) => {
         {dateText}, {timeText}
       </AppText>
       <View style={styles.subheadingContainer}>
-        <AppText numberOfLines={1} adjustsFontSizeToFit={true}>
+        <AppText
+          numberOfLines={1}
+          style={{ color: colors.textSecondary }}
+          adjustsFontSizeToFit={true}
+        >
           {t("you_felt")}
         </AppText>
         <Emoticon name={mood.mood} size="sm" style={styles.emoticon} />
-        <AppText numberOfLines={1} adjustsFontSizeToFit={true}>
+        <AppText
+          numberOfLines={1}
+          style={{ color: colors.textSecondary }}
+          adjustsFontSizeToFit={true}
+        >
           {t(mood.mood)} {t("comment_text")}
         </AppText>
       </View>
@@ -54,7 +69,6 @@ const styles = StyleSheet.create({
   moodTrackDetails: {
     paddingVertical: 20,
     paddingHorizontal: 16,
-    backgroundColor: appStyles.colorWhite_ff,
     borderRadius: 20,
     flexDirection: "column",
     alignItems: "center",

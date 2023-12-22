@@ -12,7 +12,7 @@ import {
 } from "#components";
 
 import { userSvc, localStorage, Context } from "#services";
-import { useError } from "#hooks";
+import { useError, useGetTheme } from "#hooks";
 
 /**
  * RegisterPreview
@@ -22,6 +22,7 @@ import { useError } from "#hooks";
  * @returns {JSX.Element}
  */
 export const RegisterPreview = ({ navigation }) => {
+  const { colors } = useGetTheme();
   const { t } = useTranslation("register-preview");
   const [error, setErrror] = useState();
   const queryClient = useQueryClient();
@@ -71,7 +72,11 @@ export const RegisterPreview = ({ navigation }) => {
   const renderCarouselItems = ({ item, index }) => (
     <View key={index} style={styles.carouselItem}>
       <AppText namedStyle="h3">{t(item.heading)}</AppText>
-      <AppText style={styles.carouselItemText}>{t(item.text)}</AppText>
+      <AppText
+        style={[styles.carouselItemText, { color: colors.textSecondary }]}
+      >
+        {t(item.text)}
+      </AppText>
     </View>
   );
 

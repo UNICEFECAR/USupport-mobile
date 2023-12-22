@@ -246,10 +246,8 @@ export const FilterProviders = ({
         dropdownId="filterLanguage"
       />
       <View style={styles.toggleContainer}>
-        <AppText style={styles.label}>
-          {t("providers_free_consultation_label")}
-        </AppText>
         <Toggle
+          label={t("providers_free_consultation_label")}
           isToggled={data.onlyFreeConsultation}
           handleToggle={(checked) =>
             handleSelect("onlyFreeConsultation", checked)

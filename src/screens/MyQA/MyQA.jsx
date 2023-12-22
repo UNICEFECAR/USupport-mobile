@@ -266,15 +266,16 @@ export const MyQA = ({ navigation }) => {
 const Heading = ({ t, handleButtonPress }) => {
   return (
     <View>
-      <AppText namedStyle="h3" style={[styles.headingText, styles.textBlack]}>
+      <AppText namedStyle="h3" style={[styles.headingText]} black>
         {t("heading")}
       </AppText>
-      <AppText namedStyle="text" style={styles.textBlack}>
+      <AppText namedStyle="text" black>
         <Trans
           components={
             <AppText
               namedStyle="text"
-              style={[styles.textBold, styles.textBlack]}
+              style={[styles.textBold]}
+              black
             ></AppText>
           }
         >
@@ -301,6 +302,5 @@ const styles = StyleSheet.create({
   headingBlock: { paddingTop: 88 },
   headingButton: { marginRight: 24, marginTop: 12 },
   headingText: { marginBottom: 12 },
-  textBlack: { color: appStyles.colorBlack_37 },
   textBold: { fontFamily: appStyles.fontExtraBold },
 });

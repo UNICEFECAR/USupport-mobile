@@ -12,6 +12,7 @@ import { isDateToday } from "#utils";
 
 import { appStyles } from "#styles";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { useGetTheme } from "#hooks";
 
 const { AMAZON_S3_BUCKET } = Config;
 
@@ -31,6 +32,7 @@ export const Answer = ({
   style,
   t,
 }) => {
+  const { colors } = useGetTheme();
   const providerInfo = question.providerData;
   const isAskedByCurrentClient = question.isAskedByCurrentClient;
 
@@ -91,7 +93,7 @@ export const Answer = ({
   };
 
   return (
-    <View style={[styles.answer, style]}>
+    <View style={[styles.answer, { backgroundColor: colors.card }, style]}>
       {!isAskedByCurrentClient ? (
         <>
           <View style={styles.headingContainer}>
@@ -174,7 +176,6 @@ export const Answer = ({
 
 const styles = StyleSheet.create({
   answer: {
-    backgroundColor: appStyles.colorWhite_ff,
     maxWidth: 420,
     paddingHorizontal: 16,
     paddingVertical: 20,

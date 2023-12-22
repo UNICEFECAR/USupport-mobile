@@ -1,15 +1,15 @@
 import React from "react";
 import { View, StyleSheet, Pressable, Image } from "react-native";
+import Config from "react-native-config";
 
 import { Avatar } from "../../avatars/Avatar/Avatar";
 import { AppText } from "../../texts/AppText/AppText";
 import { appStyles } from "#styles";
 import { Icon } from "../../icons/Icon";
 import { AppButton } from "../../buttons/AppButton/AppButton";
-
-import Config from "react-native-config";
-const { AMAZON_S3_BUCKET } = Config;
 import { getDayOfTheWeek, getDateView, checkIsFiveMinutesBefore } from "#utils";
+import { useGetTheme } from "#hooks";
+const { AMAZON_S3_BUCKET } = Config;
 
 /**
  * Consultation
@@ -45,6 +45,7 @@ export const Consultation = ({
     price,
     sponsorImage,
   } = consultation;
+  const { colors, isDarkMode } = useGetTheme();
   const renderIn = "client";
 
   const name = consultation.providerName || consultation.clientName;
@@ -111,6 +112,7 @@ export const Consultation = ({
       <View
         style={[
           styles.consultation,
+          { backgroundColor: colors.card },
           style,
           buttonAction === "join" && styles.borderColorPurple,
           { ...appStyles.shadow2 },
@@ -125,6 +127,7 @@ export const Consultation = ({
               <AppText
                 style={[
                   styles.text,
+                  { color: colors.text },
                   buttonAction === "join" && styles.textPurple,
                 ]}
               >
@@ -157,6 +160,7 @@ export const Consultation = ({
                       styles.textPurple,
                       (consultation.campaignId || !price) &&
                         styles.priceBadgeFreeText,
+                      isDarkMode && { color: appStyles.colorWhite_ff },
                       sponsorImage && { marginLeft: 30 },
                     ]}
                   >

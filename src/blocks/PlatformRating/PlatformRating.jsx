@@ -77,7 +77,7 @@ export const PlatformRating = ({ navigation }) => {
             <Rating
               label={t("rating_label")}
               setParentState={(value) => handleChange("rating", value)}
-              style={[styles.marginTop32, styles.rating]}
+              style={[{ marginTop: 50 }, styles.rating]}
             />
             <Textarea
               label={t("textarea_label")}

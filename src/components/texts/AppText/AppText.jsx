@@ -2,6 +2,7 @@ import React from "react";
 import { Text, StyleSheet } from "react-native";
 
 import { appStyles } from "#styles";
+import { useGetTheme } from "#hooks";
 
 export const AppText = ({
   style,
@@ -9,14 +10,24 @@ export const AppText = ({
   isBold = false,
   isSemibold = false,
   underlined = false,
+  black,
   children,
   ...props
 }) => {
+  const { colors } = useGetTheme();
+
   return (
     <Text
       style={[
         styles.text,
         styles[namedStyle],
+        {
+          color:
+            namedStyle === "h1" || namedStyle === "h2" || namedStyle === "h3"
+              ? colors.text
+              : colors.textSecondary,
+        },
+        black && { color: colors.textTertiary },
         isBold && styles.bold,
         isSemibold && styles.semibold,
         underlined && styles.underlined,
@@ -43,19 +54,19 @@ const styles = StyleSheet.create({
     fontSize: 40,
     lineHeight: 48,
     fontFamily: "Nunito_600SemiBold",
-    color: appStyles.colorBlue_3d527b,
+    // color: appStyles.colorBlue_3d527b,
   },
   h2: {
     fontSize: 32,
     lineHeight: 38,
     fontFamily: "Nunito_600SemiBold",
-    color: appStyles.colorBlue_3d527b,
+    // color: appStyles.colorBlue_3d527b,
   },
   h3: {
     fontSize: 20,
     lineHeight: 24,
     fontFamily: "Nunito_600SemiBold",
-    color: appStyles.colorBlue_3d527b,
+    // color: appStyles.colorBlue_3d527b,
   },
   smallText: {
     fontSize: 12,

@@ -4,13 +4,9 @@ import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { useTranslation } from "react-i18next";
 
 import { Block, Emoticon, AppText, Textarea, AppButton } from "#components";
-
-import { useAddMoodTrack } from "#hooks";
-
+import { useAddMoodTrack, useGetTheme } from "#hooks";
 import { showToast } from "#utils";
-
 import { appStyles } from "#styles";
-
 import { Context } from "#services";
 
 /**
@@ -21,6 +17,7 @@ import { Context } from "#services";
  * @return {jsx}
  */
 export const MoodTracker = ({ navigation }) => {
+  const { colors } = useGetTheme();
   const { t, i18n } = useTranslation("mood-tracker");
   const { isTmpUser, handleRegistrationModalOpen } = useContext(Context);
   const queryClient = useQueryClient();
@@ -77,7 +74,7 @@ export const MoodTracker = ({ navigation }) => {
           <AppText
             numberOfLines={1}
             namedStyle="smallText"
-            style={styles.textSelected}
+            style={[styles.textSelected, { color: colors.textTertiary }]}
           >
             {emoticon.label}
           </AppText>

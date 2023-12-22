@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 
@@ -12,7 +12,7 @@ import {
 } from "#components";
 import { appStyles } from "#styles";
 
-import { userSvc } from "#services";
+import { useGetTheme } from "#hooks";
 
 /**
  * ConsultationsDashboard
@@ -32,6 +32,7 @@ export const ConsultationsDashboard = ({
   handleRegistrationModalOpen,
   isTmpUser,
 }) => {
+  const { isDarkMode } = useGetTheme();
   const { t } = useTranslation("consultations-dashboard");
   const width = appStyles.screenWidth * 0.96;
 
@@ -81,7 +82,7 @@ export const ConsultationsDashboard = ({
         <View style={styles.buttonContainer}>
           <AppButton
             label={t("schedule_consultation_label")}
-            type="secondary"
+            type={isDarkMode ? "primary" : "secondary"}
             size="lg"
             onPress={handleScheduleConsultation}
           />

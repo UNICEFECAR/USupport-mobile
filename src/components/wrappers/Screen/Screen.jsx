@@ -7,17 +7,15 @@ import {
   StatusBar,
   Image,
 } from "react-native";
-
 import { useNavigation } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { ButtonOnlyIcon } from "../../buttons";
-import { appStyles } from "#styles";
 import spiralBackground from "../../../assets/spiral-background.png";
 import { HeaderNavigation } from "../../headings";
-
-import { useCheckHasUnreadNotifications } from "#hooks";
+import { useCheckHasUnreadNotifications, useGetTheme } from "#hooks";
 import { Context } from "#services";
+import { appStyles } from "#styles";
 
 // Main wrapper for every screen
 export function Screen({
@@ -31,6 +29,7 @@ export function Screen({
   hasHeaderNavigation = false,
   t,
 }) {
+  const { colors, isDarkMode } = useGetTheme();
   const { isTmpUser, token, handleRegistrationModalOpen, hasCheckedTmpUser } =
     useContext(Context);
   const navigation = useNavigation();
@@ -55,12 +54,12 @@ export function Screen({
         backgroundColor
           ? { backgroundColor }
           : isBackgroundColorEnabled
-          ? styles.screenBackground
+          ? { backgroundColor: colors.background }
           : "",
       ]}
     >
       <StatusBar
-        barStyle="dark-content"
+        barStyle={isDarkMode ? "light-content" : "dark-content"}
         backgroundColor={"transparent"}
         translucent={Platform.OS === "android" ? true : false}
       />

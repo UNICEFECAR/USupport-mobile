@@ -4,6 +4,7 @@ import { StyleSheet, Pressable, Text } from "react-native";
 
 import { appStyles } from "#styles";
 import { Loading } from "../../loaders";
+import { useGetTheme } from "#hooks";
 
 /**
  * AppButton
@@ -23,23 +24,26 @@ export const AppButton = ({
   style,
   ...props
 }) => {
+  const { isDarkMode } = useGetTheme();
   const [isPressed, setIsPressed] = useState(false);
+
+  const btnType = type === "secondary" && isDarkMode ? "primary" : type;
 
   return (
     <Pressable
       style={({ pressed }) => {
         return [
-          type === "ghost"
+          btnType === "ghost"
             ? {}
-            : type === "secondary"
+            : btnType === "secondary"
             ? appStyles.shadow2
             : appStyles.shadow1,
           styles.btn,
           styles[color],
-          styles[type],
+          styles[btnType],
           styles[size],
           disabled && styles.disabled,
-          pressed && styles[color + "Pressed" + type],
+          pressed && styles[color + "Pressed" + btnType],
           style,
         ];
       }}
@@ -57,17 +61,19 @@ export const AppButton = ({
           style={[
             styles.btnText,
             size === "lg" && styles.btnTextLg,
-            type === "secondary" && styles.btnTextSecondary,
-            type === "secondary" &&
+            btnType === "secondary" && styles.btnTextSecondary,
+            btnType === "secondary" &&
               color === "purple" &&
               styles.btnTextSecondaryPurple,
-            type === "ghost" && styles.btnTextGhost,
-            type === "ghost" && color === "purple" && styles.btnTextGhostPurple,
+            btnType === "ghost" && styles.btnTextGhost,
+            btnType === "ghost" &&
+              color === "purple" &&
+              styles.btnTextGhostPurple,
             isPressed && styles.btnTextPressed,
             isPressed &&
-              (type === "secondary" || type === "ghost") &&
+              (btnType === "secondary" || btnType === "ghost") &&
               styles[color + "Pressed" + "Text"],
-            color === "red" && type != "primary" && styles.btnTextRed,
+            color === "red" && btnType != "primary" && styles.btnTextRed,
           ]}
           maxFontSizeMultiplier={appStyles.maxFontSizeMultiplier}
         >

@@ -39,6 +39,7 @@ import {
   useGetAllConsultations,
   useScheduleConsultation,
   useGetClientData,
+  useGetTheme,
 } from "#hooks";
 
 import { ONE_HOUR, showToast, parseUTCDate } from "#utils";
@@ -52,6 +53,7 @@ import { ONE_HOUR, showToast, parseUTCDate } from "#utils";
  */
 export const Dashboard = ({ navigation }) => {
   const { t } = useTranslation("dashboard");
+  const { isDarkMode } = useGetTheme();
 
   const { isTmpUser, handleRegistrationModalOpen, currencySymbol } =
     useContext(Context);
@@ -315,6 +317,7 @@ export const Dashboard = ({ navigation }) => {
               handleScheduleConsultation={handleScheduleConsultation}
               handleAcceptSuggestion={handleAcceptSuggestion}
               handleRegistrationModalOpen={handleRegistrationModalOpen}
+              isDarkMode={isDarkMode}
             />
           )}
         </MascotHeadingBlock>
@@ -419,6 +422,7 @@ const HeadingBlockContent = ({
   openEditConsultation,
   handleScheduleConsultation,
   handleAcceptSuggestion,
+  isDarkMode,
 }) => {
   return (
     <View>
@@ -427,7 +431,14 @@ const HeadingBlockContent = ({
           <AppText namedStyle="h3" style={styles.colorTextBlue}>
             {t("no_registration_heading", { clientName: clientName })}
           </AppText>
-          <AppText style={[styles.marginTop16, styles.colorTextBlue]}>
+          <AppText
+            style={[
+              styles.marginTop16,
+              isDarkMode
+                ? { color: appStyles.colorWhite_ff }
+                : styles.colorTextBlue,
+            ]}
+          >
             {t("no_registration_subheading")}
           </AppText>
           <AppButton
@@ -441,7 +452,14 @@ const HeadingBlockContent = ({
       ) : (
         <>
           <AppText namedStyle="h3">{t("welcome", { clientName })}</AppText>
-          <AppText style={[styles.marginTop16, appStyles.colorTextBlue]}>
+          <AppText
+            style={[
+              styles.marginTop16,
+              isDarkMode
+                ? { color: appStyles.colorWhite_ff }
+                : appStyles.colorTextBlue,
+            ]}
+          >
             {t("next_consultation")}
           </AppText>
           <ConsultationDashboard

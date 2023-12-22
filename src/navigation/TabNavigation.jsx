@@ -20,6 +20,7 @@ import {
 
 import { appStyles } from "#styles";
 import LinearGradient from "../components/LinearGradient";
+import { useGetTheme } from "#hooks";
 
 const screens = [
   {
@@ -59,6 +60,7 @@ const screens = [
 ];
 
 export const TabNavigation = () => {
+  const { colors, isDarkMode } = useGetTheme();
   const { t } = useTranslation("tab-navigation");
 
   const takeIconName = ({ routeName, selectedTab }) => {
@@ -88,7 +90,9 @@ export const TabNavigation = () => {
           color={
             selectedTab === routeName
               ? appStyles.colorPrimary_20809e
-              : appStyles.colorGray_92989b
+              : !isDarkMode
+              ? appStyles.colorGray_92989b
+              : appStyles.colorGray_ea
           }
         />
         <AppText namedStyle="smallText">{t(text)}</AppText>
@@ -120,7 +124,7 @@ export const TabNavigation = () => {
         strokeWidth={0.5}
         height={75}
         circleWidth={55}
-        bgColor="white"
+        bgColor={colors.navigation}
         initialRouteName="Dashboard"
         borderTopLeftRight={false}
         renderCircle={({ navigate, selectedTab }) => (
@@ -128,7 +132,9 @@ export const TabNavigation = () => {
             gradient={appStyles.gradientPrimary}
             style={styles.gradientCircle}
           >
-            <View style={styles.btnCircle}>
+            <View
+              style={[styles.btnCircle, { backgroundColor: colors.navigation }]}
+            >
               <Pressable
                 style={{
                   flex: 1,
@@ -151,7 +157,9 @@ export const TabNavigation = () => {
                     color={
                       selectedTab === "Consultations"
                         ? appStyles.colorPrimary_20809e
-                        : appStyles.colorGray_92989b
+                        : !isDarkMode
+                        ? appStyles.colorGray_92989b
+                        : appStyles.colorGray_ea
                     }
                   />
                 </View>
@@ -170,7 +178,6 @@ export const TabNavigation = () => {
 
 export const styles = StyleSheet.create({
   btnCircle: {
-    backgroundColor: appStyles.colorWhite_ff,
     borderColor: "transparent",
     borderRadius: 50,
     borderWidth: 1,

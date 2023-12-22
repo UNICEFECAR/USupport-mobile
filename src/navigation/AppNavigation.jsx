@@ -27,7 +27,6 @@ import {
   PaymentHistory,
   ChangePasscode,
   TermsOfUse,
-  ChangeLanguage,
 } from "#screens";
 
 import { Context } from "#services";
@@ -73,7 +72,6 @@ export const AppNavigation = () => {
       <Stack.Screen name="PaymentHistory" component={PaymentHistory} />
       <Stack.Screen name="ChangePasscode" component={ChangePasscode} />
       <Stack.Screen name="TermsOfUse" component={TermsOfUse} />
-      <Stack.Screen name="ChangeLanguage" component={ChangeLanguage} />
     </Stack.Navigator>
   );
 };

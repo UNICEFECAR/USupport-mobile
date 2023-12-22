@@ -18,5 +18,7 @@
   "passcoode_and_biometrics_button_label": "Кіру коды және биометриялық деректер",
   "payments_history_button_label": "Төлем тарихы",
   "terms_and_conditions": "Шарттар мен ережелер",
-  "language_button_label": "Тілді өзгерту"
+  "language_button_label": "Тілді өзгерту",
+  "dark_mode_button_label": "Қараңғы режим",
+  "light_mode_button_label": "Ашық режим"
 }

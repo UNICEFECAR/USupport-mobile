@@ -1,5 +1,5 @@
 //import libraries
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { View, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import Animated, {
   useAnimatedStyle,
@@ -10,8 +10,8 @@ import { appStyles } from "#styles";
 import { AppText } from "../../texts";
 import { Icon } from "../../icons";
 import { Error } from "../../errors/Error";
-
 import { Context } from "#services";
+import { useGetTheme } from "#hooks";
 
 const DROPDOWN_HEADING_HEIGHT = 48;
 
@@ -27,6 +27,7 @@ export const Dropdown = ({
   style,
 }) => {
   const { dropdownOptions, setDropdownOptions } = useContext(Context);
+  const { colors, isDarkMode } = useGetTheme();
 
   const handleClose = () => {
     setDropdownOptions((options) => {
@@ -76,7 +77,10 @@ export const Dropdown = ({
   return (
     <View style={[styles.dropdown, style]}>
       {label && (
-        <AppText namedStyle="text" style={styles.label}>
+        <AppText
+          namedStyle="text"
+          style={[styles.label, { color: colors.text }]}
+        >
           {label}
         </AppText>
       )}
@@ -85,16 +89,31 @@ export const Dropdown = ({
         <View
           style={[
             styles.container,
+            { backgroundColor: colors.input },
             isOpen && styles.containerOpen,
             errorMessage && styles.containerError,
             appStyles.shadow1,
           ]}
         >
-          <AppText style={styles.selectedOption}>
+          <AppText
+            style={[
+              styles.selectedOption,
+              {
+                color: !isDarkMode
+                  ? appStyles.colorGray_92989b
+                  : appStyles.colorGray_ea,
+              },
+            ]}
+          >
             {selected ? selectedLabel : placeholder}
           </AppText>
           <Animated.View style={arrowIconStyles}>
-            <Icon name="arrow-chevron-up" color={appStyles.colorBlack_37} />
+            <Icon
+              name="arrow-chevron-up"
+              color={
+                !isDarkMode ? appStyles.colorBlack_37 : appStyles.colorGray_ea
+              }
+            />
           </Animated.View>
         </View>
       </TouchableWithoutFeedback>
@@ -124,7 +143,6 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     alignSelf: "center",
-    backgroundColor: appStyles.colorWhite_ff,
     borderColor: "transparent",
     borderRadius: 53,
     borderWidth: 1,

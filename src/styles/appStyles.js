@@ -27,6 +27,10 @@ export default {
 
   colorBlack_00: "#000000",
   colorBlack_37: "#373737",
+  colorBlack_242127: "#242127",
+  colorBlack_1e: "#1e1e1e",
+  colorBlack_12: "#121212",
+  colorBlack_1d: "#1d1d1d",
 
   colorWhite_ff: "#ffffff",
   colorTransparent: "rgba(0, 0, 0, 0)",

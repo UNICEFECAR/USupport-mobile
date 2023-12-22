@@ -63,6 +63,7 @@ export const SelectProvider = ({
           contentContainerStyle={{
             paddingBottom: 200,
           }}
+          showsVerticalScrollIndicator={false}
           ListHeaderComponent={HeaderComponent}
           ListEmptyComponent={
             providersQuery.isFetching || providersQuery.isRefetching ? (

@@ -5,6 +5,7 @@ import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Icon } from "../../icons";
 import { AppText } from "../../texts";
 import { appStyles } from "#styles";
+import { useGetTheme } from "#hooks";
 
 export const Heading = ({
   heading,
@@ -17,14 +18,14 @@ export const Heading = ({
   handleCloseIconPress,
   style,
 }) => {
+  const { colors } = useGetTheme();
+
   return (
     <View
       style={[
         styles.wrapper,
         {
-          backgroundColor: hasBackground
-            ? appStyles.colorWhite_ff
-            : "transparent",
+          backgroundColor: hasBackground ? colors.background : "transparent",
         },
       ]}
     >
@@ -52,7 +53,10 @@ export const Heading = ({
         )}
       </View>
       {subheading && (
-        <AppText style={styles.subheading} namedStyle="text">
+        <AppText
+          style={[styles.subheading, { color: colors.textSecondary }]}
+          namedStyle="text"
+        >
           {subheading}
         </AppText>
       )}

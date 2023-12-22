@@ -24,10 +24,13 @@ import {
 
 import { appStyles } from "#styles";
 
-import { useGetClientData, useUpdateClientData, useLogout } from "#hooks";
-
+import {
+  useGetClientData,
+  useUpdateClientData,
+  useLogout,
+  useGetTheme,
+} from "#hooks";
 import { localStorage, clientSvc } from "#services";
-
 import { validate, validateProperty, showToast } from "#utils";
 
 /**
@@ -45,6 +48,7 @@ export const UserDetails = ({
   openDeleteChatHistoryBackdrop,
   navigation,
 }) => {
+  const { colors } = useGetTheme();
   const { t } = useTranslation("user-details");
 
   const queryClient = useQueryClient();
@@ -405,12 +409,17 @@ export const UserDetails = ({
             </View>
 
             <View style={styles.privacyPolicyContainer}>
-              <AppText namedStyle="paragraph" style={styles.privacyPolicyText}>
+              <AppText
+                style={[styles.privacyPolicyText, { color: colors.text }]}
+              >
                 {t("privacy")}
               </AppText>
 
               <View style={styles.toggleContainer}>
-                <AppText namedStyle="text">
+                <AppText
+                  namedStyle="text"
+                  style={{ color: colors.textSecondary }}
+                >
                   <Trans
                     components={[
                       <AppText
@@ -505,7 +514,7 @@ export const UserDetails = ({
         secondaryCtaHandleClick={() => closeDataProcessingModal(true)}
       />
       {showPrivacyPolicy && (
-        <Modal open={showPrivacyPolicy} animationType="slide">
+        <Modal style={{}} open={showPrivacyPolicy} animationType="slide">
           <PrivacyPolicy
             isModal
             handleModalClose={() => setShowPrivacyPolicy(false)}

@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { StyleSheet, View } from "react-native";
 
+import { useGetTheme } from "#hooks";
 import { appStyles } from "#styles";
 
 /**
@@ -18,13 +19,16 @@ export const Box = ({
   style,
   ...props
 }) => {
+  const { colors } = useGetTheme();
+
   return (
     <View
       style={[
-        style,
         appStyles[`shadow${boxShadow}`],
         styles.box,
+        { backgroundColor: colors.card },
         styles[borderRadius + "Border"],
+        style,
       ]}
       {...props}
     >

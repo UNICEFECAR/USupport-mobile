@@ -14,6 +14,7 @@ import {
 } from "#utils";
 import { mascotHappyBlue } from "#assets";
 import Config from "react-native-config";
+import { useGetTheme } from "#hooks";
 const { AMAZON_S3_BUCKET } = Config;
 
 /**
@@ -31,8 +32,8 @@ export const ConsultationBig = ({
   handleAcceptSuggestion,
   t,
 }) => {
-  const { timestamp, image, status, price } = consultation;
-  let providerName = "Sebastian LongerTigran Galustiyan";
+  const { colors } = useGetTheme();
+  const { providerName, timestamp, image, status, price } = consultation;
   const imageUrl = AMAZON_S3_BUCKET + "/" + (image || "default");
 
   const isLive = checkIsFiveMinutesBefore(timestamp);
@@ -59,7 +60,10 @@ export const ConsultationBig = ({
               {t("live_text")}
             </AppText>
           ) : (
-            <AppText namedStyle="smallText">
+            <AppText
+              namedStyle="smallText"
+              style={{ color: colors.textSecondary }}
+            >
               {dateText}, {timeText}
             </AppText>
           )}
@@ -69,7 +73,10 @@ export const ConsultationBig = ({
               size="sm"
               style={styles.avatar}
             />
-            <AppText style={styles.providerNameText} numberOfLines={3}>
+            <AppText
+              style={[styles.providerNameText, { color: colors.text }]}
+              numberOfLines={3}
+            >
               {providerName}
             </AppText>
           </View>
