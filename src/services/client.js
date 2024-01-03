@@ -21,7 +21,7 @@ async function updateClientData(data) {
 
 async function deleteClientProfile(password) {
   const response = await http.delete(`${API_ENDPOINT}/`, {
-    data: { password },
+    data: { password, time: JSON.stringify(new Date().getTime()) },
   });
   return response;
 }
