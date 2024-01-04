@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView, Linking } from "react-native";
 import Config from "react-native-config";
 import { useQuery } from "@tanstack/react-query";
 
@@ -227,6 +227,16 @@ export const UserProfile = ({ navigation }) => {
               label={t("terms_and_conditions")}
               iconName="document"
               onPress={() => handleRedirect("TermsOfUse")}
+              style={styles.buttonSelector}
+            />
+            <ButtonSelector
+              label={t("user_guide")}
+              iconName="document"
+              onPress={() =>
+                Linking.openURL(
+                  "https://7digit-1.gitbook.io/usupport/y0yJCW2nZ6Sb52p4arjv"
+                )
+              }
               style={styles.buttonSelector}
             />
             <ButtonSelector
