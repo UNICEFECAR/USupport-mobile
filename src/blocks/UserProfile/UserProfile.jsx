@@ -8,7 +8,7 @@ import { Block, Heading, AppText, ButtonSelector } from "#components";
 import { useGetTheme, useGetClientData } from "#hooks";
 import { appStyles } from "#styles";
 import { Context, localStorage, languageSvc, userSvc } from "#services";
-const { AMAZON_S3_BUCKET } = Config;
+const { AMAZON_S3_BUCKET, GIT_BOOK_URL } = Config;
 
 /**
  * UserProfile
@@ -232,11 +232,7 @@ export const UserProfile = ({ navigation }) => {
             <ButtonSelector
               label={t("user_guide")}
               iconName="document"
-              onPress={() =>
-                Linking.openURL(
-                  "https://7digit-1.gitbook.io/usupport/y0yJCW2nZ6Sb52p4arjv"
-                )
-              }
+              onPress={() => Linking.openURL(GIT_BOOK_URL)}
               style={styles.buttonSelector}
             />
             <ButtonSelector
