@@ -20,5 +20,6 @@
   "terms_and_conditions": "Условия и положения",
   "language_button_label": "Изменить язык",
   "dark_mode_button_label": "Темный режим",
-  "light_mode_button_label": "Светлый режим"
+  "light_mode_button_label": "Светлый режим",
+  "user_guide": "Руководство по платформе"
 }

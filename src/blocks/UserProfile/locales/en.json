@@ -20,5 +20,6 @@
   "terms_and_conditions": "Terms of Use",
   "language_button_label": "Change language",
   "dark_mode_button_label": "Dark mode",
-  "light_mode_button_label": "Light mode"
+  "light_mode_button_label": "Light mode",
+  "user_guide": "Platform usage"
 }
