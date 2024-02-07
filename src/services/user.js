@@ -36,7 +36,7 @@ async function signUp({
   clientData = {},
   providerData = {},
 }) {
-  const data = {
+  let data = {
     userType,
     countryID,
     password,
@@ -50,6 +50,13 @@ async function signUp({
   }
 
   const response = await http.post(`${API_ENDPOINT}/signup`, data);
+
+  delete data.password;
+  delete data.userAccessToken;
+  delete data.email;
+
+  data = null;
+
   return response;
 }
 
@@ -66,7 +73,7 @@ async function refreshToken(refreshToken) {
 }
 
 async function login({ userType, email, password, userAccessToken, location }) {
-  const payload = { userType, password, isMobile: true };
+  let payload = { userType, password, isMobile: true };
   if (userAccessToken) {
     payload.userAccessToken = userAccessToken;
   } else {
@@ -76,6 +83,13 @@ async function login({ userType, email, password, userAccessToken, location }) {
   const response = await http.post(`${API_ENDPOINT}/login`, payload, {
     headers,
   });
+
+  delete payload.password;
+  delete payload.userAccessToken;
+  delete payload.email;
+
+  payload = null;
+
   return response;
 }
 
@@ -134,12 +148,16 @@ async function updateNotificationPreferences(data) {
 /**
  *
  * @param {String} email -> the email of the user
- * @param {*} userType -> the type of the user "client" or "provider"
+ * @param {String} type -> the type of the user "client" or "provider"
  * @returns
  */
-async function generateForgotPasswordLink(email, userType) {
-  const response = await http.get(
-    `${API_ENDPOINT}/rescue/forgot-password?email=${email.toLowerCase()}&type=${userType}`
+async function generateForgotPasswordLink(email, type) {
+  const response = await http.post(
+    `${API_ENDPOINT}/rescue/forgot-password-link`,
+    {
+      email,
+      type,
+    }
   );
   return response;
 }

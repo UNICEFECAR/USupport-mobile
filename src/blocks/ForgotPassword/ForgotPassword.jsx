@@ -24,6 +24,7 @@ export const ForgotPassword = ({ navigation }) => {
   const [data, setData] = useState({ email: "" });
   const [errors, setErrors] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const schema = Joi.object({
     email: Joi.string()
@@ -32,6 +33,7 @@ export const ForgotPassword = ({ navigation }) => {
   });
 
   const handleResetPassword = async () => {
+    setLoading(true);
     if ((await validate(data, schema, setErrors)) == null) {
       try {
         await userSvc.generateForgotPasswordLink(
@@ -44,6 +46,7 @@ export const ForgotPassword = ({ navigation }) => {
         setErrors({ submit: errorMessage });
       }
     }
+    setLoading(false);
   };
 
   const canContinue = data.email === "";
@@ -58,6 +61,7 @@ export const ForgotPassword = ({ navigation }) => {
         <Input
           label={t("input_email_label")}
           value={data.email}
+          autoCapitalize="none"
           placeholder={"user@mail.com"}
           onChange={(value) => setData({ email: value })}
           errorMessage={errors.email}
@@ -69,6 +73,7 @@ export const ForgotPassword = ({ navigation }) => {
           size="lg"
           onPress={handleResetPassword}
           disabled={canContinue}
+          loading={loading}
           style={styles.button}
         />
       </View>
