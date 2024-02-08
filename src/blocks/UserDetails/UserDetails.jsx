@@ -262,7 +262,7 @@ export const UserDetails = ({
     }
   };
 
-  const handleLogout = useLogout();
+  const logoutMutation = useLogout();
 
   const handleGoBack = () => {
     navigation.goBack();
@@ -456,7 +456,7 @@ export const UserDetails = ({
                 iconColor={appStyles.colorPrimary_20809e}
                 label={t("logout")}
                 type="ghost"
-                onPress={handleLogout}
+                onPress={logoutMutation.mutate}
                 style={styles.textButton}
               />
               <ButtonWithIcon

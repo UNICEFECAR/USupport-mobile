@@ -5,9 +5,9 @@ import Joi from "joi";
 
 import { Backdrop, InputPassword } from "#components";
 
-import { useError } from "#hooks";
+import { useError, useLogout } from "#hooks";
 
-import { clientSvc, localStorage, Context } from "#services";
+import { clientSvc, Context } from "#services";
 
 import { StyleSheet } from "react-native";
 
@@ -30,6 +30,7 @@ export const DeleteAccount = ({ isOpen, onClose }) => {
   const [data, setData] = useState({ password: "" });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const logoutMutation = useLogout();
 
   const deleteAccount = async () => {
     const res = await clientSvc.deleteClientProfile(data.password);
@@ -40,7 +41,7 @@ export const DeleteAccount = ({ isOpen, onClose }) => {
   const deleteAccountMutation = useMutation(deleteAccount, {
     onSuccess: () => {
       setIsSubmitting(false);
-      handleLogout();
+      logoutMutation.mutate();
     },
     onError: (error) => {
       const { message: errorMessage } = useError(error);
@@ -58,11 +59,6 @@ export const DeleteAccount = ({ isOpen, onClose }) => {
   const handleSubmit = () => {
     setIsSubmitting(true);
     deleteAccountMutation.mutate();
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setToken(null);
   };
 
   return (

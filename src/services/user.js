@@ -225,6 +225,15 @@ async function requestEmailOTP(email) {
   return response;
 }
 
+async function logoutRequest() {
+  try {
+    const response = await http.post(`${API_ENDPOINT}/logout`);
+    return response;
+  } catch (e) {
+    console.log("Error logging out", e);
+  }
+}
+
 const exportedFunctions = {
   changePassword,
   generateClientAccesToken,
@@ -246,6 +255,7 @@ const exportedFunctions = {
   transformUserData,
   changeLanguage,
   requestEmailOTP,
+  logoutRequest,
 };
 
 export default exportedFunctions;
