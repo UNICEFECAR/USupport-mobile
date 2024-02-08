@@ -27,7 +27,7 @@ export const Login = ({ navigation }) => {
   const { t } = useTranslation("login");
   const queryClient = useQueryClient();
 
-  const { setToken } = useContext(Context);
+  const { setToken, isLoginDisabled, setIsLoginDisabled } = useContext(Context);
 
   const [data, setData] = useState({
     email: "",
@@ -68,6 +68,17 @@ export const Login = ({ navigation }) => {
     },
     onError: (error) => {
       const { message: errorMessage } = useError(error);
+      const errorCode = error.response.status;
+      if (errorCode === 429 && !isLoginDisabled) {
+        // If the user is rate limited, disable the login button for the remaining cooldown time
+        const remainingCooldownInSeconds =
+          error.response.data?.error?.customData?.remainingCooldownInSeconds ||
+          0;
+        setIsLoginDisabled(true);
+        setTimeout(() => {
+          setIsLoginDisabled(false);
+        }, remainingCooldownInSeconds * 1000);
+      }
       setErrors({ submit: errorMessage });
     },
   });
@@ -133,7 +144,7 @@ export const Login = ({ navigation }) => {
             label={t("login_label")}
             size="lg"
             onPress={handleLogin}
-            disabled={!data.email || !data.password}
+            disabled={!data.email || !data.password || isLoginDisabled}
             loading={loginMutation.isLoading}
             isSubmit
             style={styles.loginButton}

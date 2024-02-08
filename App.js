@@ -64,6 +64,8 @@ function App() {
   const [isAnonymousRegister, setIsAnonymousRegister] = useState(false);
   const [theme, setTheme] = useState(null);
 
+  const [isLoginDisabled, setIsLoginDisabled] = useState(false);
+
   const [dropdownOptions, setDropdownOptions] = useState({
     isOpen: false,
     options: [],
@@ -187,6 +189,8 @@ function App() {
     setIsAnonymousRegister,
     theme,
     setTheme,
+    isLoginDisabled,
+    setIsLoginDisabled,
   };
 
   return (
