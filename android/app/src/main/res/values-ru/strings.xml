@@ -3,7 +3,8 @@
   <string name="expo_splash_screen_resize_mode" translatable="false">cover</string>
   <string name="app_name">uSupport</string>
   <string moduleConfig="true" name="CodePushDeploymentKey">@string/CODEPUSH_ANDROID_DEPLOYMENT_KEY</string>
-  <string name="provider_install_failed_title">Provider Installation Failed</string>
-  <string name="provider_install_failed_message">The security provider could not be installed. You cannot proceed without updating.</string>
-  <string name="ok_button">OK</string>
+  <string name="provider_install_failed_title">Ошибка установки провайдера</string>
+  <string name="provider_install_failed_message">Провайдер безопасности не может быть установлен. Вы не можете продолжить без обновления.</string>
+  <string name="ok_button">ОК</string>
+
 </resources>
