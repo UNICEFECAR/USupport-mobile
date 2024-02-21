@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, Keyboard } from "react-native";
 import Joi from "joi";
@@ -10,10 +10,9 @@ import {
   AppButton,
   TransparentModal,
 } from "#components";
-
 import { validate, showToast } from "#utils";
-
 import { useSendInformationPortalSuggestion } from "#hooks";
+import { Context } from "#services";
 
 const initialData = {
   suggestion: "",
@@ -27,6 +26,8 @@ const initialData = {
  */
 export const GiveSuggestion = () => {
   const { t } = useTranslation("give-suggestion");
+
+  const { isTmpUser, handleRegistrationModalOpen } = useContext(Context);
 
   const [data, setData] = useState({ ...initialData });
   const [errors, setErrors] = useState({});
@@ -68,7 +69,9 @@ export const GiveSuggestion = () => {
   };
 
   const handleSubmit = async () => {
-    if ((await validate(data, schema, setErrors)) === null) {
+    if (isTmpUser) {
+      handleRegistrationModalOpen();
+    } else if ((await validate(data, schema, setErrors)) === null) {
       sendSuggestionMutation.mutate(data.suggestion);
     }
   };
