@@ -18,11 +18,13 @@ export const ChangePasscode = ({ navigation, route }) => {
   const { t } = useTranslation("change-passcode");
 
   let { userPin, oldPin, isRemove } = route.params;
+  const { hasGoBackArrow } = route.params || true;
+
   const heading = userPin
     ? t("enter_passcode")
     : oldPin
-    ? t("confirm_passcode")
-    : t("create_passcode");
+      ? t("confirm_passcode")
+      : t("create_passcode");
 
   const [isPinVisible, setIsPinVisible] = useState(false);
   const [error, setError] = useState(false);
@@ -66,6 +68,7 @@ export const ChangePasscode = ({ navigation, route }) => {
 
   const removePin = async () => {
     await localStorage.removeItem("pin-code");
+    await localStorage.removeItem("token");
     showToast({
       message: t("remove_success"),
     });
@@ -87,7 +90,9 @@ export const ChangePasscode = ({ navigation, route }) => {
         type: "error",
       });
     } finally {
-      navigation.navigate("Passcode");
+      if (!hasGoBackArrow) {
+        navigation.navigate("TabNavigation");
+      } else navigation.navigate("Passcode");
     }
   };
 
@@ -118,6 +123,7 @@ export const ChangePasscode = ({ navigation, route }) => {
       if (!oldPin && !userPin && text !== "") {
         navigation.push("ChangePasscode", {
           oldPin: pinValue.current,
+          hasGoBackArrow,
         });
 
         // If there is an oldPin then we check if its the same as the currently typed one
@@ -144,6 +150,7 @@ export const ChangePasscode = ({ navigation, route }) => {
           } else {
             navigation.push("ChangePasscode", {
               isChangePinPage: true,
+              hasGoBackArrow,
             });
           }
         }
@@ -154,6 +161,7 @@ export const ChangePasscode = ({ navigation, route }) => {
   const handleContinue = () => {
     navigation.push("ChangePasscode", {
       oldPin: pinValue.current,
+      hasGoBackArrow,
     });
   };
 
