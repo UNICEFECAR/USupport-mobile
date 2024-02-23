@@ -266,7 +266,7 @@ const RedirectToBiometrics = () => {
       const hasDeclined = await localStorage.getItem("has-declined-biometrics");
       const userPin = await localStorage.getItem("pin-code");
       const hasBiometrics = await localStorage.getItem("biometrics-enabled");
-      console.log(hasDeclined);
+
       if (!hasDeclined && !userPin && !hasBiometrics) {
         navigation.navigate("SetUpBiometrics", { goBackOnSkip: true });
       }
