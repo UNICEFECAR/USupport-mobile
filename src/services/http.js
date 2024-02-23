@@ -15,6 +15,8 @@ axios.interceptors.request.use(async (config) => {
   config.headers["x-country-alpha-2"] = country || "KZ";
   config.headers["x-language-alpha-2"] = language || "en";
   config.headers["Origin"] = WEBSITE_URL;
+  config.headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+
   const requestURI = axios.getUri(config) || "VITE CMS API URL";
 
   if (!requestURI.includes(CMS_API_URL_ENDPOINT)) {
