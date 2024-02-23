@@ -28,6 +28,7 @@ import { localStorage, Context, userSvc } from "#services";
 import { RequireRegistration } from "#modals";
 import { DropdownBackdrop } from "#backdrops";
 import { FIVE_MINUTES } from "#utils";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -88,9 +89,8 @@ function App() {
 
   useEffect(() => {
     async function checkCurencySymbol() {
-      const localStorageCurrencySymbol = await localStorage.getItem(
-        "currencySymbol"
-      );
+      const localStorageCurrencySymbol =
+        await localStorage.getItem("currencySymbol");
       if (!currencySymbol && localStorageCurrencySymbol) {
         setCurrencySymbol(localStorageCurrencySymbol);
       }
@@ -194,33 +194,35 @@ function App() {
   };
 
   return (
-    <StripeProvider publishableKey={STRIPE_PUBLIC_KEY}>
-      <Context.Provider value={contextValues}>
-        <QueryClientProvider client={queryClient}>
-          <SafeAreaProvider>
-            <View style={styles.flex1} onLayout={onLayoutRootView}>
-              <Navigation contextTheme={theme} setTheme={setTheme}>
-                <DropdownBackdrop
-                  onClose={() =>
-                    setDropdownOptions((options) => ({
-                      ...options,
-                      isOpen: false,
-                    }))
-                  }
-                  {...dropdownOptions}
-                />
-                <RequireRegistration
-                  handleContinue={handleRegisterRedirection}
-                  isOpen={isRegistrationModalOpan}
-                  onClose={handleRegistrationModalClose}
-                />
-              </Navigation>
-            </View>
-          </SafeAreaProvider>
-          <FlashMessage position="top" />
-        </QueryClientProvider>
-      </Context.Provider>
-    </StripeProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <StripeProvider publishableKey={STRIPE_PUBLIC_KEY}>
+        <Context.Provider value={contextValues}>
+          <QueryClientProvider client={queryClient}>
+            <SafeAreaProvider>
+              <View style={styles.flex1} onLayout={onLayoutRootView}>
+                <Navigation contextTheme={theme} setTheme={setTheme}>
+                  <DropdownBackdrop
+                    onClose={() =>
+                      setDropdownOptions((options) => ({
+                        ...options,
+                        isOpen: false,
+                      }))
+                    }
+                    {...dropdownOptions}
+                  />
+                  <RequireRegistration
+                    handleContinue={handleRegisterRedirection}
+                    isOpen={isRegistrationModalOpan}
+                    onClose={handleRegistrationModalClose}
+                  />
+                </Navigation>
+              </View>
+            </SafeAreaProvider>
+            <FlashMessage position="top" />
+          </QueryClientProvider>
+        </Context.Provider>
+      </StripeProvider>
+    </GestureHandlerRootView>
   );
 }
 
