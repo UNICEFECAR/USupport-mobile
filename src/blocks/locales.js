@@ -34,3 +34,4 @@ export * as ChangePasscode from "./ChangePasscode/locales";
 export * as TermsOfUse from "./TermsOfUse/locales";
 export * as MoodTrackHistory from "./MoodTrackHistory/locales";
 export * as MyQA from "./MyQA/locales";
+export * as SetUpBiometrics from "./SetUpBiometrics/locales";

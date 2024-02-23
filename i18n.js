@@ -37,6 +37,7 @@ import {
   Welcome,
   MoodTrackHistory,
   MyQA,
+  SetUpBiometrics,
 } from "./src/blocks/locales.js";
 
 import {
@@ -126,6 +127,7 @@ const resources = {
     welcome: Welcome.en,
     "mood-track-history": MoodTrackHistory.en,
     "my-qa": MyQA.en,
+    "set-up-biometrics": SetUpBiometrics.en,
 
     // Screens
     "activity-history": ActivityHistory.en,
@@ -217,6 +219,7 @@ const resources = {
     welcome: Welcome.ru,
     "mood-track-history": MoodTrackHistory.ru,
     "my-qa": MyQA.ru,
+    "set-up-biometrics": SetUpBiometrics.ru,
 
     // Screens
     "activity-history": ActivityHistory.ru,
@@ -308,6 +311,7 @@ const resources = {
     welcome: Welcome.kk,
     "mood-track-history": MoodTrackHistory.kk,
     "my-qa": MyQA.kk,
+    "set-up-biometrics": SetUpBiometrics.kk,
 
     // Screens
     "activity-history": ActivityHistory.kk,
