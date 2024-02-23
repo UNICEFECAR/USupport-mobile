@@ -1,8 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { View, StyleSheet, ScrollView, Linking } from "react-native";
 import Config from "react-native-config";
 import { useQuery } from "@tanstack/react-query";
+import DeviceInfo from "react-native-device-info";
 
 import { Block, Heading, AppText, ButtonSelector } from "#components";
 import { useGetTheme, useGetClientData } from "#hooks";
@@ -21,6 +22,17 @@ export const UserProfile = ({ navigation }) => {
   const { isDarkMode, colors } = useGetTheme();
   const { t, i18n } = useTranslation("user-profile");
   const { theme, setTheme } = useContext(Context);
+
+  const [version, setVersion] = React.useState("");
+
+  useEffect(() => {
+    const getAppVersion = async () => {
+      const appVersion = await DeviceInfo.getVersion();
+      setVersion(appVersion);
+    };
+
+    getAppVersion();
+  }, []);
 
   const { isTmpUser, handleRegistrationModalOpen } = useContext(Context);
   const [languagesData, setLanguagesData] = useState({
@@ -199,7 +211,7 @@ export const UserProfile = ({ navigation }) => {
             /> */}
           </View>
 
-          <View style={[styles.group, styles.lastGroup]}>
+          <View style={[styles.group]}>
             <AppText style={(styles.groupHeading, { color: colors.text })}>
               {t("other")}
             </AppText>
@@ -245,6 +257,18 @@ export const UserProfile = ({ navigation }) => {
               onPress={() => handleRedirect("FAQ")}
               style={styles.buttonSelector}
             />
+            <AppText
+              namedStyle="smallText"
+              style={[styles.versionText, { paddingTop: 20 }]}
+            >
+              uSupport
+            </AppText>
+            <AppText
+              namedStyle="smallText"
+              style={[styles.versionText, { paddingBottom: 30 }]}
+            >
+              V{version}
+            </AppText>
           </View>
         </ScrollView>
       </Block>
@@ -275,7 +299,8 @@ const styles = StyleSheet.create({
     fontFamily: "Nunito_600SemiBold",
   },
 
-  lastGroup: {
-    paddingBottom: 90,
+  versionText: {
+    textAling: "center",
+    alignSelf: "center",
   },
 });
