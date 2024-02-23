@@ -4,6 +4,7 @@ import React, {
   useRef,
   useCallback,
   useMemo,
+  useContext,
 } from "react";
 
 import {
@@ -44,7 +45,7 @@ import {
 
 import { VideoRoom } from "#blocks";
 import { SafetyFeedback } from "../SafetyFeedback";
-import { localStorage } from "#services";
+import { localStorage, Context } from "#services";
 import { showToast, ONE_HOUR, getDateView, systemMessageTypes } from "#utils";
 import { appStyles } from "#styles";
 
@@ -62,6 +63,8 @@ export const Consultation = ({ navigation, route }) => {
   const { t } = useTranslation("consultation-page");
   const location = route.params;
   const backdropMessagesContainerRef = useRef();
+
+  const { setIsInConsultation } = useContext(Context);
 
   const consultation = location?.consultation;
   const joinWithVideo = location?.videoOn;
@@ -97,6 +100,7 @@ export const Consultation = ({ navigation, route }) => {
   };
 
   useEffect(() => {
+    setIsInConsultation(true);
     activateKeepAwake();
     if (Platform.OS === "android") {
       setupNotificationChannel().then(() => {
@@ -105,6 +109,7 @@ export const Consultation = ({ navigation, route }) => {
     }
 
     return () => {
+      setIsInConsultation(false);
       deactivateKeepAwake();
       if (Platform.OS === "android") {
         VIForegroundService.getInstance().stopService();
