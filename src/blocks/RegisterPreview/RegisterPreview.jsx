@@ -92,11 +92,7 @@ export const RegisterPreview = ({ navigation }) => {
     <React.Fragment>
       <Heading
         handleGoBack={() => {
-          if (navigation.canGoBack()) {
-            navigation.goBack();
-          } else {
-            navigation.navigate("Welcome");
-          }
+          navigation.navigate("Welcome");
         }}
         hasBackground={false}
       />
