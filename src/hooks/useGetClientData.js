@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState, useEffect } from "react";
-import { clientSvc } from "#services";
+import { useState, useEffect, useContext } from "react";
+import { clientSvc, Context } from "#services";
 
 /**
  * Reuseable hook to get and transform the client data in a desired format
@@ -13,6 +13,8 @@ export default function useGetClientData(
   const oldData = queryClient.getQueryData({ queryKey: ["client-data"] });
   const [clientData, setClientData] = useState(oldData || null);
   const [oldDataCopy, setOldDataCopy] = useState(oldData || null);
+
+  const { token } = useContext(Context);
 
   useEffect(() => {
     if (shouldInvalidate) {
@@ -42,7 +44,7 @@ export default function useGetClientData(
   };
 
   const clientDataQuery = useQuery(["client-data"], fetchClientData, {
-    enabled,
+    enabled: enabled && !!token,
     onSuccess: (data) => {
       const dataCopy = JSON.parse(JSON.stringify(data));
       setOldDataCopy(dataCopy);
