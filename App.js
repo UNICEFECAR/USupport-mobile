@@ -66,6 +66,7 @@ function App() {
   const [theme, setTheme] = useState(null);
   const [isInConsultation, setIsInConsultation] = useState(false);
   const [isLoginDisabled, setIsLoginDisabled] = useState(false);
+  const [hasAuthenticatedWithPin, setHasAuthenticatedWithPin] = useState(false);
 
   const [dropdownOptions, setDropdownOptions] = useState({
     isOpen: false,
@@ -89,9 +90,8 @@ function App() {
 
   useEffect(() => {
     async function checkCurencySymbol() {
-      const localStorageCurrencySymbol = await localStorage.getItem(
-        "currencySymbol"
-      );
+      const localStorageCurrencySymbol =
+        await localStorage.getItem("currencySymbol");
       if (!currencySymbol && localStorageCurrencySymbol) {
         setCurrencySymbol(localStorageCurrencySymbol);
       }
@@ -146,6 +146,8 @@ function App() {
             case codePush.SyncStatus.UP_TO_DATE:
               clearTokenIfNoPinOrBiometrics();
               break;
+            default:
+              break;
           }
         }
       )
@@ -196,6 +198,7 @@ function App() {
   if (!loaded) {
     return null;
   }
+
   const contextValues = {
     token,
     setToken,
@@ -222,6 +225,9 @@ function App() {
     setIsLoginDisabled,
     isInConsultation,
     setIsInConsultation,
+    setUserPin,
+    hasAuthenticatedWithPin,
+    setHasAuthenticatedWithPin,
   };
 
   return (
