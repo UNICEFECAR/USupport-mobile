@@ -40,6 +40,8 @@ const interceptError = async (error) => {
     }
 
     const token = await localStorage.getItem("token");
+    if (!token) return Promise.reject(error);
+
     const decoded = jwtDecode(token);
     const isTokenExpired = Date.now() >= decoded.exp * 1000;
 
