@@ -27,7 +27,11 @@ import { AuthNavigation } from "./AuthNavigation";
 
 import { appColors } from "#styles";
 import { LocalAuthenticationScreen } from "#screens";
-import { useAddPushNotificationToken, useGetClientData } from "#hooks";
+import {
+  useAddPushNotificationToken,
+  useGetClientData,
+  useLogout,
+} from "#hooks";
 import { countrySvc, localStorage, Context } from "#services";
 
 import { getCountryFromTimezone, FIVE_MINUTES } from "#utils";
@@ -55,7 +59,6 @@ export function Navigation({
   children,
 }) {
   const [hasSavedPushToken, setHasSavedPushToken] = useState(false);
-  const [hasAuthenticatedWithPin, setHasAuthenticatedWithPin] = useState(false);
   const { i18n } = useTranslation();
   const theme = useColorScheme();
   const darkTheme = {
@@ -71,8 +74,15 @@ export function Navigation({
     dark: false,
   };
 
-  const { token, setCurrencySymbol, isTmpUser, userPin, hasCheckedTmpUser } =
-    useContext(Context);
+  const {
+    hasAuthenticatedWithPin,
+    setHasAuthenticatedWithPin,
+    token,
+    setCurrencySymbol,
+    isTmpUser,
+    userPin,
+    hasCheckedTmpUser,
+  } = useContext(Context);
 
   const getClientDataEnabled = !!(
     (isTmpUser === false ? true : false) && token
@@ -82,6 +92,8 @@ export function Navigation({
 
   const timerId = useRef(false);
   const inConsultationRef = useRef(isInConsultation);
+
+  const logoutMutation = useLogout();
 
   useEffect(() => {
     if (token) {
@@ -105,11 +117,23 @@ export function Navigation({
   ).current;
 
   // After five minutes of inactivity, the user will be prompted to enter their PIN code or authenticate with biometrics
-  const resetInactivityTimeout = useCallback(() => {
-    if (!inConsultationRef.current && token) {
-      clearTimeout(timerId.current);
-      timerId.current = setTimeout(() => {
-        setHasAuthenticatedWithPin(false);
+  const resetInactivityTimeout = useCallback(async () => {
+    const actualToken = await localStorage.getItem("token");
+
+    if (!inConsultationRef.current && actualToken) {
+      if (timerId.current) {
+        clearTimeout(timerId.current);
+      }
+      timerId.current = setTimeout(async () => {
+        const hasBiometrics = await localStorage.getItem("biometrics-enabled");
+        const userPin = await localStorage.getItem("pin-code");
+
+        // Logout the client if there are no pin or biometrics setup
+        if (!hasBiometrics && !userPin) {
+          logoutMutation.mutate();
+        } else {
+          setHasAuthenticatedWithPin(false);
+        }
       }, FIVE_MINUTES);
     } else {
       if (timerId.current) {
