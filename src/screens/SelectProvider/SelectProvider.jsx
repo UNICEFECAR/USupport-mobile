@@ -1,6 +1,7 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useMemo, useContext, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import {
   AppText,
@@ -15,9 +16,14 @@ import {
 import { SelectProvider as SelectProviderBlock } from "#blocks";
 import { FilterProviders } from "#backdrops";
 import { useGetProvidersData, useError } from "#hooks";
-import { Context, clientSvc } from "#services";
-import { useQueryClient } from "@tanstack/react-query";
-import { ButtonOnlyIcon } from "../../components/buttons/ButtonOnlyIcon/ButtonOnlyIcon";
+import { Context, clientSvc, localStorage, countrySvc } from "#services";
+
+const fetchCountry = async () => {
+  const { data } = await countrySvc.getActiveCountries();
+  const currentCountryId = await localStorage.getItem("country_id");
+  const currentCountry = data.find((x) => x.country_id === currentCountryId);
+  return currentCountry?.alpha2 === "KZ" ? true : false;
+};
 
 /**
  * SelectProvider
@@ -32,24 +38,38 @@ export const SelectProvider = ({ navigation }) => {
 
   const { activeCoupon, setActiveCoupon } = useContext(Context);
 
+  const { data: isKzCountry } = useQuery(["country-min-price"], fetchCountry);
+
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isCouponModalOpen, setIsCouponModalOpen] = useState(false);
   const [couponValue, setCouponValue] = useState("");
   const [couponError, setCouponError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const initialFilters = {
-    providerTypes: [],
-    providerSex: [],
-    maxPrice: "",
-    language: null,
-    onlyFreeConsultation: false,
-    availableAfter: "",
-    availableBefore: "",
-  };
+  const initialFilters = useMemo(() => {
+    return {
+      providerTypes: [],
+      providerSex: [],
+      maxPrice: "",
+      language: null,
+      onlyFreeConsultation: isKzCountry || false,
+      availableAfter: "",
+      availableBefore: "",
+    };
+  }, [isKzCountry]);
+
   const [allFilters, setAllFilters] = useState({
     ...initialFilters,
   });
+
+  useEffect(() => {
+    if (isKzCountry) {
+      setAllFilters((prev) => ({
+        ...prev,
+        onlyFreeConsultation: true,
+      }));
+    }
+  }, [isKzCountry]);
 
   const onSuccess = () => {
     setIsFiltering(false);
@@ -116,6 +136,17 @@ export const SelectProvider = ({ navigation }) => {
     setActiveCoupon(null);
   };
 
+  const providerLanguages = providersQuery.data?.pages
+    .flat()
+    .map((x) => x.languages)
+    .flat()
+    ?.reduce((acc, curr) => {
+      if (!acc.some((y) => y.language_id === curr.language_id)) {
+        acc.push(curr);
+      }
+      return acc;
+    }, []);
+
   return (
     <Screen>
       <Heading
@@ -143,6 +174,7 @@ export const SelectProvider = ({ navigation }) => {
               allFilters={allFilters}
               setAllFilters={setAllFilters}
               handleFilterClick={handleFilterClick}
+              isToggleDisabled={isKzCountry}
             />
           </>
         }
@@ -173,6 +205,9 @@ export const SelectProvider = ({ navigation }) => {
         navigation={navigation}
         allFilters={allFilters}
         setAllFilters={setAllFilters}
+        isToggleDisabled={isKzCountry}
+        languages={providerLanguages}
+        initialFilters={initialFilters}
       />
     </Screen>
   );
@@ -187,6 +222,7 @@ const FiltersBlock = ({
   setAllFilters,
   handleFilterClick,
   t,
+  isToggleDisabled,
 }) => {
   const [data, setData] = useState({
     maxPrice: "",
@@ -234,6 +270,7 @@ const FiltersBlock = ({
             flex: 1,
           }}
           labelStyle={{ marginBottom: 12 }}
+          disabled={isToggleDisabled}
         />
         {!allFilters.onlyFreeConsultation && (
           <Input

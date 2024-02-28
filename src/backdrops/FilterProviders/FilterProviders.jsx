@@ -1,20 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import DatePicker from "react-native-date-picker";
 
-import {
-  Backdrop,
-  CheckBoxGroup,
-  Input,
-  Dropdown,
-  AppText,
-  Toggle,
-} from "#components";
+import { Backdrop, CheckBoxGroup, Input, Dropdown, Toggle } from "#components";
 import { appStyles } from "#styles";
-
-import { languageSvc } from "#services";
 import { getDateView } from "#utils";
 
 /**
@@ -30,18 +20,11 @@ export const FilterProviders = ({
   onSave,
   allFilters,
   setAllFilters,
+  isToggleDisabled = false,
+  languages,
+  initialFilters,
 }) => {
   const { t } = useTranslation("filter-providers");
-
-  const initialFilters = {
-    providerTypes: [],
-    providerSex: [],
-    maxPrice: "",
-    language: null,
-    onlyFreeConsultation: false,
-    availableAfter: "",
-    availableBefore: "",
-  };
 
   const [data, setData] = useState({ ...allFilters });
 
@@ -71,7 +54,7 @@ export const FilterProviders = ({
     },
     { label: t("female"), value: "female", isSelected: false },
     { label: t("unspecified"), value: "unspecified", isSelected: false },
-    { label: t("not_mentioned"), value: "notMentioned", isSelected: false },
+    // { label: t("not_mentioned"), value: "notMentioned", isSelected: false },
   ]);
 
   useEffect(() => {
@@ -99,25 +82,6 @@ export const FilterProviders = ({
       });
     });
   }, [allFilters]);
-
-  const fetchLanguages = async () => {
-    const res = await languageSvc.getAllLanguages();
-    const languages = res.data.map((x) => {
-      const languageObject = {
-        value: x["language_id"],
-        alpha2: x.alpha2,
-        label: x.name,
-        id: x["language_id"],
-      };
-      return languageObject;
-    });
-    return languages.sort((a, b) =>
-      a.label > b.label ? 1 : b.label > a.label ? -1 : 0
-    );
-  };
-  const languagesQuery = useQuery(["languages"], fetchLanguages, {
-    retry: false,
-  });
 
   const handleSelect = (field, value) => {
     const dataCopy = { ...data };
@@ -164,13 +128,13 @@ export const FilterProviders = ({
       secondaryCtaHandleClick={handleFilterReset}
       secondaryCtaType="secondary"
     >
-      <CheckBoxGroup
+      {/* <CheckBoxGroup
         name="providerType"
         label={t("provider_type_checkbox_group_label")}
         options={providerTypes}
         setOptions={setProviderTypes}
         style={styles.marginBottom32}
-      />
+      /> */}
       <CheckBoxGroup
         name="sex"
         label={t("provider_sex_checkbox_group_label")}
@@ -178,14 +142,14 @@ export const FilterProviders = ({
         setOptions={setProviderSex}
         style={styles.marginBottom32}
       />
-      <Input
+      {/* <Input
         value={data.maxPrice}
         onChange={(value) => handleSelect("maxPrice", value)}
         label={t("max_price")}
         placeholder={t("max_price_placeholder")}
         type="number"
         style={styles.marginBottom32}
-      />
+      /> */}
       <Input
         value={data.availableAfter ? getDateView(data.availableAfter) : ""}
         onChange={(value) => handleSelect("availableAfter", value)}
@@ -235,7 +199,11 @@ export const FilterProviders = ({
         mode="date"
       />
       <Dropdown
-        options={languagesQuery.data || []}
+        options={
+          languages?.map((x) => {
+            return { ...x, label: x.name, value: x.language_id };
+          }) || []
+        }
         selected={data.language}
         setSelected={(selectedOption) =>
           handleSelect("language", selectedOption)
@@ -253,6 +221,7 @@ export const FilterProviders = ({
             handleSelect("onlyFreeConsultation", checked)
           }
           style={[styles.marginBottom32, styles.toggle]}
+          disabled={isToggleDisabled}
         />
       </View>
     </Backdrop>
