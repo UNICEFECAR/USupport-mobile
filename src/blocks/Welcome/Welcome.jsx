@@ -1,5 +1,5 @@
 import { Image, ScrollView, StyleSheet, View } from "react-native";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 
@@ -14,6 +14,14 @@ export function Welcome({ navigation }) {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState(null);
 
+  useEffect(() => {
+    localStorage.getItem("country").then((country) => {
+      if (country) {
+        setSelectedCountry(country);
+      }
+    });
+  }, []);
+
   const fetchCountries = async () => {
     const localStorageCountry = await localStorage.getItem("country");
     const localStorageCountryID = await localStorage.getItem("country_id");
@@ -23,7 +31,7 @@ export function Welcome({ navigation }) {
       const countryObject = {
         value: x.alpha2,
         label: x.name,
-        id: x.country_id,
+        countryID: x.country_id,
         minAge: x.min_client_age,
         maxAge: x.max_client_age,
         currencySymbol: x.symbol,
@@ -85,7 +93,7 @@ export function Welcome({ navigation }) {
     setCurrencySymbol(currencySymbol);
 
     localStorage.setItem("country", country);
-    localStorage.setItem("country_id", selectedCountryObject.id);
+    localStorage.setItem("country_id", selectedCountryObject.countryID);
     localStorage.setItem("language", language);
     localStorage.setItem("currency_symbol", currencySymbol);
 

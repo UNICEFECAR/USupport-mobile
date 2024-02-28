@@ -177,7 +177,7 @@ async function getWorkWithCategories() {
 
 async function createProvider(data) {
   const countryID = await localStorage.getItem("country_id");
-  const password = data.password;
+  let password = data.password;
   delete data.password;
   const response = await http.post(`${API_ENDPOINT}/provider/signup`, {
     userType: "provider",
@@ -185,6 +185,9 @@ async function createProvider(data) {
     password,
     providerData: data,
   });
+
+  password = null;
+
   return response;
 }
 

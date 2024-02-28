@@ -3,17 +3,19 @@ import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { localStorage, Context, userSvc } from "#services";
 
 export const useLogout = () => {
-  const { setToken, setInitialRouteName } = useContext(Context);
+  const { setToken, setInitialRouteName, setInitialAuthRouteName } =
+    useContext(Context);
   const queryClient = useQueryClient();
 
   const logoutMutation = useMutation(async () => {
     userSvc.logoutRequest();
+    setInitialRouteName("TabNavigation");
+    setInitialAuthRouteName("Login");
     queryClient.clear();
     setToken(null);
-    setInitialRouteName("TabNavigation");
     setTimeout(() => {
       localStorage.removeItem("token");
-    }, 500);
+    }, 900);
   });
 
   return logoutMutation;
