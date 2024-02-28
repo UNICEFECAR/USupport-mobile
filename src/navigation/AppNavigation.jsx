@@ -73,7 +73,11 @@ export const AppNavigation = () => {
       <Stack.Screen name="PaymentHistory" component={PaymentHistory} />
       <Stack.Screen name="ChangePasscode" component={ChangePasscode} />
       <Stack.Screen name="TermsOfUse" component={TermsOfUse} />
-      <Stack.Screen name="SetUpBiometrics" component={SetUpBiometrics} />
+      <Stack.Screen
+        options={{ gestureEnabled: false }}
+        name="SetUpBiometrics"
+        component={SetUpBiometrics}
+      />
     </Stack.Navigator>
   );
 };

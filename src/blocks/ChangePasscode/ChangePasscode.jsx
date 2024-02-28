@@ -1,10 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import { StyleSheet, View, TextInput, TouchableOpacity } from "react-native";
 import { useTranslation } from "react-i18next";
 import BcryptReactNative from "bcrypt-react-native";
 
 import { Block, AppText, Icon, AppButton, Error } from "#components";
-import { localStorage } from "#services";
+import { localStorage, Context } from "#services";
 import { showToast } from "#utils";
 import { appStyles } from "#styles";
 /**
@@ -17,6 +17,7 @@ import { appStyles } from "#styles";
 export const ChangePasscode = ({ navigation, route }) => {
   const { t } = useTranslation("change-passcode");
 
+  const { token, setUserPin, setHasAuthenticatedWithPin } = useContext(Context);
   let { userPin, oldPin, isRemove } = route.params;
   const { hasGoBackArrow } = route.params || true;
 
@@ -68,7 +69,6 @@ export const ChangePasscode = ({ navigation, route }) => {
 
   const removePin = async () => {
     await localStorage.removeItem("pin-code");
-    await localStorage.removeItem("token");
     showToast({
       message: t("remove_success"),
     });
@@ -81,6 +81,10 @@ export const ChangePasscode = ({ navigation, route }) => {
 
     try {
       await localStorage.setItem("pin-code", hashedPin);
+      await localStorage.setItem("token", token);
+      setUserPin(hashedPin);
+      setHasAuthenticatedWithPin(true);
+
       showToast({
         message: t("success"),
       });
@@ -92,7 +96,9 @@ export const ChangePasscode = ({ navigation, route }) => {
     } finally {
       if (!hasGoBackArrow) {
         navigation.navigate("TabNavigation");
-      } else navigation.navigate("Passcode");
+      } else {
+        navigation.navigate("Passcode");
+      }
     }
   };
 

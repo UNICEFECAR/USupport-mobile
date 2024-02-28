@@ -137,7 +137,7 @@ export const UserDetails = ({
     { label: t("sex_male"), value: "male" },
     { label: t("sex_female"), value: "female" },
     { label: t("sex_unspecified"), value: "unspecified" },
-    { label: t("sex_none"), value: "notMentioned" },
+    // { label: t("sex_none"), value: "notMentioned" },
   ];
 
   const urbanRuralOptions = [

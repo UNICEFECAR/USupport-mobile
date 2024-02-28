@@ -6,7 +6,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { Block, Heading, AppButton } from "#components";
 import { localStorage } from "#services";
 
-export const SetUpBiometrics = ({ navigation }) => {
+export const SetUpBiometrics = ({ navigation, goBackOnSkip }) => {
   const { t } = useTranslation("set-up-biometrics");
 
   const [canUseBiometrics, setCanUseBiometrics] = useState(false);
@@ -26,6 +26,8 @@ export const SetUpBiometrics = ({ navigation }) => {
       const isEnrolled = await LocalAuthentication.isEnrolledAsync();
       if (isEnrolled) {
         handleFaceId();
+      } else {
+        navigation.navigate("ChangePasscode", { hasGoBackArrow: false });
       }
     }
   };
@@ -34,17 +36,23 @@ export const SetUpBiometrics = ({ navigation }) => {
     LocalAuthentication.authenticateAsync({
       disableDeviceFallback: true,
       cancelLabel: "Cancel",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.success) {
-        localStorage.setItem("biometrics-enabled", "true");
+        await localStorage.setItem("biometrics-enabled", "true");
         navigation.navigate("ChangePasscode", { hasGoBackArrow: false });
       }
     });
   };
 
-  const handleSkip = () => {
-    localStorage.removeItem("token");
-    navigation.navigate("TabNavigation");
+  const handleSkip = async () => {
+    await localStorage.removeItem("token");
+    await localStorage.setItem("has-declined-biometrics", "true");
+
+    if (goBackOnSkip) {
+      navigation.goBack();
+    } else {
+      navigation.navigate("TabNavigation");
+    }
   };
 
   return (
@@ -65,6 +73,7 @@ export const SetUpBiometrics = ({ navigation }) => {
         onPress={handleSkip}
         size="lg"
         type={"ghost"}
+        style={{ marginBottom: 18 }}
       />
     </Block>
   );
