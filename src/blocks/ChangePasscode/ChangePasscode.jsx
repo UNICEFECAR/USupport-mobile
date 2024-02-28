@@ -1,10 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import { StyleSheet, View, TextInput, TouchableOpacity } from "react-native";
 import { useTranslation } from "react-i18next";
 import BcryptReactNative from "bcrypt-react-native";
 
 import { Block, AppText, Icon, AppButton, Error } from "#components";
-import { localStorage } from "#services";
+import { localStorage, Context } from "#services";
 import { showToast } from "#utils";
 import { appStyles } from "#styles";
 /**
@@ -17,12 +17,15 @@ import { appStyles } from "#styles";
 export const ChangePasscode = ({ navigation, route }) => {
   const { t } = useTranslation("change-passcode");
 
+  const { token, setUserPin, setHasAuthenticatedWithPin } = useContext(Context);
   let { userPin, oldPin, isRemove } = route.params;
+  const { hasGoBackArrow } = route.params || true;
+
   const heading = userPin
     ? t("enter_passcode")
     : oldPin
-    ? t("confirm_passcode")
-    : t("create_passcode");
+      ? t("confirm_passcode")
+      : t("create_passcode");
 
   const [isPinVisible, setIsPinVisible] = useState(false);
   const [error, setError] = useState(false);
@@ -78,6 +81,10 @@ export const ChangePasscode = ({ navigation, route }) => {
 
     try {
       await localStorage.setItem("pin-code", hashedPin);
+      await localStorage.setItem("token", token);
+      setUserPin(hashedPin);
+      setHasAuthenticatedWithPin(true);
+
       showToast({
         message: t("success"),
       });
@@ -87,7 +94,11 @@ export const ChangePasscode = ({ navigation, route }) => {
         type: "error",
       });
     } finally {
-      navigation.navigate("Passcode");
+      if (!hasGoBackArrow) {
+        navigation.navigate("TabNavigation");
+      } else {
+        navigation.navigate("Passcode");
+      }
     }
   };
 
@@ -118,6 +129,7 @@ export const ChangePasscode = ({ navigation, route }) => {
       if (!oldPin && !userPin && text !== "") {
         navigation.push("ChangePasscode", {
           oldPin: pinValue.current,
+          hasGoBackArrow,
         });
 
         // If there is an oldPin then we check if its the same as the currently typed one
@@ -144,6 +156,7 @@ export const ChangePasscode = ({ navigation, route }) => {
           } else {
             navigation.push("ChangePasscode", {
               isChangePinPage: true,
+              hasGoBackArrow,
             });
           }
         }
@@ -154,6 +167,7 @@ export const ChangePasscode = ({ navigation, route }) => {
   const handleContinue = () => {
     navigation.push("ChangePasscode", {
       oldPin: pinValue.current,
+      hasGoBackArrow,
     });
   };
 

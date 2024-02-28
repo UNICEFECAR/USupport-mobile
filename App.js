@@ -28,6 +28,7 @@ import { localStorage, Context, userSvc } from "#services";
 import { RequireRegistration } from "#modals";
 import { DropdownBackdrop } from "#backdrops";
 import { FIVE_MINUTES } from "#utils";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -63,8 +64,9 @@ function App() {
   const [activeCoupon, setActiveCoupon] = useState();
   const [isAnonymousRegister, setIsAnonymousRegister] = useState(false);
   const [theme, setTheme] = useState(null);
-
+  const [isInConsultation, setIsInConsultation] = useState(false);
   const [isLoginDisabled, setIsLoginDisabled] = useState(false);
+  const [hasAuthenticatedWithPin, setHasAuthenticatedWithPin] = useState(false);
 
   const [dropdownOptions, setDropdownOptions] = useState({
     isOpen: false,
@@ -88,9 +90,8 @@ function App() {
 
   useEffect(() => {
     async function checkCurencySymbol() {
-      const localStorageCurrencySymbol = await localStorage.getItem(
-        "currencySymbol"
-      );
+      const localStorageCurrencySymbol =
+        await localStorage.getItem("currencySymbol");
       if (!currencySymbol && localStorageCurrencySymbol) {
         setCurrencySymbol(localStorageCurrencySymbol);
       }
@@ -109,24 +110,51 @@ function App() {
     checkCurencySymbol();
   }, [currencySymbol]);
 
-  useEffect(() => {
+  const handleCodePushCheck = async (data) => {
+    const [token, pinCode] = data;
+
+    const clearTokenIfNoPinOrBiometrics = async () => {
+      // If the client doesn't have biometrics enabled and doesn't have a pin code remove the
+      // token  from the local storage, so that re-authentication is required on next app launch
+      const hasBiometrics = await localStorage.getItem("biometrics-enabled");
+      // await localStorage.removeItem("has-declined-biometrics");
+      if (!hasBiometrics && !pinCode && token) {
+        await localStorage.removeItem("token");
+        setToken(null);
+      }
+    };
+
     codePush.notifyApplicationReady();
     codePush
-      .sync({
-        installMode: codePush.InstallMode.IMMEDIATE,
-        minimumBackgroundDuration: 5,
-        updateDialog: true,
-        rollbackRetryOptions: 5,
-        maxRetryAttempts: 999,
-        deploymentKey:
-          Platform.OS === "android"
-            ? process.env.CODEPUSH_ANDROID_DEPLOYMENT_KEY
-            : process.env.CODEPUSH_IOS_DEPLOYMENT_KEY,
-      })
+      .sync(
+        {
+          checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
+          installMode: codePush.InstallMode.IMMEDIATE,
+          minimumBackgroundDuration: 5,
+          // updateDialog: true,
+          rollbackRetryOptions: 5,
+          maxRetryAttempts: 999,
+          deploymentKey:
+            Platform.OS === "android"
+              ? process.env.CODEPUSH_ANDROID_DEPLOYMENT_KEY
+              : process.env.CODEPUSH_IOS_DEPLOYMENT_KEY,
+        },
+        (status) => {
+          switch (status) {
+            // Clear token if no biometrics or pin code
+            // after the app has been updated
+            case codePush.SyncStatus.UP_TO_DATE:
+              clearTokenIfNoPinOrBiometrics();
+              break;
+            default:
+              break;
+          }
+        }
+      )
       .catch((err) => {
         console.log(err, "err");
       });
-  }, []);
+  };
 
   useEffect(() => {
     SplashScreen.preventAutoHideAsync();
@@ -136,8 +164,12 @@ function App() {
 
       const pinCode = await localStorage.getItem("pin-code");
       setUserPin(pinCode);
+
+      return [token, pinCode];
     }
-    checkToken();
+    checkToken().then((data) => {
+      handleCodePushCheck(data);
+    });
   }, []);
 
   useEffect(() => {
@@ -151,7 +183,6 @@ function App() {
     }
     checkIsTmpUser();
   }, [token]);
-
   // Hide the splash screen when the fonts finish loading
   const onLayoutRootView = useCallback(async () => {
     if (loaded) {
@@ -167,6 +198,7 @@ function App() {
   if (!loaded) {
     return null;
   }
+
   const contextValues = {
     token,
     setToken,
@@ -191,49 +223,51 @@ function App() {
     setTheme,
     isLoginDisabled,
     setIsLoginDisabled,
+    isInConsultation,
+    setIsInConsultation,
+    setUserPin,
+    hasAuthenticatedWithPin,
+    setHasAuthenticatedWithPin,
   };
 
   return (
-    <StripeProvider publishableKey={STRIPE_PUBLIC_KEY}>
-      <Context.Provider value={contextValues}>
-        <QueryClientProvider client={queryClient}>
-          <SafeAreaProvider>
-            <View style={styles.flex1} onLayout={onLayoutRootView}>
-              <Navigation contextTheme={theme} setTheme={setTheme}>
-                <DropdownBackdrop
-                  onClose={() =>
-                    setDropdownOptions((options) => ({
-                      ...options,
-                      isOpen: false,
-                    }))
-                  }
-                  {...dropdownOptions}
-                />
-                <RequireRegistration
-                  handleContinue={handleRegisterRedirection}
-                  isOpen={isRegistrationModalOpan}
-                  onClose={handleRegistrationModalClose}
-                />
-              </Navigation>
-            </View>
-          </SafeAreaProvider>
-          <FlashMessage position="top" />
-        </QueryClientProvider>
-      </Context.Provider>
-    </StripeProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <StripeProvider publishableKey={STRIPE_PUBLIC_KEY}>
+        <Context.Provider value={contextValues}>
+          <QueryClientProvider client={queryClient}>
+            <SafeAreaProvider>
+              <View style={styles.flex1} onLayout={onLayoutRootView}>
+                <Navigation
+                  contextTheme={theme}
+                  setTheme={setTheme}
+                  isInConsultation={isInConsultation}
+                >
+                  <DropdownBackdrop
+                    onClose={() =>
+                      setDropdownOptions((options) => ({
+                        ...options,
+                        isOpen: false,
+                      }))
+                    }
+                    {...dropdownOptions}
+                  />
+                  <RequireRegistration
+                    handleContinue={handleRegisterRedirection}
+                    isOpen={isRegistrationModalOpan}
+                    onClose={handleRegistrationModalClose}
+                  />
+                </Navigation>
+              </View>
+            </SafeAreaProvider>
+            <FlashMessage position="top" />
+          </QueryClientProvider>
+        </Context.Provider>
+      </StripeProvider>
+    </GestureHandlerRootView>
   );
 }
 
-let codePushOptions = {
-  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
-  installMode: codePush.InstallMode.IMMEDIATE,
-  deploymentKey:
-    Platform.OS === "android"
-      ? process.env.CODEPUSH_ANDROID_DEPLOYMENT_KEY
-      : process.env.CODEPUSH_IOS_DEPLOYMENT_KEY,
-};
-
-export default codePush(codePushOptions)(App);
+export default App;
 
 const styles = StyleSheet.create({
   container: {

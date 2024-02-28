@@ -37,3 +37,4 @@ export * from "./PaymentHistory";
 export * from "./ChangePasscode";
 export * from "./TermsOfUse";
 export * from "./MyQA";
+export * from "./SetUpBiometrics";

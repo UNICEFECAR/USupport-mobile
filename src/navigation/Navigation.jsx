@@ -1,15 +1,24 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import {
   AppState,
   Platform,
   PermissionsAndroid,
   useColorScheme,
+  PanResponder,
+  View,
 } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { NavigationContainer } from "@react-navigation/native";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
+import { useNavigation } from "@react-navigation/native";
 
 import messaging from "@react-native-firebase/messaging";
 
@@ -18,7 +27,11 @@ import { AuthNavigation } from "./AuthNavigation";
 
 import { appColors } from "#styles";
 import { LocalAuthenticationScreen } from "#screens";
-import { useAddPushNotificationToken, useGetClientData } from "#hooks";
+import {
+  useAddPushNotificationToken,
+  useGetClientData,
+  useLogout,
+} from "#hooks";
 import { countrySvc, localStorage, Context } from "#services";
 
 import { getCountryFromTimezone, FIVE_MINUTES } from "#utils";
@@ -39,9 +52,13 @@ Notifications.setNotificationHandler({
 
 const TWENTY_MINUTES = FIVE_MINUTES * 4;
 
-export function Navigation({ contextTheme, setTheme, children }) {
+export function Navigation({
+  contextTheme,
+  setTheme,
+  isInConsultation,
+  children,
+}) {
   const [hasSavedPushToken, setHasSavedPushToken] = useState(false);
-  const [hasAuthenticatedWithPin, setHasAuthenticatedWithPin] = useState(false);
   const { i18n } = useTranslation();
   const theme = useColorScheme();
   const darkTheme = {
@@ -56,6 +73,74 @@ export function Navigation({ contextTheme, setTheme, children }) {
     },
     dark: false,
   };
+
+  const {
+    hasAuthenticatedWithPin,
+    setHasAuthenticatedWithPin,
+    token,
+    setCurrencySymbol,
+    isTmpUser,
+    userPin,
+    hasCheckedTmpUser,
+  } = useContext(Context);
+
+  const getClientDataEnabled = !!(
+    (isTmpUser === false ? true : false) && token
+  );
+  const clientDataQuery = useGetClientData(getClientDataEnabled);
+  const clientData = isTmpUser ? {} : clientDataQuery[0].data;
+
+  const timerId = useRef(false);
+  const inConsultationRef = useRef(isInConsultation);
+
+  const logoutMutation = useLogout();
+
+  useEffect(() => {
+    if (token) {
+      resetInactivityTimeout();
+    }
+    inConsultationRef.current = isInConsultation;
+  }, [isInConsultation, resetInactivityTimeout, token, inConsultationRef]);
+
+  useEffect(() => {
+    if (isInConsultation && timerId.current) {
+      clearTimeout(timerId.current);
+    }
+  }, [isInConsultation, timerId.current]);
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponderCapture: () => {
+        resetInactivityTimeout();
+      },
+    })
+  ).current;
+
+  // After five minutes of inactivity, the user will be prompted to enter their PIN code or authenticate with biometrics
+  const resetInactivityTimeout = useCallback(async () => {
+    const actualToken = await localStorage.getItem("token");
+
+    if (!inConsultationRef.current && actualToken) {
+      if (timerId.current) {
+        clearTimeout(timerId.current);
+      }
+      timerId.current = setTimeout(async () => {
+        const hasBiometrics = await localStorage.getItem("biometrics-enabled");
+        const userPin = await localStorage.getItem("pin-code");
+
+        // Logout the client if there are no pin or biometrics setup
+        if (!hasBiometrics && !userPin) {
+          logoutMutation.mutate();
+        } else {
+          setHasAuthenticatedWithPin(false);
+        }
+      }, FIVE_MINUTES);
+    } else {
+      if (timerId.current) {
+        clearTimeout(timerId.current);
+      }
+    }
+  }, [token, isInConsultation]);
 
   const hasClearedTimeout = useRef();
 
@@ -87,15 +172,6 @@ export function Navigation({ contextTheme, setTheme, children }) {
       setTheme(localStorageTheme === "dark" ? "dark" : "light");
     });
   }, [theme]);
-
-  const { token, setCurrencySymbol, isTmpUser, userPin, hasCheckedTmpUser } =
-    useContext(Context);
-
-  const getClientDataEnabled = !!(
-    (isTmpUser === false ? true : false) && token
-  );
-  const clientDataQuery = useGetClientData(getClientDataEnabled);
-  const clientData = isTmpUser ? {} : clientDataQuery[0].data;
 
   const addPushNotificationTokenMutation = useAddPushNotificationToken();
   useEffect(() => {
@@ -137,6 +213,7 @@ export function Navigation({ contextTheme, setTheme, children }) {
         minAge: x["min_client_age"],
         maxAge: x["max_client_age"],
         currencySymbol: x["symbol"],
+        localName: x["local_name"],
       };
       const countryID = countryObject.countryID;
       const currencySymbol = countryObject.currencySymbol;
@@ -186,20 +263,42 @@ export function Navigation({ contextTheme, setTheme, children }) {
     <NavigationContainer
       theme={contextTheme === "dark" ? darkTheme : defaultTheme}
     >
-      {userPin && !hasAuthenticatedWithPin && token ? (
-        <LocalAuthenticationScreen
-          userPin={userPin}
-          setHasAuthenticatedWithPin={setHasAuthenticatedWithPin}
-        />
-      ) : token && hasCheckedTmpUser ? (
-        <AppNavigation />
-      ) : (
-        <AuthNavigation />
-      )}
-      {children}
+      <View style={{ flex: 1 }} {...panResponder.panHandlers}>
+        {userPin && !hasAuthenticatedWithPin && token ? (
+          <LocalAuthenticationScreen
+            userPin={userPin}
+            setHasAuthenticatedWithPin={setHasAuthenticatedWithPin}
+          />
+        ) : token && hasCheckedTmpUser ? (
+          <>
+            <RedirectToBiometrics />
+            <AppNavigation />
+          </>
+        ) : (
+          <AuthNavigation />
+        )}
+        {children}
+      </View>
     </NavigationContainer>
   );
 }
+
+const RedirectToBiometrics = () => {
+  const navigation = useNavigation();
+  useEffect(() => {
+    const checkHasDeclined = async () => {
+      const hasDeclined = await localStorage.getItem("has-declined-biometrics");
+      const userPin = await localStorage.getItem("pin-code");
+      const hasBiometrics = await localStorage.getItem("biometrics-enabled");
+
+      if (!hasDeclined && !userPin && !hasBiometrics) {
+        navigation.navigate("SetUpBiometrics", { goBackOnSkip: true });
+      }
+    };
+    checkHasDeclined();
+  }, []);
+  return <></>;
+};
 
 const askForPermissions = async () => {
   if (Platform.OS === "android") {

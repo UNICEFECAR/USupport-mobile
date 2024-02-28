@@ -27,6 +27,7 @@ import {
   PaymentHistory,
   ChangePasscode,
   TermsOfUse,
+  SetUpBiometrics,
 } from "#screens";
 
 import { Context } from "#services";
@@ -72,6 +73,11 @@ export const AppNavigation = () => {
       <Stack.Screen name="PaymentHistory" component={PaymentHistory} />
       <Stack.Screen name="ChangePasscode" component={ChangePasscode} />
       <Stack.Screen name="TermsOfUse" component={TermsOfUse} />
+      <Stack.Screen
+        options={{ gestureEnabled: false }}
+        name="SetUpBiometrics"
+        component={SetUpBiometrics}
+      />
     </Stack.Navigator>
   );
 };

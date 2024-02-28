@@ -110,8 +110,13 @@ export const RegisterAboutYou = ({ navigation }) => {
 
   const [errors, setErrors] = useState({});
 
-  const onMutateSuccess = () => {
-    navigation.replace("TabNavigation");
+  const onMutateSuccess = async () => {
+    const biometrics = await localStorage.getItem("biometrics-enabled");
+    const pinCode = await localStorage.getItem("pin-code");
+
+    if (biometrics || pinCode) {
+      navigation.replace("TabNavigation");
+    } else navigation.replace("SetUpBiometrics");
   };
 
   const onMutateError = (error) => {

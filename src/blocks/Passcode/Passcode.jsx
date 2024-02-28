@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import * as LocalAuthentication from "expo-local-authentication";
 import { useFocusEffect } from "@react-navigation/native";
 
 import { Block, ButtonSelector, AppText, Toggle } from "#components";
-import { localStorage } from "#services";
+import { localStorage, Context } from "#services";
 import { appStyles } from "#styles";
 import { useGetTheme } from "#hooks";
 
@@ -19,6 +19,7 @@ import { useGetTheme } from "#hooks";
 export const Passcode = ({ navigation }) => {
   const { t } = useTranslation("passcode");
   const { colors } = useGetTheme();
+  const { token } = useContext(Context);
 
   const [userPin, setUserPin] = useState(false);
   const [canUseBiometrics, setCanUseBiometrics] = useState(false);
@@ -45,6 +46,7 @@ export const Passcode = ({ navigation }) => {
       await localStorage.removeItem("biometrics-enabled");
     } else {
       await localStorage.setItem("biometrics-enabled", "true");
+      await localStorage.setItem("token", token);
     }
     if (!userPin) {
       navigation.push("ChangePasscode", { isRemove: false });

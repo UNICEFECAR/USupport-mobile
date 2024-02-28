@@ -27,7 +27,8 @@ export const Login = ({ navigation }) => {
   const { t } = useTranslation("login");
   const queryClient = useQueryClient();
 
-  const { setToken, isLoginDisabled, setIsLoginDisabled } = useContext(Context);
+  const { setToken, setInitialRouteName, isLoginDisabled, setIsLoginDisabled } =
+    useContext(Context);
 
   const [data, setData] = useState({
     email: "",
@@ -62,7 +63,7 @@ export const Login = ({ navigation }) => {
         ["client-data"],
         userSvc.transformUserData(userData)
       );
-
+      setInitialRouteName("TabNavigation");
       setErrors({});
       setToken(token);
     },
@@ -103,15 +104,20 @@ export const Login = ({ navigation }) => {
     navigation.navigate("RegisterPreview");
   };
 
+  const handleGoBack = () => {
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    } else {
+      navigation.navigate("RegisterPreview");
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       style={styles.keyboardAvoidingView}
       behavior={Platform.OS === "ios" ? "padding" : null}
     >
-      <Heading
-        heading={t("heading")}
-        handleGoBack={() => navigation.goBack()}
-      />
+      <Heading heading={t("heading")} handleGoBack={handleGoBack} />
       <Block style={[styles.flexGrow, { marginTop: 84 }]}>
         <ScrollView
           contentContainerStyle={styles.flexGrow}
