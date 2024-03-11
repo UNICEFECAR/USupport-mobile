@@ -153,7 +153,7 @@ export function Navigation({
           if (!hasClearedTimeout.current) {
             setHasAuthenticatedWithPin(false);
           }
-        }, TWENTY_MINUTES);
+        }, FIVE_MINUTES);
       } else {
         clearTimeout(timeout);
         hasClearedTimeout.current = true;
