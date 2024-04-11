@@ -179,12 +179,14 @@ export const SafetyFeedback = ({ navigation, consultationId, answers }) => {
               t={t}
               handleAnswerSelect={handleAnswerSelect}
               numeration={index + 1}
+              key={index}
             />
           ) : question?.type === "slider" ? (
             <QuestionSlider
               question={question}
               handleAnswerSelect={handleAnswerSelect}
               numeration={index + 1}
+              key={index}
             />
           ) : question?.type === "emoji" ? (
             <QuestionEmoji
@@ -192,6 +194,7 @@ export const SafetyFeedback = ({ navigation, consultationId, answers }) => {
               handleAnswerSelect={handleAnswerSelect}
               t={t}
               numeration={index + 1}
+              key={index}
             />
           ) : (
             <>
