@@ -1,1 +1,1 @@
-export * from './InputSlider';
+export * from "./InputSlider";

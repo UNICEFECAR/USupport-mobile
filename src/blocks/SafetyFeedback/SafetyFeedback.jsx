@@ -117,14 +117,11 @@ export const SafetyFeedback = ({ navigation, consultationId, answers }) => {
     },
   ]);
 
-  console.log(questions);
-
   const [moreDetails, setMoreDetails] = useState(
     answers.hasOwnProperty("moreDetails") ? answers.moreDetails : ""
   );
 
   const handleAnswerSelect = (id, value) => {
-    console.log(value);
     const newQuestions = questions.map((question) => {
       if (question.id === id) {
         return { ...question, value };
