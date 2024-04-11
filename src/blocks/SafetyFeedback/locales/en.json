@@ -1,13 +1,25 @@
 {
   "warning": "With answering you declare that this declaration is true and you make it knowing that making a declaration that you know is untrue is an offence.",
+  "q0": "Did the provider attend the consultation session?",
   "q1": "Did the provider ask you to disclose your address and contact details? ",
   "q2": "Did the provider ask you to meet them outside of the system (in person or in other application)?",
   "q3": "Did the provider ask you to send them any photos of yourself or turn on your video even if you did not want to?",
   "q4": "Did you feel unsafe in any way during the session? ",
+  "q5": "How are you feeling about the last consultation session?",
+  "q6": "Have your needs been addressed properly? 1-10 (No, not at all – Yes, all of them)",
+  "q7": "Do you understand how you can improve your wellbeing? 1-10 (No, not at all – Yes, all is clear)",
+  "q8": "Compare your current feeling to how you felt before the session started. How is it? 1-10 (No, it’s much worse – Can’t be better)",
+  "q9": "Any other thing to add? (optional)",
   "more_details_label": "If so, please explain why",
   "more_details_placeholder": "Give us more details here.",
   "yes": "Yes",
   "no": "No",
   "button": "Send feedback",
-  "continue_button": "Keep answers"
+  "continue_button": "Keep answers",
+
+  "very_satisfied": "Very Satisfied",
+  "satisfied": "Satisfied",
+  "neutral": "Neutral",
+  "dissatisfied": "Dissatisfied",
+  "very_dissatisfied": "Very Dissatisfied"
 }
