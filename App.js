@@ -11,7 +11,11 @@ import * as Notifications from "expo-notifications";
 
 import Config from "react-native-config";
 
-const { STRIPE_PUBLIC_KEY } = Config;
+const {
+  STRIPE_PUBLIC_KEY,
+  CODEPUSH_ANDROID_DEPLOYMENT_KEY,
+  CODEPUSH_IOS_DEPLOYMENT_KEY,
+} = Config;
 
 import {
   useFonts,
@@ -112,17 +116,21 @@ function App() {
 
   const handleCodePushCheck = async (data) => {
     const [token, pinCode] = data;
-
     const clearTokenIfNoPinOrBiometrics = async () => {
       // If the client doesn't have biometrics enabled and doesn't have a pin code remove the
       // token  from the local storage, so that re-authentication is required on next app launch
       const hasBiometrics = await localStorage.getItem("biometrics-enabled");
       // await localStorage.removeItem("has-declined-biometrics");
-      if (!hasBiometrics && !pinCode && token) {
+      if (!hasBiometrics && !pinCode && token && !__DEV__) {
         await localStorage.removeItem("token");
         setToken(null);
       }
     };
+
+    const deploymentKey =
+      Platform.OS === "android"
+        ? CODEPUSH_ANDROID_DEPLOYMENT_KEY
+        : CODEPUSH_IOS_DEPLOYMENT_KEY;
 
     codePush.notifyApplicationReady();
     codePush
@@ -134,10 +142,7 @@ function App() {
           // updateDialog: true,
           rollbackRetryOptions: 5,
           maxRetryAttempts: 999,
-          deploymentKey:
-            Platform.OS === "android"
-              ? process.env.CODEPUSH_ANDROID_DEPLOYMENT_KEY
-              : process.env.CODEPUSH_IOS_DEPLOYMENT_KEY,
+          deploymentKey,
         },
         (status) => {
           switch (status) {
