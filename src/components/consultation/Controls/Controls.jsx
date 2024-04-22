@@ -8,6 +8,7 @@ import { ConsultationInformation } from "../../cards/";
 import { ONE_HOUR } from "#utils";
 import { appStyles } from "#styles";
 import { AppText } from "../../texts";
+import { useGetTheme } from "#hooks";
 
 /**
  * Controls
@@ -32,6 +33,8 @@ export const Controls = ({
   isProviderInSession,
   t,
 }) => {
+  const { isDarkMode } = useGetTheme();
+
   const [isMicOpen, setIsMicOpen] = useState(isMicrophoneOn);
   const [isCameraOpen, setIsCameraOpen] = useState(isCameraOn);
 
@@ -119,6 +122,9 @@ export const Controls = ({
         style,
         {
           paddingTop: isConsultationInformationShown ? 16 : 40,
+          backgroundColor: isDarkMode
+            ? "rgba(36, 33, 39, 0.75)"
+            : "rgba(255, 255, 255, 0.75)",
         },
       ]}
     >
@@ -134,7 +140,6 @@ export const Controls = ({
             isConsultationInformationShown ? "up" : "down"
           }`}
           size="md"
-          color="#000000"
         />
       </TouchableOpacity>
       {isConsultationInformationShown ? (
@@ -169,7 +174,6 @@ export const Controls = ({
 const styles = StyleSheet.create({
   container: {
     alignSelf: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.75)",
     borderRadius: 20,
     maxWidth: 420,
     paddingBottom: 16,
