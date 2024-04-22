@@ -32,7 +32,7 @@ import {
   useGetClientData,
   useLogout,
 } from "#hooks";
-import { countrySvc, localStorage, Context } from "#services";
+import { countrySvc, localStorage, userSvc, Context } from "#services";
 
 import { getCountryFromTimezone, FIVE_MINUTES } from "#utils";
 
@@ -257,6 +257,11 @@ export function Navigation({
   useQuery(["countries"], fetchCountries, {
     staleTime: Infinity,
     onError: (err) => console.log(err, "fetch countries error"),
+  });
+
+  useQuery(["platformAccess", token], userSvc.addPlatformAccess, {
+    staleTime: Infinity,
+    enabled: !!token,
   });
 
   return (
