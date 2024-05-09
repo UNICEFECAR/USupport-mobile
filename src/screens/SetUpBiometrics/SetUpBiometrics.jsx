@@ -4,7 +4,7 @@ import { Screen } from "#components";
 import { SetUpBiometrics as SetUpBiometricsBlock } from "#blocks";
 
 export const SetUpBiometrics = ({ navigation, route }) => {
-  const { goBackOnSkip } = route.params;
+  const goBackOnSkip = route.params?.goBackOnSkip || false;
 
   return (
     <Screen hasEmergencyButton={false}>
