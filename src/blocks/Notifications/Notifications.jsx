@@ -145,6 +145,9 @@ export const Notifications = ({
           })
         );
       },
+      onError: () => {
+        setIsLoadingProviders(false);
+      },
     }
   );
 
