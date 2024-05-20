@@ -1,0 +1,10 @@
+{
+  "heading": "Інформаційний портал",
+  "no_results": "Результатів не знайдено.",
+  "could_not_load_content": "Для обраної країни й мови немає результатів.",
+  "all": "Усі",
+  "read_more": "Читати далі",
+  "min_read": "хв читання",
+  "by": "Від {{creator}}",
+  "number_of_more_options": "ще {{count}}"
+}

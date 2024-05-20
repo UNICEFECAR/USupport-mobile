@@ -1,0 +1,10 @@
+{
+  "heading": "Artykuły",
+  "heading_no_results": "Brak wyników.",
+  "view_all": "Wyświetl wszystkie",
+  "all": "Wszystkie",
+  "read_more": "Czytaj więcej",
+  "min_read": "min czytać",
+  "by": "Przez {{creator}}",
+  "number_of_more_options": "jeszcze {{count}}"
+}

@@ -1,0 +1,9 @@
+{
+  "heading": "Zadaj swoje pytanie tutaj",
+  "subheading": "Twoje pytanie będzie w 100% anonimowe i nikt nie zobaczy, że jesteś jego autorem.",
+  "text_area_label": "Twoje pytanie",
+  "send_your_question": "Wyślij swoje pytanie",
+  "cancel": "Anuluj",
+  "success_toast": "Twoje pytanie zostało wysłane!",
+  "text_area_error_label": "Pytanie powinno mieć co najmniej 10 znaków"
+}

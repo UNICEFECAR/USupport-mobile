@@ -1,0 +1,11 @@
+{
+  "enter_passcode": "Wprowadzić bieżący kod dostępu",
+  "view_pin": "Wyświetl kod PIN",
+  "hide_pin": "Ukryj kod PIN",
+  "create_passcode": "Utwórz kod PIN",
+  "confirm_passcode": "Potwierdź kod PIN",
+  "pin_not_matching": "Kod PIN jest nieprawidłowy",
+  "success": "Kod PIN został pomyślnie ustawiony",
+  "remove_success": "Kod PIN został pomyślnie usunięty",
+  "error": "Wystąpił błąd podczas ustawiania kodu PIN. Spróbuj ponownie."
+}

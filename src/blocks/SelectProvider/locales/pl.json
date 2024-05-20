@@ -1,0 +1,15 @@
+{
+  "psychologist": "Psycholog",
+  "psychiatrist": "Psychiatra",
+  "psychotherapist": "Psychoterapeuta",
+  "no_match": "Brak konsultantów spełniających kryteria",
+  "free": "Wolny",
+  "earliest_available_slot": "Pierwsza dostępna konsultacja:",
+  "sunday": "Niedz.",
+  "monday": "Pon.",
+  "tuesday": "Wt.",
+  "wednesday": "Śr.",
+  "thursday": "Czw.",
+  "friday": "Piąt.",
+  "saturday": "Sob."
+}

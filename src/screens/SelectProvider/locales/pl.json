@@ -1,0 +1,16 @@
+{
+  "heading": "Wybrać konsultanta ",
+  "subheading": "Wybierz konsultanta, z którym chcesz porozmawiać w ramach konsultacji wideo, audio lub tekstowej. Znalezienie konsultanta, który będzie dobrze dopasowany do Twoich potrzeb i preferowanego podejścia, może czasami zająć trochę czasu.",
+  "button_label": "Filtr",
+  "button_coupon_label": "Użyj kuponu",
+  "modal_coupon_heading": "Wprowadź kupon, aby z niego skorzystać",
+  "modal_coupon_button_label": "Prześlij kupon",
+  "modal_coupon_input_label": "Numer kuponu",
+  "modal_coupon_input_placeholder": "KUPON1",
+  "heading_with_coupon": "Wybierz konsultanta, aby użyć kupon: {{coupon}}",
+  "remove_coupon_label": "Usuń kupon",
+  "coupon_paragraph": "Kupony zapewniają \"bezpłatne\" sesje i są sponsorowane przez naszych partnerów.",
+  "coupon_paragraph_two": "Jeśli otrzymałeś kod kuponu z kampanii w mediach społecznościowych lub od partnera, skopiuj go i wklej poniżej. Po przesłaniu kodu kuponu zobaczysz wszystkich konsultantów, którzy go obsługują i ich dostępność. Kupon może obsługiwać jedną lub więcej sesji. Platforma wskaże, czy kupon wygasł lub osiągnął maksymalną liczbę wykorzystanych sesji.",
+  "max_price": "Cena maksymalna",
+  "providers_free_consultation_label": "Tylko bezpłatna konsultacja"
+}

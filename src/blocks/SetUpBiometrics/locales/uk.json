@@ -1,0 +1,7 @@
+{
+    "heading": "Set up passcode and biometrics",
+    "btn_label": "Continue",
+    "subheading": "Set up a passcode or biometrics to keep your account secured. If you skip this step, you have to login every time you open the app.",
+    "biometrics_btn_label": "Use biometrics",
+    "btn_skip": "Skip for now"
+}

@@ -1,0 +1,24 @@
+{
+  "heading": "O tobie",
+
+  "input_name_label": "Imie",
+  "input_name_placeholder": "Wpisz swoje imię",
+  "input_surname_label": "Nazwisko",
+  "input_surname_placeholder": "Wpisz swoje nazwisko",
+  "dropdown_sex_label": "Płeć *",
+  "dropdown_year_label": "Rok urodzenia *",
+  "living_place_label": "Miejsce zamieszkania *",
+  "button_continue_label": "Kontynuować",
+  "sex_male": "Mężczyzna",
+  "sex_female": "Kobieta",
+  "sex_unspecified": "Nieokreślony",
+  "sex_none": "Wolę nie mówić",
+  "place_of_living_urban": "Miejski",
+  "place_of_living_rural": "Wiejski",
+  "sex_error": "Wprowadź swoją płeć",
+  "year_of_birth_error": "Wprowadź swój rok urodzenia",
+  "place_of_living_error": "Podaj swoje miejsce zamieszkania",
+  "sex_placeholder": "Wprowadzić swoją płeć",
+  "year_of_birth_placeholder": "Wprowadzić swój rok urodzenia"
+}
+

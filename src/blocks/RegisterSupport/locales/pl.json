@@ -1,0 +1,12 @@
+{
+  "heading": "Czy potrzebujesz wsparcia?",
+  
+  "button_continue_label": "Kontynuować",
+  "answer_yes_label": "Tak, chcę konsultacji",
+  "answer_no_label": "Nie",
+  "modal_heading": "Czy wyrażasz zgodę na przetwarzanie swoich danych osobowych?",
+  "modal_paragraph": "Aby zapewnić dostęp do konsultacji, potrzebujemy Twojej zgody na przetwarzanie Twoich danych osobowych. Zawsze możesz zmienić ustawienia w swoim profilu.",
+  "modal_cta_1": "Udzielam uprawnienia",
+  "modal_cta_2": "Anuluj",
+  "error": "* Musisz udzielić nam zgody na przetwarzanie Twoich danych osobowych, aby mieć dostęp do konsultacji."
+}

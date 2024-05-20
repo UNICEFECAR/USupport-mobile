@@ -1,0 +1,22 @@
+{
+  "heading": "Filtruj konsultantów",
+  "subheading": "Wybierz konsultanta, z którym chcesz porozmawiać w ramach konsultacji audio/wideo",
+  "provider_psychologist": "Psycholog",
+  "provider_psychotherapist": "Psychoterapeuta",
+  "provider_psychiatrist": "Psychiatra",
+  "male": "Mężczyzna",
+  "female": "Kobieta",
+  "unspecified": "Nieokreślony",
+  "provider_type_checkbox_group_label": "Typ konsultanta",
+  "provider_sex_checkbox_group_label": "Płeć konsultanta",
+  "max_price": "Cena maksymalna",
+  "max_price_placeholder": "Wybierz cenę maksymalną",
+  "language": "Język",
+  "language_placeholder": "Wybrać język",
+  "providers_free_consultation_label": "Tylko bezpłatna konsultacja",
+  "button_label": "Zastosuj filtry",
+  "reset_filter": "Zresetuj filtry",
+  "available_before": "Dostępne wcześniej ",
+  "available_after": "Dostępne po",
+  "not_mentioned": "Wolę nie mówić"
+}

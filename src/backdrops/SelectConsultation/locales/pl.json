@@ -1,0 +1,11 @@
+{
+  "heading_edit": "Zaproponuj zmianę",
+  "heading_new": "Wybrać czas",
+  "subheading_edit": "Sugerować datę i godzinę zmiany terminu tego spotkania.",
+  "subheading_new": "Wybierz datę i godzinę spotkania.",
+  "cta_button_label": "Zapisz",
+  "no_slots_available": "W wybranym dniu nie ma dostępnych przedziałów czasowych.",
+  "coupon_code": "Kod kuponu",
+  "apply_coupon": "Zastosuj kupon",
+  "remove_coupon": "Usuń kupon"
+}
