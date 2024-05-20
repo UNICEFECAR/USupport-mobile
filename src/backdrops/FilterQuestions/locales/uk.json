@@ -3,5 +3,6 @@
     "dropdown_label": "Виберіть теґ",
     "cta_label": "Застосувати фільтри",
     "reset_label": "Скидання фільтрів",
-    "dropdown_placeholder": "Виберіть теґ"
+    "dropdown_placeholder": "Виберіть теґ",
+    "no_tags_found": "No tags found"
 }

@@ -18,5 +18,6 @@
   "reset_filter": "Zresetuj filtry",
   "available_before": "Dostępne wcześniej ",
   "available_after": "Dostępne po",
-  "not_mentioned": "Wolę nie mówić"
+  "not_mentioned": "Wolę nie mówić",
+  "no_languages_found": "No languages found"
 }

@@ -3,5 +3,6 @@
     "dropdown_label": "Тегті таңдаңыз",
     "cta_label": "Сүзгілерді қолданыңыз",
     "reset_label": "Сүзгілерді қалпына келтіру",
-    "dropdown_placeholder": "Тегті таңдаңыз"
+    "dropdown_placeholder": "Тегті таңдаңыз",
+    "no_tags_found": "Сіздің сұрағыңызға сай тег табылмады."
 }

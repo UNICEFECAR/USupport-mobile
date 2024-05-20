@@ -41,5 +41,6 @@
   "access_token_copy": "Код скопіювано",
   "sex_placeholder": "Введіть стать",
   "year_of_birth_placeholder": "Введіть рік народження",
-  "living_place_placeholder": "Введіть місце проживання"
+  "living_place_placeholder": "Введіть місце проживання",
+  "error_fetching_data": "An error occured while fetching profile details"
 }

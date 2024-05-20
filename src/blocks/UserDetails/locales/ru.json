@@ -41,5 +41,6 @@
   "access_token_copy": "Успешно скопированный код",
   "sex_placeholder": "Введите свой пол",
   "year_of_birth_placeholder": "Введите свой год рождения",
-  "living_place_placeholder": "Введите место вашего жительства"
+  "living_place_placeholder": "Введите место вашего жительства",
+  "error_fetching_data": "Произошла ошибка при получении данных профиля."
 }

@@ -18,5 +18,6 @@
   "reset_filter": "Скидання фільтрів",
   "available_before": "Доступно раніше ",
   "available_after": "Доступно після",
-  "not_mentioned": "Волію не казати"
+  "not_mentioned": "Волію не казати",
+  "no_languages_found": "No languages found"
 }
