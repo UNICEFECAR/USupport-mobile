@@ -25,6 +25,7 @@ export const Dropdown = ({
   disabled,
   dropdownId,
   style,
+  emptyMessage,
 }) => {
   const { dropdownOptions, setDropdownOptions } = useContext(Context);
   const { colors, isDarkMode } = useGetTheme();
@@ -58,6 +59,7 @@ export const Dropdown = ({
           handleDropdownClick();
         },
         isOpen: false,
+        emptyMessage: "",
       });
     } else {
       setDropdownOptions({
@@ -70,6 +72,7 @@ export const Dropdown = ({
           handleClose();
         },
         isOpen: true,
+        emptyMessage,
       });
     }
   };
