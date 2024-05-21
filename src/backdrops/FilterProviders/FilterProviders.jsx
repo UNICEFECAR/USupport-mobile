@@ -212,6 +212,7 @@ export const FilterProviders = ({
         placeholder={t("language_placeholder")}
         style={[styles.dropdown, styles.marginBottom32]}
         dropdownId="filterLanguage"
+        emptyMessage={t("no_languages_found")}
       />
       {!isToggleDisabled && (
         <View style={styles.toggleContainer}>
