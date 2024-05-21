@@ -213,17 +213,19 @@ export const FilterProviders = ({
         style={[styles.dropdown, styles.marginBottom32]}
         dropdownId="filterLanguage"
       />
-      <View style={styles.toggleContainer}>
-        <Toggle
-          label={t("providers_free_consultation_label")}
-          isToggled={data.onlyFreeConsultation}
-          handleToggle={(checked) =>
-            handleSelect("onlyFreeConsultation", checked)
-          }
-          style={[styles.marginBottom32, styles.toggle]}
-          disabled={isToggleDisabled}
-        />
-      </View>
+      {!isToggleDisabled && (
+        <View style={styles.toggleContainer}>
+          <Toggle
+            label={t("providers_free_consultation_label")}
+            isToggled={data.onlyFreeConsultation}
+            handleToggle={(checked) =>
+              handleSelect("onlyFreeConsultation", checked)
+            }
+            style={[styles.marginBottom32, styles.toggle]}
+            disabled={isToggleDisabled}
+          />
+        </View>
+      )}
     </Backdrop>
   );
 };
