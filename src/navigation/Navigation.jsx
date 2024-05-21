@@ -82,6 +82,7 @@ export function Navigation({
     isTmpUser,
     userPin,
     hasCheckedTmpUser,
+    initialRouteName,
   } = useContext(Context);
 
   const getClientDataEnabled = !!(
@@ -276,7 +277,9 @@ export function Navigation({
           />
         ) : token && hasCheckedTmpUser ? (
           <>
-            <RedirectToBiometrics />
+            <RedirectToBiometrics
+              checkForDeclined={initialRouteName !== "RegisterAboutYou"}
+            />
             <AppNavigation />
           </>
         ) : (
@@ -288,7 +291,7 @@ export function Navigation({
   );
 }
 
-const RedirectToBiometrics = () => {
+const RedirectToBiometrics = ({ checkForDeclined }) => {
   const navigation = useNavigation();
   useEffect(() => {
     const checkHasDeclined = async () => {
@@ -296,12 +299,12 @@ const RedirectToBiometrics = () => {
       const userPin = await localStorage.getItem("pin-code");
       const hasBiometrics = await localStorage.getItem("biometrics-enabled");
 
-      if (!hasDeclined && !userPin && !hasBiometrics) {
+      if (!hasDeclined && !userPin && !hasBiometrics && checkForDeclined) {
         navigation.navigate("SetUpBiometrics", { goBackOnSkip: true });
       }
     };
     checkHasDeclined();
-  }, []);
+  }, [checkForDeclined]);
   return <></>;
 };
 

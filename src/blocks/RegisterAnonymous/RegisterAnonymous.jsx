@@ -124,7 +124,9 @@ export const RegisterAnonymous = ({ navigation }) => {
         tokenExpiresInPromise,
         refreshTokenPromise,
       ]);
-      setToken(token);
+      setTimeout(() => {
+        setToken(token);
+      }, 1);
     },
     onError: (error) => {
       const { message: errorMessage } = useError(error);
