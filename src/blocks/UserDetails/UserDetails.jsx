@@ -288,7 +288,7 @@ export const UserDetails = ({
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
       >
-        {clientDataQuery.isLoading || !clientData ? (
+        {clientDataQuery.isLoading ? (
           <View
             style={{
               flex: 1,
@@ -296,6 +296,30 @@ export const UserDetails = ({
             }}
           >
             <Loading style={{ alignSelf: "center" }} />
+          </View>
+        ) : !clientData ? (
+          <View style={{ marginTop: 100 }}>
+            <AppText
+              namedStyle="h3"
+              style={{
+                textAlign: "center",
+                color: appStyles.colorRed_eb5757,
+                marginBottom: 12,
+              }}
+            >
+              {t("error_fetching_data")}
+            </AppText>
+
+            <ButtonWithIcon
+              iconName="exit"
+              iconSize="md"
+              size="lg"
+              iconColor={appStyles.colorPrimary_20809e}
+              label={t("logout")}
+              type="ghost"
+              onPress={logoutMutation.mutate}
+              style={styles.textButton}
+            />
           </View>
         ) : (
           <>
