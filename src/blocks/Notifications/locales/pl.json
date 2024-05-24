@@ -10,7 +10,7 @@
   "consultation_suggestion": "<0>{{providerName}} suggested</0> a consultation on <0>{{date}}</0> from <0>{{startHour}}</0> to <0>{{endHour}}</0>",
   "consultation_suggestion_booking": "You accepted the <0>suggested</0> consultation from <0>{{providerName}}</0> on <0>{{date}}</0> from <0>{{startHour}}</0> to <0>{{endHour}}</0>",
   "consultation_suggestion_cancellation": "You rejected the <0>suggested</0> consultation from <0>{{providerName}}</0> on <0>{{date}}</0> from <0>{{startHour}}</0> to <0>{{endHour}}</0>",
-  "consultation_started": "Your consultation with provider <0>{{providerName}} started</0>",
+  "consultation_started": "Twoja konsultacja z konsultantem <0>{{providerName}} rozpoczęła się</0>",
   "join": "Dołącz",
   "accept": "Akceptuj",
   "accept_consultation_success": "Konsultacja została pomyślnie zaakceptowana",

@@ -42,5 +42,5 @@
   "sex_placeholder": "Wprowadzić swoją płeć",
   "year_of_birth_placeholder": "Wprowadzić swój rok urodzenia",
   "living_place_placeholder": "Wprowadzić swoje miejsce zamieszkania",
-  "error_fetching_data": "An error occured while fetching profile details"
+  "error_fetching_data": "Wystąpił błąd podczas pobierania szczegółów profilu "
 }

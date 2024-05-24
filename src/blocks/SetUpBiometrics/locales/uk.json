@@ -1,7 +1,7 @@
 {
-    "heading": "Set up passcode and biometrics",
-    "btn_label": "Continue",
-    "subheading": "Set up a passcode or biometrics to keep your account secured. If you skip this step, you have to login every time you open the app.",
-    "biometrics_btn_label": "Use biometrics",
-    "btn_skip": "Skip for now"
+    "heading": "Налаштування паролю та біометрії",
+    "btn_label": "Продовжити",
+    "subheading": "Встановіть пароль або біометричні дані для захисту Вашого облікового запису. Якщо Ви пропустите цей крок, Вам доведеться входити в систему щоразу, коли Ви відкриваєте додаток.",
+    "biometrics_btn_label": "Використовувати біометрію",
+    "btn_skip": "Пропустити цього разу"
 }

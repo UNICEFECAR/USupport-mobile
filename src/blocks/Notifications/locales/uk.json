@@ -10,7 +10,7 @@
   "consultation_suggestion": "{{providerName}} запропонував(ла) консультацію на сайті {{date}} від {{startHour}} до {{endHour}}",
   "consultation_suggestion_booking": "Ви прийняли запропоновану консультацію від {{providerName}} на {{date}} від {{startHour}} до {{endHour}}",
   "consultation_suggestion_cancellation": "Ви відхилили запропоновану консультацію з {{providerName}} на {{date}} з {{startHour}} на {{endHour}}",
-  "consultation_started": "Your consultation with provider <0>{{providerName}} started</0>",
+  "consultation_started": "Ваша консультація з провайдером  <0>{{providerName}} почалася </0>",
   "join": "Приєднатися",
   "accept": "Прийняти",
   "accept_consultation_success": "Консультацію прийнято",

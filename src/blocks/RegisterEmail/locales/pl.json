@@ -16,7 +16,7 @@
   "register_button": "Rejestracja",
   "paragraph": "Lub zarejestruj się za pomocą:",
   "login_button_label": "Już posiadam konto",
-  "confirm_password_label": "Confirm password",
-  "password_match_error": "The Password and Confirm Password fields do not match",
+  "confirm_password_label": "Potwierdź hasło",
+  "password_match_error": "Pola \"Hasło\" i \"Potwierdź hasło\" nie są zgodne",
   "age_terms_agreement_text": "Mam ponad 13 lat"
 }
