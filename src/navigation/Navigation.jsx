@@ -32,7 +32,7 @@ import {
   useGetClientData,
   useLogout,
 } from "#hooks";
-import { countrySvc, localStorage, Context } from "#services";
+import { countrySvc, localStorage, userSvc, Context } from "#services";
 
 import { getCountryFromTimezone, FIVE_MINUTES } from "#utils";
 
@@ -82,6 +82,7 @@ export function Navigation({
     isTmpUser,
     userPin,
     hasCheckedTmpUser,
+    initialRouteName,
   } = useContext(Context);
 
   const getClientDataEnabled = !!(
@@ -259,6 +260,11 @@ export function Navigation({
     onError: (err) => console.log(err, "fetch countries error"),
   });
 
+  useQuery(["platformAccess", token], userSvc.addPlatformAccess, {
+    staleTime: Infinity,
+    enabled: !!token,
+  });
+
   return (
     <NavigationContainer
       theme={contextTheme === "dark" ? darkTheme : defaultTheme}
@@ -271,7 +277,9 @@ export function Navigation({
           />
         ) : token && hasCheckedTmpUser ? (
           <>
-            <RedirectToBiometrics />
+            <RedirectToBiometrics
+              checkForDeclined={initialRouteName !== "RegisterAboutYou"}
+            />
             <AppNavigation />
           </>
         ) : (
@@ -283,7 +291,7 @@ export function Navigation({
   );
 }
 
-const RedirectToBiometrics = () => {
+const RedirectToBiometrics = ({ checkForDeclined }) => {
   const navigation = useNavigation();
   useEffect(() => {
     const checkHasDeclined = async () => {
@@ -291,12 +299,12 @@ const RedirectToBiometrics = () => {
       const userPin = await localStorage.getItem("pin-code");
       const hasBiometrics = await localStorage.getItem("biometrics-enabled");
 
-      if (!hasDeclined && !userPin && !hasBiometrics) {
+      if (!hasDeclined && !userPin && !hasBiometrics && checkForDeclined) {
         navigation.navigate("SetUpBiometrics", { goBackOnSkip: true });
       }
     };
     checkHasDeclined();
-  }, []);
+  }, [checkForDeclined]);
   return <></>;
 };
 

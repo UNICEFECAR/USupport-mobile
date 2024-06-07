@@ -1,0 +1,11 @@
+{
+  "heading": "Вітаємо з поверненням!",
+  "email_label": "Електронна пошта / Токен доступу",
+  "email_placeholder": "Введіть електронну адресу або токен доступу",
+  "password_label": "Пароль",
+  "password_placeholder": "Введіть пароль",
+  "forgot_password_label": "Я забув(ла) пароль",
+  "login_label": "Логін",
+  "paragraph": "Або увійдіть за допомогою:",
+  "register_button_label": "Я не маю облікового запису."
+}

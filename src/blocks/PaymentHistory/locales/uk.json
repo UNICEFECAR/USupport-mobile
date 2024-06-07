@@ -1,0 +1,10 @@
+{
+  "service": "Сервіс",
+  "price": "Ціна",
+  "date_of_payment": "Дата платежу",
+  "more_details": "Більше подробиць",
+  "no_payments_history_found": "Ще немає жодних платежів",
+  "text_audio_video_consultation": "Онлайн-консультації",
+  "download_success": "Файл завантажено",
+  "export_label": "Експорт"
+}

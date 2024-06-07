@@ -41,5 +41,6 @@
   "access_token_copy": "Сәтті көшірілген код",
   "sex_placeholder": "Жынысыңызды енгізіңіз",
   "year_of_birth_placeholder": "Туған жылыңызды енгізіңіз",
-  "living_place_placeholder": "Тұрғылықты жеріңізді енгізіңіз"
+  "living_place_placeholder": "Тұрғылықты жеріңізді енгізіңіз",
+  "error_fetching_data": "Профиль мәліметтерін алу кезінде қате орын алды"
 }

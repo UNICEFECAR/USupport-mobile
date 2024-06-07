@@ -69,6 +69,7 @@ export const FilterQuestions = ({ isOpen, onClose, selectedTag, setTag }) => {
             dropdownId="filter-questions-dropdown"
             selected={selectedTagId}
             placeholder={t("dropdown_label")}
+            emptyMessage={t("no_tags_found")}
           />
         </View>
       )}

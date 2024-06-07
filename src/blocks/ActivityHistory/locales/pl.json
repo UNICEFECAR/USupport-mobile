@@ -1,0 +1,23 @@
+{
+  "button_label": "Zaplanuj konsultację",
+  "search": "Wyszukiwanie",
+  "no_messages": "Nie znaleziono żadnych wiadomości",
+  "show_system_messages": "Wyświetlanie komunikatów systemowych",
+  "show_previous_consultations": "Pokazać poprzednie konsultacje",
+  "export_label": "Eksport",
+  "chat_history": "Historia czatów konsultacyjnych z",
+  "client_joined": "Klient dołączył do konsultacji",
+  "client_left": "Klient opuścił konsultację",
+  "client_camera_off": "Klient wyłączył kamerę",
+  "client_camera_on": "Klient włączył kamerę",
+  "client_microphone_off": "Klient wyłączył mikrofon",
+  "client_microphone_on": "Klient włączył mikrofon",
+    "chat_history_deleted_by_client": "Skasowałeś historię czatu",
+
+  "provider_joined": "Konsultant dołączył do konsultacji",
+  "provider_left": "Konsultant opuścił konsultację",
+  "provider_camera_off": "Konsultant wyłączył kamerę",
+  "provider_camera_on": "Konsultant włączył kamerę",
+  "provider_microphone_off": "Konsultant wyłączył mikrofon",
+  "provider_microphone_on": "Konsultant włączył mikrofon"
+}

@@ -237,6 +237,13 @@ async function logoutRequest() {
   }
 }
 
+async function addPlatformAccess() {
+  const response = await http.get(
+    `${API_ENDPOINT}/access-platform?platform=client`
+  );
+  return response;
+}
+
 const exportedFunctions = {
   changePassword,
   generateClientAccesToken,
@@ -259,6 +266,7 @@ const exportedFunctions = {
   changeLanguage,
   requestEmailOTP,
   logoutRequest,
+  addPlatformAccess,
 };
 
 export default exportedFunctions;

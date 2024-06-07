@@ -1,0 +1,23 @@
+{
+  "heading": "Фільтр щодо консультантів(ок)",
+  "subheading": "Виберіть бажаного(у) консультанта(ку), з яким(ою) розмовлятимете під час аудіо/відео консультації",
+  "provider_psychologist": "Психолог(иня)",
+  "provider_psychotherapist": "Психотерапевт(ка)",
+  "provider_psychiatrist": "Психіатр(иня)",
+  "male": "Чоловік",
+  "female": "Жінка",
+  "unspecified": "Не визначено",
+  "provider_type_checkbox_group_label": "Тип консультанта(ки)",
+  "provider_sex_checkbox_group_label": "Стать консультанта(ки)",
+  "max_price": "Максимальна ціна",
+  "max_price_placeholder": "Виберіть максимальну ціну",
+  "language": "Мова",
+  "language_placeholder": "Виберіть мову",
+  "providers_free_consultation_label": "Тільки безкоштовна консультація",
+  "button_label": "Застосувати фільтри",
+  "reset_filter": "Скидання фільтрів",
+  "available_before": "Доступно раніше ",
+  "available_after": "Доступно після",
+  "not_mentioned": "Волію не казати",
+  "no_languages_found": "Мову не знайдено"
+}

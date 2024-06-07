@@ -1,11 +1,11 @@
 {
-  "saturday": "Sat",
-  "happy": "Happy",
-  "good": "Good",
-  "sad": "Sad",
-  "depressed": "Depressed",
-  "worried": "Worried",
-  "you_felt": "You felt",
-  "comment_text": "and you commented:",
-  "no_result": "No results found."
+  "saturday": "Сб",
+  "happy": "Щастя",
+  "good": "Добре",
+  "sad": "Сум",
+  "depressed": "Пригнічення",
+  "worried": "Хвилювання",
+  "you_felt": "Ви відчули",
+  "comment_text": "і прокоментували:",
+  "no_result": "Результатів не знайдено."
 }

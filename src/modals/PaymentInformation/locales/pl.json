@@ -1,0 +1,14 @@
+{
+  "heading": "Szczegóły zamówienia",
+  "service": "Usługa: ",
+  "date_of_consultation": "Data konsultacji: ",
+  "date_of_payment": "Data płatności: ",
+  "time_of_payment": "Czas płatności: ",
+  "payment_method": "Forma płatności: ",
+  "recipient": "Odbiorca: ",
+  "address": "Adres firmy: ",
+  "email_address": "Adres e-mail: ",
+  "price": "Cena: ",
+  "view_receipt": "Wyświetl paragon",
+  "text_audio_video_consultation": "Konsultacje online"
+}

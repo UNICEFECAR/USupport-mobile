@@ -1,0 +1,17 @@
+{
+  "heading": "Twoje spotkanie zostało zarezerwowane",
+  "ctaLabel": "Kontynuować",
+  "text": "na {{startDate}} {{month}} {{year}} dla przedziału czasowego od {{startTime}} do {{endTime}}. Można go zmienić w dowolnym momencie za pośrednictwem aplikacji.",
+  "january": "Styczeń",
+  "february": "Luty",
+  "march": "Marzec",
+  "april": "Kwiecień",
+  "may": "Maj",
+  "june": "Czerwiec",
+  "july": "Lipiec",
+  "august": "Sierpień",
+  "september": "Wrzesień",
+  "october": "Październik",
+  "november": "Listopad",
+  "december": "Grudzień"
+}

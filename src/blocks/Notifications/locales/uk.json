@@ -1,0 +1,21 @@
+{
+  "heading": "Сповіщення",
+  "mark_read": "Позначте все як прочитане",
+  "subheading": "Тут можна знайти всі сповіщення, які Ви отримували в акаунті.",
+  "consultation_booking": "Консультацію з {{providerName}} заплановано на {{date}} з {{startHour}} до {{endHour}}",
+  "consultation_reschedule": "Консультацію на {{date}} з {{startHour}} до {{endHour}} перенесено на {{newDate}} з {{newStartHour}} до {{newEndHour}}",
+  "consultation_cancellation": "Консультацію з {{providerName}}, заплановану на {{date}} з {{startHour}} до {{endHour}}, скасувано",
+  "consultation_cancellation_provider": "Консультант(ка) {{providerName}} скасував(ла) консультацію, заплановану на {{date}} з {{startHour}} на {{endHour}}",
+  "consultation_remind_start": "Наступна консультація за {{minutes}} хвилин",
+  "consultation_suggestion": "{{providerName}} запропонував(ла) консультацію на сайті {{date}} від {{startHour}} до {{endHour}}",
+  "consultation_suggestion_booking": "Ви прийняли запропоновану консультацію від {{providerName}} на {{date}} від {{startHour}} до {{endHour}}",
+  "consultation_suggestion_cancellation": "Ви відхилили запропоновану консультацію з {{providerName}} на {{date}} з {{startHour}} на {{endHour}}",
+  "consultation_started": "Ваша консультація з провайдером  <0>{{providerName}} почалася </0>",
+  "join": "Приєднатися",
+  "accept": "Прийняти",
+  "accept_consultation_success": "Консультацію прийнято",
+  "reject": "Відхилити",
+  "reject_consultation_success": "Консультацію відхилено",
+  "no_notifications": "Ще немає сповіщень.",
+  "yesterday": "вчора"
+}

@@ -1,0 +1,8 @@
+{
+  "error_email_message": "Будь ласка, введіть електронну адресу",
+  "input_email_label": "Електронна пошта",
+  "reset_password_button_label": "Скинути пароль",
+  "register_redirect_button_label": "Я не маю облікового запису.",
+  "modal_heading": "Перевірте електронну пошту",
+  "modal_text": "Ми надіслали Вам електронного листа з посиланням для відновлення пароля"
+}

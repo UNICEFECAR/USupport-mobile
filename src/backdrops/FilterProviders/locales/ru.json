@@ -18,5 +18,6 @@
   "reset_filter": "Сбросить фильтр",
   "available_before": "Доступно до",
   "available_after": "Доступно после",
-  "not_mentioned": "Предпочитаю не говорить"
+  "not_mentioned": "Предпочитаю не говорить",
+  "no_languages_found": "Языки не найдены"
 }

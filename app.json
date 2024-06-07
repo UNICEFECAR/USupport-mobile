@@ -5,19 +5,25 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "android": {
-      "googleServicesFile": "./android/app/google-services.json"
+      "googleServicesFile": "./android/app/google-services.json",
+      "package": "org.unicef.ecar.usupport"
     },
     "ios": {
       "bundleIdentifier": "org.unicef.ecar.usupport",
       "supportsTablet": false,
       "googleServicesFile": "./ios/GoogleService-Info.plist"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "jsEngine": "hermes",
     "extra": {
       "eas": {
         "projectId": "94d84ded-b71b-4716-b049-e53d470a99de"
       }
-    }
+    },
+    "plugins": [
+      "expo-localization"
+    ]
   }
 }

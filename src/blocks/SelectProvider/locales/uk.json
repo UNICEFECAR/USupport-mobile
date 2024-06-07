@@ -1,0 +1,15 @@
+{
+  "psychologist": "Психолог(иня)",
+  "psychiatrist": "Психіатр(иня)",
+  "psychotherapist": "Психотерапевт(ка)",
+  "no_match": "Немає консультантів(ок), що відповідають Вашим критеріям",
+  "free": "Безкоштовно",
+  "earliest_available_slot": "Перша доступна консультація:",
+  "sunday": "Нд",
+  "monday": "Пн",
+  "tuesday": "Вт",
+  "wednesday": "Ср",
+  "thursday": "Чт",
+  "friday": "Пт",
+  "saturday": "Сб"
+}

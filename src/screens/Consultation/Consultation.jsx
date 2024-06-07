@@ -668,7 +668,6 @@ const styles = StyleSheet.create({
     right: 20,
   },
   optionsContainer: {
-    backgroundColor: "white",
     width: "100%",
     paddingBottom: 20,
   },

@@ -3,5 +3,6 @@
     "dropdown_label": "Select a tag",
     "cta_label": "Apply filters",
     "reset_label": "Reset filters",
-    "dropdown_placeholder": "Select a tag"
+    "dropdown_placeholder": "Select a tag",
+    "no_tags_found": "No tags found"
 }

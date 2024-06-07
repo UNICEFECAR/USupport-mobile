@@ -1,0 +1,23 @@
+{
+  "button_label": "Записатися на консультацію",
+  "search": "Пошук",
+  "no_messages": "Не знайдено жодного повідомлення",
+  "show_system_messages": "Показати системні повідомлення",
+  "show_previous_consultations": "Показати попередні консультації",
+  "export_label": "Експорт",
+  "chat_history": "Історія консультацій в чаті з",
+  "client_joined": "Клієнт приєднався до консультації",
+  "client_left": "Клієнт залишив консультацію",
+  "client_camera_off": "Клієнт вимкнув камеру",
+  "client_camera_on": "Клієнт увімкнув камеру",
+  "client_microphone_off": "Клієнт вимкнув мікрофон",
+  "client_microphone_on": "Клієнт увімкнув мікрофон",
+  "chat_history_deleted_by_client": "Ви видалили історію чату",
+
+  "provider_joined": "Консультант приєднався до консультації ",
+  "provider_left": "Консультант залишив консультацію ",
+  "provider_camera_off": "Консультант вимкнув камеру",
+  "provider_camera_on": "Консультант увімкнув камеру",
+  "provider_microphone_off": "Консультант вимкнув мікрофон",
+  "provider_microphone_on": "Консультант увімкнув мікрофон"
+}

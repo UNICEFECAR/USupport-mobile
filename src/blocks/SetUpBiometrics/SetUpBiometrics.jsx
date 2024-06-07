@@ -45,7 +45,6 @@ export const SetUpBiometrics = ({ navigation, goBackOnSkip }) => {
   };
 
   const handleSkip = async () => {
-    await localStorage.removeItem("token");
     await localStorage.setItem("has-declined-biometrics", "true");
 
     if (goBackOnSkip) {

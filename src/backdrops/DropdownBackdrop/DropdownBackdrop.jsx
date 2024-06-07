@@ -23,6 +23,7 @@ export function DropdownBackdrop({
     { value: "10", label: "Option 10", selected: false },
     { value: "11", label: "Option 11", selected: false },
   ],
+  emptyMessage,
 }) {
   return (
     <Backdrop
@@ -36,6 +37,13 @@ export function DropdownBackdrop({
         paddingTop: 10,
       }}
     >
+      {options?.length === 0 && emptyMessage && (
+        <AppText
+          style={{ textAlign: "center", alignSelf: "center", paddingTop: 12 }}
+        >
+          {emptyMessage}
+        </AppText>
+      )}
       {options?.map((option, index) => (
         <AppText
           style={styles.dropdownOption}

@@ -1,0 +1,11 @@
+{
+  "enter_passcode": "Введіть поточний пароль",
+  "view_pin": "Перегляд PIN-коду",
+  "hide_pin": "Приховати PIN-код",
+  "create_passcode": "Створити PIN-код",
+  "confirm_passcode": "Підтвердити PIN-код",
+  "pin_not_matching": "PIN-код неправильний",
+  "success": "PIN-код встановлено",
+  "remove_success": "PIN-код вилучено",
+  "error": "При введенні PIN-коду виникла помилка. Будь ласка, спробуйте ще раз."
+}

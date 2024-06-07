@@ -261,7 +261,7 @@ const FiltersBlock = ({
         />
       </View>
       <View style={[styles.buttonContainer]}>
-        <Toggle
+        {/* <Toggle
           isToggled={allFilters.onlyFreeConsultation}
           handleToggle={(val) => handleChange("onlyFreeConsultation", val)}
           label={t("providers_free_consultation_label")}
@@ -271,7 +271,7 @@ const FiltersBlock = ({
           }}
           labelStyle={{ marginBottom: 12 }}
           disabled={isToggleDisabled}
-        />
+        /> */}
         {!allFilters.onlyFreeConsultation && (
           <Input
             type="number"
