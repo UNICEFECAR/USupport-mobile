@@ -20,7 +20,6 @@ const { AMAZON_S3_BUCKET } = Config;
 const fetchCountry = async () => {
   const { data } = await countrySvc.getActiveCountries();
   const currentCountryId = await localStorage.getItem("country_id");
-  console.log("currentCountryId", currentCountryId);
   const currentCountry = data.find((x) => x.country_id === currentCountryId);
   return currentCountry?.alpha2 === "KZ" ? true : false;
 };
@@ -49,7 +48,6 @@ export const UserProfile = ({ navigation }) => {
   }, []);
 
   const { data: isKzCountry } = useQuery(["is-kz-country"], fetchCountry);
-  console.log(isKzCountry);
 
   const { isTmpUser, handleRegistrationModalOpen } = useContext(Context);
   const [languagesData, setLanguagesData] = useState({
