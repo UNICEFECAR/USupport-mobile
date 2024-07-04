@@ -72,9 +72,13 @@ export function Welcome({ navigation }) {
   const countriesQuery = useQuery(["countries"], fetchCountries, {
     retry: false,
   });
-  const languagesQuery = useQuery(["languages"], fetchLanguages, {
-    retry: false,
-  });
+  const languagesQuery = useQuery(
+    ["languages", selectedCountry],
+    fetchLanguages,
+    {
+      retry: false,
+    }
+  );
 
   const handleSelectCountry = (option) => {
     setSelectedCountry(option);
@@ -132,6 +136,7 @@ export function Welcome({ navigation }) {
           />
           <Dropdown
             options={languagesQuery.data}
+            disabled={!selectedCountry}
             selected={selectedLanguage}
             setSelected={(lang) => {
               setSelectedLanguage(lang);
