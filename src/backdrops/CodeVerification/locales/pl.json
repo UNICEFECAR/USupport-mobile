@@ -1,8 +1,8 @@
 {
   "heading": "Weryfikacja kodu",
-  "text": "Wprowadź kod otrzymany w wiadomości e-mail. Jest on ważny przez 30 minut od otrzymania wiadomości e-mail.",
-  "send":"Wyśłać",
-  "didnt_get_code": "Nie otrzymałeś kodu?",
-  "resend": "Wyślij ponownie wiadomość e-mail",
+  "text": "Wprowadź kod otrzymany w wiadomości email. Jest on ważny przez 30 minut od otrzymania wiadomości email.",
+  "send": "Wyślij",
+  "didnt_get_code": "Nie otrzymałeś/otrzymałaś kodu?",
+  "resend": "Wyślij ponownie wiadomość email",
   "seconds": "za {{seconds}} sekund"
 }

@@ -13,7 +13,7 @@
   "payment_failed_heading": "Płatność nie została zrealizowana, spróbuj ponownie.",
   "payment_failed_subheading": "Wystąpił problem podczas próby przetworzenia płatności. Przepraszamy za to.",
 
-  "continue_button_label": "Kontynuować",
-  "try_again_button_label": "Spróbować ponownie",
+  "continue_button_label": "Kontynuuj",
+  "try_again_button_label": "Spróbuj ponownie",
   "session_timeout": "Twoja sesja wygasła. Wróć i ponownie zarezerwuj konsultację"
 }
