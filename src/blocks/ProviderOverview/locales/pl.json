@@ -1,17 +1,17 @@
 {
   "button_label": "Zaplanuj konsultację",
 
-  "earliest_slot_label": "Najwcześniejszy dostępny przedział czasowy dla konsultacji",
+  "earliest_slot_label": "Najwcześniejszy dostępny termin konsultacji",
   "languages_label": "Języki",
   "education_label": "Edukacja",
   "work_with_label": "Specjalności",
   "specializations_label": "Specjalizacje",
-  "done_consultations_label": "Ogólnie przeprowadzone konsultacje",
+  "done_consultations_label": "Konsultacje przeprowadzone do tej pory",
   "description_label": "O mnie",
   "edit_details": "Edytuj szczegóły",
   "change_password": "Zmienić hasło",
   "delete_account": "Usuń konto",
-  "no_available_slot": "Nie ma dostępnego przedziału czasowego",
+  "no_available_slot": "Nie ma dostępnego terminu",
   "consultations": "konsultacje",
 
   "psychologist": "Psycholog",

@@ -1,10 +1,10 @@
 {
   "heading": "Witamy z powrotem",
-  "email_label": "E-mail / token dostępu",
+  "email_label": "Email / token dostępu",
   "email_placeholder": "Wprowadzić swój adres e-mail lub token dostępu",
   "password_label": "Hasło",
   "password_placeholder": "Wprowadź swoje hasło",
-  "forgot_password_label": "Zapomniałem swoje hasło",
+  "forgot_password_label": "Zapomniałem/zapomniałam swojego hasła",
   "login_label": "Logowanie",
   "paragraph": "Lub zaloguj się za pomocą:",
   "register_button_label": "Nie mam konta"

@@ -1,12 +1,12 @@
 {
   "login": "Logowanie za pomocą adresu e-mail/tokenu dostępu",
   "register_email": "Zarejestruj się za pomocą adresu e-mail",
-  "register_anonymously": "Dostęp anonimowy",
-  "continue_as_guest": "Kontynuować bez rejestracji",
+  "register_anonymously": "Zarejestruj się anonimowo",
+  "continue_as_guest": "Kontynuuj bez rejestracji",
   "heading_1": "Informacje o platformie",
-  "text_1": "Pierwsza platforma stworzona, aby uczynić Twoje zdrowie psychiczne priorytetem, zapewniając wysoce spersonalizowaną opiekę psychologiczną.",
+  "text_1": "Platforma, która szanuje Twoją prywatność i bezpieczeństwo. Twoje dobre samopoczucie jest naszym priorytetem! uSupport zapewnia spersonalizowaną i dyskretną opiekę psychologiczną.",
   "heading_2": "Informacje o wsparciu",
-  "text_2": "USupport zapewnia spersonalizowaną, dyskretną i szybką opiekę psychologiczną dla ogólnego dobrego samopoczucia.",
+  "text_2": "uSupport to platforma poświęcona zdrowiu psychicznemu, dobrostanowi psychospołecznemu i dobremu samopoczuciu, przeznaczona dla młodych ludzi i ich opiekunów, gdzie prywatność i bezpieczeństwo są priorytetem.",
   "heading_3": "O tobie",
   "text_3": "Twoja historia ma znaczenie! Odważ się nią podzielić."
 }
