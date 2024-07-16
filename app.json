@@ -13,9 +13,6 @@
       "supportsTablet": false,
       "googleServicesFile": "./ios/GoogleService-Info.plist"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
     "jsEngine": "hermes",
     "extra": {
       "eas": {
@@ -23,7 +20,9 @@
       }
     },
     "plugins": [
-      "expo-localization"
+      "expo-localization",
+      "expo-font",
+      "expo-secure-store"
     ]
   }
 }

@@ -2,26 +2,35 @@
 
 buildscript {
     ext {
-        buildToolsVersion = findProperty('android.buildToolsVersion') ?: '33.0.0'
-        minSdkVersion = Integer.parseInt(findProperty('android.minSdkVersion') ?: '21')
-        compileSdkVersion = Integer.parseInt(findProperty('android.compileSdkVersion') ?: '33')
-        targetSdkVersion = Integer.parseInt(findProperty('android.targetSdkVersion') ?: '33')
-        if (findProperty('android.kotlinVersion')) {
-            kotlinVersion = findProperty('android.kotlinVersion')
-        }
-        frescoVersion = findProperty('expo.frescoVersion') ?: '2.5.0'
+        buildToolsVersion = '34.0.0'
+        minSdkVersion = Integer.parseInt(findProperty('android.minSdkVersion') ?: '23')
+        compileSdkVersion = 34
+        targetSdkVersion = Integer.parseInt(findProperty('android.targetSdkVersion') ?: '34')
+        kotlinVersion = findProperty('android.kotlinVersion') ?: '1.9.23'
 
-        ndkVersion = "23.1.7779620"
-
+        ndkVersion = "26.1.10909125"
     }
+    
+    subprojects { subproject ->
+        afterEvaluate{
+            if((subproject.plugins.hasPlugin('android') || subproject.plugins.hasPlugin('android-library'))) {
+                android {
+                    compileSdkVersion rootProject.ext.compileSdkVersion
+                    buildToolsVersion rootProject.ext.buildToolsVersion
+                }
+            }
+        }
+    }
+
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
         classpath 'com.google.gms:google-services:4.3.15'
-        classpath('com.android.tools.build:gradle:7.4.1')
+        classpath('com.android.tools.build:gradle')
         classpath('com.facebook.react:react-native-gradle-plugin')
+        classpath('org.jetbrains.kotlin:kotlin-gradle-plugin')
         classpath('de.undercouch:gradle-download-task:5.0.1')
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -29,6 +38,9 @@ buildscript {
 }
 
 def REACT_NATIVE_VERSION = new File(['node', '--print', "JSON.parse(require('fs').readFileSync(require.resolve('react-native/package.json'), 'utf-8')).version"].execute(null, rootDir).text.trim())
+
+apply plugin: "com.facebook.react.rootproject"
+
 
 allprojects {
     configurations.all {
@@ -45,7 +57,7 @@ allprojects {
         }
         maven {
             // Android JSC is installed from npm
-            url(new File(['node', '--print', "require.resolve('jsc-android/package.json')"].execute(null, rootDir).text.trim(), '../dist'))
+            url(new File(['node', '--print', "require.resolve('jsc-android/package.json', { paths: [require.resolve('react-native/package.json')] })"].execute(null, rootDir).text.trim(), '../dist'))
         }
 
         google()
