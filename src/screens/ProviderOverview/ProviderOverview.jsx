@@ -122,7 +122,7 @@ export const ProviderOverview = ({ navigation, route }) => {
 
   const time = useMemo(() => {
     return isWithCampaign
-      ? parseUTCDate(selectedSlot.current.time)
+      ? new Date(selectedSlot.current.time)
       : new Date(selectedSlot.current);
   }, [isWithCampaign, selectedSlot.current]);
 
