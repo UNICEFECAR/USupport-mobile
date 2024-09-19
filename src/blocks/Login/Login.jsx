@@ -1,5 +1,10 @@
 import React, { useState, useContext } from "react";
-import { StyleSheet, KeyboardAvoidingView, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
+} from "react-native";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
