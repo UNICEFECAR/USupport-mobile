@@ -19,6 +19,6 @@
   "year_of_birth_error": "Өтінеміз, туған жылыңызды көрсетіңіз",
   "place_of_living_error": "Өтінеміз, тұрғылықты жеріңізді көрсетіңіз",
   "sex_placeholder": "Жынысыңызды енгізіңіз",
-  "year_of_birth_placeholder": "Туған жылыңызды енгізіңіз"
+  "year_of_birth_placeholder": "Туған жылыңызды енгізіңіз",
+  "parent": "Ата-ана"
 }
-

@@ -170,8 +170,12 @@ export const UserDetails = ({
         year <= currentYear - ages.minAge;
         year++
       ) {
-        years.push({ label: year.toString(), value: year });
+        years.push({ label: year.toString(), value: year.toString() });
       }
+      years.push({
+        label: t("parent"),
+        value: "parent",
+      });
       return years.reverse();
     }
     return [];

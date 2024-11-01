@@ -37,7 +37,7 @@ export const RegisterAboutYou = ({ navigation }) => {
     name: Joi.string().allow(null, "", " ").label(t("nickname_error")),
     surname: Joi.string().allow(null, "", " ").label(t("nickname_error")),
     sex: Joi.string().invalid(null).label(t("sex_error")),
-    yearOfBirth: Joi.number().invalid(null).label(t("year_of_birth_error")),
+    yearOfBirth: Joi.string().invalid(null).label(t("year_of_birth_error")),
     urbanRural: Joi.string().invalid(null).label(t("place_of_living_error")),
   });
 
@@ -81,8 +81,12 @@ export const RegisterAboutYou = ({ navigation }) => {
         year <= currentYear - ages.minAge;
         year++
       ) {
-        years.push({ label: year.toString(), value: year });
+        years.push({ label: year.toString(), value: year.toString() });
       }
+      years.push({
+        label: t("parent"),
+        value: "parent",
+      });
       return years.reverse();
     }
     return [];

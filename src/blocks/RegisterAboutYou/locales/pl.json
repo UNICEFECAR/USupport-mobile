@@ -19,6 +19,6 @@
   "year_of_birth_error": "Wprowadź swój rok urodzenia",
   "place_of_living_error": "Podaj swoje miejsce zamieszkania",
   "sex_placeholder": "Wprowadź swoją płeć",
-  "year_of_birth_placeholder": "Wprowadź swój rok urodzenia"
+  "year_of_birth_placeholder": "Wprowadź swój rok urodzenia",
+  "parent": "Rodzic"
 }
-

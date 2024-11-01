@@ -42,5 +42,6 @@
   "sex_placeholder": "Введіть стать",
   "year_of_birth_placeholder": "Введіть рік народження",
   "living_place_placeholder": "Введіть місце проживання",
-  "error_fetching_data": "При завантаженні даних профілю виникла помилка"
+  "error_fetching_data": "При завантаженні даних профілю виникла помилка",
+  "parent": "Батько"
 }

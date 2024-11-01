@@ -19,6 +19,6 @@
   "year_of_birth_error": "Пожалуйста, укажите свой год рождения",
   "place_of_living_error": "Пожалуйста, укажите свое место жительства",
   "sex_placeholder": "Введите свой пол",
-  "year_of_birth_placeholder": "Введите свой год рождения"
+  "year_of_birth_placeholder": "Введите свой год рождения",
+  "parent": "Родитель"
 }
-
