@@ -119,16 +119,16 @@ export const RegisterPreview = ({ navigation }) => {
               style={styles.accessAnonymouslyButton}
             />
             <AppButton
-              label={t("register_email")}
-              size="lg"
-              onPress={() => handleRedirect("RegisterEmail")}
-            />
-            <AppButton
               label={t("register_anonymously")}
               size="lg"
-              type="secondary"
               onPress={() => handleRedirect("RegisterAnonymous")}
               style={styles.accessAnonymouslyButton}
+            />
+            <AppButton
+              label={t("register_email")}
+              size="lg"
+              type="ghost"
+              onPress={() => handleRedirect("RegisterEmail")}
             />
             <AppButton
               label={t("continue_as_guest")}
