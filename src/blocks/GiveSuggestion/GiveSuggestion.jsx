@@ -24,9 +24,8 @@ const initialData = {
  *
  * @return {jsx}
  */
-export const GiveSuggestion = () => {
+export const GiveSuggestion = ({ navigation }) => {
   const { t } = useTranslation("give-suggestion");
-
   const { isTmpUser, handleRegistrationModalOpen } = useContext(Context);
 
   const [data, setData] = useState({ ...initialData });
@@ -76,6 +75,11 @@ export const GiveSuggestion = () => {
     }
   };
 
+  const handleRedirectToNewest = () => {
+    closeSuccessModal();
+    navigation.push("Articles", { sort: "createdAt" });
+  };
+
   return (
     <Block style={styles.block}>
       <AppText namedStyle="h3">{t("heading")}</AppText>
@@ -99,7 +103,7 @@ export const GiveSuggestion = () => {
         heading={t("modal_title")}
         text={t("modal_text")}
         ctaLabel={t("modal_cta_label")}
-        ctaHandleClick={closeSuccessModal}
+        ctaHandleClick={handleRedirectToNewest}
       />
     </Block>
   );

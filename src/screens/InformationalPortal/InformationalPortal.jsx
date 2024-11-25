@@ -57,7 +57,7 @@ export const InformationalPortal = ({ navigation }) => {
             {heading}
           </MascotHeadingBlock>
           <InformationalPortalBlock navigation={navigation} />
-          <GiveSuggestion />
+          <GiveSuggestion navigation={navigation} />
         </ScrollView>
       </KeyboardAvoidingView>
     </Screen>
