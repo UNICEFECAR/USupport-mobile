@@ -71,7 +71,7 @@ export const RegisterEmail = ({ navigation }) => {
 
   useEffect(() => {
     const getMinAge = async () => {
-      const age = await localStorage.getItem("minAge");
+      const age = (await localStorage.getItem("minAge")) || 10;
       setMinAge(age);
     };
     getMinAge();
