@@ -236,7 +236,7 @@ function App() {
   };
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView style={styles.flex1}>
       <StripeProvider publishableKey={STRIPE_PUBLIC_KEY}>
         <Context.Provider value={contextValues}>
           <QueryClientProvider client={queryClient}>
