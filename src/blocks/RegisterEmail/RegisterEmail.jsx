@@ -32,6 +32,10 @@ export const RegisterEmail = ({ navigation }) => {
   const { t } = useTranslation("register-email");
   const navigate = () => {};
   const queryClient = useQueryClient();
+  const countriesData = queryClient.getQueryData(["countries"]);
+  const country = localStorage.getItem("country");
+  const selectedCountry = countriesData?.find((c) => c.value === country);
+  const minAge = selectedCountry?.minAge;
 
   const schema = Joi.object({
     password: Joi.string()
@@ -300,7 +304,7 @@ export const RegisterEmail = ({ navigation }) => {
               setIsChecked={() =>
                 handleChange("isAgeTermsSelected", !data.isAgeTermsSelected)
               }
-              textOne={t("age_terms_agreement_text")}
+              textOne={t("age_terms_agreement_text", { age: minAge })}
             />
             <Error message={errors.submit || ""} />
             <AppButton
