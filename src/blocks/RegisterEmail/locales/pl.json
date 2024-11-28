@@ -18,5 +18,5 @@
   "login_button_label": "Już posiadam konto",
   "confirm_password_label": "Potwierdź hasło",
   "password_match_error": "Pola \"Hasło\" i \"Potwierdź hasło\" nie są zgodne",
-  "age_terms_agreement_text": "Mam ponad 13 lat"
+  "age_terms_agreement_text": "Mam ponad {{age}} lat"
 }

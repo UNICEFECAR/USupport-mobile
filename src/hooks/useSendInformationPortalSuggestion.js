@@ -5,9 +5,8 @@ import { useError } from "./useError";
 
 export const useSendInformationPortalSuggestion = (onError, onSuccess) => {
   const sendSuggestion = async (suggestion) => {
-    const response = await clientSvc.sendInformationPortalSuggestion(
-      suggestion
-    );
+    const response =
+      await clientSvc.sendInformationPortalSuggestion(suggestion);
     return response;
   };
 

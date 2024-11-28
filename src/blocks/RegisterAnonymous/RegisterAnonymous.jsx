@@ -6,7 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import * as Clipboard from "expo-clipboard";
 
@@ -42,6 +42,13 @@ import Animated, {
 export const RegisterAnonymous = ({ navigation }) => {
   const { colors } = useGetTheme();
   const { t } = useTranslation("register-anonymous");
+
+  const queryClient = useQueryClient();
+  const countriesData = queryClient.getQueryData(["countries"]);
+  const country = localStorage.getItem("country");
+  const selectedCountry = countriesData?.find((c) => c.value === country);
+  const minAge = selectedCountry?.minAge;
+
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [hasCopied, setHasCopied] = useState(false);
 
@@ -313,7 +320,7 @@ export const RegisterAnonymous = ({ navigation }) => {
                 setIsChecked={() =>
                   handleChange("isAgeTermsSelected", !data.isAgeTermsSelected)
                 }
-                textOne={t("age_terms_agreement_text")}
+                textOne={t("age_terms_agreement_text", { age: minAge })}
               />
             </View>
             <AppButton
