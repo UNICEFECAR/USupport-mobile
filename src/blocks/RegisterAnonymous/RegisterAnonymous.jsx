@@ -5,8 +5,9 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   TouchableOpacity,
+  Platform,
 } from "react-native";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import * as Clipboard from "expo-clipboard";
 
@@ -43,12 +44,6 @@ export const RegisterAnonymous = ({ navigation }) => {
   const { colors } = useGetTheme();
   const { t } = useTranslation("register-anonymous");
 
-  const queryClient = useQueryClient();
-  const countriesData = queryClient.getQueryData(["countries"]);
-  const country = localStorage.getItem("country");
-  const selectedCountry = countriesData?.find((c) => c.value === country);
-  const minAge = selectedCountry?.minAge;
-
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [hasCopied, setHasCopied] = useState(false);
 
@@ -74,6 +69,16 @@ export const RegisterAnonymous = ({ navigation }) => {
     isAgeTermsSelected: false,
   });
   const [errors, setErrors] = useState({});
+
+  const [minAge, setMinAge] = useState(10);
+
+  useEffect(() => {
+    const getMinAge = async () => {
+      const age = await localStorage.getItem("minAge");
+      setMinAge(age);
+    };
+    getMinAge();
+  }, []);
 
   // On page load send a request to the server
   // to generate a user acces token
