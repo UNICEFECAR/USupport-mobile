@@ -5,9 +5,14 @@ import React, {
   useCallback,
   useEffect,
 } from "react";
-import { StyleSheet, KeyboardAvoidingView, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
+} from "react-native";
 import { useTranslation } from "react-i18next";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { CodeVerification } from "#backdrops";
 
 import "fast-text-encoding";
@@ -31,11 +36,6 @@ export const RegisterEmail = ({ navigation }) => {
   const { setInitialRouteName, setToken } = useContext(Context);
   const { t } = useTranslation("register-email");
   const navigate = () => {};
-  const queryClient = useQueryClient();
-  const countriesData = queryClient.getQueryData(["countries"]);
-  const country = localStorage.getItem("country");
-  const selectedCountry = countriesData?.find((c) => c.value === country);
-  const minAge = selectedCountry?.minAge;
 
   const schema = Joi.object({
     password: Joi.string()
@@ -67,6 +67,16 @@ export const RegisterEmail = ({ navigation }) => {
   const [seconds, setSeconds] = useState(60);
   const [shouldShowCodeVerification, setShouldShowCodeVerification] =
     useState(false);
+  const [minAge, setMinAge] = useState(10);
+
+  useEffect(() => {
+    const getMinAge = async () => {
+      const age = await localStorage.getItem("minAge");
+      setMinAge(age);
+    };
+    getMinAge();
+  }, []);
+
   const intervalId = useRef();
 
   const requestEmailOtp = useCallback(async () => {

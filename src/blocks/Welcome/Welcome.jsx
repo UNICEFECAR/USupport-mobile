@@ -100,6 +100,7 @@ export function Welcome({ navigation }) {
     localStorage.setItem("country_id", selectedCountryObject.countryID);
     localStorage.setItem("language", language);
     localStorage.setItem("currency_symbol", currencySymbol);
+    localStorage.setItem("minAge", selectedCountryObject.minAge.toString());
 
     navigation.push("RegisterPreview");
   };
