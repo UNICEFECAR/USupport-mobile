@@ -10,9 +10,8 @@ export const useMarkNotificationsAsRead = (onError = () => {}) => {
    * @returns {object}
    */
   const markNotificationsAsRead = async (notificationIds) => {
-    const { data } = await notificationsSvc.markNotificationsAsRead(
-      notificationIds
-    );
+    const { data } =
+      await notificationsSvc.markNotificationsAsRead(notificationIds);
     return data;
   };
 

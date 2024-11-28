@@ -18,7 +18,7 @@ axios.interceptors.request.use(async (config) => {
   config.headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
 
   const requestURI = axios.getUri(config) || "VITE CMS API URL";
-
+  console.log(requestURI);
   if (!requestURI.includes(CMS_API_URL_ENDPOINT)) {
     const token = await localStorage.getItem("token");
     config.headers["Authorization"] = `Bearer ${token}`;
