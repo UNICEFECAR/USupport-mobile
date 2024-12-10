@@ -93,7 +93,12 @@ export const GiveSuggestion = ({ navigation }) => {
       />
       <AppButton
         label={t("submit")}
-        type="ghost"
+        style={{
+          marginTop: 7,
+          width: "90%",
+          marginLeft: 10,
+        }}
+        type="primary"
         onPress={handleSubmit}
         disabled={!canSubmit || sendSuggestionMutation.isLoading}
       />
