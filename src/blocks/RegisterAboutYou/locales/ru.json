@@ -1,12 +1,12 @@
 {
   "heading": "Про Вас.",
 
-  "input_name_label": "Ім'я",
-  "input_name_placeholder": "Введіть ім'я",
-  "input_surname_label": "Прізвище",
-  "input_surname_placeholder": "Введіть прізвище",
-  "dropdown_sex_label": "Стать *",
-  "dropdown_year_label": "Рік народження *",
+  "input_name_label": "Имя",
+  "input_name_placeholder": "Введите имя",
+  "input_surname_label": "Фамилия",
+  "input_surname_placeholder": "Введите фамилию",
+  "dropdown_sex_label": "Пол *",
+  "dropdown_year_label": "Год рождения *",
   "living_place_label": "Место жительства *",
   "button_continue_label": "Продолжить",
   "sex_male": "Мужчина",
