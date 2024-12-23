@@ -24,7 +24,8 @@ export const FilterProviders = ({
   languages,
   initialFilters,
 }) => {
-  const { t } = useTranslation("filter-providers");
+  const { t, i18n } = useTranslation("filter-providers");
+  const lang = i18n.language;
 
   const [data, setData] = useState({ ...allFilters });
 
@@ -156,7 +157,7 @@ export const FilterProviders = ({
         onFocus={() => setAvailableAfterOpen(true)}
         reference={availableAfterRef}
         label={t("available_after")}
-        placeholder={"DD/MM/YYYY"}
+        placeholder={t("available_after")}
         style={styles.marginBottom32}
       />
       <Input
@@ -165,7 +166,7 @@ export const FilterProviders = ({
         onFocus={() => setAvailableBeforeOpen(true)}
         reference={availableBeforeRef}
         label={t("available_before")}
-        placeholder={"DD/MM/YYYY"}
+        placeholder={t("available_before")}
         style={styles.marginBottom32}
       />
       <DatePicker
@@ -182,6 +183,10 @@ export const FilterProviders = ({
           availableAfterRef.current.blur();
         }}
         mode="date"
+        locale={lang}
+        confirmText={t("confirm")}
+        cancelText={t("cancel")}
+        title={t("select_date")}
       />
       <DatePicker
         modal
@@ -197,6 +202,10 @@ export const FilterProviders = ({
           availableBeforeRef.current.blur();
         }}
         mode="date"
+        locale={lang}
+        confirmText={t("confirm")}
+        cancelText={t("cancel")}
+        title={t("select_date")}
       />
       <Dropdown
         options={

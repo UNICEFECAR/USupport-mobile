@@ -19,5 +19,8 @@
   "available_before": "Дейін қол жетімді",
   "available_after": "Кейін қол жетімді",
   "not_mentioned": "Айтпауды жөн көремін",
-  "no_languages_found": "Тілдер табылмады"
+  "no_languages_found": "Тілдер табылмады",
+  "confirm": "Растау",
+  "cancel": "Бас тарту",
+  "select_date": "Күнді таңдаңыз"
 }

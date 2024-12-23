@@ -12,6 +12,7 @@ import { Icon } from "../../icons";
 import { Error } from "../../errors/Error";
 import { Context } from "#services";
 import { useGetTheme } from "#hooks";
+import { useTranslation } from "react-i18next";
 
 const DROPDOWN_HEADING_HEIGHT = 48;
 
@@ -29,6 +30,29 @@ export const Dropdown = ({
 }) => {
   const { dropdownOptions, setDropdownOptions } = useContext(Context);
   const { colors, isDarkMode } = useGetTheme();
+  const { i18n } = useTranslation();
+  const lang = i18n.language;
+  console.log(lang, "lang");
+  console.log(placeholder);
+  let placeholderText = placeholder;
+  if (!placeholder || placeholder === "Select") {
+    switch (lang) {
+      case "en":
+        placeholderText = "Select";
+        break;
+      case "kk":
+        placeholderText = "Таңдау";
+        break;
+      case "ru":
+        placeholderText = "Выбрать";
+        break;
+      case "pl":
+        placeholderText = "Wybierz";
+        break;
+      default:
+        placeholderText = "Select";
+    }
+  }
 
   const handleClose = () => {
     setDropdownOptions((options) => {
@@ -108,7 +132,7 @@ export const Dropdown = ({
               },
             ]}
           >
-            {selected ? selectedLabel : placeholder}
+            {selected ? selectedLabel : placeholderText}
           </AppText>
           <Animated.View style={arrowIconStyles}>
             <Icon
