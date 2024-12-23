@@ -19,5 +19,8 @@
   "available_before": "Доступно раніше ",
   "available_after": "Доступно після",
   "not_mentioned": "Волію не казати",
-  "no_languages_found": "Мову не знайдено"
+  "no_languages_found": "Мову не знайдено",
+  "confirm": "Підтвердити",
+  "cancel": "Скасувати",
+  "select_date": "Виберіть дату"
 }

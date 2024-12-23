@@ -19,5 +19,8 @@
   "available_before": "Доступно до",
   "available_after": "Доступно после",
   "not_mentioned": "Предпочитаю не говорить",
-  "no_languages_found": "Языки не найдены"
+  "no_languages_found": "Языки не найдены",
+  "confirm": "Подтвердить",
+  "cancel": "Отмена",
+  "select_date": "Выберите дату"
 }

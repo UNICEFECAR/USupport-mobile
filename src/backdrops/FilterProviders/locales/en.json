@@ -19,5 +19,8 @@
   "available_before": "Available before",
   "available_after": "Available after",
   "not_mentioned": "Prefer not to say",
-  "no_languages_found": "No languages found"
+  "no_languages_found": "No languages found",
+  "confirm": "Confirm",
+  "cancel": "Cancel",
+  "select_date": "Select date"
 }
