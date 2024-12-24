@@ -32,8 +32,7 @@ export const Dropdown = ({
   const { colors, isDarkMode } = useGetTheme();
   const { i18n } = useTranslation();
   const lang = i18n.language;
-  console.log(lang, "lang");
-  console.log(placeholder);
+
   let placeholderText = placeholder;
   if (!placeholder || placeholder === "Select") {
     switch (lang) {
