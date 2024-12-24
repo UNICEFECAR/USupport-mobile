@@ -16,7 +16,13 @@ import {
 import { SelectProvider as SelectProviderBlock } from "#blocks";
 import { FilterProviders } from "#backdrops";
 import { useGetProvidersData, useError } from "#hooks";
-import { Context, clientSvc, localStorage, countrySvc } from "#services";
+import {
+  Context,
+  clientSvc,
+  localStorage,
+  countrySvc,
+  languageSvc,
+} from "#services";
 
 const fetchCountry = async () => {
   const { data } = await countrySvc.getActiveCountries();
@@ -45,6 +51,18 @@ export const SelectProvider = ({ navigation }) => {
   const [couponValue, setCouponValue] = useState("");
   const [couponError, setCouponError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const { data: languages } = useQuery(["languages"], async () => {
+    const res = await languageSvc.getActiveLanguages();
+    const data = res.data?.map((x) => {
+      return {
+        language_id: x.language_id,
+        value: x.alpha2,
+        name: x.name === "English" ? "English" : `${x.name} (${x.local_name})`,
+      };
+    });
+    return data.sort((a, b) => a.name.localeCompare(b.name)) || [];
+  });
 
   const initialFilters = useMemo(() => {
     return {
@@ -136,17 +154,6 @@ export const SelectProvider = ({ navigation }) => {
     setActiveCoupon(null);
   };
 
-  const providerLanguages = providersQuery.data?.pages
-    .flat()
-    .map((x) => x.languages)
-    .flat()
-    ?.reduce((acc, curr) => {
-      if (!acc.some((y) => y.language_id === curr.language_id)) {
-        acc.push(curr);
-      }
-      return acc;
-    }, []);
-
   return (
     <Screen>
       <Heading
@@ -206,7 +213,7 @@ export const SelectProvider = ({ navigation }) => {
         allFilters={allFilters}
         setAllFilters={setAllFilters}
         isToggleDisabled={isKzCountry}
-        languages={providerLanguages}
+        languages={languages || []}
         initialFilters={initialFilters}
       />
     </Screen>
