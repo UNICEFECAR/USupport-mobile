@@ -184,16 +184,16 @@ export function Navigation({
       token &&
       hasCheckedTmpUser
     ) {
-      registerForPushNotifications().then((token) => {
+      registerForPushNotifications().then((pushToken) => {
         setHasSavedPushToken(true);
         const tokensArray = clientData.pushNotificationTokens || [];
-        if (token && !tokensArray.includes(token)) {
-          tokensArray.push(token);
-          addPushNotificationTokenMutation.mutate(token);
+        if (pushToken && !tokensArray.includes(pushToken)) {
+          tokensArray.push(pushToken);
+          addPushNotificationTokenMutation.mutate(pushToken);
         }
       });
     }
-  }, [isTmpUser, token, clientData, hasCheckedTmpUser]);
+  }, [isTmpUser, token, clientData, hasCheckedTmpUser, hasSavedPushToken]);
 
   const fetchCountries = async () => {
     const localStorageCountry = await localStorage.getItem("country");
@@ -351,9 +351,14 @@ const askForPermissions = async () => {
 const registerForPushNotifications = async () => {
   let token;
 
-  const hasPermission = await askForPermissions();
-  if (hasPermission) {
-    token = await messaging().getToken();
+  try {
+    const hasPermission = await askForPermissions();
+    if (hasPermission) {
+      token = await messaging().getToken();
+    }
+    return token;
+  } catch (err) {
+    console.log("Error getting permissions", err);
+    return null;
   }
-  return token;
 };
