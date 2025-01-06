@@ -52,6 +52,14 @@ export const SelectProvider = ({ navigation }) => {
   const [couponError, setCouponError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const [showCoupon, setShowCoupon] = useState(null);
+
+  useEffect(() => {
+    localStorage.getItem("country").then((country) => {
+      setShowCoupon(country !== "KZ");
+    });
+  }, []);
+
   const { data: languages } = useQuery(["languages"], async () => {
     const res = await languageSvc.getActiveLanguages();
     const data = res.data?.map((x) => {
@@ -178,6 +186,7 @@ export const SelectProvider = ({ navigation }) => {
               activeCoupon={activeCoupon}
               removeCoupon={removeCoupon}
               openCouponModal={openCouponModal}
+              showCoupon={showCoupon}
               allFilters={allFilters}
               setAllFilters={setAllFilters}
               handleFilterClick={handleFilterClick}
@@ -229,6 +238,7 @@ const FiltersBlock = ({
   setAllFilters,
   handleFilterClick,
   t,
+  showCoupon,
   isToggleDisabled,
 }) => {
   const [data, setData] = useState({
@@ -250,14 +260,16 @@ const FiltersBlock = ({
   return (
     <View style={{ paddingBottom: 20 }}>
       <View style={styles.buttonContainer}>
-        <AppButton
-          label={
-            activeCoupon ? t("remove_coupon_label") : t("button_coupon_label")
-          }
-          size="sm"
-          color="green"
-          onPress={activeCoupon ? removeCoupon : openCouponModal}
-        />
+        {showCoupon && (
+          <AppButton
+            label={
+              activeCoupon ? t("remove_coupon_label") : t("button_coupon_label")
+            }
+            size="sm"
+            color="green"
+            onPress={activeCoupon ? removeCoupon : openCouponModal}
+          />
+        )}
         <ButtonWithIcon
           size="sm"
           color="purple"
