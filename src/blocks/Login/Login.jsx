@@ -1,12 +1,16 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   StyleSheet,
   KeyboardAvoidingView,
   ScrollView,
   Platform,
+  View,
+  TouchableOpacity,
 } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import * as Keychain from "react-native-keychain";
+import * as LocalAuthentication from "expo-local-authentication";
 
 import {
   Block,
@@ -15,6 +19,7 @@ import {
   InputPassword,
   Error,
   AppButton,
+  Icon,
 } from "#components";
 
 import { getCountryFromTimezone } from "#utils";
@@ -41,6 +46,31 @@ export const Login = ({ navigation }) => {
   });
   const [errors, setErrors] = useState({});
 
+  const [biometryType, setBiometryType] = useState(null);
+  const [hasCredentials, setHasCredentials] = useState(false);
+  const [savedCredentials, setSavedCredentials] = useState(null);
+
+  useEffect(() => {
+    const checkKeystore = async () => {
+      try {
+        const isHardwareAvailable =
+          await LocalAuthentication.hasHardwareAsync();
+        const biometryType = await Keychain.getSupportedBiometryType();
+        setBiometryType(biometryType || isHardwareAvailable);
+        const hasCredentials = await Keychain.hasInternetCredentials({
+          server: "https://usupport.online",
+        });
+        if (hasCredentials) {
+          setHasCredentials(true);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    checkKeystore();
+  }, []);
+
   const login = async () => {
     const usersCountry = getCountryFromTimezone();
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -56,7 +86,27 @@ export const Login = ({ navigation }) => {
   };
 
   const loginMutation = useMutation(login, {
-    onSuccess: (response) => {
+    onSuccess: async (response) => {
+      if (
+        !hasCredentials &&
+        (savedCredentials.username !== data.email ||
+          savedCredentials.password !== data.password)
+      ) {
+        await Keychain.setInternetCredentials(
+          "https://usupport.online",
+          data.email,
+          data.password,
+          {
+            accessControl:
+              Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET_OR_DEVICE_PASSCODE,
+            authenticationPrompt: {
+              title: t("prompt_2_title"),
+              cancel: t("cancel"),
+            },
+          }
+        ).then((res) => console.log("Result: ", res));
+      }
+
       const { user: userData, token: tokenData } = response.data;
       const { token, expiresIn, refreshToken } = tokenData;
 
@@ -88,6 +138,26 @@ export const Login = ({ navigation }) => {
       setErrors({ submit: errorMessage });
     },
   });
+
+  const getCredentials = async () => {
+    // const enrolled = await LocalAuthentication.isEnrolledAsync();
+    const credentials = await Keychain.getInternetCredentials(
+      "https://usupport.online",
+      {
+        accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_ANY,
+        authenticationPrompt: {
+          title: t("prompt_title"),
+          cancel: t("cancel"),
+        },
+      }
+    );
+    if (credentials) {
+      const { username, password } = credentials;
+      setSavedCredentials({ username, password });
+      setData({ email: username, password });
+      handleLogin();
+    }
+  };
 
   const handleChange = (field, value) => {
     const newData = { ...data };
@@ -128,6 +198,17 @@ export const Login = ({ navigation }) => {
           contentContainerStyle={styles.flexGrow}
           keyboardShouldPersistTaps="handled"
         >
+          {hasCredentials && !!biometryType ? (
+            <View style={{ width: "100%", height: 20, marginBottom: 30 }}>
+              <TouchableOpacity onPress={getCredentials}>
+                <Icon
+                  color="#20809e"
+                  style={{ alignSelf: "center" }}
+                  name="face-id"
+                />
+              </TouchableOpacity>
+            </View>
+          ) : null}
           <Input
             label={t("email_label")}
             onChange={(value) => handleChange("email", value)}

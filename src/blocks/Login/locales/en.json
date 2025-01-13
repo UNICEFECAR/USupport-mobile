@@ -7,5 +7,8 @@
   "forgot_password_label": "I forgot my password",
   "login_label": "Login",
   "paragraph": "Or login with:",
-  "register_button_label": "I don’t have an account"
+  "register_button_label": "I don’t have an account",
+  "prompt_title": "Authenticate for Quick login",
+  "propmpt_2_title": "Authenticate to save your credentials",
+  "cancel": "Cancel"
 }
