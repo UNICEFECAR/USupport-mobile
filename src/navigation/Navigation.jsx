@@ -319,12 +319,12 @@ const askForPermissions = async () => {
 
     if (Device.platformApiLevel >= 33) {
       const alreadyGranted = await PermissionsAndroid.check(
-        PermissionsAndroid.PERMISSIONS.POST_NOTIFICATION
+        PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS
       );
 
       if (!alreadyGranted) {
         const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.POST_NOTIFICATION
+          PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS
         );
 
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
