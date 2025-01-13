@@ -18,5 +18,7 @@
   "login_button_label": "I already have an account",
   "confirm_password_label": "Confirm password",
   "password_match_error": "The Password and Confirm Password fields do not match",
-  "age_terms_agreement_text": "I am over {{age}} years old"
+  "age_terms_agreement_text": "I am over {{age}} years old",
+  "prompt_title": "Save your credentials for quick login",
+  "cancel": "Cancel"
 }

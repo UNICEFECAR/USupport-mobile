@@ -11,6 +11,8 @@ import {
   ScrollView,
   Platform,
 } from "react-native";
+import * as Keychain from "react-native-keychain";
+
 import { useTranslation } from "react-i18next";
 import { useMutation } from "@tanstack/react-query";
 import { CodeVerification } from "#backdrops";
@@ -192,6 +194,23 @@ export const RegisterEmail = ({ navigation }) => {
     // If the mutation succeeds, get the data returned
     // from the server, and put it in the cache
     onSuccess: async (response) => {
+      await Keychain.setInternetCredentials(
+        "https://usupport.online",
+        userAccessToken,
+        data.password,
+        {
+          accessControl:
+            Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET_OR_DEVICE_PASSCODE,
+          authenticationPrompt: {
+            title: "Authenticate to save your credentials",
+            subtitle: "Save your credentials in keychain for quick login",
+            cancel: "Cancel",
+          },
+        }
+      )
+        .then((res) => console.log("Result: ", res))
+        .catch(console.log);
+
       setInitialRouteName("RegisterAboutYou");
       const { user: userData, token: tokenData } = response.data;
       const { token, expiresIn, refreshToken } = tokenData;

@@ -23,5 +23,7 @@
   "password_placeholder": "Құпия сөзіңізді енгізіңіз",
   "confirm_password_label": "Құпия сөзді растаңыз",
   "password_match_error": "Құпия сөз және Құпия сөзді растау өрістері сәйкес келмейді",
-  "age_terms_agreement_text": "Менің жасым 10-нен үлкен"
+  "age_terms_agreement_text": "Менің жасым 10-нен үлкен",
+  "prompt_title": "Жылдам кіру үшін құпиясөздеріңізді сақтаңыз",
+  "cancel": "Болдырмау"
 }

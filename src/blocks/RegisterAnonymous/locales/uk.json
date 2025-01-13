@@ -23,5 +23,7 @@
   "confirm_password_label": "Підтвердити пароль",
   "password_match_error": "Поля «Пароль» і «Підтвердити пароль» не збігаються",
   "password_placeholder": "Введіть пароль",
-  "age_terms_agreement_text": "Мені більше {{age}} років"
+  "age_terms_agreement_text": "Мені більше {{age}} років",
+  "prompt_title": "Збережіть свої дані для швидкого входу",
+  "cancel": "Скасувати"
 }
