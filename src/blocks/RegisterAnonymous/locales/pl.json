@@ -23,5 +23,7 @@
   "confirm_password_label": "Potwierdź hasło",
   "password_match_error": "Pola Hasło i Potwierdź hasło nie są zgodne",
   "password_placeholder": "Wprowadź swoje hasło",
-  "age_terms_agreement_text": "Mam ponad {{age}} lat"
+  "age_terms_agreement_text": "Mam ponad {{age}} lat",
+  "prompt_title": "Zapisz swoje dane uwierzytelniające, aby szybko się zalogować",
+  "cancel": "Anuluj"
 }

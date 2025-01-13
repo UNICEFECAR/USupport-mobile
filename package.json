@@ -61,6 +61,7 @@
     "react-native-gesture-handler": "~2.16.1",
     "react-native-gradients": "^2.0.1",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
+    "react-native-keychain": "^9.2.2",
     "react-native-markdown-display": "^7.0.0-alpha.2",
     "react-native-reanimated": "~3.10.1",
     "react-native-reanimated-carousel": "3.3.0",

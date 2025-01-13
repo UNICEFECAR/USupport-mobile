@@ -10,6 +10,7 @@ import {
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import * as Clipboard from "expo-clipboard";
+import * as Keychain from "react-native-keychain";
 
 import "fast-text-encoding";
 import Joi from "joi";
@@ -116,6 +117,22 @@ export const RegisterAnonymous = ({ navigation }) => {
 
   const registerMutation = useMutation(register, {
     onSuccess: async (response) => {
+      await Keychain.setInternetCredentials(
+        "https://usupport.online",
+        userAccessToken,
+        data.password,
+        {
+          accessControl:
+            Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET_OR_DEVICE_PASSCODE,
+          authenticationPrompt: {
+            title: t("prompt_title"),
+            cancel: t("cancel"),
+          },
+        }
+      )
+        .then((res) => console.log("Result: ", res))
+        .catch(console.log);
+
       setIsAnonymousRegister(true);
       setInitialRouteName("RegisterAboutYou");
       const { token: tokenData } = response.data;

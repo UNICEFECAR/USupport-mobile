@@ -18,5 +18,7 @@
   "login_button_label": "Вже маю обліковий запис",
   "confirm_password_label": "Підтвердіть пароль",
   "password_match_error": "Поля «Пароль» і «Підтвердити пароль» не збігаються",
-  "age_terms_agreement_text": "Мені більше {{age}} років"
+  "age_terms_agreement_text": "Мені більше {{age}} років",
+  "prompt_title": "Збережіть свої дані для швидкого входу",
+  "cancel": "Скасувати"
 }
