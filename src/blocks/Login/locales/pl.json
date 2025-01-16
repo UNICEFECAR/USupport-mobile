@@ -10,5 +10,6 @@
   "register_button_label": "Nie mam konta",
   "prompt_title": "Uwierzytelnij się, aby szybko się zalogować",
   "propmpt_2_title": "Uwierzytelnij się, aby zapisać swoje dane uwierzytelniające",
-  "cancel": "Anuluj"
+  "cancel": "Anuluj",
+  "save_credentials": "Zapisz dane uwierzytelniające"
 }

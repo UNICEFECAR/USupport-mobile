@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import {
   StyleSheet,
   KeyboardAvoidingView,
@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { CheckBox, AppText } from "#components";
+
 import * as Keychain from "react-native-keychain";
 import * as LocalAuthentication from "expo-local-authentication";
 
@@ -48,7 +50,9 @@ export const Login = ({ navigation }) => {
 
   const [biometryType, setBiometryType] = useState(null);
   const [hasCredentials, setHasCredentials] = useState(false);
-  const [savedCredentials, setSavedCredentials] = useState(null);
+  const [shouldSaveCredentials, setShouldSaveCredentials] = useState(false);
+
+  const savedCredentials = useRef({});
 
   useEffect(() => {
     const checkKeystore = async () => {
@@ -88,23 +92,37 @@ export const Login = ({ navigation }) => {
   const loginMutation = useMutation(login, {
     onSuccess: async (response) => {
       if (
-        !hasCredentials &&
-        (savedCredentials.username !== data.email ||
-          savedCredentials.password !== data.password)
+        shouldSaveCredentials &&
+        (!hasCredentials ||
+          savedCredentials.current?.username !== data.email ||
+          savedCredentials.current?.password !== data.password)
       ) {
-        await Keychain.setInternetCredentials(
-          "https://usupport.online",
-          data.email,
-          data.password,
-          {
-            accessControl:
-              Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET_OR_DEVICE_PASSCODE,
-            authenticationPrompt: {
-              title: t("prompt_2_title"),
-              cancel: t("cancel"),
-            },
-          }
-        ).then((res) => console.log("Result: ", res));
+        let iosSuccess = false;
+
+        // For some reason Keychain.setInternetCredentials doesn't trigger the biometric prompt
+        // on iOS, so we need to do it manually
+        if (Platform.OS === "ios") {
+          await LocalAuthentication.authenticateAsync({
+            promptMessage: t("prompt_2_title"),
+          }).then((res) => {
+            iosSuccess = res.success;
+          });
+        }
+        if (Platform.OS === "android" || iosSuccess) {
+          await Keychain.setInternetCredentials(
+            "https://usupport.online",
+            data.email,
+            data.password,
+            {
+              accessControl:
+                Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET_OR_DEVICE_PASSCODE,
+              authenticationPrompt: {
+                title: t("prompt_2_title"),
+                cancel: t("cancel"),
+              },
+            }
+          ).then((res) => console.log("Result: ", res));
+        }
       }
 
       const { user: userData, token: tokenData } = response.data;
@@ -153,7 +171,7 @@ export const Login = ({ navigation }) => {
     );
     if (credentials) {
       const { username, password } = credentials;
-      setSavedCredentials({ username, password });
+      savedCredentials.current = { username, password };
       setData({ email: username, password });
       handleLogin();
     }
@@ -225,6 +243,20 @@ export const Login = ({ navigation }) => {
             style={styles.inputPassword}
             autoCapitalize="none"
           />
+          <View style={styles.checkboxContainer}>
+            <CheckBox
+              isChecked={shouldSaveCredentials}
+              setIsChecked={() =>
+                setShouldSaveCredentials(!shouldSaveCredentials)
+              }
+            />
+            <AppText
+              onPress={() => setShouldSaveCredentials(!shouldSaveCredentials)}
+              namedStyle="text"
+            >
+              {t("save_credentials")}
+            </AppText>
+          </View>
           <AppButton
             type="ghost"
             color="purple"
@@ -267,5 +299,14 @@ const styles = StyleSheet.create({
   },
   flexGrow: {
     flexGrow: 1,
+  },
+  checkboxContainer: {
+    display: "flex",
+    justifyContent: "flex-start",
+    flexDirection: "row",
+    alignItems: "center",
+    marginLeft: 18,
+    marginBottom: 10,
+    marginTop: 4,
   },
 });
