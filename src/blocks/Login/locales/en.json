@@ -10,5 +10,6 @@
   "register_button_label": "I don’t have an account",
   "prompt_title": "Authenticate for Quick login",
   "propmpt_2_title": "Authenticate to save your credentials",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "save_credentials": "Save credentials"
 }
