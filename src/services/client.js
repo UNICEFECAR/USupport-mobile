@@ -144,14 +144,16 @@ async function addQuestion(question) {
   return response;
 }
 
-async function getClientQuestions() {
-  const response = await http.get(`${API_ENDPOINT}/my-qa/client-questions`);
+async function getClientQuestions(languageId) {
+  const response = await http.get(
+    `${API_ENDPOINT}/my-qa/client-questions?languageId=${languageId}`
+  );
   return response;
 }
 
-async function getQuestions(orderBy) {
+async function getQuestions(orderBy, languageId) {
   const response = await http.get(
-    `${API_ENDPOINT}/my-qa/questions?orderBy=${orderBy}`
+    `${API_ENDPOINT}/my-qa/questions?orderBy=${orderBy}&languageId=${languageId}`
   );
   return response;
 }

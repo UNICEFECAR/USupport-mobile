@@ -54,6 +54,8 @@ export const MyQA = ({ navigation }) => {
   ]);
   const [providerId, setProviderId] = useState(null);
   const [filterTag, setFilterTag] = useState();
+  const [selectedLanguage, setSelectedLanguage] = useState();
+  const [shouldFetchQuestions, setShouldFetchQuestions] = useState(false);
 
   const clientData = useGetClientData()[1];
 
@@ -120,12 +122,18 @@ export const MyQA = ({ navigation }) => {
 
   const isUserQuestionsEnabled =
     tabs.filter((tab) => tab.value === "your_questions" && tab.isSelected)
-      .length > 0;
+      .length > 0 &&
+    shouldFetchQuestions &&
+    !!selectedLanguage;
 
-  const userQuestionsQuery = useGetClientQuestions(isUserQuestionsEnabled);
+  const userQuestionsQuery = useGetClientQuestions(
+    isUserQuestionsEnabled,
+    selectedLanguage
+  );
   const allQuestionsQuery = useGetQuestions(
     tabs.find((tab) => tab.isSelected).value,
-    !isUserQuestionsEnabled
+    !isUserQuestionsEnabled,
+    selectedLanguage
   );
 
   useEffect(() => {
@@ -210,6 +218,9 @@ export const MyQA = ({ navigation }) => {
           userQuestionsLoading={userQuestionsQuery.isLoading}
           allQuestionsLoading={allQuestionsQuery.isLoading}
           handleProviderClick={handleProviderClick}
+          selectedLanguage={selectedLanguage}
+          setSelectedLanguage={setSelectedLanguage}
+          setShouldFetchQuestions={setShouldFetchQuestions}
         />
       </ScrollView>
       {isHowItWorksOpen ? (

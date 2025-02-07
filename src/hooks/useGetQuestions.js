@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { clientSvc } from "#services";
 
-export function useGetQuestions(orderBy = "all", enabled) {
+export function useGetQuestions(orderBy = "all", enabled, languageId) {
   /**
    *
    * @returns
    */
   const getQuestions = async () => {
-    const { data } = await clientSvc.getQuestions(orderBy);
+    const { data } = await clientSvc.getQuestions(orderBy, languageId);
 
     return data.map((question) => {
       return {
@@ -33,9 +33,13 @@ export function useGetQuestions(orderBy = "all", enabled) {
     });
   };
 
-  const getQuestionsQuery = useQuery(["getQuestions", orderBy], getQuestions, {
-    enabled,
-  });
+  const getQuestionsQuery = useQuery(
+    ["getQuestions", orderBy, languageId],
+    getQuestions,
+    {
+      enabled: enabled && !!languageId,
+    }
+  );
 
   return getQuestionsQuery;
 }
