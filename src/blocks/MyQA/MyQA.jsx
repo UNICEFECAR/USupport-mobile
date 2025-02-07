@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useMemo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Platform, StyleSheet, TouchableOpacity, View } from "react-native";
 import {
@@ -9,7 +9,10 @@ import {
   Answer,
   AppText,
   Loading,
+  Dropdown,
 } from "#components";
+import { useGetLanguages } from "#hooks";
+import { localStorage } from "#services";
 import appStyles from "../../styles/appStyles";
 
 /**
@@ -31,11 +34,48 @@ export const MyQA = ({
   userQuestionsLoading,
   allQuestionsLoading,
   handleProviderClick,
+  selectedLanguage,
+  setSelectedLanguage,
+  setShouldFetchQuestions,
 }) => {
   const { t, i18n } = useTranslation("my-qa");
 
   const [searchValue, setSearchValue] = useState("");
   const selectedTab = tabs.find((x) => x.isSelected)?.value;
+
+  const { data: languages } = useGetLanguages();
+
+  useEffect(() => {
+    async function checkLocalLang() {
+      const localLang = await localStorage.getItem("language");
+      const language = languages.find((x) => x.alpha2 === localLang);
+      if (language) {
+        setSelectedLanguage(language.language_id);
+      }
+    }
+
+    if (languages?.length) {
+      checkLocalLang();
+      setShouldFetchQuestions(true);
+    }
+  }, [languages]);
+
+  const languageOptions = useMemo(() => {
+    const showAllOption = {
+      value: "all",
+      label: t("all"),
+    };
+
+    if (!languages) return [showAllOption];
+
+    return [
+      showAllOption,
+      ...languages.map((x) => ({
+        value: x.language_id,
+        label: x.local_name,
+      })),
+    ];
+  }, [languages, t]);
 
   const handleTabChange = (index) => {
     const tabsCopy = [...tabs];
@@ -145,6 +185,16 @@ export const MyQA = ({
             <Icon name="filter" color="#eaeaea" />
           </TouchableOpacity>
         </View>
+        <Dropdown
+          options={languageOptions}
+          selected={selectedLanguage}
+          setSelected={(selectedOption) => setSelectedLanguage(selectedOption)}
+          placeholder={t("language_placeholder")}
+          // style={[styles.dropdown, styles.marginBottom32]}
+          dropdownId="filterLanguage"
+          emptyMessage={t("no_languages_found")}
+          style={{ marginTop: 12, width: "100%" }}
+        />
       </Block>
       <Tabs
         options={tabs.map((tab) => {
@@ -167,7 +217,7 @@ const styles = StyleSheet.create({
   answer: { marginTop: 24 },
   answersContainer: { paddingBottom: 90, width: "100%" },
   block: {
-    alignItems: "center",
+    alignItems: "flex-start",
     flexDirection: "column",
     paddingBottom: 20,
   },

@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { clientSvc } from "#services";
 
-export function useGetClientQuestions(enabled) {
+export function useGetClientQuestions(enabled, languageId) {
   /**
    *
    * @returns
    */
   const getClientQuestions = async () => {
-    const { data } = await clientSvc.getClientQuestions();
+    const { data } = await clientSvc.getClientQuestions(languageId);
     return data.map((question) => {
       const questionProviderData = question.providerData || {};
 
@@ -31,9 +31,9 @@ export function useGetClientQuestions(enabled) {
   };
 
   const getClientQuestionsQuery = useQuery(
-    ["getClientQuestions"],
+    ["getClientQuestions", languageId],
     getClientQuestions,
-    { enabled: !!enabled, onError: console.error }
+    { enabled: !!enabled && !!languageId, onError: console.error }
   );
 
   return getClientQuestionsQuery;
