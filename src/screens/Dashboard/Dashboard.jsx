@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef, useContext } from "react";
+import React, { useState, useMemo, useRef, useContext, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { StyleSheet, ScrollView, View, RefreshControl } from "react-native";
 import { useTranslation } from "react-i18next";
@@ -55,8 +55,12 @@ export const Dashboard = ({ navigation }) => {
   const { t } = useTranslation("dashboard");
   const { isDarkMode } = useGetTheme();
 
-  const { isTmpUser, handleRegistrationModalOpen, currencySymbol } =
-    useContext(Context);
+  const {
+    isTmpUser,
+    handleRegistrationModalOpen,
+    currencySymbol,
+    setIsAnonymousRegister,
+  } = useContext(Context);
   const getClientDataEnabled = isTmpUser === false ? true : false;
   const clientDataQuery = useGetClientData(getClientDataEnabled)[0];
   const clientData = clientDataQuery.data;
@@ -66,8 +70,20 @@ export const Dashboard = ({ navigation }) => {
       : clientData.nickname
     : "";
   const queryClient = useQueryClient();
-
   const consultationPrice = useRef();
+
+  useEffect(() => {
+    if (clientData) {
+      if (
+        !clientData.sex ||
+        !clientData.urbanRural ||
+        !clientData.yearOfBirth
+      ) {
+        setIsAnonymousRegister(!!clientData.accessToken);
+        navigation.navigate("RegisterAboutYou");
+      }
+    }
+  }, [clientData]);
 
   // Get the consultations data only if the user is NOT temporary
   const consultationsQuery = useGetAllConsultations(
