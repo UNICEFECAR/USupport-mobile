@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Image, Linking } from "react-native";
+import { View, StyleSheet, Image, Linking, Platform } from "react-native";
 
 import { AppText } from "../../texts/";
 import { AppButton } from "../../buttons";
