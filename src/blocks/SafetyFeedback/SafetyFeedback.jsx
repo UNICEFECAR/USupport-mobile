@@ -132,8 +132,14 @@ export const SafetyFeedback = ({ navigation, consultationId, answers }) => {
   };
 
   const onCreateSuccess = () => navigation.navigate("TabNavigation");
+  const onCreateError = (error) => {
+    showToast({
+      message: error,
+      type: "error",
+    });
+  };
   const createConsultationSecurityCheckMutation =
-    useCreateConsultationSecurityCheck(onCreateSuccess);
+    useCreateConsultationSecurityCheck(onCreateSuccess, onCreateError);
 
   const updateconsultationSecurityCheckMutation =
     useUpdateSecurityCheckAnswersByConsultationId(onCreateSuccess);
@@ -222,6 +228,10 @@ export const SafetyFeedback = ({ navigation, consultationId, answers }) => {
           size="lg"
           disabled={!canSubmit}
           onPress={handleSubmit}
+          loading={
+            updateconsultationSecurityCheckMutation.Loading ||
+            createConsultationSecurityCheckMutation.isLoading
+          }
           style={[styles.marginTop40, styles.button]}
         />
         {hasAnsweredBefore && (
