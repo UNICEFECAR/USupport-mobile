@@ -28,5 +28,7 @@
   "show_options": "Pokaż opcje",
   "search": "Wyszukiwanie",
   "sponsored_by": "Ta sesja jest sponsorowana przez: <0>{{sponsorName}}<0>",
-  "consultation_end_reminder": "Konsultacja zakończy się w ciągu {{minutes}} minut"
+  "consultation_end_reminder": "Konsultacja zakończy się w ciągu {{minutes}} minut",
+  "consultation_in_progress": "Konsultacja w toku",
+  "microphone_active": "Twój mikrofon i odtwarzanie multimediów są aktywne."
 }

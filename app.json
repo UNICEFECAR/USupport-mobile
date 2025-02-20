@@ -20,6 +20,7 @@
       }
     },
     "plugins": [
+      "expo-local-authentication",
       "expo-localization",
       "expo-font",
       "expo-secure-store"

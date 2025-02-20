@@ -6,7 +6,6 @@ import React, {
   useMemo,
   useContext,
 } from "react";
-
 import {
   FlatList,
   KeyboardAvoidingView,
@@ -14,12 +13,13 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
+  PermissionsAndroid,
 } from "react-native";
-
 import { useTranslation } from "react-i18next";
 import { io } from "socket.io-client";
-import { activateKeepAwake, deactivateKeepAwake } from "expo-keep-awake";
-import VIForegroundService from "@voximplant/react-native-foreground-service";
+import { activateKeepAwakeAsync, deactivateKeepAwake } from "expo-keep-awake";
+import notifee, { AndroidImportance } from "@notifee/react-native";
+import Config from "react-native-config";
 
 import {
   AppButton,
@@ -44,12 +44,12 @@ import {
 } from "#hooks";
 
 import { VideoRoom } from "#blocks";
-import { SafetyFeedback } from "../SafetyFeedback";
 import { localStorage, Context } from "#services";
 import { showToast, ONE_HOUR, getDateView, systemMessageTypes } from "#utils";
 import { appStyles } from "#styles";
 
-import Config from "react-native-config";
+import { SafetyFeedback } from "../SafetyFeedback";
+
 const { SOCKET_IO_URL } = Config;
 
 /**
@@ -71,48 +71,53 @@ export const Consultation = ({ navigation, route }) => {
   const joinWithMicrophone = location?.microphoneOn;
   const token = location?.token;
 
-  const setupNotificationChannel = async () => {
-    const channelConfig = {
-      id: "channelId",
-      name: "Channel name",
-      description: "Channel description",
-      enableVibration: false,
-    };
-    await VIForegroundService.getInstance().createNotificationChannel(
-      channelConfig
-    );
-  };
-
   const startForegroundService = async () => {
-    const notificationConfig = {
-      channelId: "channelId",
-      id: 3456,
-      title: "Title",
-      text: "Some text",
-      icon: "ic_icon",
-      button: "Some text",
-    };
-    try {
-      await VIForegroundService.getInstance().startService(notificationConfig);
-    } catch (e) {
-      console.error(e);
-    }
+    await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.RECORD_AUDIO
+    );
+    await notifee.requestPermission();
+
+    const channelId = await notifee.createChannel({
+      id: "foreground_service",
+      name: "Foreground Service",
+      importance: AndroidImportance.HIGH,
+      sound: "default",
+    });
+
+    await notifee.displayNotification({
+      title: t("consultation_in_progress"),
+      body: t("microphone_active"),
+      android: {
+        channelId,
+        asForegroundService: true,
+        ongoing: true, // Prevents user from dismissing it
+        pressAction: {
+          id: "default",
+        },
+      },
+    });
+
+    notifee.registerForegroundService(() => {
+      return new Promise(() => {
+        console.log("Registered foreground service");
+      });
+    });
   };
 
   useEffect(() => {
     setIsInConsultation(true);
-    activateKeepAwake();
+    activateKeepAwakeAsync();
     if (Platform.OS === "android") {
-      setupNotificationChannel().then(() => {
+      setTimeout(() => {
         startForegroundService();
-      });
+      }, 2000);
     }
 
-    return () => {
+    return async () => {
       setIsInConsultation(false);
       deactivateKeepAwake();
       if (Platform.OS === "android") {
-        VIForegroundService.getInstance().stopService();
+        await notifee.stopForegroundService();
       }
     };
   }, []);
@@ -398,6 +403,9 @@ export const Consultation = ({ navigation, route }) => {
       content: "client_left",
       type: "system",
     };
+
+    await notifee.cancelAllNotifications();
+    await notifee.stopForegroundService();
 
     sendMessageMutation.mutate({
       chatId: consultation.chatId,
