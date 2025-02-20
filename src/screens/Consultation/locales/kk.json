@@ -29,5 +29,7 @@
   "show_options": "Параметрлерді көрсету",
   "search": "Іздеу",
   "sponsored_by": "Бұл сессияның демеушісі: <0>{{sponsorName}}<0>",
-  "consultation_end_reminder": "Сіздің консультацияңыз {{minutes}} минуттан кейін аяқталады"
+  "consultation_end_reminder": "Сіздің консультацияңыз {{minutes}} минуттан кейін аяқталады",
+  "consultation_in_progress": "Консультация жүріп жатыр",
+  "microphone_active": "Микрофоныңыз және медиа ойнату белсенді."
 }

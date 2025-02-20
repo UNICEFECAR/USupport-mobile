@@ -28,5 +28,7 @@
   "show_options": "Показати варіанти",
   "search": "Пошук",
   "sponsored_by": "Ця сесія проходить за підтримки: <0>{{sponsorName}}<0>.",
-  "consultation_end_reminder": "Консультація завершиться за {{minutes}} хвилин"
+  "consultation_end_reminder": "Консультація завершиться за {{minutes}} хвилин",
+  "consultation_in_progress": "Консультація триває",
+  "microphone_active": "Ваш мікрофон і відтворення медіа активні"
 }

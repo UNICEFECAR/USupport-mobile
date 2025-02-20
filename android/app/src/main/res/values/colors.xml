@@ -4,6 +4,11 @@
   standalone="yes"
 ?>
 <resources>
+  <item name="blue" type="color">#00C4D1</item>
+  <integer-array name="androidcolors">
+    <item>@color/blue</item>
+  </integer-array>
+
   <!-- Below line is handled by '@expo/configure-splash-screen' command and it's discouraged to modify it manually -->
   <color name="splashscreen_background">#54CFD9</color>
 </resources>

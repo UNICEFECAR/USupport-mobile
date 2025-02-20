@@ -28,5 +28,7 @@
   "show_options": "Show options",
   "search": "Search",
   "sponsored_by": "This session is sponsored by: <0>{{sponsorName}}<0>",
-  "consultation_end_reminder": "Your consultation will end in {{minutes}} minutes"
+  "consultation_end_reminder": "Your consultation will end in {{minutes}} minutes",
+  "consultation_in_progress": "Consultation in progress",
+  "microphone_active": "Your microphone and media playback are active."
 }
