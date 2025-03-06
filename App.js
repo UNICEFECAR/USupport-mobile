@@ -1,3 +1,4 @@
+globalThis.RNFB_SILENCE_MODULAR_DEPRECATION_WARNINGS = true;
 import codePush from "react-native-code-push";
 
 import React, { useCallback, useEffect, useState } from "react";
@@ -8,6 +9,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import FlashMessage from "react-native-flash-message";
 import { StripeProvider } from "@stripe/stripe-react-native";
 import * as Notifications from "expo-notifications";
+import "./firebase.js";
 
 import Config from "react-native-config";
 

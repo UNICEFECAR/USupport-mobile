@@ -20,7 +20,10 @@ abstract_target 'USupportCommonPods' do
 
   pod 'Firebase', :modular_headers => true
   pod 'FirebaseCore', :modular_headers => true
-  # pod 'FirebaseCoreInternal', :modular_headers => true
+  pod 'FirebaseInstallations', :modular_headers => true
+  pod 'GoogleDataTransport', :modular_headers => true
+  pod 'nanopb', :modular_headers => true
+  pod 'FirebaseCoreExtension', :modular_headers => true
   pod 'GoogleUtilities', :modular_headers => true
 
   use_frameworks! :linkage => podfile_properties['ios.useFrameworks'].to_sym if podfile_properties['ios.useFrameworks']

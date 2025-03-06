@@ -10,7 +10,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "# Type a script or drag a script file from your workspace to insert its path.&#10;echo &quot;.env.production&quot; &gt; /tmp/envfile&#10;cp &quot;${PROJECT_DIR}/../.env.production&quot; &quot;${PROJECT_DIR}/../.env&quot;&#10;">
+               scriptText = "# Type a script or drag a script file from your workspace to insert its path.&#10;echo &quot;.env.production&quot; &gt; /tmp/envfile&#10;cp &quot;${PROJECT_DIR}/../.env.production&quot; &quot;${PROJECT_DIR}/../.env&quot;&#10;#SOUNDS_DIR=&quot;${PROJECT_DIR}/../node_modules/@jitsi/react-native-sdk/sounds&quot;&#10;#cp $SOUNDS_DIR/* ${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/&#10;">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"
@@ -95,6 +95,12 @@
             ReferencedContainer = "container:USupport.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "-FIRDebugEnabled"
+            isEnabled = "YES">
+         </CommandLineArgument>
+      </CommandLineArguments>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
