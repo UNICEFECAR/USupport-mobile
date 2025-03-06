@@ -145,9 +145,26 @@ export const SafetyFeedback = ({ navigation, consultationId, answers }) => {
     useUpdateSecurityCheckAnswersByConsultationId(onCreateSuccess);
 
   const handleSubmit = () => {
-    const payload = { consultationId };
+    let payload = { consultationId };
     questions.forEach((question) => {
-      payload[question.field] = question.value;
+      if (questions[0].value === false) {
+        payload = {
+          consultationId,
+          providerAttend: false,
+          contactsDisclosure: false,
+          suggestOutsideMeeting: false,
+          identityCoercion: false,
+          unsafeFeeling: false,
+          feeling: null,
+          addressedNeeds: 0,
+          improveWellbeing: 0,
+          feelingsNow: 0,
+          additionalComment: "",
+          moreDetails: "",
+        };
+      } else {
+        payload[question.field] = question.value;
+      }
     });
     payload.moreDetails = payload.unsafeFeeling ? moreDetails : "";
 
@@ -159,6 +176,7 @@ export const SafetyFeedback = ({ navigation, consultationId, answers }) => {
   };
 
   const canSubmit = useMemo(() => {
+    if (!questions[0].value) return true;
     const questionsExcludingLast = questions.slice(0, -1);
 
     return (
@@ -178,8 +196,9 @@ export const SafetyFeedback = ({ navigation, consultationId, answers }) => {
       </View>
 
       <View style={styles.questionsContainer}>
-        {questions.map((question, index) =>
-          question.type === "textarea" ? (
+        {questions.map((question, index) => {
+          if (!questions[0].value && question.id !== 0) return null;
+          return question.type === "textarea" ? (
             <QuestionTextArea
               question={question}
               t={t}
@@ -221,8 +240,8 @@ export const SafetyFeedback = ({ navigation, consultationId, answers }) => {
                 />
               )}
             </>
-          )
-        )}
+          );
+        })}
         <AppButton
           label={t("button")}
           size="lg"
