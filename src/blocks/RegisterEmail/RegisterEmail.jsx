@@ -14,7 +14,7 @@ import {
 import * as Keychain from "react-native-keychain";
 
 import { useTranslation } from "react-i18next";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CodeVerification } from "#backdrops";
 
 import "fast-text-encoding";
@@ -37,7 +37,7 @@ import { useError } from "#hooks";
 export const RegisterEmail = ({ navigation }) => {
   const { setInitialRouteName, setToken } = useContext(Context);
   const { t } = useTranslation("register-email");
-  const navigate = () => {};
+  const queryClient = useQueryClient();
 
   const schema = Joi.object({
     password: Joi.string()
@@ -84,7 +84,7 @@ export const RegisterEmail = ({ navigation }) => {
   const requestEmailOtp = useCallback(async () => {
     const countryID = localStorage.getItem("country_id");
     if (!countryID) {
-      navigate("/");
+      navigation.navigate("/");
       return;
     }
     if (seconds === 60 || !shouldShowCodeVerification) {
@@ -196,7 +196,7 @@ export const RegisterEmail = ({ navigation }) => {
     onSuccess: async (response) => {
       await Keychain.setInternetCredentials(
         "https://usupport.online",
-        userAccessToken,
+        data.email,
         data.password,
         {
           accessControl:

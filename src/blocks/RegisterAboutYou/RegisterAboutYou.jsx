@@ -169,6 +169,11 @@ export const RegisterAboutYou = ({ navigation }) => {
   const handleContinue = async () => {
     if ((await validate(data, schema, setErrors)) === null) {
       const dataToSend = getDataToSend();
+      const newClientData = {
+        ...clientData,
+        ...data,
+      };
+      queryClient.setQueryData(["client-data"], newClientData);
       updateClientDetailsMutation.mutate({
         ...dataToSend,
         email: clientData?.email,
