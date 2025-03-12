@@ -335,7 +335,7 @@ export const RegisterEmail = ({ navigation }) => {
               }
               textOne={t("age_terms_agreement_text", { age: minAge })}
             />
-            <Error message={errors.submit || ""} />
+            <Error style={styles.error} message={errors.submit || ""} />
             <AppButton
               size="lg"
               label={t("register_button")}
@@ -382,4 +382,5 @@ const styles = StyleSheet.create({
   flexGrow: {
     flexGrow: 1,
   },
+  error: { marginTop: 12, marginLeft: "auto", marginRight: "auto" },
 });
