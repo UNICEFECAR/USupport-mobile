@@ -768,7 +768,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.unicef.ecar.usupport;
 				PRODUCT_NAME = USupport;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = uSupport_Production;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = uSupport_Production_25/26;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
