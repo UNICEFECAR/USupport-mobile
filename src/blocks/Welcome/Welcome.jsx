@@ -80,7 +80,8 @@ export function Welcome({ navigation }) {
     }
   );
 
-  const handleSelectCountry = (option) => {
+  const handleSelectCountry = async (option) => {
+    await localStorage.setItem("country", option);
     setSelectedCountry(option);
   };
 
