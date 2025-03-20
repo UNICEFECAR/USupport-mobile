@@ -17,13 +17,6 @@ import {
 } from "#services";
 const { AMAZON_S3_BUCKET } = Config;
 
-const fetchCountry = async () => {
-  const { data } = await countrySvc.getActiveCountries();
-  const currentCountryId = await localStorage.getItem("country_id");
-  const currentCountry = data.find((x) => x.country_id === currentCountryId);
-  return currentCountry?.alpha2 === "KZ" ? true : false;
-};
-
 /**
  * UserProfile
  *
@@ -37,6 +30,7 @@ export const UserProfile = ({ navigation }) => {
   const { theme, setTheme } = useContext(Context);
 
   const [version, setVersion] = React.useState("");
+  const [showPaymentHistory, setShowPaymentHistory] = useState(false);
 
   useEffect(() => {
     const getAppVersion = async () => {
@@ -44,10 +38,14 @@ export const UserProfile = ({ navigation }) => {
       setVersion(appVersion);
     };
 
-    getAppVersion();
-  }, []);
+    const checkCountry = async () => {
+      const country = await localStorage.getItem("country");
+      setShowPaymentHistory(country !== "KZ" && country !== "PL");
+    };
 
-  const { data: isKzCountry } = useQuery(["is-kz-country"], fetchCountry);
+    getAppVersion();
+    checkCountry();
+  }, []);
 
   const { isTmpUser, handleRegistrationModalOpen } = useContext(Context);
   const [languagesData, setLanguagesData] = useState({
@@ -230,7 +228,7 @@ export const UserProfile = ({ navigation }) => {
             <AppText style={(styles.groupHeading, { color: colors.text })}>
               {t("other")}
             </AppText>
-            {!isKzCountry && !isTmpUser ? (
+            {showPaymentHistory && !isTmpUser ? (
               <ButtonSelector
                 label={t("payments_history_button_label")}
                 iconName="payment-history"
