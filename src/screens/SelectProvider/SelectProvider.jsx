@@ -53,10 +53,12 @@ export const SelectProvider = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [showCoupon, setShowCoupon] = useState(null);
+  const [showPrices, setShowPrices] = useState(true);
 
   useEffect(() => {
     localStorage.getItem("country").then((country) => {
       setShowCoupon(country !== "KZ");
+      setShowPrices(country !== "KZ" && country !== "PL");
     });
   }, []);
 
@@ -186,10 +188,11 @@ export const SelectProvider = ({ navigation }) => {
               activeCoupon={activeCoupon}
               removeCoupon={removeCoupon}
               openCouponModal={openCouponModal}
-              showCoupon={showCoupon}
               allFilters={allFilters}
               setAllFilters={setAllFilters}
               handleFilterClick={handleFilterClick}
+              showCoupon={showCoupon}
+              showPrices={showPrices}
               isToggleDisabled={isKzCountry}
             />
           </>
@@ -221,7 +224,7 @@ export const SelectProvider = ({ navigation }) => {
         navigation={navigation}
         allFilters={allFilters}
         setAllFilters={setAllFilters}
-        isToggleDisabled={isKzCountry}
+        isToggleDisabled={!showPrices}
         languages={languages || []}
         initialFilters={initialFilters}
       />
@@ -239,6 +242,7 @@ const FiltersBlock = ({
   handleFilterClick,
   t,
   showCoupon,
+  showPrices,
   isToggleDisabled,
 }) => {
   const [data, setData] = useState({
@@ -291,7 +295,7 @@ const FiltersBlock = ({
           labelStyle={{ marginBottom: 12 }}
           disabled={isToggleDisabled}
         /> */}
-        {!allFilters.onlyFreeConsultation && (
+        {!allFilters.onlyFreeConsultation && showPrices && (
           <Input
             type="number"
             label={t("max_price")}
