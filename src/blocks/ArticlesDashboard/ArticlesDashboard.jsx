@@ -3,7 +3,14 @@ import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { StyleSheet, View, TouchableOpacity, Button } from "react-native";
 
-import { Block, AppText, Tabs, Loading, CardMedia } from "#components";
+import {
+  Block,
+  AppText,
+  Tabs,
+  Loading,
+  CardMedia,
+  TabsUnderlined,
+} from "#components";
 
 import { appStyles } from "#styles";
 
@@ -38,6 +45,46 @@ export const ArticlesDashboard = ({
       setUsersLanguage(i18n.language);
     }
   }, [i18n.language]);
+
+  //--------------------- Age Groups ----------------------//
+  const [ageGroups, setAgeGroups] = useState();
+  const [selectedAgeGroup, setSelectedAgeGroup] = useState();
+
+  const getAgeGroups = async () => {
+    try {
+      const res = await cmsSvc.getAgeGroups(usersLanguage);
+      const ageGroupsData = res.data.map((age, index) => ({
+        label: age.attributes.name,
+        id: age.id,
+        isSelected: index === 0 ? true : false,
+      }));
+      setSelectedAgeGroup(ageGroupsData[0]);
+      return ageGroupsData;
+    } catch {}
+  };
+
+  const ageGroupsQuery = useQuery(["ageGroups", usersLanguage], getAgeGroups, {
+    refetchOnWindowFocus: false,
+    refetchOnMount: true,
+    onSuccess: (data) => {
+      setAgeGroups([...data]);
+    },
+  });
+
+  const handleAgeGroupOnPress = (index) => {
+    const ageGroupsCopy = [...ageGroups];
+
+    for (let i = 0; i < ageGroupsCopy.length; i++) {
+      if (i === index) {
+        ageGroupsCopy[i].isSelected = true;
+        setSelectedAgeGroup(ageGroupsCopy[i]);
+      } else {
+        ageGroupsCopy[i].isSelected = false;
+      }
+    }
+
+    setAgeGroups(ageGroupsCopy);
+  };
 
   //--------------------- Country Change Event Listener ----------------------//
   const [currentCountry, setCurrentCountry] = useState(
@@ -130,6 +177,7 @@ export const ArticlesDashboard = ({
       locale: usersLanguage,
       populate: true,
       ids: articleIdsQuery.data,
+      ageGroupId: selectedAgeGroup.id,
     });
     for (let i = 0; i < data.data.length; i++) {
       data.data[i] = destructureArticleData(data.data[i]);
@@ -144,7 +192,13 @@ export const ArticlesDashboard = ({
     isFetched: isNewestArticlesFetched,
     isError: isNewestArticlesError,
   } = useQuery(
-    ["newestArticle", usersLanguage, selectCategory, articleIdsQuery.data],
+    [
+      "newestArticle",
+      usersLanguage,
+      selectCategory,
+      articleIdsQuery.data,
+      selectedAgeGroup,
+    ],
     getNewestArticle,
     {
       onError: (error) => console.log(error),
@@ -177,6 +231,16 @@ export const ArticlesDashboard = ({
               </TouchableOpacity>
             </View>
           </Block>
+
+          {ageGroupsQuery?.data?.length > 0 && ageGroups ? (
+            <TabsUnderlined
+              options={ageGroups}
+              handleSelect={handleAgeGroupOnPress}
+              style={{
+                marginTop: 12,
+              }}
+            />
+          ) : null}
 
           {allCategories?.length > 1 && (
             <Tabs

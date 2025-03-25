@@ -11,6 +11,7 @@ import {
   CardMedia,
   AppText,
   Loading,
+  TabsUnderlined,
 } from "#components";
 import { localStorage, adminSvc, cmsSvc } from "#services";
 import { useDebounce, useEventListener } from "#hooks";
@@ -28,7 +29,7 @@ export const Articles = ({
   navigation,
   showSearch = true,
   showCategories = true,
-  showAgeGroups,
+  showAgeGroups = true,
   sort,
   openArticlesModal,
   handleSetCategories,
@@ -300,8 +301,8 @@ export const Articles = ({
     <>
       <Block style={{ marginTop: 100 }}>
         {showAgeGroups &&
-        categoriesQuery?.data.length > 1 &&
-        ageGroupsQuery?.data.length > 0 &&
+        categoriesQuery?.data?.length > 1 &&
+        ageGroupsQuery?.data?.length > 0 &&
         ageGroups ? (
           <TabsUnderlined
             options={ageGroups}
@@ -380,7 +381,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     width: appStyles.screenWidth,
   },
-  searchInput: { alignSelf: "center", marginTop: 24 },
+  searchInput: { alignSelf: "center", marginTop: 12 },
   tabs: { marginTop: 24, zIndex: 2 },
   loadingContainer: {
     alignItems: "center",
