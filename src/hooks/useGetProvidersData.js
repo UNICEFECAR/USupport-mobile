@@ -25,6 +25,8 @@ const constructFiltersQueryString = (filters) => {
 
   if (availableAfter) {
     queryString += `&availableAfter=${availableAfter}`;
+  } else {
+    queryString += `&availableAfter=${new Date().getTime() / 1000}`;
   }
 
   if (availableBefore) {

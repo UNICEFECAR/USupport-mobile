@@ -7,5 +7,6 @@
   "no_slots_available": "На обраний день немає вільних слотів.",
   "coupon_code": "Код купона",
   "apply_coupon": "Застосувати купон",
-  "remove_coupon": "Видалити купон"
+  "remove_coupon": "Видалити купон",
+  "provider_not_available": "У консультанта немає вільних слотів."
 }

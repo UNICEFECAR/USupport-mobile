@@ -43,11 +43,8 @@ export const SelectConsultation = ({
 
   const [startDate, setStartDate] = useState(null);
   const [currentDay, setCurrentDay] = useState(new Date().getTime());
-  const [couponCode, setCouponCode] = useState(activeCoupon?.couponValue || "");
-  const [campaignId, setCampaignId] = useState(
-    activeCoupon?.campaignId || campaingIdFromProps
-  );
-  const [isCouponLoading, setIsCouponLoading] = useState(false);
+  const campaignId = activeCoupon?.campaignId || campaingIdFromProps;
+
   const [couponError, setCouponError] = useState();
 
   const [showCoupon, setShowCoupon] = useState(false);
@@ -123,7 +120,6 @@ export const SelectConsultation = ({
   const renderFreeSlots = () => {
     const todaySlots = availableSlots?.filter((slot) => {
       if (!slot) return false;
-      console.log(slot, "slot");
       const slotDate = new Date(slot.time || slot).getDate();
       const currentDayDate = new Date(currentDay).getDate();
 
@@ -192,29 +188,6 @@ export const SelectConsultation = ({
     handleBlockSlot(time, providerData.consultationPrice);
   };
 
-  const handleSubmitCoupon = async () => {
-    setIsCouponLoading(true);
-    try {
-      const { data } = await clientSvc.checkIsCouponAvailable(couponCode);
-
-      if (data?.campaign_id) {
-        setCampaignId(data.campaign_id);
-        if (couponError) {
-          setCouponError("");
-        }
-      }
-    } catch (err) {
-      const { message: errorMessage } = useError(err);
-      setCouponError(errorMessage);
-    } finally {
-      setIsCouponLoading(false);
-    }
-  };
-  const removeCoupon = () => {
-    setCouponCode("");
-    setCampaignId("");
-  };
-
   return (
     <Backdrop
       classes="select-consultation"
@@ -230,39 +203,20 @@ export const SelectConsultation = ({
       isCtaLoading={isCtaLoading}
       errorMessage={errorMessage}
     >
-      {showCoupon && (
-        <View style={styles.couponContainer}>
-          <Input
-            value={couponCode}
-            onChange={(e) => setCouponCode(e)}
-            label={t("coupon_code")}
-            style={styles.couponInput}
-            inputStyles={{ height: 18 }}
-            placeholder="COUPON1"
-          />
-          <AppButton
-            label={
-              campaignId && couponCode ? t("remove_coupon") : t("apply_coupon")
-            }
-            onPress={
-              campaignId && couponCode ? removeCoupon : handleSubmitCoupon
-            }
-            size="sm"
-            loading={isCouponLoading}
-            style={{
-              width: appStyles.screenWidth * 0.4,
-              minWidth: "auto",
-              borderRadius: 40,
-              paddingVertical: 10,
-            }}
-          />
-        </View>
+      {showCoupon && activeCoupon && (
+        <AppText isBold>
+          {t("coupon_code")}: {activeCoupon?.couponValue}
+        </AppText>
       )}
       {couponError && <Error style={styles.error} message={couponError} />}
       {providerDataQuery.isLoading ? (
         <View style={{ alignItems: "center" }}>
           <Loading size="lg" />
         </View>
+      ) : !providerData.earliestAvailableSlot ? (
+        <AppText style={{ textAlign: "center", marginTop: 12 }}>
+          {t("provider_not_available")}
+        </AppText>
       ) : (
         <View style={{ marginTop: 20 }}>
           <Header

@@ -7,5 +7,6 @@
   "no_slots_available": "W wybranym dniu nie ma dostępnych terminów.",
   "coupon_code": "Kod kuponu",
   "apply_coupon": "Zastosuj kupon",
-  "remove_coupon": "Usuń kupon"
+  "remove_coupon": "Usuń kupon",
+  "provider_not_available": "Dostawca nie ma dostępnych terminów."
 }

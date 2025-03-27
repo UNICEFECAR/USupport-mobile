@@ -7,5 +7,6 @@
   "no_slots_available": "Таңдалған күні бос орындар жоқ.",
   "coupon_code": "Купон коды",
   "apply_coupon": "Купонды қолдану",
-  "remove_coupon": "Купонды жою"
+  "remove_coupon": "Купонды жою",
+  "provider_not_available": "Консультант бос орындары жоқ."
 }

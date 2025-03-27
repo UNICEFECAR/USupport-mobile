@@ -43,7 +43,7 @@ export default function useGetProviderDataById(id, campaignId) {
   };
 
   const providersDataQuery = useQuery(
-    ["provider-data", id],
+    ["provider-data", id, campaignId],
     fetchProvidersData,
     {
       enabled: !!id,

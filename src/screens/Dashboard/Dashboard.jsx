@@ -375,16 +375,18 @@ export const Dashboard = ({ navigation }) => {
         onClose={closeJoinConsultation}
         consultation={selectedConsultation}
       />
-      <SelectConsultation
-        isOpen={isSelectConsultationBackdropOpen}
-        onClose={closeSelectConsultationBackdrop}
-        handleBlockSlot={handleBlockSlot}
-        providerId={selectedConsultationProviderId}
-        isCtaLoading={isSelectConsultationLoading}
-        errorMessage={blockSlotError}
-        isInDashboard
-        campaignId={selectedConsultation?.campaignId}
-      />
+      {selectedConsultationProviderId && (
+        <SelectConsultation
+          isOpen={isSelectConsultationBackdropOpen}
+          onClose={closeSelectConsultationBackdrop}
+          handleBlockSlot={handleBlockSlot}
+          providerId={selectedConsultationProviderId}
+          isCtaLoading={isSelectConsultationLoading}
+          errorMessage={blockSlotError}
+          isInDashboard
+          campaignId={selectedConsultation?.campaignId}
+        />
+      )}
       {selectedConsultation && (
         <>
           <EditConsultation
