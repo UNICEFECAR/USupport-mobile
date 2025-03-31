@@ -371,7 +371,7 @@ const resources = {
     "tab-navigation": TabNavigation.kk,
   },
 
-  ua: {
+  uk: {
     // Blocks
     "change-passcode": ChangePasscode.uk,
     "consultations-dashboard": ConsultationsDashboard.uk,
