@@ -385,6 +385,7 @@ export const Dashboard = ({ navigation }) => {
           errorMessage={blockSlotError}
           isInDashboard
           campaignId={selectedConsultation?.campaignId}
+          couponCode={selectedConsultation?.couponCode}
         />
       )}
       {selectedConsultation && (

@@ -217,6 +217,7 @@ export const Consultations = ({ navigation }) => {
           isInDashboard
           edit
           campaignId={selectedConsultation?.campaignId}
+          couponCode={selectedConsultation?.couponCode}
         />
       )}
       {selectedConsultation ? (

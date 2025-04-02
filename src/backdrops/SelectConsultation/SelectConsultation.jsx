@@ -37,6 +37,7 @@ export const SelectConsultation = ({
   errorMessage,
   isInDashboard,
   campaignId: campaingIdFromProps,
+  couponCode,
 }) => {
   const { t } = useTranslation("select-consultation");
   const { activeCoupon } = useContext(Context);
@@ -203,9 +204,9 @@ export const SelectConsultation = ({
       isCtaLoading={isCtaLoading}
       errorMessage={errorMessage}
     >
-      {showCoupon && activeCoupon && (
+      {showCoupon && (activeCoupon || couponCode) && (
         <AppText isBold>
-          {t("coupon_code")}: {activeCoupon?.couponValue}
+          {t("coupon_code")}: {activeCoupon?.couponValue || couponCode}
         </AppText>
       )}
       {couponError && <Error style={styles.error} message={couponError} />}
