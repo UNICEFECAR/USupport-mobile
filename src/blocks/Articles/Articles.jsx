@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { FlashList } from "@shopify/flash-list";
@@ -29,7 +29,6 @@ export const Articles = ({
   navigation,
   showSearch = true,
   showCategories = true,
-  showAgeGroups = true,
   sort,
   openArticlesModal,
   handleSetCategories,
@@ -40,6 +39,18 @@ export const Articles = ({
   const { i18n, t } = useTranslation("articles");
 
   const [usersLanguage, setUsersLanguage] = useState(i18n.language);
+  const [showAgeGroups, setShowAgeGroups] = useState(true);
+
+  async function checkCountry() {
+    const country = await localStorage.getItem("country");
+    if (country === "PL") {
+      setShowAgeGroups(false);
+    }
+  }
+
+  useEffect(() => {
+    checkCountry();
+  }, []);
 
   useEffect(() => {
     if (i18n.language !== usersLanguage) {
@@ -152,6 +163,7 @@ export const Articles = ({
     if (country !== currentCountry) {
       setCurrentCountry(country);
     }
+    setShowAgeGroups(country !== "PL");
   }, []);
 
   // Add event listener

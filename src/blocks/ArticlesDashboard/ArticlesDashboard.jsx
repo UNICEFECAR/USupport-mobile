@@ -39,6 +39,17 @@ export const ArticlesDashboard = ({
   const { t, i18n } = useTranslation("articles-dashboard");
 
   const [usersLanguage, setUsersLanguage] = useState(i18n.language);
+  const [showAgeGroups, setShowAgeGroups] = useState(true);
+
+  useEffect(() => {
+    async function checkCountry() {
+      const country = await localStorage.getItem("country");
+      if (country === "PL") {
+        setShowAgeGroups(false);
+      }
+    }
+    checkCountry();
+  }, []);
 
   useEffect(() => {
     if (i18n.language !== usersLanguage) {
@@ -232,7 +243,7 @@ export const ArticlesDashboard = ({
             </View>
           </Block>
 
-          {ageGroupsQuery?.data?.length > 0 && ageGroups ? (
+          {ageGroupsQuery?.data?.length > 0 && ageGroups && showAgeGroups ? (
             <TabsUnderlined
               options={ageGroups}
               handleSelect={handleAgeGroupOnPress}
