@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
   subheading: {
     textAlign: "left",
     width: "100%",
+    marginRight: 8,
   },
 });
 
