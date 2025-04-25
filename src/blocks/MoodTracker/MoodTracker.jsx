@@ -73,8 +73,14 @@ export const MoodTracker = ({ navigation }) => {
           />
           <AppText
             numberOfLines={1}
+            adjustsFontSizeToFit
             namedStyle="smallText"
-            style={[styles.textSelected, { color: colors.textTertiary }]}
+            style={[
+              styles.textSelected,
+              {
+                color: colors.textTertiary,
+              },
+            ]}
           >
             {emoticon.label}
           </AppText>
@@ -132,7 +138,9 @@ export const MoodTracker = ({ navigation }) => {
   return (
     <Block style={styles.block}>
       <View style={styles.heading}>
-        <AppText namedStyle="h3">{t("heading")}</AppText>
+        <AppText style={{ marginRight: 12 }} namedStyle="h3">
+          {t("heading")}
+        </AppText>
         <TouchableOpacity onPress={handleMoodtrackClick}>
           <AppText style={styles.moodTrackerButton}>
             {t("mood_tracker")}

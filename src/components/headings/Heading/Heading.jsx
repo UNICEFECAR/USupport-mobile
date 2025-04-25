@@ -39,7 +39,9 @@ export const Heading = ({
             />
           </TouchableOpacity>
         )}
-        <AppText namedStyle="h3">{heading}</AppText>
+        <AppText style={styles.heading} namedStyle="h3">
+          {heading}
+        </AppText>
         <View style={styles.button}>{buttonComponent}</View>
         {hasCloseIcon && (
           <TouchableOpacity onPress={handleCloseIconPress}>
@@ -82,10 +84,14 @@ const styles = StyleSheet.create({
   backArrow: {
     marginRight: 16,
   },
+  heading: {
+    marginRight: 12,
+  },
   button: {
     marginLeft: "auto",
     maxWidth: "50%",
     marginRight: 8,
+    // marginLeft: 12,
   },
   subheading: {
     textAlign: "left",

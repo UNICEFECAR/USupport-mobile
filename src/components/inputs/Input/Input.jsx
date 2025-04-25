@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   textInput: {
     color: appStyles.colorBlack_37,
     height: 24,
-    textAlignVertical: "top",
+    textAlignVertical: "center",
     width: "95%",
   },
 
