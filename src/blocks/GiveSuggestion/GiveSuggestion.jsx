@@ -95,8 +95,8 @@ export const GiveSuggestion = ({ navigation }) => {
         label={t("submit")}
         style={{
           marginTop: 7,
-          width: "90%",
-          marginLeft: 10,
+          width: "100%",
+          // marginLeft: 10,
         }}
         type="primary"
         onPress={handleSubmit}
@@ -115,7 +115,7 @@ export const GiveSuggestion = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  block: { paddingBottom: 120 },
+  block: { paddingBottom: 120, paddingHorizontal: 22 },
   subheading: { marginTop: 16 },
-  textArea: { marginVertical: 16 },
+  textArea: { marginVertical: 16, width: "100%" },
 });
