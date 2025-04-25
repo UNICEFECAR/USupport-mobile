@@ -24,12 +24,12 @@ export const Consultations = ({
   navigation,
   currencySymbol,
 }) => {
-  const { t } = useTranslation("consultations");
+  const { t, i18n } = useTranslation("consultations");
 
   const [tabsOptions, setTabsOptions] = useState([
-    { label: t("upcoming_tab_label"), value: "upcoming", isSelected: true },
+    { label: "upcoming_tab_label", value: "upcoming", isSelected: true },
     {
-      label: t("past_tab_label"),
+      label: "past_tab_label",
       value: "past",
       isSelected: false,
     },
@@ -175,7 +175,7 @@ export const Consultations = ({
         />
       );
     });
-  }, [consultationsQuery.data, filter]);
+  }, [consultationsQuery.data, filter, i18n.language]);
 
   return (
     <Block style={styles.block}>
@@ -183,7 +183,10 @@ export const Consultations = ({
         {t("heading")}
       </AppText>
       <TabsUnderlined
-        options={tabsOptions}
+        options={tabsOptions.map((x) => ({
+          ...x,
+          label: t(x.label),
+        }))}
         handleSelect={handleTabClick}
         style={styles.tabs}
       />
