@@ -125,7 +125,9 @@ export const SelectProvider = ({ navigation }) => {
   // it back to false when the providers data has been fetched
   const [isFiltering, setIsFiltering] = useState(false);
   const handleFilterSave = (data) => {
-    setIsFiltering(true);
+    if (JSON.stringify(data) !== JSON.stringify(allFilters)) {
+      setIsFiltering(true);
+    }
 
     setAllFilters((prev) => ({ ...prev, ...data }));
 
