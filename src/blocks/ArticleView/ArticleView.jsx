@@ -1,11 +1,15 @@
-import React from "react";
-import { View, StyleSheet, Image } from "react-native";
+import React, { useEffect } from "react";
+import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import Markdown from "react-native-markdown-display";
+import { useQueryClient } from "@tanstack/react-query";
+import Share from "react-native-share";
 
 import { Icon, Label, Block, AppText } from "#components";
 import { appStyles } from "#styles";
 import articlePlaceholder from "#assets";
-import { useGetTheme } from "#hooks";
+import { useGetTheme, useAddContentRating } from "#hooks";
+import { cmsSvc } from "#services";
+import { constructShareUrl, generatePDF } from "#utils";
 
 /**
  * ArticleView
@@ -16,6 +20,35 @@ import { useGetTheme } from "#hooks";
  */
 export const ArticleView = ({ articleData }) => {
   const { colors } = useGetTheme();
+
+  const handleShare = async () => {
+    const url = constructShareUrl({
+      contentType: "article",
+      id: articleData.id,
+    });
+    Share.open({
+      title: articleData.title,
+      message: "Hello, check ths article",
+      url,
+    });
+  };
+
+  const handleExportPDF = async () => {
+    try {
+      const file = await generatePDF(articleData);
+      if (file.filePath) {
+        Share.open({
+          title: articleData.title,
+          message: "Here's the PDF version of the article",
+          url: `file://${file.filePath}`,
+          saveToFiles: true,
+          type: "application/pdf",
+        });
+      }
+    } catch (error) {
+      console.error("Error exporting PDF:", error);
+    }
+  };
 
   return (
     <>
@@ -35,6 +68,15 @@ export const ArticleView = ({ articleData }) => {
           {articleData.title}
         </AppText>
 
+        <View style={styles.categoryContainer}>
+          <AppText
+            namedStyle="smallText"
+            style={[styles.categoryText, { color: colors.text }]}
+          >
+            {articleData.categoryName}
+          </AppText>
+        </View>
+
         <View style={styles.creatorContainer}>
           <AppText namedStyle="smallText">By {articleData.creator}</AppText>
           <Icon
@@ -46,14 +88,16 @@ export const ArticleView = ({ articleData }) => {
           <AppText namedStyle="smallText">
             {articleData.readingTime} min read
           </AppText>
-
-          <View style={styles.categoryContainer}>
-            <AppText
-              namedStyle="smallText"
-              style={[styles.categoryText, { color: colors.text }]}
+          <View style={styles.actionButtons}>
+            <TouchableOpacity
+              style={styles.actionButton}
+              onPress={handleExportPDF}
             >
-              {articleData.categoryName}
-            </AppText>
+              <Icon name="download" size="sm" color={colors.text} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.actionButton} onPress={handleShare}>
+              <Icon name="share" size="sm" color={colors.text} />
+            </TouchableOpacity>
           </View>
         </View>
 
@@ -112,11 +156,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
   },
-  label: { marginRight: 8, marginBottom: 8 },
-  creatorContainer: { flexDirection: "row", marginVertical: 8 },
+  label: { marginRight: 8, marginBottom: 8, paddingVertical: 0 },
+  creatorContainer: {
+    flexDirection: "row",
+    marginVertical: 8,
+    alignItems: "center",
+  },
   iconTime: { marginLeft: 16, marginRight: 5 },
   categoryContainer: {
-    marginLeft: 12,
+    alignSelf: "flex-start",
+    marginTop: 12,
     backgroundColor: appStyles.colorBlue_20809E_0_3,
     paddingHorizontal: 12,
     paddingVertical: 2,
@@ -126,5 +175,18 @@ const styles = StyleSheet.create({
   categoryText: {
     fontFamily: appStyles.fontBold,
     color: appStyles.colorBlue_3d527b,
+  },
+  actionButtons: {
+    flexDirection: "row",
+    marginLeft: "auto",
+    marginRight: 16,
+  },
+  actionButton: {
+    marginLeft: 16,
+    borderWidth: 1,
+    borderColor: appStyles.colorBlue_3d527b,
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
   },
 });

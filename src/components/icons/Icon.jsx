@@ -88,6 +88,8 @@ import {
   IconConsultationNavigation,
   IconSun,
   IconMoon,
+  ButtonShare,
+  IconDownload,
 } from "./assets/sprite";
 
 /**
@@ -347,6 +349,12 @@ export const Icon = ({ name, size = "md", color, style }) => {
       break;
     case "moon":
       icon = <IconMoon color={color} />;
+      break;
+    case "share":
+      icon = <ButtonShare color={color} />;
+      break;
+    case "download":
+      icon = <IconDownload color={color} />;
       break;
     default:
       icon = null;

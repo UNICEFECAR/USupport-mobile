@@ -1,3 +1,4 @@
+import { localStorage } from "#services";
 function calcGradientDegrees(degree) {
   if (typeof degree !== "number" || Math.abs(degree) === Infinity)
     throw new Error("wrong degree value");
@@ -55,4 +56,39 @@ function res(start, end) {
   return { start: { x: start[0], y: start[1] }, end: { x: end[0], y: end[1] } };
 }
 
-export { calcGradientDegrees };
+const checkIsLikedAndDisliked = (contentRatings, articleId, contentType) => {
+  const isLikedByUser =
+    contentRatings?.some(
+      (rating) =>
+        rating.content_id === articleId &&
+        rating.content_type === contentType &&
+        rating.positive === true
+    ) || false;
+  const isDislikedByUser =
+    contentRatings?.some(
+      (rating) =>
+        rating.content_id === articleId &&
+        rating.content_type === contentType &&
+        rating.positive === false
+    ) || false;
+
+  return { isLikedByUser, isDislikedByUser };
+};
+
+const countryMap = {
+  kz: "kazakhstan",
+  ro: "romania",
+  pl: "poland",
+};
+
+const constructShareUrl = async ({ contentType, id }) => {
+  const country = await localStorage.getItem("country");
+  const language = await localStorage.getItem("language");
+
+  const countryName = countryMap[country.toLocaleLowerCase()];
+
+  const url = `https://${countryName}.usupport.online/${language}/information-portal/${contentType}/${id}`;
+  return url;
+};
+
+export { calcGradientDegrees, checkIsLikedAndDisliked, constructShareUrl };

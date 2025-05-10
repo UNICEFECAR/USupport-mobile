@@ -2,8 +2,10 @@ import React from "react";
 import { View, StyleSheet, Image, Pressable } from "react-native";
 
 import { AppText } from "../../texts/AppText/AppText";
-import { Icon } from "../../icons/Icon";
 import { AppButton } from "../../buttons/AppButton/AppButton";
+import { Icon } from "../../icons/Icon";
+import { Like } from "../../icons/Like";
+
 import { appStyles } from "#styles";
 import articlePlaceholder from "#assets";
 import { useGetTheme } from "#hooks";
