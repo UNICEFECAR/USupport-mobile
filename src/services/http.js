@@ -16,9 +16,10 @@ axios.interceptors.request.use(async (config) => {
   config.headers["x-language-alpha-2"] = language || "en";
   config.headers["Origin"] = WEBSITE_URL;
   config.headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+  config.headers["x-platform"] = "client";
 
   const requestURI = axios.getUri(config) || "VITE CMS API URL";
-  console.log(requestURI);
+  console.log("requestURI", requestURI);
   if (!requestURI.includes(CMS_API_URL_ENDPOINT)) {
     const token = await localStorage.getItem("token");
     config.headers["Authorization"] = `Bearer ${token}`;

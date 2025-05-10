@@ -55,4 +55,23 @@ function res(start, end) {
   return { start: { x: start[0], y: start[1] }, end: { x: end[0], y: end[1] } };
 }
 
-export { calcGradientDegrees };
+const checkIsLikedAndDisliked = (contentRatings, articleId, contentType) => {
+  const isLikedByUser =
+    contentRatings?.some(
+      (rating) =>
+        rating.content_id === articleId &&
+        rating.content_type === contentType &&
+        rating.positive === true
+    ) || false;
+  const isDislikedByUser =
+    contentRatings?.some(
+      (rating) =>
+        rating.content_id === articleId &&
+        rating.content_type === contentType &&
+        rating.positive === false
+    ) || false;
+
+  return { isLikedByUser, isDislikedByUser };
+};
+
+export { calcGradientDegrees, checkIsLikedAndDisliked };
