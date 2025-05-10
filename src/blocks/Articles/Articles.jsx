@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { FlashList } from "@shopify/flash-list";
 
 import {
@@ -14,8 +14,12 @@ import {
   TabsUnderlined,
 } from "#components";
 import { localStorage, adminSvc, cmsSvc } from "#services";
-import { useDebounce, useEventListener } from "#hooks";
-import { destructureArticleData } from "#utils";
+import {
+  useDebounce,
+  useEventListener,
+  useGetUserContentRatings,
+} from "#hooks";
+import { destructureArticleData, checkIsLikedAndDisliked } from "#utils";
 import { appStyles } from "#styles";
 
 /**
@@ -36,6 +40,7 @@ export const Articles = ({
   selectCategory,
   allCategories,
 }) => {
+  const queryClient = useQueryClient();
   const { i18n, t } = useTranslation("articles");
 
   const [usersLanguage, setUsersLanguage] = useState(i18n.language);
@@ -169,6 +174,8 @@ export const Articles = ({
   // Add event listener
   useEventListener("countryChanged", handler);
 
+  const { data: contentRatings } = useGetUserContentRatings();
+
   //--------------------- Articles ----------------------//
   const getArticlesIds = async () => {
     const articlesIds = await adminSvc.getArticles();
@@ -183,9 +190,9 @@ export const Articles = ({
 
   const [hasMore, setHasMore] = useState(true);
 
-  const getArticlesData = async () => {
-    const ageGroupId = ageGroupsQuery.data.find((x) => x.isSelected).id;
-
+  const getArticlesData = async (ageGroupIdProp) => {
+    const ageGroupId =
+      ageGroupIdProp || ageGroupsQuery.data.find((x) => x.isSelected).id;
     let categoryId = "";
     if (selectCategory.value !== "all") {
       categoryId = selectCategory.id;
@@ -209,13 +216,28 @@ export const Articles = ({
     return { articles, numberOfArticles };
   };
 
+  useEffect(() => {
+    if (ageGroups) {
+      const notSelectedAgeGroup = ageGroups.find((x) => x.isSelected === false);
+      queryClient.prefetchQuery({
+        queryKey: [
+          "articles",
+          debouncedSearchValue,
+          notSelectedAgeGroup,
+          selectCategory,
+          articleIdsQuery.data,
+          usersLanguage,
+        ],
+        queryFn: async () => await getArticlesData(notSelectedAgeGroup.id),
+      });
+    }
+  }, [ageGroups]);
+
   const [articles, setArticles] = useState();
   const [numberOfArticles, setNumberOfArticles] = useState();
   const {
     isLoading: isArticlesLoading,
     isFetching: isArticlesFetching,
-    isFetched: isArticlesFetched,
-    fetchStatus: articlesFetchStatus,
     data: articlesQueryData,
   } = useQuery(
     [
@@ -226,7 +248,7 @@ export const Articles = ({
       articleIdsQuery.data,
       usersLanguage,
     ],
-    getArticlesData,
+    async () => await getArticlesData(),
     {
       enabled:
         !articleIdsQuery.isLoading &&
@@ -288,6 +310,11 @@ export const Articles = ({
 
   const renderArticle = ({ item, index }) => {
     const articleData = destructureArticleData(item);
+    const { isLikedByUser, isDislikedByUser } = checkIsLikedAndDisliked(
+      contentRatings,
+      item.id,
+      "article"
+    );
     return (
       <CardMedia
         style={styles.cardMedia}
@@ -298,6 +325,10 @@ export const Articles = ({
         creator={articleData.creator}
         readingTime={articleData.readingTime}
         categoryName={articleData.categoryName}
+        likes={articleData.likes}
+        dislikes={articleData.dislikes}
+        isLikedByUser={isLikedByUser}
+        isDislikedByUser={isDislikedByUser}
         onPress={() => {
           navigation.push("ArticleInformation", {
             articleId: item.id,
@@ -347,10 +378,10 @@ export const Articles = ({
             estimatedItemSize={25}
             showsVerticalScrollIndicator={false}
             keyExtractor={(item, index) => index.toString()}
-            data={isArticlesFetching || isArticlesLoading ? [] : articles || []}
+            data={isArticlesLoading ? [] : articles || []}
             renderItem={renderArticle}
             ListFooterComponent={
-              isArticlesLoading || isArticlesFetching ? (
+              isArticlesLoading ? (
                 <View style={styles.loadingContainer}>
                   <Loading />
                 </View>
@@ -369,7 +400,6 @@ export const Articles = ({
         </View>
         {!articles?.length &&
         !isArticlesLoading &&
-        !isArticlesFetching &&
         categoriesQuery?.data?.length > 1 &&
         ageGroupsQuery?.data?.length > 0 ? (
           <View style={styles.articlesNoResultsContainer}>
