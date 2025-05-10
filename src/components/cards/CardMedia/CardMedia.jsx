@@ -4,9 +4,11 @@ import { View, StyleSheet, Image, Pressable } from "react-native";
 import { AppText } from "../../texts/AppText/AppText";
 import { Icon } from "../../icons/Icon";
 import { AppButton } from "../../buttons/AppButton/AppButton";
+
 import { appStyles } from "#styles";
 import articlePlaceholder from "#assets";
 import { useGetTheme } from "#hooks";
+import { Like } from "../../icons/Like";
 
 /**
  * CardMedia
@@ -22,7 +24,12 @@ export const CardMedia = ({
   readingTime,
   description,
   categoryName,
+  likes,
+  dislikes,
+  isLikedByUser,
+  isDislikedByUser,
   onPress,
+  contentType = "articles",
   t,
   style,
 }) => {
@@ -50,18 +57,38 @@ export const CardMedia = ({
       <View style={styles.textContainer}>
         <View style={styles.headingContainer}>
           <AppText namedStyle="h3">{title}</AppText>
+          {contentType !== "article" && (
+            <Like
+              likes={likes}
+              isLiked={isLikedByUser}
+              dislikes={dislikes}
+              isDisliked={isDislikedByUser}
+            />
+          )}
         </View>
         <View style={styles.creatorContainer}>
-          <AppText namedStyle="smallText">{t("by", { creator })}</AppText>
-          <Icon
-            size="sm"
-            name="time"
-            color={appStyles.colorGray_66768d}
-            style={styles.icon}
-          />
-          <AppText namedStyle="smallText">
-            {readingTime} {t("min_read")}
-          </AppText>
+          {creator && (
+            <React.Fragment>
+              <AppText namedStyle="smallText">{t("by", { creator })}</AppText>
+              <Icon
+                size="sm"
+                name="time"
+                color={appStyles.colorGray_66768d}
+                style={styles.icon}
+              />
+              <AppText namedStyle="smallText">
+                {readingTime} {t("min_read")}
+              </AppText>
+              <View style={styles.likeContainer}>
+                <Like
+                  likes={likes}
+                  isLiked={isLikedByUser}
+                  dislikes={dislikes}
+                  isDisliked={isDislikedByUser}
+                />
+              </View>
+            </React.Fragment>
+          )}
         </View>
         <View style={styles.descriptionContainer}>
           <AppText namedStyle="smallText" id="description" numberOfLines={2}>
@@ -69,7 +96,7 @@ export const CardMedia = ({
           </AppText>
         </View>
         <AppButton
-          label={t("read_more")}
+          label={t(contentType === "articles" ? "read_more" : "view_more")}
           size="sm"
           style={styles.readMoreButton}
           onPress={onPress}
@@ -123,5 +150,10 @@ const styles = StyleSheet.create({
   categoryText: {
     fontFamily: appStyles.fontBold,
     color: appStyles.colorBlue_3d527b,
+  },
+  likeContainer: {
+    flex: 1,
+    alignItems: "flex-end",
+    justifyContent: "flex-start",
   },
 });
