@@ -146,19 +146,8 @@ export const InformationalPortal = ({
         ) : (
           <View style={styles.articlesContainer}>
             {contentItems?.map((item, index) => {
-              const contentTypeParam =
-                contentType === "articles"
-                  ? "article"
-                  : contentType === "videos"
-                    ? "video"
-                    : "podcast";
-
               const { isLikedByUser, isDislikedByUser } =
-                checkIsLikedAndDisliked(
-                  contentRatings,
-                  item.id,
-                  contentTypeParam
-                );
+                checkIsLikedAndDisliked(contentRatings, item.id, contentType);
 
               let screenName, idParam;
               if (contentType === "articles") {
@@ -189,7 +178,7 @@ export const InformationalPortal = ({
                   dislikes={item.dislikes}
                   isLikedByUser={isLikedByUser}
                   isDislikedByUser={isDislikedByUser}
-                  contentType={contentTypeParam}
+                  contentType={contentType}
                   onPress={() => {
                     navigation.push(screenName, {
                       [idParam]: item.id,
