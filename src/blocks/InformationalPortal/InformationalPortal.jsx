@@ -7,9 +7,14 @@ import { Block, AppText, Loading, CardMedia } from "#components";
 
 import { appStyles } from "#styles";
 
-import { destructureArticleData } from "#utils";
+import {
+  destructureArticleData,
+  destructureVideoData,
+  destructurePodcastData,
+  checkIsLikedAndDisliked,
+} from "#utils";
 
-import { useEventListener } from "#hooks";
+import { useEventListener, useGetUserContentRatings } from "#hooks";
 
 import { localStorage, adminSvc, cmsSvc } from "#services";
 
@@ -20,7 +25,10 @@ import { localStorage, adminSvc, cmsSvc } from "#services";
  *
  * @returns {JSX.Element}
  */
-export const InformationalPortal = ({ navigation }) => {
+export const InformationalPortal = ({
+  navigation,
+  contentType = "articles",
+}) => {
   const { t, i18n } = useTranslation("information-portal");
 
   //--------------------- Country Change Event Listener ----------------------//
@@ -40,192 +48,208 @@ export const InformationalPortal = ({ navigation }) => {
   // Add event listener
   useEventListener("countryChanged", handler);
 
-  //--------------------- Articles ----------------------//
+  const { data: contentRatings } = useGetUserContentRatings();
 
-  const getArticlesIds = async () => {
-    // Request articles ids from the master DB based for website platform
-    const articlesIds = await adminSvc.getArticles();
-
-    return articlesIds;
+  //--------------------- Content IDs ----------------------//
+  const getContentIds = async () => {
+    if (contentType === "articles") {
+      return await adminSvc.getArticles();
+    } else if (contentType === "videos") {
+      return await adminSvc.getVideos();
+    } else if (contentType === "podcasts") {
+      return await adminSvc.getPodcasts();
+    }
+    return [];
   };
 
-  const articleIdsQuerry = useQuery(
-    ["articleIds", currentCountry],
-    getArticlesIds,
+  const contentIdsQuery = useQuery(
+    [`${contentType}Ids`, currentCountry],
+    getContentIds,
     {
       enabled: !!currentCountry,
     }
   );
-  //--------------------- Newest Article ----------------------//
 
-  const getNewestArticle = async () => {
-    let { data } = await cmsSvc.getArticles({
-      limit: 2, // Only get the newest article
-      sortBy: "createdAt", // Sort by created date
-      sortOrder: "desc", // Sort in descending order
-      locale: i18n.language,
-      populate: true,
-      ids: articleIdsQuerry.data,
-    });
-    for (let i = 0; i < data.data.length; i++) {
-      data.data[i] = destructureArticleData(data.data[i]);
+  const ContentList = ({ heading, sortBy, sortField }) => {
+    const getContent = async () => {
+      let service;
+      let destructureData;
+
+      if (contentType === "articles") {
+        service = cmsSvc.getArticles;
+        destructureData = destructureArticleData;
+      } else if (contentType === "videos") {
+        service = cmsSvc.getVideos;
+        destructureData = destructureVideoData;
+      } else if (contentType === "podcasts") {
+        service = cmsSvc.getPodcasts;
+        destructureData = destructurePodcastData;
+      }
+
+      let { data } = await service({
+        limit: 2,
+        sortBy: sortField,
+        sortOrder: "desc",
+        locale: i18n.language,
+        populate: true,
+        ids: contentIdsQuery.data,
+      });
+
+      return data.data.map(destructureData);
+    };
+
+    const {
+      data: contentItems,
+      isLoading,
+      isFetched,
+    } = useQuery(
+      [`${contentType}-${sortBy}`, i18n.language, contentIdsQuery.data],
+      getContent,
+      {
+        enabled: !contentIdsQuery.isLoading && contentIdsQuery.data?.length > 0,
+        refetchOnWindowFocus: false,
+      }
+    );
+
+    const handleRedirect = () => {
+      let screenName;
+      if (contentType === "articles") screenName = "Articles";
+      else if (contentType === "videos") screenName = "Videos";
+      else if (contentType === "podcasts") screenName = "Podcasts";
+
+      navigation.push(screenName, {
+        sort: sortField,
+      });
+    };
+
+    if (isLoading) {
+      return (
+        <View style={styles.loadingContainer}>
+          <Loading style={styles.loading} />
+        </View>
+      );
     }
 
-    return data.data;
+    const hasNoData = isFetched && (!contentItems || contentItems.length === 0);
+
+    return (
+      <>
+        <View style={styles.headingContainer}>
+          <AppText namedStyle="h3">{heading}</AppText>
+          <AppText style={styles.viewAllText} onPress={handleRedirect}>
+            {t("view_all")}
+          </AppText>
+        </View>
+
+        {hasNoData ? (
+          <AppText style={styles.noResults}>{t("no_results")}</AppText>
+        ) : (
+          <View style={styles.articlesContainer}>
+            {contentItems?.map((item, index) => {
+              const contentTypeParam =
+                contentType === "articles"
+                  ? "article"
+                  : contentType === "videos"
+                    ? "video"
+                    : "podcast";
+
+              const { isLikedByUser, isDislikedByUser } =
+                checkIsLikedAndDisliked(
+                  contentRatings,
+                  item.id,
+                  contentTypeParam
+                );
+
+              let screenName, idParam;
+              if (contentType === "articles") {
+                screenName = "ArticleInformation";
+                idParam = "articleId";
+              } else if (contentType === "videos") {
+                screenName = "VideoInformation";
+                idParam = "videoId";
+              } else if (contentType === "podcasts") {
+                screenName = "PodcastInformation";
+                idParam = "podcastId";
+              }
+
+              return (
+                <CardMedia
+                  title={item.title}
+                  image={
+                    contentType === "articles" || contentType === "podcasts"
+                      ? item.imageMedium
+                      : item.image
+                  }
+                  description={item.description}
+                  labels={item.labels}
+                  creator={item.creator}
+                  readingTime={item.readingTime}
+                  categoryName={item.categoryName}
+                  likes={item.likes}
+                  dislikes={item.dislikes}
+                  isLikedByUser={isLikedByUser}
+                  isDislikedByUser={isDislikedByUser}
+                  contentType={contentTypeParam}
+                  onPress={() => {
+                    navigation.push(screenName, {
+                      [idParam]: item.id,
+                    });
+                  }}
+                  t={t}
+                  key={index}
+                  style={styles.article}
+                />
+              );
+            })}
+          </View>
+        )}
+      </>
+    );
   };
 
-  const {
-    data: newestArticles,
-    isLoading: newestArticlesLoading,
-    isFetched: isNewestArticlesFetched,
-  } = useQuery(
-    ["newestArticle", i18n.language, articleIdsQuerry.data],
-    getNewestArticle,
-    {
-      enabled: !articleIdsQuerry.isLoading && articleIdsQuerry.data?.length > 0,
-
-      refetchOnWindowFocus: false,
-    }
-  );
-
-  //--------------------- Most Read Articles ----------------------//
-
-  const getMostReadArticles = async () => {
-    let { data } = await cmsSvc.getArticles({
-      limit: 2, // Only get the newest article
-      sortBy: "read_count", // Sort by created date
-      sortOrder: "desc", // Sort in descending order
-      locale: i18n.language,
-      populate: true,
-      ids: articleIdsQuerry.data,
-    });
-
-    for (let i = 0; i < data.data.length; i++) {
-      data.data[i] = destructureArticleData(data.data[i]);
-    }
-    return data.data;
-  };
-
-  const {
-    data: mostReadArticles,
-    isLoading: mostReadArticlesLoading,
-    isFetched: isMostReadArticlesFetched,
-  } = useQuery(
-    ["mostReadArticles", i18n.language, articleIdsQuerry.data],
-    getMostReadArticles,
-    {
-      enabled: !articleIdsQuerry.isLoading && articleIdsQuerry.data?.length > 0,
-
-      refetchOnWindowFocus: false,
-    }
-  );
-
-  const handleRedirect = (sort) =>
-    sort === "createdAt"
-      ? navigation.push("Articles", { sort: "createdAt" })
-      : navigation.push("Articles", { sort: "read_count" });
-
-  const noArticlesForLanguage =
-    isNewestArticlesFetched &&
-    isMostReadArticlesFetched &&
-    newestArticles?.length === 0 &&
-    mostReadArticles?.length === 0;
+  const noContentForLanguage =
+    contentIdsQuery.isFetched && contentIdsQuery.data?.length === 0;
 
   return (
     <Block style={styles.informationalPortalBlock}>
-      {noArticlesForLanguage ? (
+      {noContentForLanguage ? (
         <AppText style={styles.headingNoLanguageResults} namedStyle="h3">
           {t("heading_no_language_results")}
         </AppText>
       ) : null}
 
-      {noArticlesForLanguage ? null : (
-        <View style={styles.headingContainer}>
-          <AppText namedStyle="h3">{t("heading_newest")}</AppText>
-          <AppText
-            style={styles.viewAllText}
-            onPress={() => handleRedirect("createdAt")}
-          >
-            {t("view_all")}
-          </AppText>
-        </View>
+      {!noContentForLanguage && (
+        <>
+          <ContentList
+            heading={
+              contentType === "articles"
+                ? t("heading_newest")
+                : contentType === "videos"
+                  ? t("heading_newest_videos")
+                  : t("heading_newest_podcasts")
+            }
+            sortBy="createdAt"
+            sortField="createdAt"
+          />
+          <ContentList
+            heading={
+              contentType === "articles"
+                ? t("heading_popular")
+                : contentType === "videos"
+                  ? t("heading_popular_videos")
+                  : t("heading_popular_podcasts")
+            }
+            sortBy="popular"
+            sortField={
+              contentType === "articles"
+                ? "read_count"
+                : contentType === "videos"
+                  ? "view_count"
+                  : "view_count"
+            }
+          />
+        </>
       )}
-
-      {newestArticlesLoading ? (
-        <View style={styles.loadingContainer}>
-          <Loading style={styles.loading} />
-        </View>
-      ) : null}
-
-      {!newestArticlesLoading && newestArticles?.length > 0 ? (
-        <View style={styles.articlesContainer}>
-          {newestArticles?.map((article, index) => {
-            return (
-              <CardMedia
-                title={article.title}
-                image={article.imageMedium}
-                description={article.description}
-                labels={article.labels}
-                creator={article.creator}
-                readingTime={article.readingTime}
-                categoryName={article.categoryName}
-                onPress={() => {
-                  navigation.push("ArticleInformation", {
-                    articleId: article.id,
-                  });
-                }}
-                t={t}
-                key={index}
-                style={styles.article}
-              />
-            );
-          })}
-        </View>
-      ) : null}
-
-      {noArticlesForLanguage ? null : (
-        <View style={styles.headingContainer}>
-          <AppText namedStyle="h3">{t("heading_popular")}</AppText>
-          <AppText
-            style={styles.viewAllText}
-            onPress={() => handleRedirect("read_count")}
-          >
-            {t("view_all")}
-          </AppText>
-        </View>
-      )}
-
-      {mostReadArticlesLoading ? (
-        <View style={styles.loadingContainer}>
-          <Loading style={styles.loading} />
-        </View>
-      ) : null}
-
-      {!mostReadArticlesLoading && mostReadArticles?.length > 0 ? (
-        <View style={styles.articlesContainer}>
-          {mostReadArticles?.map((article, index) => {
-            return (
-              <CardMedia
-                title={article.title}
-                image={article.imageMedium}
-                description={article.description}
-                labels={article.labels}
-                creator={article.creator}
-                readingTime={article.readingTime}
-                categoryName={article.categoryName}
-                onPress={() => {
-                  navigation.push("ArticleInformation", {
-                    articleId: article.id,
-                  });
-                }}
-                key={index}
-                t={t}
-                style={styles.article}
-              />
-            );
-          })}
-        </View>
-      ) : null}
     </Block>
   );
 };
@@ -252,5 +276,9 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+  },
+  noResults: {
+    textAlign: "center",
+    marginTop: 12,
   },
 });

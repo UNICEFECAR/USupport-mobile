@@ -5,5 +5,12 @@
   "read_more": "Read more",
   "min_read": "min read",
   "by": "By {{creator}}",
-  "heading_no_language_results": "We could not find any articles based on your selected language."
+  "heading_no_language_results": "We could not find any articles based on your selected language.",
+  "heading_newest_videos": "Newest videos",
+  "heading_popular_videos": "Most popular videos",
+  "view_more": "View more",
+  "more_videos": "More videos",
+  "heading_newest_podcasts": "Newest podcasts",
+  "heading_popular_podcasts": "Most popular podcasts",
+  "more_podcasts": "More podcasts"
 }

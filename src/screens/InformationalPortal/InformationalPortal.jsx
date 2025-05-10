@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   View,
@@ -8,7 +8,7 @@ import {
   Platform,
 } from "react-native";
 
-import { Screen, AppText } from "#components";
+import { Screen, AppText, TabsUnderlined } from "#components";
 import {
   MascotHeadingBlock,
   InformationalPortal as InformationalPortalBlock,
@@ -28,6 +28,24 @@ import { useGetTheme } from "#hooks";
 export const InformationalPortal = ({ navigation }) => {
   const { isDarkMode } = useGetTheme();
   const { t } = useTranslation("informational-portal-screen");
+
+  // Content type tabs
+  const [contentTabs, setContentTabs] = useState([
+    { label: "articles", value: "articles", isSelected: true },
+    { label: "videos", value: "videos", isSelected: false },
+    { label: "podcasts", value: "podcasts", isSelected: false },
+  ]);
+
+  const handleTabSelect = (index) => {
+    const tabsCopy = [...contentTabs];
+    tabsCopy.forEach((tab, i) => {
+      tab.isSelected = i === index;
+    });
+    setContentTabs(tabsCopy);
+  };
+
+  const selectedContentType =
+    contentTabs.find((tab) => tab.isSelected)?.value || "articles";
 
   const heading = (
     <View>
@@ -56,7 +74,21 @@ export const InformationalPortal = ({ navigation }) => {
           >
             {heading}
           </MascotHeadingBlock>
-          <InformationalPortalBlock navigation={navigation} />
+
+          <View style={styles.tabsContainer}>
+            <TabsUnderlined
+              options={contentTabs.map((x) => ({
+                ...x,
+                label: t(x.label),
+              }))}
+              handleSelect={handleTabSelect}
+            />
+          </View>
+
+          <InformationalPortalBlock
+            navigation={navigation}
+            contentType={selectedContentType}
+          />
           <GiveSuggestion navigation={navigation} />
         </ScrollView>
       </KeyboardAvoidingView>
@@ -69,4 +101,8 @@ const styles = StyleSheet.create({
   heading: { color: appStyles.colorBlue_263238 },
   subheading: { marginTop: 16, color: appStyles.colorBlue_263238 },
   darkModeText: { color: appStyles.colorWhite_ff },
+  tabsContainer: {
+    marginTop: 18,
+    paddingHorizontal: 16,
+  },
 });
