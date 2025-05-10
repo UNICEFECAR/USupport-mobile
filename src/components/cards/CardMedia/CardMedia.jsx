@@ -9,6 +9,7 @@ import { Like } from "../../icons/Like";
 import { appStyles } from "#styles";
 import articlePlaceholder from "#assets";
 import { useGetTheme } from "#hooks";
+import { Like } from "../../icons/Like";
 
 /**
  * CardMedia
@@ -24,7 +25,12 @@ export const CardMedia = ({
   readingTime,
   description,
   categoryName,
+  likes,
+  dislikes,
+  isLikedByUser,
+  isDislikedByUser,
   onPress,
+  contentType = "articles",
   t,
   style,
 }) => {
@@ -52,26 +58,48 @@ export const CardMedia = ({
       <View style={styles.textContainer}>
         <View style={styles.headingContainer}>
           <AppText namedStyle="h3">{title}</AppText>
+          {contentType !== "articles" && (
+            <Like
+              likes={likes}
+              isLiked={isLikedByUser}
+              dislikes={dislikes}
+              isDisliked={isDislikedByUser}
+            />
+          )}
         </View>
-        <View style={styles.creatorContainer}>
-          <AppText namedStyle="smallText">{t("by", { creator })}</AppText>
-          <Icon
-            size="sm"
-            name="time"
-            color={appStyles.colorGray_66768d}
-            style={styles.icon}
-          />
-          <AppText namedStyle="smallText">
-            {readingTime} {t("min_read")}
-          </AppText>
-        </View>
+        {creator && (
+          <View style={styles.creatorAndLikeContainer}>
+            <View style={styles.creatorContainer}>
+              <AppText namedStyle="smallText">{t("by", { creator })}</AppText>
+              <View style={styles.readingTime}>
+                <Icon
+                  size="sm"
+                  name="time"
+                  color={appStyles.colorGray_66768d}
+                  style={styles.icon}
+                />
+                <AppText namedStyle="smallText">
+                  {readingTime} {t("min_read")}
+                </AppText>
+              </View>
+            </View>
+            <View style={styles.likeContainer}>
+              <Like
+                likes={likes}
+                isLiked={isLikedByUser}
+                dislikes={dislikes}
+                isDisliked={isDislikedByUser}
+              />
+            </View>
+          </View>
+        )}
         <View style={styles.descriptionContainer}>
           <AppText namedStyle="smallText" id="description" numberOfLines={2}>
             {description}
           </AppText>
         </View>
         <AppButton
-          label={t("read_more")}
+          label={t(contentType === "articles" ? "read_more" : "view_more")}
           size="sm"
           style={styles.readMoreButton}
           onPress={onPress}
@@ -119,11 +147,29 @@ const styles = StyleSheet.create({
   descriptionContainer: {
     marginTop: 8,
   },
-  creatorContainer: { flexDirection: "row", marginTop: 8 },
-  icon: { marginLeft: 16, marginRight: 5 },
+  creatorContainer: {
+    flexDirection: "column",
+    alignItems: "flex-start",
+    marginTop: 8,
+  },
+  icon: { marginRight: 5 },
   readMoreButton: { marginTop: 16 },
   categoryText: {
     fontFamily: appStyles.fontBold,
     color: appStyles.colorBlue_3d527b,
+  },
+  likeContainer: {
+    justifyContent: "flex-start",
+  },
+  creatorAndLikeContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+  },
+  readingTime: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 5,
   },
 });

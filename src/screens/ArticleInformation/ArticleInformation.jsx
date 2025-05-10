@@ -7,9 +7,11 @@ import { Screen, CardMedia, Block, Loading, AppText, Icon } from "#components";
 
 import { ArticleView } from "#blocks";
 
-import { cmsSvc, adminSvc } from "#services";
+import { cmsSvc, adminSvc, userSvc } from "#services";
 
-import { destructureArticleData } from "#utils";
+import { destructureArticleData, checkIsLikedAndDisliked } from "#utils";
+
+import { useGetUserContentRatings } from "#hooks";
 
 import { appStyles } from "#styles";
 
@@ -24,7 +26,7 @@ export const ArticleInformation = ({ navigation, route }) => {
   const id = route.params.articleId;
 
   const { i18n, t } = useTranslation("article-information");
-
+  const { data: userContentRatings } = useGetUserContentRatings();
   const getArticlesIds = async () => {
     // Request articles ids from the master DB based for website platform
     const articlesIds = await adminSvc.getArticles();
@@ -37,12 +39,17 @@ export const ArticleInformation = ({ navigation, route }) => {
   const getArticleData = async () => {
     let articleIdToFetch = id;
 
+    const contentRatings = await userSvc.getRatingsForContent({
+      contentType: "article",
+      contentId: articleIdToFetch,
+    });
     const { data } = await cmsSvc.getArticleById(
       articleIdToFetch,
       i18n.language
     );
 
     const finalData = destructureArticleData(data);
+    finalData.contentRating = contentRatings.data;
     return finalData;
   };
 
@@ -118,6 +125,8 @@ export const ArticleInformation = ({ navigation, route }) => {
             </AppText>
             {moreArticles.map((article, index) => {
               const articleData = destructureArticleData(article);
+              const { isLikedByUser, isDislikedByUser } =
+                checkIsLikedAndDisliked(userContentRatings, article.id);
               return (
                 <CardMedia
                   title={articleData.title}
@@ -127,6 +136,10 @@ export const ArticleInformation = ({ navigation, route }) => {
                   creator={articleData.creator}
                   readingTime={articleData.readingTime}
                   categoryName={articleData.categoryName}
+                  likes={articleData.likes}
+                  dislikes={articleData.dislikes}
+                  isLikedByUser={isLikedByUser}
+                  isDislikedByUser={isDislikedByUser}
                   onPress={() => {
                     navigation.push("ArticleInformation", {
                       articleId: articleData.id,

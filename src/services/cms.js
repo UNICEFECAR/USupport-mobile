@@ -13,6 +13,8 @@ const faqsEndpoint = CMS_API_URL + "/faqs";
 const sosCentersEndpoint = CMS_API_URL + "/sos-centers";
 const cookiePolicyEndpoint = CMS_API_URL + "/policy-cookies";
 const termsOfUseEndpoint = CMS_API_URL + "/terms-of-uses";
+const videosEndpoint = CMS_API_URL + "/videos";
+const podcastsEndpoint = CMS_API_URL + "/podcasts";
 
 /**
  * generate a querry string from an object
@@ -352,6 +354,60 @@ async function getSOSCenterAvailableLocales(id) {
   return data;
 }
 
+async function addRating({ id, action, contentType }) {
+  const endpoint =
+    contentType === "article"
+      ? articlesEndpoint
+      : contentType === "video"
+        ? videosEndpoint
+        : contentType === "podcast"
+          ? podcastsEndpoint
+          : null;
+  return http.put(`${endpoint}/addRating/${id}`, { action });
+}
+
+async function getVideos(queryObj) {
+  const querryString = generateQuerryString(queryObj);
+  const { data } = await http.get(`${videosEndpoint}${querryString}`);
+
+  return { data };
+}
+
+async function getVideoById(id, locale = "en") {
+  const querryString = generateQuerryString({ populate: true, locale });
+
+  const { data } = await http.get(`${videosEndpoint}/${id}${querryString}`);
+  return data;
+}
+
+async function getVideoLocales(id) {
+  const { data } = await http.get(`${videosEndpoint}/available-locales/${id}`);
+
+  return data;
+}
+
+async function getPodcasts(queryObj) {
+  const querryString = generateQuerryString(queryObj);
+  const { data } = await http.get(`${podcastsEndpoint}${querryString}`);
+
+  return { data };
+}
+
+async function getPodcastById(id, locale = "en") {
+  const querryString = generateQuerryString({ populate: true, locale });
+
+  const { data } = await http.get(`${podcastsEndpoint}/${id}${querryString}`);
+  return data;
+}
+
+async function getPodcastLocales(id) {
+  const { data } = await http.get(
+    `${podcastsEndpoint}/available-locales/${id}`
+  );
+
+  return data;
+}
+
 export default {
   getArticles,
   getArticleById,
@@ -367,4 +423,11 @@ export default {
   getFAQAvailableLocales,
   getSOSCenters,
   getSOSCenterAvailableLocales,
+  addRating,
+  getVideos,
+  getVideoById,
+  getVideoLocales,
+  getPodcasts,
+  getPodcastById,
+  getPodcastLocales,
 };

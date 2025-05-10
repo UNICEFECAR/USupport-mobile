@@ -5,5 +5,9 @@
   "read_more": "Узнать больше",
   "min_read": "минут на прочтение",
   "by": "От {{creator}}",
-  "heading_no_language_results": "Мы не смогли найти статьи на выбранном вами языке."
+  "heading_no_language_results": "Мы не смогли найти статьи на выбранном вами языке.",
+  "heading_newest_videos": "Новые видео",
+  "heading_popular_videos": "Самые популярные видео",
+  "view_more": "Посмотреть больше",
+  "more_videos": "Больше видео"
 }

@@ -27,9 +27,11 @@ export const Like = ({
     <View style={styles.like}>
       <View style={styles.voteWrapper}>
         <TouchableOpacity
-          onPress={() =>
-            handleClick(isLiked ? "remove-like" : "like", answerId)
-          }
+          onPress={() => {
+            if (handleClick) {
+              handleClick(isLiked ? "remove-like" : "like", answerId);
+            }
+          }}
         >
           <View
             style={[
@@ -51,9 +53,11 @@ export const Like = ({
       </View>
       <View style={styles.voteWrapper}>
         <TouchableOpacity
-          onPress={() =>
-            handleClick(isDisliked ? "remove-dislike" : "dislike", answerId)
-          }
+          onPress={() => {
+            if (handleClick) {
+              handleClick(isDisliked ? "remove-dislike" : "dislike", answerId);
+            }
+          }}
         >
           <View
             style={[

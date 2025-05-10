@@ -16,9 +16,9 @@ import { appStyles } from "#styles";
 
 import { localStorage, adminSvc, cmsSvc } from "#services";
 
-import { useEventListener } from "#hooks";
+import { useEventListener, useGetUserContentRatings } from "#hooks";
 
-import { destructureArticleData } from "#utils";
+import { destructureArticleData, checkIsLikedAndDisliked } from "#utils";
 import { Error } from "../../components/errors";
 
 /**
@@ -56,6 +56,8 @@ export const ArticlesDashboard = ({
       setUsersLanguage(i18n.language);
     }
   }, [i18n.language]);
+
+  const { data: contentRatings } = useGetUserContentRatings();
 
   //--------------------- Age Groups ----------------------//
   const [ageGroups, setAgeGroups] = useState();
@@ -274,6 +276,12 @@ export const ArticlesDashboard = ({
                 newestArticles?.length > 0 &&
                 allCategories.length > 1 &&
                 newestArticles?.map((article, index) => {
+                  const { isLikedByUser, isDislikedByUser } =
+                    checkIsLikedAndDisliked(
+                      contentRatings,
+                      article.id,
+                      "article"
+                    );
                   return (
                     <CardMedia
                       style={styles.cardMedia}
@@ -284,6 +292,10 @@ export const ArticlesDashboard = ({
                       creator={article.creator}
                       readingTime={article.readingTime}
                       categoryName={article.categoryName}
+                      likes={article.likes}
+                      dislikes={article.dislikes}
+                      isLikedByUser={isLikedByUser}
+                      isDislikedByUser={isDislikedByUser}
                       onPress={() => {
                         navigation.push("ArticleInformation", {
                           articleId: article.id,

@@ -1,16 +1,14 @@
 import React, { useEffect } from "react";
-import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 import Markdown from "react-native-markdown-display";
 import { useQueryClient } from "@tanstack/react-query";
-import Share from "react-native-share";
 
-import { Icon, Label, Block, AppText } from "#components";
+import { Icon, Label, Block, AppText, Like } from "#components";
 import { appStyles } from "#styles";
 import articlePlaceholder from "#assets";
 import { useGetTheme, useAddContentRating } from "#hooks";
 import { cmsSvc } from "#services";
 import { constructShareUrl, generatePDF } from "#utils";
-
 /**
  * ArticleView
  *
@@ -20,6 +18,116 @@ import { constructShareUrl, generatePDF } from "#utils";
  */
 export const ArticleView = ({ articleData }) => {
   const { colors } = useGetTheme();
+  const queryClient = useQueryClient();
+
+  const [contentRating, setContentRating] = React.useState(
+    articleData.contentRating
+  );
+  useEffect(() => {
+    setContentRating(articleData.contentRating);
+  }, [articleData.contentRating]);
+
+  const onMutate = (data) => {
+    const prevData = JSON.parse(JSON.stringify(contentRating));
+
+    const likes = prevData.likes;
+    const dislikes = prevData.dislikes;
+    const isLikedByUser = prevData.isLikedByUser;
+    const isDislikedByUser = prevData.isDislikedByUser;
+
+    const newData = { ...contentRating };
+
+    if (isLikedByUser && data.positive === null) {
+      newData.likes = likes - 1;
+      newData.isLikedByUser = false;
+
+      cmsSvc.addRating({
+        id: articleData.id,
+        action: "remove-like",
+        contentType: "article",
+      });
+    }
+    if (isDislikedByUser && data.positive === null) {
+      newData.dislikes = dislikes - 1;
+      newData.isDislikedByUser = false;
+      cmsSvc.addRating({
+        id: articleData.id,
+        action: "remove-dislike",
+        contentType: "article",
+      });
+    }
+
+    if (data.positive === true) {
+      newData.likes = likes + 1;
+      newData.isLikedByUser = true;
+      cmsSvc.addRating({
+        id: articleData.id,
+        action: "add-like",
+        contentType: "article",
+      });
+      if (isDislikedByUser) {
+        newData.dislikes = dislikes - 1;
+        newData.isDislikedByUser = false;
+        cmsSvc.addRating({
+          id: articleData.id,
+          action: "remove-dislike",
+          contentType: "article",
+        });
+      }
+    }
+
+    if (data.positive === false) {
+      newData.dislikes = dislikes + 1;
+      newData.isDislikedByUser = true;
+      cmsSvc.addRating({
+        id: articleData.id,
+        action: "add-dislike",
+        contentType: "article",
+      });
+      if (isLikedByUser) {
+        newData.likes = likes - 1;
+        newData.isLikedByUser = false;
+        cmsSvc.addRating({
+          id: articleData.id,
+          action: "remove-like",
+          contentType: "article",
+        });
+      }
+    }
+
+    setContentRating(newData);
+
+    return () => {
+      setContentRating(prevData);
+    };
+  };
+  const onError = (error, rollback) => {
+    rollback();
+    toast.error(error);
+  };
+
+  const onSuccess = () => {
+    queryClient.invalidateQueries({ queryKey: ["userContentRatings"] });
+  };
+
+  const addContentRatingMutation = useAddContentRating(
+    onMutate,
+    onError,
+    onSuccess
+  );
+
+  const handleAddRating = (action) => {
+    addContentRatingMutation({
+      contentId: articleData.id,
+      positive:
+        action === "like"
+          ? true
+          : action === "remove-like" || action === "remove-dislike"
+            ? null
+            : false,
+      contentType: "article",
+    });
+  };
 
   const handleShare = async () => {
     const url = constructShareUrl({
@@ -100,11 +208,22 @@ export const ArticleView = ({ articleData }) => {
             </TouchableOpacity>
           </View>
         </View>
-
-        <View style={styles.labelsContainer}>
-          {articleData.labels.map((label, index) => {
-            return <Label style={styles.label} text={label.name} key={index} />;
-          })}
+        <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
+          <View style={styles.labelsContainer}>
+            {articleData.labels.map((label, index) => {
+              return (
+                <Label style={styles.label} text={label.name} key={index} />
+              );
+            })}
+          </View>
+          <Like
+            handleClick={handleAddRating}
+            likes={contentRating?.likes || 0}
+            isLiked={contentRating?.isLikedByUser || false}
+            dislikes={contentRating?.dislikes || 0}
+            isDisliked={contentRating?.isDislikedByUser || false}
+            answerId={articleData.id}
+          />
         </View>
 
         <Markdown
@@ -155,6 +274,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
+    width: "70%",
   },
   label: { marginRight: 8, marginBottom: 8, paddingVertical: 0 },
   creatorContainer: {
