@@ -28,6 +28,11 @@ import {
   ChangePasscode,
   TermsOfUse,
   SetUpBiometrics,
+  // JitsiMeeting,
+  Videos,
+  VideoInformation,
+  PodcastInformation,
+  Podcasts,
 } from "#screens";
 
 import { Context } from "#services";
@@ -41,6 +46,7 @@ export const AppNavigation = () => {
       screenOptions={{ headerShown: false }}
       initialRouteName={initialRouteName}
     >
+      {/* <Stack.Screen name="JitsiMeeting" component={JitsiMeeting} /> */}
       <Stack.Screen name="RegisterAboutYou" component={RegisterAboutYou} />
       <Stack.Screen
         options={{ gestureEnabled: false }}
@@ -73,6 +79,11 @@ export const AppNavigation = () => {
       <Stack.Screen name="PaymentHistory" component={PaymentHistory} />
       <Stack.Screen name="ChangePasscode" component={ChangePasscode} />
       <Stack.Screen name="TermsOfUse" component={TermsOfUse} />
+      <Stack.Screen name="Videos" component={Videos} />
+      <Stack.Screen name="VideoInformation" component={VideoInformation} />
+      <Stack.Screen name="PodcastInformation" component={PodcastInformation} />
+      <Stack.Screen name="Podcasts" component={Podcasts} />
+
       <Stack.Screen
         options={{ gestureEnabled: false }}
         name="SetUpBiometrics"

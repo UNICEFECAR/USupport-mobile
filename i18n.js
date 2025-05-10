@@ -38,6 +38,7 @@ import {
   MoodTrackHistory,
   MyQA,
   SetUpBiometrics,
+  Videos,
 } from "./src/blocks/locales.js";
 
 import {
@@ -63,6 +64,8 @@ import {
   SOSCenter as SOSCenterScreen,
   LocalAuthenticationScreen,
   MyQA as MyQAScreen,
+  Videos as VideosScreen,
+  Podcasts as PodcastsScreen,
 } from "./src/screens/locales.js";
 
 import {
@@ -128,6 +131,7 @@ const resources = {
     "mood-track-history": MoodTrackHistory.en,
     "my-qa": MyQA.en,
     "set-up-biometrics": SetUpBiometrics.en,
+    videos: Videos.en,
 
     // Screens
     "activity-history": ActivityHistory.en,
@@ -157,7 +161,8 @@ const resources = {
     "share-platform-screen": SharePlatformScreen.en,
     "sos-center-screen": SOSCenterScreen.en,
     "my-qa-screen": MyQAScreen.en,
-
+    "videos-screen": VideosScreen.en,
+    "podcasts-screen": PodcastsScreen.en,
     // Backdrops
     "cancel-consultation": CancelConsultation.en,
     "change-password": ChangePassword.en,
@@ -220,6 +225,7 @@ const resources = {
     "mood-track-history": MoodTrackHistory.ru,
     "my-qa": MyQA.ru,
     "set-up-biometrics": SetUpBiometrics.ru,
+    videos: Videos.ru,
 
     // Screens
     "activity-history": ActivityHistory.ru,
@@ -249,6 +255,8 @@ const resources = {
     "share-platform-screen": SharePlatformScreen.ru,
     "sos-center-screen": SOSCenterScreen.ru,
     "my-qa-screen": MyQAScreen.ru,
+    "videos-screen": VideosScreen.ru,
+    "podcasts-screen": PodcastsScreen.ru,
 
     // Backdrops
     "cancel-consultation": CancelConsultation.ru,
@@ -312,6 +320,7 @@ const resources = {
     "mood-track-history": MoodTrackHistory.kk,
     "my-qa": MyQA.kk,
     "set-up-biometrics": SetUpBiometrics.kk,
+    videos: Videos.kk,
 
     // Screens
     "activity-history": ActivityHistory.kk,
@@ -341,7 +350,8 @@ const resources = {
     "share-platform-screen": SharePlatformScreen.kk,
     "sos-center-screen": SOSCenterScreen.kk,
     "my-qa-screen": MyQAScreen.kk,
-
+    "videos-screen": VideosScreen.kk,
+    "podcasts-screen": PodcastsScreen.kk,
     // Backdrops
     "cancel-consultation": CancelConsultation.kk,
     "change-password": ChangePassword.kk,
@@ -404,6 +414,7 @@ const resources = {
     "mood-track-history": MoodTrackHistory.uk,
     "my-qa": MyQA.uk,
     "set-up-biometrics": SetUpBiometrics.uk,
+    videos: Videos.uk,
 
     // Screens
     "activity-history": ActivityHistory.uk,
@@ -433,6 +444,8 @@ const resources = {
     "share-platform-screen": SharePlatformScreen.uk,
     "sos-center-screen": SOSCenterScreen.uk,
     "my-qa-screen": MyQAScreen.uk,
+    "videos-screen": VideosScreen.uk,
+    "podcasts-screen": PodcastsScreen.uk,
 
     // Backdrops
     "cancel-consultation": CancelConsultation.uk,
@@ -496,6 +509,7 @@ const resources = {
     "mood-track-history": MoodTrackHistory.pl,
     "my-qa": MyQA.pl,
     "set-up-biometrics": SetUpBiometrics.pl,
+    videos: Videos.pl,
 
     // Screens
     "activity-history": ActivityHistory.pl,
@@ -525,6 +539,8 @@ const resources = {
     "share-platform-screen": SharePlatformScreen.pl,
     "sos-center-screen": SOSCenterScreen.pl,
     "my-qa-screen": MyQAScreen.pl,
+    "videos-screen": VideosScreen.pl,
+    "podcasts-screen": PodcastsScreen.pl,
 
     // Backdrops
     "cancel-consultation": CancelConsultation.pl,
