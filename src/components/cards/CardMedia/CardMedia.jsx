@@ -57,7 +57,7 @@ export const CardMedia = ({
       <View style={styles.textContainer}>
         <View style={styles.headingContainer}>
           <AppText namedStyle="h3">{title}</AppText>
-          {contentType !== "article" && (
+          {contentType !== "articles" && (
             <Like
               likes={likes}
               isLiked={isLikedByUser}
@@ -66,30 +66,32 @@ export const CardMedia = ({
             />
           )}
         </View>
-        <View style={styles.creatorContainer}>
-          {creator && (
-            <React.Fragment>
+        {creator && (
+          <View style={styles.creatorAndLikeContainer}>
+            <View style={styles.creatorContainer}>
               <AppText namedStyle="smallText">{t("by", { creator })}</AppText>
-              <Icon
-                size="sm"
-                name="time"
-                color={appStyles.colorGray_66768d}
-                style={styles.icon}
-              />
-              <AppText namedStyle="smallText">
-                {readingTime} {t("min_read")}
-              </AppText>
-              <View style={styles.likeContainer}>
-                <Like
-                  likes={likes}
-                  isLiked={isLikedByUser}
-                  dislikes={dislikes}
-                  isDisliked={isDislikedByUser}
+              <View style={styles.readingTime}>
+                <Icon
+                  size="sm"
+                  name="time"
+                  color={appStyles.colorGray_66768d}
+                  style={styles.icon}
                 />
+                <AppText namedStyle="smallText">
+                  {readingTime} {t("min_read")}
+                </AppText>
               </View>
-            </React.Fragment>
-          )}
-        </View>
+            </View>
+            <View style={styles.likeContainer}>
+              <Like
+                likes={likes}
+                isLiked={isLikedByUser}
+                dislikes={dislikes}
+                isDisliked={isDislikedByUser}
+              />
+            </View>
+          </View>
+        )}
         <View style={styles.descriptionContainer}>
           <AppText namedStyle="smallText" id="description" numberOfLines={2}>
             {description}
@@ -144,16 +146,29 @@ const styles = StyleSheet.create({
   descriptionContainer: {
     marginTop: 8,
   },
-  creatorContainer: { flexDirection: "row", marginTop: 8 },
-  icon: { marginLeft: 16, marginRight: 5 },
+  creatorContainer: {
+    flexDirection: "column",
+    alignItems: "flex-start",
+    marginTop: 8,
+  },
+  icon: { marginRight: 5 },
   readMoreButton: { marginTop: 16 },
   categoryText: {
     fontFamily: appStyles.fontBold,
     color: appStyles.colorBlue_3d527b,
   },
   likeContainer: {
-    flex: 1,
-    alignItems: "flex-end",
     justifyContent: "flex-start",
+  },
+  creatorAndLikeContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+  },
+  readingTime: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 5,
   },
 });

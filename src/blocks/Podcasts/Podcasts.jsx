@@ -230,7 +230,7 @@ export const Podcasts = ({ navigation, showSearch, showCategories, sort }) => {
                     dislikes={podcastData.dislikes}
                     isLikedByUser={isLikedByUser}
                     isDislikedByUser={isDislikedByUser}
-                    contentType="podcast"
+                    contentType="podcasts"
                     t={t}
                     onPress={() => {
                       navigation.push("PodcastInformation", {
