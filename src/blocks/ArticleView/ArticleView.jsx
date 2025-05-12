@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
-import { View, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import Markdown from "react-native-markdown-display";
 import { useQueryClient } from "@tanstack/react-query";
+import { Share } from "react-native-share";
 
 import { Icon, Label, Block, AppText, Like } from "#components";
 import { appStyles } from "#styles";
