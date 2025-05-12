@@ -9,7 +9,7 @@
   "modal_coupon_input_placeholder": "KUPON1",
   "heading_with_coupon": "Wybierz konsultanta, aby użyć kupon: {{coupon}}",
   "remove_coupon_label": "Usuń kupon",
-  "coupon_paragraph": "Kupony zapewniają \"bezpłatne\" sesje i są sponsorowane przez naszych partnerów.",
+  "coupon_paragraph": "Kupony zapewniają bezpłatne sesje i są sponsorowane przez naszych partnerów.",
   "coupon_paragraph_two": "Jeśli otrzymałeś kod kuponu z kampanii w mediach społecznościowych lub od partnera, skopiuj go i wklej poniżej. Po przesłaniu kodu kuponu zobaczysz wszystkich konsultantów, którzy go obsługują i ich dostępność. Kupon może obsługiwać jedną lub więcej sesji. Platforma wskaże, czy kupon wygasł lub osiągnął maksymalną liczbę wykorzystanych sesji.",
   "max_price": "Cena maksymalna",
   "providers_free_consultation_label": "Tylko bezpłatna konsultacja"
