@@ -37,7 +37,6 @@ export const PodcastInformation = ({ navigation, route }) => {
 
     const { data } = await cmsSvc.getPodcastById(id, i18n.language);
     const finalData = destructurePodcastData(data);
-    console.log("finalData", finalData);
     finalData.contentRating = contentRatings.data;
     return finalData;
   };
