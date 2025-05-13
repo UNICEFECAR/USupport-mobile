@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import {
   View,
@@ -6,7 +6,9 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
+  RefreshControl,
 } from "react-native";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { Screen, AppText, TabsUnderlined } from "#components";
 import {
@@ -28,6 +30,8 @@ import { useGetTheme } from "#hooks";
 export const InformationalPortal = ({ navigation }) => {
   const { isDarkMode } = useGetTheme();
   const { t } = useTranslation("informational-portal-screen");
+  const queryClient = useQueryClient();
+  const [refreshing, setRefreshing] = useState(false);
 
   // Content type tabs
   const [contentTabs, setContentTabs] = useState([
@@ -46,6 +50,17 @@ export const InformationalPortal = ({ navigation }) => {
 
   const selectedContentType =
     contentTabs.find((tab) => tab.isSelected)?.value || "articles";
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    Promise.all([
+      queryClient.invalidateQueries([`${selectedContentType}Ids`]),
+      queryClient.invalidateQueries([`${selectedContentType}-createdAt`]),
+      queryClient.invalidateQueries([`${selectedContentType}-popular`]),
+    ]).finally(() => {
+      setRefreshing(false);
+    });
+  }, [queryClient, selectedContentType]);
 
   const heading = (
     <View>
@@ -67,7 +82,13 @@ export const InformationalPortal = ({ navigation }) => {
         behavior={Platform.OS === "ios" ? "position" : null}
         keyboardVerticalOffset={64}
       >
-        <ScrollView keyboardShouldPersistTaps="handled">
+        <ScrollView
+          keyboardShouldPersistTaps="handled"
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+          showsVerticalScrollIndicator={false}
+        >
           <MascotHeadingBlock
             image={mascotHappyPurple}
             style={styles.headingBlock}
@@ -88,6 +109,7 @@ export const InformationalPortal = ({ navigation }) => {
           <InformationalPortalBlock
             navigation={navigation}
             contentType={selectedContentType}
+            onRefresh={onRefresh}
           />
           <GiveSuggestion navigation={navigation} />
         </ScrollView>
