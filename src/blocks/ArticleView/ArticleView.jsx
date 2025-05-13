@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import Markdown from "react-native-markdown-display";
 import { useQueryClient } from "@tanstack/react-query";
-import { Share } from "react-native-share";
+import Share from "react-native-share";
 
 import { Icon, Label, Block, AppText, Like } from "#components";
 import { appStyles } from "#styles";
@@ -141,7 +141,6 @@ export const ArticleView = ({ articleData }) => {
       url,
     });
   };
-
   const handleExportPDF = async () => {
     try {
       const file = await generatePDF(articleData);
