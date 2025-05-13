@@ -6,8 +6,13 @@
   "min_read": "хв читання",
   "by": "Від {{creator}}",
   "heading_no_language_results": "Ми не змогли знайти жодної статті вибраною Вами мовою.",
+  "heading_no_language_results_videos": "Ми не змогли знайти жодного відео вибраною Вами мовою.",
+  "heading_no_language_results_podcasts": "Ми не змогли знайти жодного підкасту вибраною Вами мовою.",
   "heading_newest_videos": "Найновіші відео",
   "heading_popular_videos": "Найпопулярніші відео",
   "view_more": "Переглянути більше",
-  "more_videos": "Більше відео"
+  "more_videos": "Більше відео",
+  "heading_newest_podcasts": "Найновіші підкасти",
+  "heading_popular_podcasts": "Найпопулярніші підкасти",
+  "no_results": "Нічого не знайдено"
 }

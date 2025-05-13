@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { StyleSheet, View, ScrollView } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 
@@ -199,11 +199,18 @@ export const InformationalPortal = ({
   const noContentForLanguage =
     contentIdsQuery.isFetched && contentIdsQuery.data?.length === 0;
 
+  const noContentForLanguageText =
+    contentType === "articles"
+      ? t("heading_no_language_results")
+      : contentType === "videos"
+        ? t("heading_no_language_results_videos")
+        : t("heading_no_language_results_podcasts");
+
   return (
     <Block style={styles.informationalPortalBlock}>
       {noContentForLanguage ? (
         <AppText style={styles.headingNoLanguageResults} namedStyle="h3">
-          {t("heading_no_language_results")}
+          {noContentForLanguageText}
         </AppText>
       ) : null}
 
@@ -246,7 +253,8 @@ export const InformationalPortal = ({
 const styles = StyleSheet.create({
   informationalPortalBlock: { paddingTop: 40 },
   headingNoLanguageResults: {
-    marginBottom: 16,
+    marginBottom: 40,
+    textAlign: "center",
   },
   headingContainer: {
     flexDirection: "row",

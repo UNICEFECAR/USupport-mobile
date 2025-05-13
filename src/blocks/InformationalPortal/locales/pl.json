@@ -6,8 +6,13 @@
   "min_read": "min czytania",
   "by": "Przez {{creator}}",
   "heading_no_language_results": "Nie mogliśmy znaleźć żadnych artykułów opartych na wybranym języku.",
+  "heading_no_language_results_videos": "Nie mogliśmy znaleźć żadnych filmów opartych na wybranym języku.",
+  "heading_no_language_results_podcasts": "Nie mogliśmy znaleźć żadnych podcastów opartych na wybranym języku.",
   "heading_newest_videos": "Najnowsze filmy",
   "heading_popular_videos": "Najpopularniejsze filmy",
   "view_more": "Zobacz więcej",
-  "more_videos": "Więcej filmów"
+  "more_videos": "Więcej filmów",
+  "heading_newest_podcasts": "Najnowsze podcasty",
+  "heading_popular_podcasts": "Najpopularniejsze podcasty",
+  "no_results": "Nie znaleziono wyników"
 }
