@@ -132,7 +132,11 @@ export const VideoInformation = ({ navigation, route }) => {
                     <CardMedia
                       contentType="videos"
                       title={videoData.title}
-                      image={videoData.imageMedium || videoData.imageSmall}
+                      image={
+                        videoData.image ||
+                        videoData.imageMedium ||
+                        videoData.imageSmall
+                      }
                       description={videoData.description}
                       labels={videoData.labels}
                       creator={videoData.creator}

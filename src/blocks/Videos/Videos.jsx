@@ -216,12 +216,17 @@ export const Videos = ({ navigation, showSearch, showCategories, sort }) => {
                     rating.positive === false
                 );
                 const videoData = destructureVideoData(video);
+
                 return (
                   <CardMedia
                     contentType="videos"
                     key={index}
                     title={videoData.title}
-                    image={videoData.imageMedium || videoData.imageSmall}
+                    image={
+                      videoData.image ||
+                      videoData.imageMedium ||
+                      videoData.imageSmall
+                    }
                     description={videoData.description}
                     labels={videoData.labels}
                     categoryName={videoData.categoryName}
