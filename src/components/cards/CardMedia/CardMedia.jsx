@@ -9,7 +9,6 @@ import { Like } from "../../icons/Like";
 import { appStyles } from "#styles";
 import articlePlaceholder from "#assets";
 import { useGetTheme } from "#hooks";
-import { Like } from "../../icons/Like";
 
 /**
  * CardMedia
