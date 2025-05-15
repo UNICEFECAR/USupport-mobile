@@ -286,6 +286,6 @@ const styles = StyleSheet.create({
   },
   noResults: {
     textAlign: "center",
-    marginTop: 12,
+    paddingVertical: 30,
   },
 });
