@@ -1,19 +1,9 @@
-import { Platform, PermissionsAndroid } from "react-native";
+import { Platform, PermissionsAndroid, Alert, Linking } from "react-native";
 import RNHTMLtoPDF from "react-native-html-to-pdf";
 import { marked } from "marked";
 
-export const generatePDF = async (articleData) => {
+export const generatePDF = async ({ articleData, t }) => {
   try {
-    // Request storage permission for Android
-    if (Platform.OS === "android") {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
-      );
-      if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
-        throw new Error("Storage permission denied");
-      }
-    }
-
     // Convert markdown to HTML
     const body = marked(articleData.body);
 
@@ -144,7 +134,7 @@ export const generatePDF = async (articleData) => {
             <h1 class="title">${articleData.title}</h1>
             <div class="category">${articleData.categoryName}</div>
             <div class="meta">
-              By ${articleData.creator} • ${articleData.readingTime} min read
+          ${t("by", { creator: articleData.creator })} • ${articleData.readingTime} ${t("min_read")}
             </div>
           </div>
           <div class="labels">
