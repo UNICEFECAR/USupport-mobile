@@ -146,8 +146,18 @@ export const InformationalPortal = ({
         ) : (
           <View style={styles.articlesContainer}>
             {contentItems?.map((item, index) => {
+              const contentTypeString =
+                contentType === "articles"
+                  ? "article"
+                  : contentType === "videos"
+                    ? "video"
+                    : "podcast";
               const { isLikedByUser, isDislikedByUser } =
-                checkIsLikedAndDisliked(contentRatings, item.id, contentType);
+                checkIsLikedAndDisliked(
+                  contentRatings,
+                  item.id,
+                  contentTypeString
+                );
 
               let screenName, idParam;
               if (contentType === "articles") {
