@@ -144,7 +144,7 @@ export const Consultations = ({
     if (isTmpUser) return <AppText>{t("registration_needed")}</AppText>;
     const filteredConsultations = filterConsultations();
 
-    if (filteredConsultations?.length === 0)
+    if (!filteredConsultations || filteredConsultations?.length === 0)
       return (
         <AppText>
           {t(
