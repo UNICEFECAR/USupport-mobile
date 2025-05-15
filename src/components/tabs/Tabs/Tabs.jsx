@@ -187,6 +187,7 @@ const styles = StyleSheet.create({
     borderColor: appStyles.colorGray_ea,
     backgroundColor: appStyles.colorWhite_ff,
     borderRadius: 24,
+    zIndex: 999,
   },
   showMoreOptionsContainer: {
     paddingVertical: 8,
