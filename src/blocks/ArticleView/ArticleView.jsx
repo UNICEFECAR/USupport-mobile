@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import Markdown from "react-native-markdown-display";
 import { useQueryClient } from "@tanstack/react-query";
 import Share from "react-native-share";
+import { useTranslation } from "react-i18next";
 
-import { Icon, Label, Block, AppText, Like } from "#components";
+import { Icon, Label, Block, AppText, Like, Loading } from "#components";
 import { appStyles } from "#styles";
 import articlePlaceholder from "#assets";
 import { useGetTheme, useAddContentRating } from "#hooks";
@@ -18,6 +19,7 @@ import { constructShareUrl, generatePDF } from "#utils";
  * @return {jsx}
  */
 export const ArticleView = ({ articleData }) => {
+  const { t } = useTranslation("article-information");
   const { colors } = useGetTheme();
   const queryClient = useQueryClient();
 
@@ -131,19 +133,23 @@ export const ArticleView = ({ articleData }) => {
   };
 
   const handleShare = async () => {
-    const url = constructShareUrl({
+    const url = await constructShareUrl({
       contentType: "article",
       id: articleData.id,
     });
     Share.open({
       title: articleData.title,
-      message: "Hello, check ths article",
-      url,
+      message: `${t("check_article")}\n\n${url}`,
     });
   };
+  const [isPdfLoading, setIsPdfLoading] = useState(false);
   const handleExportPDF = async () => {
     try {
-      const file = await generatePDF(articleData);
+      setIsPdfLoading(true);
+      const file = await generatePDF({
+        articleData,
+        t,
+      });
       if (file.filePath) {
         Share.open({
           title: articleData.title,
@@ -155,6 +161,8 @@ export const ArticleView = ({ articleData }) => {
       }
     } catch (error) {
       console.error("Error exporting PDF:", error);
+    } finally {
+      setIsPdfLoading(false);
     }
   };
 
@@ -200,8 +208,13 @@ export const ArticleView = ({ articleData }) => {
             <TouchableOpacity
               style={styles.actionButton}
               onPress={handleExportPDF}
+              disabled={isPdfLoading}
             >
-              <Icon name="download" size="sm" color={colors.text} />
+              {isPdfLoading ? (
+                <Loading style={{ width: 16, height: 16 }} />
+              ) : (
+                <Icon name="download" size="sm" color={colors.text} />
+              )}
             </TouchableOpacity>
             <TouchableOpacity style={styles.actionButton} onPress={handleShare}>
               <Icon name="share" size="sm" color={colors.text} />
