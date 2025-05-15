@@ -295,6 +295,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingVertical: 24,
+    paddingBottom: 100,
   },
   loadingContainer: {
     flex: 1,
