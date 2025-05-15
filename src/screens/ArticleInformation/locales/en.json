@@ -3,5 +3,6 @@
   "no_results": "There are no similar articles for the current selected language. ",
   "read_more": "Read more",
   "min_read": "min read",
-  "by": "By {{creator}}"
+  "by": "By {{creator}}",
+  "check_article": "Hello, check this article"
 }
