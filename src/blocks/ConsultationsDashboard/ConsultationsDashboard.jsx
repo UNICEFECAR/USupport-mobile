@@ -89,11 +89,22 @@ export const ConsultationsDashboard = ({
         </View>
       ) : (
         <View style={styles.carouselContainer}>
-          <CustomCarousel
-            data={upcomingConsultations}
-            renderItem={renderCarouselItems}
-            width={width}
-          />
+          {upcomingConsultations.length > 1 ? (
+            <CustomCarousel
+              data={upcomingConsultations}
+              renderItem={renderCarouselItems}
+              width={width}
+            />
+          ) : (
+            <ConsultationBig
+              consultation={upcomingConsultations[0]}
+              handleJoin={openJoinConsultation}
+              handleChange={openEditConsultation}
+              handleAcceptSuggestion={handleAcceptSuggestion}
+              handleSchedule={handleSchedule}
+              t={t}
+            />
+          )}
         </View>
       )}
     </Block>
