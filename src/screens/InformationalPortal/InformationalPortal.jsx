@@ -16,7 +16,6 @@ import {
   InformationalPortal as InformationalPortalBlock,
   GiveSuggestion,
 } from "#blocks";
-import { mascotHappyPurple } from "#assets";
 import { appStyles } from "#styles";
 import { useGetTheme } from "#hooks";
 
@@ -89,10 +88,7 @@ export const InformationalPortal = ({ navigation }) => {
           }
           showsVerticalScrollIndicator={false}
         >
-          <MascotHeadingBlock
-            image={mascotHappyPurple}
-            style={styles.headingBlock}
-          >
+          <MascotHeadingBlock style={styles.headingBlock}>
             {heading}
           </MascotHeadingBlock>
 

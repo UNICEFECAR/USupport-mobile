@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Image, StyleSheet, TouchableOpacity, Modal } from "react-native";
+import Config from "react-native-config";
 
 import { TransparentModal, AppText, Screen } from "#components";
 import { PrivacyPolicy } from "../../blocks/PrivacyPolicy";
 import { appStyles } from "#styles";
-import { mascotHappyBlue } from "#assets";
 import { clientSvc } from "#services";
 import { showToast } from "../../utils/showToast";
 import { useGetTheme } from "#hooks";
+
+const { AMAZON_S3_BUCKET } = Config;
 
 /**
  * RequireDataAgreement
@@ -82,7 +84,13 @@ export const RequireDataAgreement = ({
             </Screen>
           </Modal>
         )}
-        <Image source={mascotHappyBlue} alt="Mascot" style={styles.image} />
+        <Image
+          source={{
+            uri: `${AMAZON_S3_BUCKET}/mascot-happy-blue`,
+          }}
+          alt="Mascot"
+          style={styles.image}
+        />
         <AppText style={styles.text}>{t("text")}</AppText>
         <AppText style={{ color: colors.textSecondary }}>{t("text_2")}</AppText>
         <TouchableOpacity

@@ -1,10 +1,13 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View, Image } from "react-native";
+import Config from "react-native-config";
 
 import { TransparentModal, CustomCarousel, AppText } from "#components";
 
 import { appStyles } from "#styles";
+
+const { AMAZON_S3_BUCKET } = Config;
 
 /**
  * HowItWorksMyQA
@@ -14,28 +17,36 @@ import { appStyles } from "#styles";
  * @return {jsx}
  */
 export const HowItWorksMyQA = ({ isOpen, onClose }) => {
-  const { t } = useTranslation("how-it-works-my-qa");
+  const { t, i18n } = useTranslation("how-it-works-my-qa");
   const width = appStyles.screenWidth * 0.96;
 
   const slides = [
     {
-      image: require("./assets/HowItWorks1Mobile.png"),
+      image: `${AMAZON_S3_BUCKET}/how-it-works-${i18n.language}-1`,
       text: t("subheading_1"),
     },
     {
-      image: require("./assets/HowItWorks2Mobile.png"),
+      image: `${AMAZON_S3_BUCKET}/how-it-works-${i18n.language}-2`,
       text: t("subheading_2"),
     },
     {
-      image: require("./assets/HowItWorks3Mobile.png"),
+      image: `${AMAZON_S3_BUCKET}/how-it-works-${i18n.language}-3`,
       text: t("subheading_3"),
     },
   ];
 
+  console.log(slides);
+
   const renderSlide = ({ item, index }) => (
     <View key={index} style={styles.slide}>
       <AppText namedStyle="text">{item.text}</AppText>
-      <Image source={item.image} style={styles.image} resizeMode="contain" />
+      <Image
+        source={{
+          uri: item.image,
+        }}
+        style={styles.image}
+        resizeMode="contain"
+      />
     </View>
   );
 

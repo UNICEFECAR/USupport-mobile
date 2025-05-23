@@ -9,7 +9,6 @@ import { AppText } from "../../texts";
 import { appStyles } from "#styles";
 
 import { getDayOfTheWeek, getDateView } from "#utils";
-import { specialistPlaceholder } from "#assets";
 import Config from "react-native-config";
 import { IconWifiOff, IconWifiOn } from "../../icons/assets/sprite";
 // import { IconCheckCircle, IconForbidden } from "../../icons/assets/sprite";
@@ -27,7 +26,7 @@ export const ConsultationInformation = ({
   startDate,
   endDate,
   providerName,
-  providerImage = specialistPlaceholder,
+  providerImage,
   price,
   currencySymbol,
   style,

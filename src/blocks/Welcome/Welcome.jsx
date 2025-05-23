@@ -2,10 +2,13 @@ import { Image, ScrollView, StyleSheet, View } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
+import Config from "react-native-config";
 
 import { AppText, AppButton, Block, Dropdown } from "#components";
 import { languageSvc, countrySvc, localStorage, Context } from "#services";
 import { useGetTheme } from "#hooks";
+
+const { AMAZON_S3_BUCKET } = Config;
 
 export function Welcome({ navigation }) {
   const { isDarkMode } = useGetTheme();
@@ -106,6 +109,10 @@ export function Welcome({ navigation }) {
     navigation.push("RegisterPreview");
   };
 
+  const imageUrl = isDarkMode
+    ? `${AMAZON_S3_BUCKET}/logo-vertical-dark`
+    : `${AMAZON_S3_BUCKET}/logo-vertical`;
+
   return (
     <ScrollView contentContainerStyle={styles.flexGrow}>
       <Block style={styles.flexGrow}>
@@ -113,11 +120,9 @@ export function Welcome({ navigation }) {
           <AppText namedStyle="h2">{t("heading")}</AppText>
           <Image
             resizeMode="contain"
-            source={
-              isDarkMode
-                ? require("../../assets/logo-vertical-dark.png")
-                : require("../../assets/logo-vertical.png")
-            }
+            source={{
+              uri: imageUrl,
+            }}
             style={styles.logo}
           />
         </View>

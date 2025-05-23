@@ -1,5 +1,5 @@
-import React from "react";
 import { View, StyleSheet, Image, Pressable } from "react-native";
+import Config from "react-native-config";
 
 import { AppText } from "../../texts/AppText/AppText";
 import { AppButton } from "../../buttons/AppButton/AppButton";
@@ -7,8 +7,10 @@ import { Icon } from "../../icons/Icon";
 import { Like } from "../../icons/Like";
 
 import { appStyles } from "#styles";
-import articlePlaceholder from "#assets";
+
 import { useGetTheme } from "#hooks";
+
+const { AMAZON_S3_BUCKET } = Config;
 
 /**
  * CardMedia
@@ -46,7 +48,13 @@ export const CardMedia = ({
       ]}
     >
       <Image
-        source={image ? { uri: image } : articlePlaceholder}
+        source={
+          image
+            ? { uri: image }
+            : {
+                uri: `${AMAZON_S3_BUCKET}/article-placeholder`,
+              }
+        }
         style={styles.image}
       />
       <View style={styles.categoryContainer}>

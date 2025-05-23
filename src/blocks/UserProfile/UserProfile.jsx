@@ -309,7 +309,7 @@ const styles = StyleSheet.create({
 
   groupHeading: {
     color: appStyles.colorBlue_3d527b,
-    fontFamily: "Nunito_600SemiBold",
+    fontFamily: "Nunito-SemiBold",
   },
 
   versionText: {

@@ -2,6 +2,7 @@ import React, { useState, useMemo, useRef, useContext, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { StyleSheet, ScrollView, View, RefreshControl } from "react-native";
 import { useTranslation } from "react-i18next";
+import Config from "react-native-config";
 
 import {
   Screen,
@@ -28,7 +29,6 @@ import {
 } from "#backdrops";
 
 import { RequireDataAgreement } from "#modals";
-import { mascotHappyPurple } from "#assets";
 import { appStyles } from "#styles";
 import { Context } from "#services";
 
@@ -43,6 +43,8 @@ import {
 } from "#hooks";
 
 import { ONE_HOUR, showToast, parseUTCDate } from "#utils";
+
+const { AMAZON_S3_BUCKET } = Config;
 
 /**
  * Dashboard
@@ -316,10 +318,7 @@ export const Dashboard = ({ navigation }) => {
           />
         }
       >
-        <MascotHeadingBlock
-          image={mascotHappyPurple}
-          style={styles.mascotHeadingBlock}
-        >
+        <MascotHeadingBlock style={styles.mascotHeadingBlock}>
           {clientData?.isLoading || isTmpUser === null ? (
             <Loading />
           ) : (

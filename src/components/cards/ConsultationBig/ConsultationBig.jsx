@@ -1,5 +1,5 @@
-import React from "react";
 import { View, StyleSheet, Image } from "react-native";
+import Config from "react-native-config";
 
 import { AppText } from "../../texts/AppText/AppText";
 import { AppButton } from "../../buttons/AppButton/AppButton";
@@ -12,8 +12,7 @@ import {
   getMonthName,
   getOrdinal,
 } from "#utils";
-import { mascotHappyBlue } from "#assets";
-import Config from "react-native-config";
+
 import { useGetTheme } from "#hooks";
 const { AMAZON_S3_BUCKET } = Config;
 
@@ -112,7 +111,7 @@ export const ConsultationBig = ({
           )}
         </View>
         <Image
-          source={mascotHappyBlue}
+          source={{ uri: `${AMAZON_S3_BUCKET}/mascot-happy-blue` }}
           style={[
             styles.imageMascot,
             appStyles.screenWidth < 350 && styles.imageMascotSmall,

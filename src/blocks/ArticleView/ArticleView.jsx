@@ -4,13 +4,17 @@ import Markdown from "react-native-markdown-display";
 import { useQueryClient } from "@tanstack/react-query";
 import Share from "react-native-share";
 import { useTranslation } from "react-i18next";
+import Config from "react-native-config";
 
 import { Icon, Label, Block, AppText, Like, Loading } from "#components";
 import { appStyles } from "#styles";
-import articlePlaceholder from "#assets";
+
 import { useGetTheme, useAddContentRating } from "#hooks";
 import { cmsSvc } from "#services";
 import { constructShareUrl, generatePDF } from "#utils";
+
+const { AMAZON_S3_BUCKET } = Config;
+
 /**
  * ArticleView
  *
@@ -173,7 +177,7 @@ export const ArticleView = ({ articleData }) => {
           source={
             articleData.imageMedium
               ? { uri: articleData.imageMedium }
-              : articlePlaceholder
+              : { uri: `${AMAZON_S3_BUCKET}/article-placeholder` }
           }
           style={styles.image}
         />
@@ -245,7 +249,7 @@ export const ArticleView = ({ articleData }) => {
             heading3: {
               fontSize: 20,
               lineHeight: 24,
-              fontFamily: "Nunito_600SemiBold",
+              fontFamily: "Nunito-SemiBold",
               color: colors.text,
               marginTop: 20,
               marginBottom: 8,
@@ -253,20 +257,20 @@ export const ArticleView = ({ articleData }) => {
             heading4: {
               fontSize: 16,
               lineHeight: 24,
-              fontFamily: "Nunito_600SemiBold",
+              fontFamily: "Nunito-SemiBold",
               color: colors.text,
               marginTop: 12,
             },
             paragraph: {
               color: colors.textSecondary,
               fontSize: 16,
-              fontFamily: "Nunito_400Regular",
+              fontFamily: "Nunito-Regular",
               lineHeight: 24,
             },
             list_item: {
               color: colors.textSecondary,
               fontSize: 16,
-              fontFamily: "Nunito_400Regular",
+              fontFamily: "Nunito-Regular",
               lineHeight: 24,
             },
           }}

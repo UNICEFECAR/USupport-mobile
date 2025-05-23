@@ -91,11 +91,16 @@ export const TabNavigation = () => {
             selectedTab === routeName
               ? appStyles.colorPrimary_20809e
               : !isDarkMode
-              ? appStyles.colorGray_92989b
-              : appStyles.colorGray_ea
+                ? appStyles.colorGray_92989b
+                : appStyles.colorGray_ea
           }
         />
-        <AppText namedStyle="smallText">{t(text)}</AppText>
+        <AppText
+          style={{ textAlign: "center", paddingBottom: 10 }}
+          namedStyle="smallText"
+        >
+          {t(text)}
+        </AppText>
       </TouchableOpacity>
     );
   };
@@ -158,8 +163,8 @@ export const TabNavigation = () => {
                       selectedTab === "Consultations"
                         ? appStyles.colorPrimary_20809e
                         : !isDarkMode
-                        ? appStyles.colorGray_92989b
-                        : appStyles.colorGray_ea
+                          ? appStyles.colorGray_92989b
+                          : appStyles.colorGray_ea
                     }
                   />
                 </View>

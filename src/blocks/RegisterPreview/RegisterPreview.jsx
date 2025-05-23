@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { StyleSheet, View, Image, ScrollView } from "react-native";
+import Config from "react-native-config";
 
 import {
   Block,
@@ -13,6 +14,8 @@ import {
 
 import { userSvc, localStorage, Context } from "#services";
 import { useError, useGetTheme } from "#hooks";
+
+const { AMAZON_S3_BUCKET } = Config;
 
 /**
  * RegisterPreview
@@ -100,7 +103,9 @@ export const RegisterPreview = ({ navigation }) => {
         <Block style={styles.block}>
           <View style={styles.imageContainer}>
             <Image
-              source={require("../../assets/mascot-happy-blue.png")}
+              source={{
+                uri: `${AMAZON_S3_BUCKET}/mascot-happy-blue`,
+              }}
               style={styles.image}
             />
           </View>

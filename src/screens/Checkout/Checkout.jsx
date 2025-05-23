@@ -3,14 +3,15 @@ import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import { useStripe } from "@stripe/stripe-react-native";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import Config from "react-native-config";
 
 import { paymentsSvc, providerSvc, clientSvc } from "#services";
 import { Screen, AppButton, Loading, Heading, Block } from "#components";
 import { ConfirmConsultation } from "#backdrops";
 import { getDateView, getTime, FIVE_MINUTES } from "#utils";
-
-import { mascotCalmBlue, mascotConfusedBlue, mascotHappyOrange } from "#assets";
 import { showToast, hideToast } from "../../utils/showToast";
+
+const { AMAZON_S3_BUCKET } = Config;
 
 export function Checkout({ navigation, route }) {
   const { t } = useTranslation("checkout-page");
@@ -120,7 +121,9 @@ export function Checkout({ navigation, route }) {
                     consultationDate: getDateView(new Date(selectedSlot)),
                     consultationTime: getTime(new Date(selectedSlot)),
                   }),
-                  mascotToUse: mascotHappyOrange,
+                  mascotToUse: {
+                    uri: `${AMAZON_S3_BUCKET}/mascot-happy-orange`,
+                  },
                   buttonLabel: t("continue_button_label"),
                 };
                 setStatusData(newStatusData);
@@ -132,7 +135,9 @@ export function Checkout({ navigation, route }) {
                 newStatusData = {
                   heading: t("payment_processing_heading"),
                   subHeading: t("payment_processing_subheading"),
-                  mascotToUse: mascotCalmBlue,
+                  mascotToUse: {
+                    uri: `${AMAZON_S3_BUCKET}/mascot-calm-blue`,
+                  },
                   buttonLabel: t("continue_button_label"),
                 };
                 setStatusData(newStatusData);
@@ -141,7 +146,9 @@ export function Checkout({ navigation, route }) {
                 newStatusData = {
                   heading: t("payment_requires_payment_method_heading"),
                   subHeading: t("payment_requires_payment_method_subheading"),
-                  mascotToUse: mascotConfusedBlue,
+                  mascotToUse: {
+                    uri: `${AMAZON_S3_BUCKET}/mascot-confused-blue`,
+                  },
                   buttonLabel: t("try_again_button_label"),
                 };
                 setStatusData(newStatusData);
@@ -151,7 +158,9 @@ export function Checkout({ navigation, route }) {
                 newStatusData = {
                   heading: t("payment_failed_heading"),
                   subHeading: t("payment_failed_subheading"),
-                  mascotToUse: mascotConfusedBlue,
+                  mascotToUse: {
+                    uri: `${AMAZON_S3_BUCKET}/mascot-confused-blue`,
+                  },
                   buttonLabel: t("try_again_button_label"),
                 };
                 setStatusData(newStatusData);

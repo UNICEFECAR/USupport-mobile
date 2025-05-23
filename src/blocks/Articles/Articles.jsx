@@ -281,7 +281,7 @@ export const Articles = ({
       ageGroupId = selectedAgeGroup.id;
     }
 
-    let categoryId = "";
+    let categoryId = null;
     if (allCategories) {
       let selectedCategory = allCategories.find((o) => o.isSelected === true);
       categoryId = selectedCategory.id;
@@ -292,7 +292,7 @@ export const Articles = ({
       limit: 6,
       contains: searchValue,
       ageGroupId: ageGroupId,
-      categoryId: null,
+      categoryId,
       locale: usersLanguage,
       sortBy: sort,
       sortOrder: sort ? "desc" : null,

@@ -90,6 +90,8 @@ import {
   IconMoon,
   ButtonShare,
   IconDownload,
+  IconNoWifi,
+  IconWifiOff,
 } from "./assets/sprite";
 
 /**
@@ -355,6 +357,12 @@ export const Icon = ({ name, size = "md", color, style }) => {
       break;
     case "download":
       icon = <IconDownload color={color} />;
+      break;
+    case "no-wifi":
+      icon = <IconNoWifi color={color} />;
+      break;
+    case "wifi-off":
+      icon = <IconWifiOff size={35} color={color} />;
       break;
     default:
       icon = null;

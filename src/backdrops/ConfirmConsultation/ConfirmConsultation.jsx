@@ -2,11 +2,13 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View, Image } from "react-native";
+import Config from "react-native-config";
 
 import { Backdrop, AppText } from "#components";
-import { mascotHappyOrange } from "#assets";
 
 import { getMonthName, getTimeAsString } from "#utils";
+
+const { AMAZON_S3_BUCKET } = Config;
 
 /**
  * ConfirmConsultation
@@ -36,9 +38,9 @@ export const ConfirmConsultation = ({
   const { startDate, endDate } = consultation;
 
   const getMonthNameString = (date) => {
-    let monthNameString = t(getMonthName(date).toLowerCase())
+    let monthNameString = t(getMonthName(date).toLowerCase());
     return monthNameString;
-  }
+  };
 
   return (
     <Backdrop
@@ -50,7 +52,11 @@ export const ConfirmConsultation = ({
     >
       <View style={styles.contentContainer}>
         <Image
-          source={customMascotImage || mascotHappyOrange}
+          source={
+            customMascotImage || {
+              uri: `${AMAZON_S3_BUCKET}/mascot-happy-orange`,
+            }
+          }
           style={styles.image}
         />
         <View style={styles.textContainer}>

@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
   },
   showMoreTextSelected: {
     color: appStyles.colorSecondaryPressed_6c16d9,
-    fontFamily: "Nunito_600SemiBold",
+    fontFamily: "Nunito-SemiBold",
   },
   showMoreContainer: {
     position: "absolute",
