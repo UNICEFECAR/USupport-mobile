@@ -5,7 +5,6 @@ export { default as mascotConfusedBlue } from "./mascot-confused-blue.png";
 export { default as mascotCalmBlue } from "./mascot-calm-blue.png";
 export { default as loading } from "./Loading.json";
 export { default as logoVertical } from "./logo-vertical.png";
-export { default as logoVerticalDark } from "./logo-vertical-dark.png";
 export { default as articlePlaceholder } from "./article-placeholder.png";
 export { default as radialGreen } from "./radial-green.png";
 export { default as specialistPlaceholder } from "./specialist-placeholder.png";

@@ -55,6 +55,27 @@ abstract_target 'USupportCommonPods' do
       :ccache_enabled => podfile_properties['apple.ccacheEnabled'] == 'true',
     )
 
+    bitcode_strip_path = `xcrun -sdk iphoneos --find bitcode_strip`.strip
+
+     # Actual binary paths
+    twilio_framework = 'Pods/TwilioVideo/TwilioVideo.xcframework/ios-arm64_armv7/TwilioVideo.framework/TwilioVideo'
+    giphy_framework = 'Pods/Giphy/GiphySDK/GiphyUISDK.xcframework/ios-arm64/GiphyUISDK.framework/GiphyUISDK'
+
+    if File.exist?(twilio_framework)
+      puts "Stripping bitcode from TwilioVideo..."
+      system("#{bitcode_strip_path} #{twilio_framework} -r -o #{twilio_framework}")
+    else
+      puts "Twilio binary not found at: #{twilio_framework}"
+    end
+
+    if File.exist?(giphy_framework)
+      puts "Stripping bitcode from GiphyUISDK..."
+      system("#{bitcode_strip_path} #{giphy_framework} -r -o #{giphy_framework}")
+    else
+      puts "Giphy binary not found at: #{giphy_framework}"
+    end
+
+
     # This is necessary for Xcode 14, because it signs resource bundles by default
     # when building for devices.
     installer.target_installation_results.pod_target_installation_results
