@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { StyleSheet, View } from "react-native";
+import { RefreshControl, StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
 
 import { Block, AppText, ProviderOverview, Loading } from "#components";
@@ -21,6 +21,7 @@ export const SelectProvider = ({
   providersQuery,
   HeaderComponent,
   isFiltering,
+  onRefresh,
 }) => {
   const { t } = useTranslation("select-provider");
   const { currencySymbol } = useContext(Context);
@@ -63,6 +64,14 @@ export const SelectProvider = ({
           contentContainerStyle={{
             paddingBottom: 200,
           }}
+          refreshControl={
+            <RefreshControl
+              refreshing={
+                providersQuery.isRefetching || providersQuery.isFetching
+              }
+              onRefresh={onRefresh}
+            />
+          }
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={HeaderComponent}
           ListEmptyComponent={

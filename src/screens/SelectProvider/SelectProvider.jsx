@@ -86,6 +86,10 @@ export const SelectProvider = ({ navigation }) => {
     };
   }, [isKzCountry]);
 
+  const onRefresh = () => {
+    queryClient.invalidateQueries(["all-providers-data"]);
+  };
+
   const [allFilters, setAllFilters] = useState({
     ...initialFilters,
   });
@@ -182,6 +186,7 @@ export const SelectProvider = ({ navigation }) => {
         providersQuery={providersQuery}
         isFiltering={isFiltering}
         setIsFiltering={setIsFiltering}
+        onRefresh={onRefresh}
         HeaderComponent={
           <>
             <FiltersBlock
