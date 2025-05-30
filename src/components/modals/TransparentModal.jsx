@@ -37,12 +37,7 @@ export function TransparentModal({
   errorMessage,
   style,
 }) {
-  const { colors, isDarkMode } = useGetTheme();
-
-  const background = colors.background;
-
-  console.log("background", background);
-  console.log("isDarkMode", isDarkMode);
+  const { isDarkMode } = useGetTheme();
 
   return (
     <Modal transparent visible={isOpen}>
