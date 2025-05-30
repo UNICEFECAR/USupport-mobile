@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useRef, useContext, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { useIsFocused } from "@react-navigation/native";
 import { StyleSheet, ScrollView, View, RefreshControl } from "react-native";
 import { useTranslation } from "react-i18next";
 import Config from "react-native-config";
@@ -56,7 +57,7 @@ const { AMAZON_S3_BUCKET } = Config;
 export const Dashboard = ({ navigation }) => {
   const { t } = useTranslation("dashboard");
   const { isDarkMode } = useGetTheme();
-
+  const isFocused = useIsFocused();
   const {
     isTmpUser,
     handleRegistrationModalOpen,
@@ -75,17 +76,19 @@ export const Dashboard = ({ navigation }) => {
   const consultationPrice = useRef();
 
   useEffect(() => {
-    if (clientData) {
+    if (clientData && isFocused && !isTmpUser) {
       if (
         !clientData.sex ||
         !clientData.urbanRural ||
         !clientData.yearOfBirth
       ) {
         setIsAnonymousRegister(!!clientData.accessToken);
-        navigation.navigate("RegisterAboutYou");
+        setTimeout(() => {
+          navigation.navigate("RegisterAboutYou");
+        }, 100);
       }
     }
-  }, [clientData]);
+  }, [clientData, isFocused, isTmpUser]);
 
   // Get the consultations data only if the user is NOT temporary
   const consultationsQuery = useGetAllConsultations(

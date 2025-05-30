@@ -47,7 +47,11 @@ export const AppNavigation = () => {
       initialRouteName={initialRouteName}
     >
       {/* <Stack.Screen name="JitsiMeeting" component={JitsiMeeting} /> */}
-      <Stack.Screen name="RegisterAboutYou" component={RegisterAboutYou} />
+      <Stack.Screen
+        options={{ gestureEnabled: false }}
+        name="RegisterAboutYou"
+        component={RegisterAboutYou}
+      />
       <Stack.Screen
         options={{ gestureEnabled: false }}
         name="TabNavigation"
