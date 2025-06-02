@@ -145,8 +145,11 @@ export const ArticleView = ({ articleData }) => {
       title: articleData.title,
       message: `${t("check_article")}\n\n${url}`,
     });
+    cmsSvc.addArticleShareCount(articleData.id);
   };
+
   const [isPdfLoading, setIsPdfLoading] = useState(false);
+
   const handleExportPDF = async () => {
     try {
       setIsPdfLoading(true);
@@ -167,6 +170,7 @@ export const ArticleView = ({ articleData }) => {
       console.error("Error exporting PDF:", error);
     } finally {
       setIsPdfLoading(false);
+      cmsSvc.addArticleDownloadCount(articleData.id);
     }
   };
 

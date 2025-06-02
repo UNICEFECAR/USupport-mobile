@@ -156,6 +156,30 @@ async function getArticleById(id, locale) {
   return data;
 }
 
+//--------------------- PUT Requests ---------------------//;
+/**
+ * send request to increment download count for an article
+ *
+ * @param {string} id - the id of the article
+ *
+ * @returns {object} the ageGroups data
+ */
+async function addArticleDownloadCount(id) {
+  return http.put(`${articlesEndpoint}/addDownloadCount/${id}`);
+}
+
+//--------------------- PUT Requests ---------------------//;
+/**
+ * send request to increment share count for an article
+ *
+ * @param {string} id - the id of the article
+ *
+ * @returns {object} the ageGroups data
+ */
+async function addArticleShareCount(id) {
+  return http.put(`${articlesEndpoint}/addShareCount/${id}`);
+}
+
 /**
  * send request to get available locales for a specific article, by id - Only used for testing from Postman
  *
@@ -430,4 +454,6 @@ export default {
   getPodcasts,
   getPodcastById,
   getPodcastLocales,
+  addArticleReadCount,
+  addArticleDownloadCount,
 };
