@@ -1,13 +1,22 @@
 import React from "react";
-import { StyleSheet, View, ScrollView } from "react-native";
+import { TouchableOpacity, StyleSheet, View, ScrollView } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
+import Share from "react-native-share";
 
-import { Heading, Screen, AppText, Loading, CardMedia } from "#components";
+import {
+  Icon,
+  Heading,
+  Screen,
+  AppText,
+  Loading,
+  CardMedia,
+} from "#components";
 import { PodcastView } from "#blocks";
-import { destructurePodcastData } from "#utils";
-import { useGetUserContentRatings } from "#hooks";
+import { destructurePodcastData, constructShareUrl } from "#utils";
+import { useGetUserContentRatings, useGetTheme } from "#hooks";
 import { userSvc, cmsSvc, adminSvc } from "#services";
+import { appStyles } from "#styles";
 
 /**
  * PodcastInformation
@@ -19,6 +28,9 @@ import { userSvc, cmsSvc, adminSvc } from "#services";
 export const PodcastInformation = ({ navigation, route }) => {
   const { podcastId: id } = route.params;
   const { i18n, t } = useTranslation("information-portal");
+  const { colors } = useGetTheme();
+
+  const [isShared, setIsShared] = React.useState(false);
 
   const getPodcastsIds = async () => {
     // Request podcast ids from the master DB
@@ -89,12 +101,33 @@ export const PodcastInformation = ({ navigation, route }) => {
         : false,
   });
 
+  const handleShare = async () => {
+    const url = await constructShareUrl({
+      contentType: "podcast",
+      id: podcastData.id,
+    });
+    Share.open({
+      title: podcastData.title,
+      message: `${t("check_podcast")}\n\n${url}`,
+    });
+    if (!isShared) {
+      cmsSvc.addPodcastShareCount(podcastData.id).then(() => {
+        setIsShared(true);
+      });
+    }
+  };
+
   return (
     <Screen>
       <ScrollView style={styles.container}>
         <Heading
           heading={podcastData?.title}
           handleGoBack={() => navigation.goBack()}
+          buttonComponent={
+            <TouchableOpacity style={styles.actionButton} onPress={handleShare}>
+              <Icon name="share" size="sm" color={colors.text} />
+            </TouchableOpacity>
+          }
         />
 
         {podcastData ? (
@@ -184,5 +217,13 @@ const styles = StyleSheet.create({
   morePodcastCard: {
     marginBottom: 24,
     width: "100%",
+  },
+  actionButton: {
+    marginLeft: 16,
+    borderWidth: 1,
+    borderColor: appStyles.colorBlue_3d527b,
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
   },
 });
