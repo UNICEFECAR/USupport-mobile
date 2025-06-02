@@ -27,9 +27,11 @@ export const ArticleView = ({ articleData }) => {
   const { colors } = useGetTheme();
   const queryClient = useQueryClient();
 
+  const [isShared, setIsShared] = useState(false);
   const [contentRating, setContentRating] = React.useState(
     articleData.contentRating
   );
+
   useEffect(() => {
     setContentRating(articleData.contentRating);
   }, [articleData.contentRating]);
@@ -145,7 +147,10 @@ export const ArticleView = ({ articleData }) => {
       title: articleData.title,
       message: `${t("check_article")}\n\n${url}`,
     });
-    cmsSvc.addArticleShareCount(articleData.id);
+    if (!isShared)
+      cmsSvc.addArticleShareCount(articleData.id).then(() => {
+        setIsShared(true);
+      });
   };
 
   const [isPdfLoading, setIsPdfLoading] = useState(false);

@@ -456,4 +456,5 @@ export default {
   getPodcastLocales,
   addArticleReadCount,
   addArticleDownloadCount,
+  addArticleShareCount,
 };
