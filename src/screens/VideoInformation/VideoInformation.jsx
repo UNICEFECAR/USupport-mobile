@@ -1,13 +1,22 @@
 import React from "react";
-import { StyleSheet, View, ScrollView } from "react-native";
+import { StyleSheet, View, ScrollView, TouchableOpacity } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
+import Share from "react-native-share";
 
-import { CardMedia, Heading, Screen, AppText, Loading } from "#components";
+import {
+  CardMedia,
+  Heading,
+  Icon,
+  Screen,
+  AppText,
+  Loading,
+} from "#components";
 import { VideoView } from "#blocks";
-import { destructureVideoData } from "#utils";
-import { useGetUserContentRatings } from "#hooks";
+import { destructureVideoData, constructShareUrl } from "#utils";
+import { useGetUserContentRatings, useGetTheme } from "#hooks";
 import { userSvc, cmsSvc, adminSvc } from "#services";
+import { appStyles } from "#styles";
 
 /**
  * VideoInformation
@@ -19,6 +28,9 @@ import { userSvc, cmsSvc, adminSvc } from "#services";
 export const VideoInformation = ({ navigation, route }) => {
   const { videoId: id } = route.params;
   const { i18n, t } = useTranslation("information-portal");
+  const { colors } = useGetTheme();
+
+  const [isShared, setIsShared] = React.useState(false);
 
   const getVideosIds = async () => {
     // Request video ids from the master DB
@@ -89,6 +101,22 @@ export const VideoInformation = ({ navigation, route }) => {
         : false,
   });
 
+  const handleShare = async () => {
+    const url = await constructShareUrl({
+      contentType: "video",
+      id: videoData.id,
+    });
+    Share.open({
+      title: videoData.title,
+      message: `${t("check_video")}\n\n${url}`,
+    });
+    if (!isShared) {
+      cmsSvc.addVideoShareCount(videoData.id).then(() => {
+        setIsShared(true);
+      });
+    }
+  };
+
   return (
     <Screen>
       <ScrollView style={styles.container}>
@@ -96,6 +124,11 @@ export const VideoInformation = ({ navigation, route }) => {
           heading={videoData?.title}
           // subheading={subheading}
           handleGoBack={() => navigation.goBack()}
+          buttonComponent={
+            <TouchableOpacity style={styles.actionButton} onPress={handleShare}>
+              <Icon name="share" size="sm" color={colors.text} />
+            </TouchableOpacity>
+          }
         />
 
         {videoData ? (
@@ -189,5 +222,13 @@ const styles = StyleSheet.create({
   moreVideoCard: {
     marginBottom: 24,
     width: "100%",
+  },
+  actionButton: {
+    marginLeft: 16,
+    borderWidth: 1,
+    borderColor: appStyles.colorBlue_3d527b,
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
   },
 });
