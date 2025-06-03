@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     top: 0,
     zIndex: 3,
     width: appStyles.screenWidth,
-    paddingLeft: 16,
+    paddingHorizontal: 16,
   },
   container: {
     alignItems: "center",
