@@ -7,7 +7,7 @@ import { Screen, CardMedia, Block, Loading, AppText, Icon } from "#components";
 
 import { ArticleView } from "#blocks";
 
-import { cmsSvc, adminSvc, userSvc } from "#services";
+import { cmsSvc, adminSvc, userSvc, clientSvc } from "#services";
 
 import { destructureArticleData, checkIsLikedAndDisliked } from "#utils";
 
@@ -58,32 +58,140 @@ export const ArticleInformation = ({ navigation, route }) => {
     getArticleData,
     {
       enabled: !!id,
+      onSuccess: (data) => {
+        // Add category interaction when article is successfully fetched
+        if (data && data.categoryId) {
+          clientSvc
+            .addClientCategoryInteraction({
+              categoryId: data.categoryId,
+              articleId: data.id,
+              tagIds: data.labels?.map((label) => label.id) || [],
+            })
+            .catch((error) => {
+              console.error("Failed to track category interaction:", error);
+            });
+        }
+      },
     }
   );
 
   const getSimilarArticles = async () => {
-    let { data } = await cmsSvc.getArticles({
-      limit: 3,
-      categoryId: articleData.categoryId,
-      locale: i18n.language,
-      excludeId: articleData.id,
-      populate: true,
-      ids: articleIdsQuerry.data,
-    });
+    if (!articleData?.categoryId) return [];
 
-    if (data.length === 0) {
-      let { data: newest } = await cmsSvc.getArticles({
-        limit: 3,
-        sortBy: "createdAt", // Sort by created date
-        sortOrder: "desc", // Sort in descending order
+    try {
+      // If no results in current category, get category interactions to try other categories
+      const { data: categoryInteractions } =
+        await clientSvc.getCategoryInteractions();
+      const readArticleIds = [
+        ...categoryInteractions.map((x) => Number(x.article_id)),
+        Number(articleData.id),
+      ];
+
+      const articles = [];
+
+      // First try current category
+      const currentCategoryResult =
+        await cmsSvc.getRecommendedArticlesForCategory({
+          categoryId: articleData.categoryId,
+          categoryWeight: 1,
+          page: 1,
+          limit: 3,
+          language: i18n.language,
+          excludeIds: readArticleIds,
+          countryArticleIds: articleIdsQuerry.data,
+          tagIds: articleData.labels.map((label) => label.id),
+          ageGroupId: articleData.ageGroupId,
+        });
+
+      if (
+        currentCategoryResult.success &&
+        currentCategoryResult.data?.length > 0
+      ) {
+        articles.push(...currentCategoryResult.data);
+      }
+
+      if (articles.length >= 3) {
+        return articles;
+      }
+
+      if (categoryInteractions?.data?.length > 0) {
+        // Build category interaction map and sort by weight
+        const categoryInteractionMap = new Map();
+        categoryInteractions.data.forEach((interaction) => {
+          const {
+            category_id: categoryId,
+            count,
+            tag_ids: tagIds,
+          } = interaction;
+          if (categoryId !== articleData.categoryId) {
+            // Skip current category
+            if (categoryInteractionMap.has(categoryId)) {
+              categoryInteractionMap.set(categoryId, {
+                count: categoryInteractionMap.get(categoryId).count + count,
+                tagIds: [
+                  ...categoryInteractionMap.get(categoryId).tagIds,
+                  ...tagIds,
+                ],
+              });
+            } else {
+              categoryInteractionMap.set(categoryId, {
+                count: count,
+                tagIds: tagIds,
+              });
+            }
+          }
+        });
+
+        // Sort categories by interaction count
+        const sortedCategories = Array.from(categoryInteractionMap.entries())
+          .map(([categoryId, data]) => ({
+            categoryId,
+            categoryWeight: data.count,
+            tagIds: data.tagIds,
+          }))
+          .sort((a, b) => b.categoryWeight - a.categoryWeight);
+
+        // Try each category in order of interaction weight
+        for (const category of sortedCategories) {
+          const result = await cmsSvc.getRecommendedArticlesForCategory({
+            categoryId: category.categoryId,
+            categoryWeight: category.categoryWeight,
+            page: 1,
+            limit: 3 - articles.length,
+            language: i18n.language,
+            excludeIds: readArticleIds,
+            countryArticleIds: articleIdsQuerry.data,
+            tagIds: category.tagIds,
+            ageGroupId: articleData.ageGroupId,
+          });
+
+          if (result.success && result.data?.length > 0) {
+            articles.push(...result.data);
+            readArticleIds.push(...result.data.map((x) => x.id));
+            console.log(readArticleIds, "READ");
+            if (articles.length >= 3) {
+              return articles;
+            }
+          }
+        }
+      }
+
+      // If still no results, fall back to newest articles
+      const { data: newest } = await cmsSvc.getArticles({
+        limit: 3 - articles.length,
+        sortBy: "createdAt",
+        sortOrder: "desc",
         locale: i18n.language,
-        excludeId: articleData.id,
+        excludeIds: readArticleIds,
         populate: true,
         ids: articleIdsQuerry.data,
+        ageGroupId: articleData.ageGroupId,
       });
-      return newest.data;
+      return [...articles, ...newest.data];
+    } catch (error) {
+      console.error("Error fetching similar articles:", error);
+      return [];
     }
-    return data.data;
   };
 
   const {
@@ -124,7 +232,9 @@ export const ArticleInformation = ({ navigation, route }) => {
               {t("heading")}
             </AppText>
             {moreArticles.map((article, index) => {
-              const articleData = destructureArticleData(article);
+              const articleData = destructureArticleData(
+                article.data ? article.data : article
+              );
               const { isLikedByUser, isDislikedByUser } =
                 checkIsLikedAndDisliked(userContentRatings, article.id);
               return (
