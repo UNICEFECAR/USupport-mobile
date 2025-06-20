@@ -34,6 +34,7 @@ export const CardMedia = ({
   contentType = "articles",
   t,
   style,
+  isRead = false,
 }) => {
   const { colors } = useGetTheme();
 
@@ -43,7 +44,10 @@ export const CardMedia = ({
       style={[
         appStyles.shadow2,
         styles.cardMedia,
-        { backgroundColor: colors.card },
+        {
+          backgroundColor: colors.card,
+          opacity: isRead ? 0.7 : 1,
+        },
         style,
       ]}
     >
@@ -62,6 +66,13 @@ export const CardMedia = ({
           {categoryName}
         </AppText>
       </View>
+      {isRead && (
+        <View style={styles.readContainer}>
+          <AppText namedStyle="smallText" style={styles.readText}>
+            {t("read")}
+          </AppText>
+        </View>
+      )}
       <View style={styles.textContainer}>
         <View style={styles.headingContainer}>
           <AppText namedStyle="h3">{title}</AppText>
@@ -178,5 +189,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginTop: 5,
+  },
+  readContainer: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    backgroundColor: appStyles.colorGreen_7ec680,
+    paddingHorizontal: 16,
+    paddingVertical: 4,
+    borderBottomLeftRadius: 10,
+    borderTopRightRadius: 24,
+  },
+  readText: {
+    fontFamily: appStyles.fontBold,
+    color: appStyles.colorWhite_ff,
   },
 });
