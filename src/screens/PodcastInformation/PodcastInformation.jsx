@@ -7,7 +7,7 @@ import { Heading, Screen, AppText, Loading, CardMedia } from "#components";
 import { PodcastView } from "#blocks";
 import { destructurePodcastData } from "#utils";
 import { useGetUserContentRatings } from "#hooks";
-import { userSvc, cmsSvc, adminSvc } from "#services";
+import { userSvc, cmsSvc, adminSvc, clientSvc } from "#services";
 
 /**
  * PodcastInformation
@@ -46,6 +46,20 @@ export const PodcastInformation = ({ navigation, route }) => {
     getPodcastData,
     {
       enabled: !!id,
+      onSuccess: (data) => {
+        // Add category interaction when podcast is successfully fetched
+        if (data && data.categoryId) {
+          clientSvc
+            .addClientCategoryInteraction({
+              categoryId: data.categoryId,
+              podcastId: data.id,
+              tagIds: data.labels?.map((label) => label.id) || [],
+            })
+            .catch((error) => {
+              console.error("Failed to track category interaction:", error);
+            });
+        }
+      },
     }
   );
 
