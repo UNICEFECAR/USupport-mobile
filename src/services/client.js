@@ -173,6 +173,28 @@ async function deleteChatHistory() {
   return response;
 }
 
+/**
+ *
+ * @param {Object} payload
+ * @param {number} payload.categoryId
+ * @param {number} payload.articleId
+ * @param {number} payload.videoId
+ * @param {number} payload.podcastId
+ * @param {number} payload.tagIds
+ * @returns {Promise} the response of the request
+ */
+async function addClientCategoryInteraction(payload) {
+  const response = await http.post(`${API_ENDPOINT}/add-category-interaction`, {
+    ...payload,
+  });
+  return response;
+}
+
+async function getCategoryInteractions() {
+  const response = await http.get(`${API_ENDPOINT}/category-interactions`);
+  return response;
+}
+
 const exportedFunctions = {
   addMoodTrack,
   getClientData,
@@ -198,6 +220,8 @@ const exportedFunctions = {
   getQuestions,
   addQuestionVote,
   deleteChatHistory,
+  addClientCategoryInteraction,
+  getCategoryInteractions,
 };
 
 export default exportedFunctions;
