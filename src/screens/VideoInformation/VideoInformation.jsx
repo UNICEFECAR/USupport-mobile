@@ -4,10 +4,14 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
 import { CardMedia, Heading, Screen, AppText, Loading } from "#components";
+
 import { VideoView } from "#blocks";
+
 import { destructureVideoData } from "#utils";
+
 import { useGetUserContentRatings } from "#hooks";
-import { userSvc, cmsSvc, adminSvc } from "#services";
+
+import { userSvc, cmsSvc, adminSvc, clientSvc } from "#services";
 
 /**
  * VideoInformation
@@ -46,6 +50,20 @@ export const VideoInformation = ({ navigation, route }) => {
     getVideoData,
     {
       enabled: !!id,
+      onSuccess: (data) => {
+        // Add category interaction when video is successfully fetched
+        if (data && data.categoryId) {
+          clientSvc
+            .addClientCategoryInteraction({
+              categoryId: data.categoryId,
+              videoId: data.id,
+              tagIds: data.labels?.map((label) => label.id) || [],
+            })
+            .catch((error) => {
+              console.error("Failed to track category interaction:", error);
+            });
+        }
+      },
     }
   );
 
