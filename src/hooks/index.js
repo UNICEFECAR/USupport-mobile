@@ -51,3 +51,4 @@ export * from "./useGetTheme.js";
 export * from "./useGetLanguages.js";
 export * from "./useGetUserContentRatings.js";
 export * from "./useAddContentRating.js";
+export * from "./useRecommendedArticles.js";
