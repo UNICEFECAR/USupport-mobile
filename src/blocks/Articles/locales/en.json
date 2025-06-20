@@ -6,5 +6,6 @@
   "read_more": "Read more",
   "min_read": "min read",
   "by": "By {{creator}}",
-  "number_of_more_options": "{{count}} more"
+  "number_of_more_options": "{{count}} more",
+  "read": "Read"
 }

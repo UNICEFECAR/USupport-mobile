@@ -6,5 +6,6 @@
   "read_more": "Читати далі",
   "min_read": "хв читання",
   "by": "Від {{creator}}",
-  "number_of_more_options": "ще {{count}}"
+  "number_of_more_options": "ще {{count}}",
+  "read": "Прочитано"
 }
