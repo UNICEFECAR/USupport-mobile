@@ -18,6 +18,7 @@ import {
   useDebounce,
   useEventListener,
   useGetUserContentRatings,
+  useRecommendedArticles,
 } from "#hooks";
 import { destructureArticleData, checkIsLikedAndDisliked } from "#utils";
 import { appStyles } from "#styles";
@@ -73,9 +74,9 @@ export const Articles = ({
       const ageGroupsData = res.data.map((age, index) => ({
         label: age.attributes.name,
         id: age.id,
-        isSelected: index === 0 ? true : false,
+        isSelected: index === 1 ? true : false,
       }));
-      setSelectedAgeGroup(ageGroupsData[0]);
+      setSelectedAgeGroup(ageGroupsData[1]);
       return ageGroupsData;
     } catch {}
   };
@@ -104,7 +105,7 @@ export const Articles = ({
   };
 
   //--------------------- Categories ----------------------//
-
+  const [selectedCategory, setSelectedCategory] = useState();
   const getCategories = async () => {
     try {
       const res = await cmsSvc.getCategories(usersLanguage);
@@ -119,7 +120,7 @@ export const Articles = ({
           isSelected: false,
         })
       );
-
+      setSelectedCategory(categoriesData[0]);
       handleSetCategories(categoriesData);
       return categoriesData;
     } catch {}
@@ -142,6 +143,7 @@ export const Articles = ({
     for (let i = 0; i < categoriesCopy.length; i++) {
       if (i === index) {
         categoriesCopy[i].isSelected = true;
+        setSelectedCategory(categoriesCopy[i]);
         handleCategorySelect(categoriesCopy[i]);
       } else {
         categoriesCopy[i].isSelected = false;
@@ -176,134 +178,53 @@ export const Articles = ({
 
   const { data: contentRatings } = useGetUserContentRatings();
 
-  //--------------------- Articles ----------------------//
-  const getArticlesIds = async () => {
-    const articlesIds = await adminSvc.getArticles();
+  // useEffect(() => {
+  //   if (ageGroups) {
+  //     const notSelectedAgeGroup = ageGroups.find((x) => x.isSelected === false);
+  //     queryClient.prefetchQuery({
+  //       queryKey: [
+  //         "articles",
+  //         debouncedSearchValue,
+  //         notSelectedAgeGroup,
+  //         selectCategory,
+  //         articleIdsQuery.data,
+  //         usersLanguage,
+  //       ],
+  //       queryFn: async () => await getArticlesData(notSelectedAgeGroup.id),
+  //     });
+  //   }
+  // }, [ageGroups]);
 
-    return articlesIds;
-  };
-
-  const articleIdsQuery = useQuery(
-    ["articleIds", currentCountry],
-    getArticlesIds
-  );
-
-  const [hasMore, setHasMore] = useState(true);
-
-  const getArticlesData = async (ageGroupIdProp) => {
-    const ageGroupId =
-      ageGroupIdProp || ageGroupsQuery.data.find((x) => x.isSelected).id;
-    let categoryId = "";
-    if (selectCategory.value !== "all") {
-      categoryId = selectCategory.id;
-    }
-
-    let { data } = await cmsSvc.getArticles({
-      limit: 6,
-      contains: debouncedSearchValue,
-      ageGroupId,
-      categoryId,
-      sortBy: sort ? sort : null,
-      sortOrder: sort ? "desc" : null,
-      locale: usersLanguage,
-      populate: true,
-      ids: articleIdsQuery.data,
-    });
-
-    const articles = data.data;
-    const numberOfArticles = data.meta.pagination.total;
-
-    return { articles, numberOfArticles };
-  };
-
-  useEffect(() => {
-    if (ageGroups) {
-      const notSelectedAgeGroup = ageGroups.find((x) => x.isSelected === false);
-      queryClient.prefetchQuery({
-        queryKey: [
-          "articles",
-          debouncedSearchValue,
-          notSelectedAgeGroup,
-          selectCategory,
-          articleIdsQuery.data,
-          usersLanguage,
-        ],
-        queryFn: async () => await getArticlesData(notSelectedAgeGroup.id),
-      });
-    }
-  }, [ageGroups]);
-
-  const [articles, setArticles] = useState();
-  const [numberOfArticles, setNumberOfArticles] = useState();
   const {
-    isLoading: isArticlesLoading,
-    isFetching: isArticlesFetching,
-    data: articlesQueryData,
-  } = useQuery(
-    [
-      "articles",
-      debouncedSearchValue,
-      selectedAgeGroup,
-      selectCategory,
-      articleIdsQuery.data,
-      usersLanguage,
-    ],
-    async () => await getArticlesData(),
-    {
-      enabled:
-        !articleIdsQuery.isLoading &&
-        !ageGroupsQuery.isLoading &&
-        !categoriesQuery.isLoading &&
-        categoriesQuery.data?.length > 0 &&
-        ageGroupsQuery.data?.length > 0 &&
-        articleIdsQuery.data?.length > 0 &&
-        selectCategory !== null &&
-        selectedAgeGroup !== null,
-      refetchOnWindowFocus: false,
-      onSuccess: (data) => {
-        setArticles([...data.articles]);
-        setNumberOfArticles(data.numberOfArticles);
-      },
-    }
-  );
+    articles,
+    loading: isArticlesLoading,
+    hasMore,
+    totalCount,
+    categoriesData,
+    remainingArticlesCount,
+    readArticlesCount,
+    categoryArticlesCount,
+    loadMore,
+    error,
+    isReady,
+    fetchingCategories,
+    fetchingRemaining,
+    hasMoreRemaining,
+    hasMoreRead,
+    readArticleIds,
+  } = useRecommendedArticles({
+    limit: 16,
+    ageGroupId: selectedAgeGroup?.id,
+    enabled: selectedAgeGroup?.id && !ageGroupsQuery.isLoading,
+    categoryIdFilter: selectedCategory?.id || null,
+    searchValue: debouncedSearchValue,
+  });
 
-  useEffect(() => {
-    if (articles) {
-      setHasMore(numberOfArticles > articles.length);
-    }
-  }, [articles]);
-
-  const getMoreArticles = async () => {
-    if (!articles) return;
-    let ageGroupId = "";
-    if (ageGroups) {
-      let selectedAgeGroup = ageGroups.find((o) => o.isSelected === true);
-      ageGroupId = selectedAgeGroup.id;
-    }
-
-    let categoryId = null;
-    if (allCategories) {
-      let selectedCategory = allCategories.find((o) => o.isSelected === true);
-      categoryId = selectedCategory.id;
-    }
-
-    const { data } = await cmsSvc.getArticles({
-      startFrom: articles?.length,
-      limit: 6,
-      contains: searchValue,
-      ageGroupId: ageGroupId,
-      categoryId,
-      locale: usersLanguage,
-      sortBy: sort,
-      sortOrder: sort ? "desc" : null,
-      populate: true,
-      ids: articleIdsQuery.data,
-    });
-
-    const newArticles = data.data;
-
-    setArticles((prevArticles) => [...prevArticles, ...newArticles]);
-  };
+  // Transform articles data to match expected format
+  const transformedArticles = articles?.map((article) => {
+    // If article already has direct properties, use them, otherwise use article.data
+    return article.data ? article.data : article;
+  });
 
   let areCategoriesAndAgeGroupsReady =
     categoriesQuery?.data?.length > 1 && ageGroupsQuery?.data?.length > 0;
@@ -317,9 +238,9 @@ export const Articles = ({
     );
     return (
       <CardMedia
-        style={styles.cardMedia}
+        style={[styles.cardMedia]}
         title={articleData.title}
-        image={articleData.imageMedium}
+        image={articleData.imageMedium || articleData.imageSmall}
         description={articleData.description}
         labels={articleData.labels}
         creator={articleData.creator}
@@ -329,6 +250,7 @@ export const Articles = ({
         dislikes={articleData.dislikes}
         isLikedByUser={isLikedByUser}
         isDislikedByUser={isDislikedByUser}
+        isRead={readArticleIds.includes(articleData.id)}
         onPress={() => {
           navigation.push("ArticleInformation", {
             articleId: item.id,
@@ -378,27 +300,32 @@ export const Articles = ({
             estimatedItemSize={25}
             showsVerticalScrollIndicator={false}
             keyExtractor={(item, index) => index.toString()}
-            data={isArticlesLoading ? [] : articles || []}
+            data={transformedArticles || []}
             renderItem={renderArticle}
+            onEndReached={() => {
+              if (hasMore) {
+                loadMore();
+              }
+            }}
+            onEndReachedThreshold={0.2}
             ListFooterComponent={
-              isArticlesLoading ? (
+              isArticlesLoading && !transformedArticles?.length ? (
                 <View style={styles.loadingContainer}>
                   <Loading />
                 </View>
-              ) : (
+              ) : !isArticlesLoading && !transformedArticles?.length ? (
                 <View style={styles.articlesNoResultsContainer}>
                   <AppText>{t("no_results")}</AppText>
                 </View>
-              )
+              ) : null
             }
-            onEndReached={getMoreArticles}
-            onEndReachedThreshold={0.2}
             contentContainerStyle={{
               paddingBottom: 200,
             }}
           />
         </View>
-        {!articles?.length &&
+        {!transformedArticles?.length &&
+        isReady &&
         !isArticlesLoading &&
         categoriesQuery?.data?.length > 1 &&
         ageGroupsQuery?.data?.length > 0 ? (
