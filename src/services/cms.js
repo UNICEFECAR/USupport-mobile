@@ -408,6 +408,15 @@ async function getPodcastLocales(id) {
   return data;
 }
 
+async function getRecommendedArticlesForCategory(payload) {
+  const { data } = await http.put(
+    `${articlesEndpoint}/recommended/category`,
+    payload
+  );
+
+  return data;
+}
+
 export default {
   getArticles,
   getArticleById,
@@ -430,4 +439,5 @@ export default {
   getPodcasts,
   getPodcastById,
   getPodcastLocales,
+  getRecommendedArticlesForCategory,
 };

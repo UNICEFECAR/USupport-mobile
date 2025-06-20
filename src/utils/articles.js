@@ -42,8 +42,8 @@ function destructureArticleData(article) {
 }
 
 function computeArticleLabels(labels) {
-  return labels.map((label) => {
-    return { name: label.attributes.Name };
+  return labels?.map((label) => {
+    return { name: label.attributes.Name, id: label.id };
   });
 }
 
