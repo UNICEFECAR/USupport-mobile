@@ -19,7 +19,7 @@ export const SharePlatform = ({}) => {
     const shareOptions = {
       social: Share.Social.FACEBOOK,
       message: "Example message",
-      url: "https://www.staging.usupport.online",
+      url: "https://www.usupport.online",
     };
     try {
       const ShareResponse = await Share.shareSingle(shareOptions);
@@ -36,7 +36,7 @@ export const SharePlatform = ({}) => {
     };
     try {
       const url =
-        "tg://msg_url?url=https://www.staging.usupport.online&text=Download uSupport app";
+        "tg://msg_url?url=https://www.usupport.online&text=Download uSupport app";
       Linking.openURL(url);
     } catch (error) {
       console.log("Error =>", error);
