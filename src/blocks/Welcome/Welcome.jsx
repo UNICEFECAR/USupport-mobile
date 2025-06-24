@@ -141,9 +141,11 @@ export function Welcome({ navigation }) {
             style={[styles.dropdown, { zIndex: 3 }]}
             dropdownId="country"
           />
+
           <Dropdown
+            isLoading={languagesQuery.isFetching}
             options={languagesQuery.data}
-            disabled={!selectedCountry}
+            disabled={!selectedCountry || languagesQuery.data?.length === 0}
             selected={selectedLanguage}
             setSelected={(lang) => {
               setSelectedLanguage(lang);
