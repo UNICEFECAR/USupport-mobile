@@ -20,9 +20,9 @@ import { io } from "socket.io-client";
 import { activateKeepAwakeAsync, deactivateKeepAwake } from "expo-keep-awake";
 import notifee, { AndroidImportance } from "@notifee/react-native";
 import Config from "react-native-config";
+import { useQueryClient } from "@tanstack/react-query";
 
 import {
-  AppButton,
   AppText,
   Backdrop,
   Icon,
@@ -43,12 +43,14 @@ import {
   useGetAllChatHistoryData,
 } from "#hooks";
 
-import { VideoRoom } from "#blocks";
+// import { VideoRoom } from "#blocks";
 import { localStorage, Context } from "#services";
 import { showToast, ONE_HOUR, getDateView, systemMessageTypes } from "#utils";
 import { appStyles } from "#styles";
 
 import { SafetyFeedback } from "../SafetyFeedback";
+import { JitsiMeeting } from "../JitsiMeeting/JitsiMeeting";
+import { Loading } from "../../components/loaders";
 
 const { SOCKET_IO_URL } = Config;
 
@@ -60,6 +62,7 @@ const { SOCKET_IO_URL } = Config;
  * @returns {JSX.Element}
  */
 export const Consultation = ({ navigation, route }) => {
+  const queryClient = useQueryClient();
   const { t } = useTranslation("consultation-page");
   const location = route.params;
   const backdropMessagesContainerRef = useRef();
@@ -70,6 +73,8 @@ export const Consultation = ({ navigation, route }) => {
   const joinWithVideo = location?.videoOn;
   const joinWithMicrophone = location?.microphoneOn;
   const token = location?.token;
+
+  const clientData = queryClient.getQueryData({ queryKey: ["client-data"] });
 
   const startForegroundService = async () => {
     await PermissionsAndroid.request(
@@ -143,6 +148,9 @@ export const Consultation = ({ navigation, route }) => {
   const [search, setSearch] = useState("");
   const [hasUnreadMessages, setHasUnreadMessages] = useState(false);
   const [isProviderInSession, setIsProviderInSession] = useState(false);
+  const [hasCheckedPermissions, setHasCheckedPermissions] = useState(
+    Platform.OS === "ios"
+  );
 
   const [keyboardHeight, setKeyboardHeight] = useState(200);
 
@@ -183,7 +191,54 @@ export const Consultation = ({ navigation, route }) => {
     chatDataQuery.isFetched
   );
 
+  const requestAndroidPermissions = async () => {
+    const _requestAudioPermission = async () => {
+      return await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+        {
+          title: "Need permission to access microphone",
+          message: "",
+          buttonNegative: "Cancel",
+          buttonPositive: "OK",
+        }
+      );
+    };
+
+    const _requestCameraPermission = async () => {
+      return await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: "Need permission to access camera",
+          message: "",
+          buttonNegative: "Cancel",
+          buttonPositive: "OK",
+        }
+      );
+    };
+
+    try {
+      const audioPermission = await _requestAudioPermission();
+      const cameraPermission = await _requestCameraPermission();
+
+      console.log("Audio permission:", audioPermission);
+      console.log("Camera permission:", cameraPermission);
+
+      setHasCheckedPermissions(true);
+    } catch (error) {
+      console.error("Permission request error:", error);
+      setHasCheckedPermissions(true);
+    }
+  };
+
   useEffect(() => {
+    const initializePermissions = async () => {
+      if (Platform.OS === "android") {
+        await requestAndroidPermissions();
+      }
+    };
+
+    initializePermissions();
+
     const endTime = new Date(consultation.timestamp + ONE_HOUR);
     let isTenMinAlertShown,
       isFiveMinAlertShown = false;
@@ -206,7 +261,7 @@ export const Consultation = ({ navigation, route }) => {
           autoHide: false,
           type: "info",
         });
-        isFiveMinAlertShown;
+        isFiveMinAlertShown = true;
         clearInterval(interval);
       }
     }, 20000);
@@ -519,6 +574,7 @@ export const Consultation = ({ navigation, route }) => {
   }, [displayedMessages]);
 
   const [isKeyboardShown, setIsKeyboardShown] = useState(false);
+
   return isSafetyFeedbackShown ? (
     <SafetyFeedback
       answers={securityCheckAnswers}
@@ -528,24 +584,35 @@ export const Consultation = ({ navigation, route }) => {
   ) : (
     <View style={styles.container}>
       <View style={{ flexGrow: 1 }}>
-        <VideoRoom
-          joinWithVideo={joinWithVideo}
-          joinWithMicrophone={joinWithMicrophone}
-          consultation={consultation}
-          toggleChat={toggleChat}
-          leaveConsultation={leaveConsultation}
-          handleSendMessage={handleSendMessage}
-          sendJoinConsultationMessage={sendJoinConsultationMessage}
-          token={token}
-          navigation={navigation}
-          hasUnread={hasUnreadMessages}
-          isProviderInSession={isProviderInSession}
-          setIsProviderInSession={setIsProviderInSession}
-          isChatShown={isChatShown}
-          isKeyboardShown={isKeyboardShown}
-          keyboardHeight={keyboardHeight}
-          t={t}
-        />
+        {hasCheckedPermissions && clientData ? (
+          <JitsiMeeting
+            joinWithVideo={joinWithVideo}
+            joinWithMicrophone={joinWithMicrophone}
+            consultation={consultation}
+            toggleChat={toggleChat}
+            leaveConsultation={leaveConsultation}
+            handleSendMessage={handleSendMessage}
+            sendJoinConsultationMessage={sendJoinConsultationMessage}
+            token={token}
+            navigation={navigation}
+            hasUnread={hasUnreadMessages}
+            isProviderInSession={isProviderInSession}
+            setIsProviderInSession={setIsProviderInSession}
+            isChatShown={isChatShown}
+            isKeyboardShown={isKeyboardShown}
+            keyboardHeight={keyboardHeight}
+            displayName={
+              clientData?.name
+                ? `${clientData?.name} ${clientData?.surname}`
+                : clientData?.nickname
+            }
+            t={t}
+          />
+        ) : (
+          <View style={styles.loadingContainer}>
+            <Loading />
+          </View>
+        )}
       </View>
 
       <Backdrop
@@ -588,36 +655,47 @@ export const Consultation = ({ navigation, route }) => {
             >
               <Icon name="arrow-chevron-back" color="#000000" />
             </TouchableOpacity>
-            <AppButton
-              label={t(showOptions ? "hide_options" : "show_options")}
-              size="sm"
+            <AppText
+              underlined
               onPress={() => setShowOptions(!showOptions)}
-            />
+              style={{
+                fontSize: 16,
+                color: appStyles.colorPrimary_20809e,
+              }}
+            >
+              {t(showOptions ? "hide_options" : "show_options")}
+            </AppText>
           </View>
           {showOptions ? (
-            <View>
+            <View style={{ marginTop: 4 }}>
               <View style={styles.toggleContainer}>
                 <Toggle
                   isToggled={areSystemMessagesShown}
                   handleToggle={() =>
                     setAreSystemMessagesShown(!areSystemMessagesShown)
                   }
-                  style={styles.mr12}
+                  style={styles.toggle}
                 />
-                <AppText>{t("show_system_messages")}</AppText>
+                <AppText style={styles.fs14}>
+                  {t("show_system_messages")}
+                </AppText>
               </View>
               <View style={styles.toggleContainer}>
                 <Toggle
                   isToggled={showAllMessages}
                   handleToggle={() => setShowAllMessages(!showAllMessages)}
-                  style={styles.mr12}
+                  style={styles.toggle}
                 />
-                <AppText>{t("show_previous_consultations")}</AppText>
+                <AppText style={styles.fs14}>
+                  {t("show_previous_consultations")}
+                </AppText>
               </View>
               <InputSearch
                 value={search}
                 onChange={setSearch}
-                style={{ marginTop: 12 }}
+                style={{
+                  marginTop: 12,
+                }}
                 placeholder={t("search")}
               />
             </View>
@@ -642,12 +720,7 @@ export const Consultation = ({ navigation, route }) => {
             />
             {isProviderTyping && <TypingIndicator text={t("typing")} />}
 
-            <View
-              style={{
-                justifyContent: "flex-end",
-                paddingBottom: 20,
-              }}
-            >
+            <View style={styles.sendMessageContainer}>
               <SendMessage
                 handleSubmit={handleSendMessage}
                 t={t}
@@ -682,7 +755,22 @@ const styles = StyleSheet.create({
   toggleContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 12,
+    marginTop: 6,
   },
-  mr12: { marginRight: 12 },
+  toggle: {
+    marginRight: 12,
+    transform: [{ scaleX: 0.7 }, { scaleY: 0.7 }],
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  sendMessageContainer: {
+    justifyContent: "flex-end",
+    paddingBottom: 20,
+  },
+  fs: {
+    fontSize: 14,
+  },
 });
