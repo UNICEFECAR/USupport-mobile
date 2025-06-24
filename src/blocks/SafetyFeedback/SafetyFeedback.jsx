@@ -179,7 +179,7 @@ export const SafetyFeedback = ({ navigation, consultationId, answers }) => {
   };
 
   const canSubmit = useMemo(() => {
-    if (!questions[0].value) return true;
+    if (questions[0].value === false) return true;
     const questionsExcludingLast = questions.slice(0, -1);
 
     return (
