@@ -17,6 +17,7 @@ export const Heading = ({
   hasCloseIcon = false,
   handleCloseIconPress,
   style,
+  wrapperStyle,
 }) => {
   const { colors } = useGetTheme();
 
@@ -27,6 +28,7 @@ export const Heading = ({
         {
           backgroundColor: hasBackground ? colors.background : "transparent",
         },
+        wrapperStyle,
       ]}
     >
       <View style={[styles.container, style]}>
