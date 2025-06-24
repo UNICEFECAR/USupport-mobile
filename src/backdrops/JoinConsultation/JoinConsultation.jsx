@@ -20,13 +20,10 @@ export const JoinConsultation = ({ isOpen, onClose, consultation }) => {
 
   const handleClick = async (redirectTo) => {
     try {
-      const result = await userSvc.getTwilioToken(consultation.consultationId);
-      const token = result?.data?.token;
       navigation.navigate("Consultation", {
         consultation,
         videoOn: redirectTo === "video",
         microphoneOn: redirectTo === "video",
-        token,
       });
     } catch (err) {
       showToast({ message: t("error"), type: "error" });
