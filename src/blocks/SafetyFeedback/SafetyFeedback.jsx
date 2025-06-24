@@ -17,7 +17,10 @@ import {
   useCreateConsultationSecurityCheck,
   useUpdateSecurityCheckAnswersByConsultationId,
 } from "#hooks";
+
 import { InputSlider } from "../../components/inputs";
+
+import { appStyles } from "#styles";
 
 /**
  * SafetyFeedback
@@ -176,7 +179,7 @@ export const SafetyFeedback = ({ navigation, consultationId, answers }) => {
   };
 
   const canSubmit = useMemo(() => {
-    if (!questions[0].value) return true;
+    if (questions[0].value === false) return true;
     const questionsExcludingLast = questions.slice(0, -1);
 
     return (
@@ -187,7 +190,7 @@ export const SafetyFeedback = ({ navigation, consultationId, answers }) => {
   }, [questions]);
 
   return (
-    <Block style={{ marginTop: 112 }}>
+    <Block>
       <View style={styles.warningContainer}>
         <Icon name="warning" size="md" />
         <AppText namedStyle="smallText" style={styles.warningText}>
@@ -195,75 +198,73 @@ export const SafetyFeedback = ({ navigation, consultationId, answers }) => {
         </AppText>
       </View>
 
-      <View style={styles.questionsContainer}>
-        {questions.map((question, index) => {
-          if (!questions[0].value && question.id !== 0) return null;
-          return question.type === "textarea" ? (
-            <QuestionTextArea
+      {questions.map((question, index) => {
+        if (!questions[0].value && question.id !== 0) return null;
+        return question.type === "textarea" ? (
+          <QuestionTextArea
+            question={question}
+            t={t}
+            handleAnswerSelect={handleAnswerSelect}
+            numeration={index + 1}
+            key={index}
+          />
+        ) : question?.type === "slider" ? (
+          <QuestionSlider
+            question={question}
+            handleAnswerSelect={handleAnswerSelect}
+            numeration={index + 1}
+            key={index}
+          />
+        ) : question?.type === "emoji" ? (
+          <QuestionEmoji
+            question={question}
+            handleAnswerSelect={handleAnswerSelect}
+            t={t}
+            numeration={index + 1}
+            key={index}
+          />
+        ) : (
+          <>
+            <Question
               question={question}
+              handleAnswerSelect={handleAnswerSelect}
               t={t}
-              handleAnswerSelect={handleAnswerSelect}
-              numeration={index + 1}
               key={index}
-            />
-          ) : question?.type === "slider" ? (
-            <QuestionSlider
-              question={question}
-              handleAnswerSelect={handleAnswerSelect}
               numeration={index + 1}
-              key={index}
             />
-          ) : question?.type === "emoji" ? (
-            <QuestionEmoji
-              question={question}
-              handleAnswerSelect={handleAnswerSelect}
-              t={t}
-              numeration={index + 1}
-              key={index}
-            />
-          ) : (
-            <>
-              <Question
-                question={question}
-                handleAnswerSelect={handleAnswerSelect}
-                t={t}
-                key={index}
-                numeration={index + 1}
+            {question.id === 4 && questions[4].value === true && (
+              <Textarea
+                label={t("more_details_label")}
+                value={moreDetails}
+                onChange={setMoreDetails}
+                placeholder={t("more_details_placeholder")}
+                style={styles.marginTop16}
               />
-              {question.id === 4 && questions[4].value === true && (
-                <Textarea
-                  label={t("more_details_label")}
-                  value={moreDetails}
-                  onChange={setMoreDetails}
-                  placeholder={t("more_details_placeholder")}
-                  style={styles.marginTop16}
-                />
-              )}
-            </>
-          );
-        })}
+            )}
+          </>
+        );
+      })}
+      <AppButton
+        label={t("button")}
+        size="lg"
+        disabled={!canSubmit}
+        onPress={handleSubmit}
+        loading={
+          updateconsultationSecurityCheckMutation.Loading ||
+          createConsultationSecurityCheckMutation.isLoading
+        }
+        style={[styles.marginTop40, styles.button]}
+      />
+      {hasAnsweredBefore && (
         <AppButton
-          label={t("button")}
+          label={t("continue_button")}
           size="lg"
+          type="secondary"
           disabled={!canSubmit}
           onPress={handleSubmit}
-          loading={
-            updateconsultationSecurityCheckMutation.Loading ||
-            createConsultationSecurityCheckMutation.isLoading
-          }
           style={[styles.marginTop40, styles.button]}
         />
-        {hasAnsweredBefore && (
-          <AppButton
-            label={t("continue_button")}
-            size="lg"
-            type="secondary"
-            disabled={!canSubmit}
-            onPress={handleSubmit}
-            style={[styles.marginTop40, styles.button]}
-          />
-        )}
-      </View>
+      )}
     </Block>
   );
 };
@@ -430,8 +431,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   radioButton: {
-    maxWidth: 160,
-    backgroundColor: "red",
+    maxWidth:
+      appStyles.screenWidth / 2 < 160 ? appStyles.screenWidth / 2 - 24 : 160,
     marginTop: 8,
   },
   button: { alignSelf: "center" },
