@@ -20,7 +20,6 @@ import { io } from "socket.io-client";
 import { activateKeepAwakeAsync, deactivateKeepAwake } from "expo-keep-awake";
 import notifee, { AndroidImportance } from "@notifee/react-native";
 import Config from "react-native-config";
-import { useQueryClient } from "@tanstack/react-query";
 
 import {
   AppText,
@@ -41,6 +40,7 @@ import {
   useGetSecurityCheckAnswersByConsultationId,
   useDebounce,
   useGetAllChatHistoryData,
+  useGetClientData,
 } from "#hooks";
 
 // import { VideoRoom } from "#blocks";
@@ -62,7 +62,6 @@ const { SOCKET_IO_URL } = Config;
  * @returns {JSX.Element}
  */
 export const Consultation = ({ navigation, route }) => {
-  const queryClient = useQueryClient();
   const { t } = useTranslation("consultation-page");
   const location = route.params;
   const backdropMessagesContainerRef = useRef();
@@ -72,9 +71,8 @@ export const Consultation = ({ navigation, route }) => {
   const consultation = location?.consultation;
   const joinWithVideo = location?.videoOn;
   const joinWithMicrophone = location?.microphoneOn;
-  const token = location?.token;
 
-  const clientData = queryClient.getQueryData({ queryKey: ["client-data"] });
+  const [clientDataQuery, clientData] = useGetClientData();
 
   const startForegroundService = async () => {
     await PermissionsAndroid.request(
@@ -127,7 +125,7 @@ export const Consultation = ({ navigation, route }) => {
     };
   }, []);
 
-  if (!consultation || !token) return null;
+  if (!consultation) return null;
 
   const { data: securityCheckAnswers } =
     useGetSecurityCheckAnswersByConsultationId(consultation.consultationId);
@@ -192,8 +190,11 @@ export const Consultation = ({ navigation, route }) => {
   );
 
   const requestAndroidPermissions = async () => {
-    const _requestAudioPermission = async () => {
-      return await PermissionsAndroid.request(
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      // Request audio permission
+      await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
         {
           title: "Need permission to access microphone",
@@ -202,26 +203,17 @@ export const Consultation = ({ navigation, route }) => {
           buttonPositive: "OK",
         }
       );
-    };
 
-    const _requestCameraPermission = async () => {
-      return await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.CAMERA,
-        {
-          title: "Need permission to access camera",
-          message: "",
-          buttonNegative: "Cancel",
-          buttonPositive: "OK",
-        }
-      );
-    };
+      // Add a small delay between permission requests
+      await new Promise((resolve) => setTimeout(resolve, 500));
 
-    try {
-      const audioPermission = await _requestAudioPermission();
-      const cameraPermission = await _requestCameraPermission();
-
-      console.log("Audio permission:", audioPermission);
-      console.log("Camera permission:", cameraPermission);
+      // Request camera permission
+      await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA, {
+        title: "Need permission to access camera",
+        message: "",
+        buttonNegative: "Cancel",
+        buttonPositive: "OK",
+      });
 
       setHasCheckedPermissions(true);
     } catch (error) {
@@ -593,7 +585,6 @@ export const Consultation = ({ navigation, route }) => {
             leaveConsultation={leaveConsultation}
             handleSendMessage={handleSendMessage}
             sendJoinConsultationMessage={sendJoinConsultationMessage}
-            token={token}
             navigation={navigation}
             hasUnread={hasUnreadMessages}
             isProviderInSession={isProviderInSession}
