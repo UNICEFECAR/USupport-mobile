@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 
 import { Screen, Block, Heading } from "#components";
 import { SafetyFeedback as SafetyFeedbackBlock } from "#blocks";
@@ -18,16 +18,19 @@ export const SafetyFeedback = ({ navigation, answers, consultationId }) => {
   return (
     <Screen hasEmergencyButton={false}>
       <ScrollView
-        contentContainerStyle={{ paddingBottom: 50 }}
+        contentContainerStyle={styles.scrollView}
         showsVerticalScrollIndicator={false}
+        style={styles.flex1}
       >
         <Block>
           <Heading
+            wrapperStyle={styles.heading}
             heading={t("heading")}
             subheading={t("subheading")}
             hasGoBackArrow={false}
           />
         </Block>
+
         <SafetyFeedbackBlock
           navigation={navigation}
           consultationId={consultationId}
@@ -37,3 +40,17 @@ export const SafetyFeedback = ({ navigation, answers, consultationId }) => {
     </Screen>
   );
 };
+
+const styles = StyleSheet.create({
+  scrollView: {
+    flexGrow: 1,
+    flexDirection: "column",
+    paddingBottom: 50,
+  },
+  flex1: {
+    flex: 1,
+  },
+  heading: {
+    position: "relative",
+  },
+});
