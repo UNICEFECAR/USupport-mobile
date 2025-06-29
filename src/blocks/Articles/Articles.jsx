@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { FlashList } from "@shopify/flash-list";
 
 import {
@@ -13,7 +13,7 @@ import {
   Loading,
   TabsUnderlined,
 } from "#components";
-import { localStorage, adminSvc, cmsSvc } from "#services";
+import { localStorage, cmsSvc } from "#services";
 import {
   useDebounce,
   useEventListener,
@@ -34,14 +34,12 @@ export const Articles = ({
   navigation,
   showSearch = true,
   showCategories = true,
-  sort,
   openArticlesModal,
   handleSetCategories,
   handleCategorySelect,
-  selectCategory,
+  selectedCategory,
   allCategories,
 }) => {
-  const queryClient = useQueryClient();
   const { i18n, t } = useTranslation("articles");
 
   const [usersLanguage, setUsersLanguage] = useState(i18n.language);
@@ -74,9 +72,9 @@ export const Articles = ({
       const ageGroupsData = res.data.map((age, index) => ({
         label: age.attributes.name,
         id: age.id,
-        isSelected: index === 1 ? true : false,
+        isSelected: index === 0 ? true : false,
       }));
-      setSelectedAgeGroup(ageGroupsData[1]);
+      setSelectedAgeGroup(ageGroupsData[0]);
       return ageGroupsData;
     } catch {}
   };
@@ -105,7 +103,7 @@ export const Articles = ({
   };
 
   //--------------------- Categories ----------------------//
-  const [selectedCategory, setSelectedCategory] = useState();
+  // const [selectedCategory, setSelectedCategory] = useState();
   const getCategories = async () => {
     try {
       const res = await cmsSvc.getCategories(usersLanguage);
@@ -120,7 +118,7 @@ export const Articles = ({
           isSelected: false,
         })
       );
-      setSelectedCategory(categoriesData[0]);
+      handleCategorySelect(categoriesData[0]);
       handleSetCategories(categoriesData);
       return categoriesData;
     } catch {}
@@ -132,7 +130,7 @@ export const Articles = ({
     {
       refetchOnWindowFocus: false,
       onSuccess: (data) => {
-        handleCategorySelect([...data]);
+        handleSetCategories([...data]);
       },
     }
   );
@@ -143,7 +141,7 @@ export const Articles = ({
     for (let i = 0; i < categoriesCopy.length; i++) {
       if (i === index) {
         categoriesCopy[i].isSelected = true;
-        setSelectedCategory(categoriesCopy[i]);
+        // setSelectedCategory(categoriesCopy[i]);
         handleCategorySelect(categoriesCopy[i]);
       } else {
         categoriesCopy[i].isSelected = false;

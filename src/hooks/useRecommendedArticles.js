@@ -30,6 +30,7 @@ export const useRecommendedArticles = ({
   const [readPage, setReadPage] = useState(1); // Page tracking for read articles
   const [categoryFilteredArticles, setCategoryFilteredArticles] = useState([]); // For category-specific filtering
   const [fetchedAllArticlesIds, setFetchedAllArticlesIds] = useState([]); // Track fetched article IDs for all articles
+  const [readArticleIds, setReadArticleIds] = useState([]); // Track fetched read article IDs
 
   const { data: countryArticles, isLoading: isLoadingCountryArticles } =
     useQuery({
@@ -61,6 +62,7 @@ export const useRecommendedArticles = ({
       return;
     }
 
+    const allReadArticleIds = [];
     // Build category interaction map
     categoryInteractions.data.forEach((interaction) => {
       const {
@@ -69,6 +71,10 @@ export const useRecommendedArticles = ({
         count,
         tag_ids: tagIds,
       } = interaction;
+
+      if (articleId) {
+        allReadArticleIds.push(articleId);
+      }
 
       if (categoryInteractionMap.has(categoryId)) {
         categoryInteractionMap.set(categoryId, {
@@ -93,6 +99,8 @@ export const useRecommendedArticles = ({
         interactedArticleIds.add(articleId);
       }
     });
+
+    setReadArticleIds(allReadArticleIds);
 
     // Sort categories by interaction count (descending)
     const sortedCategories = Array.from(categoryInteractionMap.entries())
@@ -265,7 +273,7 @@ export const useRecommendedArticles = ({
         ...(searchValue && { contains: searchValue }),
         limit: 1000, // Get all articles for this category
       });
-      console.log("allCategoryArticlesData", allCategoryArticlesData);
+
       if (allCategoryArticlesData?.data) {
         const interactedIds = categorySortedData.interactedArticleIds || [];
 
@@ -306,7 +314,7 @@ export const useRecommendedArticles = ({
       setFetchingRemaining(false);
     }
   };
-  console.log(categorySortedData);
+
   // Start fetching categories one by one when data is ready
   useEffect(() => {
     if (!categorySortedData.categories || !countryArticles?.length) return;
@@ -727,7 +735,7 @@ export const useRecommendedArticles = ({
     categoriesData,
     remainingArticlesCount: remainingArticles.length,
     readArticlesCount: readArticles.length,
-    readArticleIds: readArticles.map((article) => article.data.id),
+    readArticleIds: readArticleIds,
     categoryArticlesCount,
     loadMore,
     refetch: () => {
@@ -747,9 +755,7 @@ export const useRecommendedArticles = ({
       console.log("[refetch] State reset");
     },
     error: null,
-    isReady:
-      totalCount > 0 ||
-      (!isLoading && categorySortedData.categories !== undefined),
+    isReady: !isLoading && categorySortedData.categories !== undefined,
     fetchingCategories: Array.from(fetchingCategories),
     fetchingRemaining,
     hasMoreRemaining,

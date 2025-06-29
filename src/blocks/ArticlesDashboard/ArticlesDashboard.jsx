@@ -73,9 +73,9 @@ export const ArticlesDashboard = ({
       const ageGroupsData = res.data.map((age, index) => ({
         label: age.attributes.name,
         id: age.id,
-        isSelected: index === 1 ? true : false,
+        isSelected: index === 0 ? true : false,
       }));
-      setSelectedAgeGroup(ageGroupsData[1]);
+      setSelectedAgeGroup(ageGroupsData[0]);
       return ageGroupsData;
     } catch {}
   };
@@ -200,17 +200,21 @@ export const ArticlesDashboard = ({
 
   return (
     <>
+      <Block style={styles.headingBlock}>
+        <View style={styles.headingContainer}>
+          <AppText namedStyle="h3">{t("heading")}</AppText>
+          <TouchableOpacity onPress={() => handleRedirect("read_count")}>
+            <AppText style={styles.viewAllText}>{t("view_all")}</AppText>
+          </TouchableOpacity>
+        </View>
+      </Block>
+      {ageGroupsQuery?.isLoading && (
+        <View style={styles.container}>
+          <Loading />
+        </View>
+      )}
       {allCategories?.length > 1 && (
         <>
-          <Block style={styles.headingBlock}>
-            <View style={styles.headingContainer}>
-              <AppText namedStyle="h3">{t("heading")}</AppText>
-              <TouchableOpacity onPress={() => handleRedirect("read_count")}>
-                <AppText style={styles.viewAllText}>{t("view_all")}</AppText>
-              </TouchableOpacity>
-            </View>
-          </Block>
-
           {ageGroupsQuery?.data?.length > 0 && ageGroups && showAgeGroups ? (
             <TabsUnderlined
               options={ageGroups}

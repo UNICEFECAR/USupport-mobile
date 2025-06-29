@@ -18,27 +18,8 @@ import { appStyles } from "#styles";
 export const Articles = ({ navigation, route }) => {
   const { t } = useTranslation("articles-screen");
 
-  const sort = route.params?.sort || null;
-
   let heading = t("heading_default");
   let subheading = t("subheading_default");
-  let showBackGoBackArrow = false;
-
-  switch (sort) {
-    case "createdAt":
-      heading = t("heading_newest");
-      subheading = t("subheading_newest");
-      showBackGoBackArrow = true;
-      break;
-    case "read_count":
-      heading = t("heading_most_read");
-      subheading = t("subheading_most_read");
-      showBackGoBackArrow = true;
-      break;
-
-    default:
-      break;
-  }
 
   const [isArticlesModalOpen, setIsArticlesModalOpen] = useState(false);
 
@@ -61,8 +42,8 @@ export const Articles = ({ navigation, route }) => {
         isOpen={isArticlesModalOpen}
         onClose={() => setIsArticlesModalOpen(false)}
         allCategories={allCategories}
-        handleCategorySelect={handleCategorySelect}
         selectedCategory={selectedCategory}
+        handleCategorySelect={handleCategorySelect}
         handleSetCategories={handleSetCategories}
       />
       <Screen>
@@ -78,7 +59,7 @@ export const Articles = ({ navigation, route }) => {
           openArticlesModal={openArticlesModal}
           handleSetCategories={handleSetCategories}
           handleCategorySelect={handleCategorySelect}
-          selectCategory={selectedCategory}
+          selectedCategory={selectedCategory}
           allCategories={allCategories}
         />
       </Screen>
