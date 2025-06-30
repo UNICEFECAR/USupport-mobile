@@ -1,5 +1,5 @@
 export * from "./AccessToken";
-export * from "./ProviderOverview";
+export * from "./ProviderOverview/ProviderOverview";
 export * from "./Consultation";
 export * from "./EmergencyCenter";
 export * from "./CardMedia";
@@ -9,3 +9,4 @@ export * from "./ConsultationInformaton";
 export * from "./Notification";
 export * from "./MoodTrackDetails";
 export * from "./Answer";
+export * from "./OrganizationOverview/OrganizationOverview";

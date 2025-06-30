@@ -39,6 +39,8 @@ import {
   MyQA,
   SetUpBiometrics,
   Videos,
+  Organizations,
+  OrganizationOverview,
 } from "./src/blocks/locales.js";
 
 import {
@@ -66,6 +68,8 @@ import {
   MyQA as MyQAScreen,
   Videos as VideosScreen,
   Podcasts as PodcastsScreen,
+  Organizations as OrganizationsScreen,
+  OrganizationOverview as OrganizationOverviewScreen,
 } from "./src/screens/locales.js";
 
 import {
@@ -132,6 +136,8 @@ const resources = {
     "my-qa": MyQA.en,
     "set-up-biometrics": SetUpBiometrics.en,
     videos: Videos.en,
+    organizations: Organizations.en,
+    "organization-overview": OrganizationOverview.en,
 
     // Screens
     "activity-history": ActivityHistory.en,
@@ -163,6 +169,9 @@ const resources = {
     "my-qa-screen": MyQAScreen.en,
     "videos-screen": VideosScreen.en,
     "podcasts-screen": PodcastsScreen.en,
+    "organizations-screen": OrganizationsScreen.en,
+    "organization-overview-screen": OrganizationOverviewScreen.en,
+
     // Backdrops
     "cancel-consultation": CancelConsultation.en,
     "change-password": ChangePassword.en,
@@ -226,6 +235,8 @@ const resources = {
     "my-qa": MyQA.ru,
     "set-up-biometrics": SetUpBiometrics.ru,
     videos: Videos.ru,
+    organizations: Organizations.ru,
+    "organization-overview": OrganizationOverview.ru,
 
     // Screens
     "activity-history": ActivityHistory.ru,
@@ -257,6 +268,8 @@ const resources = {
     "my-qa-screen": MyQAScreen.ru,
     "videos-screen": VideosScreen.ru,
     "podcasts-screen": PodcastsScreen.ru,
+    "organizations-screen": OrganizationsScreen.ru,
+    "organization-overview-screen": OrganizationOverviewScreen.ru,
 
     // Backdrops
     "cancel-consultation": CancelConsultation.ru,
@@ -321,6 +334,8 @@ const resources = {
     "my-qa": MyQA.kk,
     "set-up-biometrics": SetUpBiometrics.kk,
     videos: Videos.kk,
+    organizations: Organizations.kk,
+    "organization-overview": OrganizationOverview.kk,
 
     // Screens
     "activity-history": ActivityHistory.kk,
@@ -352,6 +367,8 @@ const resources = {
     "my-qa-screen": MyQAScreen.kk,
     "videos-screen": VideosScreen.kk,
     "podcasts-screen": PodcastsScreen.kk,
+    "organizations-screen": OrganizationsScreen.kk,
+
     // Backdrops
     "cancel-consultation": CancelConsultation.kk,
     "change-password": ChangePassword.kk,
@@ -415,6 +432,8 @@ const resources = {
     "my-qa": MyQA.uk,
     "set-up-biometrics": SetUpBiometrics.uk,
     videos: Videos.uk,
+    organizations: Organizations.uk,
+    "organization-overview": OrganizationOverview.uk,
 
     // Screens
     "activity-history": ActivityHistory.uk,
@@ -446,6 +465,8 @@ const resources = {
     "my-qa-screen": MyQAScreen.uk,
     "videos-screen": VideosScreen.uk,
     "podcasts-screen": PodcastsScreen.uk,
+    "organizations-screen": OrganizationsScreen.uk,
+    "organization-overview-screen": OrganizationOverviewScreen.uk,
 
     // Backdrops
     "cancel-consultation": CancelConsultation.uk,
@@ -510,6 +531,8 @@ const resources = {
     "my-qa": MyQA.pl,
     "set-up-biometrics": SetUpBiometrics.pl,
     videos: Videos.pl,
+    organizations: Organizations.pl,
+    "organization-overview": OrganizationOverview.pl,
 
     // Screens
     "activity-history": ActivityHistory.pl,
@@ -541,6 +564,8 @@ const resources = {
     "my-qa-screen": MyQAScreen.pl,
     "videos-screen": VideosScreen.pl,
     "podcasts-screen": PodcastsScreen.pl,
+    "organizations-screen": OrganizationsScreen.pl,
+    "organization-overview-screen": OrganizationOverviewScreen.pl,
 
     // Backdrops
     "cancel-consultation": CancelConsultation.pl,

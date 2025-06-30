@@ -1,0 +1,55 @@
+{
+  "in_person_interaction": "Очное",
+  "online_interaction": "Онлайн",
+  "phone_interaction": "По телефону",
+  "hybrid_interaction": "Гибридное",
+
+  "cash": "Наличные",
+  "bank_transfer": "Банковский перевод",
+  "card": "Карта",
+  "free": "Бесплатно",
+
+  "individual_psychotherapy": "Индивидуальная психотерапия",
+  "group_psychotherapy": "Групповая психотерапия",
+  "individual_psychological_counseling": "Индивидуальное психологическое консультирование",
+  "group_psychological_counseling": "Групповое психологическое консультирование",
+  "personal_development_counseling": "Консультирование по личностному развитию",
+  "speech_therapy": "Логопедия",
+  "social_information_counseling": "Социальная информация и консультирование",
+  "rehab_autism_children": "Реабилитация и восстановление детей с аутизмом",
+  "rehab_psycho_neuro_children": "Реабилитация детей с психоневромоторными нарушениями",
+  "suicide_prevention_helpline": "Телефон доверия по предотвращению самоубийств",
+  "addiction_helpline": "Телефон доверия для зависимостей",
+  "violence_victim_helpline": "Телефон доверия для жертв насилия",
+  "child_helpline": "Детский телефон доверия",
+  "child_psychiatry": "Детская психиатрия",
+  "art_recreational_activities": "Творческие досуговые мероприятия (театр, музыка, поэзия, живопись, рассказы)",
+  "sport_recreational_activities": "Спортивные досуговые мероприятия (спорт, игры, танцы)",
+
+  "sector_1": "Сектор 1",
+  "sector_2": "Сектор 2",
+  "sector_3": "Сектор 3",
+  "sector_4": "Сектор 4",
+  "sector_5": "Сектор 5",
+  "sector_6": "Сектор 6",
+
+  "children": "Дети",
+  "children_disabilities": "Дети с инвалидностью",
+  "adults": "Взрослые",
+  "adults_disabilities": "Взрослые с инвалидностью",
+
+  "work_with_placeholder": "Выберите группу",
+  "specialisation_placeholder": "Выберите специализацию",
+  "district_placeholder": "Выберите район",
+  "payment_method_placeholder": "Выберите способ оплаты",
+  "user_interaction_placeholder": "Выберите способ взаимодействия",
+  "search_placeholder": "Поиск по названию или названию подразделения",
+
+  "no_data_found": "Данные не найдены",
+  "reset_filters": "Сбросить фильтры",
+
+  "view_organization_details": "Просмотреть информацию об организации",
+  "address": "Адрес",
+  "phone": "Телефон",
+  "email": "Электронная почта"
+}

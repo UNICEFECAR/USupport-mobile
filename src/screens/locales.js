@@ -23,3 +23,5 @@ export * as LocalAuthenticationScreen from "./LocalAuthenticationScreen/locales"
 export * as MyQA from "./MyQA/locales";
 export * as Videos from "./Videos/locales";
 export * as Podcasts from "./Podcasts/locales";
+export * as Organizations from "./Organizations/locales";
+export * as OrganizationOverview from "./OrganizationOverview/locales";

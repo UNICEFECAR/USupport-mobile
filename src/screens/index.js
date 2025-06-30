@@ -41,3 +41,5 @@ export * from "./Videos";
 export * from "./VideoInformation";
 export * from "./PodcastInformation";
 export * from "./Podcasts";
+export * from "./Organizations";
+export * from "./OrganizationOverview";

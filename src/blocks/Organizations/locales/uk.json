@@ -1,0 +1,55 @@
+{
+  "in_person_interaction": "Особисто",
+  "online_interaction": "Онлайн",
+  "phone_interaction": "Телефон",
+  "hybrid_interaction": "Гібридний",
+
+  "cash": "Готівка",
+  "bank_transfer": "Банківський переказ",
+  "card": "Картка",
+  "free": "Безкоштовно",
+
+  "individual_psychotherapy": "Індивідуальна психотерапія",
+  "group_psychotherapy": "Групова психотерапія",
+  "individual_psychological_counseling": "Індивідуальне психологічне консультування",
+  "group_psychological_counseling": "Групове психологічне консультування",
+  "personal_development_counseling": "Консультування з особистісного розвитку",
+  "speech_therapy": "Логопедія",
+  "social_information_counseling": "Соціальна інформація та консультування",
+  "rehab_autism_children": "Реабілітація та відновлення для дітей з аутизмом",
+  "rehab_psycho_neuro_children": "Реабілітація для дітей з психоневромоторними розладами",
+  "suicide_prevention_helpline": "Лінія допомоги щодо запобігання самогубствам",
+  "addiction_helpline": "Лінія допомоги при залежностях",
+  "violence_victim_helpline": "Лінія допомоги жертвам насильства",
+  "child_helpline": "Дитяча лінія допомоги",
+  "child_psychiatry": "Дитяча психіатрія",
+  "art_recreational_activities": "Творчі дозвіллєві заходи (театр, музика, поезія, живопис, розповіді)",
+  "sport_recreational_activities": "Спортивні дозвіллєві заходи (спорт, ігри, танці)",
+
+  "sector_1": "Сектор 1",
+  "sector_2": "Сектор 2",
+  "sector_3": "Сектор 3",
+  "sector_4": "Сектор 4",
+  "sector_5": "Сектор 5",
+  "sector_6": "Сектор 6",
+
+  "children": "Діти",
+  "children_disabilities": "Діти з інвалідністю",
+  "adults": "Дорослі",
+  "adults_disabilities": "Дорослі з інвалідністю",
+
+  "work_with_placeholder": "Оберіть групу",
+  "specialisation_placeholder": "Оберіть спеціалізацію",
+  "district_placeholder": "Оберіть район",
+  "payment_method_placeholder": "Оберіть спосіб оплати",
+  "user_interaction_placeholder": "Оберіть спосіб взаємодії",
+  "search_placeholder": "Пошук за назвою або назвою підрозділу",
+
+  "no_data_found": "Дані не знайдено",
+  "reset_filters": "Скинути фільтри",
+
+  "view_organization_details": "Переглянути деталі організації",
+  "address": "Адреса",
+  "phone": "Телефон",
+  "email": "Електронна пошта"
+}

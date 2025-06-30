@@ -33,6 +33,8 @@ import {
   VideoInformation,
   PodcastInformation,
   Podcasts,
+  Organizations,
+  OrganizationOverview,
 } from "#screens";
 
 import { Context } from "#services";
@@ -87,7 +89,11 @@ export const AppNavigation = () => {
       <Stack.Screen name="VideoInformation" component={VideoInformation} />
       <Stack.Screen name="PodcastInformation" component={PodcastInformation} />
       <Stack.Screen name="Podcasts" component={Podcasts} />
-
+      <Stack.Screen name="Organizations" component={Organizations} />
+      <Stack.Screen
+        name="OrganizationOverview"
+        component={OrganizationOverview}
+      />
       <Stack.Screen
         options={{ gestureEnabled: false }}
         name="SetUpBiometrics"

@@ -1,0 +1,55 @@
+{
+  "in_person_interaction": "In person",
+  "online_interaction": "Online",
+  "phone_interaction": "Phone",
+  "hybrid_interaction": "Hybrid",
+
+  "cash": "Cash",
+  "bank_transfer": "Bank transfer",
+  "card": "Card",
+  "free": "Free",
+
+  "individual_psychotherapy": "Individual psychotherapy",
+  "group_psychotherapy": "Group psychotherapy",
+  "individual_psychological_counseling": "Individual psychological counseling",
+  "group_psychological_counseling": "Group psychological counseling",
+  "personal_development_counseling": "Personal development counseling",
+  "speech_therapy": "Speech therapy",
+  "social_information_counseling": "Social information and counseling",
+  "rehab_autism_children": "Rehabilitation and recovery services for children with autism",
+  "rehab_psycho_neuro_children": "Rehabilitation and recovery services for children with psycho-neuro-motor disorders",
+  "suicide_prevention_helpline": "Suicide prevention helpline",
+  "addiction_helpline": "Addiction helpline",
+  "violence_victim_helpline": "Violence victims helpline",
+  "child_helpline": "Child helpline",
+  "child_psychiatry": "Child psychiatry",
+  "art_recreational_activities": "Artistic recreational activities (theatre, music, poetry, painting, storytelling)",
+  "sport_recreational_activities": "Sports recreational activities (sports, games, dance)",
+
+  "sector_1": "Sector 1",
+  "sector_2": "Sector 2",
+  "sector_3": "Sector 3",
+  "sector_4": "Sector 4",
+  "sector_5": "Sector 5",
+  "sector_6": "Sector 6",
+
+  "children": "Children",
+  "children_disabilities": "Children with disabilities",
+  "adults": "Adults",
+  "adults_disabilities": "Adults with disabilities",
+
+  "work_with_placeholder": "Select work with",
+  "specialisation_placeholder": "Select specialisations",
+  "district_placeholder": "Select district",
+  "payment_method_placeholder": "Select payment method",
+  "user_interaction_placeholder": "Select user interaction",
+  "search_placeholder": "Search by name or unit name",
+
+  "no_data_found": "No data found",
+  "reset_filters": "Reset filters",
+
+  "view_organization_details": "View Organization Details",
+  "address": "Address",
+  "phone": "Phone",
+  "email": "Email"
+}
