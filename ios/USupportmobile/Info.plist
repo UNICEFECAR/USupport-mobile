@@ -52,6 +52,12 @@
 	<string>Please allow access to your microphone</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>Allow $(PRODUCT_NAME) to access your calendar</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Allow $(PRODUCT_NAME) to access your location</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Allow $(PRODUCT_NAME) to access your location</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Allow $(PRODUCT_NAME) to access your location</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>
