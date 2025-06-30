@@ -94,7 +94,7 @@ export const ProviderOverview = ({
               namedStyle="smallText"
               style={{ paddingBottom: 6, color: colors.text }}
             >
-              {specializations.join(", ")}
+              {specializations?.join(", ")}
             </AppText>
             <AppText
               namedStyle="smallText"
