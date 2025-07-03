@@ -45,7 +45,7 @@ export const Organizations = ({ navigation }) => {
       <Heading
         heading={t("heading")}
         subheading={t("subheading")}
-        handleGoBack={handleGoBack}
+        hasGoBackArrow={false}
         buttonComponent={
           <ButtonOnlyIcon
             iconName="filter"
