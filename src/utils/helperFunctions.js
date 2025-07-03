@@ -87,8 +87,10 @@ const constructShareUrl = async ({ contentType, id }) => {
 
   const countryName = countryMap[country.toLocaleLowerCase()];
 
-  const url = `https://${countryName}.usupport.online/${language}/information-portal/${contentType}/${id}`;
-  return url;
+  if (contentType === "organization") {
+    return `https://${countryName}.usupport.online/${language}/organization-overview/${id}`;
+  }
+  return `https://${countryName}.usupport.online/${language}/information-portal/${contentType}/${id}`;
 };
 
 export { calcGradientDegrees, checkIsLikedAndDisliked, constructShareUrl };
