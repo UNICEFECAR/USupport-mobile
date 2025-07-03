@@ -7,6 +7,7 @@ import {
   Linking,
 } from "react-native";
 import { useTranslation } from "react-i18next";
+import Share from "react-native-share";
 import Config from "react-native-config";
 
 import {
@@ -19,9 +20,12 @@ import {
   Avatar,
   ButtonWithIcon,
   AppButton,
+  Icon,
 } from "#components";
 import { useGetOrganizationMetadata, useGetAllOrganizations } from "#hooks";
 import { appStyles } from "#styles";
+import { constructShareUrl } from "#utils";
+import { useGetTheme } from "#hooks";
 
 const { GOOGLE_MAPS_API_KEY, AMAZON_S3_BUCKET } = Config;
 
@@ -173,6 +177,8 @@ export const Organizations = ({ navigation, filters, setFilters }) => {
  * This shows the organization details when a marker is clicked
  */
 const OrganizationBackdrop = ({ organization, onClose, t, navigation }) => {
+  const { colors } = useGetTheme();
+
   const navigateToOrganization = (app) => {
     if (organization.location?.latitude && organization.location?.longitude) {
       const { latitude: lat, longitude: lng } = organization.location;
@@ -203,6 +209,17 @@ const OrganizationBackdrop = ({ organization, onClose, t, navigation }) => {
     organization.image && organization.image !== "default"
       ? `${AMAZON_S3_BUCKET}/${organization.image}`
       : null;
+
+  const handleShare = async () => {
+    const url = await constructShareUrl({
+      contentType: "organization",
+      id: organization.organizationId,
+    });
+    Share.open({
+      title: organization.name,
+      message: `${t("check_organization")}\n\n${url}`,
+    });
+  };
 
   return (
     <View style={styles.backdrop}>
@@ -274,6 +291,9 @@ const OrganizationBackdrop = ({ organization, onClose, t, navigation }) => {
 
         {/* Action Buttons */}
         <View style={styles.actionButtons}>
+          <TouchableOpacity style={styles.actionButton} onPress={handleShare}>
+            <Icon name="share" size="sm" color={colors.text} />
+          </TouchableOpacity>
           <AppButton
             onPress={handleViewDetails}
             label={t("view_organization_details")}
@@ -312,6 +332,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 50,
     paddingHorizontal: 16,
+    paddingBottom: 100,
   },
   searchContainer: {
     flexDirection: "row",
@@ -487,5 +508,15 @@ const styles = StyleSheet.create({
   navigationButton: {
     maxWidth: "50%",
     width: "50%",
+  },
+  actionButton: {
+    // width: 40,
+    marginLeft: "auto",
+    marginRight: "auto",
+    borderWidth: 1,
+    borderColor: appStyles.colorBlue_3d527b,
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
   },
 });
