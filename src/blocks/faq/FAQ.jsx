@@ -3,7 +3,14 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
-import { CollapsibleFAQ, Block, Heading, Loading, AppText } from "#components";
+import {
+  CollapsibleFAQ,
+  Block,
+  Heading,
+  Loading,
+  AppText,
+  InputSearch,
+} from "#components";
 
 import { useEventListener } from "#hooks";
 
@@ -18,6 +25,9 @@ import { localStorage, adminSvc, cmsSvc } from "#services";
  */
 export const FAQ = ({ navigation }) => {
   const { i18n, t } = useTranslation("faq");
+
+  const [searchQuery, setSearchQuery] = useState("");
+
   //--------------------- Country Change Event Listener ----------------------//
   const [currentCountry, setCurrentCountry] = useState();
   useEffect(() => {
@@ -77,6 +87,14 @@ export const FAQ = ({ navigation }) => {
     navigation.goBack();
   };
 
+  const filteredFAQs = FAQsData?.filter((faq) => {
+    const searchLower = searchQuery.toLowerCase();
+    return (
+      faq.question.toLowerCase().includes(searchLower) ||
+      faq.answer.toLowerCase().includes(searchLower)
+    );
+  });
+
   return (
     <Block>
       <Heading
@@ -88,11 +106,17 @@ export const FAQ = ({ navigation }) => {
         style={{ marginTop: 90 }}
         showsVerticalScrollIndicator={false}
       >
+        <InputSearch
+          value={searchQuery}
+          onChange={(value) => setSearchQuery(value)}
+          placeholder={t("search")}
+          style={styles.search}
+        />
         <View style={styles.faqContainer}>
           {isFaqLoading && FAQsData?.length ? (
             <Loading style={styles.loading} />
           ) : (
-            <CollapsibleFAQ data={FAQsData} />
+            <CollapsibleFAQ data={filteredFAQs} />
           )}
           {((!FAQsData?.length && !isFaqLoading && isFAQsFetched) ||
             faqIdsQuery.data?.length === 0) && (
@@ -107,7 +131,8 @@ export const FAQ = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  faqContainer: { marginTop: 50, marginBottom: 200 },
+  faqContainer: { marginTop: 20, marginBottom: 200 },
   loading: { alignSelf: "center" },
   noResultText: { alignSelf: "center" },
+  search: { alignSelf: "center", marginTop: 20 },
 });
