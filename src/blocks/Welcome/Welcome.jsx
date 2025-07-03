@@ -1,5 +1,5 @@
-import { Image, ScrollView, StyleSheet, View } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
+import { Image, ScrollView, StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import Config from "react-native-config";
@@ -13,7 +13,7 @@ const { AMAZON_S3_BUCKET } = Config;
 export function Welcome({ navigation }) {
   const { isDarkMode } = useGetTheme();
   const { t, i18n } = useTranslation("welcome");
-  const { setCurrencySymbol } = useContext(Context);
+  const { setCurrencySymbol, setCountry } = useContext(Context);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState(null);
 
@@ -46,6 +46,7 @@ export function Welcome({ navigation }) {
         }
         setCurrencySymbol(x.currencySymbol);
         setSelectedCountry(x.alpha2);
+        setCountry(x.alpha2);
       }
 
       return countryObject;
@@ -86,6 +87,7 @@ export function Welcome({ navigation }) {
   const handleSelectCountry = async (option) => {
     await localStorage.setItem("country", option);
     setSelectedCountry(option);
+    setCountry(option);
   };
 
   const handleContinue = () => {
@@ -99,6 +101,7 @@ export function Welcome({ navigation }) {
     const currencySymbol = selectedCountryObject.currencySymbol;
 
     setCurrencySymbol(currencySymbol);
+    setCountry(country);
 
     localStorage.setItem("country", country);
     localStorage.setItem("country_id", selectedCountryObject.countryID);

@@ -52,6 +52,7 @@ function App() {
   const [isLoginDisabled, setIsLoginDisabled] = useState(false);
   const [hasAuthenticatedWithPin, setHasAuthenticatedWithPin] = useState(false);
   const [isConnected, setIsConnected] = useState(true);
+  const [country, setCountry] = useState(null);
 
   const [dropdownOptions, setDropdownOptions] = useState({
     isOpen: false,
@@ -107,8 +108,15 @@ function App() {
         await localStorage.setItem("currencySymbol", currencySymbol);
       }
     }
+    async function checkCountry() {
+      const localStorageCountry = await localStorage.getItem("country");
+      if (!country && localStorageCountry) {
+        setCountry(localStorageCountry);
+      }
+    }
     checkCurencySymbol();
-  }, [currencySymbol]);
+    checkCountry();
+  }, [currencySymbol, country]);
 
   const handleTokenCheck = async (data) => {
     const [token, pinCode] = data;
@@ -199,6 +207,8 @@ function App() {
     setUserPin,
     hasAuthenticatedWithPin,
     setHasAuthenticatedWithPin,
+    country,
+    setCountry,
   };
 
   return (
