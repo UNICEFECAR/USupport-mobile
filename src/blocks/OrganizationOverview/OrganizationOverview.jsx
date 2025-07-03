@@ -1,10 +1,12 @@
 import { useTranslation } from "react-i18next";
 import { useCallback } from "react";
-import { View, StyleSheet, Linking } from "react-native";
+import { View, StyleSheet, Linking, TouchableOpacity } from "react-native";
 
 import { Block, Loading, AppText, Avatar, Icon } from "#components";
 import { useGetOrganizationById, useGetTheme } from "#hooks";
 import { appStyles } from "#styles";
+import { constructShareUrl } from "#utils";
+import Share from "react-native-share";
 
 export const OrganizationOverview = ({ organizationId }) => {
   const { t } = useTranslation("organization-overview");
@@ -77,6 +79,17 @@ const OrganizationDetails = ({ organization, t }) => {
     }
   }, [organization.email]);
 
+  const handleShare = async () => {
+    const url = await constructShareUrl({
+      contentType: "organization",
+      id: organization.organizationId,
+    });
+    Share.open({
+      title: organization.name,
+      message: `${t("check_organization")}\n\n${url}`,
+    });
+  };
+
   if (!organization) {
     return null;
   }
@@ -85,17 +98,22 @@ const OrganizationDetails = ({ organization, t }) => {
     <View style={[styles.container, { paddingBottom: 250 }]}>
       {/* Header Section */}
       <View style={styles.header}>
-        <Avatar
+        {/* <Avatar
           image={organization.image ? { uri: organization.image } : null}
           style={styles.avatar}
-        />
+        /> */}
         <View style={styles.headerTextContainer}>
-          <AppText
-            namedStyle="h3"
-            style={[styles.organizationName, { color: colors.text }]}
-          >
-            {organization.name}
-          </AppText>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <AppText
+              namedStyle="h3"
+              style={[styles.organizationName, { color: colors.text }]}
+            >
+              {organization.name}
+            </AppText>
+            <TouchableOpacity style={styles.actionButton} onPress={handleShare}>
+              <Icon name="share" size="sm" color={colors.text} />
+            </TouchableOpacity>
+          </View>
           {organization.unitName && (
             <AppText namedStyle="smallText" style={styles.marginTop4}>
               {organization.unitName}
@@ -236,7 +254,7 @@ const styles = StyleSheet.create({
     height: 66,
   },
   headerTextContainer: {
-    marginLeft: 16,
+    marginLeft: 0,
     flex: 1,
   },
   organizationName: {
@@ -271,5 +289,13 @@ const styles = StyleSheet.create({
   infoText: {
     lineHeight: 20,
     marginBottom: 4,
+  },
+  actionButton: {
+    marginLeft: 16,
+    borderWidth: 1,
+    borderColor: appStyles.colorBlue_3d527b,
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
   },
 });

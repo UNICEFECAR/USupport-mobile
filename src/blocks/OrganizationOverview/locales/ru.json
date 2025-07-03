@@ -45,5 +45,6 @@
   "children": "Дети",
   "children_disabilities": "Дети с инвалидностью",
   "adults": "Взрослые",
-  "adults_disabilities": "Взрослые с инвалидностью"
+  "adults_disabilities": "Взрослые с инвалидностью",
+  "check_organization": "Привет, посмотри эту организацию"
 }
