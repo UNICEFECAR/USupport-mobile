@@ -436,7 +436,11 @@ export const InteractiveMap = ({
   `;
 
   if (isLoading) {
-    return <Loading />;
+    return (
+      <View style={styles.loadingContainer}>
+        <Loading />
+      </View>
+    );
   }
 
   return (
@@ -541,6 +545,11 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     fontSize: 14,
     fontWeight: "600",
+  },
+  loadingContainer: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
