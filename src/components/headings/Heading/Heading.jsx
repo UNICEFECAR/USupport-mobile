@@ -84,14 +84,14 @@ const styles = StyleSheet.create({
     paddingTop: 16,
   },
   backArrow: {
-    marginRight: 16,
+    marginRight: 10,
   },
   heading: {
-    marginRight: 12,
+    marginRight: 8,
   },
   button: {
     marginLeft: "auto",
-    maxWidth: "50%",
+    maxWidth: "40%",
     marginRight: 8,
     // marginLeft: 12,
   },
