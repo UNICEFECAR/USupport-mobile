@@ -12,7 +12,6 @@ import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.load
 import com.facebook.react.defaults.DefaultReactNativeHost
 import com.facebook.soloader.SoLoader
 
-import com.microsoft.codepush.react.CodePush
 
 import expo.modules.ApplicationLifecycleDispatcher
 import expo.modules.ReactNativeHostWrapper
@@ -27,10 +26,6 @@ class MainApplication : Application(), ReactApplication {
             // packages.add(new MyReactNativePackage());
             return PackageList(this).packages
           }
-
-         override fun getJSBundleFile(): String {
-             return CodePush.getJSBundleFile() 
-         }
 
           override fun getJSMainModuleName(): String = ".expo/.virtual-metro-entry"
 

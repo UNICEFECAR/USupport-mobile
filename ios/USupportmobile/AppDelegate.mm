@@ -3,7 +3,6 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTLinkingManager.h>
 #import <Firebase.h>
-#import <CodePush/CodePush.h>
 
 @implementation AppDelegate
 
@@ -29,7 +28,8 @@
 #if DEBUG
   return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@".expo/.virtual-metro-entry"];
 #else
-  return [CodePush bundleURL];
+  NSURL *url = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+  return url;
 #endif
 }
 

@@ -3,7 +3,7 @@
   "search": "Wyszukiwanie",
   "no_messages": "Nie znaleziono żadnych wiadomości",
   "show_system_messages": "Wyświetlanie komunikatów systemowych",
-  "show_previous_consultations": "Pokazaż poprzednie konsultacje",
+  "show_previous_consultations": "Pokaż poprzednie konsultacje",
   "export_label": "Eksport",
   "chat_history": "Historia czatów konsultacyjnych z",
   "client_joined": "Klient dołączył do konsultacji",
@@ -12,7 +12,7 @@
   "client_camera_on": "Klient włączył kamerę",
   "client_microphone_off": "Klient wyłączył mikrofon",
   "client_microphone_on": "Klient włączył mikrofon",
-    "chat_history_deleted_by_client": "Skasowałeś historię czatu",
+  "chat_history_deleted_by_client": "Skasowałeś historię czatu",
 
   "provider_joined": "Konsultant dołączył do konsultacji",
   "provider_left": "Konsultant opuścił konsultację",

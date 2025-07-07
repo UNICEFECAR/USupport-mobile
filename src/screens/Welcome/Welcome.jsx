@@ -1,7 +1,10 @@
 import { Image, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import Config from "react-native-config";
+
 import { Screen } from "#components";
 import { Welcome as WelcomeBlock } from "#blocks";
+
+const { AMAZON_S3_BUCKET } = Config;
 
 export const Welcome = ({ navigation }) => {
   return (
@@ -11,12 +14,16 @@ export const Welcome = ({ navigation }) => {
       outsideComponent={
         <>
           <Image
-            source={require("../../assets/welcome-spiral.png")}
+            source={{
+              uri: `${AMAZON_S3_BUCKET}/welcome-spiral`,
+            }}
             style={styles.spiralBackground}
             resizeMode="stretch"
           />
           <Image
-            source={require("../../assets/welcome-radial.png")}
+            source={{
+              uri: `${AMAZON_S3_BUCKET}/welcome-radial`,
+            }}
             style={styles.radialBackround}
             resizeMode="stretch"
           />

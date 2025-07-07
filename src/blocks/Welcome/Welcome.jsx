@@ -1,16 +1,19 @@
-import { Image, ScrollView, StyleSheet, View } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
+import { Image, ScrollView, StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
+import Config from "react-native-config";
 
 import { AppText, AppButton, Block, Dropdown } from "#components";
 import { languageSvc, countrySvc, localStorage, Context } from "#services";
 import { useGetTheme } from "#hooks";
 
+const { AMAZON_S3_BUCKET } = Config;
+
 export function Welcome({ navigation }) {
   const { isDarkMode } = useGetTheme();
   const { t, i18n } = useTranslation("welcome");
-  const { setCurrencySymbol } = useContext(Context);
+  const { setCurrencySymbol, setCountry } = useContext(Context);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState(null);
 
@@ -43,6 +46,7 @@ export function Welcome({ navigation }) {
         }
         setCurrencySymbol(x.currencySymbol);
         setSelectedCountry(x.alpha2);
+        setCountry(x.alpha2);
       }
 
       return countryObject;
@@ -83,6 +87,7 @@ export function Welcome({ navigation }) {
   const handleSelectCountry = async (option) => {
     await localStorage.setItem("country", option);
     setSelectedCountry(option);
+    setCountry(option);
   };
 
   const handleContinue = () => {
@@ -96,6 +101,7 @@ export function Welcome({ navigation }) {
     const currencySymbol = selectedCountryObject.currencySymbol;
 
     setCurrencySymbol(currencySymbol);
+    setCountry(country);
 
     localStorage.setItem("country", country);
     localStorage.setItem("country_id", selectedCountryObject.countryID);
@@ -106,6 +112,10 @@ export function Welcome({ navigation }) {
     navigation.push("RegisterPreview");
   };
 
+  const imageUrl = isDarkMode
+    ? `${AMAZON_S3_BUCKET}/logo-vertical-dark`
+    : `${AMAZON_S3_BUCKET}/logo-vertical`;
+
   return (
     <ScrollView contentContainerStyle={styles.flexGrow}>
       <Block style={styles.flexGrow}>
@@ -113,11 +123,9 @@ export function Welcome({ navigation }) {
           <AppText namedStyle="h2">{t("heading")}</AppText>
           <Image
             resizeMode="contain"
-            source={
-              isDarkMode
-                ? require("../../assets/logo-vertical-dark.png")
-                : require("../../assets/logo-vertical.png")
-            }
+            source={{
+              uri: imageUrl,
+            }}
             style={styles.logo}
           />
         </View>
@@ -136,9 +144,11 @@ export function Welcome({ navigation }) {
             style={[styles.dropdown, { zIndex: 3 }]}
             dropdownId="country"
           />
+
           <Dropdown
+            isLoading={languagesQuery.isFetching}
             options={languagesQuery.data}
-            disabled={!selectedCountry}
+            disabled={!selectedCountry || languagesQuery.data?.length === 0}
             selected={selectedLanguage}
             setSelected={(lang) => {
               setSelectedLanguage(lang);

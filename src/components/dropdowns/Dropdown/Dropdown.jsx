@@ -13,6 +13,7 @@ import { Error } from "../../errors/Error";
 import { Context } from "#services";
 import { useGetTheme } from "#hooks";
 import { useTranslation } from "react-i18next";
+import { Loading } from "../../loaders";
 
 const DROPDOWN_HEADING_HEIGHT = 48;
 
@@ -27,6 +28,7 @@ export const Dropdown = ({
   dropdownId,
   style,
   emptyMessage,
+  isLoading,
 }) => {
   const { dropdownOptions, setDropdownOptions } = useContext(Context);
   const { colors, isDarkMode } = useGetTheme();
@@ -121,18 +123,30 @@ export const Dropdown = ({
             appStyles.shadow1,
           ]}
         >
-          <AppText
-            style={[
-              styles.selectedOption,
-              {
-                color: !isDarkMode
-                  ? appStyles.colorGray_92989b
-                  : appStyles.colorGray_ea,
-              },
-            ]}
-          >
-            {selected ? selectedLabel : placeholderText}
-          </AppText>
+          {isLoading ? (
+            <View
+              style={{
+                justifyContent: "center",
+                flex: 1,
+              }}
+            >
+              <Loading style={{ width: 20, height: 20, alignSelf: "center" }} />
+            </View>
+          ) : (
+            <AppText
+              style={[
+                styles.selectedOption,
+                {
+                  color: !isDarkMode
+                    ? appStyles.colorGray_92989b
+                    : appStyles.colorGray_ea,
+                },
+              ]}
+            >
+              {selected ? selectedLabel : placeholderText}
+            </AppText>
+          )}
+
           <Animated.View style={arrowIconStyles}>
             <Icon
               name="arrow-chevron-up"

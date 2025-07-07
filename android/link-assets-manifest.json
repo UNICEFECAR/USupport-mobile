@@ -1,0 +1,93 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/Loading.json",
+      "sha1": "8e81d1d3d3b0d87f226bd5692e4d0d44a3ac6628"
+    },
+    {
+      "path": "src/assets/article-placeholder.png",
+      "sha1": "323f28ff20c39215865edddd4043e2e037ee8655"
+    },
+    {
+      "path": "src/assets/fonts/Nunito_300Light.ttf",
+      "sha1": "7879b46e377513f6eb1c52f99000c8e96f36cf6e"
+    },
+    {
+      "path": "src/assets/fonts/Nunito_400Regular.ttf",
+      "sha1": "4b7236ba666cb77f00d8cb2a17696cc0dc2b2cc9"
+    },
+    {
+      "path": "src/assets/fonts/Nunito_500Medium.ttf",
+      "sha1": "0e3a9789daa6603bf6870c124727c3643b56574a"
+    },
+    {
+      "path": "src/assets/fonts/Nunito_600SemiBold.ttf",
+      "sha1": "876165d70aa2e00f66737c7dd87039e2619bf2c2"
+    },
+    {
+      "path": "src/assets/fonts/Nunito_700Bold.ttf",
+      "sha1": "dea5eec0aca2aef62e3bfc625cf95f9d45b59687"
+    },
+    {
+      "path": "src/assets/fonts/Nunito_800ExtraBold.ttf",
+      "sha1": "60821838f6675153f0699c6a86ad8467a937e0f5"
+    },
+    {
+      "path": "src/assets/index.js",
+      "sha1": "bb0da624c75a7abd9870747b5d23c32e7827039b"
+    },
+    {
+      "path": "src/assets/logo-vertical-dark.png",
+      "sha1": "73d6baf5a5ddd6e968113a587d19a376b52229b4"
+    },
+    {
+      "path": "src/assets/logo-vertical.png",
+      "sha1": "fa7b0d9edbf8055a01f5a3cd5ee7b1ce389ae92a"
+    },
+    {
+      "path": "src/assets/mascot-calm-blue.png",
+      "sha1": "1978e217008800b8f48ee81515a990d71f5ed72d"
+    },
+    {
+      "path": "src/assets/mascot-confused-blue.png",
+      "sha1": "9330f02ff6be61ee183f67dc9340ece0f1283cfa"
+    },
+    {
+      "path": "src/assets/mascot-happy-blue.png",
+      "sha1": "e84fb16189e82a3c4956a9d76eff6b20f543a954"
+    },
+    {
+      "path": "src/assets/mascot-happy-orange.png",
+      "sha1": "ac49bc0c268cd6359908ebe48635675e11b06b11"
+    },
+    {
+      "path": "src/assets/mascot-happy-purple.png",
+      "sha1": "06f0aae9c3a9767bccd7bb401f12fe0c12962fca"
+    },
+    {
+      "path": "src/assets/radial-green.png",
+      "sha1": "ac85d7523dd9be60afec09408540f2473a98c660"
+    },
+    {
+      "path": "src/assets/specialist-placeholder.png",
+      "sha1": "2260966ff022285ada73eb6ded57145dd5408455"
+    },
+    {
+      "path": "src/assets/spiral-background-2.png",
+      "sha1": "c32777dc600011797d0e89a420631d94e9c76d55"
+    },
+    {
+      "path": "src/assets/spiral-background.png",
+      "sha1": "5267a606aac1a149447084ce8c9f926b1455d52d"
+    },
+    {
+      "path": "src/assets/welcome-radial.png",
+      "sha1": "9bbc753d1bd054888379e169b0676f5998feb9d1"
+    },
+    {
+      "path": "src/assets/welcome-spiral.png",
+      "sha1": "4018d0466d8f00e10cd44c154af28ebe83549b65"
+    }
+  ]
+}

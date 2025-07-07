@@ -1,8 +1,10 @@
-import React from "react";
 import { Image, StyleSheet } from "react-native";
-import { Screen } from "#components";
+import Config from "react-native-config";
 
+import { Screen } from "#components";
 import { RegisterPreview as RegisterPreviewBlock } from "#blocks";
+
+const { AMAZON_S3_BUCKET } = Config;
 
 /**
  * RegisterPreview
@@ -18,12 +20,16 @@ export const RegisterPreview = ({ navigation }) => {
       outsideComponent={
         <>
           <Image
-            source={require("../../assets/spiral-background-2.png")}
+            source={{
+              uri: `${AMAZON_S3_BUCKET}/spiral-background-2`,
+            }}
             style={styles.background}
             resizeMode="cover"
           />
           <Image
-            source={require("../../assets/radial-green.png")}
+            source={{
+              uri: `${AMAZON_S3_BUCKET}/radial-green`,
+            }}
             style={styles.background}
             resizeMode="stretch"
           />

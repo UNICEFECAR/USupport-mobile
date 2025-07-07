@@ -6,5 +6,6 @@
   "read_more": "Czytaj więcej",
   "min_read": "min czytania",
   "by": "Przez {{creator}}",
-  "number_of_more_options": "jeszcze {{count}}"
+  "number_of_more_options": "jeszcze {{count}}",
+  "read": "Przeczytane"
 }

@@ -1,0 +1,56 @@
+{
+  "in_person_interaction": "Osobiście",
+  "online_interaction": "Online",
+  "phone_interaction": "Telefonicznie",
+  "hybrid_interaction": "Hybrydowo",
+
+  "cash": "Gotówka",
+  "bank_transfer": "Przelew bankowy",
+  "card": "Karta",
+  "free": "Bezpłatnie",
+
+  "individual_psychotherapy": "Psychoterapia indywidualna",
+  "group_psychotherapy": "Psychoterapia grupowa",
+  "individual_psychological_counseling": "Indywidualne doradztwo psychologiczne",
+  "group_psychological_counseling": "Grupowe doradztwo psychologiczne",
+  "personal_development_counseling": "Doradztwo rozwoju osobistego",
+  "speech_therapy": "Logopedia",
+  "social_information_counseling": "Informacje i doradztwo społeczne",
+  "rehab_autism_children": "Rehabilitacja dzieci z autyzmem",
+  "rehab_psycho_neuro_children": "Rehabilitacja dzieci z zaburzeniami psychonerwowo-ruchowymi",
+  "suicide_prevention_helpline": "Telefon zaufania ds. zapobiegania samobójstwom",
+  "addiction_helpline": "Telefon zaufania ds. uzależnień",
+  "violence_victim_helpline": "Telefon zaufania dla ofiar przemocy",
+  "child_helpline": "Telefon zaufania dla dzieci",
+  "child_psychiatry": "Psychiatria dziecięca",
+  "art_recreational_activities": "Artystyczne zajęcia rekreacyjne (teatr, muzyka, poezja, malarstwo, opowiadania)",
+  "sport_recreational_activities": "Sportowe zajęcia rekreacyjne (sport, gry, taniec)",
+
+  "sector_1": "Sektor 1",
+  "sector_2": "Sektor 2",
+  "sector_3": "Sektor 3",
+  "sector_4": "Sektor 4",
+  "sector_5": "Sektor 5",
+  "sector_6": "Sektor 6",
+
+  "children": "Dzieci",
+  "children_disabilities": "Dzieci z niepełnosprawnościami",
+  "adults": "Dorośli",
+  "adults_disabilities": "Dorośli z niepełnosprawnościami",
+
+  "work_with_placeholder": "Wybierz grupę docelową",
+  "specialisation_placeholder": "Wybierz specjalizacje",
+  "district_placeholder": "Wybierz dzielnicę",
+  "payment_method_placeholder": "Wybierz metodę płatności",
+  "user_interaction_placeholder": "Wybierz sposób kontaktu",
+  "search_placeholder": "Szukaj po nazwie lub nazwie jednostki",
+
+  "no_data_found": "Brak danych",
+  "reset_filters": "Zresetuj filtry",
+
+  "view_organization_details": "Zobacz szczegóły organizacji",
+  "address": "Adres",
+  "phone": "Telefon",
+  "email": "Email",
+  "check_organization": "Cześć, sprawdź tę organizację"
+}

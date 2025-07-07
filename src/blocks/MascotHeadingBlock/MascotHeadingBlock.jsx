@@ -1,6 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
 import { View, StyleSheet, Image } from "react-native";
+import Config from "react-native-config";
+const { AMAZON_S3_BUCKET } = Config;
+
 import LinearGradient from "../../components/LinearGradient";
 
 import { appStyles } from "#styles";
@@ -13,8 +14,12 @@ export const MascotHeadingBlock = ({ image, children, style }) => {
     >
       <View style={[styles.contentContainer, style]}>
         <Image
-          source={image}
-          style={appStyles.screenWidth < 350 && styles.image}
+          source={
+            image || {
+              uri: `${AMAZON_S3_BUCKET}/mascot-happy-purple`,
+            }
+          }
+          style={styles.image}
         />
         <View style={styles.childrenContainer}>{children}</View>
       </View>
@@ -28,7 +33,11 @@ const styles = StyleSheet.create({
     width: appStyles.screenWidth,
   },
 
-  image: { width: 95, resizeMode: "contain" },
+  image: {
+    width: 95,
+    height: 200,
+    resizeMode: "contain",
+  },
 
   contentContainer: {
     paddingTop: 50,

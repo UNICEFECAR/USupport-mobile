@@ -27,9 +27,11 @@ export const Like = ({
     <View style={styles.like}>
       <View style={styles.voteWrapper}>
         <TouchableOpacity
-          onPress={() =>
-            handleClick(isLiked ? "remove-like" : "like", answerId)
-          }
+          onPress={() => {
+            if (handleClick) {
+              handleClick(isLiked ? "remove-like" : "like", answerId);
+            }
+          }}
         >
           <View
             style={[
@@ -37,7 +39,9 @@ export const Like = ({
               isLiked && styles.iconContainerSelected,
             ]}
           >
-            <Icon name="like" />
+            <View style={styles.iconWrapper}>
+              <Icon name="like" />
+            </View>
             <View style={styles.textContainer}>
               <AppText
                 namedStyle="smallText"
@@ -51,9 +55,11 @@ export const Like = ({
       </View>
       <View style={styles.voteWrapper}>
         <TouchableOpacity
-          onPress={() =>
-            handleClick(isDisliked ? "remove-dislike" : "dislike", answerId)
-          }
+          onPress={() => {
+            if (handleClick) {
+              handleClick(isDisliked ? "remove-dislike" : "dislike", answerId);
+            }
+          }}
         >
           <View
             style={[
@@ -61,7 +67,9 @@ export const Like = ({
               isDisliked && styles.iconContainerSelected,
             ]}
           >
-            <Icon name="dislike" />
+            <View style={styles.iconWrapper}>
+              <Icon name="dislike" />
+            </View>
             <View style={styles.textContainer}>
               <AppText
                 namedStyle="smallText"
@@ -80,7 +88,14 @@ export const Like = ({
 const styles = StyleSheet.create({
   like: { flexDirection: "row" },
   voteWrapper: {},
+  iconWrapper: {
+    width: 36,
+    height: 36,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   iconContainer: {
+    backfaceVisibility: "hidden",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
@@ -92,6 +107,7 @@ const styles = StyleSheet.create({
   },
   iconContainerSelected: {
     backgroundColor: appStyles.colorGreen_c1eaea,
+    borderRadius: 18,
   },
   textContainer: {
     position: "absolute",

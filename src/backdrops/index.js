@@ -15,3 +15,4 @@ export * from "./ScheduleConsultationGroup";
 export * from "./FilterQuestions";
 export * from "./CodeVerification";
 export * from "./ArticleCategories";
+export * from "./FilterOrganizations";

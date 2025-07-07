@@ -1,5 +1,8 @@
 {
   "heading": "Portal informacyjny",
   "subheading": "Tutaj możesz odkryć wszystko, czego potrzebujesz, aby poprawić swoje zdrowie psychiczne",
-  "emergency_button_label": "Pomoc w nagłych wypadkach"
+  "emergency_button_label": "Pomoc w nagłych wypadkach",
+  "articles": "Artykuły",
+  "videos": "Wideo",
+  "podcasts": "Podcasty"
 }

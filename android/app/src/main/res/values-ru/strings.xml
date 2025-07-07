@@ -2,7 +2,6 @@
   <!-- Below line is handled by '@expo/configure-splash-screen' command and it's discouraged to modify it manually -->
   <string name="expo_splash_screen_resize_mode" translatable="false">cover</string>
   <string name="app_name">uSupport</string>
-  <string moduleConfig="true" name="CodePushDeploymentKey">@string/CODEPUSH_ANDROID_DEPLOYMENT_KEY</string>
   <string name="provider_install_failed_title">Ошибка установки провайдера</string>
   <string name="provider_install_failed_message">Провайдер безопасности не может быть установлен. Вы не можете продолжить без обновления.</string>
   <string name="ok_button">ОК</string>

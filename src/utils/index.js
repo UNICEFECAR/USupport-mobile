@@ -5,3 +5,4 @@ export * from "./date.js";
 export * from "./articles";
 export * from "./showToast";
 export * from "./systemMessageTypes";
+export * from "./pdfGenerator";

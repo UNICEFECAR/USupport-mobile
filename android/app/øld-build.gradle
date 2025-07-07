@@ -70,7 +70,6 @@ ext {
 }
 
 apply from: new File(reactNativeRoot, "react.gradle")
-apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 /**

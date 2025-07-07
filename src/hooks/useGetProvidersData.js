@@ -1,5 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { providerSvc } from "#services";
+import { getTimestampFromUTC, getStartAndEndOfWeek } from "#utils";
 
 const constructFiltersQueryString = (filters) => {
   const providerTypes = filters.providerTypes?.join(",");
@@ -9,6 +10,7 @@ const constructFiltersQueryString = (filters) => {
   const language = filters.language;
   const availableAfter = new Date(filters.availableAfter).getTime() / 1000;
   const availableBefore = new Date(filters.availableBefore).getTime() / 1000;
+  const startDate = filters.startDate;
 
   let queryString = "";
   if (providerTypes) {
@@ -41,6 +43,8 @@ const constructFiltersQueryString = (filters) => {
     queryString += `&language=${language}`;
   }
 
+  queryString += `&onlyAvailable=true&startDate=${startDate}`;
+
   return queryString || "";
 };
 
@@ -53,8 +57,13 @@ export default function useGetProvidersData(
   onSuccess = () => {}
 ) {
   const fetchProvidersData = async ({ pageParam = 1 }) => {
-    const providersLimit = 10;
-    const filtersQueryString = constructFiltersQueryString(filters);
+    const providersLimit = 150;
+    const { first } = getStartAndEndOfWeek(new Date());
+    const startDate = getTimestampFromUTC(first);
+    const filtersQueryString = constructFiltersQueryString({
+      ...filters,
+      startDate,
+    });
 
     const { data } = await providerSvc.getAllProviders(
       activeCoupon?.campaignId,

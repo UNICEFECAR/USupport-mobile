@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
-import { StyleSheet, View, TouchableOpacity, Button } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 
 import {
   Block,
@@ -14,11 +14,15 @@ import {
 
 import { appStyles } from "#styles";
 
-import { localStorage, adminSvc, cmsSvc } from "#services";
+import { localStorage, cmsSvc } from "#services";
 
-import { useEventListener } from "#hooks";
+import {
+  useEventListener,
+  useGetUserContentRatings,
+  useRecommendedArticles,
+} from "#hooks";
 
-import { destructureArticleData } from "#utils";
+import { destructureArticleData, checkIsLikedAndDisliked } from "#utils";
 import { Error } from "../../components/errors";
 
 /**
@@ -56,6 +60,8 @@ export const ArticlesDashboard = ({
       setUsersLanguage(i18n.language);
     }
   }, [i18n.language]);
+
+  const { data: contentRatings } = useGetUserContentRatings();
 
   //--------------------- Age Groups ----------------------//
   const [ageGroups, setAgeGroups] = useState();
@@ -155,75 +161,37 @@ export const ArticlesDashboard = ({
     handleSetCategories(categoriesCopy);
   };
 
-  //--------------------- Articles ----------------------//
-
-  const getArticlesIds = async () => {
-    // Request articles ids from the master DB based for website platform
-    const articlesIds = await adminSvc.getArticles();
-
-    return articlesIds;
-  };
-
-  const articleIdsQuery = useQuery(
-    ["articleIds", currentCountry],
-    getArticlesIds
-  );
-
-  const { isError: isArticleIdsError, isFetched: isArticleIdsFetched } =
-    articleIdsQuery;
-
-  //--------------------- Newest Article ----------------------//
-
-  const getNewestArticle = async () => {
-    let categoryId = "";
-    if (selectCategory && selectCategory.value !== "all") {
-      categoryId = selectCategory.id;
-    }
-
-    let { data } = await cmsSvc.getArticles({
-      limit: 2, // Only get the newest article
-      sortBy: "createdAt", // Sort by created date
-      categoryId: categoryId,
-      sortOrder: "desc", // Sort in descending order
-      locale: usersLanguage,
-      populate: true,
-      ids: articleIdsQuery.data,
-      ageGroupId: selectedAgeGroup.id,
-    });
-    for (let i = 0; i < data.data.length; i++) {
-      data.data[i] = destructureArticleData(data.data[i]);
-    }
-
-    return data.data;
-  };
-
+  //--------------------- Use Recommended Articles Hook ----------------------//
   const {
-    data: newestArticles,
-    isLoading: newestArticlesLoading,
-    isFetched: isNewestArticlesFetched,
-    isError: isNewestArticlesError,
-  } = useQuery(
-    [
-      "newestArticle",
-      usersLanguage,
-      selectCategory,
-      articleIdsQuery.data,
-      selectedAgeGroup,
-    ],
-    getNewestArticle,
-    {
-      onError: (error) => console.log(error),
-      enabled:
-        !articleIdsQuery.isLoading &&
-        articleIdsQuery.data?.length > 0 &&
-        !categoriesQuery.isLoading &&
-        categoriesQuery.data?.length > 0 &&
-        selectCategory !== null,
+    articles,
+    loading: isArticlesLoading,
+    hasMore,
+    totalCount,
+    categoriesData,
+    remainingArticlesCount,
+    readArticlesCount,
+    categoryArticlesCount,
+    loadMore,
+    error,
+    isReady,
+    fetchingCategories,
+    fetchingRemaining,
+    hasMoreRemaining,
+    hasMoreRead,
+    readArticleIds,
+  } = useRecommendedArticles({
+    limit: 6, // Only show 2 articles
+    ageGroupId: selectedAgeGroup?.id,
+    enabled: selectedAgeGroup?.id && !ageGroupsQuery.isLoading,
+    categoryIdFilter: selectCategory?.id || null,
+    sortFilter: "read_count",
+  });
 
-      refetchOnWindowFocus: false,
-      retry: false,
-    }
-  );
+  // Transform articles data to match expected format
+  const transformedArticles = articles?.slice(0, 2)?.map((article) => {
+    // If article already has direct properties, use them, otherwise use article.data
+    return article.data ? article.data : article;
+  });
 
   const handleRedirect = (sort) =>
     sort === "createdAt"
@@ -232,17 +200,21 @@ export const ArticlesDashboard = ({
 
   return (
     <>
+      <Block style={styles.headingBlock}>
+        <View style={styles.headingContainer}>
+          <AppText namedStyle="h3">{t("heading")}</AppText>
+          <TouchableOpacity onPress={() => handleRedirect("read_count")}>
+            <AppText style={styles.viewAllText}>{t("view_all")}</AppText>
+          </TouchableOpacity>
+        </View>
+      </Block>
+      {ageGroupsQuery?.isLoading && (
+        <View style={styles.container}>
+          <Loading />
+        </View>
+      )}
       {allCategories?.length > 1 && (
         <>
-          <Block style={styles.headingBlock}>
-            <View style={styles.headingContainer}>
-              <AppText namedStyle="h3">{t("heading")}</AppText>
-              <TouchableOpacity onPress={() => handleRedirect("read_count")}>
-                <AppText style={styles.viewAllText}>{t("view_all")}</AppText>
-              </TouchableOpacity>
-            </View>
-          </Block>
-
           {ageGroupsQuery?.data?.length > 0 && ageGroups && showAgeGroups ? (
             <TabsUnderlined
               options={ageGroups}
@@ -262,7 +234,8 @@ export const ArticlesDashboard = ({
               handleModalOpen={openArticlesModal}
             />
           )}
-          {newestArticlesLoading && (
+
+          {isArticlesLoading && (
             <View style={styles.container}>
               <Loading />
             </View>
@@ -270,20 +243,31 @@ export const ArticlesDashboard = ({
 
           <Block>
             <View style={styles.articlesContainer}>
-              {!newestArticlesLoading &&
-                newestArticles?.length > 0 &&
+              {!isArticlesLoading &&
+                transformedArticles?.length > 0 &&
                 allCategories.length > 1 &&
-                newestArticles?.map((article, index) => {
+                transformedArticles?.map((article, index) => {
+                  const articleData = destructureArticleData(article);
+                  const { isLikedByUser, isDislikedByUser } =
+                    checkIsLikedAndDisliked(
+                      contentRatings,
+                      article.id,
+                      "article"
+                    );
                   return (
                     <CardMedia
                       style={styles.cardMedia}
-                      title={article.title}
-                      image={article.imageMedium}
-                      description={article.description}
-                      labels={article.labels}
-                      creator={article.creator}
-                      readingTime={article.readingTime}
-                      categoryName={article.categoryName}
+                      title={articleData.title}
+                      image={articleData.imageMedium || articleData.imageSmall}
+                      description={articleData.description}
+                      labels={articleData.labels}
+                      creator={articleData.creator}
+                      readingTime={articleData.readingTime}
+                      categoryName={articleData.categoryName}
+                      likes={articleData.likes}
+                      dislikes={articleData.dislikes}
+                      isLikedByUser={isLikedByUser}
+                      isDislikedByUser={isDislikedByUser}
                       onPress={() => {
                         navigation.push("ArticleInformation", {
                           articleId: article.id,
@@ -295,13 +279,12 @@ export const ArticlesDashboard = ({
                   );
                 })}
             </View>
-            {((isNewestArticlesFetched && isNewestArticlesError) ||
-              (isArticleIdsError && isArticleIdsFetched)) && (
+            {error && (
               <View style={styles.container}>
                 <Error message={t("heading_no_results")} />
               </View>
             )}
-            {isNewestArticlesFetched && newestArticles?.length === 0 && (
+            {isReady && transformedArticles?.length === 0 && (
               <View style={styles.container}>
                 <AppText namedStyle="h3">{t("heading_no_results")}</AppText>
               </View>

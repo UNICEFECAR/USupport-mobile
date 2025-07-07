@@ -35,3 +35,6 @@ export * as TermsOfUse from "./TermsOfUse/locales";
 export * as MoodTrackHistory from "./MoodTrackHistory/locales";
 export * as MyQA from "./MyQA/locales";
 export * as SetUpBiometrics from "./SetUpBiometrics/locales";
+export * as Videos from "./Videos/locales";
+export * as Organizations from "./Organizations/locales";
+export * as OrganizationOverview from "./OrganizationOverview/locales";

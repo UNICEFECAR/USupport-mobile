@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import {
   View,
@@ -6,15 +6,16 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
+  RefreshControl,
 } from "react-native";
+import { useQueryClient } from "@tanstack/react-query";
 
-import { Screen, AppText } from "#components";
+import { Screen, AppText, TabsUnderlined } from "#components";
 import {
   MascotHeadingBlock,
   InformationalPortal as InformationalPortalBlock,
   GiveSuggestion,
 } from "#blocks";
-import { mascotHappyPurple } from "#assets";
 import { appStyles } from "#styles";
 import { useGetTheme } from "#hooks";
 
@@ -28,6 +29,37 @@ import { useGetTheme } from "#hooks";
 export const InformationalPortal = ({ navigation }) => {
   const { isDarkMode } = useGetTheme();
   const { t } = useTranslation("informational-portal-screen");
+  const queryClient = useQueryClient();
+  const [refreshing, setRefreshing] = useState(false);
+
+  // Content type tabs
+  const [contentTabs, setContentTabs] = useState([
+    { label: "articles", value: "articles", isSelected: true },
+    { label: "videos", value: "videos", isSelected: false },
+    { label: "podcasts", value: "podcasts", isSelected: false },
+  ]);
+
+  const handleTabSelect = (index) => {
+    const tabsCopy = [...contentTabs];
+    tabsCopy.forEach((tab, i) => {
+      tab.isSelected = i === index;
+    });
+    setContentTabs(tabsCopy);
+  };
+
+  const selectedContentType =
+    contentTabs.find((tab) => tab.isSelected)?.value || "articles";
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    Promise.all([
+      queryClient.invalidateQueries([`${selectedContentType}Ids`]),
+      queryClient.invalidateQueries([`${selectedContentType}-createdAt`]),
+      queryClient.invalidateQueries([`${selectedContentType}-popular`]),
+    ]).finally(() => {
+      setRefreshing(false);
+    });
+  }, [queryClient, selectedContentType]);
 
   const heading = (
     <View>
@@ -49,14 +81,32 @@ export const InformationalPortal = ({ navigation }) => {
         behavior={Platform.OS === "ios" ? "position" : null}
         keyboardVerticalOffset={64}
       >
-        <ScrollView keyboardShouldPersistTaps="handled">
-          <MascotHeadingBlock
-            image={mascotHappyPurple}
-            style={styles.headingBlock}
-          >
+        <ScrollView
+          keyboardShouldPersistTaps="handled"
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+          showsVerticalScrollIndicator={false}
+        >
+          <MascotHeadingBlock style={styles.headingBlock}>
             {heading}
           </MascotHeadingBlock>
-          <InformationalPortalBlock navigation={navigation} />
+
+          <View style={styles.tabsContainer}>
+            <TabsUnderlined
+              options={contentTabs.map((x) => ({
+                ...x,
+                label: t(x.label),
+              }))}
+              handleSelect={handleTabSelect}
+            />
+          </View>
+
+          <InformationalPortalBlock
+            navigation={navigation}
+            contentType={selectedContentType}
+            onRefresh={onRefresh}
+          />
           <GiveSuggestion navigation={navigation} />
         </ScrollView>
       </KeyboardAvoidingView>
@@ -69,4 +119,8 @@ const styles = StyleSheet.create({
   heading: { color: appStyles.colorBlue_263238 },
   subheading: { marginTop: 16, color: appStyles.colorBlue_263238 },
   darkModeText: { color: appStyles.colorWhite_ff },
+  tabsContainer: {
+    marginTop: 18,
+    paddingHorizontal: 16,
+  },
 });

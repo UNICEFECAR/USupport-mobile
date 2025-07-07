@@ -20,11 +20,7 @@ import {
   useGetQuestions,
 } from "#hooks";
 import { showToast } from "#utils";
-
 import { appStyles } from "#styles";
-
-import { mascotHappyPurple } from "#assets";
-
 import { Context } from "#services";
 
 /**
@@ -199,10 +195,7 @@ export const MyQA = ({ navigation }) => {
   return (
     <Screen hasEmergencyButton={false} hasHeaderNavigation t={t}>
       <ScrollView>
-        <MascotHeadingBlock
-          image={mascotHappyPurple}
-          style={styles.headingBlock}
-        >
+        <MascotHeadingBlock style={styles.headingBlock}>
           <Heading t={t} handleButtonPress={() => setIsHowItWorksOpen(true)} />
         </MascotHeadingBlock>
         <MyQABlock

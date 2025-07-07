@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   heading2: {
     fontSize: 20,
     lineHeight: 24,
-    fontFamily: "Nunito_600SemiBold",
+    fontFamily: "Nunito-SemiBold",
     color: appStyles.colorBlue_3d527b,
     marginTop: 32,
     marginBottom: 16,
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   paragraph: {
     color: appStyles.colorGray_66768d,
     fontSize: 16,
-    fontFamily: "Nunito_400Regular",
+    fontFamily: "Nunito-Regular",
     lineHeight: 24,
   },
   loadingContainer: {

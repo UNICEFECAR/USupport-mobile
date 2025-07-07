@@ -6,5 +6,5 @@
   "password_error": "Hasło powinno zawierać co najmniej 8 znaków, 1 wielką literę, 1 małą literę i 1 cyfrę.",
   "password_changed_message": "Hasło zostało pomyślnie zmienione",
   "confirm_password": "Potwierdź hasło",
-  "password_match_error": "Pola Nowe hasło i Potwierdź hasło nie są zgodne"
+  "password_match_error": "Pola \"Nowe hasło\" i \"Potwierdź hasło\" nie są zgodne"
 }

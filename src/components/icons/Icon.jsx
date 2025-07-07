@@ -88,6 +88,14 @@ import {
   IconConsultationNavigation,
   IconSun,
   IconMoon,
+  ButtonShare,
+  IconDownload,
+  IconNoWifi,
+  IconWifiOff,
+  IconCurrentLocation,
+  IconGoogleMaps,
+  IconWaze,
+  IconLocation,
 } from "./assets/sprite";
 
 /**
@@ -347,6 +355,30 @@ export const Icon = ({ name, size = "md", color, style }) => {
       break;
     case "moon":
       icon = <IconMoon color={color} />;
+      break;
+    case "share":
+      icon = <ButtonShare color={color} />;
+      break;
+    case "download":
+      icon = <IconDownload color={color} />;
+      break;
+    case "no-wifi":
+      icon = <IconNoWifi color={color} />;
+      break;
+    case "wifi-off":
+      icon = <IconWifiOff size={35} color={color} />;
+      break;
+    case "current-location":
+      icon = <IconCurrentLocation color={color} />;
+      break;
+    case "google-maps":
+      icon = <IconGoogleMaps />;
+      break;
+    case "waze":
+      icon = <IconWaze />;
+      break;
+    case "location":
+      icon = <IconLocation color={color} />;
       break;
     default:
       icon = null;

@@ -37,7 +37,7 @@ export function TransparentModal({
   errorMessage,
   style,
 }) {
-  const { colors, isDarkMode } = useGetTheme();
+  const { isDarkMode } = useGetTheme();
 
   return (
     <Modal transparent visible={isOpen}>
@@ -53,7 +53,7 @@ export function TransparentModal({
               <View
                 style={[
                   styles.content,
-                  { backgroundColor: colors.background },
+                  { backgroundColor: isDarkMode ? "#242127" : "white" },
                   style,
                 ]}
               >
@@ -116,7 +116,6 @@ const styles = StyleSheet.create({
   },
   content: {
     alignSelf: "center",
-    backgroundColor: appStyles.colorWhite_ff,
     borderRadius: 20,
     padding: 20,
     width: "95%",

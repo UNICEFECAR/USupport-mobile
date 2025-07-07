@@ -173,6 +173,63 @@ async function deleteChatHistory() {
   return response;
 }
 
+/**
+ *
+ * @param {Object} payload
+ * @param {number} payload.categoryId
+ * @param {number} payload.articleId
+ * @param {number} payload.videoId
+ * @param {number} payload.podcastId
+ * @param {number} payload.tagIds
+ * @returns {Promise} the response of the request
+ */
+async function addClientCategoryInteraction(payload) {
+  const response = await http.post(`${API_ENDPOINT}/add-category-interaction`, {
+    ...payload,
+  });
+  return response;
+}
+
+async function getCategoryInteractions() {
+  const response = await http.get(`${API_ENDPOINT}/category-interactions`);
+  return response;
+}
+
+async function getOrganizations(filters) {
+  let filtersQuery = "";
+
+  if (filters.search) {
+    filtersQuery += `&search=${filters.search}`;
+  }
+
+  if (filters.workWith) {
+    filtersQuery += `&workWith=${filters.workWith}`;
+  }
+
+  if (filters.district) {
+    filtersQuery += `&district=${filters.district}`;
+  }
+
+  if (filters.paymentMethod) {
+    filtersQuery += `&paymentMethod=${filters.paymentMethod}`;
+  }
+
+  if (filters.userInteraction) {
+    filtersQuery += `&userInteraction=${filters.userInteraction}`;
+  }
+  const response = await http.get(
+    `${API_ENDPOINT}/organization${filtersQuery ? `?${filtersQuery}` : ""}`
+  );
+  return response;
+}
+
+async function getOrganizationById(organizationId) {
+  const response = await http.get(
+    `${API_ENDPOINT}/organization/${organizationId}`
+  );
+  return response;
+}
+
 const exportedFunctions = {
   addMoodTrack,
   getClientData,
@@ -198,6 +255,10 @@ const exportedFunctions = {
   getQuestions,
   addQuestionVote,
   deleteChatHistory,
+  addClientCategoryInteraction,
+  getCategoryInteractions,
+  getOrganizations,
+  getOrganizationById,
 };
 
 export default exportedFunctions;

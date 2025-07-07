@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
 
   text: {
     color: appStyles.colorSecondary_9749fa,
-    fontFamily: "Nunito_600SemiBold",
+    fontFamily: "Nunito-SemiBold",
     marginTop: 4,
     alignSelf: "center",
     textAlign: "center",

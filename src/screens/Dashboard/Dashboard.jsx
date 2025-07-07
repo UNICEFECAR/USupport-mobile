@@ -1,7 +1,9 @@
 import React, { useState, useMemo, useRef, useContext, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { useIsFocused } from "@react-navigation/native";
 import { StyleSheet, ScrollView, View, RefreshControl } from "react-native";
 import { useTranslation } from "react-i18next";
+import Config from "react-native-config";
 
 import {
   Screen,
@@ -28,7 +30,6 @@ import {
 } from "#backdrops";
 
 import { RequireDataAgreement } from "#modals";
-import { mascotHappyPurple } from "#assets";
 import { appStyles } from "#styles";
 import { Context } from "#services";
 
@@ -44,6 +45,8 @@ import {
 
 import { ONE_HOUR, showToast, parseUTCDate } from "#utils";
 
+const { AMAZON_S3_BUCKET } = Config;
+
 /**
  * Dashboard
  *
@@ -54,7 +57,7 @@ import { ONE_HOUR, showToast, parseUTCDate } from "#utils";
 export const Dashboard = ({ navigation }) => {
   const { t } = useTranslation("dashboard");
   const { isDarkMode } = useGetTheme();
-
+  const isFocused = useIsFocused();
   const {
     isTmpUser,
     handleRegistrationModalOpen,
@@ -73,17 +76,19 @@ export const Dashboard = ({ navigation }) => {
   const consultationPrice = useRef();
 
   useEffect(() => {
-    if (clientData) {
+    if (clientData && isFocused && !isTmpUser) {
       if (
         !clientData.sex ||
         !clientData.urbanRural ||
         !clientData.yearOfBirth
       ) {
         setIsAnonymousRegister(!!clientData.accessToken);
-        navigation.navigate("RegisterAboutYou");
+        setTimeout(() => {
+          navigation.navigate("RegisterAboutYou");
+        }, 100);
       }
     }
-  }, [clientData]);
+  }, [clientData, isFocused, isTmpUser]);
 
   // Get the consultations data only if the user is NOT temporary
   const consultationsQuery = useGetAllConsultations(
@@ -316,10 +321,7 @@ export const Dashboard = ({ navigation }) => {
           />
         }
       >
-        <MascotHeadingBlock
-          image={mascotHappyPurple}
-          style={styles.mascotHeadingBlock}
-        >
+        <MascotHeadingBlock style={styles.mascotHeadingBlock}>
           {clientData?.isLoading || isTmpUser === null ? (
             <Loading />
           ) : (

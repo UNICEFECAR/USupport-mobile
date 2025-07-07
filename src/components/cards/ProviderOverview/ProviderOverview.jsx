@@ -94,7 +94,7 @@ export const ProviderOverview = ({
               namedStyle="smallText"
               style={{ paddingBottom: 6, color: colors.text }}
             >
-              {specializations.join(", ")}
+              {specializations?.join(", ")}
             </AppText>
             <AppText
               namedStyle="smallText"
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
   nameText: {
     color: appStyles.colorPrimary_20809e,
     wordBreak: "break-word",
-    fontFamily: "Nunito_700Bold",
+    fontFamily: "Nunito-Bold",
   },
   typesText: {
     wordBreak: "break-word",

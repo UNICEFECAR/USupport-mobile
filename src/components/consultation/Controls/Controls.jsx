@@ -136,6 +136,7 @@ export const Controls = ({
         style={styles.arrow}
       >
         <Icon
+          color="black"
           name={`arrow-chevron-${
             isConsultationInformationShown ? "up" : "down"
           }`}

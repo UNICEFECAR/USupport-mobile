@@ -578,7 +578,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   privacyPolicyText: {
-    fontFamily: "Nunito_600SemiBold",
+    fontFamily: "Nunito-SemiBold",
     color: appStyles.colorBlue_3d527b,
     fontSize: 18,
   },

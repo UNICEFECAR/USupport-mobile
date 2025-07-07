@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
   },
   showMoreTextSelected: {
     color: appStyles.colorSecondaryPressed_6c16d9,
-    fontFamily: "Nunito_600SemiBold",
+    fontFamily: "Nunito-SemiBold",
   },
   showMoreContainer: {
     position: "absolute",
@@ -187,6 +187,7 @@ const styles = StyleSheet.create({
     borderColor: appStyles.colorGray_ea,
     backgroundColor: appStyles.colorWhite_ff,
     borderRadius: 24,
+    zIndex: 999,
   },
   showMoreOptionsContainer: {
     paddingVertical: 8,

@@ -1,0 +1,14 @@
+export { default as mascotHappyOrange } from "./mascot_happy_orange.png";
+export { default as mascotHappyPurple } from "./mascot_happy_purple.png";
+export { default as mascotHappyBlue } from "./mascot_happy_blue.png";
+export { default as mascotConfusedBlue } from "./mascot_confused_blue.png";
+export { default as mascotCalmBlue } from "./mascot_calm_blue.png";
+export { default as loading } from "./Loading.json";
+export { default as logoVertical } from "./logo_vertical.png";
+export { default as articlePlaceholder } from "./article_placeholder.png";
+export { default as radialGreen } from "./radial_green.png";
+export { default as specialistPlaceholder } from "./specialist_placeholder.png";
+export { default as spiralBackground2 } from "./spiral_background_2.png";
+export { default as spiralBackground } from "./spiral_background.png";
+export { default as welcomeRadial } from "./welcome_radial.png";
+export { default as welcomeSpiral } from "./welcome_spiral.png";

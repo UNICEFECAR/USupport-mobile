@@ -36,8 +36,8 @@ export const AppButton = ({
           btnType === "ghost"
             ? {}
             : btnType === "secondary"
-            ? appStyles.shadow2
-            : appStyles.shadow1,
+              ? appStyles.shadow2
+              : appStyles.shadow1,
           styles.btn,
           styles[color],
           styles[btnType],
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
 
   //Text styling:
   btnText: {
-    fontFamily: "Nunito_700Bold",
+    fontFamily: "Nunito-Bold",
     fontSize: 12,
     color: appStyles.colorWhite_ff,
     lineHeight: 22,
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
 
   btnTextLg: {
     fontSize: 16,
-    fontFamily: "Nunito_600SemiBold",
+    fontFamily: "Nunito-SemiBold",
   },
 
   btnTextSecondary: {
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
   },
 
   btnTextPressed: {
-    fontFamily: "Nunito_800ExtraBold",
+    fontFamily: "Nunito-ExtraBold",
   },
 
   greenPressedText: {

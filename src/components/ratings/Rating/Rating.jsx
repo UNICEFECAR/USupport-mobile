@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
   label: {
     // color: appStyles.colorBlue_3d527b,
     marginBottom: 4,
-    fontFamily: "Nunito_600SemiBold",
+    fontFamily: "Nunito-SemiBold",
   },
   starsContainer: {
     display: "flex",

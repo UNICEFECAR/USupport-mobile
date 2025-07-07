@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { CurvedBottomBar } from "react-native-curved-bottom-bar";
 import {
@@ -16,52 +16,82 @@ import {
   MyQA,
   Consultations,
   MoodTracker,
+  Organizations,
 } from "#screens";
 
 import { appStyles } from "#styles";
 import LinearGradient from "../components/LinearGradient";
 import { useGetTheme } from "#hooks";
-
-const screens = [
-  {
-    name: "Dashboard",
-    component: Dashboard,
-    text: "home",
-    iconName: "home",
-    position: "LEFT",
-  },
-  {
-    name: "MoodTrackHistory",
-    component: MoodTracker,
-    iconName: "mood",
-    text: "mood",
-    position: "RIGHT",
-  },
-  {
-    name: "MyQA",
-    component: MyQA,
-    iconName: "my-qa",
-    text: "qaa",
-    position: "RIGHT",
-  },
-  {
-    name: "InformationalPortal",
-    component: InformationalPortal,
-    iconName: "read-book",
-    text: "articles",
-    position: "LEFT",
-  },
-  {
-    name: "Consultations",
-    component: Consultations,
-    iconName: "calendar",
-    position: "CENTER",
-  },
-];
+import { Context } from "#services";
 
 export const TabNavigation = () => {
   const { colors, isDarkMode } = useGetTheme();
   const { t } = useTranslation("tab-navigation");
+  const { country } = useContext(Context);
+
+  const screens = useMemo(() => {
+    if (country === "RO") {
+      return [
+        {
+          name: "Dashboard",
+          component: Dashboard,
+          text: "home",
+          iconName: "home",
+          position: "LEFT",
+        },
+        {
+          name: "Consultations",
+          component: Organizations,
+          text: "organizations",
+          iconName: "calendar",
+          position: "CENTER",
+        },
+        {
+          name: "InformationalPortal",
+          component: InformationalPortal,
+          iconName: "read-book",
+          text: "articles",
+          position: "RIGHT",
+        },
+      ];
+    }
+    return [
+      {
+        name: "Dashboard",
+        component: Dashboard,
+        text: "home",
+        iconName: "home",
+        position: "LEFT",
+      },
+      {
+        name: "MoodTrackHistory",
+        component: MoodTracker,
+        iconName: "mood",
+        text: "mood",
+        position: "RIGHT",
+      },
+      {
+        name: "MyQA",
+        component: MyQA,
+        iconName: "my-qa",
+        text: "qaa",
+        position: "RIGHT",
+      },
+      {
+        name: "InformationalPortal",
+        component: InformationalPortal,
+        iconName: "read-book",
+        text: "articles",
+        position: "LEFT",
+      },
+      {
+        name: "Consultations",
+        component: Consultations,
+        iconName: "calendar",
+        position: "CENTER",
+      },
+    ];
+  }, [country]);
 
   const takeIconName = ({ routeName, selectedTab }) => {
     return screens.find((screen) => screen.name === routeName).iconName;
@@ -91,11 +121,16 @@ export const TabNavigation = () => {
             selectedTab === routeName
               ? appStyles.colorPrimary_20809e
               : !isDarkMode
-              ? appStyles.colorGray_92989b
-              : appStyles.colorGray_ea
+                ? appStyles.colorGray_92989b
+                : appStyles.colorGray_ea
           }
         />
-        <AppText namedStyle="smallText">{t(text)}</AppText>
+        <AppText
+          style={{ textAlign: "center", paddingBottom: 10 }}
+          namedStyle="smallText"
+        >
+          {t(text)}
+        </AppText>
       </TouchableOpacity>
     );
   };
@@ -158,8 +193,8 @@ export const TabNavigation = () => {
                       selectedTab === "Consultations"
                         ? appStyles.colorPrimary_20809e
                         : !isDarkMode
-                        ? appStyles.colorGray_92989b
-                        : appStyles.colorGray_ea
+                          ? appStyles.colorGray_92989b
+                          : appStyles.colorGray_ea
                     }
                   />
                 </View>

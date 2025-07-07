@@ -11,7 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { ButtonOnlyIcon } from "../../buttons";
-import spiralBackground from "../../../assets/spiral-background.png";
+import spiralBackground from "../../../assets/spiral_background.png";
 import { HeaderNavigation } from "../../headings";
 import { useCheckHasUnreadNotifications, useGetTheme } from "#hooks";
 import { Context } from "#services";
@@ -54,8 +54,8 @@ export function Screen({
         backgroundColor
           ? { backgroundColor }
           : isBackgroundColorEnabled
-          ? { backgroundColor: colors.background }
-          : "",
+            ? { backgroundColor: colors.background }
+            : "",
       ]}
     >
       <StatusBar

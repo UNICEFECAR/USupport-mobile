@@ -5,5 +5,14 @@
   "read_more": "Ары қарай оқу",
   "min_read": "минут оқуға",
   "by": "Дайындаушы {{creator}}",
-  "heading_no_language_results": "Сіз таңдаған тілде мақалалар таба алмадық."
+  "heading_no_language_results": "Сіз таңдаған тілде мақалалар таба алмадық.",
+  "heading_no_language_results_videos": "Сіз таңдаған тілде видеолар таба алмадық.",
+  "heading_no_language_results_podcasts": "Сіз таңдаған тілде подкасттар таба алмадық.",
+  "heading_newest_videos": "Жаңа видеолар",
+  "heading_popular_videos": "Ең танымал видеолар",
+  "view_more": "Көбірек көру",
+  "more_videos": "Көбірек видеолар",
+  "heading_newest_podcasts": "Жаңа Подкасттар",
+  "heading_popular_podcasts": "Ең танымал Подкасттар",
+  "no_results": "Нәтижелер табылмады"
 }
