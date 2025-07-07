@@ -140,6 +140,7 @@ export const ArticleView = ({ articleData }) => {
     const url = await constructShareUrl({
       contentType: "article",
       id: articleData.id,
+      name: articleData.title,
     });
     Share.open({
       title: articleData.title,

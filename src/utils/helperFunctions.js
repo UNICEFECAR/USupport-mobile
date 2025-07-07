@@ -81,16 +81,33 @@ const countryMap = {
   pl: "poland",
 };
 
-const constructShareUrl = async ({ contentType, id }) => {
+const createArticleSlug = (title) => {
+  return (
+    title
+      .toLowerCase()
+      // Normalize Unicode characters (NFD = decomposed form)
+      .normalize("NFD")
+      // Remove diacritics/accents but keep the base characters
+      .replace(/[\u0300-\u036f]/g, "")
+      // Replace whitespace and non-word characters with hyphens
+      // \p{L} matches any Unicode letter, \p{N} matches any Unicode number
+      .replace(/[^\p{L}\p{N}]+/gu, "-")
+      // Remove leading and trailing hyphens
+      .replace(/^-+|-+$/g, "")
+  );
+};
+
+const constructShareUrl = async ({ contentType, id, name }) => {
   const country = await localStorage.getItem("country");
   const language = await localStorage.getItem("language");
 
   const countryName = countryMap[country.toLocaleLowerCase()];
+  const slugName = name ? `/${createArticleSlug(name)}` : "";
 
   if (contentType === "organization") {
     return `https://${countryName}.usupport.online/${language}/organization-overview/${id}`;
   }
-  return `https://${countryName}.usupport.online/${language}/information-portal/${contentType}/${id}`;
+  return `https://${countryName}.usupport.online/${language}/information-portal/${contentType}/${id}/${slugName}`;
 };
 
 export { calcGradientDegrees, checkIsLikedAndDisliked, constructShareUrl };
