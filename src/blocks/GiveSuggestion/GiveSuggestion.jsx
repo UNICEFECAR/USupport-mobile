@@ -24,7 +24,7 @@ const initialData = {
  *
  * @return {jsx}
  */
-export const GiveSuggestion = ({ navigation }) => {
+export const GiveSuggestion = ({ navigation, style }) => {
   const { t } = useTranslation("give-suggestion");
   const { isTmpUser, handleRegistrationModalOpen } = useContext(Context);
 
@@ -81,7 +81,7 @@ export const GiveSuggestion = ({ navigation }) => {
   };
 
   return (
-    <Block style={styles.block}>
+    <Block style={[styles.block, style]}>
       <AppText namedStyle="h3">{t("heading")}</AppText>
       <AppText style={styles.subheading}>{t("subheading")}</AppText>
       <Textarea

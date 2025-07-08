@@ -4,7 +4,7 @@ import { ScrollView, StyleSheet, RefreshControl, Platform } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { Screen, AppButton } from "#components";
-import { Consultations as ConsultationsBlock } from "#blocks";
+import { Consultations as ConsultationsBlock, GiveSuggestion } from "#blocks";
 
 import {
   EditConsultation,
@@ -22,6 +22,7 @@ import {
   useBlockSlot,
   useRescheduleConsultation,
   useGetClientData,
+  useKeyboard,
 } from "#hooks";
 
 import { parseUTCDate } from "#utils";
@@ -43,6 +44,13 @@ export const Consultations = ({ navigation }) => {
 
   const clientDataQuery = useGetClientData()[0];
   const clientData = clientDataQuery.data;
+
+  const [isKeyboardShown, setIsKeyboardShown] = useState(false);
+  useKeyboard(
+    true,
+    () => setIsKeyboardShown(true),
+    () => setIsKeyboardShown(false)
+  );
 
   // Selected consultation data
   const [selectedConsultation, setSelectedConsultation] = useState();
@@ -180,7 +188,12 @@ export const Consultations = ({ navigation }) => {
 
   return (
     <Screen
-      style={styles.screen}
+      style={[
+        styles.screen,
+        {
+          paddingBottom: isKeyboardShown ? 0 : Platform.OS === "ios" ? 50 : 100,
+        },
+      ]}
       hasEmergencyButton={false}
       hasHeaderNavigation
       t={t}
@@ -200,6 +213,7 @@ export const Consultations = ({ navigation }) => {
           navigation={navigation}
           currencySymbol={currencySymbol}
         />
+        <GiveSuggestion navigation={navigation} />
       </ScrollView>
       <JoinConsultation
         isOpen={isJoinConsultationOpen}
@@ -258,12 +272,14 @@ export const Consultations = ({ navigation }) => {
         onSuccess={handleDataAgreementSucess}
       />
 
-      <AppButton
-        label={t("button_label")}
-        size="lg"
-        style={styles.button}
-        onPress={handleScheduleConsultationClick}
-      />
+      {!isKeyboardShown && (
+        <AppButton
+          label={t("button_label")}
+          size="lg"
+          style={styles.button}
+          onPress={handleScheduleConsultationClick}
+        />
+      )}
     </Screen>
   );
 };
@@ -275,7 +291,6 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   screen: {
-    paddingBottom: Platform.OS === "ios" ? 50 : 100,
     paddingTop: 48,
   },
 });
