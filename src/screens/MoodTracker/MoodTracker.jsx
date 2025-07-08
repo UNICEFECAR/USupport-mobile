@@ -1,11 +1,17 @@
 import React, { useContext, useEffect } from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import { useTranslation } from "react-i18next";
 
-import { Screen, Block, Heading } from "#components";
+import { Screen, Block } from "#components";
 import { MoodTrackHistory } from "#blocks";
 import { Context } from "#services";
 import { AppText } from "../../components/texts";
+import { GiveSuggestion } from "#blocks";
 
 /**
  * MoodTracker
@@ -31,13 +37,19 @@ export const MoodTracker = ({ navigation }) => {
       t={t}
       style={styles.screen}
     >
-      <ScrollView>
-        <Block style={{ marginTop: 18 }}>
-          <AppText namedStyle="h3">{t("heading")}</AppText>
-          <AppText>{t("subheading")}</AppText>
-        </Block>
-        {!isTmpUser ? <MoodTrackHistory /> : null}
-      </ScrollView>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "position" : null}
+        keyboardVerticalOffset={64}
+      >
+        <ScrollView>
+          <Block style={{ marginTop: 18 }}>
+            <AppText namedStyle="h3">{t("heading")}</AppText>
+            <AppText>{t("subheading")}</AppText>
+          </Block>
+          {!isTmpUser ? <MoodTrackHistory /> : null}
+          <GiveSuggestion navigation={navigation} />
+        </ScrollView>
+      </KeyboardAvoidingView>
     </Screen>
   );
 };
