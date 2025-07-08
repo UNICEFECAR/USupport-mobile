@@ -5,6 +5,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Linking,
+  KeyboardAvoidingView,
 } from "react-native";
 import { useTranslation } from "react-i18next";
 import Share from "react-native-share";
@@ -26,6 +27,7 @@ import { useGetOrganizationMetadata, useGetAllOrganizations } from "#hooks";
 import { appStyles } from "#styles";
 import { constructShareUrl } from "#utils";
 import { useGetTheme } from "#hooks";
+import { GiveSuggestion } from "../GiveSuggestion";
 
 const { GOOGLE_MAPS_API_KEY, AMAZON_S3_BUCKET } = Config;
 
@@ -118,48 +120,57 @@ export const Organizations = ({ navigation, filters, setFilters }) => {
 
   return (
     <>
-      <ScrollView style={styles.scrollView}>
-        <Block style={styles.container}>
-          <View style={styles.searchContainer}>
-            <Input
-              value={filters.search}
-              onChangeText={(value) => handleChange("search", value)}
-              placeholder={t("search_placeholder")}
-              style={styles.searchInput}
-            />
-          </View>
-
-          {isLoading ? (
-            <View style={styles.loadingContainer}>
-              <Loading />
-            </View>
-          ) : (
-            <>
-              <InteractiveMap
-                data={data}
-                onMapReady={handleMapReady}
-                setSelectedMarker={setSelectedOrganization}
-                t={t}
-                googleMapsApiKey={GOOGLE_MAPS_API_KEY}
-                style={styles.map}
+      <KeyboardAvoidingView
+        behavior="padding"
+        keyboardVerticalOffset={64}
+        style={{ flex: 1 }}
+      >
+        <ScrollView style={styles.scrollView}>
+          <Block style={styles.container}>
+            <View style={styles.searchContainer}>
+              <Input
+                value={filters.search}
+                onChangeText={(value) => handleChange("search", value)}
+                placeholder={t("search_placeholder")}
+                style={styles.searchInput}
               />
+            </View>
 
-              <View style={styles.organizationsContainer}>
-                {renderOrganizations()}
+            {isLoading ? (
+              <View style={styles.loadingContainer}>
+                <Loading />
               </View>
+            ) : (
+              <>
+                <InteractiveMap
+                  data={data}
+                  onMapReady={handleMapReady}
+                  setSelectedMarker={setSelectedOrganization}
+                  t={t}
+                  googleMapsApiKey={GOOGLE_MAPS_API_KEY}
+                  style={styles.map}
+                />
 
-              {data && data.length === 0 && (
-                <View style={styles.noDataContainer}>
-                  <AppText style={styles.noDataText}>
-                    {t("no_data_found")}
-                  </AppText>
+                <View style={styles.organizationsContainer}>
+                  {renderOrganizations()}
                 </View>
-              )}
-            </>
-          )}
-        </Block>
-      </ScrollView>
 
+                {data && data.length === 0 && (
+                  <View style={styles.noDataContainer}>
+                    <AppText style={styles.noDataText}>
+                      {t("no_data_found")}
+                    </AppText>
+                  </View>
+                )}
+              </>
+            )}
+          </Block>
+          <GiveSuggestion
+            navigation={navigation}
+            style={{ marginBottom: 50 }}
+          />
+        </ScrollView>
+      </KeyboardAvoidingView>
       {selectedOrganization && (
         <OrganizationBackdrop
           organization={selectedOrganization}
@@ -332,7 +343,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 50,
     paddingHorizontal: 16,
-    paddingBottom: 100,
+    paddingBottom: 20,
   },
   searchContainer: {
     flexDirection: "row",
