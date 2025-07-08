@@ -215,7 +215,7 @@ export const MyQA = ({
 
 const styles = StyleSheet.create({
   answer: { marginTop: 24 },
-  answersContainer: { paddingBottom: 90, width: "100%" },
+  answersContainer: { paddingBottom: 40, width: "100%" },
   block: {
     alignItems: "flex-start",
     flexDirection: "column",
@@ -246,6 +246,5 @@ const styles = StyleSheet.create({
   renderBlock: {
     alignItems: "center",
     flexDirection: "column",
-    marginBottom: Platform.OS === "ios" ? 50 : 80,
   },
 });
