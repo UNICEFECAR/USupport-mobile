@@ -83,6 +83,8 @@ export function Navigation({
     userPin,
     hasCheckedTmpUser,
     initialRouteName,
+    setIsPodcastsActive,
+    setIsVideosActive,
   } = useContext(Context);
 
   const getClientDataEnabled = !!(
@@ -198,7 +200,6 @@ export function Navigation({
   const fetchCountries = async () => {
     const localStorageCountry = await localStorage.getItem("country");
     const localStorageLanguage = await localStorage.getItem("language");
-
     i18n.changeLanguage(localStorageLanguage);
 
     const res = await countrySvc.getActiveCountries();
@@ -215,13 +216,18 @@ export function Navigation({
         maxAge: x["max_client_age"],
         currencySymbol: x["symbol"],
         localName: x["local_name"],
+        podcastsActive: x["podcasts_active"],
+        videosActive: x["videos_active"],
       };
       const countryID = countryObject.countryID;
       const currencySymbol = countryObject.currencySymbol;
       if (localStorageCountry === x.alpha2) {
+        console.log(countryObject);
         localStorage.setItem("country_id", countryID);
         localStorage.setItem("currency_symbol", currencySymbol);
         setCurrencySymbol(currencySymbol);
+        setIsPodcastsActive(countryObject.podcastsActive);
+        setIsVideosActive(countryObject.videosActive);
       } else if (!localStorageCountry) {
         if (validCountry?.alpha2 === x.alpha2) {
           hasSetDefaultCountry = true;
@@ -231,6 +237,8 @@ export function Navigation({
           localStorage.setItem("currency_symbol", countryObject.currencySymbol);
 
           setCurrencySymbol(countryObject.currencySymbol);
+          setIsPodcastsActive(countryObject.podcastsActive);
+          setIsVideosActive(countryObject.videosActive);
         }
       }
 
@@ -249,6 +257,8 @@ export function Navigation({
         kazakhstanCountryObject.currencySymbol
       );
 
+      setIsPodcastsActive(kazakhstanCountryObject.podcastsActive);
+      setIsVideosActive(kazakhstanCountryObject.videosActive);
       setCurrencySymbol(kazakhstanCountryObject.currencySymbol);
     }
 
@@ -256,7 +266,7 @@ export function Navigation({
   };
 
   useQuery(["countries"], fetchCountries, {
-    staleTime: Infinity,
+    // staleTime: Infinity,
     onError: (err) => console.log(err, "fetch countries error"),
   });
 
