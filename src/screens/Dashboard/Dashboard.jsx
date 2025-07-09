@@ -1,7 +1,13 @@
 import React, { useState, useMemo, useRef, useContext, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useIsFocused } from "@react-navigation/native";
-import { StyleSheet, ScrollView, View, RefreshControl } from "react-native";
+import {
+  StyleSheet,
+  ScrollView,
+  View,
+  RefreshControl,
+  ImageBackground,
+} from "react-native";
 import { useTranslation } from "react-i18next";
 import Config from "react-native-config";
 
@@ -63,6 +69,7 @@ export const Dashboard = ({ navigation }) => {
     handleRegistrationModalOpen,
     currencySymbol,
     setIsAnonymousRegister,
+    country,
   } = useContext(Context);
   const getClientDataEnabled = isTmpUser === false ? true : false;
   const clientDataQuery = useGetClientData(getClientDataEnabled)[0];
@@ -74,6 +81,8 @@ export const Dashboard = ({ navigation }) => {
     : "";
   const queryClient = useQueryClient();
   const consultationPrice = useRef();
+
+  const IS_RO = country === "RO";
 
   useEffect(() => {
     if (clientData && isFocused && !isTmpUser) {
@@ -335,7 +344,9 @@ export const Dashboard = ({ navigation }) => {
               handleScheduleConsultation={handleScheduleConsultation}
               handleAcceptSuggestion={handleAcceptSuggestion}
               handleRegistrationModalOpen={handleRegistrationModalOpen}
+              country={country}
               isDarkMode={isDarkMode}
+              navigation={navigation}
             />
           )}
         </MascotHeadingBlock>
@@ -348,21 +359,23 @@ export const Dashboard = ({ navigation }) => {
           selectCategory={selectedCategory}
           allCategories={allCategories}
         />
-        <ConsultationsDashboard
-          openJoinConsultation={openJoinConsultation}
-          openEditConsultation={openEditConsultation}
-          handleAcceptSuggestion={handleAcceptSuggestion}
-          handleSchedule={handleScheduleConsultation}
-          isTmpUser={isTmpUser}
-          handleRegistrationModalOpen={handleRegistrationModalOpen}
-          upcomingConsultations={upcomingConsultations}
-          isLoading={
-            consultationsQuery.isLoading &&
-            consultationsQuery.fetchStatus !== "idle"
-          }
-          t={t}
-          navigation={navigation}
-        />
+        {!IS_RO && (
+          <ConsultationsDashboard
+            openJoinConsultation={openJoinConsultation}
+            openEditConsultation={openEditConsultation}
+            handleAcceptSuggestion={handleAcceptSuggestion}
+            handleSchedule={handleScheduleConsultation}
+            isTmpUser={isTmpUser}
+            handleRegistrationModalOpen={handleRegistrationModalOpen}
+            upcomingConsultations={upcomingConsultations}
+            isLoading={
+              consultationsQuery.isLoading &&
+              consultationsQuery.fetchStatus !== "idle"
+            }
+            t={t}
+            navigation={navigation}
+          />
+        )}
       </ScrollView>
       <ArticleCategories
         isOpen={isArticlesModalOpen}
@@ -437,6 +450,7 @@ const HeadingBlockContent = ({
   isTmpUser,
   t,
   clientName,
+  country,
   handleRegistrationModalOpen,
   upcomingConsultations,
   openJoinConsultation,
@@ -444,7 +458,9 @@ const HeadingBlockContent = ({
   handleScheduleConsultation,
   handleAcceptSuggestion,
   isDarkMode,
+  navigation,
 }) => {
+  const IS_RO = country === "RO";
   return (
     <View>
       {isTmpUser ? (
@@ -473,27 +489,51 @@ const HeadingBlockContent = ({
       ) : (
         <>
           <AppText namedStyle="h3">{t("welcome", { clientName })}</AppText>
-          <AppText
-            style={[
-              styles.marginTop16,
-              isDarkMode
-                ? { color: appStyles.colorWhite_ff }
-                : appStyles.colorTextBlue,
-            ]}
-          >
-            {t("next_consultation")}
-          </AppText>
-          <ConsultationDashboard
-            consultation={
-              upcomingConsultations ? upcomingConsultations[0] : null
-            }
-            style={styles.marginTop16}
-            handleJoin={openJoinConsultation}
-            handleEdit={openEditConsultation}
-            handleSchedule={handleScheduleConsultation}
-            handleAcceptSuggestion={handleAcceptSuggestion}
-            t={t}
-          />
+          {!IS_RO && (
+            <AppText
+              style={[
+                styles.marginTop16,
+                isDarkMode
+                  ? { color: appStyles.colorWhite_ff }
+                  : appStyles.colorTextBlue,
+              ]}
+            >
+              {t("next_consultation")}
+            </AppText>
+          )}
+          {IS_RO ? (
+            <ImageBackground
+              style={styles.imageBackground}
+              source={{
+                uri: "https://external-preview.redd.it/C0aIsVBPnfHe1w7gPLkidhK_0M5MEPZdNq7sIfa9Bjk.jpg?width=640&crop=smart&auto=webp&s=969e5fcc68b406912978f8ad0f58f327598d3b9a",
+              }}
+            >
+              <View style={styles.mapContainer}>
+                <View>
+                  <AppButton
+                    label={t("explore")}
+                    color="purple"
+                    size="md"
+                    onPress={() => {
+                      navigation.navigate("Consultations");
+                    }}
+                  />
+                </View>
+              </View>
+            </ImageBackground>
+          ) : (
+            <ConsultationDashboard
+              consultation={
+                upcomingConsultations ? upcomingConsultations[0] : null
+              }
+              style={styles.marginTop16}
+              handleJoin={openJoinConsultation}
+              handleEdit={openEditConsultation}
+              handleSchedule={handleScheduleConsultation}
+              handleAcceptSuggestion={handleAcceptSuggestion}
+              t={t}
+            />
+          )}
         </>
       )}
     </View>
@@ -506,4 +546,18 @@ const styles = StyleSheet.create({
   marginBottom85: { marginBottom: 85 },
   marginTop16: { marginTop: 16 },
   mascotHeadingBlock: { paddingTop: 70 },
+  imageBackground: {
+    width: "100%",
+    height: 150,
+    borderRadius: 25,
+    overflow: "hidden",
+    marginTop: 16,
+  },
+  mapContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1,
+    width: "100%",
+    backgroundColor: appStyles.overlay,
+  },
 });
