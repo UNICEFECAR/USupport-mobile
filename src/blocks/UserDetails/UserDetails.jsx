@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Trans, useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, View, Modal } from "react-native";
@@ -30,7 +30,7 @@ import {
   useLogout,
   useGetTheme,
 } from "#hooks";
-import { localStorage, clientSvc } from "#services";
+import { localStorage, clientSvc, Context } from "#services";
 import { validate, validateProperty, showToast } from "#utils";
 
 /**
@@ -50,7 +50,7 @@ export const UserDetails = ({
 }) => {
   const { colors } = useGetTheme();
   const { t } = useTranslation("user-details");
-
+  const { country } = useContext(Context);
   const queryClient = useQueryClient();
 
   const countriesData = queryClient.getQueryData(["countries"]);
@@ -69,6 +69,8 @@ export const UserDetails = ({
   };
   const [schema, setSchema] = useState(Joi.object(defaultSchema));
   const [schemaObject, setSchemaObject] = useState(defaultSchema);
+
+  const IS_RO = country === "RO";
 
   useEffect(() => {
     if (!clientDataQuery.isLoading && clientDataQuery.isSuccess) {
@@ -498,17 +500,19 @@ export const UserDetails = ({
                 onPress={openDeleteAccountBackdrop}
                 style={styles.textButton}
               />
-              <ButtonWithIcon
-                iconName={"circle-actions-close"}
-                iconSize={"md"}
-                size="lg"
-                iconColor={"#eb5757"}
-                color={"red"}
-                label={t("delete_chat")}
-                type={"ghost"}
-                onPress={openDeleteChatHistoryBackdrop}
-                style={[styles.textButton, styles.marginBottom20]}
-              />
+              {!IS_RO && (
+                <ButtonWithIcon
+                  iconName={"circle-actions-close"}
+                  iconSize={"md"}
+                  size="lg"
+                  iconColor={"#eb5757"}
+                  color={"red"}
+                  label={t("delete_chat")}
+                  type={"ghost"}
+                  onPress={openDeleteChatHistoryBackdrop}
+                  style={[styles.textButton, styles.marginBottom20]}
+                />
+              )}
             </View>
           </>
         )}

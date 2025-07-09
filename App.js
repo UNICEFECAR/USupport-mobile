@@ -53,6 +53,8 @@ function App() {
   const [hasAuthenticatedWithPin, setHasAuthenticatedWithPin] = useState(false);
   const [isConnected, setIsConnected] = useState(true);
   const [country, setCountry] = useState(null);
+  const [isPodcastsActive, setIsPodcastsActive] = useState(false);
+  const [isVideosActive, setIsVideosActive] = useState(false);
 
   const [dropdownOptions, setDropdownOptions] = useState({
     isOpen: false,
@@ -209,6 +211,10 @@ function App() {
     setHasAuthenticatedWithPin,
     country,
     setCountry,
+    isPodcastsActive,
+    setIsPodcastsActive,
+    isVideosActive,
+    setIsVideosActive,
   };
 
   return (

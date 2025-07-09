@@ -27,10 +27,13 @@ const { AMAZON_S3_BUCKET } = Config;
 export const UserProfile = ({ navigation }) => {
   const { isDarkMode, colors } = useGetTheme();
   const { t, i18n } = useTranslation("user-profile");
-  const { theme, setTheme } = useContext(Context);
+  const { theme, setTheme, isTmpUser, handleRegistrationModalOpen, country } =
+    useContext(Context);
 
   const [version, setVersion] = React.useState("");
-  const [showPaymentHistory, setShowPaymentHistory] = useState(false);
+  console.log("Country", country);
+  const SHOW_PAYMENT_HISTORY =
+    country !== "KZ" && country !== "PL" && country !== "RO";
 
   useEffect(() => {
     const getAppVersion = async () => {
@@ -38,16 +41,9 @@ export const UserProfile = ({ navigation }) => {
       setVersion(appVersion);
     };
 
-    const checkCountry = async () => {
-      const country = await localStorage.getItem("country");
-      setShowPaymentHistory(country !== "KZ" && country !== "PL");
-    };
-
     getAppVersion();
-    checkCountry();
   }, []);
 
-  const { isTmpUser, handleRegistrationModalOpen } = useContext(Context);
   const [languagesData, setLanguagesData] = useState({
     language: "",
   });
@@ -228,7 +224,7 @@ export const UserProfile = ({ navigation }) => {
             <AppText style={(styles.groupHeading, { color: colors.text })}>
               {t("other")}
             </AppText>
-            {showPaymentHistory && !isTmpUser ? (
+            {SHOW_PAYMENT_HISTORY && !isTmpUser ? (
               <ButtonSelector
                 label={t("payments_history_button_label")}
                 iconName="payment-history"

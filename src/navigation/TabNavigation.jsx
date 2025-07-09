@@ -182,18 +182,21 @@ export const TabNavigation = () => {
             gradient={appStyles.gradientPrimary}
             style={styles.gradientCircle}
           >
-            <View
-              style={[styles.btnCircle, { backgroundColor: colors.navigation }]}
+            <Pressable
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              onPress={() => {
+                navigate("Consultations");
+              }}
             >
-              <Pressable
-                style={{
-                  flex: 1,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-                onPress={() => {
-                  navigate("Consultations");
-                }}
+              <View
+                style={[
+                  styles.btnCircle,
+                  { backgroundColor: colors.navigation },
+                ]}
               >
                 <View
                   style={[
@@ -213,8 +216,8 @@ export const TabNavigation = () => {
                     }
                   />
                 </View>
-              </Pressable>
-            </View>
+              </View>
+            </Pressable>
           </LinearGradient>
         )}
         tabBar={renderTabBar}
