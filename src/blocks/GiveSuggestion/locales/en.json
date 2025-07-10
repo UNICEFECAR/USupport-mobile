@@ -6,5 +6,6 @@
 
   "modal_title": "Suggestion submited successfully",
   "modal_text": "We are really sorry you could not find what you were loooking for. We will try to address your suggestion as soon as possible. Thank you for your feedback.",
-  "modal_cta_label": "Explore more articles"
+  "modal_cta_label": "Explore more articles",
+  "send_success_text": "Your suggestion has been sent successfully"
 }
