@@ -47,7 +47,7 @@ export const MoodTracker = ({ navigation }) => {
             <AppText>{t("subheading")}</AppText>
           </Block>
           {!isTmpUser ? <MoodTrackHistory /> : null}
-          <GiveSuggestion navigation={navigation} />
+          <GiveSuggestion navigation={navigation} type="mood-tracker" />
         </ScrollView>
       </KeyboardAvoidingView>
     </Screen>

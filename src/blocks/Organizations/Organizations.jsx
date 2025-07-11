@@ -168,6 +168,7 @@ export const Organizations = ({ navigation, filters, setFilters }) => {
           <GiveSuggestion
             navigation={navigation}
             style={{ marginBottom: 50 }}
+            type="organizations"
           />
         </ScrollView>
       </KeyboardAvoidingView>
