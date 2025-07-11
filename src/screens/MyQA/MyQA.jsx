@@ -240,6 +240,7 @@ export const MyQA = ({ navigation }) => {
           <GiveSuggestion
             navigation={navigation}
             style={{ marginBottom: 80 }}
+            type="my-qa"
           />
         </ScrollView>
       </KeyboardAvoidingView>

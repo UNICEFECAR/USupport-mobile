@@ -1,6 +1,12 @@
 import React, { useContext, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, StyleSheet, RefreshControl, Platform } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  RefreshControl,
+  Platform,
+  KeyboardAvoidingView,
+} from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { Screen, AppButton } from "#components";
@@ -198,23 +204,27 @@ export const Consultations = ({ navigation }) => {
       hasHeaderNavigation
       t={t}
     >
-      <ScrollView
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={() => onRefresh()}
-          />
-        }
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "position" : null}
       >
-        <ConsultationsBlock
-          openJoinConsultation={openJoinConsultation}
-          openEditConsultation={openEditConsultation}
-          isTmpUser={isTmpUser}
-          navigation={navigation}
-          currencySymbol={currencySymbol}
-        />
-        <GiveSuggestion navigation={navigation} />
-      </ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={() => onRefresh()}
+            />
+          }
+        >
+          <ConsultationsBlock
+            openJoinConsultation={openJoinConsultation}
+            openEditConsultation={openEditConsultation}
+            isTmpUser={isTmpUser}
+            navigation={navigation}
+            currencySymbol={currencySymbol}
+          />
+          <GiveSuggestion navigation={navigation} type="consultations" />
+        </ScrollView>
+      </KeyboardAvoidingView>
       <JoinConsultation
         isOpen={isJoinConsultationOpen}
         onClose={closeJoinConsultation}
