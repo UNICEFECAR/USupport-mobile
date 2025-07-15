@@ -25,5 +25,6 @@
   "password_placeholder": "Wprowadź swoje hasło",
   "age_terms_agreement_text": "Mam ponad {{age}} lat",
   "prompt_title": "Zapisz swoje dane uwierzytelniające, aby szybko się zalogować",
-  "cancel": "Anuluj"
+  "cancel": "Anuluj",
+  "click_to_copy": "Kliknij, aby skopiować"
 }

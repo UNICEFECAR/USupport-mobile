@@ -25,5 +25,6 @@
   "password_placeholder": "Enter your password",
   "age_terms_agreement_text": "I am over {{age}} years old",
   "prompt_title": "Save your credentials for quick login",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "click_to_copy": "Click to copy"
 }
