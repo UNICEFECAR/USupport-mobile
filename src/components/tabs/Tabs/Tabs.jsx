@@ -1,157 +1,210 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   View,
   StyleSheet,
   ScrollView,
-  TouchableWithoutFeedback,
+  TouchableOpacity,
+  Dimensions,
 } from "react-native";
 
 import { AppText } from "../../texts/AppText/AppText";
+import { Icon } from "../../icons"; // Assuming you have an Icon component
 
 import { appStyles } from "#styles";
 import { useGetTheme } from "#hooks";
 
+const { width: screenWidth } = Dimensions.get("window");
+
 /**
  * Tabs
  *
- * Tabs component
+ * Tabs component with horizontal scroll and navigation arrows
  *
  * @return {jsx}
  */
-export const Tabs = ({ options, handleSelect, style, t, handleModalOpen }) => {
+export const Tabs = ({ options, handleSelect, style, t = () => {} }) => {
   const { colors, isDarkMode } = useGetTheme();
-  const NO_OPTIONS_TO_RENDER = 4;
-  const [isOpen, setIsOpen] = useState(false);
-  const [isMoreOptionSelected, setIsMoreOptionSelected] = useState(false);
+  const scrollViewRef = useRef(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+  const [contentWidth, setContentWidth] = useState(0);
+  const [scrollViewWidth, setScrollViewWidth] = useState(0);
+  const [currentScrollX, setCurrentScrollX] = useState(0);
 
-  const handleOnSelect = (option) => {
-    handleSelect ? handleSelect(option) : () => {};
-    setIsOpen(false);
+  const handleOnSelect = (index) => {
+    if (handleSelect) {
+      handleSelect(index);
+    }
   };
+
+  const checkScrollability = (scrollX) => {
+    const tolerance = 1;
+    setCanScrollLeft(scrollX > tolerance);
+    setCanScrollRight(scrollX < contentWidth - scrollViewWidth - tolerance);
+  };
+
+  const scrollTabs = (direction) => {
+    if (scrollViewRef.current && scrollViewWidth > 0) {
+      const scrollAmount = Math.max(scrollViewWidth / 2.5, 100); // Minimum scroll amount
+      const newOffset =
+        direction === "left"
+          ? Math.max(0, currentScrollX - scrollAmount)
+          : Math.min(
+              Math.max(0, contentWidth - scrollViewWidth),
+              currentScrollX + scrollAmount
+            );
+
+      // Only scroll if there's actually a change
+      if (Math.abs(newOffset - currentScrollX) > 1) {
+        scrollViewRef.current.scrollTo({
+          x: newOffset,
+          animated: true,
+        });
+
+        // Update current scroll position immediately for better UX
+        setCurrentScrollX(newOffset);
+        checkScrollability(newOffset);
+      }
+    }
+  };
+
+  const handleScroll = (event) => {
+    const scrollX = event.nativeEvent.contentOffset.x;
+    setCurrentScrollX(scrollX);
+    checkScrollability(scrollX);
+  };
+
+  const handleContentSizeChange = (contentWidth) => {
+    setContentWidth(contentWidth);
+  };
+
+  const handleLayout = (event) => {
+    const { width } = event.nativeEvent.layout;
+    setScrollViewWidth(width);
+  };
+
+  useEffect(() => {
+    // Check scrollability when content or container size changes
+    if (contentWidth && scrollViewWidth) {
+      checkScrollability(currentScrollX);
+    }
+  }, [contentWidth, scrollViewWidth, currentScrollX]);
 
   const renderOptions = () => {
-    if (options) {
-      return options
-        ? options?.map((option, index) => {
-            if (index >= NO_OPTIONS_TO_RENDER) {
-              return null;
-            }
-            return (
-              <TouchableWithoutFeedback
-                onPress={
-                  option.isInactive
-                    ? () => {}
-                    : () => {
-                        handleSelect(index);
-                        setIsMoreOptionSelected(false);
-                      }
-                }
-                key={index}
-              >
-                <View
-                  style={[
-                    styles.tab,
-                    {
-                      backgroundColor: !isDarkMode
-                        ? appStyles.colorGreen_f4f7fe
-                        : appStyles.colorBlack_1e,
-                    },
-                    option.isSelected && styles.tabSelected,
-                    option.isSelected && {
-                      backgroundColor: colors.background,
-                    },
-                    option.isInactive && styles.tabInactive,
-                  ]}
-                >
-                  <AppText black>{option.label}</AppText>
-                </View>
-              </TouchableWithoutFeedback>
-            );
-          })
-        : null;
+    if (!options || !Array.isArray(options)) {
+      return null;
     }
+
+    return options.map((option, index) => (
+      <TouchableOpacity
+        onPress={option.isInactive ? undefined : () => handleOnSelect(index)}
+        key={index}
+        disabled={option.isInactive}
+        activeOpacity={0.7}
+      >
+        <View
+          style={[
+            styles.tab,
+            {
+              backgroundColor: !isDarkMode
+                ? appStyles.colorGreen_f4f7fe
+                : appStyles.colorBlack_1e,
+            },
+            option.isSelected && styles.tabSelected,
+            option.isSelected && {
+              backgroundColor: colors.background,
+            },
+            option.isInactive && styles.tabInactive,
+          ]}
+        >
+          <AppText black numberOfLines={1} ellipsizeMode="tail">
+            {option.label}
+          </AppText>
+        </View>
+      </TouchableOpacity>
+    ));
   };
 
-  const renderShowMoreOptions = () => {
-    if (options) {
-      return options.map((option, index) => {
-        if (index >= NO_OPTIONS_TO_RENDER) {
-          return (
-            <TouchableWithoutFeedback
-              onPress={
-                option.isInactive
-                  ? () => {}
-                  : () => {
-                      handleOnSelect(index);
-                      setIsMoreOptionSelected(option.isSelected);
-                    }
-              }
-              key={index}
-            >
-              <View
-                style={[
-                  styles.option,
-                  option.isInactive && styles.optionInactive,
-                ]}
-              >
-                <AppText style={option.isSelected && styles.optionSelectedText}>
-                  {option.label}
-                </AppText>
-              </View>
-            </TouchableWithoutFeedback>
-          );
-        }
-      });
-    }
-  };
+  const showArrows = contentWidth > scrollViewWidth;
 
   return (
-    <View style={style}>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        <View style={[styles.tabs]}>
-          {renderOptions()}
-          {options.length > NO_OPTIONS_TO_RENDER && (
-            <AppText
-              style={[
-                styles.showMoreText,
-                isMoreOptionSelected && styles.showMoreTextSelected,
-              ]}
-              onPress={() => {
-                // setIsOpen(!isOpen)
-                if (handleModalOpen) {
-                  handleModalOpen();
-                } else {
-                  setIsOpen(!isOpen);
-                }
-              }}
-            >
-              +
-              {t("number_of_more_options", {
-                count: options.length - NO_OPTIONS_TO_RENDER,
-              })}
-            </AppText>
-          )}
-        </View>
-      </ScrollView>
-      {isOpen ? (
-        <View style={[appStyles.shadow1, styles.showMoreContainer]}>
-          <ScrollView>
-            <View style={styles.showMoreOptionsContainer}>
-              {renderShowMoreOptions()}
-            </View>
+    <View style={[styles.tabsWrapper, style]}>
+      <View style={styles.tabs}>
+        {showArrows && (
+          <TouchableOpacity
+            style={[
+              styles.tabArrow,
+              styles.tabArrowLeft,
+              !canScrollLeft && styles.tabArrowDisabled,
+            ]}
+            onPress={() => canScrollLeft && scrollTabs("left")}
+            disabled={!canScrollLeft}
+            activeOpacity={0.7}
+          >
+            <Icon
+              name="arrow-chevron-back"
+              size="md"
+              color={appStyles.colorBlack_1e}
+            />
+          </TouchableOpacity>
+        )}
+
+        <View style={styles.tabsContainer} onLayout={handleLayout}>
+          <ScrollView
+            ref={scrollViewRef}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            onScroll={handleScroll}
+            scrollEventThrottle={16}
+            onContentSizeChange={handleContentSizeChange}
+            contentContainerStyle={styles.scrollContent}
+          >
+            {renderOptions()}
           </ScrollView>
         </View>
-      ) : null}
+
+        {showArrows && (
+          <TouchableOpacity
+            style={[
+              styles.tabArrow,
+              styles.tabArrowRight,
+              !canScrollRight && styles.tabArrowDisabled,
+            ]}
+            onPress={() => canScrollRight && scrollTabs("right")}
+            disabled={!canScrollRight}
+            activeOpacity={0.7}
+          >
+            <Icon
+              name="arrow-chevron-forward"
+              size="md"
+              color={appStyles.colorBlack_1e}
+            />
+          </TouchableOpacity>
+        )}
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  tabsWrapper: {
+    width: "100%",
+    overflow: "hidden",
+    position: "relative",
+  },
   tabs: {
     flexDirection: "row",
     alignItems: "center",
     paddingBottom: 10,
     paddingHorizontal: 16,
+  },
+  tabsContainer: {
+    flex: 1,
+    minWidth: 0,
+  },
+  scrollContent: {
+    alignItems: "center",
+    paddingRight: 8,
   },
   tab: {
     paddingVertical: 4,
@@ -160,42 +213,42 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
     borderWidth: 1,
     borderColor: "transparent",
+    minWidth: 60,
+    maxWidth: 200,
+    alignItems: "center",
+    justifyContent: "center",
   },
   tabSelected: {
     borderColor: appStyles.colorSecondary_9749fa,
   },
-  tabInactive: { opacity: 0.2 },
-  tabText: { color: appStyles.colorBlack_37 },
-  showMoreText: {
-    color: appStyles.colorPrimary_20809e,
-    textDecorationLine: "underline",
-    paddingLeft: 8,
-    whiteSpace: "nowrap",
+  tabInactive: {
+    opacity: 0.2,
   },
-  showMoreTextSelected: {
-    color: appStyles.colorSecondaryPressed_6c16d9,
-    fontFamily: "Nunito-SemiBold",
-  },
-  showMoreContainer: {
-    position: "absolute",
-    alignSelf: "center",
-    marginVertical: 50,
-    paddingVertical: 8,
-    width: "90%",
-    maxWidth: 400,
+  tabArrow: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: "rgba(255, 255, 255, 0.8)",
     borderWidth: 1,
-    borderColor: appStyles.colorGray_ea,
-    backgroundColor: appStyles.colorWhite_ff,
-    borderRadius: 24,
-    zIndex: 999,
+    borderColor: "rgba(0, 0, 0, 0.1)",
+    alignItems: "center",
+    justifyContent: "center",
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
   },
-  showMoreOptionsContainer: {
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    marginRight: 16,
-    maxHeight: 220,
+  tabArrowLeft: {
+    marginRight: 8,
   },
-  option: { padding: 8 },
-  optionInactive: { opacity: 0.2 },
-  optionSelectedText: { color: appStyles.colorSecondary_9749fa },
+  tabArrowRight: {
+    marginLeft: 8,
+  },
+  tabArrowDisabled: {
+    opacity: 0.3,
+  },
 });
