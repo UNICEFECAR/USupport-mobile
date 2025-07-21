@@ -8,6 +8,7 @@ const light = {
   card: appStyles.colorWhite_ff,
   navigation: appStyles.colorWhite_ff,
   input: appStyles.colorWhite_ff,
+  cardMedia: appStyles.colorBlue_eaf7f9,
 };
 
 const dark = {
@@ -18,6 +19,7 @@ const dark = {
   card: appStyles.colorBlack_1e,
   navigation: appStyles.colorBlack_1d,
   input: appStyles.colorBlack_37,
+  cardMedia: appStyles.colorBlack_1e,
 };
 
 export default { light, dark };
