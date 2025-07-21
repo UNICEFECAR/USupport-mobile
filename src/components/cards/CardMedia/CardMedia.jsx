@@ -45,8 +45,8 @@ export const CardMedia = ({
         appStyles.shadow2,
         styles.cardMedia,
         {
-          backgroundColor: colors.card,
-          opacity: isRead ? 0.7 : 1,
+          backgroundColor: colors.cardMedia,
+          opacity: isRead ? 0.75 : 1,
         },
         style,
       ]}
@@ -88,15 +88,17 @@ export const CardMedia = ({
         {creator && (
           <View style={styles.creatorAndLikeContainer}>
             <View style={styles.creatorContainer}>
-              <AppText namedStyle="smallText">{t("by", { creator })}</AppText>
+              <AppText namedStyle="smallText" style={styles.creatorText}>
+                {t("by", { creator })}
+              </AppText>
               <View style={styles.readingTime}>
                 <Icon
                   size="sm"
                   name="time"
-                  color={appStyles.colorGray_66768d}
+                  color="#66768d"
                   style={styles.icon}
                 />
-                <AppText namedStyle="smallText">
+                <AppText namedStyle="smallText" style={styles.readingTimeText}>
                   {readingTime} {t("min_read")}
                 </AppText>
               </View>
@@ -112,14 +114,21 @@ export const CardMedia = ({
           </View>
         )}
         <View style={styles.descriptionContainer}>
-          <AppText namedStyle="smallText" id="description" numberOfLines={2}>
+          <AppText
+            namedStyle="smallText"
+            id="description"
+            numberOfLines={2}
+            style={styles.descriptionText}
+          >
             {description}
           </AppText>
         </View>
         <AppButton
+          type="ghost"
           label={t(contentType === "articles" ? "read_more" : "view_more")}
           size="sm"
           style={styles.readMoreButton}
+          textStyle={styles.readMoreButtonText}
           onPress={onPress}
         />
       </View>
@@ -144,14 +153,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   categoryContainer: {
-    marginLeft: 12,
-    backgroundColor: appStyles.color_blue_c1d7e0,
+    backgroundColor: appStyles.colorWhite_ff,
     paddingHorizontal: 12,
     paddingVertical: 2,
-    borderRadius: 25,
+    borderRadius: 4,
     position: "absolute",
-    top: 12,
-    left: 12,
+    top: 16,
+    left: 16,
+    height: 22,
+    justifyContent: "center",
+    alignItems: "center",
   },
   image: {
     width: "100%",
@@ -171,10 +182,27 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   icon: { marginRight: 5 },
-  readMoreButton: { marginTop: 16 },
+  readMoreButton: {
+    marginTop: 16,
+    paddingLeft: 0,
+    alignItems: "flex-start",
+  },
+  readMoreButtonText: {
+    color: "#6989a4",
+    fontWeight: appStyles.fontSemiBold,
+  },
   categoryText: {
     fontFamily: appStyles.fontBold,
-    color: appStyles.colorBlue_3d527b,
+    color: "#66768d",
+  },
+  creatorText: {
+    color: "#66768d",
+  },
+  readingTimeText: {
+    color: "#66768d",
+  },
+  descriptionText: {
+    color: "#66768d",
   },
   likeContainer: {
     justifyContent: "flex-start",
