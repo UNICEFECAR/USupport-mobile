@@ -46,7 +46,7 @@ export const FilterOrganizations = ({
 
     return (
       <View style={styles.container}>
-        {metadata?.workWith && metadata.workWith.length > 0 && (
+        {/* {metadata?.workWith && metadata.workWith.length > 0 && (
           <Dropdown
             selected={filters.workWith}
             setSelected={(value) => handleChange("workWith", value)}
@@ -56,7 +56,7 @@ export const FilterOrganizations = ({
               value: item.organizationWorkWithId,
             }))}
           />
-        )}
+        )} */}
 
         {metadata?.districts && metadata.districts.length > 0 && (
           <Dropdown

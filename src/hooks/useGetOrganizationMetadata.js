@@ -8,10 +8,6 @@ export const useGetOrganizationMetadata = () => {
     queryFn: async () => {
       const data = await organizationSvc.getOrganizationMetadata();
       return {
-        workWith: data.work_with.map((item) => ({
-          organizationWorkWithId: item.organization_work_with_id,
-          topic: item.topic,
-        })),
         districts: data.districts.map((item) => ({
           districtId: item.district_id,
           name: item.name,

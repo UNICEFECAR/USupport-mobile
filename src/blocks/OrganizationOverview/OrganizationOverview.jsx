@@ -36,15 +36,44 @@ const OrganizationDetails = ({ organization, t }) => {
   const { colors } = useGetTheme();
 
   const renderWorkWith = useCallback(() => {
-    if (organization && organization.workWith) {
-      return organization.workWith.map((x) => t(x.topic))?.join(", ");
+    // Fixed: workWith is now a string, not an array
+    if (
+      organization &&
+      organization.workWith &&
+      typeof organization.workWith === "string" &&
+      organization.workWith.trim().length > 0
+    ) {
+      return organization.workWith;
     }
     return "";
-  }, [organization, t]);
+  }, [organization]);
 
   const renderSpecialisations = useCallback(() => {
     if (organization && organization.specialisations) {
       return organization.specialisations.map((x) => t(x.name))?.join(", ");
+    }
+    return "";
+  }, [organization, t]);
+
+  const renderPaymentMethods = useCallback(() => {
+    if (organization && organization.paymentMethods?.length > 0) {
+      return organization.paymentMethods.map((x) => t(x.name))?.join(", ");
+    }
+    return "";
+  }, [organization, t]);
+
+  const renderUserInteractions = useCallback(() => {
+    if (organization && organization.userInteractions?.length > 0) {
+      return organization.userInteractions
+        .map((x) => t(x.name + "_interaction"))
+        ?.join(", ");
+    }
+    return "";
+  }, [organization, t]);
+
+  const renderPropertyTypes = useCallback(() => {
+    if (organization && organization.propertyTypes?.length > 0) {
+      return organization.propertyTypes.map((x) => t(x.name))?.join(", ");
     }
     return "";
   }, [organization, t]);
@@ -114,11 +143,6 @@ const OrganizationDetails = ({ organization, t }) => {
               <Icon name="share" size="sm" color={colors.text} />
             </TouchableOpacity>
           </View>
-          {organization.unitName && (
-            <AppText namedStyle="smallText" style={styles.marginTop4}>
-              {organization.unitName}
-            </AppText>
-          )}
         </View>
       </View>
 
@@ -180,18 +204,38 @@ const OrganizationDetails = ({ organization, t }) => {
         </View>
       )}
 
-      {organization.paymentMethod?.name && (
+      {/* Updated: Handle multiple payment methods */}
+      {renderPaymentMethods() && (
         <View style={styles.infoSection}>
           <AppText style={[styles.headingText, { color: colors.text }]}>
-            {t("payment_method_label")}
+            {t("payment_methods_label")}
           </AppText>
-          <AppText style={styles.infoText}>
-            {t(organization.paymentMethod.name)}
-          </AppText>
+          <AppText style={styles.infoText}>{renderPaymentMethods()}</AppText>
         </View>
       )}
 
-      {organization.workWith?.length > 0 && (
+      {/* Updated: Handle multiple user interactions */}
+      {renderUserInteractions() && (
+        <View style={styles.infoSection}>
+          <AppText style={[styles.headingText, { color: colors.text }]}>
+            {t("user_interactions_label")}
+          </AppText>
+          <AppText style={styles.infoText}>{renderUserInteractions()}</AppText>
+        </View>
+      )}
+
+      {/* Added: Property types section */}
+      {renderPropertyTypes() && (
+        <View style={styles.infoSection}>
+          <AppText style={[styles.headingText, { color: colors.text }]}>
+            {t("property_types_label")}
+          </AppText>
+          <AppText style={styles.infoText}>{renderPropertyTypes()}</AppText>
+        </View>
+      )}
+
+      {/* Fixed: workWith condition and rendering */}
+      {renderWorkWith() && (
         <View style={styles.infoSection}>
           <AppText style={[styles.headingText, { color: colors.text }]}>
             {t("work_with_label")}

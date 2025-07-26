@@ -8,7 +8,6 @@ export default function useGetOrganizationById(organizationId) {
     return {
       organizationId: data.organization_id,
       name: data.name,
-      unitName: data?.unit_name,
       websiteUrl: data?.website_url,
       address: data?.address,
       phone: data?.phone,
@@ -30,7 +29,7 @@ export default function useGetOrganizationById(organizationId) {
         id: data?.user_interaction_id,
         name: data?.user_interaction,
       },
-      workWith: data?.work_with || [],
+      workWith: data?.work_with || "",
       providers: data?.providers || [],
       createdBy: data?.created_by,
       createdAt: data?.created_at,
