@@ -4,3 +4,4 @@ export * as MoodTrackerMoreInformation from "./MoodTrackerMoreInformation/locale
 export * as PaymentInformation from "./PaymentInformation/locales";
 export * as HowItWorksMyQA from "./HowItWorksMyQA/locales";
 export * as DeleteChatHistory from "./DeleteChatHistory/locales";
+export * as BaselineAssesmentModal from "./BaselineAssesmentModal/locales";
