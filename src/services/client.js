@@ -244,6 +244,11 @@ async function sendPlatformSuggestion({ suggestion, type }) {
   return response;
 }
 
+async function createScreeningSession() {
+  const response = await http.post(`${API_ENDPOINT}/create-screening-session`);
+  return response;
+}
+
 const exportedFunctions = {
   addMoodTrack,
   getClientData,
@@ -274,6 +279,7 @@ const exportedFunctions = {
   getOrganizations,
   getOrganizationById,
   sendPlatformSuggestion,
+  createScreeningSession,
 };
 
 export default exportedFunctions;
