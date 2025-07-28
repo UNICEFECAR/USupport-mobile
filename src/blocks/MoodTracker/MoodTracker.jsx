@@ -72,12 +72,12 @@ export const MoodTracker = ({ navigation }) => {
             size={emoticon.isSelected ? "lg" : "sm"}
           />
           <AppText
-            numberOfLines={1}
-            adjustsFontSizeToFit
+            numberOfLines={2}
             namedStyle="smallText"
             style={[
               styles.textSelected,
               {
+                textAlign: "center",
                 color: colors.textTertiary,
               },
             ]}
