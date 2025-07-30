@@ -16,7 +16,11 @@ import { Context } from "#services";
  *
  * @return {jsx}
  */
-export const MoodTracker = ({ navigation }) => {
+export const MoodTracker = ({
+  navigation,
+  clientData,
+  openRequireDataAgreement,
+}) => {
   const { colors } = useGetTheme();
   const { t, i18n } = useTranslation("mood-tracker");
   const { isTmpUser, handleRegistrationModalOpen } = useContext(Context);
@@ -103,6 +107,10 @@ export const MoodTracker = ({ navigation }) => {
 
   const handleEmoticonClick = (value) => {
     if (isMoodTrackCompleted) return;
+    if (!clientData.dataProcessing) {
+      openRequireDataAgreement(false);
+      return;
+    }
     const newEmoticons = [...emoticons];
     for (let i = 0; i < newEmoticons.length; i++) {
       const currentMood = newEmoticons[i];
@@ -130,6 +138,9 @@ export const MoodTracker = ({ navigation }) => {
   const handleMoodtrackClick = () => {
     if (isTmpUser) {
       handleRegistrationModalOpen();
+      return;
+    } else if (!clientData.dataProcessing) {
+      openRequireDataAgreement(false);
       return;
     }
     navigation.navigate("MoodTrackHistory");

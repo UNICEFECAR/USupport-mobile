@@ -137,12 +137,8 @@ export const Dashboard = ({ navigation }) => {
     useState(true);
   const [isRequireDataAgreementOpen, setIsRequireDataAgreementOpen] =
     useState(false);
-  const openRequireDataAgreement = (successAction) => {
-    if (successAction) {
-      setShouldRedirectToSelectProvider(false);
-    } else {
-      setShouldRedirectToSelectProvider(true);
-    }
+  const openRequireDataAgreement = (shouldRedirect = true) => {
+    setShouldRedirectToSelectProvider(shouldRedirect);
     setIsRequireDataAgreementOpen(true);
   };
   const closeRequireDataAgreement = () => setIsRequireDataAgreementOpen(false);
@@ -281,7 +277,7 @@ export const Dashboard = ({ navigation }) => {
   };
   const handleScheduleConsultation = () => {
     if (!clientData.dataProcessing) {
-      openRequireDataAgreement();
+      openRequireDataAgreement(true);
     } else {
       navigation.push("SelectProvider");
     }
@@ -350,7 +346,11 @@ export const Dashboard = ({ navigation }) => {
             />
           )}
         </MascotHeadingBlock>
-        <MoodTracker navigation={navigation} />
+        <MoodTracker
+          navigation={navigation}
+          clientData={clientData}
+          openRequireDataAgreement={openRequireDataAgreement}
+        />
         <ArticlesDashboard
           navigation={navigation}
           openArticlesModal={openArticlesModal}
