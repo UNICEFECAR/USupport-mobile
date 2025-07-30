@@ -17,5 +17,9 @@
   "contact_reason_2": "Potrzebuję więcej informacji na temat usług świadczonych za pośrednictwem platformy",
   "contact_reason_3": "Jestem klientem i mam problem techniczny",
   "contact_reason_4": "Coś innego",
+  "contact_reason_1_pl": "Informacje o uSupport",
+  "contact_reason_2_pl": "Problem techniczny",
+  "contact_reason_3_pl": "Skarga",
+  "contact_reason_4_pl": "Coś innego",
   "success": "Zagadnienie zostało pomyślnie zgłoszone. Wkrótce się odezwiemy"
 }

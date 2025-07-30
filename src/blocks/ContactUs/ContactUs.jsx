@@ -1,6 +1,6 @@
 import "fast-text-encoding";
 import Joi from "joi";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -13,6 +13,8 @@ import { useTranslation } from "react-i18next";
 import { Block, Heading, Dropdown, Textarea, AppButton } from "#components";
 
 import { useSendIssueEmail } from "#hooks";
+
+import { Context } from "#services";
 
 import { validate, showToast } from "#utils";
 
@@ -31,11 +33,32 @@ const initialData = {
 export const ContactUs = ({ navigation }) => {
   const { t } = useTranslation("contact-us-block");
   const [data, setData] = useState({ ...initialData });
+
+  const { country } = useContext(Context);
+
+  const IS_PL = country === "PL";
+
   const [issues, setIssues] = useState([
-    { label: t("contact_reason_1"), value: "reason-1", selected: false },
-    { label: t("contact_reason_2"), value: "reason-2", selected: false },
-    { label: t("contact_reason_3"), value: "reason-3", selected: false },
-    { label: t("contact_reason_4"), value: "reason-4", selected: false },
+    {
+      label: t(IS_PL ? "contact_reason_1_pl" : "contact_reason_1"),
+      value: IS_PL ? "reason-1_pl" : "reason-1",
+      selected: false,
+    },
+    {
+      label: t(IS_PL ? "contact_reason_2_pl" : "contact_reason_2"),
+      value: IS_PL ? "reason-2_pl" : "reason-2",
+      selected: false,
+    },
+    {
+      label: t(IS_PL ? "contact_reason_3_pl" : "contact_reason_3"),
+      value: IS_PL ? "reason-3_pl" : "reason-3",
+      selected: false,
+    },
+    {
+      label: t(IS_PL ? "contact_reason_4_pl" : "contact_reason_4"),
+      value: IS_PL ? "reason-4_pl" : "reason-4",
+      selected: false,
+    },
   ]);
   const [errors, setErrors] = useState({});
   const [canSubmit, setCanSubmit] = useState(false);

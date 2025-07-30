@@ -17,5 +17,9 @@
   "contact_reason_2": "I need more info about the services provided through the platform",
   "contact_reason_3": "I am a client and I am experiencing a technical problem",
   "contact_reason_4": "Something else",
+  "contact_reason_1_pl": "Information about uSupport",
+  "contact_reason_2_pl": "Technical problem",
+  "contact_reason_3_pl": "Complaint",
+  "contact_reason_4_pl": "Something else",
   "success": "Your issue was reported successfully. We'll get back to you soon"
 }
