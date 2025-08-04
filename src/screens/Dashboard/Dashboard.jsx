@@ -35,7 +35,7 @@ import {
   ArticleCategories,
 } from "#backdrops";
 
-import { RequireDataAgreement } from "#modals";
+import { BaselineAssesmentModal, RequireDataAgreement } from "#modals";
 import { appStyles } from "#styles";
 import { Context } from "#services";
 
@@ -322,6 +322,7 @@ export const Dashboard = ({ navigation }) => {
 
   return (
     <Screen hasHeaderNavigation t={t} hasEmergencyButton={false}>
+      <BaselineAssesmentModal navigation={navigation} />
       <ScrollView
         refreshControl={
           <RefreshControl
