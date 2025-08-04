@@ -38,3 +38,5 @@ export * as SetUpBiometrics from "./SetUpBiometrics/locales";
 export * as Videos from "./Videos/locales";
 export * as Organizations from "./Organizations/locales";
 export * as OrganizationOverview from "./OrganizationOverview/locales";
+export * as BaselineAssesment from "./BaselineAssesment/locales";
+export * as BaselineAssesmentResult from "./BaselineAssesmentResult/locales";
