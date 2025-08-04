@@ -25,3 +25,4 @@ export * from "./consultation";
 export * from "./tables";
 export * from "./charts";
 export * from "./map";
+export * from "./progress";
