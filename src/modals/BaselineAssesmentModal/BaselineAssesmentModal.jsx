@@ -17,7 +17,7 @@ import { appStyles } from "#styles";
  *
  * @return {jsx}
  */
-export const BaselineAssesmentModal = () => {
+export const BaselineAssesmentModal = ({ navigation }) => {
   const { t } = useTranslation("baseline-assesment-modal");
 
   const queryClient = useQueryClient();
@@ -43,7 +43,9 @@ export const BaselineAssesmentModal = () => {
     createScreeningSessionMutation.mutate(undefined, {
       onSuccess: (sessionData) => {
         onClose();
-        navigate(`/baseline-assesment/${sessionData.screeningSessionId}`);
+        navigation.navigate("BaselineAssesment", {
+          sessionId: sessionData.screeningSessionId,
+        });
       },
     });
     updateClientHasCheckedBaselineAssessmentMutation.mutate(true);
