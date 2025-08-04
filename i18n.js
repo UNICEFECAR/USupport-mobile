@@ -41,6 +41,7 @@ import {
   Videos,
   Organizations,
   OrganizationOverview,
+  BaselineAssesment,
 } from "./src/blocks/locales.js";
 
 import {
@@ -97,6 +98,7 @@ import {
   RequireRegistration,
   HowItWorksMyQA,
   DeleteChatHistory,
+  BaselineAssesmentModal,
 } from "./src/modals/locales.js";
 
 import { TabNavigation } from "./src/navigation/locales.js";
@@ -138,6 +140,7 @@ const resources = {
     videos: Videos.en,
     organizations: Organizations.en,
     "organization-overview": OrganizationOverview.en,
+    "baseline-assesment": BaselineAssesment.en,
 
     // Screens
     "activity-history": ActivityHistory.en,
@@ -196,6 +199,7 @@ const resources = {
     "require-registration": RequireRegistration.en,
     "how-it-works-my-qa": HowItWorksMyQA.en,
     "delete-chat-history": DeleteChatHistory.en,
+    "baseline-assesment-modal": BaselineAssesmentModal.en,
 
     // Navigation
     "tab-navigation": TabNavigation.en,
@@ -237,6 +241,7 @@ const resources = {
     videos: Videos.ru,
     organizations: Organizations.ru,
     "organization-overview": OrganizationOverview.ru,
+    "baseline-assesment": BaselineAssesment.ru,
 
     // Screens
     "activity-history": ActivityHistory.ru,
@@ -295,6 +300,7 @@ const resources = {
     "require-registration": RequireRegistration.ru,
     "how-it-works-my-qa": HowItWorksMyQA.ru,
     "delete-chat-history": DeleteChatHistory.ru,
+    "baseline-assesment-modal": BaselineAssesmentModal.ru,
 
     // Navigation
     "tab-navigation": TabNavigation.ru,
@@ -336,6 +342,7 @@ const resources = {
     videos: Videos.kk,
     organizations: Organizations.kk,
     "organization-overview": OrganizationOverview.kk,
+    "baseline-assesment": BaselineAssesment.kk,
 
     // Screens
     "activity-history": ActivityHistory.kk,
@@ -393,6 +400,7 @@ const resources = {
     "require-registration": RequireRegistration.kk,
     "how-it-works-my-qa": HowItWorksMyQA.kk,
     "delete-chat-history": DeleteChatHistory.kk,
+    "baseline-assesment-modal": BaselineAssesmentModal.kk,
 
     // Navigation
     "tab-navigation": TabNavigation.kk,
@@ -434,6 +442,7 @@ const resources = {
     videos: Videos.uk,
     organizations: Organizations.uk,
     "organization-overview": OrganizationOverview.uk,
+    "baseline-assesment": BaselineAssesment.uk,
 
     // Screens
     "activity-history": ActivityHistory.uk,
@@ -492,6 +501,7 @@ const resources = {
     "require-registration": RequireRegistration.uk,
     "how-it-works-my-qa": HowItWorksMyQA.uk,
     "delete-chat-history": DeleteChatHistory.uk,
+    "baseline-assesment-modal": BaselineAssesmentModal.uk,
 
     // Navigation
     "tab-navigation": TabNavigation.uk,
@@ -533,6 +543,7 @@ const resources = {
     videos: Videos.pl,
     organizations: Organizations.pl,
     "organization-overview": OrganizationOverview.pl,
+    "baseline-assesment": BaselineAssesment.pl,
 
     // Screens
     "activity-history": ActivityHistory.pl,
@@ -591,6 +602,7 @@ const resources = {
     "require-registration": RequireRegistration.pl,
     "how-it-works-my-qa": HowItWorksMyQA.pl,
     "delete-chat-history": DeleteChatHistory.pl,
+    "baseline-assesment-modal": BaselineAssesmentModal.pl,
 
     // Navigation
     "tab-navigation": TabNavigation.pl,
