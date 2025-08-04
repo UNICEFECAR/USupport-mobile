@@ -15,6 +15,7 @@ const cookiePolicyEndpoint = CMS_API_URL + "/policy-cookies";
 const termsOfUseEndpoint = CMS_API_URL + "/terms-of-uses";
 const videosEndpoint = CMS_API_URL + "/videos";
 const podcastsEndpoint = CMS_API_URL + "/podcasts";
+const assessmentResultEndpoint = CMS_API_URL + "/assessment-results";
 
 /**
  * generate a querry string from an object
@@ -417,6 +418,23 @@ async function getRecommendedArticlesForCategory(payload) {
   return data;
 }
 
+/**
+ * Get assessment result based on psychological, social, and biological scores
+ * @param {object} queryObj - the object containing query parameters
+ * @param {string} queryObj.language - the language/locale for the results
+ * @param {number} queryObj.psychological - 'low', 'moderate', 'high'
+ * @param {number} queryObj.social - 'low', 'moderate', 'high'
+ * @param {number} queryObj.biological - 'low', 'moderate', 'high'
+ * @returns {object} assessment result data
+ */
+async function getAssessmentResult(queryObj) {
+  const queryString = `?populate[articles][populate]=*&populate[podcasts][populate]=*&populate[videos][populate]=*&filters[psychological][$eq]=${queryObj.psychological}&filters[social][$eq]=${queryObj.social}&filters[biological][$eq]=${queryObj.biological}`;
+
+  const { data } = await http.get(`${assessmentResultEndpoint}${queryString}`);
+
+  return { data };
+}
+
 export default {
   getArticles,
   getArticleById,
@@ -440,4 +458,5 @@ export default {
   getPodcastById,
   getPodcastLocales,
   getRecommendedArticlesForCategory,
+  getAssessmentResult,
 };

@@ -244,8 +244,50 @@ async function sendPlatformSuggestion({ suggestion, type }) {
   return response;
 }
 
+async function getScreeningQuestions() {
+  const response = await http.get(`${API_ENDPOINT}/screening/questions`);
+  return response;
+}
+
 async function createScreeningSession() {
-  const response = await http.post(`${API_ENDPOINT}/create-screening-session`);
+  const response = await http.post(`${API_ENDPOINT}/screening/create-session`);
+  return response;
+}
+
+async function addScreeningAnswer({
+  questionId,
+  answerValue,
+  screeningSessionId,
+}) {
+  const response = await http.post(`${API_ENDPOINT}/screening/add-answer`, {
+    questionId,
+    answerValue,
+    screeningSessionId,
+  });
+  return response;
+}
+
+async function getScreeningSessions() {
+  const response = await http.get(`${API_ENDPOINT}/screening/sessions`);
+  return response;
+}
+
+async function getClientAnswersForSessionById(sessionId) {
+  const response = await http.get(
+    `${API_ENDPOINT}/screening/answers?sessionId=${sessionId}`
+  );
+  return response;
+}
+
+async function updateClientHasCheckedBaselineAssessment(
+  hasCheckedBaselineAssessment
+) {
+  const response = await http.patch(
+    `${API_ENDPOINT}/has-checked-baseline-assesment`,
+    {
+      hasCheckedBaselineAssessment,
+    }
+  );
   return response;
 }
 
@@ -280,6 +322,11 @@ const exportedFunctions = {
   getOrganizationById,
   sendPlatformSuggestion,
   createScreeningSession,
+  getScreeningQuestions,
+  getScreeningSessions,
+  getClientAnswersForSessionById,
+  updateClientHasCheckedBaselineAssessment,
+  addScreeningAnswer,
 };
 
 export default exportedFunctions;
