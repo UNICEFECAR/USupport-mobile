@@ -1,0 +1,8 @@
+{
+  "started_at": "Rozpoczęto {{date}}",
+  "continue": "Kontynuuj",
+  "view": "Zobacz",
+  "in_progress": "W trakcie",
+  "completed": "Zakończono",
+  "completed_at": "Zakończono {{date}}"
+}

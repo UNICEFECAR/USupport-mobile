@@ -1,0 +1,8 @@
+{
+  "started_at": "{{date}} басталды",
+  "continue": "Жалғастыру",
+  "view": "Қарау",
+  "in_progress": "Орындау үстінде",
+  "completed": "Аяқталды",
+  "completed_at": "{{date}} аяқталды"
+}

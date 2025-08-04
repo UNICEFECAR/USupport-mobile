@@ -123,4 +123,5 @@ export {
   checkIsLikedAndDisliked,
   constructShareUrl,
   constructWebsiteUrl,
+  createArticleSlug,
 };
