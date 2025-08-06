@@ -29,7 +29,9 @@ import { Context } from "#services";
  */
 export const InformationalPortal = ({ navigation }) => {
   const { isDarkMode } = useGetTheme();
-  const { t } = useTranslation("informational-portal-screen");
+  const { t } = useTranslation("screens", {
+    keyPrefix: "informational-portal-screen",
+  });
   const queryClient = useQueryClient();
   const [refreshing, setRefreshing] = useState(false);
 

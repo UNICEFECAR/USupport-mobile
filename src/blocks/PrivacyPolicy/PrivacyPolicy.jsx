@@ -22,7 +22,7 @@ export const PrivacyPolicy = ({
   isModal = false,
   handleModalClose,
 }) => {
-  const { i18n, t } = useTranslation("privacy-policy");
+  const { i18n, t } = useTranslation("blocks", { keyPrefix: "privacy-policy" });
   const { top: topInset } = useSafeAreaInsets();
 
   //--------------------- Country Change Event Listener ----------------------//

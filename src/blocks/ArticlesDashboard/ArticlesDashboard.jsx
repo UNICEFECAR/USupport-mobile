@@ -40,7 +40,9 @@ export const ArticlesDashboard = ({
   selectCategory,
   allCategories,
 }) => {
-  const { t, i18n } = useTranslation("articles-dashboard");
+  const { t, i18n } = useTranslation("blocks", {
+    keyPrefix: "articles-dashboard",
+  });
 
   const [usersLanguage, setUsersLanguage] = useState(i18n.language);
   const [showAgeGroups, setShowAgeGroups] = useState(true);

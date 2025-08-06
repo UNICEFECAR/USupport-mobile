@@ -14,7 +14,7 @@ export const EditConsultation = ({
   openSelectConsultation,
   currencySymbol,
 }) => {
-  const { t } = useTranslation("edit-consultation");
+  const { t } = useTranslation("backdrops", { keyPrefix: "edit-consultation" });
   const { providerName, timestamp, image, price } = consultation;
 
   const imageUrl = image || "default";

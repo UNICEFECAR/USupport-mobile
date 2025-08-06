@@ -16,7 +16,7 @@ import { localStorage, cmsSvc, adminSvc } from "#services";
  * @return {jsx}
  */
 export const SOSCenter = () => {
-  const { i18n, t } = useTranslation("sos-center");
+  const { i18n, t } = useTranslation("blocks", { keyPrefix: "sos-center" });
 
   //--------------------- Country Change Event Listener ----------------------//
   const [currentCountry, setCurrentCountry] = useState();

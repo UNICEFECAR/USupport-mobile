@@ -33,7 +33,9 @@ export const ConsultationsDashboard = ({
   isTmpUser,
 }) => {
   const { isDarkMode } = useGetTheme();
-  const { t } = useTranslation("consultations-dashboard");
+  const { t } = useTranslation("blocks", {
+    keyPrefix: "consultations-dashboard",
+  });
   const width = appStyles.screenWidth * 0.96;
 
   const handleViewAll = () => {

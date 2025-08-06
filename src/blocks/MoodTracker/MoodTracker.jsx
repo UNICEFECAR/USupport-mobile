@@ -22,7 +22,7 @@ export const MoodTracker = ({
   openRequireDataAgreement,
 }) => {
   const { colors } = useGetTheme();
-  const { t, i18n } = useTranslation("mood-tracker");
+  const { t, i18n } = useTranslation("blocks", { keyPrefix: "mood-tracker" });
   const { isTmpUser, handleRegistrationModalOpen } = useContext(Context);
   const queryClient = useQueryClient();
 

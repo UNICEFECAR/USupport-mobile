@@ -12,7 +12,7 @@ import { Videos as VideosBlock } from "#blocks";
  * @returns {JSX.Element}
  */
 export const Videos = ({ navigation, route }) => {
-  const { t } = useTranslation("videos-screen");
+  const { t } = useTranslation("screens", { keyPrefix: "videos-screen" });
   const sort = route.params?.sort;
 
   let heading = t("heading_default");

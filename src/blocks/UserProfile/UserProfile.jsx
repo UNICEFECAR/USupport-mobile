@@ -26,7 +26,7 @@ const { AMAZON_S3_BUCKET } = Config;
  */
 export const UserProfile = ({ navigation }) => {
   const { isDarkMode, colors } = useGetTheme();
-  const { t, i18n } = useTranslation("user-profile");
+  const { t, i18n } = useTranslation("blocks", { keyPrefix: "user-profile" });
   const { theme, setTheme, isTmpUser, handleRegistrationModalOpen, country } =
     useContext(Context);
 

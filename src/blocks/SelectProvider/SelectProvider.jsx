@@ -23,7 +23,7 @@ export const SelectProvider = ({
   isFiltering,
   onRefresh,
 }) => {
-  const { t } = useTranslation("select-provider");
+  const { t } = useTranslation("blocks", { keyPrefix: "select-provider" });
   const { currencySymbol } = useContext(Context);
 
   const handleProviderClick = (providerId) => {

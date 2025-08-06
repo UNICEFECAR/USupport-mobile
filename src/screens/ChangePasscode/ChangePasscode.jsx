@@ -13,7 +13,9 @@ import { ChangePasscode as ChangePasscodeBlock } from "#blocks";
  * @returns {JSX.Element}
  */
 export const ChangePasscode = ({ navigation, route }) => {
-  const { t } = useTranslation("change-passcode-screen");
+  const { t } = useTranslation("screens", {
+    keyPrefix: "change-passcode-screen",
+  });
 
   const { hasGoBackArrow } = route.params || true;
 

@@ -21,7 +21,7 @@ import { showToast } from "../../utils/showToast";
  * @return {jsx}
  */
 export const PlatformRating = ({ navigation }) => {
-  const { t } = useTranslation("platform-rating");
+  const { t } = useTranslation("blocks", { keyPrefix: "platform-rating" });
 
   const [data, setData] = useState({
     rating: 5,

@@ -36,7 +36,7 @@ import { useError } from "#hooks";
 
 export const RegisterEmail = ({ navigation }) => {
   const { setInitialRouteName, setToken } = useContext(Context);
-  const { t } = useTranslation("register-email");
+  const { t } = useTranslation("blocks", { keyPrefix: "register-email" });
   const queryClient = useQueryClient();
 
   const schema = Joi.object({

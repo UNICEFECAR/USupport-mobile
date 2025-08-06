@@ -17,7 +17,7 @@ import { useGetTheme } from "#hooks";
  * @returns {JSX.Element}
  */
 export const Passcode = ({ navigation }) => {
-  const { t } = useTranslation("passcode");
+  const { t } = useTranslation("block", { keyPrefix: "passcode" });
   const { colors } = useGetTheme();
   const { token } = useContext(Context);
 

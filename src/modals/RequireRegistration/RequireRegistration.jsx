@@ -11,7 +11,7 @@ import { TransparentModal } from "#components";
  * @return {jsx}
  */
 export const RequireRegistration = ({ handleContinue, isOpen, onClose }) => {
-  const { t } = useTranslation("require-registration");
+  const { t } = useTranslation("modals", { keyPrefix: "require-registration" });
 
   return (
     <TransparentModal

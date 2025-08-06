@@ -31,7 +31,7 @@ const initialData = {
  * @return {jsx}
  */
 export const ContactUs = ({ navigation }) => {
-  const { t } = useTranslation("contact-us-block");
+  const { t } = useTranslation("blocks", { keyPrefix: "contact-us-block" });
   const [data, setData] = useState({ ...initialData });
 
   const { country } = useContext(Context);

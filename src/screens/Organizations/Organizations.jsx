@@ -23,7 +23,9 @@ const INITIAL_FILTERS = {
  * @returns {JSX.Element}
  */
 export const Organizations = ({ navigation }) => {
-  const { t } = useTranslation("organizations-screen");
+  const { t } = useTranslation("screens", {
+    keyPrefix: "organizations-screen",
+  });
 
   const [filters, setFilters] = useState(INITIAL_FILTERS);
   const [isFilterOpen, setIsFilterOpen] = useState(false);

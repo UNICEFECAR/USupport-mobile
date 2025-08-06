@@ -41,7 +41,9 @@ import { parseUTCDate } from "#utils";
  * @returns {JSX.Element}
  */
 export const Consultations = ({ navigation }) => {
-  const { t } = useTranslation("consultations-screen");
+  const { t } = useTranslation("screens", {
+    keyPrefix: "consultations-screen",
+  });
 
   const { isTmpUser, handleRegistrationModalOpen, currencySymbol } =
     useContext(Context);

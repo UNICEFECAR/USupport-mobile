@@ -21,7 +21,7 @@ import { useGetMoodTrackEntries, useSwipe } from "#hooks";
  * @return {JSX.Element}
  */
 export const MoodTrackHistory = ({}) => {
-  const { t } = useTranslation("mood-track-history");
+  const { t } = useTranslation("blocks", { keyPrefix: "mood-track-history" });
 
   const [pageNum, setPageNum] = useState(0);
   const limit = `pageNum_${pageNum}_limitToLoad_5`;

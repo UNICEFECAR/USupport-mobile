@@ -32,7 +32,7 @@ import { localStorage, adminSvc, cmsSvc } from "#services";
  * @returns {JSX.Element}
  */
 export const Videos = ({ navigation, showSearch, showCategories, sort }) => {
-  const { t, i18n } = useTranslation("videos");
+  const { t, i18n } = useTranslation("blocks", { keyPrefix: "videos" });
 
   const [usersLanguage, setUsersLanguage] = useState(i18n.language);
 

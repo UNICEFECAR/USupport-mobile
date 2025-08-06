@@ -16,7 +16,7 @@ import { showToast } from "../../utils/showToast";
  */
 export const JoinConsultation = ({ isOpen, onClose, consultation }) => {
   const navigation = useNavigation();
-  const { t } = useTranslation("join-consultation");
+  const { t } = useTranslation("backdrops", { keyPrefix: "join-consultation" });
 
   const handleClick = async (redirectTo) => {
     try {

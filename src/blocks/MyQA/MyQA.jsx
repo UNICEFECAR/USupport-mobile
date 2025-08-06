@@ -38,7 +38,7 @@ export const MyQA = ({
   setSelectedLanguage,
   setShouldFetchQuestions,
 }) => {
-  const { t, i18n } = useTranslation("my-qa");
+  const { t, i18n } = useTranslation("blocks", { keyPrefix: "my-qa" });
 
   const [searchValue, setSearchValue] = useState("");
   const selectedTab = tabs.find((x) => x.isSelected)?.value;

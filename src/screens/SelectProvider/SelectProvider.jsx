@@ -39,7 +39,9 @@ const fetchCountry = async () => {
  * @returns {JSX.Element}
  */
 export const SelectProvider = ({ navigation }) => {
-  const { t } = useTranslation("select-provider-screen");
+  const { t } = useTranslation("screens", {
+    keyPrefix: "select-provider-screen",
+  });
   const queryClient = useQueryClient();
 
   const { activeCoupon, setActiveCoupon } = useContext(Context);

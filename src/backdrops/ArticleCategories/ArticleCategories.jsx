@@ -20,7 +20,9 @@ export const ArticleCategories = ({
   selectedCategory,
   handleSetCategories,
 }) => {
-  const { t } = useTranslation("article-categories");
+  const { t } = useTranslation("backdrops", {
+    keyPrefix: "article-categories",
+  });
   const handleCategoryOnPress = useCallback(
     (index) => {
       const categoriesCopy = [...allCategories];

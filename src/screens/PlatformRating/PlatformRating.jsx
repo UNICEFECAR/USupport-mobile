@@ -13,7 +13,9 @@ import { Screen, Heading } from "#components";
  * @returns {JSX.Element}
  */
 export const PlatformRating = ({ navigation }) => {
-  const { t } = useTranslation("platfrom-rating-screen");
+  const { t } = useTranslation("screens", {
+    keyPrefix: "platfrom-rating-screen",
+  });
 
   return (
     <Screen>

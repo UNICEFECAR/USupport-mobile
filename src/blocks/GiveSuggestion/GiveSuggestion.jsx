@@ -29,7 +29,7 @@ export const GiveSuggestion = ({
   navigation,
   style,
 }) => {
-  const { t } = useTranslation("give-suggestion");
+  const { t } = useTranslation("blocks", { keyPrefix: "give-suggestion" });
   const { isTmpUser, handleRegistrationModalOpen } = useContext(Context);
 
   const [data, setData] = useState({ ...initialData });

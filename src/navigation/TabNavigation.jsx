@@ -26,7 +26,7 @@ import { Context } from "#services";
 
 export const TabNavigation = () => {
   const { colors, isDarkMode } = useGetTheme();
-  const { t } = useTranslation("tab-navigation");
+  const { t } = useTranslation("navigation", { keyPrefix: "tab-navigation" });
   const { country } = useContext(Context);
 
   const [isShown, setIsShown] = useState(true);

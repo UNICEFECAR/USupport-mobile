@@ -9,7 +9,9 @@ import { constructShareUrl } from "#utils";
 import Share from "react-native-share";
 
 export const OrganizationOverview = ({ organizationId }) => {
-  const { t } = useTranslation("organization-overview");
+  const { t } = useTranslation("blocks", {
+    keyPrefix: "organization-overview",
+  });
 
   const {
     data: organization,

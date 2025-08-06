@@ -62,7 +62,7 @@ const { SOCKET_IO_URL } = Config;
  * @returns {JSX.Element}
  */
 export const Consultation = ({ navigation, route }) => {
-  const { t } = useTranslation("consultation-page");
+  const { t } = useTranslation("screens", { keyPrefix: "consultation-page" });
   const location = route.params;
   const backdropMessagesContainerRef = useRef();
 

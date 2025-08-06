@@ -29,7 +29,9 @@ export const InformationalPortal = ({
   navigation,
   contentType = "articles",
 }) => {
-  const { t, i18n } = useTranslation("information-portal");
+  const { t, i18n } = useTranslation("blocks", {
+    keyPrefix: "information-portal",
+  });
 
   //--------------------- Country Change Event Listener ----------------------//
   const [currentCountry, setCurrentCountry] = useState();

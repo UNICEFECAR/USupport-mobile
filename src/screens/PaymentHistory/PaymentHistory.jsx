@@ -13,7 +13,9 @@ import { PaymentHistory as PaymentHistoryBlock } from "#blocks";
  * @returns {JSX.Element}
  */
 export const PaymentHistory = ({ navigation }) => {
-  const { t } = useTranslation("payment-history-screen");
+  const { t } = useTranslation("screens", {
+    keyPrefix: "payment-history-screen",
+  });
 
   return (
     <Screen>

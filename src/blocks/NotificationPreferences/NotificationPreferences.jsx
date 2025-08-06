@@ -26,7 +26,9 @@ import {
  * @return {jsx}
  */
 export const NotificationPreferences = () => {
-  const { t } = useTranslation("notification-preferences");
+  const { t } = useTranslation("blocks", {
+    keyPrefix: "notification-preferences",
+  });
   const { country } = useContext(Context);
 
   const minutes = [15, 30, 45, 60];

@@ -38,7 +38,7 @@ import { Context } from "#services";
  * @returns {JSX.Element}
  */
 export const MyQA = ({ navigation }) => {
-  const { t } = useTranslation("my-qa-screen");
+  const { t } = useTranslation("screens", { keyPrefix: "my-qa-screen" });
 
   const { isTmpUser, handleRegistrationModalOpen } = useContext(Context);
 

@@ -61,7 +61,7 @@ const { AMAZON_S3_BUCKET } = Config;
  * @returns {JSX.Element}
  */
 export const Dashboard = ({ navigation }) => {
-  const { t } = useTranslation("dashboard");
+  const { t } = useTranslation("screens", { keyPrefix: "dashboard" });
   const { isDarkMode } = useGetTheme();
   const isFocused = useIsFocused();
   const {

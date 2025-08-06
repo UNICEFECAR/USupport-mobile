@@ -23,7 +23,9 @@ export const MoodTrackerMoreInformation = ({
   emoticons,
   moodTrack,
 }) => {
-  const { t } = useTranslation("mood-tracker-more-information");
+  const { t } = useTranslation("modals", {
+    keyPrefix: "mood-tracker-more-information",
+  });
 
   const date = moodTrack.time;
   const day = date?.getDate();

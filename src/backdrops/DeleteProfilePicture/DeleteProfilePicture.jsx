@@ -14,7 +14,9 @@ import { clientSvc } from "#services";
  * @return {jsx}
  */
 export const DeleteProfilePicture = ({ isOpen, onClose }) => {
-  const { t } = useTranslation("delete-profile-picture");
+  const { t } = useTranslation("backdrops", {
+    keyPrefix: "delete-profile-picture",
+  });
   const [error, setError] = useState();
   const queryClient = useQueryClient();
 

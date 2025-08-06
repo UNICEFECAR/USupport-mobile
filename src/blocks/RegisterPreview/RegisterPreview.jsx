@@ -26,7 +26,7 @@ const { AMAZON_S3_BUCKET } = Config;
  */
 export const RegisterPreview = ({ navigation }) => {
   const { colors } = useGetTheme();
-  const { t } = useTranslation("register-preview");
+  const { t } = useTranslation("blocks", { keyPrefix: "register-preview" });
   const [error, setErrror] = useState();
   const queryClient = useQueryClient();
 

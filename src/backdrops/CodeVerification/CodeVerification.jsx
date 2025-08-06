@@ -15,7 +15,7 @@ export default function CodeVerification({
   submitError,
   isMutating,
 }) {
-  const { t } = useTranslation("code-verification");
+  const { t } = useTranslation("backdrops", { keyPrefix: "code-verification" });
   useEffect(() => {
     data[0].reference.current?.focus();
   }, []);

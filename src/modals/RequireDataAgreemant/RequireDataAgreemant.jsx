@@ -29,7 +29,9 @@ export const RequireDataAgreement = ({
 }) => {
   const { colors } = useGetTheme();
   const queryClient = useQueryClient();
-  const { t } = useTranslation("require-data-agreement");
+  const { t } = useTranslation("modals", {
+    keyPrefix: "require-data-agreement",
+  });
 
   const updateDataProcessing = async () => {
     await clientSvc.changeDataProcessingAgreement(true);

@@ -13,7 +13,9 @@ import { SafetyFeedback as SafetyFeedbackBlock } from "#blocks";
  * @return {jsx}
  */
 export const SafetyFeedback = ({ navigation, answers, consultationId }) => {
-  const { t } = useTranslation("safety-feedback-screen");
+  const { t } = useTranslation("screens", {
+    keyPrefix: "safety-feedback-screen",
+  });
 
   return (
     <Screen hasEmergencyButton={false}>

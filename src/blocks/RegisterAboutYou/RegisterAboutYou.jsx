@@ -27,7 +27,7 @@ import { localStorage, Context } from "#services";
  * @return {jsx}
  */
 export const RegisterAboutYou = ({ navigation }) => {
-  const { t } = useTranslation("register-about-you");
+  const { t } = useTranslation("blocks", { keyPrefix: "register-about-you" });
 
   const queryClient = useQueryClient();
   const countriesData = queryClient.getQueryData(["countries"]);
