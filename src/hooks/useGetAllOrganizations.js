@@ -3,14 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { clientSvc } from "#services";
 
 export const useGetAllOrganizations = (filters) => {
-  const {
-    search,
-    workWith,
-    district,
-    paymentMethod,
-    userInteraction,
-    specialisation,
-  } = filters;
+  const { search, district, paymentMethod, userInteraction, specialisation } =
+    filters;
 
   const fetchOrganizations = async () => {
     const { data } = await clientSvc.getOrganizations(filters);
@@ -39,7 +33,6 @@ export const useGetAllOrganizations = (filters) => {
         id: organization?.user_interaction_id,
         name: organization?.user_interaction,
       },
-      workWith: organization?.work_with || [],
       providers: organization?.providers || [],
       createdBy: organization?.created_by,
       createdAt: organization?.created_at,
@@ -55,7 +48,6 @@ export const useGetAllOrganizations = (filters) => {
     queryKey: [
       "organizations",
       search,
-      workWith,
       district,
       paymentMethod,
       userInteraction,
