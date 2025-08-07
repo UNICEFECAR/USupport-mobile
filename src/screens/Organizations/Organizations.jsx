@@ -8,7 +8,6 @@ import { FilterOrganizations } from "#backdrops";
 
 const INITIAL_FILTERS = {
   search: "",
-  workWith: "",
   district: "",
   paymentMethod: "",
   userInteraction: "",

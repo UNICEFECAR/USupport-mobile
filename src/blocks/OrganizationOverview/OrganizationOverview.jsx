@@ -37,19 +37,6 @@ export const OrganizationOverview = ({ organizationId }) => {
 const OrganizationDetails = ({ organization, t }) => {
   const { colors } = useGetTheme();
 
-  const renderWorkWith = useCallback(() => {
-    // Fixed: workWith is now a string, not an array
-    if (
-      organization &&
-      organization.workWith &&
-      typeof organization.workWith === "string" &&
-      organization.workWith.trim().length > 0
-    ) {
-      return organization.workWith;
-    }
-    return "";
-  }, [organization]);
-
   const renderSpecialisations = useCallback(() => {
     if (organization && organization.specialisations) {
       return organization.specialisations.map((x) => t(x.name))?.join(", ");
@@ -233,16 +220,6 @@ const OrganizationDetails = ({ organization, t }) => {
             {t("property_types_label")}
           </AppText>
           <AppText style={styles.infoText}>{renderPropertyTypes()}</AppText>
-        </View>
-      )}
-
-      {/* Fixed: workWith condition and rendering */}
-      {renderWorkWith() && (
-        <View style={styles.infoSection}>
-          <AppText style={[styles.headingText, { color: colors.text }]}>
-            {t("work_with_label")}
-          </AppText>
-          <AppText style={styles.infoText}>{renderWorkWith()}</AppText>
         </View>
       )}
 

@@ -46,18 +46,6 @@ export const FilterOrganizations = ({
 
     return (
       <View style={styles.container}>
-        {/* {metadata?.workWith && metadata.workWith.length > 0 && (
-          <Dropdown
-            selected={filters.workWith}
-            setSelected={(value) => handleChange("workWith", value)}
-            placeholder={t("work_with_placeholder")}
-            options={metadata.workWith.map((item) => ({
-              label: t(item.topic),
-              value: item.organizationWorkWithId,
-            }))}
-          />
-        )} */}
-
         {metadata?.districts && metadata.districts.length > 0 && (
           <Dropdown
             selected={filters.district}
@@ -69,7 +57,6 @@ export const FilterOrganizations = ({
             }))}
           />
         )}
-
         {metadata?.paymentMethods && metadata.paymentMethods.length > 0 && (
           <Dropdown
             selected={filters.paymentMethod}
@@ -81,7 +68,6 @@ export const FilterOrganizations = ({
             }))}
           />
         )}
-
         {metadata?.userInteractions && metadata.userInteractions.length > 0 && (
           <Dropdown
             selected={filters.userInteraction}
@@ -93,7 +79,6 @@ export const FilterOrganizations = ({
             }))}
           />
         )}
-
         {metadata?.specialisations && metadata.specialisations.length > 0 && (
           <Dropdown
             selected={filters.specialisation}

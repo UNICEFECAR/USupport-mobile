@@ -44,7 +44,6 @@ export const Organizations = ({ navigation, filters, setFilters }) => {
 
   const { data, isLoading } = useGetAllOrganizations({
     search: filters.search,
-    workWith: filters.workWith,
     district: filters.district,
     paymentMethod: filters.paymentMethod,
     specialisation: filters.specialisation,
