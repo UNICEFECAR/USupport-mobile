@@ -73,7 +73,7 @@ export const PrivacyPolicy = ({
       />
       <ScrollView>
         <Block
-          style={[{ marginTop: 48 }, isModal && { marginTop: topInset + 48 }]}
+          style={[{ marginTop: 48 }, isModal && { marginTop: topInset + 60 }]}
         >
           <View style={styles.privacyContainer}>
             {policiesData && <Markdown style={styles}>{policiesData}</Markdown>}
@@ -97,6 +97,7 @@ export const PrivacyPolicy = ({
 const styles = StyleSheet.create({
   privacyContainer: {
     paddingBottom: 28,
+    marginTop: 24,
   },
   heading2: {
     fontSize: 20,
@@ -117,5 +118,24 @@ const styles = StyleSheet.create({
     height: 250,
     alignItems: "center",
     justifyContent: "center",
+  },
+  // add table styling for th tr td etc.
+  table: {
+    borderWidth: 0,
+    borderColor: appStyles.colorPrimary_20809e,
+  },
+  th: {
+    borderTopWidth: 1,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderColor: appStyles.colorPrimary_20809e,
+  },
+  tr: {
+    borderColor: appStyles.colorPrimary_20809e,
+  },
+  td: {
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderColor: appStyles.colorPrimary_20809e,
   },
 });
