@@ -77,6 +77,10 @@ export const BaselineAssesment = ({
   // Check if user can start a new assessment
   const canStartNewAssessment = !inProgressSession;
 
+  const canContinue =
+    currentQuestion && state.answers[currentQuestion.questionId];
+  const isLastQuestion = state.currentQuestionIndex === questions?.length - 1;
+
   // Start the assessment
   const handleStartAssessment = () => {
     if (!canStartNewAssessment) {
@@ -127,7 +131,12 @@ export const BaselineAssesment = ({
     const questionId = currentQuestion.questionId;
     const answerValue = state.answers[questionId];
 
-    if (answers && currentAnswer && currentAnswer === answerValue) {
+    if (
+      answers &&
+      currentAnswer &&
+      currentAnswer === answerValue &&
+      !isLastQuestion
+    ) {
       console.log("same answer");
       setState((prev) => ({
         ...prev,
@@ -142,6 +151,7 @@ export const BaselineAssesment = ({
         questionId,
         answerValue,
         screeningSessionId: state.screeningSessionId,
+        currentPosition: state.currentQuestionIndex + 1,
       },
       {
         onSuccess: (data) => {
@@ -195,10 +205,6 @@ export const BaselineAssesment = ({
       setState((prev) => ({ ...prev, currentStep: "intro" }));
     }
   };
-
-  const canContinue =
-    currentQuestion && state.answers[currentQuestion.questionId];
-  const isLastQuestion = state.currentQuestionIndex === questions?.length - 1;
 
   // Render rating scale (1-5)
   const renderRatingScale = () => {

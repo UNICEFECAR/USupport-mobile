@@ -8,6 +8,7 @@ export function useAddScreeningAnswer() {
    * @param {string} payload.questionId - The question ID
    * @param {number} payload.answerValue - The answer value (1-5)
    * @param {string} [payload.screeningSessionId] - Optional screening session ID
+   * @param {number} [payload.currentPosition] - The current position of the question
    * @returns {Promise} Promise resolving to response data
    */
   const addScreeningAnswer = async (payload) => {

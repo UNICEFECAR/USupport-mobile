@@ -258,11 +258,13 @@ async function addScreeningAnswer({
   questionId,
   answerValue,
   screeningSessionId,
+  currentPosition,
 }) {
   const response = await http.post(`${API_ENDPOINT}/screening/add-answer`, {
     questionId,
     answerValue,
     screeningSessionId,
+    currentPosition,
   });
   return response;
 }
