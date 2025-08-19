@@ -22,6 +22,7 @@ export const EmergencyCenter = ({
   btnLabelCall,
   image,
   style,
+  onPress,
 }) => {
   const { colors } = useGetTheme();
 
@@ -33,6 +34,7 @@ export const EmergencyCenter = ({
     }
   };
   const handlePress = (isPhone = false) => {
+    onPress();
     if (isPhone) {
       if (Platform.OS === "android") {
         Linking.openURL(`tel:${phone}`);

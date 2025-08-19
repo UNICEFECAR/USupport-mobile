@@ -240,6 +240,14 @@ async function sendPlatformSuggestion({ suggestion, type }) {
   return response;
 }
 
+async function addSOSCenterClick(payload) {
+  const response = await http.post(
+    `${API_ENDPOINT}/add-sos-center-click`,
+    payload
+  );
+  return response;
+}
+
 const exportedFunctions = {
   addMoodTrack,
   getClientData,
@@ -270,6 +278,7 @@ const exportedFunctions = {
   getOrganizations,
   getOrganizationById,
   sendPlatformSuggestion,
+  addSOSCenterClick,
 };
 
 export default exportedFunctions;
