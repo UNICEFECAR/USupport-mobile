@@ -91,6 +91,7 @@
     "react-native-orientation-locker": "https://github.com/jitsi/react-native-orientation-locker.git#fe095651d819cf134624f786b61fc8667862178a",
     "react-native-pager-view": "6.8.1",
     "react-native-performance": "5.1.2",
+    "react-native-permissions": "^5.4.2",
     "react-native-reanimated": "~3.10.1",
     "react-native-reanimated-carousel": "3.3.0",
     "react-native-safe-area-context": "5.5.2",
@@ -133,7 +134,7 @@
     "@xmldom/xmldom": "0.8.7",
     "@react-native-clipboard/clipboard": "1.14.3",
     "@jitsi/react-native-sdk": {
-      "react-native-splash-view": "npm:@expo-splash-screen@0.27.5"
+      "react-native-splash-view": "npm:expo-splash-screen@0.27.5"
     }
   }
 }
