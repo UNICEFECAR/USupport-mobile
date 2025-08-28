@@ -63,3 +63,4 @@ export * from "./useGetScreeningQuestions.js";
 export * from "./useGetClientAnswersForSessionById.js";
 export * from "./useAddScreeningAnswer.js";
 export * from "./useGetAssessmentResult.js";
+export * from "./useGetLatestBaselineAssessment.js";

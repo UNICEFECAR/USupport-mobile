@@ -293,6 +293,11 @@ async function updateClientHasCheckedBaselineAssessment(
   return response;
 }
 
+async function getLatestBaselineAssessment() {
+  const response = await http.get(`${API_ENDPOINT}/screening/latest`);
+  return response;
+}
+
 const exportedFunctions = {
   addMoodTrack,
   getClientData,
@@ -329,6 +334,7 @@ const exportedFunctions = {
   getClientAnswersForSessionById,
   updateClientHasCheckedBaselineAssessment,
   addScreeningAnswer,
+  getLatestBaselineAssessment,
 };
 
 export default exportedFunctions;
