@@ -13,7 +13,9 @@ import { SharePlatform as SharePlatformBlock } from "#blocks";
  * @returns {JSX.Element}
  */
 export const SharePlatform = ({ navigation }) => {
-  const { t } = useTranslation("share-platform-screen");
+  const { t } = useTranslation("screens", {
+    keyPrefix: "share-platform-screen",
+  });
 
   return (
     <Screen>

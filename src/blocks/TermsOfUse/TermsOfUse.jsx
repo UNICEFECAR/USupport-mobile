@@ -20,7 +20,7 @@ import { localStorage, cmsSvc } from "#services";
  * @return {jsx}
  */
 export const TermsOfUse = ({ navigation }) => {
-  const { i18n, t } = useTranslation("terms-of-use");
+  const { i18n, t } = useTranslation("blocks", { keyPrefix: "terms-of-use" });
 
   const [currentCountry, setCurrentCountry] = useState();
   useEffect(() => {

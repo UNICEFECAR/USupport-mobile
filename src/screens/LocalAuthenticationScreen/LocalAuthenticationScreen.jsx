@@ -15,7 +15,9 @@ export function LocalAuthenticationScreen({
   setHasAuthenticatedWithPin,
 }) {
   const { colors } = useGetTheme();
-  const { t } = useTranslation("local-authentication-screen");
+  const { t } = useTranslation("screens", {
+    keyPrefix: "local-authentication-screen",
+  });
   const [data, setData] = useState([
     {
       name: "first",
@@ -65,9 +67,8 @@ export function LocalAuthenticationScreen({
 
   useEffect(() => {
     const biometricAuth = async () => {
-      const hasEnabledBiometrics = await localStorage.getItem(
-        "biometrics-enabled"
-      );
+      const hasEnabledBiometrics =
+        await localStorage.getItem("biometrics-enabled");
       setHasBiometricsEnabled(hasEnabledBiometrics);
 
       const hasHardware = await LocalAuthentication.hasHardwareAsync();

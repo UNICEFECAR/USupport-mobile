@@ -64,3 +64,4 @@ export * from "./useGetClientAnswersForSessionById.js";
 export * from "./useAddScreeningAnswer.js";
 export * from "./useGetAssessmentResult.js";
 export * from "./useGetLatestBaselineAssessment.js";
+export * from "./useAddSosCenterClick.js";

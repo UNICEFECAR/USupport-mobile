@@ -16,7 +16,7 @@ import { appStyles } from "#styles";
  * @returns {JSX.Element}
  */
 export const Articles = ({ navigation, route }) => {
-  const { t } = useTranslation("articles-screen");
+  const { t } = useTranslation("screens", { keyPrefix: "articles-screen" });
 
   let heading = t("heading_default");
   let subheading = t("subheading_default");

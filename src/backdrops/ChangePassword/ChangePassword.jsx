@@ -20,7 +20,7 @@ import { userSvc } from "#services";
  * @return {jsx}
  */
 export const ChangePassword = ({ isOpen, onClose }) => {
-  const { t } = useTranslation("change-password");
+  const { t } = useTranslation("backdrops", { keyPrefix: "change-password" });
 
   const schema = Joi.object({
     oldPassword: Joi.string()

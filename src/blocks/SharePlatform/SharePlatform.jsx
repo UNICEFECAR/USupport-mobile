@@ -13,7 +13,7 @@ import { Block, AppButton } from "#components";
  * @return {jsx}
  */
 export const SharePlatform = ({}) => {
-  const { t } = useTranslation("share-platform");
+  const { t } = useTranslation("blocks", { keyPrefix: "share-platform" });
 
   const shareToFacebook = async () => {
     const shareOptions = {

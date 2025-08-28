@@ -28,7 +28,9 @@ import { parseUTCDate } from "#utils";
  * @return {jsx}
  */
 export const ProviderOverview = ({ navigation, route }) => {
-  const { t } = useTranslation("provider-overview-scren");
+  const { t } = useTranslation("screens", {
+    keyPrefix: "provider-overview-screen",
+  });
   const queryClient = useQueryClient();
   const { activeCoupon, setActiveCoupon } = useContext(Context);
 

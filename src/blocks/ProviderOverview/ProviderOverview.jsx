@@ -21,7 +21,7 @@ const { AMAZON_S3_BUCKET } = Config;
  * @return {jsx}
  */
 export const ProviderOverview = ({ providerId }) => {
-  const { t } = useTranslation("provider-overview");
+  const { t } = useTranslation("blocks", { keyPrefix: "provider-overview" });
   const { currencySymbol, activeCoupon } = useContext(Context);
 
   const { data: provider, isLoading } = useGetProviderDataById(

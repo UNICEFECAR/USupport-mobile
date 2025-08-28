@@ -29,7 +29,6 @@ export default function useGetOrganizationById(organizationId) {
         id: data?.user_interaction_id,
         name: data?.user_interaction,
       },
-      workWith: data?.work_with || "",
       providers: data?.providers || [],
       createdBy: data?.created_by,
       createdAt: data?.created_at,

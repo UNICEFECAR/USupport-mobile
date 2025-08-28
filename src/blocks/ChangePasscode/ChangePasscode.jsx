@@ -15,7 +15,7 @@ import { appStyles } from "#styles";
  * @returns {JSX.Element}
  */
 export const ChangePasscode = ({ navigation, route }) => {
-  const { t } = useTranslation("change-passcode");
+  const { t } = useTranslation("blocks", { keyPrefix: "change-passcode" });
 
   const { token, setUserPin, setHasAuthenticatedWithPin } = useContext(Context);
   let { userPin, oldPin, isRemove } = route.params;

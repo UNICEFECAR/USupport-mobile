@@ -43,7 +43,7 @@ import Animated, {
 
 export const RegisterAnonymous = ({ navigation }) => {
   const { colors } = useGetTheme();
-  const { t } = useTranslation("register-anonymous");
+  const { t } = useTranslation("blocks", { keyPrefix: "register-anonymous" });
 
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [hasCopied, setHasCopied] = useState(false);

@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 
 import { Block, AppText, Loading, CardMedia } from "#components";
-
+import { VideoModal, PodcastModal } from "#backdrops";
 import { appStyles } from "#styles";
 
 import {
@@ -21,7 +21,7 @@ import { localStorage, adminSvc, cmsSvc } from "#services";
 /**
  * InformationPortal
  *
- * Information Portal block
+ * Information Portal block with modal support
  *
  * @returns {JSX.Element}
  */
@@ -29,7 +29,12 @@ export const InformationalPortal = ({
   navigation,
   contentType = "articles",
 }) => {
-  const { t, i18n } = useTranslation("information-portal");
+  const { t, i18n } = useTranslation("blocks", {
+    keyPrefix: "information-portal",
+  });
+
+  const [videoToPlay, setVideoToPlay] = useState(null);
+  const [podcastToPlay, setPodcastToPlay] = useState(null);
 
   //--------------------- Country Change Event Listener ----------------------//
   const [currentCountry, setCurrentCountry] = useState();
@@ -69,6 +74,15 @@ export const InformationalPortal = ({
       enabled: !!currentCountry,
     }
   );
+
+  // Modal handlers
+  const handleVideoPlay = (url, title) => {
+    setVideoToPlay({ url, title });
+  };
+
+  const handlePodcastPlay = (spotifyId, title) => {
+    setPodcastToPlay({ spotifyId, title });
+  };
 
   const ContentList = ({ heading, sortBy, sortField }) => {
     const getContent = async () => {
@@ -171,6 +185,15 @@ export const InformationalPortal = ({
                 idParam = "podcastId";
               }
 
+              let handlePlayFunction;
+              if (contentType === "videos") {
+                handlePlayFunction = () =>
+                  handleVideoPlay(item.originalUrl, item.title);
+              } else if (contentType === "podcasts") {
+                handlePlayFunction = () =>
+                  handlePodcastPlay(item.spotifyId, item.title);
+              }
+
               return (
                 <CardMedia
                   title={item.title}
@@ -194,6 +217,7 @@ export const InformationalPortal = ({
                       [idParam]: item.id,
                     });
                   }}
+                  handlePlay={handlePlayFunction}
                   t={t}
                   key={index}
                   style={styles.article}
@@ -217,46 +241,64 @@ export const InformationalPortal = ({
         : t("heading_no_language_results_podcasts");
 
   return (
-    <Block style={styles.informationalPortalBlock}>
-      {noContentForLanguage ? (
-        <AppText style={styles.headingNoLanguageResults} namedStyle="h3">
-          {noContentForLanguageText}
-        </AppText>
-      ) : null}
+    <>
+      <VideoModal
+        isVisible={!!videoToPlay}
+        onClose={() => setVideoToPlay(null)}
+        videoUrl={videoToPlay?.url}
+        title={videoToPlay?.title}
+        t={t}
+      />
 
-      {!noContentForLanguage && (
-        <>
-          <ContentList
-            heading={
-              contentType === "articles"
-                ? t("heading_newest")
-                : contentType === "videos"
-                  ? t("heading_newest_videos")
-                  : t("heading_newest_podcasts")
-            }
-            sortBy="createdAt"
-            sortField="createdAt"
-          />
-          <ContentList
-            heading={
-              contentType === "articles"
-                ? t("heading_popular")
-                : contentType === "videos"
-                  ? t("heading_popular_videos")
-                  : t("heading_popular_podcasts")
-            }
-            sortBy="popular"
-            sortField={
-              contentType === "articles"
-                ? "read_count"
-                : contentType === "videos"
-                  ? "view_count"
-                  : "view_count"
-            }
-          />
-        </>
-      )}
-    </Block>
+      <PodcastModal
+        isVisible={!!podcastToPlay}
+        onClose={() => setPodcastToPlay(null)}
+        spotifyId={podcastToPlay?.spotifyId}
+        title={podcastToPlay?.title}
+        t={t}
+      />
+
+      <Block style={styles.informationalPortalBlock}>
+        {noContentForLanguage ? (
+          <AppText style={styles.headingNoLanguageResults} namedStyle="h3">
+            {noContentForLanguageText}
+          </AppText>
+        ) : null}
+
+        {!noContentForLanguage && (
+          <>
+            <ContentList
+              heading={
+                contentType === "articles"
+                  ? t("heading_newest")
+                  : contentType === "videos"
+                    ? t("heading_newest_videos")
+                    : t("heading_newest_podcasts")
+              }
+              sortBy="createdAt"
+              sortField="createdAt"
+            />
+            <ContentList
+              heading={
+                contentType === "articles"
+                  ? t("heading_popular")
+                  : contentType === "videos"
+                    ? t("heading_popular_videos")
+                    : t("heading_popular_podcasts")
+              }
+              sortBy="popular"
+              sortField={
+                contentType === "articles"
+                  ? "read_count"
+                  : contentType === "videos"
+                    ? "view_count"
+                    : "view_count"
+              }
+            />
+          </>
+        )}
+      </Block>
+    </>
   );
 };
 

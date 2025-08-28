@@ -12,7 +12,7 @@ import { getDateView, getTimeFromDate, showToast } from "#utils";
 
 export const PaymentHistory = () => {
   const queryClient = useQueryClient();
-  const { t } = useTranslation("payment-history");
+  const { t } = useTranslation("blocks", { keyPrefix: "payment-history" });
   const { currencySymbol } = useContext(Context);
   const rows = [t("service"), t("price"), t("date_of_payment"), ""];
 

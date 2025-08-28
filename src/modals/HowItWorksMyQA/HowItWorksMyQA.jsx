@@ -17,7 +17,9 @@ const { AMAZON_S3_BUCKET } = Config;
  * @return {jsx}
  */
 export const HowItWorksMyQA = ({ isOpen, onClose }) => {
-  const { t, i18n } = useTranslation("how-it-works-my-qa");
+  const { t, i18n } = useTranslation("modals", {
+    keyPrefix: "how-it-works-my-qa",
+  });
   const width = appStyles.screenWidth * 0.96;
 
   const slides = [

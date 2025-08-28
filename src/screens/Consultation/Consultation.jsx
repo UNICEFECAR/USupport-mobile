@@ -17,7 +17,10 @@ import {
 } from "react-native";
 import { useTranslation } from "react-i18next";
 import { io } from "socket.io-client";
-import { activateKeepAwakeAsync, deactivateKeepAwake } from "expo-keep-awake";
+import {
+  activateKeepAwakeAsync,
+  deactivateKeepAwake,
+} from "@sayem314/react-native-keep-awake";
 import notifee, { AndroidImportance } from "@notifee/react-native";
 import Config from "react-native-config";
 
@@ -62,7 +65,7 @@ const { SOCKET_IO_URL } = Config;
  * @returns {JSX.Element}
  */
 export const Consultation = ({ navigation, route }) => {
-  const { t } = useTranslation("consultation-page");
+  const { t } = useTranslation("screens", { keyPrefix: "consultation-page" });
   const location = route.params;
   const backdropMessagesContainerRef = useRef();
 

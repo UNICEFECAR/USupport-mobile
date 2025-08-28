@@ -12,7 +12,7 @@ import { Podcasts as PodcastsBlock } from "#blocks";
  * @returns {JSX.Element}
  */
 export const Podcasts = ({ navigation, route }) => {
-  const { t } = useTranslation("podcasts-screen");
+  const { t } = useTranslation("screens", { keyPrefix: "podcasts-screen" });
   const sort = route.params?.sort;
 
   let heading = t("heading_default");

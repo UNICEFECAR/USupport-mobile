@@ -36,7 +36,7 @@ import { useError } from "#hooks";
  * @return {jsx}
  */
 export const Login = ({ navigation }) => {
-  const { t } = useTranslation("login");
+  const { t } = useTranslation("blocks", { keyPrefix: "login" });
   const queryClient = useQueryClient();
 
   const { setToken, setInitialRouteName, isLoginDisabled, setIsLoginDisabled } =

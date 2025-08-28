@@ -39,7 +39,9 @@ export const SelectConsultation = ({
   campaignId: campaingIdFromProps,
   couponCode,
 }) => {
-  const { t } = useTranslation("select-consultation");
+  const { t } = useTranslation("backdrops", {
+    keyPrefix: "select-consultation",
+  });
   const { activeCoupon } = useContext(Context);
 
   const [startDate, setStartDate] = useState(null);
@@ -115,7 +117,7 @@ export const SelectConsultation = ({
   };
 
   const handleChooseSlot = (slot) => {
-    setSelectedSlot(slot), providerData.consultationPrice;
+    (setSelectedSlot(slot), providerData.consultationPrice);
   };
 
   const renderFreeSlots = () => {

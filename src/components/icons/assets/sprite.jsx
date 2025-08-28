@@ -2026,6 +2026,27 @@ const IconLocation = ({ color = "#000000" }) => {
   );
 };
 
+const IconPlay = ({ color = "#ffffff" }) => {
+  return (
+    <Svg
+      id="icon-play"
+      viewBox="0 0 64 64"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <Circle
+        cx="32"
+        cy="32"
+        r="30"
+        fill="rgba(0, 0, 0, 0.7)"
+        stroke="rgba(255, 255, 255, 0.3)"
+        stroke-width="2"
+      />
+      <Path d="M26 20V44L42 32L26 20Z" fill={color} />
+    </Svg>
+  );
+};
+
 export {
   IconFilter,
   IconPhoneEmergency,
@@ -2131,4 +2152,5 @@ export {
   IconWaze,
   IconGoogleMaps,
   IconLocation,
+  IconPlay,
 };

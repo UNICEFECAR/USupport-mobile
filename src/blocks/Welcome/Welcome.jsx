@@ -12,7 +12,7 @@ const { AMAZON_S3_BUCKET } = Config;
 
 export function Welcome({ navigation }) {
   const { isDarkMode } = useGetTheme();
-  const { t, i18n } = useTranslation("welcome");
+  const { t, i18n } = useTranslation("blocks", { keyPrefix: "welcome" });
   const {
     setCurrencySymbol,
     setCountry,

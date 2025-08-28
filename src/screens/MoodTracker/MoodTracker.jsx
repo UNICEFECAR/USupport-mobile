@@ -21,7 +21,7 @@ import { GiveSuggestion } from "#blocks";
  * @returns {JSX.Element}
  */
 export const MoodTracker = ({ navigation }) => {
-  const { t } = useTranslation("mood-tracker-screen");
+  const { t } = useTranslation("screens", { keyPrefix: "mood-tracker-screen" });
   const { isTmpUser, handleRegistrationModalOpen } = useContext(Context);
 
   useEffect(() => {

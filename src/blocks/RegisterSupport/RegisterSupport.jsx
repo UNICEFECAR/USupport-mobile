@@ -27,7 +27,7 @@ import { showToast } from "#utils";
  * @return {jsx}
  */
 export const RegisterSupport = ({ navigation }) => {
-  const { t } = useTranslation("register-support");
+  const { t } = useTranslation("blocks", { keyPrefix: "register-support" });
 
   const queryClient = useQueryClient();
 

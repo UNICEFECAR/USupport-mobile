@@ -43,21 +43,21 @@ export const HeaderNavigation = ({
           }}
         />
       </TouchableOpacity>
-      {fontScale < 1.6 ? (
-        <ButtonWithIcon
-          iconName="phone-emergency"
-          label={t("emergency_button_label")}
-          color="red"
-          onPress={() => navigation.navigate("SOSCenter")}
-        />
-      ) : (
+      {/* {fontScale < 1.8 ? ( */}
+      <ButtonWithIcon
+        iconName="phone-emergency"
+        label={t("emergency_button_label")}
+        color="red"
+        onPress={() => navigation.navigate("SOSCenter")}
+      />
+      {/* ) : (
         <ButtonOnlyIcon
           iconName="phone-emergency"
           iconSize="md"
           color="red"
           onPress={() => navigation.navigate("SOSCenter")}
         />
-      )}
+      )} */}
       <TouchableOpacity
         onPress={() => {
           if (isTmpUser) {

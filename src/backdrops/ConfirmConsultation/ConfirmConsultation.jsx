@@ -27,7 +27,9 @@ export const ConfirmConsultation = ({
   customButtonLabel,
   ctaStyle,
 }) => {
-  const { t } = useTranslation("confirm-consultation");
+  const { t } = useTranslation("backdrops", {
+    keyPrefix: "confirm-consultation",
+  });
   const navigation = useNavigation();
 
   const handleContinue = () => {

@@ -1,4 +1,10 @@
-import { View, StyleSheet, Image, Pressable } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Image,
+  Pressable,
+  TouchableOpacity,
+} from "react-native";
 import Config from "react-native-config";
 
 import { AppText } from "../../texts/AppText/AppText";
@@ -31,12 +37,23 @@ export const CardMedia = ({
   isLikedByUser,
   isDislikedByUser,
   onPress,
+  handlePlay,
   contentType = "articles",
   t,
   style,
   isRead = false,
 }) => {
   const { colors } = useGetTheme();
+
+  const showPlayButton =
+    (contentType === "videos" || contentType === "podcasts") && handlePlay;
+
+  const handlePlayPress = (e) => {
+    e.stopPropagation();
+    if (handlePlay) {
+      handlePlay();
+    }
+  };
 
   return (
     <Pressable
@@ -51,21 +68,37 @@ export const CardMedia = ({
         style,
       ]}
     >
-      <Image
-        source={
-          image
-            ? { uri: image }
-            : {
-                uri: `${AMAZON_S3_BUCKET}/article-placeholder`,
-              }
-        }
-        style={styles.image}
-      />
+      <View style={styles.imageContainer}>
+        <Image
+          source={
+            image
+              ? { uri: image }
+              : {
+                  uri: `${AMAZON_S3_BUCKET}/article-placeholder`,
+                }
+          }
+          style={styles.image}
+        />
+
+        {showPlayButton && (
+          <TouchableOpacity
+            style={styles.playButtonOverlay}
+            onPress={handlePlayPress}
+            activeOpacity={0.8}
+          >
+            <View style={styles.playButton}>
+              <Icon name={"play"} size="lg" color="white" />
+            </View>
+          </TouchableOpacity>
+        )}
+      </View>
+
       <View style={styles.categoryContainer}>
         <AppText namedStyle="smallText" style={styles.categoryText}>
           {categoryName}
         </AppText>
       </View>
+
       {isRead && (
         <View style={styles.readContainer}>
           <AppText namedStyle="smallText" style={styles.readText}>
@@ -73,9 +106,12 @@ export const CardMedia = ({
           </AppText>
         </View>
       )}
+
       <View style={styles.textContainer}>
         <View style={styles.headingContainer}>
-          <AppText namedStyle="h3">{title}</AppText>
+          <AppText namedStyle="h3" style={styles.titleText}>
+            {title}
+          </AppText>
           {contentType !== "articles" && (
             <Like
               likes={likes}
@@ -85,23 +121,29 @@ export const CardMedia = ({
             />
           )}
         </View>
+
         {creator && (
           <View style={styles.creatorAndLikeContainer}>
             <View style={styles.creatorContainer}>
               <AppText namedStyle="smallText" style={styles.creatorText}>
                 {t("by", { creator })}
               </AppText>
-              <View style={styles.readingTime}>
-                <Icon
-                  size="sm"
-                  name="time"
-                  color="#66768d"
-                  style={styles.icon}
-                />
-                <AppText namedStyle="smallText" style={styles.readingTimeText}>
-                  {readingTime} {t("min_read")}
-                </AppText>
-              </View>
+              {readingTime && (
+                <View style={styles.readingTime}>
+                  <Icon
+                    size="sm"
+                    name="time"
+                    color="#66768d"
+                    style={styles.icon}
+                  />
+                  <AppText
+                    namedStyle="smallText"
+                    style={styles.readingTimeText}
+                  >
+                    {readingTime} {t("min_read")}
+                  </AppText>
+                </View>
+              )}
             </View>
             <View style={styles.likeContainer}>
               <Like
@@ -147,6 +189,48 @@ const styles = StyleSheet.create({
     borderColor: "transparent",
     alignSelf: "center",
   },
+  imageContainer: {
+    position: "relative",
+  },
+  image: {
+    width: "100%",
+    height: 160,
+    borderTopRightRadius: 24,
+    borderTopLeftRadius: 24,
+  },
+  playButtonOverlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
+    borderTopRightRadius: 24,
+    borderTopLeftRadius: 24,
+  },
+  playButton: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 2,
+    borderColor: "rgba(255, 255, 255, 0.8)",
+  },
+  mediaTypeIndicator: {
+    position: "absolute",
+    top: 12,
+    right: 12,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   headingContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -163,12 +247,7 @@ const styles = StyleSheet.create({
     height: 22,
     justifyContent: "center",
     alignItems: "center",
-  },
-  image: {
-    width: "100%",
-    height: 160,
-    borderTopRightRadius: 24,
-    borderTopLeftRadius: 24,
+    zIndex: 2,
   },
   textContainer: {
     padding: 16,
@@ -180,12 +259,37 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "flex-start",
     marginTop: 8,
+    flex: 1,
   },
-  icon: { marginRight: 5 },
-  readMoreButton: {
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginTop: 16,
+  },
+  readMoreButton: {
     paddingLeft: 0,
     alignItems: "flex-start",
+    flex: 1,
+  },
+  playTextButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 16,
+    backgroundColor: "rgba(105, 137, 164, 0.1)",
+  },
+  playTextIcon: {
+    marginRight: 6,
+  },
+  playTextButtonText: {
+    color: "#6989a4",
+    fontSize: 12,
+    fontWeight: appStyles.fontSemiBold,
+  },
+  icon: {
+    marginRight: 5,
   },
   readMoreButtonText: {
     color: "#6989a4",
@@ -209,7 +313,7 @@ const styles = StyleSheet.create({
   },
   creatorAndLikeContainer: {
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-start",
     justifyContent: "space-between",
     width: "100%",
   },
@@ -227,6 +331,7 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     borderBottomLeftRadius: 10,
     borderTopRightRadius: 24,
+    zIndex: 2,
   },
   readText: {
     fontFamily: appStyles.fontBold,

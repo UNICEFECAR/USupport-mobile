@@ -49,7 +49,7 @@ export const UserDetails = ({
   navigation,
 }) => {
   const { colors } = useGetTheme();
-  const { t } = useTranslation("user-details");
+  const { t } = useTranslation("blocks", { keyPrefix: "user-details" });
   const { country } = useContext(Context);
   const queryClient = useQueryClient();
 

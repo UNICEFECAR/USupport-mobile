@@ -25,7 +25,9 @@ import { appStyles } from "#styles";
 export const ArticleInformation = ({ navigation, route }) => {
   const id = route.params.articleId;
 
-  const { i18n, t } = useTranslation("article-information");
+  const { i18n, t } = useTranslation("screens", {
+    keyPrefix: "article-information",
+  });
   const { data: userContentRatings } = useGetUserContentRatings();
   const getArticlesIds = async () => {
     // Request articles ids from the master DB based for website platform

@@ -30,7 +30,7 @@ import { appStyles } from "#styles";
  * @return {jsx}
  */
 export const SafetyFeedback = ({ navigation, consultationId, answers }) => {
-  const { t } = useTranslation("safety-feedback");
+  const { t } = useTranslation("blocks", { keyPrefix: "safety-feedback" });
 
   const hasAnsweredBefore =
     Object.values(answers).filter((x) => x !== undefined).length === 11;

@@ -38,13 +38,12 @@ const { GOOGLE_MAPS_API_KEY, AMAZON_S3_BUCKET } = Config;
  * @returns {JSX.Element}
  */
 export const Organizations = ({ navigation, filters, setFilters }) => {
-  const { t } = useTranslation("organizations");
+  const { t } = useTranslation("blocks", { keyPrefix: "organizations" });
   const [mapControls, setMapControls] = useState(null);
   const [selectedOrganization, setSelectedOrganization] = useState(null);
 
   const { data, isLoading } = useGetAllOrganizations({
     search: filters.search,
-    workWith: filters.workWith,
     district: filters.district,
     paymentMethod: filters.paymentMethod,
     specialisation: filters.specialisation,

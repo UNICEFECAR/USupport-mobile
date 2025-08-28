@@ -1,8 +1,0 @@
-{
-  "rating_label": "Oceń nas",
-  "textarea_label": "Twój komentarz",
-  "textarea_placeholder": "Zostaw swój komentarz tutaj",
-  "button_label": "Wyślij ocenę",
-  "rating_success": "Ocena została pomyślnie wysłana",
-  "rating_error": "Wystąpił nieoczekiwany błąd. Spróbuj ponownie."
-}

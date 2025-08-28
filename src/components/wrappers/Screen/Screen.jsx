@@ -13,7 +13,11 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ButtonOnlyIcon } from "../../buttons";
 import spiralBackground from "../../../assets/spiral_background.png";
 import { HeaderNavigation } from "../../headings";
-import { useCheckHasUnreadNotifications, useGetTheme } from "#hooks";
+import {
+  useCheckHasUnreadNotifications,
+  useGetTheme,
+  useAddSosCenterClick,
+} from "#hooks";
 import { Context } from "#services";
 import { appStyles } from "#styles";
 
@@ -47,6 +51,16 @@ export function Screen({
     onCheckHasUnreadNotificationsSuccess
   );
 
+  const addSosCenterClickMutation = useAddSosCenterClick();
+
+  const handleSosCenterClick = () => {
+    addSosCenterClickMutation.mutate({
+      isMain: true,
+      platform: "client",
+    });
+    navigation.push("SOSCenter");
+  };
+
   return (
     <SafeAreaView
       style={[
@@ -68,7 +82,7 @@ export function Screen({
         {hasEmergencyButton && (
           <ButtonOnlyIcon
             style={styles.emergencyButton}
-            onPress={() => navigation.push("SOSCenter")}
+            onPress={() => handleSosCenterClick()}
             color="red"
           />
         )}

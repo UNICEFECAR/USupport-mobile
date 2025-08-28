@@ -61,7 +61,7 @@ const { AMAZON_S3_BUCKET } = Config;
  * @returns {JSX.Element}
  */
 export const Dashboard = ({ navigation }) => {
-  const { t } = useTranslation("dashboard");
+  const { t } = useTranslation("screens", { keyPrefix: "dashboard" });
   const { isDarkMode } = useGetTheme();
   const isFocused = useIsFocused();
   const {
@@ -137,12 +137,8 @@ export const Dashboard = ({ navigation }) => {
     useState(true);
   const [isRequireDataAgreementOpen, setIsRequireDataAgreementOpen] =
     useState(false);
-  const openRequireDataAgreement = (successAction) => {
-    if (successAction) {
-      setShouldRedirectToSelectProvider(false);
-    } else {
-      setShouldRedirectToSelectProvider(true);
-    }
+  const openRequireDataAgreement = (shouldRedirect = true) => {
+    setShouldRedirectToSelectProvider(shouldRedirect);
     setIsRequireDataAgreementOpen(true);
   };
   const closeRequireDataAgreement = () => setIsRequireDataAgreementOpen(false);
@@ -281,7 +277,7 @@ export const Dashboard = ({ navigation }) => {
   };
   const handleScheduleConsultation = () => {
     if (!clientData.dataProcessing) {
-      openRequireDataAgreement();
+      openRequireDataAgreement(true);
     } else {
       navigation.push("SelectProvider");
     }
@@ -351,7 +347,11 @@ export const Dashboard = ({ navigation }) => {
             />
           )}
         </MascotHeadingBlock>
-        <MoodTracker navigation={navigation} />
+        <MoodTracker
+          navigation={navigation}
+          clientData={clientData}
+          openRequireDataAgreement={openRequireDataAgreement}
+        />
         <ArticlesDashboard
           navigation={navigation}
           openArticlesModal={openArticlesModal}

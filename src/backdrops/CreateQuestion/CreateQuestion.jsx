@@ -18,7 +18,7 @@ import { validate, showToast } from "#utils";
  * @return {jsx}
  */
 export const CreateQuestion = ({ isOpen, onClose }) => {
-  const { t } = useTranslation("create-question");
+  const { t } = useTranslation("backdrops", { keyPrefix: "create-question" });
   const queryClient = useQueryClient();
 
   const [data, setData] = useState({ question: "" });

@@ -202,10 +202,6 @@ async function getOrganizations(filters) {
     filtersQuery += `&search=${filters.search}`;
   }
 
-  if (filters.workWith) {
-    filtersQuery += `&workWith=${filters.workWith}`;
-  }
-
   if (filters.district) {
     filtersQuery += `&district=${filters.district}`;
   }
@@ -241,6 +237,14 @@ async function sendPlatformSuggestion({ suggestion, type }) {
     suggestion,
     type,
   });
+  return response;
+}
+
+async function addSOSCenterClick(payload) {
+  const response = await http.post(
+    `${API_ENDPOINT}/add-sos-center-click`,
+    payload
+  );
   return response;
 }
 
@@ -335,6 +339,7 @@ const exportedFunctions = {
   updateClientHasCheckedBaselineAssessment,
   addScreeningAnswer,
   getLatestBaselineAssessment,
+  addSOSCenterClick,
 };
 
 export default exportedFunctions;

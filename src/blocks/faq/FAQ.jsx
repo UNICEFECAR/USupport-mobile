@@ -24,7 +24,7 @@ import { localStorage, adminSvc, cmsSvc } from "#services";
  * @return {jsx}
  */
 export const FAQ = ({ navigation }) => {
-  const { i18n, t } = useTranslation("faq");
+  const { i18n, t } = useTranslation("blocks", { keyPrefix: "faq" });
 
   const [searchQuery, setSearchQuery] = useState("");
 

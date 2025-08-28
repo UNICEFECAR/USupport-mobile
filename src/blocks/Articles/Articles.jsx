@@ -40,7 +40,7 @@ export const Articles = ({
   selectedCategory,
   allCategories,
 }) => {
-  const { i18n, t } = useTranslation("articles");
+  const { i18n, t } = useTranslation("blocks", { keyPrefix: "articles" });
 
   const [usersLanguage, setUsersLanguage] = useState(i18n.language);
   const [showAgeGroups, setShowAgeGroups] = useState(true);
