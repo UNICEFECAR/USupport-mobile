@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { clientSvc } from "#services";
 
-export const useGetScreeningSessions = () => {
+export const useGetBaselineAssessments = () => {
   return useQuery({
-    queryKey: ["screening-sessions"],
+    queryKey: ["baseline-assessments"],
     queryFn: async () => {
-      const response = await clientSvc.getScreeningSessions();
+      const response = await clientSvc.getBaselineAssessments();
       return response.data;
     },
   });
