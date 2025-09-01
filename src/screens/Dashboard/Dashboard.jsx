@@ -21,6 +21,7 @@ import {
 
 import {
   ArticlesDashboard,
+  BaselineAssessmentDashboard,
   MascotHeadingBlock,
   ConsultationsDashboard,
   MoodTracker,
@@ -316,9 +317,20 @@ export const Dashboard = ({ navigation }) => {
     setIsArticlesModalOpen(false);
   };
 
+  const [isBaselineAssesmentModalOpen, setIsBaselineAssesmentModalOpen] =
+    useState(false);
+  const openBaselineAssesmentModal = () =>
+    setIsBaselineAssesmentModalOpen(true);
+
   return (
     <Screen hasHeaderNavigation t={t} hasEmergencyButton={false}>
-      <BaselineAssesmentModal navigation={navigation} />
+      {IS_RO && (
+        <BaselineAssesmentModal
+          open={isBaselineAssesmentModalOpen}
+          setOpen={setIsBaselineAssesmentModalOpen}
+          navigation={navigation}
+        />
+      )}
       <ScrollView
         refreshControl={
           <RefreshControl
@@ -352,6 +364,12 @@ export const Dashboard = ({ navigation }) => {
           clientData={clientData}
           openRequireDataAgreement={openRequireDataAgreement}
         />
+        {IS_RO && (
+          <BaselineAssessmentDashboard
+            navigation={navigation}
+            openBaselineAssesmentModal={openBaselineAssesmentModal}
+          />
+        )}
         <ArticlesDashboard
           navigation={navigation}
           openArticlesModal={openArticlesModal}

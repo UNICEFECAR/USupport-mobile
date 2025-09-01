@@ -5,7 +5,7 @@ import { View, ScrollView, Pressable, Linking } from "react-native";
 
 import { clientSvc } from "#services";
 import { constructWebsiteUrl } from "#utils";
-import { useCreateScreeningSession, useGetClientData } from "#hooks";
+import { useCreateBaselineAssessment, useGetClientData } from "#hooks";
 import { TransparentModal, AppText, Toggle } from "#components";
 
 import { appStyles } from "#styles";
@@ -17,34 +17,43 @@ import { appStyles } from "#styles";
  *
  * @return {jsx}
  */
-export const BaselineAssesmentModal = ({ navigation }) => {
-  const { t } = useTranslation("baseline-assesment-modal");
+export const BaselineAssesmentModal = ({ navigation, setOpen, open }) => {
+  const { t } = useTranslation("modals", {
+    keyPrefix: "baseline-assesment-modal",
+  });
 
   const queryClient = useQueryClient();
   const websiteUrl = constructWebsiteUrl("privacy-policy");
-  const createScreeningSessionMutation = useCreateScreeningSession();
+  const createBaselineAssessmentMutation = useCreateBaselineAssessment();
 
   const clientDataQuery = useGetClientData()[0];
   const clientData = clientDataQuery.data;
 
   const [isOpen, setIsOpen] = useState(false);
   const [dataProcessing, setDataProcessing] = useState(false);
-  const onClose = () => setIsOpen(false);
+
+  const onClose = () => {
+    setIsOpen(false);
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    setIsOpen(open);
+  }, [open]);
 
   useEffect(() => {
     if (clientData) {
-      console.log(clientData.hasCheckedBaselineAssessment);
       setDataProcessing(clientData.dataProcessing);
-      setIsOpen(clientData.hasCheckedBaselineAssessment);
+      setIsOpen(!clientData.hasCheckedBaselineAssessment);
     }
   }, [clientData]);
 
   const handleCtaClick = () => {
-    createScreeningSessionMutation.mutate(undefined, {
-      onSuccess: (sessionData) => {
+    createBaselineAssessmentMutation.mutate(undefined, {
+      onSuccess: (assessmentData) => {
         onClose();
         navigation.navigate("BaselineAssesment", {
-          sessionId: sessionData.screeningSessionId,
+          baselineAssessmentId: assessmentData.baselineAssessmentId,
         });
       },
     });
@@ -92,7 +101,7 @@ export const BaselineAssesmentModal = ({ navigation }) => {
       secondaryCtaLabel={t("secondary_cta_label")}
       secondaryCtaHandleClick={handleSecondaryCtaClick}
       secondaryCtaType="secondary"
-      isCtaLoading={createScreeningSessionMutation.isLoading}
+      isCtaLoading={createBaselineAssessmentMutation.isLoading}
       isCtaDisabled={!dataProcessing || clientDataQuery.isLoading}
       isOpen={isOpen}
       handleClose={onClose}

@@ -8,12 +8,15 @@ import {
   AppButton,
   AppText,
   RadioButtonSelector,
+  ButtonWithIcon,
+  Block,
+  Icon,
 } from "#components";
 import {
-  useGetScreeningQuestions,
-  useGetClientAnswersForSessionById,
-  useAddScreeningAnswer,
-  useCreateScreeningSession,
+  useGetBaselineAssessmentQuestions,
+  useGetClientAnswersForBaselineAssessmentById,
+  useAddBaselineAssessmentAnswer,
+  useCreateBaselineAssessment,
   useGetTheme,
 } from "#hooks";
 import { appStyles } from "#styles";
@@ -21,11 +24,14 @@ import { appStyles } from "#styles";
 import { BaselineAssesmentResult } from "../BaselineAssesmentResult";
 
 export const BaselineAssesment = ({
-  selectedSession,
-  inProgressSession,
+  selectedAssessment,
+  inProgressAssessment,
   setHasStartedAssessment,
+  navigation,
 }) => {
-  const { t } = useTranslation("baseline-assesment");
+  const { t } = useTranslation("blocks", {
+    keyPrefix: "baseline-assesment",
+  });
   const { colors, isDarkMode } = useGetTheme();
   const queryClient = useQueryClient();
 
@@ -33,38 +39,42 @@ export const BaselineAssesment = ({
     currentStep: "intro", // intro, questions, completed
     currentQuestionIndex: 0,
     answers: {},
-    screeningSessionId: null,
-    isNewSession: false,
+    baselineAssessmentId: null,
+    isNewAssessment: false,
     finalResult: null,
   });
 
-  const { isLoading, data: questions, error } = useGetScreeningQuestions();
+  const {
+    isLoading,
+    data: questions,
+    error,
+  } = useGetBaselineAssessmentQuestions();
 
   const {
     isFetching: isFetchingAnswers,
     data: answers,
     error: answersError,
-  } = useGetClientAnswersForSessionById(
-    selectedSession?.screeningSessionId,
-    !state.isNewSession
+  } = useGetClientAnswersForBaselineAssessmentById(
+    selectedAssessment?.baselineAssessmentId,
+    !state.isNewAssessment
   );
 
   useEffect(() => {
-    if (answers && selectedSession) {
+    if (answers && selectedAssessment) {
       setState((prev) => ({
         ...prev,
         answers,
-        screeningSessionId: selectedSession.screeningSessionId,
-        currentQuestionIndex: selectedSession.currentPosition - 1,
+        baselineAssessmentId: selectedAssessment.baselineAssessmentId,
+        currentQuestionIndex: selectedAssessment.currentPosition - 1,
         currentStep:
-          selectedSession.status === "completed" ? "completed" : "questions",
-        finalResult: selectedSession.finalResult,
+          selectedAssessment.status === "completed" ? "completed" : "questions",
+        finalResult: selectedAssessment.finalResult,
       }));
     }
-  }, [answers, selectedSession]);
+  }, [answers, selectedAssessment]);
 
-  const addScreeningAnswerMutation = useAddScreeningAnswer();
-  const createScreeningSessionMutation = useCreateScreeningSession();
+  const addBaselineAssessmentAnswerMutation = useAddBaselineAssessmentAnswer();
+  const createBaselineAssessmentMutation = useCreateBaselineAssessment();
 
   const currentQuestion = questions?.[state.currentQuestionIndex];
   const progress = questions?.length
@@ -75,7 +85,7 @@ export const BaselineAssesment = ({
     : 0;
 
   // Check if user can start a new assessment
-  const canStartNewAssessment = !inProgressSession;
+  const canStartNewAssessment = !inProgressAssessment;
 
   const canContinue =
     currentQuestion && state.answers[currentQuestion.questionId];
@@ -88,19 +98,19 @@ export const BaselineAssesment = ({
       return;
     }
 
-    createScreeningSessionMutation.mutate(undefined, {
-      onSuccess: (sessionData) => {
+    createBaselineAssessmentMutation.mutate(undefined, {
+      onSuccess: (assessmentData) => {
         setState((prev) => ({
           ...prev,
           currentStep: "questions",
-          screeningSessionId: sessionData.screeningSessionId,
-          isNewSession: true,
+          baselineAssessmentId: assessmentData.baselineAssessmentId,
+          isNewAssessment: true,
         }));
         setHasStartedAssessment?.(true);
       },
       onError: (error) => {
-        // toast.error("Error creating session. Please try again.");
-        console.error("Failed to create screening session:", error);
+        // toast.error("Error creating assessment. Please try again.");
+        console.error("Failed to create baseline assessment:", error);
       },
     });
   };
@@ -146,20 +156,20 @@ export const BaselineAssesment = ({
     }
 
     // Submit answer to API first
-    addScreeningAnswerMutation.mutate(
+    addBaselineAssessmentAnswerMutation.mutate(
       {
         questionId,
         answerValue,
-        screeningSessionId: state.screeningSessionId,
+        baselineAssessmentId: state.baselineAssessmentId,
         currentPosition: state.currentQuestionIndex + 1,
       },
       {
         onSuccess: (data) => {
           // Update session ID if we got one back
-          if (data.screeningSessionId && !state.screeningSessionId) {
+          if (data.baselineAssessmentId && !state.baselineAssessmentId) {
             setState((prev) => ({
               ...prev,
-              screeningSessionId: data.screeningSessionId,
+              baselineAssessmentId: data.baselineAssessmentId,
             }));
           }
 
@@ -177,9 +187,12 @@ export const BaselineAssesment = ({
               finalResult: data.finalResult,
             }));
             queryClient.invalidateQueries({
-              queryKey: ["screening-sessions"],
+              queryKey: ["baseline-assessments"],
             });
           }
+          queryClient.invalidateQueries({
+            queryKey: ["latest-baseline-assessment"],
+          });
         },
         onError: (error) => {
           // toast.error("Error submitting answer. Please try again.");
@@ -201,8 +214,6 @@ export const BaselineAssesment = ({
         ...prev,
         currentQuestionIndex: prev.currentQuestionIndex - 1,
       }));
-    } else {
-      setState((prev) => ({ ...prev, currentStep: "intro" }));
     }
   };
 
@@ -227,12 +238,12 @@ export const BaselineAssesment = ({
             key={option.value}
             style={styles.ratingOption}
             onPress={() => handleAnswerSelect(option.value)}
-            disabled={addScreeningAnswerMutation.isLoading}
+            disabled={addBaselineAssessmentAnswerMutation.isLoading}
           >
             <RadioButtonSelector
               isChecked={currentAnswer === option.value}
               setIsChecked={() => handleAnswerSelect(option.value)}
-              disabled={addScreeningAnswerMutation.isLoading}
+              disabled={addBaselineAssessmentAnswerMutation.isLoading}
               label={option.label}
               style={[
                 styles.radioButton,
@@ -245,139 +256,122 @@ export const BaselineAssesment = ({
     );
   };
 
+  const handleRedirectToDashboard = () => {
+    navigation.navigate("Dashboard");
+  };
+
   return (
     <ScrollView
       style={[styles.container, { backgroundColor: colors.background }]}
       contentContainerStyle={styles.contentContainer}
     >
-      <View style={styles.grid}>
-        {/* Intro Step */}
-        {state.currentStep === "intro" && (
-          <>
-            <View style={styles.intro}>
-              <AppText namedStyle="h1" style={styles.title}>
-                Baseline Assessment
-              </AppText>
-              <AppText namedStyle="text" style={styles.description}>
-                This assessment will help us understand your current mental
-                health status. Please answer each question honestly.
-              </AppText>
-              <View style={styles.stats}>
-                <AppText
-                  namedStyle="smallText"
-                  style={[
-                    styles.statText,
-                    { color: isDarkMode ? "#c1d7e0" : "#92989b" },
-                  ]}
+      <Block>
+        <View style={styles.grid}>
+          {/* Questions Step */}
+          {state.currentStep === "questions" && currentQuestion && (
+            <>
+              <View style={styles.progressContainer}>
+                <TouchableOpacity
+                  onPress={handleRedirectToDashboard}
+                  hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
                 >
-                  {questions?.length || 0} questions
+                  <Icon
+                    style={{
+                      marginLeft: "auto",
+                      marginTop: 16,
+                    }}
+                    name="close-x"
+                    color={appStyles.colorPrimary_20809e}
+                  />
+                </TouchableOpacity>
+                <AppText namedStyle="h3" style={styles.instructionsTitle}>
+                  {t("instructions")}
                 </AppText>
-                <AppText
-                  namedStyle="smallText"
-                  style={[
-                    styles.statText,
-                    { color: isDarkMode ? "#c1d7e0" : "#92989b" },
-                  ]}
-                >
-                  ~5 minutes
-                </AppText>
-              </View>
-            </View>
-            {canStartNewAssessment && (
-              <View style={styles.buttonContainer}>
-                <AppButton
-                  label="Start Assessment"
-                  size="lg"
-                  onPress={handleStartAssessment}
-                  loading={createScreeningSessionMutation.isLoading}
-                  disabled={createScreeningSessionMutation.isLoading}
-                  type="primary"
+
+                <View style={styles.progressInfo}>
+                  <AppText
+                    namedStyle="smallText"
+                    style={[
+                      styles.progressText,
+                      { color: isDarkMode ? "#c1d7e0" : "#92989b" },
+                    ]}
+                  >
+                    {t("question", {
+                      number: state.currentQuestionIndex + 1,
+                      total: questions.length,
+                    })}
+                  </AppText>
+                  <AppText
+                    namedStyle="smallText"
+                    style={[
+                      styles.progressText,
+                      { color: isDarkMode ? "#c1d7e0" : "#92989b" },
+                    ]}
+                  >
+                    {t("completed", {
+                      percentage: Math.round(answeredProgress),
+                    })}
+                  </AppText>
+                </View>
+                <ProgressBar
+                  progress={progress}
+                  height="md"
+                  style={styles.progressBar}
                 />
               </View>
-            )}
-          </>
-        )}
 
-        {/* Questions Step */}
-        {state.currentStep === "questions" && currentQuestion && (
-          <>
-            <View style={styles.progressContainer}>
-              <AppText namedStyle="h3" style={styles.instructionsTitle}>
-                {t("instructions")}
-              </AppText>
-
-              <View style={styles.progressInfo}>
-                <AppText
-                  namedStyle="smallText"
-                  style={[
-                    styles.progressText,
-                    { color: isDarkMode ? "#c1d7e0" : "#92989b" },
-                  ]}
-                >
-                  {t("question", {
-                    number: state.currentQuestionIndex + 1,
-                    total: questions.length,
-                  })}
-                </AppText>
-                <AppText
-                  namedStyle="smallText"
-                  style={[
-                    styles.progressText,
-                    { color: isDarkMode ? "#c1d7e0" : "#92989b" },
-                  ]}
-                >
-                  {t("completed", {
-                    percentage: Math.round(answeredProgress),
-                  })}
-                </AppText>
+              {/* Question */}
+              <View style={styles.questionContainer}>
+                <View style={styles.questionContent}>
+                  <AppText namedStyle="h3" style={styles.questionText}>
+                    {t(currentQuestion.questionText)}
+                  </AppText>
+                </View>
               </View>
-              <ProgressBar
-                progress={progress}
-                height="md"
-                style={styles.progressBar}
-              />
-            </View>
 
-            {/* Question */}
-            <View style={styles.questionContainer}>
-              <View style={styles.questionContent}>
-                <AppText namedStyle="h3" style={styles.questionText}>
-                  {t(currentQuestion.questionText)}
-                </AppText>
-              </View>
-            </View>
+              {/* Rating Scale */}
+              <View style={styles.ratingContainer}>{renderRatingScale()}</View>
 
-            {/* Rating Scale */}
-            <View style={styles.ratingContainer}>{renderRatingScale()}</View>
-
-            {/* Navigation */}
-            <View style={styles.navigation}>
-              <View style={styles.navigationButtons}>
-                <AppButton
-                  label={t("back")}
-                  type="secondary"
-                  size="lg"
-                  onPress={handleBack}
-                  style={styles.navButton}
-                />
-                <AppButton
-                  label={isLastQuestion ? t("finish_assessment") : t("next")}
-                  size="lg"
-                  onPress={handleNext}
-                  disabled={!canContinue}
-                  loading={addScreeningAnswerMutation.isLoading}
-                  style={styles.navButton}
+              {/* Navigation */}
+              <View style={styles.navigation}>
+                <View style={styles.navigationButtons}>
+                  <AppButton
+                    disabled={state.currentQuestionIndex === 0}
+                    label={t("back")}
+                    type="secondary"
+                    size="lg"
+                    onPress={handleBack}
+                    style={styles.navButton}
+                  />
+                  <AppButton
+                    label={isLastQuestion ? t("finish_assessment") : t("next")}
+                    size="lg"
+                    onPress={handleNext}
+                    disabled={!canContinue}
+                    loading={addBaselineAssessmentAnswerMutation.isLoading}
+                    style={styles.navButton}
+                  />
+                </View>
+                <ButtonWithIcon
+                  label={t("save")}
+                  // onPress={redirectToDashboard}
+                  variant="secondary"
+                  iconName="save"
+                  style={{ width: "50%", alignSelf: "center", marginTop: 16 }}
                 />
               </View>
-            </View>
-          </>
-        )}
+            </>
+          )}
 
-        {/* Completed Step */}
-        {state.currentStep === "completed" && (
-          <BaselineAssesmentResult result={state.finalResult} />
-        )}
-      </View>
+          {/* Completed Step */}
+        </View>
+      </Block>
+      {state.currentStep === "completed" && (
+        <BaselineAssesmentResult
+          redirectToDashboard={handleRedirectToDashboard}
+          result={state.finalResult}
+        />
+      )}
     </ScrollView>
   );
 };
@@ -438,6 +432,7 @@ const styles = StyleSheet.create({
   instructionsTitle: {
     textAlign: "center",
     marginBottom: 16,
+    marginTop: 16,
   },
   progressInfo: {
     flexDirection: "row",

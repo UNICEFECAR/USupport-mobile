@@ -1,5 +1,11 @@
 import React from "react";
-import { View, StyleSheet, ScrollView, FlatList } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
 
@@ -16,8 +22,8 @@ import { Icon } from "../../components";
  *
  * @return {jsx}
  */
-export const BaselineAssesmentResult = ({ result }) => {
-  const { t } = useTranslation("baseline-assesment");
+export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
+  const { t } = useTranslation("blocks", { keyPrefix: "baseline-assesment" });
   const navigation = useNavigation();
   const { colors, isDarkMode } = useGetTheme();
 
@@ -99,11 +105,13 @@ export const BaselineAssesmentResult = ({ result }) => {
       <View style={styles.resultContainer}>
         {/* Assessment Completed Section */}
         <View style={styles.completedSection}>
-          <Icon
-            name="close-x"
-            color={colors.text}
-            style={{ marginLeft: "auto" }}
-          />
+          <TouchableOpacity onPress={redirectToDashboard}>
+            <Icon
+              name="close-x"
+              color={colors.text}
+              style={{ marginLeft: "auto" }}
+            />
+          </TouchableOpacity>
           <AppText namedStyle="h2" style={styles.completedTitle}>
             {t("assessment_completed")}
           </AppText>

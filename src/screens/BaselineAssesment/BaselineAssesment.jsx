@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 
 import { BaselineAssesment as BaselineAssesmentBlock } from "#blocks";
-import { useGetScreeningSessions } from "#hooks";
+import { useGetBaselineAssessments } from "#hooks";
 
 import {
   //   BaselineAssesmentBox,
@@ -18,99 +18,104 @@ import {
  *
  * @returns {JSX.Element}
  */
-export const BaselineAssesment = ({ route }) => {
+export const BaselineAssesment = ({ navigation, route }) => {
   const { t } = useTranslation("baseline-assesment-page");
-  const { data: screeningSessions, isLoading } = useGetScreeningSessions();
-  const { sessionId } = route.params;
+  const { data: baselineAssessments, isLoading } = useGetBaselineAssessments();
+  const { baselineAssessmentId } = route.params;
 
-  const [selectedSession, setSelectedSession] = useState(null);
+  const [selectedAssessment, setSelectedAssessment] = useState(null);
   const [hasStartedAssessment, setHasStartedAssessment] = useState(false);
 
   useEffect(() => {
-    if (sessionId && screeningSessions) {
-      const session = screeningSessions.find(
-        (session) => session.screeningSessionId === sessionId
+    if (baselineAssessmentId && baselineAssessments) {
+      const assessment = baselineAssessments.find(
+        (assessment) => assessment.baselineAssessmentId === baselineAssessmentId
       );
-      if (session) {
-        setSelectedSession(session);
+      if (assessment) {
+        setSelectedAssessment(assessment);
         setHasStartedAssessment(true);
       }
     }
-  }, [sessionId, screeningSessions]);
+  }, [baselineAssessmentId, baselineAssessments]);
 
-  // Separate sessions by status
-  const { inProgressSession, completedSessions } = useMemo(() => {
-    if (!screeningSessions) {
-      return { inProgressSession: null, completedSessions: [] };
+  // Separate assessments by status
+  const { inProgressAssessment, completedAssessments } = useMemo(() => {
+    if (!baselineAssessments) {
+      return { inProgressAssessment: null, completedAssessments: [] };
     }
 
-    const inProgress = screeningSessions.find(
-      (session) => session.status === "in_progress"
+    const inProgress = baselineAssessments.find(
+      (assessment) => assessment.status === "in_progress"
     );
-    const completed = screeningSessions.filter(
-      (session) => session.status === "completed"
+    const completed = baselineAssessments.filter(
+      (assessment) => assessment.status === "completed"
     );
 
     return {
-      inProgressSession: inProgress || null,
-      completedSessions: completed,
+      inProgressAssessment: inProgress || null,
+      completedAssessments: completed,
     };
-  }, [screeningSessions]);
+  }, [baselineAssessments]);
 
   return (
     <Screen hasHeaderNavigation={false} t={t}>
       {isLoading ? (
-        <Loading />
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <Loading />
+        </View>
       ) : (
         <BaselineAssesmentBlock
-          selectedSession={selectedSession}
-          setSelectedSession={setSelectedSession}
+          selectedAssessment={selectedAssessment}
+          setSelectedAssessment={setSelectedAssessment}
           setHasStartedAssessment={setHasStartedAssessment}
-          inProgressSession={inProgressSession}
+          inProgressAssessment={inProgressAssessment}
+          navigation={navigation}
         />
       )}
 
-      {/* Only show session list if no session is selected and no new assessment started */}
-      {!selectedSession && !hasStartedAssessment && (
+      {/* Only show assessment list if no assessment is selected and no new assessment started */}
+      {!selectedAssessment && !hasStartedAssessment && (
         <View className="page__baseline-assesment__sessions">
-          {/* Show in-progress session first if it exists */}
-          {/* {inProgressSession && (
+          {/* Show in-progress assessment first if it exists */}
+          {/* {inProgressAssessment && (
             <div className="page__baseline-assesment__sessions__in-progress">
               <h3>{t("continue_assessment")}</h3>
               <BaselineAssesmentBox
-                key={inProgressSession.screeningSessionId}
-                progress={inProgressSession.completionPercentage}
-                status={inProgressSession.status}
-                startedAt={inProgressSession.startedAt}
-                currentPosition={inProgressSession.currentPosition - 1}
-                completionPercentage={inProgressSession.completionPercentage}
-                handleViewSession={() => setSelectedSession(inProgressSession)}
+                key={inProgressAssessment.baselineAssessmentId}
+                progress={inProgressAssessment.completionPercentage}
+                status={inProgressAssessment.status}
+                startedAt={inProgressAssessment.startedAt}
+                currentPosition={inProgressAssessment.currentPosition - 1}
+                completionPercentage={inProgressAssessment.completionPercentage}
+                handleViewAssessment={() => setSelectedAssessment(inProgressAssessment)}
                 t={t}
               />
             </div>
           )} */}
 
-          {/* Show completed sessions if there are any */}
-          {/* {completedSessions.length > 0 && (
+          {/* Show completed assessments if there are any */}
+          {/* {completedAssessments.length > 0 && (
             <View className="page__baseline-assesment__sessions__completed">
               <AppText>{t("completed_assessments")}</AppText>
-              {completedSessions.map((session) => (
+              {completedAssessments.map((assessment) => (
                 <BaselineAssesmentBox
-                  key={session.screeningSessionId}
+                  key={assessment.baselineAssessmentId}
                   progress={
-                    session.status === "completed"
+                    assessment.status === "completed"
                       ? 100
-                      : session.completionPercentage
+                      : assessment.completionPercentage
                   }
-                  status={session.status}
-                  startedAt={session.startedAt}
+                  status={assessment.status}
+                  startedAt={assessment.startedAt}
                   currentPosition={
-                    session.status === "completed"
-                      ? session.currentPosition
-                      : session.currentPosition - 1
+                    assessment.status === "completed"
+                      ? assessment.currentPosition
+                      : assessment.currentPosition - 1
                   }
-                  completionPercentage={session.completionPercentage}
-                  handleViewSession={() => setSelectedSession(session)}
+                  completionPercentage={assessment.completionPercentage}
+                  handleViewAssessment={() => setSelectedAssessment(assessment)}
                   t={t}
                 />
               ))}
