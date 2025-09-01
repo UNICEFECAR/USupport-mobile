@@ -248,39 +248,48 @@ async function addSOSCenterClick(payload) {
   return response;
 }
 
-async function getScreeningQuestions() {
-  const response = await http.get(`${API_ENDPOINT}/screening/questions`);
+async function getBaselineAssessmentQuestions() {
+  const response = await http.get(
+    `${API_ENDPOINT}/baseline-assessment/questions`
+  );
   return response;
 }
 
-async function createScreeningSession() {
-  const response = await http.post(`${API_ENDPOINT}/screening/create-session`);
+async function createBaselineAssessment() {
+  const response = await http.post(
+    `${API_ENDPOINT}/baseline-assessment/create-assessment`
+  );
   return response;
 }
 
-async function addScreeningAnswer({
+async function addBaselineAssessmentAnswer({
   questionId,
   answerValue,
-  screeningSessionId,
+  baselineAssessmentId,
   currentPosition,
 }) {
-  const response = await http.post(`${API_ENDPOINT}/screening/add-answer`, {
-    questionId,
-    answerValue,
-    screeningSessionId,
-    currentPosition,
-  });
+  const response = await http.post(
+    `${API_ENDPOINT}/baseline-assessment/add-answer`,
+    {
+      questionId,
+      answerValue,
+      baselineAssessmentId,
+      currentPosition,
+    }
+  );
   return response;
 }
 
-async function getScreeningSessions() {
-  const response = await http.get(`${API_ENDPOINT}/screening/sessions`);
-  return response;
-}
-
-async function getClientAnswersForSessionById(sessionId) {
+async function getBaselineAssessments() {
   const response = await http.get(
-    `${API_ENDPOINT}/screening/answers?sessionId=${sessionId}`
+    `${API_ENDPOINT}/baseline-assessment/assessments`
+  );
+  return response;
+}
+
+async function getClientAnswersForBaselineAssessmentById(baselineAssessmentId) {
+  const response = await http.get(
+    `${API_ENDPOINT}/baseline-assessment/answers?assessmentId=${baselineAssessmentId}`
   );
   return response;
 }
@@ -289,7 +298,7 @@ async function updateClientHasCheckedBaselineAssessment(
   hasCheckedBaselineAssessment
 ) {
   const response = await http.patch(
-    `${API_ENDPOINT}/has-checked-baseline-assesment`,
+    `${API_ENDPOINT}/has-checked-baseline-assessment`,
     {
       hasCheckedBaselineAssessment,
     }
@@ -298,7 +307,7 @@ async function updateClientHasCheckedBaselineAssessment(
 }
 
 async function getLatestBaselineAssessment() {
-  const response = await http.get(`${API_ENDPOINT}/screening/latest`);
+  const response = await http.get(`${API_ENDPOINT}/baseline-assessment/latest`);
   return response;
 }
 
@@ -332,12 +341,12 @@ const exportedFunctions = {
   getOrganizations,
   getOrganizationById,
   sendPlatformSuggestion,
-  createScreeningSession,
-  getScreeningQuestions,
-  getScreeningSessions,
-  getClientAnswersForSessionById,
+  createBaselineAssessment,
+  getBaselineAssessmentQuestions,
+  getBaselineAssessments,
+  getClientAnswersForBaselineAssessmentById,
   updateClientHasCheckedBaselineAssessment,
-  addScreeningAnswer,
+  addBaselineAssessmentAnswer,
   getLatestBaselineAssessment,
   addSOSCenterClick,
 };
