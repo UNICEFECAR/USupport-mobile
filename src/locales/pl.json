@@ -694,6 +694,59 @@
       "adults": "Dorośli",
       "adults_disabilities": "Dorośli z niepełnosprawnościami",
       "check_organization": "Cześć, sprawdź tę organizację"
+    },
+    "baseline-assesment": {
+      "instructions": "Instrukcja: Myśląc o ostatnich dwóch tygodniach, wybierz odpowiedź, która najlepiej Cię opisuje.",
+      "stress_level": "Jestem bardzo zestresowany/zestresowana.",
+      "sadness_anxiety": "Często czuję się smutny/smutna lub niespokojny/niespokojna.",
+      "fear_frequency": "Często odczuwam strach.",
+      "emotion_control": "Bardzo trudno jest mi kontrolować emocje.",
+      "worry_anxiety": "Często się martwię i czuję lęk.",
+      "nervousness": "Często się denerwuję.",
+      "sensitivity_agitation": "Jestem bardziej drażliwy/drażliwa i wrażliwy/wrażliwa niż inni.",
+      "physical_weakness": "Czuję się fizycznie słaby/słaba lub często coś mnie boli.",
+      "tired_waking": "Budzę się zmęczony/zmęczona.",
+      "body_health_concerns": "Myślę, że coś poważnego dzieje się z moim ciałem.",
+      "slow_movements": "Poruszam się i reaguję wolniej niż inni.",
+      "friendship_difficulty": "Trudno mi nawiązywać przyjaźnie z innymi dziećmi. Wolę być sam/sama.",
+      "communication_difficulty": "Trudno mi rozmawiać z przyjaciółmi lub rodziną.",
+      "emotional_expression": "Nie potrafię otwarcie mówić o swoich uczuciach.",
+      "parental_overwhelm": "Moi rodzice mnie przytłaczają.",
+      "school_helplessness": "Czuję się bezradny/bezradna w szkole wobec innych.",
+      "difficult_parents": "Moi rodzice są bardzo trudni.",
+      "concentration_problems": "Mam trudności z koncentracją.",
+      "lack_happiness": "Niewiele rzeczy naprawdę mnie uszczęśliwia.",
+      "maturity_pressure": "Czuję, że powinienem/powinnam szybciej dorosnąć.",
+      "internet_dependency": "Bez internetu czułbym/czułabym się samotny/samotna.",
+      "economic_bullying": "Byłem/am prześladowany/a lub wykluczony/a, bo nie stać mnie na to, co mają inni (np. ubrania, telefon itp.).",
+      "few_friends": "Mam niewielu przyjaciół.",
+      "nightmares": "Często miewam koszmary.",
+      "appetite_loss": "Nie mam apetytu.",
+      "substance_use": "Próbowałem/am kilka razy palić lub używać nielegalnych substancji (alkohol, narkotyki itp.).",
+      "frequent_headaches": "Często mam bóle głowy bez powodu.",
+
+      "question": "Pytanie {{number}} z {{total}}",
+      "completed": "{{percentage}}% ukończone",
+      "back": "Wstecz",
+      "next": "Dalej",
+      "start_assessment": "Rozpocznij ocenę",
+      "finish_assessment": "Zakończ ocenę",
+      "assessment_completed": "Ocena zakończona",
+      "assessment_completed_description": "Dziękujemy za wypełnienie oceny. Twoje odpowiedzi zostały zapisane i pomogą nam Cię wesprzeć.",
+      "assessment_completed_button": "Wróć do strony głównej",
+      "save": "Zapisz"
+    },
+    "baseline-assessment-dashboard": {
+      "heading": "Twój podstawowy egzamin",
+      "no_assessment_text": "Nie przeszedłeś jeszcze podstawowego egzaminu. Przejdź go, aby otrzymać personalizowane rekomendacje dotyczące Twojego zdrowia psychicznego.",
+      "start_new_assessment": "Rozpocznij egzamin",
+      "completed": "Zakończone",
+      "in_progress": "W toku",
+      "continue": "Kontynuuj",
+      "view": "Zobacz wyniki",
+      "view_detailed_results": "Zobacz szczegółowe wyniki",
+      "started_at": "Rozpoczęte {{date}}",
+      "answered_questions": "Odpowiedzi na pytania: {{current}}/27"
     }
   },
 
@@ -1123,6 +1176,17 @@
       "confirm": "Tak, usuń wszystkie moje dane czatu",
       "cancel": "Nie, zachowaj moje dane czatu",
       "success": "Twoje dane czatu zostały pomyślnie usunięte."
+    },
+    "baseline-assesment-modal": {
+      "heading": "Ocena wstępna",
+      "paragraph_1": "Poniższe pytania pomogą Ci lepiej zrozumieć, jak się czujesz, i sprawdzić, czy potrzebujesz wsparcia, aby poczuć się lepiej. Pytania dotyczą Twojego nastroju, myśli i uczuć z ostatnich dwóch tygodni. Nie ma tutaj dobrych ani złych odpowiedzi – są tylko takie, które najlepiej opisują Ciebie. Ważne jest, aby odpowiadać szczerze, abyśmy mogli zrozumieć Twoje samopoczucie i wiedzieć, jak Ci pomóc.",
+      "paragraph_2": "Na końcu otrzymasz odpowiedź, która pokaże, jak się czujesz i czy warto porozmawiać z kimś o tym, co się dzieje. Jeśli zajdzie taka potrzeba, wskażemy Ci, do kogo możesz się zwrócić po pomoc – może to być szkolny pedagog, psycholog lub inny specjalista.",
+      "paragraph_3": "Wszystkie Twoje odpowiedzi są poufne – nie pytamy o imię ani inne dane, które mogłyby Cię zidentyfikować. Jesteś bezpieczny, możesz być otwarty i szczery. Wypełnienie kwestionariusza zajmuje tylko kilka minut i może być pierwszym krokiem do lepszego samopoczucia.",
+      "paragraph_4": "Gotowy/a? Zaczynajmy! 😊",
+      "privacy": "Prywatność i bezpieczeństwo",
+      "consent": "Aby kontynuować, zaakceptuj naszą <0>Politykę prywatności</0>",
+      "cta_label": "Zgadzam się wypełnić kwestionariusz.",
+      "secondary_cta_label": "Nie chcę wypełniać kwestionariusza"
     }
   },
 
