@@ -211,6 +211,7 @@ function transformUserData(data) {
     image: data.image,
     urbanRural: data.urban_rural || "",
     dataProcessing: data.data_processing,
+    hasCheckedBaselineAssessment: data.has_checked_baseline_assessment,
   };
 }
 

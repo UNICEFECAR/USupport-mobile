@@ -1,0 +1,8 @@
+{
+  "started_at": "Розпочато {{date}}",
+  "continue": "Продовжити",
+  "view": "Переглянути",
+  "in_progress": "В процесі",
+  "completed": "Завершено",
+  "completed_at": "Завершено {{date}}"
+}

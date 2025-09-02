@@ -248,6 +248,69 @@ async function addSOSCenterClick(payload) {
   return response;
 }
 
+async function getBaselineAssessmentQuestions() {
+  const response = await http.get(
+    `${API_ENDPOINT}/baseline-assessment/questions`
+  );
+  return response;
+}
+
+async function createBaselineAssessment() {
+  const response = await http.post(
+    `${API_ENDPOINT}/baseline-assessment/create-assessment`
+  );
+  return response;
+}
+
+async function addBaselineAssessmentAnswer({
+  questionId,
+  answerValue,
+  baselineAssessmentId,
+  currentPosition,
+}) {
+  const response = await http.post(
+    `${API_ENDPOINT}/baseline-assessment/add-answer`,
+    {
+      questionId,
+      answerValue,
+      baselineAssessmentId,
+      currentPosition,
+    }
+  );
+  return response;
+}
+
+async function getBaselineAssessments() {
+  const response = await http.get(
+    `${API_ENDPOINT}/baseline-assessment/assessments`
+  );
+  return response;
+}
+
+async function getClientAnswersForBaselineAssessmentById(baselineAssessmentId) {
+  const response = await http.get(
+    `${API_ENDPOINT}/baseline-assessment/answers?assessmentId=${baselineAssessmentId}`
+  );
+  return response;
+}
+
+async function updateClientHasCheckedBaselineAssessment(
+  hasCheckedBaselineAssessment
+) {
+  const response = await http.patch(
+    `${API_ENDPOINT}/has-checked-baseline-assessment`,
+    {
+      hasCheckedBaselineAssessment,
+    }
+  );
+  return response;
+}
+
+async function getLatestBaselineAssessment() {
+  const response = await http.get(`${API_ENDPOINT}/baseline-assessment/latest`);
+  return response;
+}
+
 const exportedFunctions = {
   addMoodTrack,
   getClientData,
@@ -278,6 +341,13 @@ const exportedFunctions = {
   getOrganizations,
   getOrganizationById,
   sendPlatformSuggestion,
+  createBaselineAssessment,
+  getBaselineAssessmentQuestions,
+  getBaselineAssessments,
+  getClientAnswersForBaselineAssessmentById,
+  updateClientHasCheckedBaselineAssessment,
+  addBaselineAssessmentAnswer,
+  getLatestBaselineAssessment,
   addSOSCenterClick,
 };
 

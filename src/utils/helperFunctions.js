@@ -97,12 +97,20 @@ const createArticleSlug = (title) => {
   );
 };
 
+const constructWebsiteUrl = async (path) => {
+  const country = await localStorage.getItem("country");
+  const language = await localStorage.getItem("language");
+  const countryName = countryMap[country.toLocaleLowerCase()];
+
+  return `https://${countryName}.usupport.online/${language}/${path}`;
+};
+
 const constructShareUrl = async ({ contentType, id, name }) => {
   const country = await localStorage.getItem("country");
   const language = await localStorage.getItem("language");
 
   const countryName = countryMap[country.toLocaleLowerCase()];
-  const slugName = name ? `/${createArticleSlug(name)}` : "";
+  const slugName = name ? `${createArticleSlug(name)}` : "";
 
   if (contentType === "organization") {
     return `https://${countryName}.usupport.online/${language}/organization-overview/${id}`;
@@ -110,4 +118,10 @@ const constructShareUrl = async ({ contentType, id, name }) => {
   return `https://${countryName}.usupport.online/${language}/information-portal/${contentType}/${id}/${slugName}`;
 };
 
-export { calcGradientDegrees, checkIsLikedAndDisliked, constructShareUrl };
+export {
+  calcGradientDegrees,
+  checkIsLikedAndDisliked,
+  constructShareUrl,
+  constructWebsiteUrl,
+  createArticleSlug,
+};

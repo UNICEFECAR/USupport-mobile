@@ -143,10 +143,10 @@ export const useRecommendedArticles = ({
     const endIndex = startIndex + limit;
     const idsToFetch = remainingIds.slice(startIndex, endIndex);
 
-    console.log(`[fetchAllArticles] pageNum: ${pageNum}`);
-    console.log("[fetchAllArticles] excludeIds:", excludeIds);
-    console.log("[fetchAllArticles] remainingIds:", remainingIds);
-    console.log("[fetchAllArticles] idsToFetch:", idsToFetch);
+    // console.log(`[fetchAllArticles] pageNum: ${pageNum}`);
+    // console.log("[fetchAllArticles] excludeIds:", excludeIds);
+    // console.log("[fetchAllArticles] remainingIds:", remainingIds);
+    // console.log("[fetchAllArticles] idsToFetch:", idsToFetch);
 
     if (idsToFetch.length === 0) {
       setHasMoreRemaining(false);
@@ -238,9 +238,9 @@ export const useRecommendedArticles = ({
           return newResults;
         });
 
-        console.log(
-          `Category ${category.categoryId} fetched: ${result.data.length} articles`
-        );
+        // console.log(
+        //   `Category ${category.categoryId} fetched: ${result.data.length} articles`
+        // );
       }
     } catch (error) {
       console.error(`Error fetching category ${category.categoryId}:`, error);
@@ -255,13 +255,13 @@ export const useRecommendedArticles = ({
 
   // Fetch all articles for a specific category (with read articles at bottom)
   const fetchAllCategoryArticles = async () => {
-    console.log("countryArticles", countryArticles);
+    // console.log("countryArticles", countryArticles);
     if (!countryArticles?.length || !categoryIdFilter) return;
 
     setFetchingRemaining(true);
 
     try {
-      console.log("Fetching articles for categoryIdFilter", categoryIdFilter);
+      // console.log("Fetching articles for categoryIdFilter", categoryIdFilter);
       // Fetch all articles for this category
       const { data: allCategoryArticlesData } = await cmsSvc.getArticles({
         ids: countryArticles,
@@ -431,16 +431,16 @@ export const useRecommendedArticles = ({
       (id) => !excludeIds.includes(Number(id))
     );
 
-    console.log("fetchedArticleIds (from categories)", fetchedArticleIds);
-    console.log(
-      "fetchedRemainingIds (from previous pages)",
-      fetchedRemainingIds
-    );
-    console.log("excludeIds (total)", excludeIds);
-    console.log(
-      "filteredCountryArticles length",
-      filteredCountryArticles.length
-    );
+    // console.log("fetchedArticleIds (from categories)", fetchedArticleIds);
+    // console.log(
+    //   "fetchedRemainingIds (from previous pages)",
+    //   fetchedRemainingIds
+    // );
+    // console.log("excludeIds (total)", excludeIds);
+    // console.log(
+    //   "filteredCountryArticles length",
+    //   filteredCountryArticles.length
+    // );
 
     if (filteredCountryArticles.length === 0) {
       setHasMoreRemaining(false);
@@ -488,9 +488,9 @@ export const useRecommendedArticles = ({
         // If current start + limit < total, there are more pages
         hasMorePages = currentStart + currentLimit < total;
 
-        console.log(
-          `Remaining Pagination calc: start=${currentStart}, limit=${currentLimit}, total=${total}, hasMore=${hasMorePages}`
-        );
+        // console.log(
+        //   `Remaining Pagination calc: start=${currentStart}, limit=${currentLimit}, total=${total}, hasMore=${hasMorePages}`
+        // );
       } else {
         // Fallback: if we got exactly the limit, there might be more
         hasMorePages = remainingData.data.length === limit;
@@ -503,9 +503,9 @@ export const useRecommendedArticles = ({
         !hasMorePages &&
         categorySortedData.interactedArticleIds?.length > 0
       ) {
-        console.log(
-          "No more remaining pages, will fetch read articles on next loadMore"
-        );
+        // console.log(
+        //   "No more remaining pages, will fetch read articles on next loadMore"
+        // );
         setHasMoreRead(true);
       }
 
@@ -534,10 +534,10 @@ export const useRecommendedArticles = ({
         ]);
       }
 
-      console.log(
-        `Remaining articles fetched for page ${pageNum}: ${remainingData.data.length}`
-      );
-      console.log(`Strapi pagination:`, remainingData.meta?.pagination);
+      // console.log(
+      //   `Remaining articles fetched for page ${pageNum}: ${remainingData.data.length}`
+      // );
+      // console.log(`Strapi pagination:`, remainingData.meta?.pagination);
     } catch (error) {
       console.warn("Error fetching remaining articles:", error);
       setHasMoreRemaining(false);
@@ -548,11 +548,11 @@ export const useRecommendedArticles = ({
 
   // Fetch read articles when no more unread articles are available
   const fetchReadArticles = async (pageNum = 1) => {
-    console.log(`🔄 fetchReadArticles called with page ${pageNum}`);
-    console.log(
-      "categorySortedData.interactedArticleIds:",
-      categorySortedData.interactedArticleIds
-    );
+    // console.log(`🔄 fetchReadArticles called with page ${pageNum}`);
+    // console.log(
+    //   "categorySortedData.interactedArticleIds:",
+    //   categorySortedData.interactedArticleIds
+    // );
 
     if (!categorySortedData.interactedArticleIds?.length) {
       console.log("❌ No interacted article IDs available");
@@ -568,9 +568,9 @@ export const useRecommendedArticles = ({
       (id) => !excludeReadIds.includes(Number(id))
     );
 
-    console.log("fetchedReadIds", fetchedReadIds);
-    console.log("filteredReadArticles length", filteredReadArticles.length);
-    console.log("filteredReadArticles IDs", filteredReadArticles);
+    // console.log("fetchedReadIds", fetchedReadIds);
+    // console.log("filteredReadArticles length", filteredReadArticles.length);
+    // console.log("filteredReadArticles IDs", filteredReadArticles);
 
     if (filteredReadArticles.length === 0) {
       setHasMoreRead(false);
@@ -609,9 +609,9 @@ export const useRecommendedArticles = ({
 
         hasMorePages = currentStart + currentLimit < total;
 
-        console.log(
-          `Read Articles Pagination calc: start=${currentStart}, limit=${currentLimit}, total=${total}, hasMore=${hasMorePages}`
-        );
+        // console.log(
+        //   `Read Articles Pagination calc: start=${currentStart}, limit=${currentLimit}, total=${total}, hasMore=${hasMorePages}`
+        // );
       } else {
         hasMorePages = readData.data.length === limit;
       }
@@ -638,10 +638,10 @@ export const useRecommendedArticles = ({
         ]);
       }
 
-      console.log(
-        `Read articles fetched for page ${pageNum}: ${readData.data.length}`
-      );
-      console.log(`Strapi pagination:`, readData.meta?.pagination);
+      // console.log(
+      //   `Read articles fetched for page ${pageNum}: ${readData.data.length}`
+      // );
+      // console.log(`Strapi pagination:`, readData.meta?.pagination);
     } catch (error) {
       console.warn("Error fetching read articles:", error);
       setHasMoreRead(false);
@@ -686,14 +686,14 @@ export const useRecommendedArticles = ({
   // Load more function
   const loadMore = () => {
     if (fetchingRemaining || !hasMore) {
-      console.log("[loadMore] Blocked: fetchingRemaining or !hasMore");
+      // console.log("[loadMore] Blocked: fetchingRemaining or !hasMore");
       return;
     }
     if (categorySortedData.categories?.length === 0) {
       // No categories - load more all articles
       const nextPage = allArticlesPage + 1;
       setAllArticlesPage(nextPage);
-      console.log(`[loadMore] Calling fetchAllArticles with page ${nextPage}`);
+      // console.log(`[loadMore] Calling fetchAllArticles with page ${nextPage}`);
       fetchAllArticles(nextPage);
     } else {
       // Categories exist
@@ -709,9 +709,9 @@ export const useRecommendedArticles = ({
         // Load more read articles
         const nextPage = readPage + 1;
         setReadPage(nextPage);
-        console.log(
-          `[loadMore] Calling fetchReadArticles with page ${nextPage}`
-        );
+        // console.log(
+        //   `[loadMore] Calling fetchReadArticles with page ${nextPage}`
+        // );
         fetchReadArticles(nextPage);
       }
     }
@@ -721,7 +721,7 @@ export const useRecommendedArticles = ({
   useEffect(() => {
     // When ageGroupId changes, reset everything
     if (ageGroupId) {
-      console.log("[useEffect] ageGroupId changed, resetting state");
+      // console.log("[useEffect] ageGroupId changed, resetting state");
       if (typeof refetch === "function") refetch();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
