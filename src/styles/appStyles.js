@@ -63,6 +63,8 @@ export default {
   colorRed_a63d3d: "#a63d3d",
   colorRed_ed5657: "#ed5657",
 
+  colorHighContrast_ffff00: "#ffff00",
+
   // Gradients
   gradientPrimary: {
     degrees: 270,
