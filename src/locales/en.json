@@ -551,6 +551,7 @@
       "language_button_label": "Change language",
       "dark_mode_button_label": "Dark mode",
       "light_mode_button_label": "Light mode",
+      "high_contrast_mode": "High contrast mode",
       "user_guide": "Platform usage"
     },
     "welcome": {

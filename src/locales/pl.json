@@ -549,6 +549,7 @@
       "language_button_label": "Zmień język",
       "dark_mode_button_label": "Tryb ciemny",
       "light_mode_button_label": "Tryb jasny",
+      "high_contrast_mode": "Tryb wysokiego kontrastu",
       "user_guide": "Wykorzystanie platformy"
     },
     "welcome": {
