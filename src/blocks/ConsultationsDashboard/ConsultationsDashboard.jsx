@@ -69,13 +69,12 @@ export const ConsultationsDashboard = ({
   };
 
   return (
-    <Block style={styles.block}>
-      <View style={styles.heading}>
-        <AppText namedStyle="h3">{t("heading")}</AppText>
-        <TouchableOpacity onPress={handleViewAll}>
-          <AppText style={styles.viewAllText}>{t("view_all")}</AppText>
-        </TouchableOpacity>
-      </View>
+    <Block
+      style={styles.block}
+      heading={t("heading")}
+      btnLabel={t("view_all")}
+      onPress={handleViewAll}
+    >
       {isLoading ? (
         <View style={styles.loadingContainer}>
           <Loading size="lg" />
@@ -117,15 +116,6 @@ const styles = StyleSheet.create({
   block: {
     paddingTop: 40,
     paddingBottom: 100,
-  },
-  heading: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  viewAllText: {
-    color: appStyles.colorSecondary_9749fa,
-    fontFamily: appStyles.fontSemiBold,
   },
   buttonContainer: {
     justifyItems: "center",

@@ -24,14 +24,130 @@ export const AppButton = ({
   style,
   ...props
 }) => {
-  const { isDarkMode } = useGetTheme();
+  const { isDarkMode, isHighContrast } = useGetTheme();
   const [isPressed, setIsPressed] = useState(false);
 
-  const btnType = type === "secondary" && isDarkMode ? "primary" : type;
+  // In high-contrast keep the requested type; otherwise remap secondary to primary in dark mode
+  const btnType = isHighContrast
+    ? type
+    : type === "secondary" && isDarkMode
+      ? "primary"
+      : type;
+
+  // Compute text styles (separate from Pressable style callback)
+  const textStyles = isHighContrast
+    ? (() => {
+        const hcTextPrimary = "#ffffff";
+        const hcTextSecondary = "#000000";
+        const hcDisabledText = "#666666";
+        const isDisabledLike = disabled || loading;
+
+        const base = [styles.btnText, size === "lg" && styles.btnTextLg];
+        let textColor = hcTextPrimary;
+        if (isPressed) {
+          textColor = hcTextSecondary;
+        }
+        if (btnType === "secondary" || btnType === "ghost") {
+          textColor = isPressed ? hcTextSecondary : hcTextPrimary;
+        }
+        if (isDisabledLike) {
+          textColor = hcDisabledText;
+        }
+        base.push({ color: textColor });
+        if (btnType === "ghost") {
+          base.push({ textDecorationLine: "underline" });
+        }
+        if (isPressed) base.push(styles.btnTextPressed);
+        return base;
+      })()
+    : [
+        styles.btnText,
+        size === "lg" && styles.btnTextLg,
+        btnType === "secondary" && styles.btnTextSecondary,
+        btnType === "secondary" &&
+          color === "purple" &&
+          styles.btnTextSecondaryPurple,
+        btnType === "ghost" && styles.btnTextGhost,
+        btnType === "ghost" && color === "purple" && styles.btnTextGhostPurple,
+        isPressed && styles.btnTextPressed,
+        isPressed &&
+          (btnType === "secondary" || btnType === "ghost") &&
+          styles[color + "Pressed" + "Text"],
+        !isHighContrast &&
+          color === "red" &&
+          btnType != "primary" &&
+          styles.btnTextRed,
+      ];
 
   return (
     <Pressable
       style={({ pressed }) => {
+        // High-contrast overrides (black/white scheme with strong borders, no shadows)
+        if (isHighContrast) {
+          const hcBgPrimary = "#000000";
+          const hcTextPrimary = "#ffffff";
+          const hcBorderPrimary = "#ffffff";
+          const hcBgSecondary = "#ffffff";
+          const hcTextSecondary = "#000000";
+          const hcDisabledBg = "#333333";
+          const hcDisabledText = "#666666";
+          const hcDisabledBorder = "#666666";
+          const hcBorderWidth = 2;
+
+          const isDisabledLike = disabled || loading;
+
+          // Base container style in HC
+          const baseHC = [
+            styles.btn,
+            styles[size],
+            {
+              // Remove shadows/elevation in HC
+              shadowColor: "transparent",
+              elevation: 0,
+              backgroundColor:
+                btnType === "secondary" || btnType === "ghost"
+                  ? "transparent"
+                  : hcBgPrimary,
+              borderColor:
+                btnType === "ghost" ? "transparent" : hcBorderPrimary,
+              borderWidth: btnType === "ghost" ? 0 : hcBorderWidth,
+            },
+          ];
+
+          // Pressed/active feedback: invert to white bg/black text
+          if (pressed && !isDisabledLike) {
+            baseHC.push({
+              backgroundColor: hcBgSecondary,
+              borderColor: hcTextSecondary,
+            });
+          }
+
+          // Ghost pressed gets white bg as well
+          if (btnType === "ghost" && pressed && !isDisabledLike) {
+            baseHC.push({
+              backgroundColor: hcBgSecondary,
+              borderColor: "transparent",
+              borderWidth: 0,
+            });
+          }
+
+          // Disabled state colors
+          if (isDisabledLike) {
+            baseHC.push({
+              backgroundColor:
+                btnType === "secondary" || btnType === "ghost"
+                  ? "transparent"
+                  : hcDisabledBg,
+              borderColor:
+                btnType === "ghost" ? "transparent" : hcDisabledBorder,
+              borderWidth: btnType === "ghost" ? 0 : hcBorderWidth,
+              opacity: 1,
+            });
+          }
+
+          return [...baseHC, style];
+        }
+
         return [
           btnType === "ghost"
             ? {}
@@ -58,23 +174,7 @@ export const AppButton = ({
         <Loading style={{ width: 23, height: 23 }} />
       ) : (
         <Text
-          style={[
-            styles.btnText,
-            size === "lg" && styles.btnTextLg,
-            btnType === "secondary" && styles.btnTextSecondary,
-            btnType === "secondary" &&
-              color === "purple" &&
-              styles.btnTextSecondaryPurple,
-            btnType === "ghost" && styles.btnTextGhost,
-            btnType === "ghost" &&
-              color === "purple" &&
-              styles.btnTextGhostPurple,
-            isPressed && styles.btnTextPressed,
-            isPressed &&
-              (btnType === "secondary" || btnType === "ghost") &&
-              styles[color + "Pressed" + "Text"],
-            color === "red" && btnType != "primary" && styles.btnTextRed,
-          ]}
+          style={textStyles}
           maxFontSizeMultiplier={appStyles.maxFontSizeMultiplier}
         >
           {label}

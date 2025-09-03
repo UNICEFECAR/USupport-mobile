@@ -147,17 +147,12 @@ export const MoodTracker = ({
   };
 
   return (
-    <Block style={styles.block}>
-      <View style={styles.heading}>
-        <AppText style={{ marginRight: 12 }} namedStyle="h3">
-          {t("heading")}
-        </AppText>
-        <TouchableOpacity onPress={handleMoodtrackClick}>
-          <AppText style={styles.moodTrackerButton}>
-            {t("mood_tracker")}
-          </AppText>
-        </TouchableOpacity>
-      </View>
+    <Block
+      style={styles.block}
+      heading={t("heading")}
+      btnLabel={t("mood_tracker")}
+      btnOnPress={handleMoodtrackClick}
+    >
       <View style={styles.rating}>{renderEmoticons()}</View>
       {hasSelectedMoodtracker() && (
         <View style={styles.additionalCommentContainer}>
@@ -187,16 +182,6 @@ export const MoodTracker = ({
 
 const styles = StyleSheet.create({
   block: { paddingTop: 40 },
-  heading: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: "100%",
-  },
-  moodTrackerButton: {
-    color: appStyles.colorSecondary_9749fa,
-    fontFamily: appStyles.fontSemiBold,
-  },
   rating: {
     flexDirection: "row",
     width: "100%",

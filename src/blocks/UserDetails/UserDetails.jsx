@@ -50,6 +50,7 @@ export const UserDetails = ({
 }) => {
   const { colors } = useGetTheme();
   const { t } = useTranslation("blocks", { keyPrefix: "user-details" });
+  const { isHighContrast } = useGetTheme();
   const { country } = useContext(Context);
   const queryClient = useQueryClient();
 
@@ -454,7 +455,9 @@ export const UserDetails = ({
                     components={[
                       <AppText
                         style={{
-                          color: appStyles.colorPrimary_20809e,
+                          color: isHighContrast
+                            ? "#fff"
+                            : appStyles.colorPrimary_20809e,
                         }}
                         isBold
                         onPress={() => setShowPrivacyPolicy(true)}
@@ -525,7 +528,9 @@ export const UserDetails = ({
             components={[
               <AppText
                 style={{
-                  color: appStyles.colorPrimary_20809e,
+                  color: isHighContrast
+                    ? appStyles.colorWhite_ff
+                    : appStyles.colorPrimary_20809e,
                 }}
                 isBold
                 onPress={() => setShowPrivacyPolicy(true)}

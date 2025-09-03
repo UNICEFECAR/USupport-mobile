@@ -33,6 +33,7 @@ import {
   useGetAllConsultations,
   useMarkAllNotificationsAsRead,
   useGetClientData,
+  useGetTheme,
 } from "#hooks";
 
 /**
@@ -48,6 +49,7 @@ export const Notifications = ({
   openRequireDataAgreement,
 }) => {
   const { t } = useTranslation("blocks", { keyPrefix: "notifications" });
+  const { isHighContrast } = useGetTheme();
 
   const queryClient = useQueryClient();
 
@@ -582,7 +584,14 @@ export const Notifications = ({
   const MarkAllAsReadButton = () => {
     return (
       <TouchableOpacity onPress={handleMarkAllAsRead}>
-        <AppText style={styles.markAllAsReadButton}>{t("mark_read")}</AppText>
+        <AppText
+          style={[
+            styles.markAllAsReadButton,
+            isHighContrast ? styles.markAllAsReadButtonHC : {},
+          ]}
+        >
+          {t("mark_read")}
+        </AppText>
       </TouchableOpacity>
     );
   };
@@ -645,6 +654,11 @@ const styles = StyleSheet.create({
   markAllAsReadButton: {
     color: appStyles.colorSecondary_9749fa,
     fontFamily: appStyles.fontSemiBold,
+  },
+  markAllAsReadButtonHC: {
+    color: appStyles.colorWhite_ff,
+    textDecorationColor: appStyles.colorWhite_ff,
+    textDecoration: "underline",
   },
   loadingContainer: {
     width: "100%",

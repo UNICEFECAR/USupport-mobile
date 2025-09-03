@@ -19,7 +19,7 @@ export const Heading = ({
   style,
   wrapperStyle,
 }) => {
-  const { colors } = useGetTheme();
+  const { colors, isHighContrast } = useGetTheme();
 
   return (
     <View
@@ -37,7 +37,7 @@ export const Heading = ({
             <Icon
               style={styles.backArrow}
               name="arrow-chevron-back"
-              color={appStyles.colorPrimary_20809e}
+              color={isHighContrast ? "#fff" : appStyles.colorPrimary_20809e}
             />
           </TouchableOpacity>
         )}

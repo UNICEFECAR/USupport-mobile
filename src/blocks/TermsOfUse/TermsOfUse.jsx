@@ -8,7 +8,7 @@ import { Block, Heading, Loading, AppText } from "#components";
 
 import { appStyles } from "#styles";
 
-import { useEventListener } from "#hooks";
+import { useGetTheme, useEventListener } from "#hooks";
 
 import { localStorage, cmsSvc } from "#services";
 
@@ -21,6 +21,7 @@ import { localStorage, cmsSvc } from "#services";
  */
 export const TermsOfUse = ({ navigation }) => {
   const { i18n, t } = useTranslation("blocks", { keyPrefix: "terms-of-use" });
+  const { isHighContrast } = useGetTheme();
 
   const [currentCountry, setCurrentCountry] = useState();
   useEffect(() => {
@@ -64,7 +65,14 @@ export const TermsOfUse = ({ navigation }) => {
         />
         <View style={styles.termsOfUse}>
           {termsOfUseData && (
-            <Markdown style={styles}>{termsOfUseData}</Markdown>
+            <Markdown
+              style={{
+                ...styles,
+                ...(isHighContrast ? stylesHighContrast : {}),
+              }}
+            >
+              {termsOfUseData}
+            </Markdown>
           )}
           {!termsOfUseData && termsOfUseLoading && (
             <View style={styles.loadingContainer}>
@@ -125,5 +133,26 @@ const styles = StyleSheet.create({
     height: 250,
     alignItems: "center",
     justifyContent: "center",
+  },
+});
+
+const stylesHighContrast = StyleSheet.create({
+  heading1: {
+    color: "#ffff00",
+  },
+  heading2: {
+    color: "#ffff00",
+  },
+  heading3: {
+    color: "#ffff00",
+  },
+  heading4: {
+    color: "#ffff00",
+  },
+  paragraph: {
+    color: "#ffff00",
+  },
+  list_item: {
+    color: "#ffff00",
   },
 });

@@ -27,7 +27,7 @@ export const RequireDataAgreement = ({
   isLoading,
   onSuccess = () => {},
 }) => {
-  const { colors } = useGetTheme();
+  const { colors, isHighContrast } = useGetTheme();
   const queryClient = useQueryClient();
   const { t } = useTranslation("modals", {
     keyPrefix: "require-data-agreement",
@@ -100,7 +100,16 @@ export const RequireDataAgreement = ({
             setIsPrivacyPolicyOpen(true);
           }}
         >
-          <AppText style={styles.termsAndConditionsText}>
+          <AppText
+            style={[
+              styles.termsAndConditionsText,
+              {
+                color: isHighContrast
+                  ? appStyles.colorWhite_ff
+                  : colors.textSecondary,
+              },
+            ]}
+          >
             {t("privacy_policy")}
           </AppText>
         </TouchableOpacity>

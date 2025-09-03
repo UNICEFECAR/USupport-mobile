@@ -4,6 +4,7 @@ import { View, StyleSheet, TouchableOpacity } from "react-native";
 
 import { AppText } from "../../texts/AppText/AppText";
 import { appStyles } from "#styles";
+import { useGetTheme } from "#hooks";
 
 /**
  * TabsUnderlined
@@ -13,6 +14,7 @@ import { appStyles } from "#styles";
  * @return {jsx}
  */
 export const TabsUnderlined = ({ style, options, handleSelect }) => {
+  const { colors, isHighContrast } = useGetTheme();
   const renderAllOptions = () => {
     if (options) {
       return options
@@ -26,15 +28,25 @@ export const TabsUnderlined = ({ style, options, handleSelect }) => {
                 <View
                   style={[
                     styles.tab,
-                    option.isSelected && styles.tabSelected,
-                    option.isInactive && styles.tabDisabled,
+                    option.isSelected && [
+                      styles.tabSelected,
+                      isHighContrast && { borderBottomColor: colors.text },
+                    ],
+                    option.isInactive &&
+                      (isHighContrast ? { opacity: 1 } : styles.tabDisabled),
                   ]}
                 >
                   <AppText
                     namedStyle="h3"
                     style={[
                       styles.label,
-                      option.isSelected && styles.labelSelected,
+                      isHighContrast && { color: colors.textSecondary },
+                      option.isSelected && [
+                        styles.labelSelected,
+                        isHighContrast && { color: colors.text },
+                      ],
+                      option.isInactive &&
+                        (isHighContrast ? { color: "#666666" } : null),
                     ]}
                   >
                     {option.label}
