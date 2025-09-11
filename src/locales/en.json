@@ -1084,7 +1084,10 @@
       "button_label_1": "Video/audio consultation",
       "button_label_2": "Text consultation",
       "client_joined": "Client joined the consultation",
-      "error": "An error occured. Please try again"
+      "error": "An error occured. Please try again",
+      "permissions_error": "You have not granted permission to use the camera or microphone",
+      "permissions_error_subheading": "Please grant permission to use the camera or microphone from the settings of your device, to join the consultation",
+      "open_settings": "Open settings"
     },
     "select-avatar": {
       "heading": "Change profile picture",
