@@ -1,10 +1,25 @@
-import React, { useEffect } from "react";
-import { StyleSheet, View, Platform } from "react-native";
+import React, { useEffect, useState, useCallback, useRef } from "react";
+import {
+  StyleSheet,
+  View,
+  Platform,
+  Modal,
+  Linking,
+  AppState,
+} from "react-native";
 import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
-import { check, request, PERMISSIONS, RESULTS } from "react-native-permissions";
+// import { check, request, PERMISSIONS, RESULTS } from "react-native-permissions";
 
-import { Backdrop, ButtonSelector } from "#components";
+import { Camera, PermissionStatus } from "expo-camera";
+
+import {
+  AppText,
+  AppButton,
+  Backdrop,
+  ButtonSelector,
+  TransparentModal,
+} from "#components";
 import { showToast } from "../../utils/showToast";
 
 /**
@@ -17,118 +32,46 @@ import { showToast } from "../../utils/showToast";
 export const JoinConsultation = ({ isOpen, onClose, consultation }) => {
   const navigation = useNavigation();
   const { t } = useTranslation("backdrops", { keyPrefix: "join-consultation" });
+  const [isPermissionsModalOpen, setIsPermissionsModalOpen] = useState(false);
+  const appState = useRef("active");
+  const hasCheckedPermissions = useRef(false);
 
-  useEffect(() => {
-    const checkAndRequestPermissions = async () => {
-      if (Platform.OS === "ios") {
-        const cameraStatus = await check(PERMISSIONS.IOS.CAMERA);
-        const microphoneStatus = await check(PERMISSIONS.IOS.MICROPHONE);
+  const requestCameraAndMic = useCallback(async () => {
+    if (!isOpen) return;
+    const cameraRes = await Camera.requestCameraPermissionsAsync();
+    const micRes = await Camera.requestMicrophonePermissionsAsync();
 
-        // If permissions not granted, request them
-        if (
-          cameraStatus !== RESULTS.GRANTED ||
-          microphoneStatus !== RESULTS.GRANTED
-        ) {
-          await requestPermissions();
-        }
-      } else if (Platform.OS === "android") {
-        const cameraStatus = await check(PERMISSIONS.ANDROID.CAMERA);
-        const microphoneStatus = await check(PERMISSIONS.ANDROID.RECORD_AUDIO);
-
-        // If permissions not granted, request them
-        if (
-          cameraStatus !== RESULTS.GRANTED ||
-          microphoneStatus !== RESULTS.GRANTED
-        ) {
-          await requestPermissions();
-        }
-      }
-    };
-
-    if (isOpen) {
-      checkAndRequestPermissions();
+    if (!cameraRes.granted || !micRes.granted) {
+      setIsPermissionsModalOpen(true);
+    } else {
+      setIsPermissionsModalOpen(false);
     }
+
+    hasCheckedPermissions.current = true;
   }, [isOpen]);
 
-  const checkCurrentPermissions = async () => {
-    try {
-      if (Platform.OS === "ios") {
-        const cameraStatus = await check(PERMISSIONS.IOS.CAMERA);
-        const microphoneStatus = await check(PERMISSIONS.IOS.MICROPHONE);
+  useEffect(() => {
+    const subscription = AppState.addEventListener("change", (state) => {
+      console.log(state, "state");
+      console.log(appState.current, "appState");
+      console.log(hasCheckedPermissions.current, "hasCheckedPermissions");
 
-        return (
-          cameraStatus === RESULTS.GRANTED &&
-          microphoneStatus === RESULTS.GRANTED
-        );
-      } else if (Platform.OS === "android") {
-        const cameraStatus = await check(PERMISSIONS.ANDROID.CAMERA);
-        const microphoneStatus = await check(PERMISSIONS.ANDROID.RECORD_AUDIO);
-
-        return (
-          cameraStatus === RESULTS.GRANTED &&
-          microphoneStatus === RESULTS.GRANTED
-        );
+      appState.current = state;
+      if (state === "active" && hasCheckedPermissions.current) {
+        requestCameraAndMic();
       }
-    } catch (error) {
-      console.error("Permission check error:", error);
-      return false;
+    });
+    if (isOpen) {
+      requestCameraAndMic();
     }
-    return false;
-  };
 
-  const requestPermissions = async () => {
-    try {
-      if (Platform.OS === "ios") {
-        const cameraResult = await request(PERMISSIONS.IOS.CAMERA);
-        const microphoneResult = await request(PERMISSIONS.IOS.MICROPHONE);
-
-        const granted =
-          cameraResult === RESULTS.GRANTED &&
-          microphoneResult === RESULTS.GRANTED;
-
-        if (!granted) {
-          showToast({ message: t("permissions_error"), type: "error" });
-        }
-
-        return granted;
-      } else if (Platform.OS === "android") {
-        const cameraResult = await request(PERMISSIONS.ANDROID.CAMERA);
-        const microphoneResult = await request(
-          PERMISSIONS.ANDROID.RECORD_AUDIO
-        );
-
-        const granted =
-          cameraResult === RESULTS.GRANTED &&
-          microphoneResult === RESULTS.GRANTED;
-
-        if (!granted) {
-          showToast({ message: t("permissions_error"), type: "error" });
-        }
-
-        return granted;
-      }
-    } catch (error) {
-      console.error("Permission request error:", error);
-      showToast({ message: t("permissions_error"), type: "error" });
-      return false;
-    }
-    return false;
-  };
+    return () => {
+      subscription.remove();
+    };
+  }, [isOpen]);
 
   const handleClick = async (redirectTo) => {
     try {
-      // Check current permissions
-      const hasPermissions = await checkCurrentPermissions();
-
-      if (!hasPermissions) {
-        // Try to request permissions again if they're not granted
-        const permissionsGranted = await requestPermissions();
-        if (!permissionsGranted) {
-          // Permissions still not granted, don't navigate
-          return;
-        }
-      }
-
       // Navigate with appropriate settings
       navigation.navigate("Consultation", {
         consultation,
@@ -144,29 +87,51 @@ export const JoinConsultation = ({ isOpen, onClose, consultation }) => {
   };
 
   return (
-    <Backdrop
-      title="JoinConsultation"
-      isOpen={isOpen}
-      onClose={onClose}
-      heading={t("heading")}
-      text={t("subheading")}
-      style={styles.backdrop}
-    >
-      <View style={styles.contentContainer}>
-        <ButtonSelector
-          label={t("button_label_1")}
-          iconName="video"
-          style={styles.buttonSelector}
-          onPress={() => handleClick("video")}
+    <React.Fragment>
+      <TransparentModal
+        isOpen={isPermissionsModalOpen}
+        handleClose={() => {
+          setIsPermissionsModalOpen(false);
+          onClose();
+        }}
+        heading={t("permissions_error")}
+        text={t("permissions_error_subheading")}
+      >
+        <AppText>{t("permissions_error")}</AppText>
+        <AppText>{t("permissions_error_subheading")}</AppText>
+        <AppButton
+          label={t("open_settings")}
+          onPress={() => {
+            Linking.openSettings();
+          }}
+          style={{ marginTop: 16 }}
         />
-        <ButtonSelector
-          label={t("button_label_2")}
-          iconName="comment"
-          style={styles.buttonSelector}
-          onPress={() => handleClick("chat")}
-        />
-      </View>
-    </Backdrop>
+      </TransparentModal>
+
+      <Backdrop
+        title="JoinConsultation"
+        isOpen={isOpen}
+        onClose={onClose}
+        heading={t("heading")}
+        text={t("subheading")}
+        style={styles.backdrop}
+      >
+        <View style={styles.contentContainer}>
+          <ButtonSelector
+            label={t("button_label_1")}
+            iconName="video"
+            style={styles.buttonSelector}
+            onPress={() => handleClick("video")}
+          />
+          <ButtonSelector
+            label={t("button_label_2")}
+            iconName="comment"
+            style={styles.buttonSelector}
+            onPress={() => handleClick("chat")}
+          />
+        </View>
+      </Backdrop>
+    </React.Fragment>
   );
 };
 

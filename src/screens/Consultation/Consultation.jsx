@@ -17,10 +17,7 @@ import {
 } from "react-native";
 import { useTranslation } from "react-i18next";
 import { io } from "socket.io-client";
-import {
-  activateKeepAwakeAsync,
-  deactivateKeepAwake,
-} from "@sayem314/react-native-keep-awake";
+import { useKeepAwake } from "@sayem314/react-native-keep-awake";
 import notifee, { AndroidImportance } from "@notifee/react-native";
 import Config from "react-native-config";
 
@@ -77,6 +74,8 @@ export const Consultation = ({ navigation, route }) => {
 
   const [clientDataQuery, clientData] = useGetClientData();
 
+  useKeepAwake();
+
   const startForegroundService = async () => {
     await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.RECORD_AUDIO
@@ -112,7 +111,6 @@ export const Consultation = ({ navigation, route }) => {
 
   useEffect(() => {
     setIsInConsultation(true);
-    activateKeepAwakeAsync();
     if (Platform.OS === "android") {
       setTimeout(() => {
         startForegroundService();
@@ -121,7 +119,6 @@ export const Consultation = ({ navigation, route }) => {
 
     return async () => {
       setIsInConsultation(false);
-      deactivateKeepAwake();
       if (Platform.OS === "android") {
         await notifee.stopForegroundService();
       }

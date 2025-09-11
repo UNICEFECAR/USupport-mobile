@@ -63,6 +63,10 @@ allprojects {
             url(new File(['node', '--print', "require.resolve('jsc-android/package.json', { paths: [require.resolve('react-native/package.json')] })"].execute(null, rootDir).text.trim(), '../dist'))
         }
 
+        maven {
+          url "$rootDir/../node_modules/expo-camera/android/maven"
+        }
+
         google()
         mavenCentral {
             // We don't want to fetch react-native from Maven Central as there are
