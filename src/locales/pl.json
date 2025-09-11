@@ -7,21 +7,21 @@
       "show_system_messages": "Wyświetlanie komunikatów systemowych",
       "show_previous_consultations": "Pokaż poprzednie konsultacje",
       "export_label": "Eksport",
-      "chat_history": "Historia czatów konsultacyjnych z",
-      "client_joined": "Klient dołączył do konsultacji",
-      "client_left": "Klient opuścił konsultację",
-      "client_camera_off": "Klient wyłączył kamerę",
-      "client_camera_on": "Klient włączył kamerę",
-      "client_microphone_off": "Klient wyłączył mikrofon",
-      "client_microphone_on": "Klient włączył mikrofon",
-      "chat_history_deleted_by_client": "Skasowałeś historię czatu",
+      "chat_history": "Historia czatów z",
+      "client_joined": "Klient/ka dołączył/a do konsultacji",
+      "client_left": "Klient/ka opuścił/a konsultację",
+      "client_camera_off": "Klient/ka wyłączył/a kamerę",
+      "client_camera_on": "Klient/ka włączył/a kamerę",
+      "client_microphone_off": "Klient/ka wyłączył/a mikrofon",
+      "client_microphone_on": "Klient/ka włączył/a mikrofon",
+      "chat_history_deleted_by_client": "Skasowałeś/aś historię czatu",
 
-      "provider_joined": "Konsultant dołączył do konsultacji",
-      "provider_left": "Konsultant opuścił konsultację",
-      "provider_camera_off": "Konsultant wyłączył kamerę",
-      "provider_camera_on": "Konsultant włączył kamerę",
-      "provider_microphone_off": "Konsultant wyłączył mikrofon",
-      "provider_microphone_on": "Konsultant włączył mikrofon"
+      "provider_joined": "Konsultant/ka dołączył/a do konsultacji",
+      "provider_left": "Konsultant/ka opuścił/a konsultację",
+      "provider_camera_off": "Konsultant /ka wyłączył/a kamerę",
+      "provider_camera_on": "Konsultant/ka włączył/a kamerę",
+      "provider_microphone_off": "Konsultant/ka wyłączył/a mikrofon",
+      "provider_microphone_on": "Konsultant/ka włączył/a mikrofon"
     },
     "articles": {
       "heading": "Portal informacyjny",
@@ -45,7 +45,7 @@
       "number_of_more_options": "jeszcze {{count}}"
     },
     "change-passcode": {
-      "enter_passcode": "Wprowadź bieżący kod dostępu",
+      "enter_passcode": "Wprowadź aktualny kod dostępu",
       "view_pin": "Wyświetl kod PIN",
       "hide_pin": "Ukryj kod PIN",
       "create_passcode": "Utwórz kod PIN",
@@ -89,7 +89,7 @@
       "tuesday": "Wt.",
       "wednesday": "Śr.",
       "thursday": "Czw.",
-      "friday": "Piąt.",
+      "friday": "Pt.",
       "saturday": "Sob.",
       "no_upcoming_consultations": "Nie masz żadnych nadchodzących konsultacji",
       "no_past_consultations": "Nie masz żadnych wcześniejszych konsultacji",
@@ -112,7 +112,7 @@
     },
     "contact-us-block": {
       "heading": "Skontaktuj się z nami",
-      "subheading": "Tutaj możesz zgłaszać wszelkie zagadnień technicznych.",
+      "subheading": "Tutaj możesz zgłaszać wszelkie problemy techniczne",
       "issue": "Zagadnienie",
       "issue_placeholder": "Wybrać zagadnienie",
       "issue_error": "Wybierz zagadnienie",
@@ -127,7 +127,7 @@
 
       "contact_reason_1": "O co chodzi w tej platformie?",
       "contact_reason_2": "Potrzebuję więcej informacji na temat usług świadczonych za pośrednictwem platformy",
-      "contact_reason_3": "Jestem klientem i mam problem techniczny",
+      "contact_reason_3": "Jestem klientem/ką i mam problem techniczny",
       "contact_reason_4": "Coś innego",
       "contact_reason_1_pl": "Informacje o uSupport",
       "contact_reason_2_pl": "Problem techniczny",
@@ -142,7 +142,7 @@
       "search": "Szukaj"
     },
     "forgot-password": {
-      "error_email_message": "Wprowadź swój adres e-mail",
+      "error_email_message": "Wprowadź swój adres email",
       "input_email_label": "Email",
       "reset_password_button_label": "Resetowanie hasła",
       "register_redirect_button_label": "Nie mam konta",
@@ -151,12 +151,12 @@
     },
     "give-suggestion": {
       "heading": "Przekaż nam swoje sugestie",
-      "subheading": "Nie możesz znaleźć interesujących Cię informacji? Zasugeruj temat, a my postaramy się tym zająć.",
+      "subheading": "Nie możesz znaleźć interesujących Cię treści? Zasugeruj nam temat, a my postaramy się nim zająć.",
       "submit": "Wyślij swoją sugestię",
       "suggestion_placeholder": "Napisz swoją sugestię tutaj",
 
       "modal_title": "Sugestia została pomyślnie przesłana",
-      "modal_text": "Bardzo nam przykro, że nie znalazłeś tego, czego szukałeś. Postaramy się odpowiedzieć na Twoje sugestie tak szybko, jak to możliwe. Dziękujemy za opinię.",
+      "modal_text": "Bardzo nam przykro, że nie znalazłeś/aś tego, czego szukałeś/aś. Postaramy się odpowiedzieć na Twoje sugestie tak szybko, jak to możliwe. Dziękujemy za opinię.",
       "modal_cta_label": "Poznaj więcej artykułów",
       "send_success_text": "Twoja sugestia została pomyślnie przesłana"
     },
@@ -167,9 +167,9 @@
       "read_more": "Czytaj więcej",
       "min_read": "min czytania",
       "by": "Przez {{creator}}",
-      "heading_no_language_results": "Nie mogliśmy znaleźć żadnych artykułów opartych na wybranym języku.",
-      "heading_no_language_results_videos": "Nie mogliśmy znaleźć żadnych filmów opartych na wybranym języku.",
-      "heading_no_language_results_podcasts": "Nie mogliśmy znaleźć żadnych podcastów opartych na wybranym języku.",
+      "heading_no_language_results": "Nie mogliśmy znaleźć żadnych artykułów w wybranym języku.",
+      "heading_no_language_results_videos": "Nie mogliśmy znaleźć żadnych filmów w wybranym języku.",
+      "heading_no_language_results_podcasts": "Nie mogliśmy znaleźć żadnych podcastów w wybranym języku.",
       "heading_newest_videos": "Najnowsze filmy",
       "heading_popular_videos": "Najpopularniejsze filmy",
       "view_more": "Zobacz więcej",
@@ -189,31 +189,31 @@
       "paragraph": "Lub zaloguj się za pomocą:",
       "register_button_label": "Nie mam konta",
       "prompt_title": "Uwierzytelnij się, aby szybko się zalogować",
-      "prompt_2_title": "Uwierzytelnij się, aby zapisać swoje dane uwierzytelniające",
+      "prompt_2_title": "Uwierzytelnij się, aby zapisać swoje dane logowania",
       "cancel": "Anuluj",
       "save_credentials": "Zapisz dane uwierzytelniające"
     },
     "mood-tracker": {
-      "happy": "Szczęśliwy",
-      "good": "Dobry",
-      "sad": "Smutny",
-      "depressed": "Przygnębiony",
-      "worried": "Zmartwiony",
-      "heading": "Jak się dziś czujesz?",
+      "happy": "Szczęśliwy/a",
+      "good": "Zadowolony/a",
+      "sad": "Smutny/a",
+      "depressed": "Przygnębiony/a",
+      "worried": "Zmartwiony/a",
+      "heading": "Monitor nastroju",
       "mood_tracker": "Monitor nastroju",
-      "additional_comment_placeholder": "Co sprawiło, że tak się poczułeś/poczułaś?",
+      "additional_comment_placeholder": "Co sprawiło, że tak się poczułeś/aś?",
       "submit_mood_track": "Prześlij",
       "add_mood_tracker_success": "Twój codzienny nastrój został pomyślnie dodany"
     },
     "mood-track-history": {
       "saturday": "Sob.",
-      "happy": "Szczęśliwy",
-      "good": "Dobry",
-      "sad": "Smutny",
-      "depressed": "Przygnębiony",
-      "worried": "Zmartwiony",
-      "you_felt": "Poczułeś",
-      "comment_text": "i skomentowałeś:",
+      "happy": "Szczęśliwy/a",
+      "good": "Zadowolony/a",
+      "sad": "Smutny/a",
+      "depressed": "Przygnębiony/a",
+      "worried": "Zmartwiony/a",
+      "you_felt": "Poczułeś/aś",
+      "comment_text": "i skomentowałeś/aś:",
       "no_result": "Nie znaleziono żadnych wyników."
     },
     "notification-preferences": {
@@ -224,16 +224,16 @@
     "notifications": {
       "heading": "Powiadomienia",
       "mark_read": "Oznacz wszystkie jako przeczytane",
-      "subheading": "Tu możesz zobaczyć wszystkie powiadomienia jakie kiedykolwiek otrzymałeś/otrzymałaś.",
+      "subheading": "Tu możesz zobaczyć wszystkie powiadomienia jakie kiedykolwiek otrzymałeś/aś.",
       "consultation_booking": "Twoja konsultacja z <0>{{providerName}}</0> została <0>umówiona</0> pomyślnie na <0>{{date}}</0> od <0>{{startHour}}</0> do <0>{{endHour}}</0>",
       "consultation_reschedule": "Udało Ci się <0>przełożyć</0> konsultację z <0>{{date}}</0> od <0>{{startHour}}</0> do <0>{{endHour}}</0> na <0>{{newDate}}</0> od <0>{{newStartHour}}</0> do <0>{{newEndHour}}</0>",
       "consultation_cancellation": "Udało Ci się <0>odwołać</0> Twoją konsultację z <0>{{providerName}} zaplanowaną </0> na <0>{{date}}</0> od <0>{{startHour}}</0> do <0>{{endHour}}</0>",
-      "consultation_cancellation_provider": "Konsultant <0>{{providerName}} odwołał</0> konsultację <0>zaplanowaną </0> na <0>{{date}}</0> od <0>{{startHour}}</0> do <0>{{endHour}}</0>",
+      "consultation_cancellation_provider": "Konsultant/ka <0>{{providerName}} odwołał</0> konsultację <0>zaplanowaną </0> na <0>{{date}}</0> od <0>{{startHour}}</0> do <0>{{endHour}}</0>",
       "consultation_remind_start": "<0>Nadchodząca konsultacja</0> za <0>{{minutes}} minut</0>",
       "consultation_suggestion": "<0>{{providerName}} sugeruje</0> konsultację w terminie <0>{{date}}</0> od <0>{{startHour}}</0> do <0>{{endHour}}</0>",
       "consultation_suggestion_booking": "Zaakceptowano <0>konsultację</0> sugerowaną przez <0>{{providerName}}</0> w terminie <0>{{date}}</0> od <0>{{startHour}}</0> do <0>{{endHour}}</0>",
       "consultation_suggestion_cancellation": "Odrzucono <0>konsultację</0> sugerowaną przez<0>{{providerName}}</0> w terminie <0>{{date}}</0> od <0>{{startHour}}</0> do <0>{{endHour}}</0>",
-      "consultation_started": "Twoja konsultacja z konsultantem <0>{{providerName}} rozpoczęła się</0>",
+      "consultation_started": "Twoja konsultacja z konsultantem/ką <0>{{providerName}} rozpoczęła się</0>",
       "join": "Dołącz",
       "accept": "Akceptuj",
       "accept_consultation_success": "Konsultacja została pomyślnie zaakceptowana",
@@ -286,9 +286,9 @@
       "no_available_slot": "Nie ma dostępnego terminu",
       "consultations": "konsultacje",
 
-      "psychologist": "Psycholog",
+      "psychologist": "Psycholog/żka",
       "psychiatrist": "Psychiatra",
-      "psychotherapist": "Psychoterapeuta",
+      "psychotherapist": "Psychoterapeuta/ka",
 
       "addiction": "Uzależnienie i nadużywanie substancji",
       "stress": "Zarządzanie stresem",
@@ -365,10 +365,10 @@
       "password_error": "Hasło powinno zawierać co najmniej 8 znaków, 1 wielką literę, 1 małą literę i 1 cyfrę.",
       "register_button_label": "Rejestracja",
       "login_button_label": "Już posiadam konto",
-      "copy_text": "Skopiuj i zapisz lub zanotuj swój anonimowy kod, jeśli go zgubisz, nie będziesz mógł uzyskać dostępu do swojego konta.",
+      "copy_text": "Skopiuj i zapisz lub zanotuj swój anonimowy kod, jeśli go zgubisz, nie będziesz mógł/ogła uzyskać dostępu do swojego konta.",
       "modal_heading": "Potwierdź zapisanie kodu dostępu",
-      "modal_copy_text": "Upewnij się, że zapisałeś lub zanotowałeś swój kod dostępu. W przeciwnym razie utracisz dostęp do swojego anonimowego konta i postępu w aplikacji.",
-      "modal_button_label": "Zapisałem kod dostępu",
+      "modal_copy_text": "Upewnij się, że zapisałeś/aś lub zanotowałeś/aś swój kod dostępu. W przeciwnym razie utracisz dostęp do swojego anonimowego konta i postępu w aplikacji.",
+      "modal_button_label": "Zapisałem/am kod dostępu",
       "copy_success": "Kod został pomyślnie skopiowany",
       "warning": "Rozumiem, że nie będę mieć dostępu do konta, jeśli zgubię ten kod.",
       "confirm_password_label": "Potwierdź hasło",
@@ -405,15 +405,15 @@
     },
     "register-preview": {
       "login": "Logowanie za pomocą adresu e-mail/tokenu dostępu",
-      "register_email": "Zarejestruj się za pomocą adresu e-mail",
+      "register_email": "Zarejestruj się za pomocą adresu email",
       "register_anonymously": "Zarejestruj się anonimowo",
       "continue_as_guest": "Kontynuuj bez rejestracji",
       "heading_1": "Informacje o platformie",
-      "text_1": "Platforma, która szanuje Twoją prywatność i bezpieczeństwo. Twoje dobre samopoczucie jest naszym priorytetem! uSupport zapewnia spersonalizowaną i dyskretną opiekę psychologiczną.",
+      "text_1": "Platforma, która szanuje Twoją prywatność i bezpieczeństwo. Twoje dobro jest dla nas najważniejsze! uSupport oferuje spersonalizowaną i dyskretną opiekę psychologiczną.",
       "heading_2": "Informacje o wsparciu",
-      "text_2": "uSupport to platforma poświęcona zdrowiu psychicznemu, dobrostanowi psychospołecznemu i dobremu samopoczuciu, przeznaczona dla młodych ludzi i ich opiekunów, gdzie prywatność i bezpieczeństwo są priorytetem.",
+      "text_2": "uSupport to platforma poświęcona zdrowiu psychicznemu, dobrostanowi psychospołecznemu i dobremu samopoczuciu, przeznaczona dla młodych ludzi, gdzie prywatność i bezpieczeństwo są priorytetem.",
       "heading_3": "O tobie",
-      "text_3": "Twoja historia ma znaczenie! Odważ się nią podzielić."
+      "text_3": "Bądź najlepszą wersją siebie! Twoje zdrowie psychiczne ma znaczenie."
     },
     "register-support": {
       "heading": "Czy potrzebujesz wsparcia?",
@@ -429,16 +429,16 @@
     },
     "safety-feedback": {
       "warning": "Odpowiadając, oświadczasz, że to oświadczenie jest prawdziwe i składasz je, wiedząc, że złożenie oświadczenia, o którym wiesz, że jest nieprawdziwe, jest przestępstwem.",
-      "q0": "Czy psycholog/terapeuta wziął udział w konsultacji?",
-      "q1": "Czy konsultant poprosił Cię o ujawnienie adresu i szczegółów kontaktowych? ",
-      "q2": "Czy konsultant poprosił Cię o spotkanie poza systemem (osobiście lub w innej aplikacji)?",
-      "q3": "Czy konsultant poprosił cię o przesłanie zdjęć lub włączenie wideo, nawet jeśli tego nie chciałaś/chciałeś?",
-      "q4": "Czy podczas sesji czułeś się w jakikolwiek sposób zagrożony?",
+      "q0": "Czy konsultant/ka wziął udział w konsultacji?",
+      "q1": "Czy konsultant/ka poprosił/a Cię o ujawnienie adresu i szczegółów kontaktowych? ",
+      "q2": "Czy konsultant/ka poprosił/a Cię o spotkanie poza systemem (osobiście lub w innej aplikacji)?",
+      "q3": "Czy konsultant/ka poprosił/a cię o przesłanie zdjęć lub włączenie wideo, nawet jeśli tego nie chciałeś/aś?",
+      "q4": "Czy podczas sesji czułeś się w jakikolwiek sposób zagrożony/a?",
       "q5": "Co myślisz o swojej ostatniej sesji?",
       "q6": "Czy Twoje potrzeby zostały odpowiednio zaspokojone? 1-10 (Nie, wcale - Tak, wszystkie)",
       "q7": "Czy wiesz, w jaki sposób możesz poprawić swoje samopoczucie? 1-10 (Nie, wcale - Tak, wszystko jest jasne)",
       "q8": "Porównaj swoje samopoczucie z samopoczuciem sprzed rozpoczęcia sesji. Czy się poprawiło? 1-10 (Nie, jest znacznie gorzej - Nie może być lepiej)",
-      "q9": "Czy chciałabyś/chciałbyś coś dodać? (opcjonalne)",
+      "q9": "Czy chciałbyś/ałabyś coś dodać? (opcjonalne)",
       "more_details_label": "Jeśli tak, wyjaśnij dlaczego",
       "more_details_placeholder": "Podaj nam więcej szczegółów tutaj.",
       "yes": "Tak",
@@ -446,16 +446,16 @@
       "button": "Wyślij opinię",
       "continue_button": "Zachowaj odpowiedzi",
 
-      "very_satisfied": "Bardzo zadowolony/zadowolona",
-      "satisfied": "Zadowolona/zadowolony",
+      "very_satisfied": "Bardzo zadowolony/a",
+      "satisfied": "Zadowolony/a",
       "neutral": "Nie mam zdania",
-      "dissatisfied": "Niezadowolona/niezadowolony",
-      "very_dissatisfied": "Bardzo niezadowolony/niezadowolona"
+      "dissatisfied": "Niezadowolony/a",
+      "very_dissatisfied": "Bardzo niezadowolony/a"
     },
     "select-provider": {
-      "psychologist": "Psycholog",
+      "psychologist": "Psycholog/żka",
       "psychiatrist": "Psychiatra",
-      "psychotherapist": "Psychoterapeuta",
+      "psychotherapist": "Psychoterapeuta/ka",
       "no_match": "Brak konsultantów spełniających Twoje kryteria",
       "free": "Wolny",
       "earliest_available_slot": "Pierwsza dostępna konsultacja:",
@@ -476,7 +476,7 @@
       "no_results": "Brak wyników dla aktualnie wybranego kraju i języka."
     },
     "terms-of-use": {
-      "heading": "Warunki użytkowania",
+      "heading": "Regulamin",
       "no_results": "Brak wyników dla wybranego kraju i języka."
     },
     "user-details": {
@@ -492,7 +492,7 @@
       "name_placeholder": "Wpisz swoje imię",
       "surname": "Nazwisko",
       "surname_placeholder": "Wpisz swoje nazwisko",
-      "email_error": "Wprowadź ważny adres e-mail",
+      "email_error": "Wprowadź prawidłowy adres email",
       "sex": "Płeć",
       "year_of_birth": "Rok urodzenia",
       "country": "Kraj",
@@ -506,14 +506,14 @@
       "logout": "Wylogowanie",
       "delete_chat": "Wyczyść historię czatów",
 
-      "dropdown_sex_label": "Gender",
+      "dropdown_sex_label": "Płeć",
       "dropdown_year_label": "Rok urodzenia",
       "sex_male": "Mężczyzna",
       "sex_female": "Kobieta",
       "sex_unspecified": "Nieokreślony",
       "sex_none": "Wolę nie mówić",
-      "place_of_living_urban": "Miejski",
-      "place_of_living_rural": "Wiejski",
+      "place_of_living_urban": "Miasto",
+      "place_of_living_rural": "Wieś",
       "data_processing_modal_heading": "Czy na pewno chcesz cofnąć zgodę na wykorzystywanie Twoich danych osobowych zgodnie z <0>Polityką prywatności</0>?",
       "data_processing_modal_text": "Nie będziesz mógł zaplanować dalszych konsultacji.",
       "data_processing_modal_confirm_button": "Usuń uprawnienia",
@@ -575,7 +575,7 @@
     "set-up-biometrics": {
       "heading": "Skonfiguruj kod dostępu i dane biometryczne",
       "btn_label": "Kontynuuj",
-      "subheading": "Skonfiguruj kod dostępu lub dane biometryczne, aby zabezpieczyć swoje konto. Jeśli pominiesz ten krok, będziesz musiał logować się za każdym razem, gdy otworzysz aplikację.",
+      "subheading": "Skonfiguruj kod dostępu lub dane biometryczne, aby zabezpieczyć swoje konto. Jeśli pominiesz ten krok, będziesz musiał/a logować się za każdym razem, gdy otworzysz aplikację.",
       "biometrics_btn_label": "Użyj biometrii",
       "btn_skip": "Na razie pomiń"
     },
@@ -797,22 +797,22 @@
       "tuesday": "Wt.",
       "wednesday": "Śr.",
       "thursday": "Czw.",
-      "friday": "Piąt.",
+      "friday": "Pt.",
       "saturday": "Sob.",
-      "client_joined": "Klient dołączył do konsultacji",
-      "client_left": "Klient opuścił konsultację",
-      "client_camera_off": "Klient wyłączył kamerę",
-      "client_camera_on": "Klient włączył kamerę",
-      "client_microphone_off": "Klient wyłączył mikrofon",
-      "client_microphone_on": "Klient włączył mikrofon",
+      "client_joined": "Klient/ka dołączył/a do konsultacji",
+      "client_left": "Klient/ka opuścił/a konsultację",
+      "client_camera_off": "Klient/ka wyłączył/a kamerę",
+      "client_camera_on": "Klient/ka włączył/a kamerę",
+      "client_microphone_off": "Klient/ka wyłączył/a mikrofon",
+      "client_microphone_on": "Klient/ka włączył/a mikrofon",
 
-      "provider_joined": "Konsultant dołączył do konsultacji",
-      "provider_left": "Konsultant opuścił konsultację",
-      "provider_camera_off": "Konsultant wyłączył kamerę",
-      "provider_camera_on": "Konsultant włączył kamerę",
-      "provider_microphone_off": "Konsultant wyłączył mikrofon",
-      "provider_microphone_on": "Konsultant włączył mikrofon",
-      "chat_history_deleted_by_client": "Usunąłeś historię czatu",
+      "provider_joined": "Konsultant/ka dołączył/a do konsultacji",
+      "provider_left": "Konsultant/ka opuścił/a konsultację",
+      "provider_camera_off": "Konsultant/ka wyłączył/a kamerę",
+      "provider_camera_on": "Konsultant/ka włączył/a kamerę",
+      "provider_microphone_off": "Konsultant/ka wyłączył/a mikrofon",
+      "provider_microphone_on": "Konsultant/ka włączył/a mikrofon",
+      "chat_history_deleted_by_client": "Usunąłeś/ęłaś historię czatu",
 
       "send_message": "Wpisz swoją wiadomość tutaj...",
       "show_system_messages": "Wyświetlanie komunikatów systemowych",
@@ -837,7 +837,7 @@
       "create_account_button": "Utwórz konto",
       "next_consultation": "Następna konsultacja:",
       "change_button_label": "Zmiana",
-      "accept_button_label": "Akceptować konsultację",
+      "accept_button_label": "Zaakceptuj konsultację",
       "join_button_label": "Dołącz",
       "schedule_button_label": "Harmonogram",
       "live_label": "Teraz",
@@ -898,7 +898,7 @@
     },
     "platfrom-rating-screen": {
       "heading": "Chcesz nas ocenić?",
-      "subheading": "Będziemy liczyć gwiazdy. Bądźmy szczerzy. Powiedz nam, co sądzisz o tej platformie. Oceń nas i zostaw nam swój komentarz."
+      "subheading": "Będziemy liczyć gwiazdki. Bądź szczery. Powiedz nam, co sądzisz o tej platformie. Oceń nas i zostaw nam komentarz."
     },
     "provider-overview-screen": {
       "heading": "Ogólny profil konsultanta",
@@ -906,22 +906,22 @@
       "button_label": "Zaplanuj konsultację"
     },
     "safety-feedback-screen": {
-      "heading": "Czy czułaś/czułeś się bezpiecznie podczas konsultacji?",
+      "heading": "Czy czułeś/aś się bezpiecznie podczas konsultacji?",
       "subheading": "Opowiedz nam więcej o Twoich doświadczeniach podczas ostatniej konsultacji. "
     },
     "select-provider-screen": {
-      "heading": "Wybierz konsultanta",
-      "subheading": "Wybierz konsultanta, z którym chcesz porozmawiać w ramach konsultacji wideo, audio lub tekstowej. Znalezienie konsultanta, który będzie dobrze dopasowany do Twoich potrzeb i preferowanego podejścia, może czasami zająć trochę czasu.",
+      "heading": "Wybierz konsultanta/kę ",
+      "subheading": "Wybierz konsultanta/kę, z którym chcesz porozmawiać w ramach konsultacji wideo, audio lub tekstowej. Znalezienie konsultanta/ki, który/a będzie dobrze dopasowany/a do Twoich potrzeb i preferowanego podejścia, może czasami zająć trochę czasu.",
       "button_label": "Filtr",
       "button_coupon_label": "Użyj kuponu",
       "modal_coupon_heading": "Wprowadź kupon, aby z niego skorzystać",
       "modal_coupon_button_label": "Prześlij kupon",
       "modal_coupon_input_label": "Numer kuponu",
       "modal_coupon_input_placeholder": "KUPON1",
-      "heading_with_coupon": "Wybierz konsultanta, aby użyć kupon: {{coupon}}",
+      "heading_with_coupon": "Wybierz konsultanta/kę, aby użyć kupon: {{coupon}}",
       "remove_coupon_label": "Usuń kupon",
       "coupon_paragraph": "Kupony zapewniają bezpłatne sesje i są sponsorowane przez naszych partnerów.",
-      "coupon_paragraph_two": "Jeśli otrzymałeś kod kuponu z kampanii w mediach społecznościowych lub od partnera, skopiuj go i wklej poniżej. Po przesłaniu kodu kuponu zobaczysz wszystkich konsultantów, którzy go obsługują i ich dostępność. Kupon może obsługiwać jedną lub więcej sesji. Platforma wskaże, czy kupon wygasł lub osiągnął maksymalną liczbę wykorzystanych sesji.",
+      "coupon_paragraph_two": "Jeśli otrzymałeś/aś kod kuponu z kampanii w mediach społecznościowych lub od partnera, skopiuj go i wklej poniżej. Po przesłaniu kodu kuponu zobaczysz wszystkich konsultantów, którzy go obsługują i ich dostępność. Kupon może obsługiwać jedną lub więcej sesji. Platforma wskaże, czy kupon wygasł lub osiągnął maksymalną liczbę wykorzystanych sesji.",
       "max_price": "Cena maksymalna",
       "providers_free_consultation_label": "Tylko bezpłatna konsultacja"
     },
@@ -935,7 +935,7 @@
     },
     "my-qa-screen": {
       "heading": "Moje pytania i odpowiedzi",
-      "subheading": "To jest <0>ANONIMOWE</0>! Twoje pytania <0>NIE</0> są z tobą powiązane. Odpowiedzi będą publicznie dostępne, dzięki czemu będzie można zobaczyć, z jakimi zagadnieniami borykają się inni.",
+      "subheading": "To jest <0>ANONIMOWE</0>! Twoje pytania <0>NIE</0> są powiązane z Tobą. Odpowiedzi będą dostępne publicznie, aby każdy mógł zobaczyć, z jakimi zagadnieniami mierzą się inni.",
       "heading_button_label": "Zobacz, jak to działa",
       "emergency_button_label": "Pomoc w nagłych wypadkach",
       "ask_button_label": "Zapytaj anonimowo"
@@ -981,9 +981,9 @@
       "tuesday": "Wt.",
       "wednesday": "Śr.",
       "thursday": "Czw.",
-      "friday": "Piąt.",
+      "friday": "Pt.",
       "saturday": "Sob.",
-      "free": "Wolny"
+      "free": "Bezpłatne"
     },
     "change-password": {
       "heading": "Zresetuj hasło",
@@ -1028,7 +1028,7 @@
     "edit-consultation": {
       "heading": "Zmień konsultację",
       "subheading": "Wybierz formę komunikacji, która najlepiej odpowiada Twoim potrzebom i uzyskaj pomoc, której potrzebujesz.",
-      "specialist_button_label": "Zmień specjalistę",
+      "specialist_button_label": "Zmień specjalistę/kę",
       "date_button_label": "Zmień datę i godzinę",
       "cancel_button_label": "Anulowanie konsultacji",
       "sunday": "Niedz.",
@@ -1036,20 +1036,20 @@
       "tuesday": "Wt.",
       "wednesday": "Śr.",
       "thursday": "Czw.",
-      "friday": "Piąt.",
+      "friday": "Pt.",
       "saturday": "Sob.",
-      "free": "Wolny"
+      "free": "Bezpłatne"
     },
     "filter-providers": {
       "heading": "Filtruj konsultantów",
-      "subheading": "Wybierz konsultanta, z którym chcesz porozmawiać w ramach konsultacji audio/wideo",
-      "provider_psychologist": "Psycholog",
-      "provider_psychotherapist": "Psychoterapeuta",
+      "subheading": "Wybierz specjalistę/kę, z którym/ą chcesz porozmawiać w ramach konsultacji audio/wideo/tekstowej",
+      "provider_psychologist": "Psycholog/żka",
+      "provider_psychotherapist": "Psychoterapeuta/ka",
       "provider_psychiatrist": "Psychiatra",
       "male": "Mężczyzna",
       "female": "Kobieta",
       "unspecified": "Nieokreślony",
-      "provider_type_checkbox_group_label": "Typ konsultanta",
+      "provider_type_checkbox_group_label": "Typ konsultanta/ki",
       "provider_sex_checkbox_group_label": "Płeć konsultanta",
       "max_price": "Cena maksymalna",
       "max_price_placeholder": "Wybierz cenę maksymalną",
@@ -1068,10 +1068,10 @@
     },
     "join-consultation": {
       "heading": "Wybierz sposób komunikacji",
-      "subheading": "Wybierz typ komunikacji, który najbardziej Ci odpowiada.",
+      "subheading": "Wybierz typ konsultacji, który najbardziej Ci odpowiada.",
       "button_label_1": "Konsultacja wideo/audio",
       "button_label_2": "Konsultacja tekstowa",
-      "client_joined": "Klient dołączył do konsultacji",
+      "client_joined": "Klient/ka dołączył/a do konsultacji",
       "error": "Wystąpił błąd. Spróbuj ponownie",
       "permissions_error": "Nie nadano uprawnień do korzystania z kamery lub mikrofonu",
       "permissions_error_subheading": "Aby dołączyć do konsultacji, nadaj uprawnienia do korzystania z kamery lub mikrofonu w ustawieniach urządzenia",
@@ -1093,11 +1093,11 @@
       "coupon_code": "Kod kuponu",
       "apply_coupon": "Zastosuj kupon",
       "remove_coupon": "Usuń kupon",
-      "provider_not_available": "Dostawca nie ma dostępnych terminów."
+      "provider_not_available": "Konsultant/ka nie ma dostępnych terminów."
     },
     "create-question": {
       "heading": "Zadaj swoje pytanie tutaj",
-      "subheading": "Twoje pytanie będzie w 100% anonimowe i nikt nie zobaczy, że jesteś jego autorem.",
+      "subheading": "Twoje pytanie będzie w 100% anonimowe i nikt nie zobaczy, że jesteś jego autorem/ką.",
       "text_area_label": "Twoje pytanie",
       "send_your_question": "Wyślij swoje pytanie",
       "cancel": "Anuluj",
@@ -1121,7 +1121,7 @@
       "heading": "Weryfikacja kodu",
       "text": "Wprowadź kod otrzymany w wiadomości email. Jest on ważny przez 30 minut od otrzymania wiadomości email.",
       "send": "Wyślij",
-      "didnt_get_code": "Nie otrzymałeś/otrzymałaś kodu?",
+      "didnt_get_code": "Nie otrzymałeś/aś kodu?",
       "resend": "Wyślij ponownie wiadomość email",
       "seconds": "za {{seconds}} sekund"
     },
@@ -1132,8 +1132,8 @@
 
   "modals": {
     "mood-tracker-more-information": {
-      "you_felt": "Poczułeś/Poczułaś",
-      "comment_text": "i skomentowałeś/skomentowałaś",
+      "you_felt": "Poczułeś/aś",
+      "comment_text": "i skomentowałeś/aś",
       "ordinal_st": ".",
       "ordinal_nd": ".",
       "ordinal_rd": ".",
@@ -1155,9 +1155,9 @@
     },
     "require-data-agreement": {
       "heading": "Czy wyrażasz zgodę na wykorzystywanie swoich danych zgodnie z polityką prywatności?",
-      "text": "Dane osobowe użytkownika nie będą ujawniane, zgoda ta będzie wykorzystywana wyłącznie do przetwarzania i przechowywania na platformie danych klinicznych i historii czatu.",
-      "text_2": "Jeśli chcesz dowiedzieć się więcej o tym, jak przetwarzamy dane osobowe, odwiedź naszą ",
-      "terms_and_conditions": "Warunki użytkowania",
+      "text": "Twoje dane osobowe nie będą ujawniane. To uprawnienie służy wyłącznie do przetwarzania i przechowywania informacji oraz historii czatu w ramach platformy.",
+      "text_2": "Jeśli chcesz dowiedzieć się więcej o tym, jak przetwarzamy dane osobowe, odwiedź",
+      "terms_and_conditions": "Regulamin",
       "privacy_policy": "Polityka prywatności",
       "give_permission": "Udzielam uprawnienia ",
       "cancel": "Anuluj"
@@ -1169,16 +1169,16 @@
     },
     "how-it-works-my-qa": {
       "heading": "Jak to działa",
-      "subheading_1": "Klient wysyła anonimową prywatną wiadomość do uSupport w wybranym przez siebie języku, korzystając ze strony internetowej lub aplikacji.",
-      "subheading_2": "Zatwierdzony, dostępny konsultant USupport odpowiada odpowiednimi ścieżkami itp.",
-      "subheading_3": "Każdy widzi odpowiedź! Trafia ona do wspólnego obszaru z odpowiednimi #tagami do wykorzystania w przyszłości."
+      "subheading_1": "Klient/ka wysyła anonimową prywatną wiadomość do uSupport w wybranym przez siebie języku, korzystając ze strony internetowej lub aplikacji.",
+      "subheading_2": "Zatwierdzony/a, dostępny/a konsultant/ka uSupport odpowiada odpowiednimi ścieżkami itp.",
+      "subheading_3": "Odpowiedź będzie widoczna dla wszystkich! Trafi do wspólnej przestrzeni z odpowiednimi #tagami, aby można było do niej wrócić w przyszłości."
     },
     "delete-chat-history": {
       "heading": "Czy na pewno chcesz usunąć wszystkie dane czatu?",
       "subheading": "Działanie to jest nieodwracalne.",
       "confirm": "Tak, usuń wszystkie moje dane czatu",
-      "cancel": "Nie, zachowaj moje dane czatu",
-      "success": "Twoje dane czatu zostały pomyślnie usunięte."
+      "cancel": "Nie, zachowaj moje dane z czatu",
+      "success": "Twoje dane z czatu zostały pomyślnie usunięte."
     },
     "baseline-assesment-modal": {
       "heading": "Ocena wstępna",
