@@ -770,7 +770,7 @@
     "change-passcode-screen": {
       "heading": "Kod dostępu",
       "delete_subheading": "Usuń kod dostępu w kilku krokach",
-      "create_subheading": "Utwórz nowe hasło w kilku krokach, aby być lepiej zabezpieczonym."
+      "create_subheading": "Utwórz swój nowy kod dostępu w kilku krokach, aby zwiększyć bezpieczeństwo."
     },
     "checkout-page": {
       "heading": "Płatność",
@@ -863,7 +863,7 @@
       "explore": "Odkryj"
     },
     "forgot-password-screen": {
-      "heading": "Wpisz swój adres email aby zresetować hasło"
+      "heading": "Wpisz swój adres email, aby zresetować hasło"
     },
     "informational-portal-screen": {
       "heading": "Portal informacyjny",
