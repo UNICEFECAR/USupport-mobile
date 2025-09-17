@@ -558,7 +558,8 @@
       "country": "Country",
       "language": "Language",
       "placeholder": "Select",
-      "button": "Continue"
+      "button": "Continue",
+      "poland_description": "uSupport is a mental health and well-being platform designed for youth (16–24)."
     },
     "my-qa": {
       "search_input_placeholder": "Search",

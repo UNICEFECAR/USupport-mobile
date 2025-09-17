@@ -142,6 +142,9 @@ export function Welcome({ navigation }) {
           />
         </View>
         <View style={styles.dropdownsContainer}>
+          {selectedCountry === "PL" && (
+            <AppText>{t("poland_description")}</AppText>
+          )}
           <Dropdown
             options={countriesQuery.data?.map((x) => {
               return {
