@@ -8,6 +8,7 @@ export function DropdownBackdrop({
   isOpen,
   onClose,
   selectedOption,
+  selectedValues,
   handleOptionSelect,
   heading,
   options = [
@@ -50,7 +51,11 @@ export function DropdownBackdrop({
           onPress={() => handleOptionSelect(option.value)}
           key={index}
           namedStyle="text"
-          isBold={option.value === selectedOption}
+          isBold={
+            Array.isArray(selectedValues)
+              ? selectedValues.includes(option.value)
+              : option.value === selectedOption
+          }
         >
           {option.label}
         </AppText>
