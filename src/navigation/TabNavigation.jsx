@@ -8,6 +8,7 @@ import {
   Pressable,
   Platform,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { Icon, AppText } from "#components";
 import {
@@ -28,6 +29,7 @@ export const TabNavigation = () => {
   const { colors, isDarkMode } = useGetTheme();
   const { t } = useTranslation("navigation", { keyPrefix: "tab-navigation" });
   const { country } = useContext(Context);
+  const { bottom: bottomInset } = useSafeAreaInsets();
 
   const [isShown, setIsShown] = useState(true);
   const _ = useKeyboard(
@@ -225,6 +227,7 @@ export const TabNavigation = () => {
           appStyles.shadow3,
           {
             display: isShown ? "flex" : "none",
+            paddingBottom: Platform.OS === "android" ? bottomInset : 0,
           },
         ]}
       >
