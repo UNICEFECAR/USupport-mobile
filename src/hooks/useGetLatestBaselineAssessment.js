@@ -6,7 +6,11 @@ export const useGetLatestBaselineAssessment = (enabled = true) => {
     queryKey: ["latest-baseline-assessment"],
     queryFn: async () => {
       const response = await clientSvc.getLatestBaselineAssessment();
-      return response.data;
+      const data = response.data;
+      if (!data.baselineAssessmentId) {
+        return null;
+      }
+      return data;
     },
     enabled,
     retry: false,

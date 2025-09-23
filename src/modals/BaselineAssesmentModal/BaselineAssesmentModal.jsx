@@ -44,7 +44,9 @@ export const BaselineAssesmentModal = ({ navigation, setOpen, open }) => {
   useEffect(() => {
     if (clientData) {
       setDataProcessing(clientData.dataProcessing);
-      setIsOpen(!clientData.hasCheckedBaselineAssessment);
+      if (!clientData.hasCheckedBaselineAssessment) {
+        setIsOpen(true);
+      }
     }
   }, [clientData]);
 
@@ -63,6 +65,9 @@ export const BaselineAssesmentModal = ({ navigation, setOpen, open }) => {
   const updateClientHasCheckedBaselineAssessmentMutation = useMutation(
     clientSvc.updateClientHasCheckedBaselineAssessment,
     {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["client-data"] });
+      },
       onError: (err) => {
         console.log(err);
       },

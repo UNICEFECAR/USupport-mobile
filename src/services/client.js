@@ -213,6 +213,11 @@ async function getOrganizations(filters) {
   if (filters.userInteraction) {
     filtersQuery += `&userInteraction=${filters.userInteraction}`;
   }
+
+  if (filters.specialisations && filters.specialisations.length > 0) {
+    filtersQuery += `&specialisations=${filters.specialisations.join(",")}`;
+  }
+
   const response = await http.get(
     `${API_ENDPOINT}/organization${filtersQuery ? `?${filtersQuery}` : ""}`
   );
@@ -311,6 +316,11 @@ async function getLatestBaselineAssessment() {
   return response;
 }
 
+async function getPersonalizedOrganizations() {
+  const response = await http.get(`${API_ENDPOINT}/organization/personalized`);
+  return response;
+}
+
 const exportedFunctions = {
   addMoodTrack,
   getClientData,
@@ -349,6 +359,7 @@ const exportedFunctions = {
   addBaselineAssessmentAnswer,
   getLatestBaselineAssessment,
   addSOSCenterClick,
+  getPersonalizedOrganizations,
 };
 
 export default exportedFunctions;

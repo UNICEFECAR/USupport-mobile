@@ -1,14 +1,14 @@
 import React, { useContext, useMemo } from "react";
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, View, TouchableWithoutFeedback } from "react-native";
 
 import { AppText } from "../../texts";
 import { Icon } from "../../icons";
 import { Error } from "../../errors";
 import { appStyles } from "#styles";
-import { useGetTheme } from "#hooks";
-import { useTranslation } from "react-i18next";
-import { Context } from "#services";
+import { useGetTheme, useDropdownOptions } from "#hooks";
+// import { Context } from "#services";
 import { Loading } from "../../loaders";
 
 /**
@@ -33,7 +33,14 @@ export const Select = ({
   const { colors, isDarkMode } = useGetTheme();
   const { i18n } = useTranslation();
   const lang = i18n.language;
-  const { dropdownOptions, setDropdownOptions } = useContext(Context);
+
+  const {
+    isOpen: dropdownIsOpen,
+    dropdownId: currentDropdownId,
+    setDropdownOptions,
+  } = useDropdownOptions();
+
+  // const { dropdownOptions, setDropdownOptions } = useContext(Context);
 
   const placeholderText = useMemo(() => {
     if (placeholder && placeholder !== "Select") return placeholder;
@@ -63,8 +70,7 @@ export const Select = ({
     return options.filter((o) => valueSet.has(o.value)).map((o) => o.label);
   }, [normalizedValues, options]);
 
-  const isOpen =
-    dropdownOptions.isOpen && dropdownOptions.dropdownId === dropdownId;
+  const isOpen = dropdownIsOpen && currentDropdownId === dropdownId;
 
   const handleOpen = () => {
     if (disabled) return;
