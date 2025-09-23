@@ -193,7 +193,6 @@ export const SelectConsultation = ({
 
   return (
     <Backdrop
-      classes="select-consultation"
       title="SelectConsultation"
       isOpen={isOpen}
       onClose={onClose}
