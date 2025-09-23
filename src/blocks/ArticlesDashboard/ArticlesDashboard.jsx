@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
@@ -14,7 +14,7 @@ import {
 
 import { appStyles } from "#styles";
 
-import { localStorage, cmsSvc } from "#services";
+import { localStorage, cmsSvc, adminSvc, Context } from "#services";
 
 import {
   useEventListener,
@@ -44,18 +44,24 @@ export const ArticlesDashboard = ({
     keyPrefix: "articles-dashboard",
   });
 
+  const { isTmpUser } = useContext(Context);
+
   const [usersLanguage, setUsersLanguage] = useState(i18n.language);
   const [showAgeGroups, setShowAgeGroups] = useState(true);
 
-  useEffect(() => {
-    async function checkCountry() {
-      const country = await localStorage.getItem("country");
-      if (country === "PL") {
-        setShowAgeGroups(false);
-      }
-    }
-    checkCountry();
-  }, []);
+  const selectedCategory = allCategories?.find((category) => {
+    return !!category.isSelected;
+  });
+
+  // useEffect(() => {
+  //   async function checkCountry() {
+  //     const country = await localStorage.getItem("country");
+  //     if (country === "PL") {
+  //       setShowAgeGroups(false);
+  //     }
+  //   }
+  //   checkCountry();
+  // }, []);
 
   useEffect(() => {
     if (i18n.language !== usersLanguage) {
@@ -63,7 +69,7 @@ export const ArticlesDashboard = ({
     }
   }, [i18n.language]);
 
-  const { data: contentRatings } = useGetUserContentRatings();
+  const { data: contentRatings } = useGetUserContentRatings(!isTmpUser);
 
   //--------------------- Age Groups ----------------------//
   const [ageGroups, setAgeGroups] = useState();
@@ -163,37 +169,93 @@ export const ArticlesDashboard = ({
     handleSetCategories(categoriesCopy);
   };
 
+  const getArticlesIds = async () => {
+    // Request articles ids from the master DB based for website platform
+    const articlesIds = await adminSvc.getArticles();
+
+    return articlesIds;
+  };
+
+  const articleIdsQuerry = useQuery(["articleIds"], getArticlesIds);
+
+  //--------------------- Newest Article ----------------------//
+
+  const getNewestArticle = async () => {
+    let categoryId = "";
+    if (selectedCategory?.value !== "all") {
+      categoryId = selectedCategory.id;
+    }
+
+    let { data } = await cmsSvc.getArticles({
+      limit: 2, // Only get the newest article
+      sortBy: "createdAt", // Sort by created date
+      categoryId: categoryId,
+      sortOrder: "desc", // Sort in descending order
+      locale: usersLanguage,
+      populate: true,
+      ageGroupId: selectedAgeGroup.id,
+      ids: articleIdsQuerry.data,
+    });
+    for (let i = 0; i < data.data.length; i++) {
+      data.data[i] = destructureArticleData(data.data[i]);
+    }
+
+    return data.data;
+  };
+
+  const {
+    data: newestArticles,
+    isLoading: newestArticlesLoading,
+    isFetched: isNewestArticlesFetched,
+  } = useQuery(
+    [
+      "newestArticle",
+      usersLanguage,
+      selectedCategory,
+      selectedAgeGroup?.id,
+      articleIdsQuerry.data,
+    ],
+    getNewestArticle,
+    {
+      onError: (error) => console.log(error),
+      enabled:
+        !articleIdsQuerry.isLoading &&
+        articleIdsQuerry.data?.length > 0 &&
+        !categoriesQuery.isLoading &&
+        categoriesQuery.data?.length > 0 &&
+        isTmpUser,
+
+      refetchOnWindowFocus: false,
+    }
+  );
+
   //--------------------- Use Recommended Articles Hook ----------------------//
   const {
     articles,
     loading: isArticlesLoading,
-    hasMore,
-    totalCount,
-    categoriesData,
-    remainingArticlesCount,
-    readArticlesCount,
-    categoryArticlesCount,
-    loadMore,
     error,
     isReady,
-    fetchingCategories,
-    fetchingRemaining,
-    hasMoreRemaining,
-    hasMoreRead,
-    readArticleIds,
   } = useRecommendedArticles({
     limit: 6, // Only show 2 articles
     ageGroupId: selectedAgeGroup?.id,
-    enabled: selectedAgeGroup?.id && !ageGroupsQuery.isLoading,
+    enabled: isTmpUser
+      ? false
+      : selectedAgeGroup?.id && !ageGroupsQuery.isLoading,
     categoryIdFilter: selectCategory?.id || null,
     sortFilter: "read_count",
   });
 
+  const articlesToTransform = isTmpUser ? newestArticles : articles;
+
   // Transform articles data to match expected format
-  const transformedArticles = articles?.slice(0, 2)?.map((article) => {
-    // If article already has direct properties, use them, otherwise use article.data
-    return article.data ? article.data : article;
-  });
+  const transformedArticles = articlesToTransform
+    ?.slice(0, 2)
+    ?.map((article) => {
+      // If article already has direct properties, use them, otherwise use article.data
+      return article.data ? article.data : article;
+    });
+
+  const showLoading = isTmpUser ? newestArticlesLoading : isArticlesLoading;
 
   const handleRedirect = (sort) =>
     sort === "createdAt"
@@ -237,7 +299,7 @@ export const ArticlesDashboard = ({
             />
           )}
 
-          {isArticlesLoading && (
+          {showLoading && (
             <View style={styles.container}>
               <Loading />
             </View>
@@ -245,11 +307,13 @@ export const ArticlesDashboard = ({
 
           <Block>
             <View style={styles.articlesContainer}>
-              {!isArticlesLoading &&
+              {!showLoading &&
                 transformedArticles?.length > 0 &&
                 allCategories.length > 1 &&
                 transformedArticles?.map((article, index) => {
-                  const articleData = destructureArticleData(article);
+                  const articleData = article.attributes
+                    ? destructureArticleData(article)
+                    : article;
                   const { isLikedByUser, isDislikedByUser } =
                     checkIsLikedAndDisliked(
                       contentRatings,
@@ -286,11 +350,12 @@ export const ArticlesDashboard = ({
                 <Error message={t("heading_no_results")} />
               </View>
             )}
-            {isReady && transformedArticles?.length === 0 && (
-              <View style={styles.container}>
-                <AppText namedStyle="h3">{t("heading_no_results")}</AppText>
-              </View>
-            )}
+            {(isReady || isNewestArticlesFetched) &&
+              transformedArticles?.length === 0 && (
+                <View style={styles.container}>
+                  <AppText namedStyle="h3">{t("heading_no_results")}</AppText>
+                </View>
+              )}
           </Block>
         </>
       )}

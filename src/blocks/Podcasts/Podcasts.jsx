@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
@@ -20,7 +20,7 @@ import {
   useDebounce,
 } from "#hooks";
 
-import { localStorage, adminSvc, cmsSvc } from "#services";
+import { localStorage, adminSvc, cmsSvc, Context } from "#services";
 
 /**
  * Podcasts
@@ -31,7 +31,7 @@ import { localStorage, adminSvc, cmsSvc } from "#services";
  */
 export const Podcasts = ({ navigation, showSearch, showCategories, sort }) => {
   const { t, i18n } = useTranslation("videos");
-
+  const { isTmpUser } = useContext(Context);
   const [usersLanguage, setUsersLanguage] = useState(i18n.language);
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export const Podcasts = ({ navigation, showSearch, showCategories, sort }) => {
     }
   }, [i18n.language]);
 
-  const { data: contentRatings } = useGetUserContentRatings();
+  const { data: contentRatings } = useGetUserContentRatings(!isTmpUser);
 
   //--------------------- Country Change Event Listener ----------------------//
   const [currentCountry, setCurrentCountry] = useState();

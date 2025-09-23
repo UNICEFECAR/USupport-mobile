@@ -21,7 +21,7 @@ const VIDEO_HEIGHT = (SCREEN_WIDTH * 9) / 16; // 16:9 aspect ratio
  *
  * @returns {JSX.Element}
  */
-export const VideoView = ({ videoData, t }) => {
+export const VideoView = ({ videoData, t, isTmpUser }) => {
   const { colors } = useGetTheme();
 
   const [playing, setPlaying] = useState(false);
@@ -167,6 +167,7 @@ export const VideoView = ({ videoData, t }) => {
   );
 
   const handleAddRating = (action) => {
+    if (isTmpUser) return;
     addContentRatingMutation({
       contentId: videoData.id,
       positive:

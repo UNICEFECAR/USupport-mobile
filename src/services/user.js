@@ -240,7 +240,7 @@ async function logoutRequest() {
 
 async function addPlatformAccess() {
   const response = await http.get(
-    `${API_ENDPOINT}/access-platform?platform=client`
+    `${API_ENDPOINT}/access-platform?platform=mobile`
   );
   return response;
 }
@@ -255,9 +255,16 @@ async function getUserContentRatings() {
   return response;
 }
 
-async function getRatingsForContent({ contentId, contentType }) {
+async function getRatingsForContent({ contentId, contentType, isTmpUser }) {
+  const headers = {};
+  if (isTmpUser) {
+    headers["x-is-guest"] = "true";
+  }
   const response = await http.get(
-    `${API_ENDPOINT}/ratings-for-content?contentId=${contentId}&contentType=${contentType}`
+    `${API_ENDPOINT}/ratings-for-content?contentId=${contentId}&contentType=${contentType}`,
+    {
+      headers,
+    }
   );
   return response;
 }

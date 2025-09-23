@@ -9,6 +9,7 @@ export default function useGetClientData(
   enabled = true,
   shouldInvalidate = false
 ) {
+  const { isTmpUser } = useContext(Context);
   const queryClient = useQueryClient();
   const oldData = queryClient.getQueryData({ queryKey: ["client-data"] });
   const [clientData, setClientData] = useState(oldData || null);
@@ -44,13 +45,13 @@ export default function useGetClientData(
   };
 
   const clientDataQuery = useQuery(["client-data"], fetchClientData, {
-    enabled: enabled && !!token,
+    enabled: enabled && !!token && !isTmpUser,
     onSuccess: (data) => {
       const dataCopy = JSON.parse(JSON.stringify(data));
       setOldDataCopy(dataCopy);
       setClientData({ ...dataCopy });
     },
-    staleTime: Infinity,
+    // staleTime: Infinity,
   });
 
   const update = (data) => {
