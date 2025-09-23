@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
@@ -7,7 +7,7 @@ import { Heading, Screen, AppText, Loading, CardMedia } from "#components";
 import { PodcastView } from "#blocks";
 import { destructurePodcastData } from "#utils";
 import { useGetUserContentRatings } from "#hooks";
-import { userSvc, cmsSvc, adminSvc, clientSvc } from "#services";
+import { userSvc, cmsSvc, adminSvc, clientSvc, Context } from "#services";
 
 /**
  * PodcastInformation
@@ -18,7 +18,10 @@ import { userSvc, cmsSvc, adminSvc, clientSvc } from "#services";
  */
 export const PodcastInformation = ({ navigation, route }) => {
   const { podcastId: id } = route.params;
-  const { i18n, t } = useTranslation("information-portal");
+  const { i18n, t } = useTranslation("blocks", {
+    keyPrefix: "information-portal",
+  });
+  const { isTmpUser } = useContext(Context);
 
   const getPodcastsIds = async () => {
     // Request podcast ids from the master DB
@@ -26,13 +29,14 @@ export const PodcastInformation = ({ navigation, route }) => {
     return podcastIds;
   };
 
-  const { data: contentRatings } = useGetUserContentRatings();
+  const { data: contentRatings } = useGetUserContentRatings(!isTmpUser);
   const podcastIdsQuery = useQuery(["podcastIds"], getPodcastsIds);
 
   const getPodcastData = async () => {
     const contentRatings = await userSvc.getRatingsForContent({
       contentType: "podcast",
       contentId: id,
+      isTmpUser,
     });
 
     const { data } = await cmsSvc.getPodcastById(id, i18n.language);
@@ -48,7 +52,7 @@ export const PodcastInformation = ({ navigation, route }) => {
       enabled: !!id,
       onSuccess: (data) => {
         // Add category interaction when podcast is successfully fetched
-        if (data && data.categoryId) {
+        if (data && data.categoryId && !isTmpUser) {
           clientSvc
             .addClientCategoryInteraction({
               categoryId: data.categoryId,
@@ -112,7 +116,7 @@ export const PodcastInformation = ({ navigation, route }) => {
         />
 
         {podcastData ? (
-          <PodcastView podcastData={podcastData} t={t} />
+          <PodcastView podcastData={podcastData} t={t} isTmpUser={isTmpUser} />
         ) : (
           <View style={styles.loadingContainer}>
             <Loading style={styles.loading} />
