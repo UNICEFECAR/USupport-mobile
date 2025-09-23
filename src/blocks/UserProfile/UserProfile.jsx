@@ -8,13 +8,7 @@ import DeviceInfo from "react-native-device-info";
 import { Block, Heading, AppText, ButtonSelector } from "#components";
 import { useGetTheme, useGetClientData, useDropdownOptions } from "#hooks";
 import { appStyles } from "#styles";
-import {
-  Context,
-  localStorage,
-  languageSvc,
-  userSvc,
-  countrySvc,
-} from "#services";
+import { Context, localStorage, languageSvc, userSvc } from "#services";
 const { AMAZON_S3_BUCKET } = Config;
 
 /**
@@ -47,7 +41,6 @@ export const UserProfile = ({ navigation }) => {
   const [languagesData, setLanguagesData] = useState({
     language: "",
   });
-  // const { dropdownOptions, setDropdownOptions } = useContext(Context);
   const {
     isOpen: dropdownIsOpen,
     dropdownId: currentDropdownId,
