@@ -12,3 +12,4 @@ export * from "./Textarea";
 export * from "./Toggle";
 export * from "./SendMessage";
 export * from "./InputSlider";
+export * from "./Select";

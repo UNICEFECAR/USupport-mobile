@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
@@ -19,15 +19,43 @@ export const FilterOrganizations = ({
   setFilters,
   initialFilters,
 }) => {
-  const { t } = useTranslation("organizations");
+  const { t } = useTranslation("blocks", {
+    keyPrefix: "organizations",
+  });
 
   const [data, setData] = useState({ ...filters });
+  const [selectedSpecialisations, setSelectedSpecialisations] = useState(
+    filters.specialisations
+      ? filters.specialisations
+      : filters.specialisation
+        ? [filters.specialisation]
+        : []
+  );
+
+  useEffect(() => {
+    if (isOpen) {
+      setData({ ...filters });
+    }
+  }, [isOpen, filters]);
 
   const { data: metadata, isLoading: isMetadataLoading } =
     useGetOrganizationMetadata();
 
   const handleChange = (field, value) => {
     setData({ ...data, [field]: value });
+  };
+
+  const handleSpecialisationChange = (selectedValues) => {
+    setSelectedSpecialisations(selectedValues);
+    // Update data with the first selected specialisation for backward compatibility
+    // or modify this logic based on your backend requirements
+    const primarySpecialisation =
+      selectedValues.length > 0 ? selectedValues[0] : null;
+    setData((prevData) => ({
+      ...prevData,
+      specialisation: primarySpecialisation,
+      specialisations: selectedValues,
+    }));
   };
 
   const handleSave = () => {
@@ -37,18 +65,21 @@ export const FilterOrganizations = ({
 
   const handleReset = () => {
     setData({ ...initialFilters });
+    setFilters({ ...initialFilters });
+    setSelectedSpecialisations([]);
+    onClose();
   };
 
   const renderFilters = () => {
     if (isMetadataLoading) {
       return <Loading />;
     }
-
     return (
       <View style={styles.container}>
         {metadata?.districts && metadata.districts.length > 0 && (
           <Dropdown
-            selected={filters.district}
+            dropdownId="filterDistrict"
+            selected={data.district}
             setSelected={(value) => handleChange("district", value)}
             placeholder={t("district_placeholder")}
             options={metadata.districts.map((district) => ({
@@ -59,9 +90,10 @@ export const FilterOrganizations = ({
         )}
         {metadata?.paymentMethods && metadata.paymentMethods.length > 0 && (
           <Dropdown
-            selected={filters.paymentMethod}
+            dropdownId="filterPaymentMethod"
+            selected={data.paymentMethod}
             setSelected={(value) => handleChange("paymentMethod", value)}
-            placeholder={t("payment_method_placeholder")}
+            placeholder={t("payment_methods_placeholder")}
             options={metadata.paymentMethods.map((method) => ({
               label: t(method.name),
               value: method.paymentMethodId,
@@ -70,9 +102,10 @@ export const FilterOrganizations = ({
         )}
         {metadata?.userInteractions && metadata.userInteractions.length > 0 && (
           <Dropdown
-            selected={filters.userInteraction}
+            dropdownId="filterUserInteraction"
+            selected={data.userInteraction}
             setSelected={(value) => handleChange("userInteraction", value)}
-            placeholder={t("user_interaction_placeholder")}
+            placeholder={t("user_interactions_placeholder")}
             options={metadata.userInteractions.map((interaction) => ({
               label: t(interaction.name + "_interaction"),
               value: interaction.userInteractionId,
@@ -81,9 +114,12 @@ export const FilterOrganizations = ({
         )}
         {metadata?.specialisations && metadata.specialisations.length > 0 && (
           <Dropdown
-            selected={filters.specialisation}
-            setSelected={(value) => handleChange("specialisation", value)}
-            placeholder={t("specialisation_placeholder")}
+            dropdownId="filterSpecialisations"
+            multiSelect={true}
+            selectedValues={selectedSpecialisations}
+            onMultiSelectChange={handleSpecialisationChange}
+            placeholder={t("specialisations_placeholder")}
+            // heading={t("specialisations_placeholder")}
             options={metadata.specialisations.map((specialisation) => ({
               label: t(specialisation.name),
               value: specialisation.organizationSpecialisationId,
@@ -96,14 +132,15 @@ export const FilterOrganizations = ({
 
   return (
     <Backdrop
+      secondaryCtaStyle={{ marginBottom: 90 }}
       isOpen={isOpen}
       onClose={onClose}
       heading={t("filter_heading")}
-      text={t("filter_subheading")}
       ctaLabel={t("filter_button_label")}
       ctaHandleClick={handleSave}
       secondaryCtaLabel={t("reset_filters")}
       secondaryCtaHandleClick={handleReset}
+      secondaryCtaType="secondary"
     >
       {renderFilters()}
     </Backdrop>

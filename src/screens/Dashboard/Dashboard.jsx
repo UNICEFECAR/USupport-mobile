@@ -72,6 +72,7 @@ export const Dashboard = ({ navigation }) => {
     setIsAnonymousRegister,
     country,
   } = useContext(Context);
+
   const getClientDataEnabled = isTmpUser === false ? true : false;
   const clientDataQuery = useGetClientData(getClientDataEnabled)[0];
   const clientData = clientDataQuery.data;
@@ -319,8 +320,13 @@ export const Dashboard = ({ navigation }) => {
 
   const [isBaselineAssesmentModalOpen, setIsBaselineAssesmentModalOpen] =
     useState(false);
-  const openBaselineAssesmentModal = () =>
+  const openBaselineAssesmentModal = () => {
+    if (isTmpUser) {
+      handleRegistrationModalOpen();
+      return;
+    }
     setIsBaselineAssesmentModalOpen(true);
+  };
 
   return (
     <Screen hasHeaderNavigation t={t} hasEmergencyButton={false}>
@@ -329,6 +335,7 @@ export const Dashboard = ({ navigation }) => {
           open={isBaselineAssesmentModalOpen}
           setOpen={setIsBaselineAssesmentModalOpen}
           navigation={navigation}
+          isTmpUser={isTmpUser}
         />
       )}
       <ScrollView

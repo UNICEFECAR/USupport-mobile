@@ -18,7 +18,7 @@ const PLAYER_HEIGHT = (SCREEN_WIDTH * 9) / 16; // 16:9 aspect ratio
  *
  * @returns {JSX.Element}
  */
-export const PodcastView = ({ podcastData, t }) => {
+export const PodcastView = ({ podcastData, t, isTmpUser }) => {
   const { colors } = useGetTheme();
   const [isPlaying, setIsPlaying] = useState(false);
   const webViewRef = useRef(null);
@@ -121,6 +121,7 @@ export const PodcastView = ({ podcastData, t }) => {
   );
 
   const handleAddRating = (action) => {
+    if (isTmpUser) return;
     addContentRatingMutation({
       contentId: podcastData.id,
       positive:

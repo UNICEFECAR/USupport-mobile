@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -10,23 +10,38 @@ import {
 import { useTranslation } from "react-i18next";
 import Share from "react-native-share";
 import Config from "react-native-config";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
 
 import {
+  AppText,
   Block,
   Input,
   InteractiveMap,
   Loading,
-  AppText,
   OrganizationOverview,
   Avatar,
   ButtonWithIcon,
   AppButton,
   Icon,
+  TransparentModal,
 } from "#components";
-import { useGetOrganizationMetadata, useGetAllOrganizations } from "#hooks";
+
+import {
+  useGetAllOrganizations,
+  useGetClientData,
+  useGetLatestBaselineAssessment,
+  useCreateBaselineAssessment,
+  useGetTheme,
+} from "#hooks";
+
 import { appStyles } from "#styles";
+
 import { constructShareUrl } from "#utils";
-import { useGetTheme } from "#hooks";
+
+import { Context, clientSvc } from "#services";
+
+import { RequireRegistration, BaselineAssesmentModal } from "#modals";
+
 import { GiveSuggestion } from "../GiveSuggestion";
 
 const { GOOGLE_MAPS_API_KEY, AMAZON_S3_BUCKET } = Config;
@@ -39,18 +54,57 @@ const { GOOGLE_MAPS_API_KEY, AMAZON_S3_BUCKET } = Config;
  */
 export const Organizations = ({ navigation, filters, setFilters }) => {
   const { t } = useTranslation("blocks", { keyPrefix: "organizations" });
+
+  const queryClient = useQueryClient();
+  const { isTmpUser } = useContext(Context);
+
   const [mapControls, setMapControls] = useState(null);
   const [selectedOrganization, setSelectedOrganization] = useState(null);
+
+  const [isPersonalizationModalOpen, setIsPersonalizationModalOpen] =
+    useState(false);
+  const [startPersonalization, setStartPersonalization] = useState(false);
+  const [isRegistrationModalOpen, setIsRegistrationModalOpen] = useState(false);
+  const [isBaselineAssesmentModalOpen, setIsBaselineAssesmentModalOpen] =
+    useState(false);
+  const [organizationToZoom, setOrganizationToZoom] = useState(null);
+
+  const clientDataQuery = useGetClientData(!isTmpUser)[0];
+  const clientData = clientDataQuery.data;
+
+  const { data: latestAssessment } = useGetLatestBaselineAssessment(!isTmpUser);
 
   const { data, isLoading } = useGetAllOrganizations({
     search: filters.search,
     district: filters.district,
     paymentMethod: filters.paymentMethod,
-    specialisation: filters.specialisation,
+    specialisations: filters.specialisations,
   });
 
-  const { data: metadata, isLoading: isMetadataLoading } =
-    useGetOrganizationMetadata();
+  const createBaselineAssessmentMutation = useCreateBaselineAssessment();
+
+  const personalizationMutation = useMutation({
+    mutationFn: async () => {
+      return clientSvc.getPersonalizedOrganizations();
+    },
+    onSuccess: ({ data: specialisations }) => {
+      if (specialisations.length) {
+        const specialisationIds = specialisations.map(
+          (x) => x.organization_specialisation_id
+        );
+        handleChange("specialisations", specialisationIds);
+        setStartPersonalization(true);
+      }
+    },
+  });
+
+  useEffect(() => {
+    if (data && data.length && startPersonalization) {
+      setOrganizationToZoom(data[0]);
+      // handleOrganizationClick(data[0]);
+      setStartPersonalization(false);
+    }
+  }, [startPersonalization, data]);
 
   const handleChange = (field, value) => {
     setFilters({
@@ -117,8 +171,67 @@ export const Organizations = ({ navigation, filters, setFilters }) => {
     ));
   };
 
+  const handlePersonalizeClick = async () => {
+    if (isTmpUser) {
+      setIsRegistrationModalOpen(true);
+      return;
+    }
+    if (latestAssessment?.status === "completed") {
+      personalizationMutation.mutate();
+    } else {
+      setIsPersonalizationModalOpen(true);
+    }
+  };
+
+  const handleRegisterRedirection = () => {
+    userSvc.logout();
+    navigate("/register-preview");
+  };
+
+  const handleModalCtaClick = () => {
+    setIsPersonalizationModalOpen(false);
+    if (!clientData.dataProcessing) {
+      setIsBaselineAssesmentModalOpen(true);
+    } else if (latestAssessment?.status === "in_progress") {
+      navigation.navigate("BaselineAssesment", {
+        baselineAssessmentId: latestAssessment.baselineAssessmentId,
+      });
+    } else {
+      createBaselineAssessmentMutation.mutate(undefined, {
+        onSuccess: (assessmentData) => {
+          queryClient.invalidateQueries({
+            queryKey: ["latest-baseline-assessment"],
+          });
+          navigation.navigate("BaselineAssesment", {
+            baselineAssessmentId: assessmentData.baselineAssessmentId,
+          });
+        },
+      });
+    }
+  };
+
   return (
     <>
+      <TransparentModal
+        isOpen={isPersonalizationModalOpen}
+        handleClose={() => setIsPersonalizationModalOpen(false)}
+        heading={t("personalization")}
+        ctaLabel={t("personalization_modal_cta_label")}
+        ctaHandleClick={handleModalCtaClick}
+      >
+        <AppText style={{ paddingBottom: 16 }}>
+          {t("personalization_modal_text")}
+        </AppText>
+      </TransparentModal>
+      <RequireRegistration
+        isOpen={isRegistrationModalOpen}
+        onClose={() => setIsRegistrationModalOpen(false)}
+        handleRegisterRedirection={handleRegisterRedirection}
+      />
+      <BaselineAssesmentModal
+        open={isBaselineAssesmentModalOpen}
+        setOpen={setIsBaselineAssesmentModalOpen}
+      />
       <KeyboardAvoidingView
         behavior="padding"
         keyboardVerticalOffset={64}
@@ -126,6 +239,15 @@ export const Organizations = ({ navigation, filters, setFilters }) => {
       >
         <ScrollView style={styles.scrollView}>
           <Block style={styles.container}>
+            <AppButton
+              label={t("personalize")}
+              onPress={handlePersonalizeClick}
+              loading={personalizationMutation.isLoading}
+              // type="primary"
+              size="sm"
+              color="purple"
+              style={{ marginTop: 20, marginBottom: 20, alignSelf: "center" }}
+            />
             <View style={styles.searchContainer}>
               <Input
                 value={filters.search}
@@ -148,6 +270,7 @@ export const Organizations = ({ navigation, filters, setFilters }) => {
                   t={t}
                   googleMapsApiKey={GOOGLE_MAPS_API_KEY}
                   style={styles.map}
+                  organizationToZoom={organizationToZoom}
                 />
 
                 <View style={styles.organizationsContainer}>

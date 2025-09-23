@@ -6,15 +6,9 @@ import { useQuery } from "@tanstack/react-query";
 import DeviceInfo from "react-native-device-info";
 
 import { Block, Heading, AppText, ButtonSelector } from "#components";
-import { useGetTheme, useGetClientData } from "#hooks";
+import { useGetTheme, useGetClientData, useDropdownOptions } from "#hooks";
 import { appStyles } from "#styles";
-import {
-  Context,
-  localStorage,
-  languageSvc,
-  userSvc,
-  countrySvc,
-} from "#services";
+import { Context, localStorage, languageSvc, userSvc } from "#services";
 const { AMAZON_S3_BUCKET } = Config;
 
 /**
@@ -31,7 +25,7 @@ export const UserProfile = ({ navigation }) => {
     useContext(Context);
 
   const [version, setVersion] = React.useState("");
-  console.log("Country", country);
+
   const SHOW_PAYMENT_HISTORY =
     country !== "KZ" && country !== "PL" && country !== "RO";
 
@@ -47,7 +41,11 @@ export const UserProfile = ({ navigation }) => {
   const [languagesData, setLanguagesData] = useState({
     language: "",
   });
-  const { dropdownOptions, setDropdownOptions } = useContext(Context);
+  const {
+    isOpen: dropdownIsOpen,
+    dropdownId: currentDropdownId,
+    setDropdownOptions,
+  } = useDropdownOptions();
 
   const clientQuery = useGetClientData(isTmpUser ? false : true)[0];
   const clientData = isTmpUser ? {} : clientQuery?.data;
@@ -115,7 +113,7 @@ export const UserProfile = ({ navigation }) => {
   };
 
   const handlOpenLanguageDropdown = () => {
-    if (dropdownOptions.isOpen) {
+    if (dropdownIsOpen) {
       setDropdownOptions({
         heading: t("language_button_label"),
         options: languagesQuery.data || [],

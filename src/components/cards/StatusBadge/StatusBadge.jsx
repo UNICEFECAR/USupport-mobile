@@ -69,7 +69,3 @@ StatusBadge.propTypes = {
   label: PropTypes.string.isRequired,
   status: PropTypes.oneOf(["active", "inactive", "in-progress"]).isRequired,
 };
-
-StatusBadge.defaultProps = {
-  status: "active",
-};

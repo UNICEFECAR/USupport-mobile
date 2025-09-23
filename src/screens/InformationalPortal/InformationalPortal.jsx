@@ -73,9 +73,15 @@ export const InformationalPortal = ({ navigation }) => {
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     Promise.all([
-      queryClient.invalidateQueries([`${selectedContentType}Ids`]),
-      queryClient.invalidateQueries([`${selectedContentType}-createdAt`]),
-      queryClient.invalidateQueries([`${selectedContentType}-popular`]),
+      queryClient.invalidateQueries({
+        queryKey: [`${selectedContentType}Ids`],
+      }),
+      queryClient.invalidateQueries({
+        queryKey: [`${selectedContentType}-createdAt`],
+      }),
+      queryClient.invalidateQueries({
+        queryKey: [`${selectedContentType}-popular`],
+      }),
     ]).finally(() => {
       setRefreshing(false);
     });

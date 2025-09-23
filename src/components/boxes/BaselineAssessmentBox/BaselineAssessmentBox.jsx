@@ -46,11 +46,3 @@ export const BaselineAssesmentBox = ({
     </Box>
   );
 };
-
-BaselineAssesmentBox.propTypes = {
-  // Add propTypes here
-};
-
-BaselineAssesmentBox.defaultProps = {
-  // Add defaultProps here
-};

@@ -40,7 +40,7 @@ export function Screen({
 
   const [hasUnreadNotifications, setHasUnreadNotifications] = useState();
 
-  const { top: topInset } = useSafeAreaInsets();
+  const { top: topInset, bottom: bottomInset } = useSafeAreaInsets();
 
   const onCheckHasUnreadNotificationsSuccess = (data) => {
     setHasUnreadNotifications(data);
@@ -63,6 +63,7 @@ export function Screen({
 
   return (
     <SafeAreaView
+      edges={["top"]}
       style={[
         styles.screen,
         backgroundColor
@@ -77,11 +78,20 @@ export function Screen({
         backgroundColor={"transparent"}
         translucent={Platform.OS === "android" ? true : false}
       />
-      <View style={[styles.screenChildren, style]}>
+      <View
+        style={[
+          styles.screenChildren,
+          style,
+          Platform.OS === "android" && { paddingBottom: bottomInset },
+        ]}
+      >
         {children}
         {hasEmergencyButton && (
           <ButtonOnlyIcon
-            style={styles.emergencyButton}
+            style={[
+              styles.emergencyButton,
+              Platform.OS === "android" && { bottom: 16 + bottomInset },
+            ]}
             onPress={() => handleSosCenterClick()}
             color="red"
           />
@@ -139,10 +149,12 @@ const styles = StyleSheet.create({
   },
   emergencyButton: {
     position: "absolute",
-    bottom: 16,
-    right: 16,
+    bottom: -16,
+    right: -50,
     zIndex: 998,
     elevation: 998,
+    width: 180,
+    height: 100,
   },
   spiralImage: { width: "100%", position: "absolute", bottom: 0, zIndex: -1 },
 });

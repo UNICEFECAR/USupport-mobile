@@ -22,6 +22,7 @@ export const InteractiveMap = ({
   t,
   googleMapsApiKey,
   setSelectedMarker,
+  organizationToZoom,
 }) => {
   const webViewRef = useRef(null);
   const [userLocation, setUserLocation] = useState(null);
@@ -34,6 +35,19 @@ export const InteractiveMap = ({
     useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [mapReady, setMapReady] = useState(false);
+
+  useEffect(() => {
+    if (organizationToZoom) {
+      webViewRef.current?.postMessage(
+        JSON.stringify({
+          type: "ZOOM_TO_LOCATION",
+          lat: organizationToZoom.location.latitude,
+          lng: organizationToZoom.location.longitude,
+          zoom: 14,
+        })
+      );
+    }
+  }, [organizationToZoom]);
 
   // Request location permission and get current location
   const getCurrentLocation = useCallback(
@@ -552,11 +566,3 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
-
-InteractiveMap.defaultProps = {
-  data: [],
-  style: {},
-  onMapReady: null,
-  onSelectItem: null,
-  t: (key) => key,
-};

@@ -11,7 +11,7 @@ const INITIAL_FILTERS = {
   district: "",
   paymentMethod: "",
   userInteraction: "",
-  specialisation: "",
+  specialisations: "",
 };
 
 /**

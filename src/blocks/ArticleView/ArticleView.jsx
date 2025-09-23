@@ -22,7 +22,7 @@ const { AMAZON_S3_BUCKET } = Config;
  *
  * @return {jsx}
  */
-export const ArticleView = ({ articleData }) => {
+export const ArticleView = ({ articleData, isTmpUser }) => {
   const { t } = useTranslation("article-information");
   const { colors } = useGetTheme();
   const queryClient = useQueryClient();
@@ -124,6 +124,7 @@ export const ArticleView = ({ articleData }) => {
   );
 
   const handleAddRating = (action) => {
+    if (isTmpUser) return;
     addContentRatingMutation({
       contentId: articleData.id,
       positive:

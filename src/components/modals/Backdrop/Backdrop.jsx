@@ -159,6 +159,9 @@ export const Backdrop = ({
         style={[
           styles.backdrop,
           { backgroundColor: colors.background },
+          Platform.OS === "android" && {
+            paddingBottom: bottomInset + 6,
+          },
           backdropStyle,
           style,
           shrinkBackdrop ? { height: appStyles.screenHeight * 0.3 } : {},
@@ -219,8 +222,13 @@ export const Backdrop = ({
               styles.buttonContainer,
               { backgroundColor: colors.background },
               {
-                bottom: -bottomInset,
-                paddingBottom: bottomInset === 0 ? 24 : bottomInset / 2,
+                bottom: 0,
+                paddingBottom:
+                  bottomInset === 0
+                    ? 24
+                    : Platform.OS === "android"
+                      ? bottomInset
+                      : bottomInset / 2,
               },
             ]}
             onLayout={({ nativeEvent }) => {

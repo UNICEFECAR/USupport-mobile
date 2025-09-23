@@ -1,10 +1,12 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect, useContext } from "react";
 import { StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 
 import { Block, AppText, Loading, CardMedia } from "#components";
+
 import { VideoModal, PodcastModal } from "#backdrops";
+
 import { appStyles } from "#styles";
 
 import {
@@ -16,7 +18,7 @@ import {
 
 import { useEventListener, useGetUserContentRatings } from "#hooks";
 
-import { localStorage, adminSvc, cmsSvc } from "#services";
+import { localStorage, adminSvc, cmsSvc, Context } from "#services";
 
 /**
  * InformationPortal
@@ -32,7 +34,7 @@ export const InformationalPortal = ({
   const { t, i18n } = useTranslation("blocks", {
     keyPrefix: "information-portal",
   });
-
+  const { isTmpUser } = useContext(Context);
   const [videoToPlay, setVideoToPlay] = useState(null);
   const [podcastToPlay, setPodcastToPlay] = useState(null);
 
@@ -53,7 +55,7 @@ export const InformationalPortal = ({
   // Add event listener
   useEventListener("countryChanged", handler);
 
-  const { data: contentRatings } = useGetUserContentRatings();
+  const { data: contentRatings } = useGetUserContentRatings(!isTmpUser);
 
   //--------------------- Content IDs ----------------------//
   const getContentIds = async () => {
@@ -68,7 +70,7 @@ export const InformationalPortal = ({
   };
 
   const contentIdsQuery = useQuery(
-    [`${contentType}Ids`, currentCountry],
+    [`${contentType}Ids`, currentCountry, contentType],
     getContentIds,
     {
       enabled: !!currentCountry,

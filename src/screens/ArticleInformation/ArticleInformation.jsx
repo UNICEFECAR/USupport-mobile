@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
@@ -7,7 +7,7 @@ import { Screen, CardMedia, Block, Loading, AppText, Icon } from "#components";
 
 import { ArticleView } from "#blocks";
 
-import { cmsSvc, adminSvc, userSvc, clientSvc } from "#services";
+import { cmsSvc, adminSvc, userSvc, clientSvc, Context } from "#services";
 
 import { destructureArticleData, checkIsLikedAndDisliked } from "#utils";
 
@@ -24,11 +24,11 @@ import { appStyles } from "#styles";
  */
 export const ArticleInformation = ({ navigation, route }) => {
   const id = route.params.articleId;
-
+  const { isTmpUser } = useContext(Context);
   const { i18n, t } = useTranslation("screens", {
     keyPrefix: "article-information",
   });
-  const { data: userContentRatings } = useGetUserContentRatings();
+  const { data: userContentRatings } = useGetUserContentRatings(!isTmpUser);
   const getArticlesIds = async () => {
     // Request articles ids from the master DB based for website platform
     const articlesIds = await adminSvc.getArticles();
@@ -44,6 +44,7 @@ export const ArticleInformation = ({ navigation, route }) => {
     const contentRatings = await userSvc.getRatingsForContent({
       contentType: "article",
       contentId: articleIdToFetch,
+      isTmpUser,
     });
     const { data } = await cmsSvc.getArticleById(
       articleIdToFetch,
@@ -62,7 +63,7 @@ export const ArticleInformation = ({ navigation, route }) => {
       enabled: !!id,
       onSuccess: (data) => {
         // Add category interaction when article is successfully fetched
-        if (data && data.categoryId) {
+        if (data && data.categoryId && !isTmpUser) {
           clientSvc
             .addClientCategoryInteraction({
               categoryId: data.categoryId,
@@ -81,14 +82,16 @@ export const ArticleInformation = ({ navigation, route }) => {
     if (!articleData?.categoryId) return [];
 
     try {
+      let readArticleIds = [];
       // If no results in current category, get category interactions to try other categories
-      const { data: categoryInteractions } =
-        await clientSvc.getCategoryInteractions();
-      const readArticleIds = [
-        ...categoryInteractions.map((x) => Number(x.article_id)),
-        Number(articleData.id),
-      ];
-
+      if (!isTmpUser) {
+        const { data: categoryInteractions } =
+          await clientSvc.getCategoryInteractions();
+        readArticleIds = [
+          ...categoryInteractions.map((x) => Number(x.article_id)),
+          Number(articleData.id),
+        ];
+      }
       const articles = [];
 
       // First try current category
@@ -221,7 +224,11 @@ export const ArticleInformation = ({ navigation, route }) => {
       </TouchableOpacity>
       <ScrollView showsVerticalScrollIndicator={false}>
         {articleData ? (
-          <ArticleView articleData={articleData} navigation={navigation} />
+          <ArticleView
+            articleData={articleData}
+            navigation={navigation}
+            isTmpUser={isTmpUser}
+          />
         ) : (
           <View style={styles.loadingContainer}>
             <Loading size="lg" />

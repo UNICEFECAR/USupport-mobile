@@ -1,24 +1,23 @@
-//import libraries
-import React, { useContext } from "react";
+import React, { useEffect } from "react";
 import { View, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from "react-native-reanimated";
+import { useTranslation } from "react-i18next";
 
 import { appStyles } from "#styles";
 import { AppText } from "../../texts";
 import { Icon } from "../../icons";
 import { Error } from "../../errors/Error";
-import { Context } from "#services";
-import { useGetTheme } from "#hooks";
-import { useTranslation } from "react-i18next";
+import { useDropdownOptions, useGetTheme } from "#hooks";
 import { Loading } from "../../loaders";
 
 const DROPDOWN_HEADING_HEIGHT = 48;
 
 export const Dropdown = ({
   label,
+  heading,
   options = [],
   selected,
   setSelected = () => {},
@@ -29,8 +28,15 @@ export const Dropdown = ({
   style,
   emptyMessage,
   isLoading,
+  multiSelect = false,
+  selectedValues = [],
+  onMultiSelectChange = () => {},
 }) => {
-  const { dropdownOptions, setDropdownOptions } = useContext(Context);
+  const {
+    isOpen: dropdownIsOpen,
+    dropdownId: currentDropdownId,
+    setDropdownOptions,
+  } = useDropdownOptions();
   const { colors, isDarkMode } = useGetTheme();
   const { i18n } = useTranslation();
   const lang = i18n.language;
@@ -56,12 +62,33 @@ export const Dropdown = ({
   }
 
   const handleClose = () => {
-    setDropdownOptions((options) => {
-      return { ...options, isOpen: false };
-    });
+    setDropdownOptions({ isOpen: false });
   };
-  const isOpen =
-    dropdownOptions.isOpen && dropdownOptions.dropdownId === dropdownId;
+  const isOpen = dropdownIsOpen && dropdownId === currentDropdownId;
+
+  // Update dropdown options when selectedValues change for multi-select
+  useEffect(() => {
+    if (isOpen && multiSelect) {
+      setDropdownOptions({
+        selectedValues: selectedValues,
+        // Also update the handleOptionSelect function with fresh selectedValues
+        handleOptionSelect: (option) => {
+          const isSelected = selectedValues.includes(option);
+          const newSelectedValues = isSelected
+            ? selectedValues.filter((val) => val !== option)
+            : [...selectedValues, option];
+          onMultiSelectChange(newSelectedValues);
+          // Don't close dropdown for multi-select
+        },
+      });
+    }
+  }, [
+    selectedValues,
+    isOpen,
+    multiSelect,
+    setDropdownOptions,
+    onMultiSelectChange,
+  ]);
 
   const arrowRotation = useSharedValue(180);
   const arrowIconStyles = useAnimatedStyle(() => ({
@@ -69,35 +96,62 @@ export const Dropdown = ({
     transform: [{ rotateX: `${arrowRotation.value}deg` }],
   }));
 
-  const selectedLabel =
-    options.find((option) => option.value === selected)?.label || "";
+  // Handle display text for both single and multi-select
+  const getDisplayText = () => {
+    if (multiSelect) {
+      if (selectedValues.length === 0) return placeholderText;
+
+      // Get labels for all selected values
+      const selectedLabels = selectedValues
+        .map((value) => options.find((opt) => opt.value === value)?.label)
+        .filter(Boolean); // Remove any undefined labels
+
+      const joinedLabels = selectedLabels.join(", ");
+
+      // If the text is too long, show first few items + count
+      if (joinedLabels.length > 50 && selectedLabels.length > 2) {
+        return `${selectedLabels.slice(0, 2).join(", ")} +${selectedLabels.length - 2} more`;
+      }
+
+      return joinedLabels;
+    } else {
+      const selectedLabel =
+        options.find((option) => option.value === selected)?.label || "";
+      return selected ? selectedLabel : placeholderText;
+    }
+  };
 
   const handleDropdownClick = () => {
-    if (dropdownOptions.isOpen) {
-      setDropdownOptions({
-        heading: label,
-        options,
-        selectedOption: selected,
-        handleOptionSelect: (option) => {
-          setSelected(option);
-          handleClose();
-          handleDropdownClick();
-        },
-        isOpen: false,
-        emptyMessage: "",
-      });
+    if (disabled) return;
+
+    if (isOpen && currentDropdownId === dropdownId) {
+      // Close the dropdown if it's the same dropdown that's currently open
+      handleClose();
     } else {
+      // Open the dropdown
       setDropdownOptions({
-        heading: label,
+        heading: heading || label,
         options,
-        selectedOption: selected,
+        selectedOption: multiSelect ? null : selected,
+        selectedValues: multiSelect ? selectedValues : [],
         dropdownId,
         handleOptionSelect: (option) => {
-          setSelected(option);
-          handleClose();
+          console.log(option, "option to select");
+          if (multiSelect) {
+            const isSelected = selectedValues.includes(option);
+            const newSelectedValues = isSelected
+              ? selectedValues.filter((val) => val !== option)
+              : [...selectedValues, option];
+            onMultiSelectChange(newSelectedValues);
+            // Don't close dropdown for multi-select
+          } else {
+            setSelected(option);
+            handleClose();
+          }
         },
         isOpen: true,
         emptyMessage,
+        multiSelect,
       });
     }
   };
@@ -143,7 +197,7 @@ export const Dropdown = ({
                 },
               ]}
             >
-              {selected ? selectedLabel : placeholderText}
+              {getDisplayText()}
             </AppText>
           )}
 

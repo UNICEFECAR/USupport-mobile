@@ -37,9 +37,9 @@
     "articles-dashboard": {
       "heading": "Статті",
       "heading_no_results": "Немає результатів",
-      "view_all": "Переглянь усі",
+      "view_all": "Переглянути",
       "all": "Усі",
-      "read_more": "Читай далі",
+      "read_more": "Читати далі",
       "min_read": "хв. читання",
       "by": "Від {{creator}}",
       "number_of_more_options": "ще {{count}}"
@@ -57,12 +57,12 @@
     },
     "consultations-dashboard": {
       "heading": "Мої консультації",
-      "view_all": "Переглянь усі",
-      "schedule_consultation_label": "Заплануй консультацію",
+      "view_all": "Переглянути усі",
+      "schedule_consultation_label": "Запланувати консультацію",
       "live_text": "Зараз",
-      "accept_button_label": "Погодься на консультацію",
-      "join_button_label": "Приєднайся",
-      "change_button_label": "Зміна",
+      "accept_button_label": "Погодитись на консультацію",
+      "join_button_label": "Приєднатись",
+      "change_button_label": "Змінити",
       "ordinal_st": "-ий",
       "ordinal_nd": "-ий",
       "ordinal_rd": "-ій",
@@ -97,14 +97,14 @@
       "accept_consultation_success": "Консультацію прийнято",
 
       "join": "Приєднайся",
-      "edit": "Редагуй",
-      "details": "Пеереглянь деталі",
+      "edit": "Редагувати",
+      "details": "Пеереглянути деталі",
       "active": "Зараз",
-      "reject": "Відхили пропозицію",
-      "accept": "Погодься на консультацію",
-      "cancel_consultation": "Скасуй консультацію",
+      "reject": "Відхилити пропозицію",
+      "accept": "Погодитись на консультацію",
+      "cancel_consultation": "Скасувати консультацію",
       "suggested": "Запропоновано",
-      "view_profile": "Переглянь особистий профіль",
+      "view_profile": "Переглянути особистий профіль",
       "conducted": "Консультацію завершено",
       "not_conducted": "Не проведено",
       "registration_needed": "Для запису на консультацію треба зареєструватися.",
@@ -144,8 +144,8 @@
     "forgot-password": {
       "error_email_message": "Введи свою електронну пошту",
       "input_email_label": "Електронна пошта",
-      "reset_password_button_label": "Скинь пароль",
-      "register_redirect_button_label": "У мене не має облікового запису.",
+      "reset_password_button_label": "Скинути пароль",
+      "register_redirect_button_label": "У мене немає облікового запису.",
       "modal_heading": "Перевір свою електронну пошту",
       "modal_text": "Ми надіслали тобі електронного листа з посиланням для відновлення пароля"
     },
@@ -164,7 +164,7 @@
       "heading_newest": "Найновіші статті",
       "view_all": "Переглянь усі",
       "heading_popular": "Найпопулярніше",
-      "read_more": "Читай далі",
+      "read_more": "Читати далі",
       "min_read": "хв. читання",
       "by": "Від {{creator}}",
       "heading_no_language_results": "Ми не змогли знайти жодної статті вибраною тобою мовою.",
@@ -191,7 +191,7 @@
       "register_button_label": "У мене немає облікового запису.",
       "prompt_title": "Пройди автентифікацію для швидкого входу",
       "prompt_2_title": "Пройди автентифікацію для збереження твоїх даних для входу",
-      "cancel": "Скасуй",
+      "cancel": "Скасувати",
       "save_credentials": "Зберегти дані автентифікації"
     },
     "mood-tracker": {
@@ -236,15 +236,15 @@
       "consultation_suggestion_cancellation": "Відхилено запропоновану консультацію з {{providerName}} на {{date}} з {{startHour}} до {{endHour}}",
       "consultation_started": "Твоя консультація з консультантом/кою  <0>{{providerName}} почалася </0>",
       "join": "Приєднайся",
-      "accept": "Прийми",
+      "accept": "Прийняти",
       "accept_consultation_success": "Консультацію прийнято",
-      "reject": "Відхили",
+      "reject": "Відхилити",
       "reject_consultation_success": "Консультацію відхилено",
       "no_notifications": "Ще немає жодних сповіщень.",
       "yesterday": "вчора"
     },
     "passcode": {
-      "change_passcode": "Зміни код доступу",
+      "change_passcode": "Змінити код доступу",
       "passcode": "Код доступу",
       "biometrics": "Біометрія",
       "create_passcode": "Створи код доступу",
@@ -273,7 +273,7 @@
       "no_results": "Для обраної країни й мови немає результатів."
     },
     "provider-overview": {
-      "button_label": "Заплануй консультацію",
+      "button_label": "Запланувати консультацію",
 
       "earliest_slot_label": "Найближчий вільний часовий слот для консультації",
       "languages_label": "Мови",
@@ -282,9 +282,9 @@
       "specializations_label": "Спеціалізації",
       "done_consultations_label": "Проведені консультації",
       "description_label": "Про мене",
-      "edit_details": "Редагуй дані",
-      "change_password": "Зміни пароль",
-      "delete_account": "Видали обліковий запис",
+      "edit_details": "Редагувати дані",
+      "change_password": "Змінити пароль",
+      "delete_account": "Видалити обліковий запис",
       "no_available_slot": "Немає вільного часового слоту",
       "consultations": "консультації",
 
@@ -349,7 +349,7 @@
       "place_of_living_error": "Вкажи своє місце проживання",
       "sex_placeholder": "Введи свою стать",
       "year_of_birth_placeholder": "Введи свій рік народження",
-      "parent": "Один з батьків"
+      "parent": "Мати/Батько/Опікун"
     },
     "register-anonymous": {
       "heading": "Зареєструйся анонімно",
@@ -369,7 +369,7 @@
       "login_button_label": "Вже маю обліковий запис",
       "copy_text": "Скопіюй та збережи або занотуй анонімний код. Якщо ти його втратиш, то більше не зможеш отримати доступ до облікового запису.",
       "modal_heading": "Підтвердь, що зберіг/егла код доступу",
-      "modal_copy_text": "Переконайся, що зберіг/егла або занототував/ала код доступу. В іншому випадку ти втратиш доступ до анонімного облікового запису та свого прогресу в додатку.",
+      "modal_copy_text": "Переконайся, що зберіг/егла або занототував/ала код доступу. Інакше ти втратиш доступ до анонімного облікового запису та свого прогресу в додатку.",
       "modal_button_label": "Я зберіг/зберегла код доступу",
       "copy_success": "Код скопіювано",
       "warning": "Розумію, що не матиму доступу до облікового запису, якщо втрачу цей код",
@@ -378,7 +378,7 @@
       "password_placeholder": "Введи свій пароль",
       "age_terms_agreement_text": "Мені більше 16 років",
       "prompt_title": "Збережіи свої дані, щоб швидко входити до систему",
-      "cancel": "Скасуй",
+      "cancel": "Скасувати",
       "click_to_copy": "Натисніть, щоб скопіювати"
     },
     "register-email": {
@@ -406,14 +406,14 @@
       "cancel": "Скасуй"
     },
     "register-preview": {
-      "login": "Увійди за допомогою електронної пошти/токена доступу",
+      "login": "Увійди за допомогою електронної пошти/кода доступу",
       "register_email": "Зареєструйся за допомогою електронної пошти",
       "register_anonymously": "Зареєструйся анонімно",
       "continue_as_guest": "Продовжити без реєстрації",
       "heading_1": "Про платформу",
       "text_1": "Платформа, яка поважає твою конфіденційність і безпеку. Твій добробут — наш пріоритет! uSupport надає персоналізовану й делікатну психологічну допомогу.",
       "heading_2": "Про підтримку",
-      "text_2": "USupport — це платформа з питань психічного здоров'я, психосоціального благополуччя та доброго самопочуття, розроблена для молодих людей, де конфіденційність і безпека є пріоритетом.",
+      "text_2": "uSupport — це платформа з підтримки ментального здоров’я та консультування молодих людей, їхніх батьків/опікунів, де конфіденційність і безпека є пріоритетом.",
       "heading_3": "Про тебе",
       "text_3": "Будь найкращою версією себе! Твоє ментальне здоров'я має значення."
     },
@@ -426,7 +426,7 @@
       "modal_heading": "Чи даєш дозвіл на обробку персональних даних?",
       "modal_paragraph": "Щоб надати доступ до консультацій, потрібен дозвіл на обробку персональних даних. Завжди можеш змінити налаштування у профілі.",
       "modal_cta_1": "Даю дозвіл",
-      "modal_cta_2": "Скасуй",
+      "modal_cta_2": "Скасувати",
       "error": "* Надай нам згоду на обробку твоїх персональних даних, щоб отримати доступ до консультацій."
     },
     "safety-feedback": {
@@ -445,8 +445,8 @@
       "more_details_placeholder": "Додай більше деталей тут",
       "yes": "Так",
       "no": "Ні",
-      "button": "Надішли відгук",
-      "continue_button": "Збережи відповіді",
+      "button": "Надіслати відгук",
+      "continue_button": "Зберегти відповіді",
 
       "very_satisfied": "Дуже задоволений/а",
       "satisfied": "Задоволений/а",
@@ -484,7 +484,7 @@
     "user-details": {
       "heading": "Деталі профілю",
       "access_token": "Твій анонімний код доступу",
-      "change_photo": "Зміни фото",
+      "change_photo": "Змінити фото",
       "nickname": "Нікнейм",
       "nickname_placeholder": "Введи нікнейм",
       "nickname_error": "Нікнейм є обов'язковим",
@@ -499,14 +499,14 @@
       "year_of_birth": "Рік народження",
       "country": "Країна",
       "living_place": "Місце проживання",
-      "button_text": "Збережи зміни",
-      "button_secondary_text": "Скасуй зміни",
+      "button_text": "Зберегти зміни",
+      "button_secondary_text": "Скасувати зміни",
       "privacy": "Конфіденційність і безпека",
       "consent": "Згода на використання персональних даних відповідно до <0>Політики конфіденційності</0>.",
-      "change_password": "Зміни пароль",
-      "delete_account": "Видали обліковий запис",
+      "change_password": "Змінити пароль",
+      "delete_account": "Видалити обліковий запис",
       "logout": "Вийти з системи",
-      "delete_chat": "Очисти історію чатів",
+      "delete_chat": "Очистити історію чатів",
 
       "dropdown_sex_label": "Стать",
       "dropdown_year_label": "Рік народження",
@@ -519,14 +519,14 @@
       "data_processing_modal_heading": "Ти дійсно хочеш скасувати згоду на використання твоїх персональних даних відповідно до <0>Політики конфіденційності</0>?",
       "data_processing_modal_text": "Ти не зможеш запланувати подальші консультації.",
       "data_processing_modal_confirm_button": "Видали дозвіл",
-      "data_processing_modal_cancel_button": "Скасуй",
+      "data_processing_modal_cancel_button": "Скасувати",
       "success_message": "Профіль оновлено",
       "access_token_copy": "Код скопіювано",
       "sex_placeholder": "Введи свою стать",
       "year_of_birth_placeholder": "Введи свій рік народження",
       "living_place_placeholder": "Введи своє місце проживання",
       "error_fetching_data": "При завантаженні даних профілю виникла помилка",
-      "parent": "Один з батьків"
+      "parent": "Мати/Батько/Опікун"
     },
     "user-profile": {
       "heading": "Твій профіль",
@@ -548,22 +548,23 @@
       "passcoode_and_biometrics_button_label": "Код доступу і біометричні дані",
       "payments_history_button_label": "Історія платежів",
       "terms_and_conditions": "Умови й положення",
-      "language_button_label": "Зміни мову",
-      "dark_mode_button_label": "Темна тема",
-      "light_mode_button_label": "Світла тема",
+      "language_button_label": "Змінити мову",
+      "dark_mode_button_label": "Темний режим",
+      "light_mode_button_label": "Світлий режим",
       "user_guide": "Використання платформи"
     },
     "welcome": {
       "heading": "Вітаємо в",
       "country": "Країна",
       "language": "Мова",
-      "placeholder": "Вибери",
-      "button": "Продовжити"
+      "placeholder": "Вибрати",
+      "button": "Продовжити",
+      "poland_description": "uSupport — це платформа психічного здоров’я та добробуту, призначена для молодих людей (16–24)"
     },
     "my-qa": {
       "search_input_placeholder": "Пошук",
       "filter_button_label": "Фільтр",
-      "read_more": "Читай далі",
+      "read_more": "Читати далі",
       "all": "Усі",
       "most_popular": "Найпопулярніше",
       "newest": "Найновіше",
@@ -578,7 +579,7 @@
       "heading": "Налаштуй код доступу та біометрію",
       "btn_label": "Продовжити",
       "subheading": "Налаштуй код доступу або біометричні дані, щоб захистити свій обліковий запис. Якщо ти пропустиш цей крок, тобі доведеться входити в систему щоразу, коли ти відкриваєш додаток.",
-      "biometrics_btn_label": "Використай біометрію",
+      "biometrics_btn_label": "Використати біометрію",
       "btn_skip": "Поки що пропустити"
     },
     "videos": {
@@ -594,30 +595,46 @@
     "organizations": {
       "in_person_interaction": "Особисто",
       "online_interaction": "Онлайн",
-      "phone_interaction": "Телефон",
-      "hybrid_interaction": "Гібридний",
+      "phone_interaction": "По телефону",
+      "hybrid_interaction": "Гібридний формат",
 
-      "cash": "Готівка",
-      "bank_transfer": "Банківський переказ",
-      "card": "Картка",
-      "free": "Безкоштовно",
+      "free_services": "Безкоштовні послуги",
+      "paid_services": "Платні послуги",
+      "co_payment_services": "Послуги зі співоплатою",
+      "cnas_reimbursed_services": "Послуги, що відшкодовуються CNAS",
 
+      "violence_victim_helpline": "Телефон довіри для жертв насильства",
+      "social_information_counseling": "Соціальна інформація та консультування",
+      "rehab_psycho_neuro_children": "Реабілітація та відновлення дітей із психоневромоторними розладами",
+      "individual_psychological_counseling": "Індивідуальне психологічне консультування",
+      "personal_development_counseling": "Консультування з особистісного розвитку",
+      "child_helpline": "Дитячий телефон довіри",
+      "suicide_prevention_helpline": "Телефон довіри з попередження самогубств",
+      "child_psychiatry": "Дитяча психіатрія",
+      "group_psychological_counseling": "Групове психологічне консультування",
+      "sport_recreational_activities": "Спортивно-розважальні заходи (спорт, ігри, танці)",
+      "rehab_autism_children": "Реабілітація та відновлення дітей з аутизмом",
+      "art_recreational_activities": "Творчо-розважальні заходи (театр, музика, поезія, живопис, розповіді)",
+      "addiction_helpline": "Телефон довіри з питань залежностей",
+
+      "emergency_situations": "Надзвичайні ситуації",
+      "pediatric_psychiatry": "Дитяча психіатрія",
+      "psychological_evaluation": "Психологічна оцінка",
+      "psychological_counseling": "Психологічне консультування",
       "individual_psychotherapy": "Індивідуальна психотерапія",
       "group_psychotherapy": "Групова психотерапія",
-      "individual_psychological_counseling": "Індивідуальне психологічне консультування",
-      "group_psychological_counseling": "Групове психологічне консультування",
-      "personal_development_counseling": "Консультування з особистісного розвитку",
+      "support_groups": "Групи підтримки",
+      "social_assistance_and_counseling": "Соціальна допомога та консультування",
+      "personal_development": "Особистісний розвиток",
+      "vocational_counseling_and_career_guidance": "Професійне консультування та кар'єрне орієнтування",
       "speech_therapy": "Логопедія",
-      "social_information_counseling": "Соціальна інформація та консультування",
-      "rehab_autism_children": "Реабілітація та відновлення для дітей з аутизмом",
-      "rehab_psycho_neuro_children": "Реабілітація для дітей з психоневромоторними розладами",
-      "suicide_prevention_helpline": "Лінія допомоги щодо запобігання самогубствам",
-      "addiction_helpline": "Лінія допомоги при залежностях",
-      "violence_victim_helpline": "Лінія допомоги жертвам насильства",
-      "child_helpline": "Дитяча лінія допомоги",
-      "child_psychiatry": "Дитяча психіатрія",
-      "art_recreational_activities": "Творчі дозвіллєві заходи (театр, музика, поезія, живопис, розповіді)",
-      "sport_recreational_activities": "Спортивні дозвіллєві заходи (спорт, ігри, танці)",
+      "occupational_therapy_ergotherapy": "Трудотерапія/Ерготерапія",
+      "physiotherapy_physical_recovery": "Фізіотерапія/Фізичне відновлення",
+      "autism_spectrum_disorder_therapies": "Терапії розладів аутистичного спектра",
+      "disability_assessment": "Оцінка інвалідності",
+      "pediatric_neurology": "Дитяча неврологія",
+      "special_psychopedagogy": "Спеціальна психопедагогіка",
+      "neuropsychomotor_recovery": "Нейропсихомоторне відновлення",
 
       "sector_1": "Сектор 1",
       "sector_2": "Сектор 2",
@@ -626,26 +643,43 @@
       "sector_5": "Сектор 5",
       "sector_6": "Сектор 6",
 
-      "children": "Діти",
-      "children_disabilities": "Діти з інвалідністю",
-      "adults": "Дорослі",
-      "adults_disabilities": "Дорослі з інвалідністю",
+      "aggression_violence_victim_or_aggressor": "Агресія/насильство – жертва або агресор",
+      "learning_difficulties_special_educational_needs": "Труднощі у навчанні/Особливі освітні потреби",
+      "behavioral_disorder": "Поведінкові розлади",
+      "eating_disorder": "Розлади харчової поведінки",
+      "suicide_self_harm": "Самогубство/Самопошкодження",
+      "addiction": "Залежності",
+      "identity_issues": "Проблеми ідентичності",
+      "illness_oncological_treatment_chronic_diseases": "Захворювання (онкологічне лікування, хронічні хвороби)",
+      "other_situations": "Інші ситуації",
 
-      "work_with_placeholder": "Оберіть групу",
-      "specialisation_placeholder": "Оберіть спеціалізацію",
-      "district_placeholder": "Оберіть район",
-      "payment_method_placeholder": "Оберіть спосіб оплати",
-      "user_interaction_placeholder": "Оберіть спосіб взаємодії",
-      "search_placeholder": "Пошук за назвою або назвою підрозділу",
+      "public": "Державна",
+      "private": "Приватна",
+      "ong": "ГО",
+      "public_private": "Державно-приватна",
+
+      "work_with_placeholder": "Виберіть цільові категорії",
+      "specialisations_placeholder": "Виберіть пропоновані послуги",
+      "district_placeholder": "Виберіть сектор",
+      "payment_methods_placeholder": "Виберіть способи оплати",
+      "user_interactions_placeholder": "Виберіть формати взаємодії",
+      "property_types_placeholder": "Виберіть типи закладів",
+      "search_placeholder": "Пошук за назвою організації",
 
       "no_data_found": "Дані не знайдено",
       "reset_filters": "Скинути фільтри",
+      "filter_heading": "Фільтр",
+      "filter_button_label": "Застосувати",
 
       "view_organization_details": "Переглянути деталі організації",
       "address": "Адреса",
       "phone": "Телефон",
-      "email": "Електронна пошта",
-      "check_organization": "Привіт, подивіться цю організацію"
+      "email": "E-mail",
+      "any": "Будь-який",
+      "personalize": "Персоналізувати",
+      "personalization": "Персоналізація",
+      "personalization_modal_text": "Щоб отримати персоналізовані рекомендації з організації, адаптовані до ваших потреб, будь ласка, спочатку пройдіть нашу швидку базову оцінку. Це допоможе нам зрозуміти ваші вподобання та цілі, щоб надати найбільш відповідні пропозиції.",
+      "personalization_modal_cta_label": "Пройти оцінку"
     },
     "organization-overview": {
       "error-loading-data": "Сталася помилка під час завантаження даних про організацію",
@@ -756,7 +790,7 @@
     "article-information": {
       "heading": "Більше статей",
       "no_results": "Для вибраної мови немає схожих статей.",
-      "read_more": "Читай далі",
+      "read_more": "Читати далі",
       "min_read": "хв. читання",
       "by": "Від {{creator}}",
       "check_article": "Привіт, переглянь цю статтю"
@@ -865,7 +899,7 @@
       "explore": "Дослідити"
     },
     "forgot-password-screen": {
-      "heading": "Enter your email to reset your password"
+      "heading": "Введи свою електронну пошту для відновлення пароля"
     },
     "informational-portal-screen": {
       "heading": "Інформаційний портал",
@@ -922,7 +956,7 @@
       "modal_coupon_input_placeholder": "КУПОН1",
       "heading_with_coupon": "Вибери консультанта/ку для використання купону: {{coupon}}",
       "remove_coupon_label": "Видали купон",
-      "coupon_paragraph": "Наші партнери спонсорують купони, які забезпечують безплатні сесії.",
+      "coupon_paragraph": "Наші партнери спонсорують купони, які забезпечують безкоштовні сесії.",
       "coupon_paragraph_two": "Якщо ти отримав/ла код купона в рамках кампанії в соціальних мережах або від партнера, скопіюй його та встав нижче. Після надсилання коду купона ти побачиш всіх консультантів, які його обслуговують, та їхню доступність. Купон може обслуговувати одну або кілька сесій. Платформа покаже, чи купон втратив чинність або досяг максимальної кількості використаних сесій.",
       "max_price": "Максимальна ціна",
       "providers_free_consultation_label": "Тільки безкоштовна консультація"

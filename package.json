@@ -108,7 +108,8 @@
     "react-native-webview": "13.13.5",
     "react-native-youtube-iframe": "^2.2.2",
     "socket.io-client": "^4.2.0",
-    "expo-camera": "~15.0.16"
+    "expo-camera": "~15.0.16",
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
