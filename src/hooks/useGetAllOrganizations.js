@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { clientSvc } from "#services";
 
 export const useGetAllOrganizations = (filters) => {
-  const { search, district, paymentMethod, userInteraction, specialisation } =
+  const { search, district, paymentMethod, userInteraction, specialisations } =
     filters;
 
   const fetchOrganizations = async () => {
@@ -51,7 +51,7 @@ export const useGetAllOrganizations = (filters) => {
       district,
       paymentMethod,
       userInteraction,
-      specialisation,
+      specialisations,
     ],
     queryFn: fetchOrganizations,
   });

@@ -1,35 +1,30 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 
-import { AppText, Backdrop } from "#components";
+import { AppText, Backdrop, Icon } from "#components";
 import { appStyles } from "#styles";
+import { useGetTheme, useDropdownOptions } from "#hooks";
 
-export function DropdownBackdrop({
-  isOpen,
-  onClose,
-  selectedOption,
-  selectedValues,
-  handleOptionSelect,
-  heading,
-  options = [
-    { value: "1", label: "Option", selected: false },
-    { value: "2", label: "Option 2", selected: false },
-    { value: "3", label: "Option 3", selected: false },
-    { value: "4", label: "Option 4", selected: false },
-    { value: "5", label: "Option 5", selected: false },
-    { value: "6", label: "Option 6", selected: false },
-    { value: "7", label: "Option 7", selected: false },
-    { value: "8", label: "Option 8", selected: false },
-    { value: "9", label: "Option 9", selected: false },
-    { value: "10", label: "Option 10", selected: false },
-    { value: "11", label: "Option 11", selected: false },
-  ],
-  emptyMessage,
-}) {
+export function DropdownBackdrop() {
+  const store = useDropdownOptions();
+  const {
+    isOpen,
+    selectedOption,
+    handleOptionSelect,
+    selectedValues,
+    heading,
+    options = [],
+    emptyMessage,
+    closeDropdown,
+    loading,
+    shouldShowNavigationOnClose,
+    multiSelect,
+  } = store;
+  const { colors, isDarkMode } = useGetTheme();
   return (
     <Backdrop
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={closeDropdown}
       heading={heading}
       style={{
         height: appStyles.screenHeight * 0.35,
@@ -45,28 +40,74 @@ export function DropdownBackdrop({
           {emptyMessage}
         </AppText>
       )}
-      {options?.map((option, index) => (
-        <AppText
-          style={styles.dropdownOption}
-          onPress={() => handleOptionSelect(option.value)}
-          key={index}
-          namedStyle="text"
-          isBold={
-            Array.isArray(selectedValues)
-              ? selectedValues.includes(option.value)
-              : option.value === selectedOption
-          }
-        >
-          {option.label}
-        </AppText>
-      ))}
+      {options?.map((option, index) => {
+        const isSelected = Array.isArray(selectedValues)
+          ? selectedValues.includes(option.value)
+          : option.value === selectedOption;
+
+        return (
+          <View
+            key={index}
+            style={[
+              styles.optionContainer,
+              multiSelect && styles.multiSelectOption,
+              isSelected && multiSelect && styles.selectedMultiOption,
+            ]}
+          >
+            <AppText
+              style={[
+                styles.dropdownOption,
+                multiSelect && styles.multiSelectText,
+              ]}
+              onPress={() => handleOptionSelect(option.value)}
+              namedStyle="text"
+              isBold={isSelected}
+            >
+              {option.label}
+            </AppText>
+            {multiSelect && isSelected && (
+              <Icon
+                name="check"
+                color={appStyles.colorSecondary_9749fa}
+                size="md"
+                style={styles.checkIcon}
+              />
+            )}
+          </View>
+        );
+      })}
     </Backdrop>
   );
 }
 
 const styles = StyleSheet.create({
+  optionContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 5,
+    paddingHorizontal: 16,
+  },
+  multiSelectOption: {
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+  },
+  selectedMultiOption: {
+    backgroundColor: appStyles.colorSecondary_9749fa + "20", // 20% opacity
+    borderRadius: 8,
+    marginHorizontal: 10,
+    marginVertical: 2,
+  },
   dropdownOption: {
     paddingVertical: 5,
     textAlign: "center",
+    flex: 1,
+  },
+  multiSelectText: {
+    textAlign: "left",
+    flex: 1,
+  },
+  checkIcon: {
+    marginLeft: 10,
   },
 });

@@ -106,7 +106,8 @@
     "react-native-webrtc": "124.0.4",
     "react-native-webview": "13.13.5",
     "react-native-youtube-iframe": "^2.2.2",
-    "socket.io-client": "^4.2.0"
+    "socket.io-client": "^4.2.0",
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
@@ -133,7 +134,7 @@
     "@xmldom/xmldom": "0.8.7",
     "@react-native-clipboard/clipboard": "1.14.3",
     "@jitsi/react-native-sdk": {
-      "react-native-splash-view": "npm:@expo-splash-screen@0.27.5"
+      "react-native-splash-view": "npm:expo-splash-screen@0.27.5"
     }
   }
 }

@@ -63,6 +63,7 @@ export function Screen({
 
   return (
     <SafeAreaView
+      edges={["top"]}
       style={[
         styles.screen,
         backgroundColor
@@ -148,10 +149,12 @@ const styles = StyleSheet.create({
   },
   emergencyButton: {
     position: "absolute",
-    bottom: 16,
-    right: 16,
+    bottom: -16,
+    right: -50,
     zIndex: 998,
     elevation: 998,
+    width: 180,
+    height: 100,
   },
   spiralImage: { width: "100%", position: "absolute", bottom: 0, zIndex: -1 },
 });
