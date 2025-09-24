@@ -509,6 +509,7 @@
       "delete_account": "Delete account",
       "logout": "Logout",
       "delete_chat": "Clear chat history",
+      "delete_mood_tracker": "Clear mood tracker data",
 
       "dropdown_sex_label": "Gender",
       "dropdown_year_label": "Year of birth",
@@ -1224,6 +1225,13 @@
       "confirm": "Yes, delete all my chat data",
       "cancel": "No, keep my chat data",
       "success": "Your chat data has been deleted successfully."
+    },
+    "delete-mood-tracker-history": {
+      "heading": "Are you sure you want to delete all your mood tracker data?",
+      "subheading": "This action is irreversible.",
+      "confirm": "Yes, delete all my mood tracker data",
+      "cancel": "No, keep my mood tracker data",
+      "success": "Your mood tracker data has been deleted successfully."
     },
     "baseline-assesment-modal": {
       "heading": "Baseline Assesment",

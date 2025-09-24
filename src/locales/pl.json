@@ -544,6 +544,8 @@
       "delete_account": "Usuń konto",
       "logout": "Wylogowanie",
       "delete_chat": "Wyczyść historię czatów",
+      "delete_mood_tracker": "Wyczyść historię monitora nastroju",
+
       "dropdown_sex_label": "Płeć",
       "dropdown_year_label": "Rok urodzenia",
       "sex_male": "Mężczyzna",
@@ -1205,6 +1207,13 @@
       "confirm": "Tak, usuń wszystkie moje dane czatu",
       "cancel": "Nie, zachowaj moje dane z czatu",
       "success": "Twoje dane z czatu zostały pomyślnie usunięte."
+    },
+    "delete-mood-tracker-history": {
+      "heading": "Czy na pewno chcesz usunąć wszystkie dane swojego dziennika nastroju?",
+      "subheading": "Tej operacji nie można cofnąć.",
+      "confirm": "Tak, usuń wszystkie moje dane dziennika nastroju",
+      "cancel": "Nie, zachowaj moje dane dziennika nastroju",
+      "success": "Twoje dane dziennika nastroju zostały pomyślnie usunięte."
     },
     "baseline-assesment-modal": {
       "heading": "Ocena wstępna",
