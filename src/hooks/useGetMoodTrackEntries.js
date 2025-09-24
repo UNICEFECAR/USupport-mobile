@@ -11,6 +11,7 @@ export function useGetMoodTrackEntries(pageNum = 0, onSuccess, enabled) {
       return {
         ...moodTrack,
         time: date,
+        isCritical: moodTrack.is_critical,
       };
     });
 
@@ -19,6 +20,7 @@ export function useGetMoodTrackEntries(pageNum = 0, onSuccess, enabled) {
       return {
         ...moodTrack,
         time: date,
+        isCritical: moodTrack.is_critical,
       };
     });
 
