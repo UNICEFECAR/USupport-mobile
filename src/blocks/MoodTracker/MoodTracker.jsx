@@ -3,11 +3,18 @@ import { useQueryClient } from "@tanstack/react-query";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { useTranslation } from "react-i18next";
 
-import { Block, Emoticon, AppText, Textarea, AppButton } from "#components";
+import {
+  Block,
+  Emoticon,
+  Toggle,
+  AppText,
+  Textarea,
+  AppButton,
+} from "#components";
 import { useAddMoodTrack, useGetTheme } from "#hooks";
 import { showToast } from "#utils";
 import { appStyles } from "#styles";
-import { Context } from "#services";
+import { localStorage, Context } from "#services";
 
 /**
  * MoodTracker
@@ -37,6 +44,14 @@ export const MoodTracker = ({
   const [isMoodTrackCompleted, setIsMoodTrackCompleted] = useState(false);
   const [comment, setComment] = useState("");
   const [emoticons, setEmoticons] = useState([...emoticonsInitialState]);
+  const [isEmergency, setIsEmergency] = useState(false);
+
+  const [showEmergency, setShowEmergency] = useState(false);
+  useEffect(() => {
+    localStorage.getItem("country").then((country) => {
+      setShowEmergency(country === "RO");
+    });
+  }, []);
 
   useEffect(() => {
     const emoticonsCopy = [...emoticonsInitialState];
@@ -132,6 +147,7 @@ export const MoodTracker = ({
     addMoodTrackMutation.mutate({
       comment,
       mood: selectedMood.value,
+      emergency: isEmergency,
     });
   };
 
@@ -168,8 +184,15 @@ export const MoodTracker = ({
             size="md"
             disabled={isMoodTrackCompleted}
           />
+          {showEmergency && (
+            <Toggle
+              label={t("emergency_label")}
+              isToggled={isEmergency}
+              handleToggle={(checked) => setIsEmergency(checked)}
+            />
+          )}
           {!isMoodTrackCompleted && (
-            <View className="mood-tracker__additional-comment__button-container">
+            <View>
               <AppButton
                 label={t("submit_mood_track")}
                 size="lg"
@@ -186,11 +209,22 @@ export const MoodTracker = ({
 };
 
 const styles = StyleSheet.create({
+  additionalCommentContainer: {
+    alignItems: "center",
+    flexDirection: "column",
+    paddingVertical: 16,
+  },
   block: { paddingTop: 40 },
+  emoticonContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: 62,
+  },
+  emoticonContainerNotSelected: { opacity: 0.5 },
   heading: {
+    alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
     width: "100%",
   },
   moodTrackerButton: {
@@ -199,26 +233,9 @@ const styles = StyleSheet.create({
   },
   rating: {
     flexDirection: "row",
-    width: "100%",
     justifyContent: "space-between",
     paddingTop: 16,
-  },
-  emoticonContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    width: 62,
-  },
-  emoticonContainerNotSelected: { opacity: 0.5 },
-  loadingContianer: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingTop: 20,
-  },
-  additionalCommentContainer: {
-    flexDirection: "column",
-    alignItems: "center",
-    paddingVertical: 16,
+    width: "100%",
   },
   submitButton: { marginTop: 16 },
   textSelected: { color: appStyles.colorBlack_37 },
