@@ -15,7 +15,6 @@
       "client_microphone_off": "Klient/ka wyłączył/a mikrofon",
       "client_microphone_on": "Klient/ka włączył/a mikrofon",
       "chat_history_deleted_by_client": "Skasowałeś/aś historię czatu",
-
       "provider_joined": "Konsultant/ka dołączył/a do konsultacji",
       "provider_left": "Konsultant/ka opuścił/a konsultację",
       "provider_camera_off": "Konsultant /ka wyłączył/a kamerę",
@@ -32,7 +31,15 @@
       "min_read": "min czytania",
       "by": "Przez {{creator}}",
       "number_of_more_options": "jeszcze {{count}}",
-      "read": "Przeczytane"
+      "read": "Przeczytane",
+      "heading_no_results": "",
+      "view_all": "",
+      "heading_default": "",
+      "heading_newest": "",
+      "heading_most_read": "",
+      "subheading_default": "",
+      "subheading_newest": "",
+      "subheading_most_read": ""
     },
     "articles-dashboard": {
       "heading": "Artykuły",
@@ -53,7 +60,10 @@
       "pin_not_matching": "Kod PIN jest nieprawidłowy",
       "success": "Kod PIN został pomyślnie ustawiony",
       "remove_success": "Kod PIN został pomyślnie usunięty",
-      "error": "Wystąpił błąd podczas ustawiania kodu PIN. Spróbuj ponownie."
+      "error": "Wystąpił błąd podczas ustawiania kodu PIN. Spróbuj ponownie.",
+      "heading": "",
+      "delete_subheading": "",
+      "create_subheading": ""
     },
     "consultations-dashboard": {
       "heading": "Moje konsultacje",
@@ -95,7 +105,6 @@
       "no_past_consultations": "Nie masz żadnych wcześniejszych konsultacji",
       "reject_consultation_success": "Konsultacja została pomyślnie odrzucona",
       "accept_consultation_success": "Konsultacja została pomyślnie zaakceptowana",
-
       "join": "Dołącz",
       "edit": "Edytuj",
       "details": "Zobacz szczegóły",
@@ -108,7 +117,9 @@
       "conducted": "Konsultacja zakończona",
       "not_conducted": "Nie przeprowadzono",
       "registration_needed": "Aby umówić się na konsultacje, musisz się zarejestrować.",
-      "free": "Wolny"
+      "free": "Wolny",
+      "button_label": "",
+      "emergency_button_label": ""
     },
     "contact-us-block": {
       "heading": "Skontaktuj się z nami",
@@ -120,11 +131,9 @@
       "message_placeholder": "Twoja wiadomość do nas",
       "message_error": "Wprowadź wiadomość",
       "button": "Wyślij wiadomość",
-
       "modal_title": "Twoja wiadomość została pomyślnie wysłana",
       "modal_text": "Skontaktujemy się z Tobą tak szybko, jak to możliwe",
       "modal_cta_label": "Wróć do strony głównej",
-
       "contact_reason_1": "O co chodzi w tej platformie?",
       "contact_reason_2": "Potrzebuję więcej informacji na temat usług świadczonych za pośrednictwem platformy",
       "contact_reason_3": "Jestem klientem/ką i mam problem techniczny",
@@ -147,14 +156,14 @@
       "reset_password_button_label": "Resetowanie hasła",
       "register_redirect_button_label": "Nie mam konta",
       "modal_heading": "Sprawdź swoją skrzynkę e-mail",
-      "modal_text": "Wysłaliśmy wiadomość e-mail z linkiem umożliwiającym zresetowanie hasła."
+      "modal_text": "Wysłaliśmy wiadomość e-mail z linkiem umożliwiającym zresetowanie hasła.",
+      "heading": ""
     },
     "give-suggestion": {
       "heading": "Przekaż nam swoje sugestie",
       "subheading": "Nie możesz znaleźć interesujących Cię treści? Zasugeruj nam temat, a my postaramy się nim zająć.",
       "submit": "Wyślij swoją sugestię",
       "suggestion_placeholder": "Napisz swoją sugestię tutaj",
-
       "modal_title": "Sugestia została pomyślnie przesłana",
       "modal_text": "Bardzo nam przykro, że nie znalazłeś/aś tego, czego szukałeś/aś. Postaramy się odpowiedzieć na Twoje sugestie tak szybko, jak to możliwe. Dziękujemy za opinię.",
       "modal_cta_label": "Poznaj więcej artykułów",
@@ -176,7 +185,11 @@
       "more_videos": "Więcej filmów",
       "heading_newest_podcasts": "Najnowsze podcasty",
       "heading_popular_podcasts": "Najpopularniejsze podcasty",
-      "no_results": "Nie znaleziono wyników"
+      "more_podcasts": "More podcasts",
+      "no_results": "Nie znaleziono wyników",
+      "heading": "",
+      "subheading": "",
+      "emergency_button_label": ""
     },
     "login": {
       "heading": "Witamy z powrotem",
@@ -204,7 +217,8 @@
       "additional_comment_placeholder": "Co sprawiło, że tak się poczułeś/aś?",
       "submit_mood_track": "Prześlij",
       "add_mood_tracker_success": "Twój codzienny nastrój został pomyślnie dodany",
-      "emergency_label": "Czy to dotyczy wydarzenia życiowego lub sytuacji krytycznej?"
+      "subheading": "",
+      "emergency_button_label": ""
     },
     "mood-track-history": {
       "saturday": "Sob.",
@@ -215,13 +229,14 @@
       "worried": "Zmartwiony/a",
       "you_felt": "Poczułeś/aś",
       "comment_text": "i skomentowałeś/aś:",
-      "no_result": "Nie znaleziono żadnych wyników.",
-      "critical_text": "Związane z wydarzeniem życiowym lub sytuacją krytyczną"
+      "no_result": "Nie znaleziono żadnych wyników."
     },
     "notification-preferences": {
       "email": "Powiadomienia email",
       "appointment": "Powiadomienia o spotkaniach",
-      "minutes_before": "minut przed"
+      "minutes_before": "minut przed",
+      "heading": "",
+      "subheading": ""
     },
     "notifications": {
       "heading": "Powiadomienia",
@@ -249,7 +264,9 @@
       "passcode": "Kod dostępu",
       "biometrics": "Dane biometryczne",
       "create_passcode": "Utwórz kod dostępu",
-      "delete_passcode": "Usuń kod dostępu"
+      "delete_passcode": "Usuń kod dostępu",
+      "heading": "",
+      "subheading": ""
     },
     "payment-history": {
       "service": "Usługa",
@@ -259,7 +276,9 @@
       "no_payments_history_found": "Nie masz jeszcze żadnych płatności",
       "text_audio_video_consultation": "Konsultacje online",
       "download_success": "Plik został pomyślnie pobrany",
-      "export_label": "Eksport"
+      "export_label": "Eksport",
+      "heading": "",
+      "subheading": ""
     },
     "platform-rating": {
       "rating_label": "Oceń nas",
@@ -267,7 +286,9 @@
       "textarea_placeholder": "Zostaw swój komentarz tutaj",
       "button_label": "Wyślij ocenę",
       "rating_success": "Ocena została pomyślnie wysłana",
-      "rating_error": "Wystąpił nieoczekiwany błąd. Spróbuj ponownie."
+      "rating_error": "Wystąpił nieoczekiwany błąd. Spróbuj ponownie.",
+      "heading": "",
+      "subheading": ""
     },
     "privacy-policy": {
       "heading": "Polityka prywatności",
@@ -287,11 +308,9 @@
       "delete_account": "Usuń konto",
       "no_available_slot": "Nie ma dostępnego terminu",
       "consultations": "konsultacje",
-
       "psychologist": "Psycholog/żka",
       "psychiatrist": "Psychiatra",
       "psychotherapist": "Psychoterapeuta/ka",
-
       "addiction": "Uzależnienie i nadużywanie substancji",
       "stress": "Zarządzanie stresem",
       "burnout": "Wypalenie i stres akademicki",
@@ -324,12 +343,12 @@
       "social_skills": "Umiejętności społeczne i przyjaźń",
       "body_image": "Wizerunek ciała i poczucie własnej wartości",
       "video_label": "Reprezentacja wideo",
-
-      "hour_consultation": "{{currencySymbol}} za 1 godzinę konsultacji"
+      "hour_consultation": "{{currencySymbol}} za 1 godzinę konsultacji",
+      "heading": "",
+      "subheading": ""
     },
     "register-about-you": {
       "heading": "O tobie",
-
       "input_name_label": "Imię",
       "input_name_placeholder": "Wpisz swoje imię",
       "input_surname_label": "Nazwisko",
@@ -419,7 +438,6 @@
     },
     "register-support": {
       "heading": "Czy potrzebujesz wsparcia?",
-
       "button_continue_label": "Kontynuuj",
       "answer_yes_label": "Tak, chcę konsultacji",
       "answer_no_label": "Nie",
@@ -447,12 +465,13 @@
       "no": "Nie",
       "button": "Wyślij opinię",
       "continue_button": "Zachowaj odpowiedzi",
-
       "very_satisfied": "Bardzo zadowolony/a",
       "satisfied": "Zadowolony/a",
       "neutral": "Nie mam zdania",
       "dissatisfied": "Niezadowolony/a",
-      "very_dissatisfied": "Bardzo niezadowolony/a"
+      "very_dissatisfied": "Bardzo niezadowolony/a",
+      "heading": "",
+      "subheading": ""
     },
     "select-provider": {
       "psychologist": "Psycholog/żka",
@@ -467,15 +486,33 @@
       "wednesday": "Śr.",
       "thursday": "Czw.",
       "friday": "Piąt.",
-      "saturday": "Sob."
+      "saturday": "Sob.",
+      "heading": "",
+      "subheading": "",
+      "button_label": "",
+      "button_coupon_label": "",
+      "modal_coupon_heading": "",
+      "modal_coupon_button_label": "",
+      "modal_coupon_input_label": "",
+      "modal_coupon_input_placeholder": "",
+      "heading_with_coupon": "",
+      "remove_coupon_label": "",
+      "coupon_paragraph": "",
+      "coupon_paragraph_two": "",
+      "max_price": "",
+      "providers_free_consultation_label": ""
     },
     "share-platform": {
-      "button_label_share_text": "Udostępnij na"
+      "button_label_share_text": "Udostępnij na",
+      "heading": "",
+      "subheading": ""
     },
     "sos-center": {
       "button_link": "Odwiedź stronę",
       "button_call": "Skontaktuj się teraz",
-      "no_results": "Brak wyników dla aktualnie wybranego kraju i języka."
+      "no_results": "Brak wyników dla aktualnie wybranego kraju i języka.",
+      "heading": "",
+      "subheading": ""
     },
     "terms-of-use": {
       "heading": "Regulamin",
@@ -507,7 +544,6 @@
       "delete_account": "Usuń konto",
       "logout": "Wylogowanie",
       "delete_chat": "Wyczyść historię czatów",
-
       "dropdown_sex_label": "Płeć",
       "dropdown_year_label": "Rok urodzenia",
       "sex_male": "Mężczyzna",
@@ -532,7 +568,6 @@
       "heading": "Twój profil",
       "subheading": "Tutaj można znaleźć wszystkie informacje dotyczące profilu i ustawień konta.",
       "button_label": "Wylogowanie",
-
       "first_group_heading": "Szczegóły profilu",
       "guest": "Gość",
       "second_group_heading": "Ustawienia aplikacji",
@@ -558,8 +593,7 @@
       "country": "Kraj",
       "language": "Język",
       "placeholder": "Wybrać",
-      "button": "Kontynuować",
-      "poland_description": "uSupport to platforma zdrowia psychicznego i dobrego samopoczucia przeznaczona dla młodych osób (16-24)"
+      "button": "Kontynuuj"
     },
     "my-qa": {
       "search_input_placeholder": "Wyszukiwanie",
@@ -573,7 +607,12 @@
       "schedule_consultation": "Zaplanuj konsultację",
       "today": "Dzisiaj",
       "no_questions_found": "Nie znaleziono żadnych pytań",
-      "language_placeholder": "Wybierz język"
+      "language_placeholder": "Wybierz język",
+      "heading": "",
+      "subheading": "",
+      "heading_button_label": "",
+      "emergency_button_label": "",
+      "ask_button_label": ""
     },
     "set-up-biometrics": {
       "heading": "Skonfiguruj kod dostępu i dane biometryczne",
@@ -595,77 +634,51 @@
     "organizations": {
       "in_person_interaction": "Osobiście",
       "online_interaction": "Online",
-      "phone_interaction": "Telefon",
+      "phone_interaction": "Telefonicznie",
       "hybrid_interaction": "Hybrydowo",
-
-      "free_services": "Usługi bezpłatne",
-      "paid_services": "Usługi płatne",
-      "co_payment_services": "Usługi z dopłatą",
-      "cnas_reimbursed_services": "Usługi refundowane przez CNAS",
-
-      "emergency_situations": "Stany nagłe",
-      "pediatric_psychiatry": "Psychiatria dziecięca",
-      "psychological_evaluation": "Ocena psychologiczna",
-      "psychological_counseling": "Poradnictwo psychologiczne",
+      "cash": "Gotówka",
+      "bank_transfer": "Przelew bankowy",
+      "card": "Karta",
+      "free": "Bezpłatnie",
       "individual_psychotherapy": "Psychoterapia indywidualna",
       "group_psychotherapy": "Psychoterapia grupowa",
-      "support_groups": "Grupy wsparcia",
-      "social_assistance_and_counseling": "Pomoc społeczna i poradnictwo",
-      "personal_development": "Rozwój osobisty",
-      "vocational_counseling_and_career_guidance": "Poradnictwo zawodowe i doradztwo kariery",
+      "individual_psychological_counseling": "Indywidualne doradztwo psychologiczne",
+      "group_psychological_counseling": "Grupowe doradztwo psychologiczne",
+      "personal_development_counseling": "Doradztwo rozwoju osobistego",
       "speech_therapy": "Logopedia",
-      "occupational_therapy_ergotherapy": "Terapia zajęciowa/ergoterapia",
-      "physiotherapy_physical_recovery": "Fizjoterapia/rehabilitacja",
-      "autism_spectrum_disorder_therapies": "Terapie zaburzeń ze spektrum autyzmu",
-      "disability_assessment": "Ocena niepełnosprawności",
-      "pediatric_neurology": "Neurologia dziecięca",
-      "special_psychopedagogy": "Psychopedagogika specjalna",
-      "neuropsychomotor_recovery": "Rehabilitacja neuropsychomotoryczna",
-
+      "social_information_counseling": "Informacje i doradztwo społeczne",
+      "rehab_autism_children": "Rehabilitacja dzieci z autyzmem",
+      "rehab_psycho_neuro_children": "Rehabilitacja dzieci z zaburzeniami psychonerwowo-ruchowymi",
+      "suicide_prevention_helpline": "Telefon zaufania ds. zapobiegania samobójstwom",
+      "addiction_helpline": "Telefon zaufania ds. uzależnień",
+      "violence_victim_helpline": "Telefon zaufania dla ofiar przemocy",
+      "child_helpline": "Telefon zaufania dla dzieci",
+      "child_psychiatry": "Psychiatria dziecięca",
+      "art_recreational_activities": "Artystyczne zajęcia rekreacyjne (teatr, muzyka, poezja, malarstwo, opowiadania)",
+      "sport_recreational_activities": "Sportowe zajęcia rekreacyjne (sport, gry, taniec)",
       "sector_1": "Sektor 1",
       "sector_2": "Sektor 2",
       "sector_3": "Sektor 3",
       "sector_4": "Sektor 4",
       "sector_5": "Sektor 5",
       "sector_6": "Sektor 6",
-
-      "aggression_violence_victim_or_aggressor": "Agresja/przemoc - ofiara lub agresor",
-      "learning_difficulties_special_educational_needs": "Trudności w nauce/Specjalne potrzeby edukacyjne",
-      "behavioral_disorder": "Zaburzenia zachowania",
-      "eating_disorder": "Zaburzenia odżywiania",
-      "suicide_self_harm": "Samobójstwo/Samookaleczenie",
-      "addiction": "Uzależnienie",
-      "identity_issues": "Problemy tożsamości",
-      "illness_oncological_treatment_chronic_diseases": "Choroba (leczenie onkologiczne, choroby przewlekłe)",
-      "other_situations": "Inne sytuacje",
-
-      "public": "Publiczny",
-      "private": "Prywatny",
-      "ong": "NGO",
-      "public_private": "Publiczno-prywatny",
-
-      "work_with_placeholder": "Wybierz kategorie pracy",
-      "specialisations_placeholder": "Wybierz oferowane usługi",
-      "district_placeholder": "Wybierz sektor",
-      "payment_methods_placeholder": "Wybierz metody płatności",
-      "user_interactions_placeholder": "Wybierz tryby interakcji",
-      "property_types_placeholder": "Wybierz typy własności",
-      "search_placeholder": "Szukaj według nazwy organizacji",
-
+      "children": "Dzieci",
+      "children_disabilities": "Dzieci z niepełnosprawnościami",
+      "adults": "Dorośli",
+      "adults_disabilities": "Dorośli z niepełnosprawnościami",
+      "work_with_placeholder": "Wybierz grupę docelową",
+      "specialisation_placeholder": "Wybierz specjalizacje",
+      "district_placeholder": "Wybierz dzielnicę",
+      "payment_method_placeholder": "Wybierz metodę płatności",
+      "user_interaction_placeholder": "Wybierz sposób kontaktu",
+      "search_placeholder": "Szukaj po nazwie lub nazwie jednostki",
       "no_data_found": "Brak danych",
-      "reset_filters": "Resetuj filtry",
-      "filter_heading": "Filtr",
-      "filter_button_label": "Zastosuj",
-
+      "reset_filters": "Zresetuj filtry",
       "view_organization_details": "Zobacz szczegóły organizacji",
       "address": "Adres",
       "phone": "Telefon",
-      "email": "E-mail",
-      "any": "Dowolny",
-      "personalize": "Personalizuj",
-      "personalization": "Personalizacja",
-      "personalization_modal_text": "Aby otrzymać spersonalizowane rekomendacje organizacyjne dostosowane do Twoich potrzeb, najpierw wypełnij naszą szybką ocenę bazową. Pomoże nam to zrozumieć Twoje preferencje i cele, aby zapewnić najbardziej odpowiednie sugestie.",
-      "personalization_modal_cta_label": "Wypełnij ocenę"
+      "email": "Email",
+      "check_organization": "Cześć, sprawdź tę organizację"
     },
     "organization-overview": {
       "error-loading-data": "Wystąpił błąd podczas ładowania danych organizacji",
@@ -676,7 +689,6 @@
       "work_with_label": "Pracuje z",
       "specialisations_label": "Specjalizacje",
       "providers_label": "Specjaliści",
-
       "individual_psychotherapy": "Psychoterapia indywidualna",
       "group_psychotherapy": "Psychoterapia grupowa",
       "individual_psychological_counseling": "Indywidualne doradztwo psychologiczne",
@@ -693,24 +705,20 @@
       "child_psychiatry": "Psychiatria dziecięca",
       "art_recreational_activities": "Artystyczne zajęcia rekreacyjne (teatr, muzyka, poezja, malarstwo, opowiadanie)",
       "sport_recreational_activities": "Sportowe zajęcia rekreacyjne (sport, gry, taniec)",
-
       "in_person_interaction": "Osobiście",
       "online_interaction": "Online",
       "phone_interaction": "Telefonicznie",
       "hybrid_interaction": "Hybrydowo",
-
       "cash": "Gotówka",
       "bank_transfer": "Przelew bankowy",
       "card": "Karta",
       "free": "Bezpłatnie",
-
       "sector_1": "Sektor 1",
       "sector_2": "Sektor 2",
       "sector_3": "Sektor 3",
       "sector_4": "Sektor 4",
       "sector_5": "Sektor 5",
       "sector_6": "Sektor 6",
-
       "children": "Dzieci",
       "children_disabilities": "Dzieci z niepełnosprawnościami",
       "adults": "Dorośli",
@@ -746,7 +754,6 @@
       "appetite_loss": "Nie mam apetytu.",
       "substance_use": "Próbowałem/am kilka razy palić lub używać nielegalnych substancji (alkohol, narkotyki itp.).",
       "frequent_headaches": "Często mam bóle głowy bez powodu.",
-
       "question": "Pytanie {{number}} z {{total}}",
       "completed": "{{percentage}}% ukończone",
       "back": "Wstecz",
@@ -756,6 +763,15 @@
       "assessment_completed": "Ocena zakończona",
       "assessment_completed_description": "Dziękujemy za wypełnienie oceny. Twoje odpowiedzi zostały zapisane i pomogą nam Cię wesprzeć.",
       "assessment_completed_button": "Wróć do strony głównej",
+      "loading_results": "Loading your results...",
+      "recommended_articles": "Recommended Articles",
+      "recommended_videos": "Recommended Videos",
+      "recommended_podcasts": "Recommended Podcasts",
+      "by": "By {{creator}}",
+      "min_read": "min read",
+      "read_more": "Read More",
+      "view_more": "View More",
+      "read": "Read",
       "save": "Zapisz"
     },
     "baseline-assessment-dashboard": {
@@ -771,7 +787,6 @@
       "answered_questions": "Odpowiedzi na pytania: {{current}}/27"
     }
   },
-
   "screens": {
     "article-information": {
       "heading": "Więcej artykułów",
@@ -799,16 +814,12 @@
       "subheading": "Wprowadź szczegóły swojej karty, aby zapłacić za tę sesję.",
       "payment_succeded_heading": "Płatność została pomyślnie zrealizowana.",
       "payment_succeded_subheading": "Dziękujemy za zakup, konsultacja jest zaplanowana na {{consultationDate}} o {{consultationTime}}.",
-
       "payment_processing_heading": "Płatność jest przetwarzana.",
       "payment_processing_subheading": "Przetwarzamy Twoją płatność, poczekaj chwilę.",
-
       "payment_requires_payment_method_heading": "Płatność nie została zrealizowana, spróbuj ponownie.",
       "payment_requires_payment_method_subheading": "Wystąpił problem podczas próby przetworzenia płatności. Przepraszamy za to.",
-
       "payment_failed_heading": "Płatność nie została zrealizowana, spróbuj ponownie.",
       "payment_failed_subheading": "Wystąpił problem podczas próby przetworzenia płatności. Przepraszamy za to.",
-
       "continue_button_label": "Kontynuuj",
       "try_again_button_label": "Spróbuj ponownie",
       "session_timeout": "Twoja sesja wygasła. Wróć i ponownie zarezerwuj konsultację"
@@ -827,7 +838,6 @@
       "client_camera_on": "Klient/ka włączył/a kamerę",
       "client_microphone_off": "Klient/ka wyłączył/a mikrofon",
       "client_microphone_on": "Klient/ka włączył/a mikrofon",
-
       "provider_joined": "Konsultant/ka dołączył/a do konsultacji",
       "provider_left": "Konsultant/ka opuścił/a konsultację",
       "provider_camera_off": "Konsultant/ka wyłączył/a kamerę",
@@ -835,7 +845,6 @@
       "provider_microphone_off": "Konsultant/ka wyłączył/a mikrofon",
       "provider_microphone_on": "Konsultant/ka włączył/a mikrofon",
       "chat_history_deleted_by_client": "Usunąłeś/ęłaś historię czatu",
-
       "send_message": "Wpisz swoją wiadomość tutaj...",
       "show_system_messages": "Wyświetlanie komunikatów systemowych",
       "show_previous_consultations": "Pokaż poprzednie konsultacje",
@@ -989,7 +998,6 @@
       "subheading": "Szczegółowy przegląd profilu wybranej organizacji"
     }
   },
-
   "backdrops": {
     "cancel-consultation": {
       "heading": "Czy na pewno chcesz anulować konsultację?",
@@ -1148,7 +1156,6 @@
       "categories": "Kategorie"
     }
   },
-
   "modals": {
     "mood-tracker-more-information": {
       "you_felt": "Poczułeś/aś",
@@ -1211,7 +1218,6 @@
       "secondary_cta_label": "Nie chcę wypełniać kwestionariusza"
     }
   },
-
   "navigation": {
     "tab-navigation": {
       "home": "Strona główna",
