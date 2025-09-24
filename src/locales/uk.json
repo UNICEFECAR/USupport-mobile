@@ -204,7 +204,8 @@
       "mood_tracker": "Монітор настрою",
       "additional_comment_placeholder": "Що є причиною того, що ти себе так почуваєш?",
       "submit_mood_track": "Надішли",
-      "add_mood_tracker_success": "Щоденний настрій додано"
+      "add_mood_tracker_success": "Щоденний настрій додано",
+      "emergency_label": "Це стосується життєвої події чи критичної ситуації?"
     },
     "mood-track-history": {
       "saturday": "Сб",
@@ -215,7 +216,8 @@
       "worried": "Схвильованим/ою",
       "you_felt": "Ти відчув/ла себе",
       "comment_text": "і прокоментув/ла:",
-      "no_result": "Жодних результатів не знайденою"
+      "no_result": "Жодних результатів не знайденою",
+      "critical_text": "Пов’язане з життєвою подією чи критичною ситуацією"
     },
     "notification-preferences": {
       "email": "Сповіщення електронною поштою",
