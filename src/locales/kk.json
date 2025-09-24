@@ -205,7 +205,8 @@
       "mood_tracker": "Көңіл-күй трекері",
       "additional_comment_placeholder": "Сізді осылай сезінуге не себеп болды?",
       "submit_mood_track": "Жіберу",
-      "add_mood_tracker_success": "Сіздің көңіл-күйіңіз сәтті қосылды"
+      "add_mood_tracker_success": "Сіздің көңіл-күйіңіз сәтті қосылды",
+      "emergency_label": "Бұл өмірлік оқиғаға немесе маңызды жағдайға қатысты ма?"
     },
     "mood-track-history": {
       "saturday": "Сб",
@@ -216,7 +217,8 @@
       "worried": "Қобалжыған",
       "you_felt": "Сіз сездіңіз",
       "comment_text": "және Сіз түсініктеме бердіңіз:",
-      "no_result": "Ештеңе табылмады"
+      "no_result": "Ештеңе табылмады",
+      "critical_text": "Өмірлік оқиғаға немесе маңызды жағдайға байланысты"
     },
     "notification-preferences": {
       "email": "Электрондық пошта арқылы хабарландырулар",
