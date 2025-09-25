@@ -204,7 +204,8 @@
       "mood_tracker": "Mood Tracker",
       "additional_comment_placeholder": "What made you feel this way?",
       "submit_mood_track": "Submit",
-      "add_mood_tracker_success": "Your daily mood was added successfully"
+      "add_mood_tracker_success": "Your daily mood was added successfully",
+      "emergency_label": "Does this relate to a life event or critical situation?"
     },
     "mood-track-history": {
       "saturday": "Sat",
@@ -215,7 +216,8 @@
       "worried": "Worried",
       "you_felt": "You felt",
       "comment_text": "and you commented",
-      "no_result": "Results were not found"
+      "no_result": "Results were not found",
+      "critical_text": "Related to a life event or critical situation"
     },
     "notification-preferences": {
       "email": "Email notifications",
@@ -507,6 +509,7 @@
       "delete_account": "Delete account",
       "logout": "Logout",
       "delete_chat": "Clear chat history",
+      "delete_mood_tracker": "Clear mood tracker data",
 
       "dropdown_sex_label": "Gender",
       "dropdown_year_label": "Year of birth",
@@ -1225,6 +1228,13 @@
       "confirm": "Yes, delete all my chat data",
       "cancel": "No, keep my chat data",
       "success": "Your chat data has been deleted successfully."
+    },
+    "delete-mood-tracker-history": {
+      "heading": "Are you sure you want to delete all your mood tracker data?",
+      "subheading": "This action is irreversible.",
+      "confirm": "Yes, delete all my mood tracker data",
+      "cancel": "No, keep my mood tracker data",
+      "success": "Your mood tracker data has been deleted successfully."
     },
     "baseline-assesment-modal": {
       "heading": "Baseline Assesment",

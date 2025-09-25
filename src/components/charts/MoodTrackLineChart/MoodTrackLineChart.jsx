@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { LineChart } from "react-native-chart-kit";
+import { StyleSheet } from "react-native";
 
 import { appStyles } from "#styles";
 import { useGetTheme } from "#hooks";
@@ -78,12 +79,31 @@ export const MoodTrackLineChart = ({
       widthDots={false}
       getDotColor={(dataPoint, dataPointIndex) => {
         const index = dataPointIndex;
+        const currentEntry = data[index];
 
         if (index === selectedItemIndex) {
           return appStyles.colorGreen_54cfd9;
         } else {
           return appStyles.colorGreen_c1eaea;
         }
+      }}
+      getDotProps={(dataPoint, dataPointIndex) => {
+        const index = dataPointIndex;
+        const currentEntry = data[index];
+
+        if (currentEntry?.isCritical) {
+          return {
+            r: "8",
+            strokeWidth: "3",
+            stroke: appStyles.colorRed_eb5757, // Red border for critical entries
+          };
+        }
+
+        return {
+          r: "8",
+          strokeWidth: "2",
+          stroke: appStyles.colorPrimary_20809e,
+        };
       }}
       withShadow={false}
       withVerticalLines={false}
@@ -92,9 +112,13 @@ export const MoodTrackLineChart = ({
       onDataPointClick={(value) => {
         handleSelectItem(value.index);
       }}
-      style={{
-        paddingRight: 20,
-      }}
+      style={styles.paddingRight20}
     />
   );
 };
+
+export const styles = StyleSheet.create({
+  paddingRight20: {
+    paddingRight: 20,
+  },
+});

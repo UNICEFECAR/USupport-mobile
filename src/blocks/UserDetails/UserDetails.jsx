@@ -46,6 +46,7 @@ export const UserDetails = ({
   openSelectAvatarBackdrop,
   openDeletePictureBackdrop,
   openDeleteChatHistoryBackdrop,
+  openDeleteMoodTrackerHistoryBackdrop,
   navigation,
 }) => {
   const { colors } = useGetTheme();
@@ -510,9 +511,20 @@ export const UserDetails = ({
                   label={t("delete_chat")}
                   type={"ghost"}
                   onPress={openDeleteChatHistoryBackdrop}
-                  style={[styles.textButton, styles.marginBottom20]}
+                  style={styles.textButton}
                 />
               )}
+              <ButtonWithIcon
+                iconName={"circle-actions-close"}
+                iconSize={"md"}
+                size="lg"
+                iconColor={"#eb5757"}
+                color={"red"}
+                label={t("delete_mood_tracker")}
+                type={"ghost"}
+                onPress={openDeleteMoodTrackerHistoryBackdrop}
+                style={[styles.textButton, styles.marginBottom20]}
+              />
             </View>
           </>
         )}
@@ -558,47 +570,47 @@ export const UserDetails = ({
 };
 
 const styles = StyleSheet.create({
-  block: { flex: 1 },
-  profilePicturePreview: { alignSelf: "center", marginTop: 84 },
   accessToken: {
+    alignItems: "center",
     marginTop: 20,
     width: "93%",
-    alignItems: "center",
   },
-  inputsContainer: {
-    paddingTop: 8,
-    alignItems: "center",
-  },
-  input: { marginTop: 24 },
+  block: { flex: 1 },
+  button: { marginTop: 16 },
   buttonContainer: {
     alignItems: "center",
-    paddingTop: 32,
     paddingBottom: 20,
+    paddingTop: 32,
   },
-  button: { marginTop: 16 },
+  input: { marginTop: 24 },
+  inputsContainer: {
+    alignItems: "center",
+    paddingTop: 8,
+  },
+  marginBottom20: { marginBottom: 20 },
   privacyPolicyContainer: {
+    alignSelf: "center",
     paddingTop: 20,
     width: "93%",
-    alignSelf: "center",
   },
   privacyPolicyText: {
-    fontFamily: "Nunito-SemiBold",
     color: appStyles.colorBlue_3d527b,
+    fontFamily: "Nunito-SemiBold",
     fontSize: 18,
   },
+  profilePicturePreview: { alignSelf: "center", marginTop: 84 },
+  textButton: {
+    justifyContent: "flex-start",
+    marginTop: 20,
+  },
   toggleContainer: {
+    alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    paddingTop: 4,
     paddingBottom: 32,
+    paddingTop: 4,
   },
-  textButton: {
-    marginTop: 20,
-    justifyContent: "flex-start",
-  },
-  zIndex5: { zIndex: 5 },
-  zIndex4: { zIndex: 4 },
   zIndex3: { zIndex: 3 },
-  marginBottom20: { marginBottom: 20 },
+  zIndex4: { zIndex: 4 },
+  zIndex5: { zIndex: 5 },
 });

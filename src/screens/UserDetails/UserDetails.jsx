@@ -7,7 +7,7 @@ import {
   DeleteProfilePicture,
   SelectAvatar,
 } from "#backdrops";
-import { DeleteChatHistory } from "#modals";
+import { DeleteChatHistory, DeleteMoodTrackerHistory } from "#modals";
 
 /**
  * UserDetails
@@ -24,6 +24,10 @@ export const UserDetails = ({ navigation }) => {
   const [isDeletePictureBackdropShown, setIsDeletePictureBackdropShown] =
     useState(false);
   const [
+    isDeleteMoodTrackerHistoryBackdropShown,
+    setIsDeleteMoodTrackerHistoryBackdropShown,
+  ] = useState(false);
+  const [
     isDeleteChatHistoryBackdropShown,
     setIsDeleteChatHistoryBackdropShown,
   ] = useState(false);
@@ -34,6 +38,8 @@ export const UserDetails = ({ navigation }) => {
   const openDeletePictureBackdrop = () => setIsDeletePictureBackdropShown(true);
   const openDeleteChatHistoryBackdrop = () =>
     setIsDeleteChatHistoryBackdropShown(true);
+  const openDeleteMoodTrackerHistoryBackdrop = () =>
+    setIsDeleteMoodTrackerHistoryBackdropShown(true);
 
   const closeChangePasswordBackdrop = () => setIsChangePasswordOpen(false);
   const closeDeleteAccountBackdrop = () => setIsDeleteBackdropShown(false);
@@ -42,6 +48,8 @@ export const UserDetails = ({ navigation }) => {
     setIsDeletePictureBackdropShown(false);
   const closeDeleteChatHistoryBackdrop = () =>
     setIsDeleteChatHistoryBackdropShown(false);
+  const closeDeleteMoodTrackerHistoryBackdrop = () =>
+    setIsDeleteMoodTrackerHistoryBackdropShown(false);
 
   return (
     <Screen>
@@ -52,6 +60,9 @@ export const UserDetails = ({ navigation }) => {
         openSelectAvatarBackdrop={openSelectAvatarBackdrop}
         openDeletePictureBackdrop={openDeletePictureBackdrop}
         openDeleteChatHistoryBackdrop={openDeleteChatHistoryBackdrop}
+        openDeleteMoodTrackerHistoryBackdrop={
+          openDeleteMoodTrackerHistoryBackdrop
+        }
       />
       <SelectAvatar
         isOpen={isSelectAvatarBackdropShown}
@@ -72,6 +83,10 @@ export const UserDetails = ({ navigation }) => {
       <DeleteChatHistory
         isOpen={isDeleteChatHistoryBackdropShown}
         onClose={closeDeleteChatHistoryBackdrop}
+      />
+      <DeleteMoodTrackerHistory
+        isOpen={isDeleteMoodTrackerHistoryBackdropShown}
+        onClose={closeDeleteMoodTrackerHistoryBackdrop}
       />
     </Screen>
   );

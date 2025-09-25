@@ -15,7 +15,6 @@
       "client_microphone_off": "Клієнт/ка вимкнув/ла мікрофон",
       "client_microphone_on": "Клієнт/ка увімкнув/ла мікрофон",
       "chat_history_deleted_by_client": "Ти видалив/ла історію чату",
-
       "provider_joined": "Консультант/ка долучився/лася до консультації",
       "provider_left": "Консультант/ка залишив/ла консультацію",
       "provider_camera_off": "Консультант/ка вимкнув/ла камеру",
@@ -32,7 +31,15 @@
       "min_read": "хв читання",
       "by": "Від {{creator}}",
       "number_of_more_options": "ще {{count}}",
-      "read": "Прочитано"
+      "read": "Прочитано",
+      "heading_no_results": "",
+      "view_all": "",
+      "heading_default": "",
+      "heading_newest": "",
+      "heading_most_read": "",
+      "subheading_default": "",
+      "subheading_newest": "",
+      "subheading_most_read": ""
     },
     "articles-dashboard": {
       "heading": "Статті",
@@ -53,7 +60,10 @@
       "pin_not_matching": "PIN-код є невірним",
       "success": "PIN-код встановлено",
       "remove_success": "PIN-код видалено",
-      "error": "При введенні PIN-коду виникла помилка. Спробуй ще раз."
+      "error": "При введенні PIN-коду виникла помилка. Спробуй ще раз.",
+      "heading": "",
+      "delete_subheading": "",
+      "create_subheading": ""
     },
     "consultations-dashboard": {
       "heading": "Мої консультації",
@@ -95,7 +105,6 @@
       "no_past_consultations": "У тебе немає попередніх консультацій",
       "reject_consultation_success": "Консультацію відхилено",
       "accept_consultation_success": "Консультацію прийнято",
-
       "join": "Приєднайся",
       "edit": "Редагувати",
       "details": "Пеереглянути деталі",
@@ -108,7 +117,9 @@
       "conducted": "Консультацію завершено",
       "not_conducted": "Не проведено",
       "registration_needed": "Для запису на консультацію треба зареєструватися.",
-      "free": "Безкоштовно"
+      "free": "Безкоштовно",
+      "button_label": "",
+      "emergency_button_label": ""
     },
     "contact-us-block": {
       "heading": "Зв'яжися з нами",
@@ -120,11 +131,9 @@
       "message_placeholder": "Твоє повідомлення для нас",
       "message_error": "Введи повідомлення",
       "button": "Надішли повідомлення",
-
       "modal_title": "Твоє повідомлення відправлено",
       "modal_text": "Найближчим часом ми зв'яжемося з тобою",
       "modal_cta_label": "На головну сторінку",
-
       "contact_reason_1": "Про що ця платформа?",
       "contact_reason_2": "Мені потрібна додаткова інформація про послуги, що надаються через платформу",
       "contact_reason_3": "Я клієнт, і у мене виникла технічна проблема",
@@ -147,14 +156,14 @@
       "reset_password_button_label": "Скинути пароль",
       "register_redirect_button_label": "У мене немає облікового запису.",
       "modal_heading": "Перевір свою електронну пошту",
-      "modal_text": "Ми надіслали тобі електронного листа з посиланням для відновлення пароля"
+      "modal_text": "Ми надіслали тобі електронного листа з посиланням для відновлення пароля",
+      "heading": ""
     },
     "give-suggestion": {
       "heading": "Надішли нам свої пропозиції",
       "subheading": "Не можеш знайти цікавої для тебе інформації? Запропонуй нам тему, і ми спробуємо її розглянути.",
       "submit": "Надішли свою пропозицію",
       "suggestion_placeholder": "Напиши свою пропозицію тут",
-
       "modal_title": "Пропозицію надіслано",
       "modal_text": "Прикро, що тобі не вдалося знайти те, що шукав/ла. Ми постараємося розглянути твою пропозицію якомога швидше. Дякуємо за відгук!",
       "modal_cta_label": "Ознайомся з іншими статтями",
@@ -177,7 +186,10 @@
       "heading_newest_podcasts": "Найновіші підкасти",
       "heading_popular_podcasts": "Найпопулярніші підкасти",
       "more_podcasts": "Більше підкастів",
-      "no_results": "Нічого не знайдено"
+      "no_results": "Нічого не знайдено",
+      "heading": "",
+      "subheading": "",
+      "emergency_button_label": ""
     },
     "login": {
       "heading": "З поверненням!",
@@ -204,7 +216,9 @@
       "mood_tracker": "Монітор настрою",
       "additional_comment_placeholder": "Що є причиною того, що ти себе так почуваєш?",
       "submit_mood_track": "Надішли",
-      "add_mood_tracker_success": "Щоденний настрій додано"
+      "add_mood_tracker_success": "Щоденний настрій додано",
+      "subheading": "",
+      "emergency_button_label": ""
     },
     "mood-track-history": {
       "saturday": "Сб",
@@ -220,7 +234,9 @@
     "notification-preferences": {
       "email": "Сповіщення електронною поштою",
       "appointment": "Сповіщення про зустрічі",
-      "minutes_before": "хвилин до"
+      "minutes_before": "хвилин до",
+      "heading": "",
+      "subheading": ""
     },
     "notifications": {
       "heading": "Повідомлення",
@@ -248,7 +264,9 @@
       "passcode": "Код доступу",
       "biometrics": "Біометрія",
       "create_passcode": "Створи код доступу",
-      "delete_passcode": "Видали код доступу"
+      "delete_passcode": "Видали код доступу",
+      "heading": "",
+      "subheading": ""
     },
     "payment-history": {
       "service": "Сервіс",
@@ -258,7 +276,9 @@
       "no_payments_history_found": "Ще немає жодних платежів",
       "text_audio_video_consultation": "Онлайн-консультації",
       "download_success": "Файл завантажено",
-      "export_label": "Експорт"
+      "export_label": "Експорт",
+      "heading": "",
+      "subheading": ""
     },
     "platform-rating": {
       "rating_label": "Оціни нас",
@@ -266,7 +286,9 @@
       "textarea_placeholder": "Залиш коментар тут",
       "button_label": "Надішли оцінку",
       "rating_success": "Оцінку відправлено",
-      "rating_error": "Виникла непередбачувана помилка. Спробуй ще раз."
+      "rating_error": "Виникла непередбачувана помилка. Спробуй ще раз.",
+      "heading": "",
+      "subheading": ""
     },
     "privacy-policy": {
       "heading": "Політика конфіденційності",
@@ -274,7 +296,6 @@
     },
     "provider-overview": {
       "button_label": "Запланувати консультацію",
-
       "earliest_slot_label": "Найближчий вільний часовий слот для консультації",
       "languages_label": "Мови",
       "education_label": "Освіта",
@@ -287,11 +308,9 @@
       "delete_account": "Видалити обліковий запис",
       "no_available_slot": "Немає вільного часового слоту",
       "consultations": "консультації",
-
       "psychologist": "Психолог/иня",
       "psychiatrist": "Психіатр/иня",
       "psychotherapist": "Психотерапевт/ка",
-
       "addiction": "Залежність та зловживання психоактивними речовинами",
       "stress": "Управління стресом",
       "burnout": "Емоційне вигорання та академічний стрес",
@@ -324,12 +343,12 @@
       "social_skills": "Соціальні навички та дружба",
       "body_image": "Образ тіла та самооцінка",
       "video_label": "Відеопрезентація",
-
-      "hour_consultation": "{{currencySymbol}} за 1 годину консультації"
+      "hour_consultation": "{{currencySymbol}} за 1 годину консультації",
+      "heading": "",
+      "subheading": ""
     },
     "register-about-you": {
       "heading": "Про тебе.",
-
       "input_name_label": "Ім'я",
       "input_name_placeholder": "Введи своє ім'я",
       "input_surname_label": "Прізвище",
@@ -419,7 +438,6 @@
     },
     "register-support": {
       "heading": "Потрібна підтримка?",
-
       "button_continue_label": "Продовжити",
       "answer_yes_label": "Так, я хочу отримати консультацію",
       "answer_no_label": "Ні",
@@ -447,12 +465,13 @@
       "no": "Ні",
       "button": "Надіслати відгук",
       "continue_button": "Зберегти відповіді",
-
       "very_satisfied": "Дуже задоволений/а",
       "satisfied": "Задоволений/а",
       "neutral": "Нейтрально",
       "dissatisfied": "Незадоволений/а",
-      "very_dissatisfied": "Дуже незадоволений/а"
+      "very_dissatisfied": "Дуже незадоволений/а",
+      "heading": "",
+      "subheading": ""
     },
     "select-provider": {
       "psychologist": "Психолог/иня",
@@ -467,15 +486,33 @@
       "wednesday": "Ср",
       "thursday": "Чт",
       "friday": "Пт",
-      "saturday": "Сб"
+      "saturday": "Сб",
+      "heading": "",
+      "subheading": "",
+      "button_label": "",
+      "button_coupon_label": "",
+      "modal_coupon_heading": "",
+      "modal_coupon_button_label": "",
+      "modal_coupon_input_label": "",
+      "modal_coupon_input_placeholder": "",
+      "heading_with_coupon": "",
+      "remove_coupon_label": "",
+      "coupon_paragraph": "",
+      "coupon_paragraph_two": "",
+      "max_price": "",
+      "providers_free_consultation_label": ""
     },
     "share-platform": {
-      "button_label_share_text": "Поділися на"
+      "button_label_share_text": "Поділися на",
+      "heading": "",
+      "subheading": ""
     },
     "sos-center": {
       "button_link": "Відвідай сайт",
       "button_call": "Зв'яжися з нами зараз",
-      "no_results": "Для обраної країни й мови немає результатів."
+      "no_results": "Для обраної країни й мови немає результатів.",
+      "heading": "",
+      "subheading": ""
     },
     "terms-of-use": {
       "heading": "Умови використання",
@@ -507,6 +544,7 @@
       "delete_account": "Видалити обліковий запис",
       "logout": "Вийти з системи",
       "delete_chat": "Очистити історію чатів",
+      "delete_mood_tracker": "Очистити історію монітора настрою",
 
       "dropdown_sex_label": "Стать",
       "dropdown_year_label": "Рік народження",
@@ -532,7 +570,6 @@
       "heading": "Твій профіль",
       "subheading": "Тут можна знайти всю потрібну інформацію для налаштування профілю й облікового запису.",
       "button_label": "Вийти з системи",
-
       "first_group_heading": "Інформація про профіль",
       "guest": "Гість/гостяs",
       "second_group_heading": "Налаштування додаткуs",
@@ -558,8 +595,7 @@
       "country": "Країна",
       "language": "Мова",
       "placeholder": "Вибрати",
-      "button": "Продовжити",
-      "poland_description": "uSupport — це платформа психічного здоров’я та добробуту, призначена для молодих людей (16–24)"
+      "button": "Продовжити"
     },
     "my-qa": {
       "search_input_placeholder": "Пошук",
@@ -573,7 +609,12 @@
       "schedule_consultation": "Заплануй консультацію",
       "today": "Сьогодні",
       "no_questions_found": "Запитань не знайдено",
-      "language_placeholder": "Виберіть мову"
+      "language_placeholder": "Виберіть мову",
+      "heading": "",
+      "subheading": "",
+      "heading_button_label": "",
+      "emergency_button_label": "",
+      "ask_button_label": ""
     },
     "set-up-biometrics": {
       "heading": "Налаштуй код доступу та біометрію",
@@ -595,91 +636,51 @@
     "organizations": {
       "in_person_interaction": "Особисто",
       "online_interaction": "Онлайн",
-      "phone_interaction": "По телефону",
-      "hybrid_interaction": "Гібридний формат",
-
-      "free_services": "Безкоштовні послуги",
-      "paid_services": "Платні послуги",
-      "co_payment_services": "Послуги зі співоплатою",
-      "cnas_reimbursed_services": "Послуги, що відшкодовуються CNAS",
-
-      "violence_victim_helpline": "Телефон довіри для жертв насильства",
-      "social_information_counseling": "Соціальна інформація та консультування",
-      "rehab_psycho_neuro_children": "Реабілітація та відновлення дітей із психоневромоторними розладами",
-      "individual_psychological_counseling": "Індивідуальне психологічне консультування",
-      "personal_development_counseling": "Консультування з особистісного розвитку",
-      "child_helpline": "Дитячий телефон довіри",
-      "suicide_prevention_helpline": "Телефон довіри з попередження самогубств",
-      "child_psychiatry": "Дитяча психіатрія",
-      "group_psychological_counseling": "Групове психологічне консультування",
-      "sport_recreational_activities": "Спортивно-розважальні заходи (спорт, ігри, танці)",
-      "rehab_autism_children": "Реабілітація та відновлення дітей з аутизмом",
-      "art_recreational_activities": "Творчо-розважальні заходи (театр, музика, поезія, живопис, розповіді)",
-      "addiction_helpline": "Телефон довіри з питань залежностей",
-
-      "emergency_situations": "Надзвичайні ситуації",
-      "pediatric_psychiatry": "Дитяча психіатрія",
-      "psychological_evaluation": "Психологічна оцінка",
-      "psychological_counseling": "Психологічне консультування",
+      "phone_interaction": "Телефон",
+      "hybrid_interaction": "Гібридний",
+      "cash": "Готівка",
+      "bank_transfer": "Банківський переказ",
+      "card": "Картка",
+      "free": "Безкоштовно",
       "individual_psychotherapy": "Індивідуальна психотерапія",
       "group_psychotherapy": "Групова психотерапія",
-      "support_groups": "Групи підтримки",
-      "social_assistance_and_counseling": "Соціальна допомога та консультування",
-      "personal_development": "Особистісний розвиток",
-      "vocational_counseling_and_career_guidance": "Професійне консультування та кар'єрне орієнтування",
+      "individual_psychological_counseling": "Індивідуальне психологічне консультування",
+      "group_psychological_counseling": "Групове психологічне консультування",
+      "personal_development_counseling": "Консультування з особистісного розвитку",
       "speech_therapy": "Логопедія",
-      "occupational_therapy_ergotherapy": "Трудотерапія/Ерготерапія",
-      "physiotherapy_physical_recovery": "Фізіотерапія/Фізичне відновлення",
-      "autism_spectrum_disorder_therapies": "Терапії розладів аутистичного спектра",
-      "disability_assessment": "Оцінка інвалідності",
-      "pediatric_neurology": "Дитяча неврологія",
-      "special_psychopedagogy": "Спеціальна психопедагогіка",
-      "neuropsychomotor_recovery": "Нейропсихомоторне відновлення",
-
+      "social_information_counseling": "Соціальна інформація та консультування",
+      "rehab_autism_children": "Реабілітація та відновлення для дітей з аутизмом",
+      "rehab_psycho_neuro_children": "Реабілітація для дітей з психоневромоторними розладами",
+      "suicide_prevention_helpline": "Лінія допомоги щодо запобігання самогубствам",
+      "addiction_helpline": "Лінія допомоги при залежностях",
+      "violence_victim_helpline": "Лінія допомоги жертвам насильства",
+      "child_helpline": "Дитяча лінія допомоги",
+      "child_psychiatry": "Дитяча психіатрія",
+      "art_recreational_activities": "Творчі дозвіллєві заходи (театр, музика, поезія, живопис, розповіді)",
+      "sport_recreational_activities": "Спортивні дозвіллєві заходи (спорт, ігри, танці)",
       "sector_1": "Сектор 1",
       "sector_2": "Сектор 2",
       "sector_3": "Сектор 3",
       "sector_4": "Сектор 4",
       "sector_5": "Сектор 5",
       "sector_6": "Сектор 6",
-
-      "aggression_violence_victim_or_aggressor": "Агресія/насильство – жертва або агресор",
-      "learning_difficulties_special_educational_needs": "Труднощі у навчанні/Особливі освітні потреби",
-      "behavioral_disorder": "Поведінкові розлади",
-      "eating_disorder": "Розлади харчової поведінки",
-      "suicide_self_harm": "Самогубство/Самопошкодження",
-      "addiction": "Залежності",
-      "identity_issues": "Проблеми ідентичності",
-      "illness_oncological_treatment_chronic_diseases": "Захворювання (онкологічне лікування, хронічні хвороби)",
-      "other_situations": "Інші ситуації",
-
-      "public": "Державна",
-      "private": "Приватна",
-      "ong": "ГО",
-      "public_private": "Державно-приватна",
-
-      "work_with_placeholder": "Виберіть цільові категорії",
-      "specialisations_placeholder": "Виберіть пропоновані послуги",
-      "district_placeholder": "Виберіть сектор",
-      "payment_methods_placeholder": "Виберіть способи оплати",
-      "user_interactions_placeholder": "Виберіть формати взаємодії",
-      "property_types_placeholder": "Виберіть типи закладів",
-      "search_placeholder": "Пошук за назвою організації",
-
+      "children": "Діти",
+      "children_disabilities": "Діти з інвалідністю",
+      "adults": "Дорослі",
+      "adults_disabilities": "Дорослі з інвалідністю",
+      "work_with_placeholder": "Оберіть групу",
+      "specialisation_placeholder": "Оберіть спеціалізацію",
+      "district_placeholder": "Оберіть район",
+      "payment_method_placeholder": "Оберіть спосіб оплати",
+      "user_interaction_placeholder": "Оберіть спосіб взаємодії",
+      "search_placeholder": "Пошук за назвою або назвою підрозділу",
       "no_data_found": "Дані не знайдено",
       "reset_filters": "Скинути фільтри",
-      "filter_heading": "Фільтр",
-      "filter_button_label": "Застосувати",
-
       "view_organization_details": "Переглянути деталі організації",
       "address": "Адреса",
       "phone": "Телефон",
-      "email": "E-mail",
-      "any": "Будь-який",
-      "personalize": "Персоналізувати",
-      "personalization": "Персоналізація",
-      "personalization_modal_text": "Щоб отримати персоналізовані рекомендації з організації, адаптовані до ваших потреб, будь ласка, спочатку пройдіть нашу швидку базову оцінку. Це допоможе нам зрозуміти ваші вподобання та цілі, щоб надати найбільш відповідні пропозиції.",
-      "personalization_modal_cta_label": "Пройти оцінку"
+      "email": "Електронна пошта",
+      "check_organization": "Привіт, подивіться цю організацію"
     },
     "organization-overview": {
       "error-loading-data": "Сталася помилка під час завантаження даних про організацію",
@@ -690,7 +691,6 @@
       "work_with_label": "Працює з",
       "specialisations_label": "Спеціалізації",
       "providers_label": "Фахівці",
-
       "individual_psychotherapy": "Індивідуальна психотерапія",
       "group_psychotherapy": "Групова психотерапія",
       "individual_psychological_counseling": "Індивідуальне психологічне консультування",
@@ -707,24 +707,20 @@
       "child_psychiatry": "Дитяча психіатрія",
       "art_recreational_activities": "Творчі дозвіллєві заходи (театр, музика, поезія, живопис, розповіді)",
       "sport_recreational_activities": "Спортивні дозвіллєві заходи (спорт, ігри, танці)",
-
       "in_person_interaction": "Особисто",
       "online_interaction": "Онлайн",
       "phone_interaction": "Телефон",
       "hybrid_interaction": "Гібридний",
-
       "cash": "Готівка",
       "bank_transfer": "Банківський переказ",
       "card": "Картка",
       "free": "Безкоштовно",
-
       "sector_1": "Сектор 1",
       "sector_2": "Сектор 2",
       "sector_3": "Сектор 3",
       "sector_4": "Сектор 4",
       "sector_5": "Сектор 5",
       "sector_6": "Сектор 6",
-
       "children": "Діти",
       "children_disabilities": "Діти з інвалідністю",
       "adults": "Дорослі",
@@ -760,7 +756,6 @@
       "appetite_loss": "У мене немає апетиту.",
       "substance_use": "Я кілька разів пробував/пробувала курити або вживати заборонені речовини (алкоголь, наркотики тощо).",
       "frequent_headaches": "У мене часто болить голова без причини.",
-
       "question": "Питання {{number}} з {{total}}",
       "completed": "{{percentage}}% завершено",
       "back": "Назад",
@@ -770,6 +765,15 @@
       "assessment_completed": "Оцінку завершено",
       "assessment_completed_description": "Дякуємо за проходження оцінки. Ваші відповіді збережено і вони допоможуть нам підтримати вас.",
       "assessment_completed_button": "Повернутися на головну",
+      "loading_results": "Loading your results...",
+      "recommended_articles": "Recommended Articles",
+      "recommended_videos": "Recommended Videos",
+      "recommended_podcasts": "Recommended Podcasts",
+      "by": "By {{creator}}",
+      "min_read": "min read",
+      "read_more": "Read More",
+      "view_more": "View More",
+      "read": "Read",
       "save": "Зберегти"
     },
     "baseline-assessment-dashboard": {
@@ -785,7 +789,6 @@
       "answered_questions": "Відповіді на питання: {{current}}/27"
     }
   },
-
   "screens": {
     "article-information": {
       "heading": "Більше статей",
@@ -813,16 +816,12 @@
       "subheading": "Введи дані картки, щоб оплатити цю сесію",
       "payment_succeded_heading": "Платіж зреалізовано.",
       "payment_succeded_subheading": "Дякуємо за покупку. Консультацію заплановано на {{consultationDate}} о {{consultationTime}}.",
-
       "payment_processing_heading": "Платіж обробляється.",
       "payment_processing_subheading": "Твій платіж обробляється, зачекай хвилинку.",
-
       "payment_requires_payment_method_heading": "Платежу не зреалізовано, спробуй ще раз.",
       "payment_requires_payment_method_subheading": "Вибач, але під час спроби обробити платіж виникла проблема.",
-
       "payment_failed_heading": "Платежу не зреалізовано, спробуй ще раз.",
       "payment_failed_subheading": "Вибач, але під час спроби обробити платіж виникла проблема.",
-
       "continue_button_label": "Продовжити",
       "try_again_button_label": "Спробуй ще раз.",
       "session_timeout": "Твоя сесія закінчилася. Повернися і зарезервуй консультацію ще раз"
@@ -841,7 +840,6 @@
       "client_camera_on": "Клієнт/ка увімкнув/ла камеру",
       "client_microphone_off": "Клієнт/ка вимкнув/ла мікрофон",
       "client_microphone_on": "Клієнт/ка увімкнув/ла мікрофон",
-
       "provider_joined": "Консультант/ка долучився/лася до консультації",
       "provider_left": "Консультант/ка залишив/ла консультацію",
       "provider_camera_off": "Консультант/ка вимкнув/ла камеру",
@@ -849,7 +847,6 @@
       "provider_microphone_off": "Консультант/ка вимкнув/ла мікрофон",
       "provider_microphone_on": "Консультант/ка увімкнув/ла мікрофон",
       "chat_history_deleted_by_client": "Ти видалив/ла історію чату",
-
       "send_message": "Введи повідомлення тут...",
       "show_system_messages": "Відображення системних повідомлень",
       "show_previous_consultations": "Покажи попередні консультації",
@@ -875,7 +872,7 @@
       "change_button_label": "Зміна",
       "accept_button_label": "Погодься на консультацію",
       "join_button_label": "Приєднайся",
-      "schedule_button_label": "Розклад",
+      "schedule_button_label": "Запланувати",
       "live_label": "Зараз",
       "no_consultations": "Наразі немає майбутніх консультацій",
       "emergency_button_label": "Невідкладна допомога",
@@ -916,7 +913,7 @@
       "wrong_pin": "Невірний PIN-код"
     },
     "mood-tracker-screen": {
-      "heading": "Відстежувач настрою",
+      "heading": "Трекер настрою",
       "subheading": "Тут можна відстежувати свій настрій і прогрес ",
       "emergency_button_label": "Невідкладна допомога"
     },
@@ -1003,7 +1000,6 @@
       "subheading": "Детальний огляд профілю вибраної вами організації"
     }
   },
-
   "backdrops": {
     "cancel-consultation": {
       "heading": "Чи напевно хочеш скасувати консультацію?",
@@ -1165,7 +1161,6 @@
       "categories": "Категорії"
     }
   },
-
   "modals": {
     "mood-tracker-more-information": {
       "you_felt": "Ти відчув/ла себе",
@@ -1216,6 +1211,13 @@
       "cancel": "Ні, збережи мої дані з чату",
       "success": "Твої дан зі чату видалено."
     },
+    "delete-mood-tracker-history": {
+      "heading": "Ви впевнені, що хочете видалити всі дані трекера настрою?",
+      "subheading": "Цю дію неможливо скасувати.",
+      "confirm": "Так, видалити всі мої дані трекера настрою",
+      "cancel": "Ні, залишити мої дані трекера настрою",
+      "success": "Ваші дані трекера настрою було успішно видалено."
+    },
     "baseline-assesment-modal": {
       "heading": "Базова оцінка",
       "paragraph_1": "Наступні запитання допоможуть вам краще зрозуміти, як ви себе почуваєте, і чи потрібна вам допомога, щоб почуватися краще. Запитання стосуються вашого настрою, думок і почуттів за останні два тижні. Тут немає правильних або неправильних відповідей – лише ті, що відповідають вам. Важливо відповідати максимально чесно, щоб ми могли зрозуміти ваш стан і допомогти вам.",
@@ -1228,7 +1230,6 @@
       "secondary_cta_label": "Я не хочу проходити анкету"
     }
   },
-
   "navigation": {
     "tab-navigation": {
       "home": "Головна",

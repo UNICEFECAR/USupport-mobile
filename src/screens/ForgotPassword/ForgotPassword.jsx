@@ -12,7 +12,7 @@ import { ForgotPassword as ForgotPasswordBlock } from "#blocks";
  * @return {jsx}
  */
 export const ForgotPassword = ({ navigation }) => {
-  const { t } = useTranslation("blocks", {
+  const { t } = useTranslation("screens", {
     keyPrefix: "forgot-password-screen",
   });
 

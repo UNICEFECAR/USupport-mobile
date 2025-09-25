@@ -57,12 +57,17 @@ export const RegisterAboutYou = ({ navigation }) => {
   ];
 
   const [ages, setAges] = useState();
+  const [country, setCountry] = useState();
+
   useEffect(() => {
     if (countriesData) {
-      localStorage.getItem("country").then((country) => {
-        const selectedCountry = countriesData?.find((c) => c.value === country);
+      localStorage.getItem("country").then((countryCode) => {
+        const selectedCountry = countriesData?.find(
+          (c) => c.value === countryCode
+        );
         const minAge = selectedCountry?.minAge;
         const maxAge = selectedCountry?.maxAge;
+        setCountry(countryCode);
         setAges({
           minAge,
           maxAge,
@@ -83,14 +88,15 @@ export const RegisterAboutYou = ({ navigation }) => {
       ) {
         years.push({ label: year.toString(), value: year.toString() });
       }
-      years.push({
-        label: t("parent"),
-        value: "parent",
-      });
+      country != "PL" &&
+        years.push({
+          label: t("parent"),
+          value: "parent",
+        });
       return years.reverse();
     }
     return [];
-  }, [countriesData, ages]);
+  }, [countriesData, ages, country, t]);
 
   const [data, setData] = useState({
     name: "",
@@ -266,18 +272,18 @@ export const RegisterAboutYou = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  heading: { marginLeft: 10 },
-  flex1: { flex: 1 },
-  inputContainer: { alignItems: "center" },
-  marginBottom24: { marginBottom: 24 },
   backdrop1: { zIndex: 3 },
   backdrop2: { zIndex: 2 },
   buttonContainer: {
+    alignItems: "center",
     flexGrow: 1,
     justifyContent: "flex-end",
-    alignItems: "center",
     marginBottom: 24,
   },
+  flex1: { flex: 1 },
+  heading: { marginLeft: 10 },
+  inputContainer: { alignItems: "center" },
+  marginBottom24: { marginBottom: 24 },
   scrollViewContentContainer: {
     flexGrow: 1,
     marginTop: 64,
