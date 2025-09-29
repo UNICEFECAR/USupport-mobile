@@ -218,7 +218,8 @@
       "submit_mood_track": "Надішли",
       "add_mood_tracker_success": "Щоденний настрій додано",
       "subheading": "",
-      "emergency_button_label": ""
+      "emergency_button_label": "",
+      "emergency_label": ""
     },
     "mood-track-history": {
       "saturday": "Сб",
@@ -229,7 +230,8 @@
       "worried": "Схвильованим/ою",
       "you_felt": "Ти відчув/ла себе",
       "comment_text": "і прокоментув/ла:",
-      "no_result": "Жодних результатів не знайденою"
+      "no_result": "Жодних результатів не знайденою",
+      "critical_text": ""
     },
     "notification-preferences": {
       "email": "Сповіщення електронною поштою",
@@ -250,17 +252,17 @@
       "consultation_suggestion": "{{providerName}} запропонував/ла консультацію на {{date}} з {{startHour}} до {{endHour}}",
       "consultation_suggestion_booking": "Прийнято запропоновану консультацію від {{providerName}} на {{date}} з {{startHour}} до {{endHour}}",
       "consultation_suggestion_cancellation": "Відхилено запропоновану консультацію з {{providerName}} на {{date}} з {{startHour}} до {{endHour}}",
-      "consultation_started": "Твоя консультація з консультантом/кою  <0>{{providerName}} почалася </0>",
-      "question_answered": "Консультант/ка <0>{{providerName}}</0> відповів/ла на твоє питання",
-      "consultation_remind_start_24_hours_before": "Твоя консультація з консультантом/кою <0>{{providerName}}</0> почнеться через 24 години",
-      "consultation_remind_start_48_hours_before": "Твоя консультація з консультантом/кою <0>{{providerName}}</0> почнеться через 48 годин",
+      "consultation_started": "Твоя консультація з консультантом/кою  <0>{{providerName}} почалася </0>",
       "join": "Приєднайся",
       "accept": "Прийняти",
       "accept_consultation_success": "Консультацію прийнято",
       "reject": "Відхилити",
       "reject_consultation_success": "Консультацію відхилено",
       "no_notifications": "Ще немає жодних сповіщень.",
-      "yesterday": "вчора"
+      "yesterday": "вчора",
+      "question_answered": "",
+      "consultation_remind_start_24_hours_before": "",
+      "consultation_remind_start_48_hours_before": ""
     },
     "passcode": {
       "change_passcode": "Змінити код доступу",
@@ -547,8 +549,6 @@
       "delete_account": "Видалити обліковий запис",
       "logout": "Вийти з системи",
       "delete_chat": "Очистити історію чатів",
-      "delete_mood_tracker": "Очистити історію монітора настрою",
-
       "dropdown_sex_label": "Стать",
       "dropdown_year_label": "Рік народження",
       "sex_male": "Чоловік",
@@ -598,7 +598,8 @@
       "country": "Країна",
       "language": "Мова",
       "placeholder": "Вибрати",
-      "button": "Продовжити"
+      "button": "Продовжити",
+      "poland_description": ""
     },
     "my-qa": {
       "search_input_placeholder": "Пошук",
@@ -683,7 +684,50 @@
       "address": "Адреса",
       "phone": "Телефон",
       "email": "Електронна пошта",
-      "check_organization": "Привіт, подивіться цю організацію"
+      "check_organization": "Привіт, подивіться цю організацію",
+      "free_services": "",
+      "paid_services": "",
+      "co_payment_services": "",
+      "cnas_reimbursed_services": "",
+      "emergency_situations": "",
+      "pediatric_psychiatry": "",
+      "psychological_evaluation": "",
+      "psychological_counseling": "",
+      "support_groups": "",
+      "social_assistance_and_counseling": "",
+      "personal_development": "",
+      "vocational_counseling_and_career_guidance": "",
+      "occupational_therapy_ergotherapy": "",
+      "physiotherapy_physical_recovery": "",
+      "autism_spectrum_disorder_therapies": "",
+      "disability_assessment": "",
+      "pediatric_neurology": "",
+      "special_psychopedagogy": "",
+      "neuropsychomotor_recovery": "",
+      "aggression_violence_victim_or_aggressor": "",
+      "learning_difficulties_special_educational_needs": "",
+      "behavioral_disorder": "",
+      "eating_disorder": "",
+      "suicide_self_harm": "",
+      "addiction": "",
+      "identity_issues": "",
+      "illness_oncological_treatment_chronic_diseases": "",
+      "other_situations": "",
+      "public": "",
+      "private": "",
+      "ong": "",
+      "public_private": "",
+      "specialisations_placeholder": "",
+      "payment_methods_placeholder": "",
+      "user_interactions_placeholder": "",
+      "property_types_placeholder": "",
+      "filter_heading": "",
+      "filter_button_label": "",
+      "any": "",
+      "personalize": "",
+      "personalization": "",
+      "personalization_modal_text": "",
+      "personalization_modal_cta_label": ""
     },
     "organization-overview": {
       "error-loading-data": "Сталася помилка під час завантаження даних про організацію",
@@ -1107,10 +1151,7 @@
       "button_label_1": "Відео/аудіо консультація",
       "button_label_2": "Текстова консультація",
       "client_joined": "Клієнт/ка долучився/лася до консультації",
-      "error": "Виникла помилка. Cпробуй ще раз",
-      "permissions_error": "Ви не надали дозвіл на використання камери або мікрофона",
-      "permissions_error_subheading": "Щоб приєднатися до консультації, надайте дозвіл на використання камери або мікрофона в налаштуваннях вашого пристрою",
-      "open_settings": "Відкрити налаштування"
+      "error": "Виникла помилка. Cпробуй ще раз"
     },
     "select-avatar": {
       "heading": "Зміни фото профілю",
@@ -1213,13 +1254,6 @@
       "confirm": "Так, видали всі мої дані з чату",
       "cancel": "Ні, збережи мої дані з чату",
       "success": "Твої дан зі чату видалено."
-    },
-    "delete-mood-tracker-history": {
-      "heading": "Ви впевнені, що хочете видалити всі дані трекера настрою?",
-      "subheading": "Цю дію неможливо скасувати.",
-      "confirm": "Так, видалити всі мої дані трекера настрою",
-      "cancel": "Ні, залишити мої дані трекера настрою",
-      "success": "Ваші дані трекера настрою було успішно видалено."
     },
     "baseline-assesment-modal": {
       "heading": "Базова оцінка",
