@@ -25,6 +25,11 @@ import {
 import { destructureArticleData, checkIsLikedAndDisliked } from "#utils";
 import { Error } from "../../components/errors";
 
+const PL_LANGUAGE_AGE_GROUP_IDS = {
+  pl: 13,
+  uk: 11,
+};
+
 /**
  * ArticlesDashboard
  *
@@ -45,6 +50,7 @@ export const ArticlesDashboard = ({
   });
 
   const { isTmpUser } = useContext(Context);
+  const [country, setCountry] = useState();
 
   const [usersLanguage, setUsersLanguage] = useState(i18n.language);
   const [showAgeGroups, setShowAgeGroups] = useState(true);
@@ -53,15 +59,24 @@ export const ArticlesDashboard = ({
     return !!category.isSelected;
   });
 
-  // useEffect(() => {
-  //   async function checkCountry() {
-  //     const country = await localStorage.getItem("country");
-  //     if (country === "PL") {
-  //       setShowAgeGroups(false);
-  //     }
-  //   }
-  //   checkCountry();
-  // }, []);
+  const selectedAgeGroupId = selectedAgeGroup?.id;
+
+  const isPLCountry = country === "PL";
+  const hardcodedAgeGroupId = isPLCountry
+    ? PL_LANGUAGE_AGE_GROUP_IDS[usersLanguage]
+    : null;
+  const shouldUseHardcodedAgeGroup = typeof hardcodedAgeGroupId === "number";
+
+  useEffect(() => {
+    async function checkCountry() {
+      const countryValue = await localStorage.getItem("country");
+      setCountry(countryValue);
+      if (countryValue === "PL") {
+        setShowAgeGroups(false);
+      }
+    }
+    checkCountry();
+  }, []);
 
   useEffect(() => {
     if (i18n.language !== usersLanguage) {
@@ -76,6 +91,17 @@ export const ArticlesDashboard = ({
   const [selectedAgeGroup, setSelectedAgeGroup] = useState();
 
   const getAgeGroups = async () => {
+    if (shouldUseHardcodedAgeGroup) {
+      const hardcodedAgeGroup = {
+        label: "",
+        id: hardcodedAgeGroupId,
+        isSelected: true,
+      };
+      setSelectedAgeGroup(hardcodedAgeGroup);
+      setAgeGroups([hardcodedAgeGroup]);
+      return [hardcodedAgeGroup];
+    }
+
     try {
       const res = await cmsSvc.getAgeGroups(usersLanguage);
       const ageGroupsData = res.data.map((age, index) => ({
@@ -88,13 +114,18 @@ export const ArticlesDashboard = ({
     } catch {}
   };
 
-  const ageGroupsQuery = useQuery(["ageGroups", usersLanguage], getAgeGroups, {
-    refetchOnWindowFocus: false,
-    refetchOnMount: true,
-    onSuccess: (data) => {
-      setAgeGroups([...data]);
-    },
-  });
+  const ageGroupsQuery = useQuery(
+    ["ageGroups", usersLanguage, hardcodedAgeGroupId],
+    getAgeGroups,
+    {
+      enabled: showAgeGroups || shouldUseHardcodedAgeGroup,
+      refetchOnWindowFocus: false,
+      refetchOnMount: true,
+      onSuccess: (data) => {
+        setAgeGroups([...data]);
+      },
+    }
+  );
 
   const handleAgeGroupOnPress = (index) => {
     const ageGroupsCopy = [...ageGroups];
@@ -186,16 +217,26 @@ export const ArticlesDashboard = ({
       categoryId = selectedCategory.id;
     }
 
-    let { data } = await cmsSvc.getArticles({
+    const requestParams = {
       limit: 2, // Only get the newest article
       sortBy: "createdAt", // Sort by created date
-      categoryId: categoryId,
       sortOrder: "desc", // Sort in descending order
       locale: usersLanguage,
       populate: true,
-      ageGroupId: selectedAgeGroup.id,
       ids: articleIdsQuerry.data,
-    });
+    };
+
+    if (categoryId) {
+      requestParams.categoryId = categoryId;
+    }
+
+    if (shouldUseHardcodedAgeGroup) {
+      requestParams.ageGroupId = hardcodedAgeGroupId;
+    } else if (showAgeGroups && selectedAgeGroupId) {
+      requestParams.ageGroupId = selectedAgeGroupId;
+    }
+
+    let { data } = await cmsSvc.getArticles(requestParams);
     for (let i = 0; i < data.data.length; i++) {
       data.data[i] = destructureArticleData(data.data[i]);
     }
@@ -223,7 +264,7 @@ export const ArticlesDashboard = ({
         articleIdsQuerry.data?.length > 0 &&
         !categoriesQuery.isLoading &&
         categoriesQuery.data?.length > 0 &&
-        isTmpUser,
+        (isTmpUser || shouldUseHardcodedAgeGroup),
 
       refetchOnWindowFocus: false,
     }
@@ -241,7 +282,7 @@ export const ArticlesDashboard = ({
     enabled: isTmpUser
       ? false
       : selectedAgeGroup?.id && !ageGroupsQuery.isLoading,
-    categoryIdFilter: selectCategory?.id || null,
+    categoryIdFilter: selectedCategory?.id || null,
     sortFilter: "read_count",
   });
 
@@ -283,9 +324,7 @@ export const ArticlesDashboard = ({
             <TabsUnderlined
               options={ageGroups}
               handleSelect={handleAgeGroupOnPress}
-              style={{
-                marginTop: 12,
-              }}
+              style={styles.tabsUnderlined}
             />
           ) : null}
 
@@ -378,6 +417,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   tabs: { marginTop: 24, zIndex: 2 },
+  tabsUnderlined: { marginTop: 12 },
   viewAllText: {
     color: appStyles.colorSecondary_9749fa,
     fontFamily: appStyles.fontSemiBold,

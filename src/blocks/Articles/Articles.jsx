@@ -23,6 +23,11 @@ import {
 import { destructureArticleData, checkIsLikedAndDisliked } from "#utils";
 import { appStyles } from "#styles";
 
+const PL_LANGUAGE_AGE_GROUP_IDS = {
+  pl: 13,
+  uk: 11,
+};
+
 /**
  * Articles
  *
@@ -44,10 +49,18 @@ export const Articles = ({
   const { isTmpUser } = useContext(Context);
   const [usersLanguage, setUsersLanguage] = useState(i18n.language);
   const [showAgeGroups, setShowAgeGroups] = useState(true);
+  const [country, setCountry] = useState();
+
+  const isPLCountry = country === "PL";
+  const hardcodedAgeGroupId = isPLCountry
+    ? PL_LANGUAGE_AGE_GROUP_IDS[usersLanguage]
+    : null;
+  const shouldUseHardcodedAgeGroup = typeof hardcodedAgeGroupId === "number";
 
   async function checkCountry() {
-    const country = await localStorage.getItem("country");
-    if (country === "PL") {
+    const countryValue = await localStorage.getItem("country");
+    setCountry(countryValue);
+    if (countryValue === "PL") {
       setShowAgeGroups(false);
     }
   }
@@ -67,6 +80,17 @@ export const Articles = ({
   const [selectedAgeGroup, setSelectedAgeGroup] = useState();
 
   const getAgeGroups = async () => {
+    if (shouldUseHardcodedAgeGroup) {
+      const hardcodedAgeGroup = {
+        label: "",
+        id: hardcodedAgeGroupId,
+        isSelected: true,
+      };
+      setSelectedAgeGroup(hardcodedAgeGroup);
+      setAgeGroups([hardcodedAgeGroup]);
+      return [hardcodedAgeGroup];
+    }
+
     try {
       const res = await cmsSvc.getAgeGroups(usersLanguage);
       const ageGroupsData = res.data.map((age, index) => ({
@@ -79,13 +103,18 @@ export const Articles = ({
     } catch {}
   };
 
-  const ageGroupsQuery = useQuery(["ageGroups", usersLanguage], getAgeGroups, {
-    refetchOnWindowFocus: false,
-    refetchOnMount: true,
-    onSuccess: (data) => {
-      setAgeGroups([...data]);
-    },
-  });
+  const ageGroupsQuery = useQuery(
+    ["ageGroups", usersLanguage, hardcodedAgeGroupId],
+    getAgeGroups,
+    {
+      enabled: showAgeGroups || shouldUseHardcodedAgeGroup,
+      refetchOnWindowFocus: false,
+      refetchOnMount: true,
+      onSuccess: (data) => {
+        setAgeGroups([...data]);
+      },
+    }
+  );
 
   const handleAgeGroupOnPress = (index) => {
     const ageGroupsCopy = [...ageGroups];
@@ -342,7 +371,7 @@ export const Articles = ({
     );
     return (
       <CardMedia
-        style={[styles.cardMedia]}
+        style={styles.cardMedia}
         title={articleData.title}
         image={articleData.imageMedium || articleData.imageSmall}
         description={articleData.description}
@@ -368,7 +397,7 @@ export const Articles = ({
 
   return (
     <>
-      <Block style={{ marginTop: 100 }}>
+      <Block style={styles.blockWithMargin}>
         {showAgeGroups &&
         categoriesQuery?.data?.length > 1 &&
         ageGroupsQuery?.data?.length > 0 &&
@@ -427,9 +456,7 @@ export const Articles = ({
                 </View>
               ) : null
             }
-            contentContainerStyle={{
-              paddingBottom: 200,
-            }}
+            contentContainerStyle={styles.flashListWrapperWithPadding}
           />
         </View>
         {!transformedArticles?.length &&
@@ -452,16 +479,23 @@ const styles = StyleSheet.create({
     paddingBottom: 50,
   },
   articlesNoResultsContainer: { padding: 100, textAlign: "center" },
+  blockWithMargin: { marginTop: 100 },
   cardMedia: { alignSelf: "center", marginTop: 24 },
   flashListWrapper: {
     height: "100%",
     paddingHorizontal: 16,
     width: appStyles.screenWidth,
   },
-  searchInput: { alignSelf: "center", marginTop: 12 },
-  tabs: { marginTop: 24, zIndex: 2 },
+  flashListWrapperWithPadding: {
+    height: "100%",
+    paddingBottom: 200,
+    paddingHorizontal: 16,
+    width: appStyles.screenWidth,
+  },
   loadingContainer: {
     alignItems: "center",
     paddingTop: 60,
   },
+  searchInput: { alignSelf: "center", marginTop: 12 },
+  tabs: { marginTop: 24, zIndex: 2 },
 });
