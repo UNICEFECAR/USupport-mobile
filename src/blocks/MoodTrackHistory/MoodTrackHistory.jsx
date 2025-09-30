@@ -153,13 +153,7 @@ export const MoodTrackHistory = ({}) => {
                 {renderEmoticons()}
               </View>
               <View style={styles.lineChartContainer}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
+                <View style={styles.datesContainer}>
                   {renderDates()}
                   <View
                     style={[
@@ -175,7 +169,7 @@ export const MoodTrackHistory = ({}) => {
                         name="arrow-chevron-forward"
                         size="sm"
                         color="#20809E"
-                        style={{ marginRight: 16 }}
+                        style={styles.icon}
                       />
                     </TouchableOpacity>
                   </View>
@@ -210,42 +204,41 @@ const styles = StyleSheet.create({
   block: {
     paddingBottom: 40,
   },
-  loadingContainer: {
-    width: "100%",
-    height: 200,
-    justifyContent: "center",
-    alignItems: "center",
-  },
   chartContainer: {
-    marginTop: 20,
     flexDirection: "row",
-  },
-  emoticonsContainer: {
-    flexDirection: "column",
-    justifyContent: "space-between",
-    height: 240,
-  },
-  lineChartContainer: {
-    flexDirection: "column",
+    marginTop: 20,
   },
   datesContainer: {
+    alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingLeft: 6,
-    width: "92%",
-  },
-  loadPreviusContainer: {
-    height: 40,
-    width: 15,
-    alignItems: "center",
-    justifyContent: "center",
   },
   disabled: {
     opacity: 0.4,
+  },
+  emoticonsContainer: {
+    flexDirection: "column",
+    height: 240,
+    justifyContent: "space-between",
+  },
+  icon: { marginRight: 16 },
+  lineChartContainer: {
+    flexDirection: "column",
   },
   loadNextContainer: {
     height: 40,
     justifyContent: "center",
   },
-  icon: { marginRight: 16 },
+  loadPreviusContainer: {
+    alignItems: "center",
+    height: 40,
+    justifyContent: "center",
+    width: 15,
+  },
+  loadingContainer: {
+    alignItems: "center",
+    height: 200,
+    justifyContent: "center",
+    width: "100%",
+  },
 });
