@@ -1,5 +1,9 @@
 import http from "./http";
 import Config from "react-native-config";
+import { Platform } from "react-native";
+import * as FileSystem from "expo-file-system";
+import Share from "react-native-share";
+
 const { API_URL_ENDPOINT } = Config;
 
 const API_ENDPOINT = `${API_URL_ENDPOINT}/v1/client`;
@@ -329,6 +333,90 @@ async function getPersonalizedOrganizations() {
   return response;
 }
 
+async function generateMoodTrackReport(payload) {
+  const { startDate, endDate } = payload || {};
+
+  const queryParams = new URLSearchParams();
+  if (startDate) queryParams.append("startDate", startDate);
+  if (endDate) queryParams.append("endDate", endDate);
+
+  const response = await http.get(
+    `${API_ENDPOINT}/mood-tracker/report?${queryParams.toString()}`
+  );
+
+  // The API returns JSON: { csvData, fileName, ... }
+  // but we also support the fallback where the API returns raw CSV string.
+  const responseData = response?.data;
+  let csvString = "";
+  let filename = "mood-track-report.csv";
+
+  if (typeof responseData === "string") {
+    // Server returned raw CSV
+    csvString = responseData;
+    const contentDisposition = response.headers?.["content-disposition"];
+    if (contentDisposition) {
+      const filenameMatch = contentDisposition.match(/filename="(.+)"/);
+      if (filenameMatch) {
+        filename = filenameMatch[1];
+      }
+    }
+  } else if (responseData && typeof responseData.csvData === "string") {
+    // Server returned JSON with csvData
+    csvString = responseData.csvData;
+    if (responseData.fileName) {
+      filename = responseData.fileName;
+    }
+  } else {
+    // Unexpected shape; do a safe stringify so the user still gets a file
+    csvString = JSON.stringify(responseData ?? {});
+  }
+
+  // Platform-specific handling
+  if (Platform.OS === "web") {
+    const blob = new Blob([csvString], { type: "text/csv;charset=utf-8" });
+    const downloadUrl = window.URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = downloadUrl;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(downloadUrl);
+
+    return { success: true, message: "Report downloaded successfully" };
+  }
+
+  // Native (iOS/Android): save to app documents and open share sheet
+  const ensuredFilename = filename?.toLowerCase().endsWith(".csv")
+    ? filename
+    : `${filename || "mood-track-report"}.csv`;
+  const fileUri = `${FileSystem.documentDirectory}${ensuredFilename}`;
+
+  await FileSystem.writeAsStringAsync(fileUri, csvString, {
+    encoding: FileSystem.EncodingType.UTF8,
+  });
+
+  try {
+    await Share.open({
+      url: fileUri,
+      type: "text/csv",
+      filename: ensuredFilename,
+      failOnCancel: false,
+      saveToFiles: true, // iOS Files app option
+    });
+  } catch (e) {
+    // User may cancel share; ignore
+  }
+
+  return {
+    success: true,
+    message: "Report saved and share sheet opened",
+    fileUri,
+    filename: ensuredFilename,
+  };
+}
+
 const exportedFunctions = {
   addMoodTrack,
   getClientData,
@@ -369,6 +457,7 @@ const exportedFunctions = {
   getLatestBaselineAssessment,
   addSOSCenterClick,
   getPersonalizedOrganizations,
+  generateMoodTrackReport,
 };
 
 export default exportedFunctions;
