@@ -27,7 +27,10 @@ export const UserProfile = ({ navigation }) => {
   const [version, setVersion] = React.useState("");
 
   const SHOW_PAYMENT_HISTORY =
-    country !== "KZ" && country !== "PL" && country !== "RO";
+    country !== "KZ" &&
+    country !== "PL" &&
+    country !== "RO" &&
+    country !== "AM";
 
   useEffect(() => {
     const getAppVersion = async () => {

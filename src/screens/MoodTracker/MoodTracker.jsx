@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -7,11 +7,11 @@ import {
 } from "react-native";
 import { useTranslation } from "react-i18next";
 
-import { Screen, Block } from "#components";
-import { MoodTrackHistory } from "#blocks";
+import { AppText, Screen, ButtonWithIcon, Block } from "#components";
+import { GiveSuggestion, MascotHeadingBlock, MoodTrackHistory } from "#blocks";
 import { Context } from "#services";
-import { AppText } from "../../components/texts";
-import { GiveSuggestion } from "#blocks";
+import { MoodTrackReport } from "#backdrops";
+import { useGetTheme } from "#hooks";
 
 /**
  * MoodTracker
@@ -22,7 +22,12 @@ import { GiveSuggestion } from "#blocks";
  */
 export const MoodTracker = ({ navigation }) => {
   const { t } = useTranslation("screens", { keyPrefix: "mood-tracker-screen" });
-  const { isTmpUser, handleRegistrationModalOpen } = useContext(Context);
+  const { colors, isDarkMode } = useGetTheme();
+  const { country, isTmpUser, handleRegistrationModalOpen } =
+    useContext(Context);
+  const IS_RO = country === "RO";
+
+  const [isReportOpen, setIsReportOpen] = useState(false);
 
   useEffect(() => {
     if (isTmpUser) {
@@ -31,22 +36,48 @@ export const MoodTracker = ({ navigation }) => {
   }, [isTmpUser]);
 
   return (
-    <Screen
-      hasEmergencyButton={false}
-      hasHeaderNavigation
-      t={t}
-      style={styles.screen}
-    >
+    <Screen hasEmergencyButton={false} hasHeaderNavigation t={t}>
+      <MoodTrackReport
+        isOpen={isReportOpen}
+        onClose={() => setIsReportOpen(false)}
+      />
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "position" : null}
         keyboardVerticalOffset={64}
       >
         <ScrollView>
-          <Block style={{ marginTop: 18 }}>
-            <AppText namedStyle="h3">{t("heading")}</AppText>
-            <AppText>{t("subheading")}</AppText>
-          </Block>
-          {!isTmpUser ? <MoodTrackHistory /> : null}
+          <MascotHeadingBlock>
+            <AppText namedStyle="h3" style={styles.colorTextBlue}>
+              {t("heading")}
+            </AppText>
+            <AppText
+              style={[
+                styles.marginTop16,
+                isDarkMode
+                  ? { color: appStyles.colorWhite_ff }
+                  : styles.colorTextBlue,
+              ]}
+            >
+              {t("subheading")}
+            </AppText>
+            {!isTmpUser && IS_RO && (
+              <ButtonWithIcon
+                label={t("report")}
+                onPress={() => setIsReportOpen(true)}
+                iconName="document"
+                color="purple"
+                iconColor={"#FFFFFF"}
+                size="sm"
+                style={styles.marginTop16}
+              />
+            )}
+          </MascotHeadingBlock>
+          {!isTmpUser ? (
+            <MoodTrackHistory
+              openReport={() => setIsReportOpen(true)}
+              showReport={IS_RO}
+            />
+          ) : null}
           <GiveSuggestion navigation={navigation} type="mood-tracker" />
         </ScrollView>
       </KeyboardAvoidingView>
@@ -55,7 +86,5 @@ export const MoodTracker = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  screen: {
-    paddingTop: 55,
-  },
+  marginTop16: { marginTop: 16 },
 });

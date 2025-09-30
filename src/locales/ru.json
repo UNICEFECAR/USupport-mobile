@@ -926,7 +926,8 @@
     "mood-tracker-screen": {
       "heading": "Трекер настроения",
       "subheading": "Здесь Вы можете проверить свое настроение и прогресс",
-      "emergency_button_label": "Экстренная помощь"
+      "emergency_button_label": "Экстренная помощь",
+      "report": "Сгенерировать отчет"
     },
     "notification-preferences-screen": {
       "heading": "Настройки уведомлений",
@@ -1171,6 +1172,16 @@
     },
     "article-categories": {
       "categories": "Категории"
+    },
+    "mood-track-report": {
+      "heading": "Your mood tracking report",
+      "subheading": "Export your mood tracking history as a CSV file for the selected period. Weekly reports will be sent to your email address.",
+      "export_button": "Export report",
+      "cancel_button": "Cancel",
+      "start_date": "Start date",
+      "end_date": "End date",
+      "end_date_before_start_error": "End date must be after start date",
+      "confirm": "Confirm"
     }
   },
 

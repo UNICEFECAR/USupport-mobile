@@ -218,7 +218,8 @@
       "submit_mood_track": "Prześlij",
       "add_mood_tracker_success": "Twój codzienny nastrój został pomyślnie dodany",
       "subheading": "",
-      "emergency_button_label": ""
+      "emergency_button_label": "",
+      "emergency_label": ""
     },
     "mood-track-history": {
       "saturday": "Sob.",
@@ -229,7 +230,8 @@
       "worried": "Zmartwiony/a",
       "you_felt": "Poczułeś/aś",
       "comment_text": "i skomentowałeś/aś:",
-      "no_result": "Nie znaleziono żadnych wyników."
+      "no_result": "Nie znaleziono żadnych wyników.",
+      "critical_text": ""
     },
     "notification-preferences": {
       "email": "Powiadomienia email",
@@ -251,16 +253,16 @@
       "consultation_suggestion_booking": "Zaakceptowano <0>konsultację</0> sugerowaną przez <0>{{providerName}}</0> w terminie <0>{{date}}</0> od <0>{{startHour}}</0> do <0>{{endHour}}</0>",
       "consultation_suggestion_cancellation": "Odrzucono <0>konsultację</0> sugerowaną przez<0>{{providerName}}</0> w terminie <0>{{date}}</0> od <0>{{startHour}}</0> do <0>{{endHour}}</0>",
       "consultation_started": "Twoja konsultacja z konsultantem/ką <0>{{providerName}} rozpoczęła się</0>",
-      "question_answered": "Konsultant/ka <0>{{providerName}}</0> odpowiedział/a na Twoje pytanie",
-      "consultation_remind_start_24_hours_before": "Twoja konsultacja z konsultantem/ką <0>{{providerName}}</0> rozpocznie się za 24 godziny",
-      "consultation_remind_start_48_hours_before": "Twoja konsultacja z konsultantem/ką <0>{{providerName}}</0> rozpocznie się za 48 godzin",
       "join": "Dołącz",
       "accept": "Akceptuj",
       "accept_consultation_success": "Konsultacja została pomyślnie zaakceptowana",
       "reject": "Odrzuć",
       "reject_consultation_success": "Konsultacja została pomyślnie odrzucona",
       "no_notifications": "Nie masz jeszcze żadnych powiadomień.",
-      "yesterday": "wczoraj"
+      "yesterday": "wczoraj",
+      "question_answered": "",
+      "consultation_remind_start_24_hours_before": "",
+      "consultation_remind_start_48_hours_before": ""
     },
     "passcode": {
       "change_passcode": "Zmień kod dostępu",
@@ -547,8 +549,6 @@
       "delete_account": "Usuń konto",
       "logout": "Wylogowanie",
       "delete_chat": "Wyczyść historię czatów",
-      "delete_mood_tracker": "Wyczyść historię monitora nastroju",
-
       "dropdown_sex_label": "Płeć",
       "dropdown_year_label": "Rok urodzenia",
       "sex_male": "Mężczyzna",
@@ -598,7 +598,8 @@
       "country": "Kraj",
       "language": "Język",
       "placeholder": "Wybrać",
-      "button": "Kontynuuj"
+      "button": "Kontynuuj",
+      "poland_description": "uSupport to platforma zdrowia psychicznego i dobrego samopoczucia przeznaczona dla młodych osób (16-24)"
     },
     "my-qa": {
       "search_input_placeholder": "Wyszukiwanie",
@@ -683,7 +684,50 @@
       "address": "Adres",
       "phone": "Telefon",
       "email": "Email",
-      "check_organization": "Cześć, sprawdź tę organizację"
+      "check_organization": "Cześć, sprawdź tę organizację",
+      "free_services": "",
+      "paid_services": "",
+      "co_payment_services": "",
+      "cnas_reimbursed_services": "",
+      "emergency_situations": "",
+      "pediatric_psychiatry": "",
+      "psychological_evaluation": "",
+      "psychological_counseling": "",
+      "support_groups": "",
+      "social_assistance_and_counseling": "",
+      "personal_development": "",
+      "vocational_counseling_and_career_guidance": "",
+      "occupational_therapy_ergotherapy": "",
+      "physiotherapy_physical_recovery": "",
+      "autism_spectrum_disorder_therapies": "",
+      "disability_assessment": "",
+      "pediatric_neurology": "",
+      "special_psychopedagogy": "",
+      "neuropsychomotor_recovery": "",
+      "aggression_violence_victim_or_aggressor": "",
+      "learning_difficulties_special_educational_needs": "",
+      "behavioral_disorder": "",
+      "eating_disorder": "",
+      "suicide_self_harm": "",
+      "addiction": "",
+      "identity_issues": "",
+      "illness_oncological_treatment_chronic_diseases": "",
+      "other_situations": "",
+      "public": "",
+      "private": "",
+      "ong": "",
+      "public_private": "",
+      "specialisations_placeholder": "",
+      "payment_methods_placeholder": "",
+      "user_interactions_placeholder": "",
+      "property_types_placeholder": "",
+      "filter_heading": "",
+      "filter_button_label": "",
+      "any": "",
+      "personalize": "",
+      "personalization": "",
+      "personalization_modal_text": "",
+      "personalization_modal_cta_label": ""
     },
     "organization-overview": {
       "error-loading-data": "Wystąpił błąd podczas ładowania danych organizacji",
@@ -918,7 +962,8 @@
     "mood-tracker-screen": {
       "heading": "Monitor nastroju",
       "subheading": "Tutaj możesz śledzić swój nastrój i postępy ",
-      "emergency_button_label": "Pomoc w nagłych wypadkach"
+      "emergency_button_label": "Pomoc w nagłych wypadkach",
+      "report": "Generuj raport"
     },
     "notification-preferences-screen": {
       "heading": "Ustawienia powiadomień",
@@ -1107,10 +1152,7 @@
       "button_label_1": "Konsultacja wideo/audio",
       "button_label_2": "Konsultacja tekstowa",
       "client_joined": "Klient/ka dołączył/a do konsultacji",
-      "error": "Wystąpił błąd. Spróbuj ponownie",
-      "permissions_error": "Nie nadano uprawnień do korzystania z kamery lub mikrofonu",
-      "permissions_error_subheading": "Aby dołączyć do konsultacji, nadaj uprawnienia do korzystania z kamery lub mikrofonu w ustawieniach urządzenia",
-      "open_settings": "Otwórz ustawienia"
+      "error": "Wystąpił błąd. Spróbuj ponownie"
     },
     "select-avatar": {
       "heading": "Zmień zdjęcie profilowe",
@@ -1162,6 +1204,16 @@
     },
     "article-categories": {
       "categories": "Kategorie"
+    },
+    "mood-track-report": {
+      "heading": "Your mood tracking report",
+      "subheading": "Export your mood tracking history as a CSV file for the selected period. Weekly reports will be sent to your email address.",
+      "export_button": "Export report",
+      "cancel_button": "Cancel",
+      "start_date": "Start date",
+      "end_date": "End date",
+      "end_date_before_start_error": "End date must be after start date",
+      "confirm": "Confirm"
     }
   },
   "modals": {
@@ -1213,13 +1265,6 @@
       "confirm": "Tak, usuń wszystkie moje dane czatu",
       "cancel": "Nie, zachowaj moje dane z czatu",
       "success": "Twoje dane z czatu zostały pomyślnie usunięte."
-    },
-    "delete-mood-tracker-history": {
-      "heading": "Czy na pewno chcesz usunąć wszystkie dane swojego dziennika nastroju?",
-      "subheading": "Tej operacji nie można cofnąć.",
-      "confirm": "Tak, usuń wszystkie moje dane dziennika nastroju",
-      "cancel": "Nie, zachowaj moje dane dziennika nastroju",
-      "success": "Twoje dane dziennika nastroju zostały pomyślnie usunięte."
     },
     "baseline-assesment-modal": {
       "heading": "Ocena wstępna",
