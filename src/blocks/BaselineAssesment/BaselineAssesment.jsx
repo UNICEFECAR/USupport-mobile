@@ -34,6 +34,7 @@ export const BaselineAssesment = ({
   });
   const { colors, isDarkMode } = useGetTheme();
   const queryClient = useQueryClient();
+  const [hasSetInitially, setHasSetInitially] = useState(false);
 
   const [state, setState] = useState({
     currentStep: "intro", // intro, questions, completed
@@ -60,7 +61,7 @@ export const BaselineAssesment = ({
   );
 
   useEffect(() => {
-    if (answers && selectedAssessment) {
+    if (answers && selectedAssessment && !hasSetInitially) {
       setState((prev) => ({
         ...prev,
         answers,
@@ -70,8 +71,9 @@ export const BaselineAssesment = ({
           selectedAssessment.status === "completed" ? "completed" : "questions",
         finalResult: selectedAssessment.finalResult,
       }));
+      setHasSetInitially(true);
     }
-  }, [answers, selectedAssessment]);
+  }, [answers, selectedAssessment, hasSetInitially]);
 
   const addBaselineAssessmentAnswerMutation = useAddBaselineAssessmentAnswer();
   const createBaselineAssessmentMutation = useCreateBaselineAssessment();

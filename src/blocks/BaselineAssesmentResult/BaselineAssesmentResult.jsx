@@ -9,11 +9,20 @@ import {
 import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
 
-import { ProgressBar, AppText, Loading, CardMedia } from "#components";
+import {
+  Box,
+  AppText,
+  ProgressBar,
+  Loading,
+  CardMedia,
+  Icon,
+} from "#components";
+
 import { useGetTheme, useGetAssessmentResult } from "#hooks";
+
 import { createArticleSlug } from "#utils";
+
 import appStyles from "../../styles/appStyles";
-import { Icon } from "../../components";
 
 /**
  * BaselineAssesmentResult
@@ -22,10 +31,29 @@ import { Icon } from "../../components";
  *
  * @return {jsx}
  */
-export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
-  const { t } = useTranslation("blocks", { keyPrefix: "baseline-assesment" });
+export const BaselineAssesmentResult = ({
+  // result,
+  redirectToDashboard,
+}) => {
+  const { t } = useTranslation("blocks", {
+    keyPrefix: "baseline-assesment-result",
+  });
   const navigation = useNavigation();
   const { colors, isDarkMode } = useGetTheme();
+
+  const result = {
+    psychological: "moderate",
+    biological: "moderate",
+    social: "high",
+    psychologicalScore: 30,
+    biologicalScore: 23,
+    socialScore: 27,
+    comparePrevious: {
+      psychological: "lower",
+      biological: "equal",
+      social: "higher",
+    },
+  };
 
   // Use the hook if provided, otherwise return mock data
   const { isLoading, data } = useGetAssessmentResult({
@@ -53,6 +81,33 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
       slug: createArticleSlug(podcastData.title),
     });
   };
+
+  const renderIcon = (result) => {
+    const color =
+      result === "higher" ? "#eb5757" : result === "lower" ? "#7ec680" : "";
+    const name =
+      result === "higher" ? "arrow-up" : result === "lower" ? "arrow-down" : "";
+    return <Icon color={color} name={name} />;
+  };
+
+  function generateKey(result) {
+    const map = {
+      higher: "inc",
+      lower: "dec",
+      equal: "same",
+    };
+
+    return [
+      map[result.psychological],
+      map[result.biological],
+      map[result.social],
+    ].join("_");
+  }
+
+  let resultText = "";
+  if (result?.comparePrevious) {
+    resultText = t(generateKey(result.comparePrevious));
+  }
 
   const renderContentGrid = (contentData, onPress, contentType) => {
     if (!contentData || contentData.length === 0) return null;
@@ -103,14 +158,12 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
       contentContainerStyle={styles.contentContainer}
     >
       <View style={styles.resultContainer}>
-        {/* Assessment Completed Section */}
         <View style={styles.completedSection}>
-          <TouchableOpacity onPress={redirectToDashboard}>
-            <Icon
-              name="close-x"
-              color={colors.text}
-              style={{ marginLeft: "auto" }}
-            />
+          <TouchableOpacity
+            style={{ marginLeft: "auto" }}
+            onPress={redirectToDashboard}
+          >
+            <Icon name="close-x" color={colors.text} />
           </TouchableOpacity>
           <AppText namedStyle="h2" style={styles.completedTitle}>
             {t("assessment_completed")}
@@ -120,7 +173,36 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
           </View>
         </View>
 
-        {/* Loading State */}
+        {result?.comparePrevious && (
+          <View
+            style={{
+              flexDirection: "column",
+              gap: 16,
+              alignItems: "center",
+            }}
+          >
+            <AppText namedStyle="h4">{resultText}</AppText>
+            <Box boxShadow={2} style={styles.factor}>
+              <AppText>
+                {t("psychological")}: {result.psychologicalScore}
+              </AppText>
+              {renderIcon(result.comparePrevious.psychological)}
+            </Box>
+            <Box boxShadow={2} style={styles.factor}>
+              <AppText>
+                {t("biological")}: {result.biologicalScore}
+              </AppText>
+              {renderIcon(result.comparePrevious.biological)}
+            </Box>
+            <Box boxShadow={2} style={styles.factor}>
+              <AppText>
+                {t("social")}: {result.socialScore}
+              </AppText>
+              {renderIcon(result.comparePrevious.social)}
+            </Box>
+          </View>
+        )}
+
         {isLoading && (
           <View style={styles.loadingSection}>
             <AppText namedStyle="text" style={styles.loadingText}>
@@ -130,7 +212,6 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
           </View>
         )}
 
-        {/* Results Summary */}
         {data && (
           <View style={styles.summarySection}>
             <AppText namedStyle="text" style={styles.summaryText}>
@@ -204,6 +285,7 @@ const styles = StyleSheet.create({
   loadingSection: {
     alignItems: "center",
     marginBottom: 32,
+    marginTop: 32,
   },
   loadingText: {
     textAlign: "center",
@@ -216,6 +298,8 @@ const styles = StyleSheet.create({
 
   summarySection: {
     marginBottom: 32,
+    marginTop: 32,
+    paddingHorizontal: 16,
   },
   summaryText: {
     textAlign: "center",
@@ -244,5 +328,13 @@ const styles = StyleSheet.create({
     width: "100%",
     minWidth: appStyles.screenWidth * 0.75,
     maxWidth: appStyles.screenWidth * 0.9,
+  },
+  factor: {
+    width: "90%",
+    padding: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 3,
   },
 });

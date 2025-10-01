@@ -507,7 +507,9 @@
       "button_call": "Contact acum",
       "no_results": "Nu există rezultate pentru țara și limba selectate.",
       "heading": "Urgență",
-      "subheading": "Aveți nevoie urgentă de ajutor? Vă rugăm să contactați chiar acum unul dintre centrele enumerate."
+      "subheading": "Aveți nevoie urgentă de ajutor? Vă rugăm să contactați chiar acum unul dintre centrele enumerate.",
+      "other_emergency_services": "Alte servicii de urgență",
+      "browse": "Răsfoiește"
     },
     "terms-of-use": {
       "heading": "Condiții de utilizare",
@@ -825,6 +827,55 @@
       "view_detailed_results": "View Detailed Results",
       "started_at": "Started on {{date}}",
       "answered_questions": "Answered questions: {{current}}/27"
+    },
+    "baseline-assesment-result": {
+      "assessment_completed": "Assessment completed",
+      "loading_results": "Loading your results...",
+      "recommended_articles": "Recommended articles",
+      "recommended_videos": "Recommended videos",
+      "recommended_podcasts": "Recommended podcasts",
+      "read_more_button": "Read more",
+      "by": "by {{creator}}",
+      "min_read": "min read",
+
+      "psychological": "Psihologic",
+      "biological": "Biologic",
+      "social": "Social",
+
+      "inc_inc_inc": "Am observat unele provocări: psihologic, biologic și social au crescut.",
+      "inc_inc_same": "Am observat unele provocări: psihologic și biologic au crescut, în timp ce social a rămas la fel.",
+      "inc_inc_dec": "Bravo! Social a scăzut, deși psihologic și biologic au crescut.",
+
+      "inc_same_inc": "Am observat unele provocări: psihologic și social au crescut, în timp ce biologic a rămas la fel.",
+      "inc_same_same": "Am observat unele provocări: psihologic a crescut, în timp ce biologic și social au rămas la fel.",
+      "inc_same_dec": "Bravo! Social a scăzut, deși psihologic a crescut și biologic a rămas la fel.",
+
+      "inc_dec_inc": "Bravo! Biologic a scăzut, deși psihologic și social au crescut.",
+      "inc_dec_same": "Bravo! Biologic a scăzut, deși psihologic a crescut și social a rămas la fel.",
+      "inc_dec_dec": "Progres grozav! Biologic și social au scăzut, deși psihologic a crescut.",
+
+      "same_inc_inc": "Am observat unele provocări: biologic și social au crescut, în timp ce psihologic a rămas la fel.",
+      "same_inc_same": "Am observat unele provocări: biologic a crescut, în timp ce psihologic și social au rămas la fel.",
+      "same_inc_dec": "Bravo! Social a scăzut, deși biologic a crescut și psihologic a rămas la fel.",
+
+      "same_same_inc": "Am observat unele provocări: social a crescut, în timp ce psihologic și biologic au rămas la fel.",
+      "same_same_dec": "Bravo! Social a scăzut, în timp ce psihologic și biologic au rămas la fel.",
+
+      "same_dec_inc": "Bravo! Biologic a scăzut, deși social a crescut și psihologic a rămas la fel.",
+      "same_dec_same": "Bravo! Biologic a scăzut, în timp ce psihologic și social au rămas la fel.",
+      "same_dec_dec": "Progres grozav! Biologic și social au scăzut, în timp ce psihologic a rămas la fel.",
+
+      "dec_inc_inc": "Bravo! Psihologic a scăzut, deși biologic și social au crescut.",
+      "dec_inc_same": "Bravo! Psihologic a scăzut, deși biologic a crescut și social a rămas la fel.",
+      "dec_inc_dec": "Progres grozav! Psihologic și social au scăzut, deși biologic a crescut.",
+
+      "dec_same_inc": "Bravo! Psihologic a scăzut, deși social a crescut și biologic a rămas la fel.",
+      "dec_same_same": "Bravo! Psihologic a scăzut, în timp ce biologic și social au rămas la fel.",
+      "dec_same_dec": "Progres grozav! Psihologic și social au scăzut, în timp ce biologic a rămas la fel.",
+
+      "dec_dec_inc": "Progres grozav! Psihologic și biologic au scăzut, deși social a crescut.",
+      "dec_dec_same": "Progres grozav! Psihologic și biologic au scăzut, în timp ce social a rămas la fel.",
+      "dec_dec_dec": "Progres excelent! Psihologic, biologic și social au scăzut toți."
     }
   },
 

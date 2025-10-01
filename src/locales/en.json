@@ -480,7 +480,9 @@
     "sos-center": {
       "button_link": "Visit website",
       "button_call": "Contact now",
-      "no_results": "There are no results for the current selected country and language."
+      "no_results": "There are no results for the current selected country and language.",
+      "other_emergency_services": "Other emergency services",
+      "browse": "Browse"
     },
     "terms-of-use": {
       "heading": "Terms of Use",
@@ -799,6 +801,54 @@
       "view_detailed_results": "View Detailed Results",
       "started_at": "Started on {{date}}",
       "answered_questions": "Answered questions: {{current}}/27"
+    },
+    "baseline-assesment-result": {
+      "assessment_completed": "Assessment completed",
+      "loading_results": "Loading your results...",
+      "recommended_articles": "Recommended articles",
+      "recommended_videos": "Recommended videos",
+      "recommended_podcasts": "Recommended podcasts",
+      "read_more_button": "Read more",
+      "by": "by {{creator}}",
+      "min_read": "min read",
+      "psychological": "Psychological",
+      "biological": "Biological",
+      "social": "Social",
+
+      "inc_inc_inc": "We noticed some challenges: psychological, biological, and social all increased.",
+      "inc_inc_same": "We noticed some challenges: psychological and biological increased, while social stayed the same.",
+      "inc_inc_dec": "Good job! Social decreased, though psychological and biological increased.",
+
+      "inc_same_inc": "We noticed some challenges: psychological and social increased, while biological stayed the same.",
+      "inc_same_same": "We noticed some challenges: psychological increased, while biological and social stayed the same.",
+      "inc_same_dec": "Good job! Social decreased, though psychological increased and biological stayed the same.",
+
+      "inc_dec_inc": "Good job! Biological decreased, though psychological and social increased.",
+      "inc_dec_same": "Good job! Biological decreased, though psychological increased and social stayed the same.",
+      "inc_dec_dec": "Great progress! Biological and social decreased, though psychological increased.",
+
+      "same_inc_inc": "We noticed some challenges: biological and social increased, while psychological stayed the same.",
+      "same_inc_same": "We noticed some challenges: biological increased, while psychological and social stayed the same.",
+      "same_inc_dec": "Good job! Social decreased, though biological increased and psychological stayed the same.",
+
+      "same_same_inc": "We noticed some challenges: social increased, while psychological and biological stayed the same.",
+      "same_same_dec": "Good job! Social decreased, while psychological and biological stayed the same.",
+
+      "same_dec_inc": "Good job! Biological decreased, though social increased and psychological stayed the same.",
+      "same_dec_same": "Good job! Biological decreased, while psychological and social stayed the same.",
+      "same_dec_dec": "Great progress! Biological and social decreased, while psychological stayed the same.",
+
+      "dec_inc_inc": "Good job! Psychological decreased, though biological and social increased.",
+      "dec_inc_same": "Good job! Psychological decreased, though biological increased and social stayed the same.",
+      "dec_inc_dec": "Great progress! Psychological and social decreased, though biological increased.",
+
+      "dec_same_inc": "Good job! Psychological decreased, though social increased and biological stayed the same.",
+      "dec_same_same": "Good job! Psychological decreased, while biological and social stayed the same.",
+      "dec_same_dec": "Great progress! Psychological and social decreased, while biological stayed the same.",
+
+      "dec_dec_inc": "Great progress! Psychological and biological decreased, though social increased.",
+      "dec_dec_same": "Great progress! Psychological and biological decreased, while social stayed the same.",
+      "dec_dec_dec": "Excellent progress! Psychological, biological, and social all decreased."
     }
   },
 
@@ -1013,7 +1063,8 @@
     },
     "organizations-screen": {
       "heading": "Organizations",
-      "subheading": "Here you can find all the organizations that are available in your area."
+      "subheading": "Here you can find all the organizations that are available in your area.",
+      "emergency_button_label": "Emergency help"
     },
     "organization-overview-screen": {
       "heading": "Organization overview",

@@ -50,6 +50,7 @@ export function useGetAssessmentResult(queryObj, enabled = true) {
         summary: attributes.summary,
         description: attributes.description,
         recommendations: attributes.recommendations,
+        comparePrevious: attributes.comparePrevious,
         articles,
         podcasts,
         videos,

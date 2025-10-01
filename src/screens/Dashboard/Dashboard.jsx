@@ -131,6 +131,9 @@ export const Dashboard = ({ navigation }) => {
       queryClient.invalidateQueries({ queryKey: ["all-consultations"] }),
       queryClient.invalidateQueries({ queryKey: ["client-data"] }),
       queryClient.invalidateQueries({ queryKey: ["getMoodTrackForToday"] }),
+      queryClient.invalidateQueries({
+        queryKey: ["latest-baseline-assessment"],
+      }),
     ]);
     setRefreshing(false);
   };

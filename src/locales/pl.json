@@ -260,9 +260,9 @@
       "reject_consultation_success": "Konsultacja została pomyślnie odrzucona",
       "no_notifications": "Nie masz jeszcze żadnych powiadomień.",
       "yesterday": "wczoraj",
-      "question_answered": "",
-      "consultation_remind_start_24_hours_before": "",
-      "consultation_remind_start_48_hours_before": ""
+      "question_answered": "Konsultant/ka <0>{{providerName}}</0> odpowiedział/a na Twoje pytanie",
+      "consultation_remind_start_24_hours_before": "Twoja konsultacja z konsultantem/ką <0>{{providerName}}</0> rozpocznie się za 24 godziny",
+      "consultation_remind_start_48_hours_before": "Twoja konsultacja z konsultantem/ką <0>{{providerName}}</0> rozpocznie się za 48 godzin"
     },
     "passcode": {
       "change_passcode": "Zmień kod dostępu",
@@ -567,7 +567,8 @@
       "year_of_birth_placeholder": "Wprowadź swój rok urodzenia",
       "living_place_placeholder": "Wprowadź swoje miejsce zamieszkania",
       "error_fetching_data": "Wystąpił błąd podczas pobierania szczegółów profilu ",
-      "parent": "Rodzic"
+      "parent": "Rodzic",
+      "delete_mood_tracker": "Wyczyść historię monitora nastroju"
     },
     "user-profile": {
       "heading": "Twój profil",
@@ -1152,7 +1153,10 @@
       "button_label_1": "Konsultacja wideo/audio",
       "button_label_2": "Konsultacja tekstowa",
       "client_joined": "Klient/ka dołączył/a do konsultacji",
-      "error": "Wystąpił błąd. Spróbuj ponownie"
+      "error": "Wystąpił błąd. Spróbuj ponownie",
+      "permissions_error": "Nie nadano uprawnień do korzystania z kamery lub mikrofonu",
+      "permissions_error_subheading": "Aby dołączyć do konsultacji, nadaj uprawnienia do korzystania z kamery lub mikrofonu w ustawieniach urządzenia",
+      "open_settings": "Otwórz ustawienia"
     },
     "select-avatar": {
       "heading": "Zmień zdjęcie profilowe",
@@ -1265,6 +1269,13 @@
       "confirm": "Tak, usuń wszystkie moje dane czatu",
       "cancel": "Nie, zachowaj moje dane z czatu",
       "success": "Twoje dane z czatu zostały pomyślnie usunięte."
+    },
+    "delete-mood-tracker-history": {
+      "heading": "Czy na pewno chcesz usunąć wszystkie dane swojego dziennika nastroju?",
+      "subheading": "Tej operacji nie można cofnąć.",
+      "confirm": "Tak, usuń wszystkie moje dane dziennika nastroju",
+      "cancel": "Nie, zachowaj moje dane dziennika nastroju",
+      "success": "Twoje dane dziennika nastroju zostały pomyślnie usunięte."
     },
     "baseline-assesment-modal": {
       "heading": "Ocena wstępna",
