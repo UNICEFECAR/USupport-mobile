@@ -416,6 +416,12 @@ async function generateMoodTrackReport(payload) {
     filename: ensuredFilename,
   };
 }
+async function getOrganizationSpecializations() {
+  const response = await http.get(
+    `${API_ENDPOINT}/organization/specializations`
+  );
+  return response;
+}
 
 const exportedFunctions = {
   addMoodTrack,
@@ -458,6 +464,7 @@ const exportedFunctions = {
   addSOSCenterClick,
   getPersonalizedOrganizations,
   generateMoodTrackReport,
+  getOrganizationSpecializations,
 };
 
 export default exportedFunctions;

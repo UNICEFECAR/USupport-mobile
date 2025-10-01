@@ -24,6 +24,7 @@ import {
   AppButton,
   Icon,
   TransparentModal,
+  ButtonOnlyIcon,
 } from "#components";
 
 import {
@@ -52,7 +53,13 @@ const { GOOGLE_MAPS_API_KEY, AMAZON_S3_BUCKET } = Config;
  * Organizations block component that displays a list of organizations with filtering options
  * @returns {JSX.Element}
  */
-export const Organizations = ({ navigation, filters, setFilters }) => {
+export const Organizations = ({
+  navigation,
+  filters,
+  setFilters,
+  setIsFilterOpen,
+  specialisations,
+}) => {
   const { t } = useTranslation("blocks", { keyPrefix: "organizations" });
 
   const queryClient = useQueryClient();
@@ -69,6 +76,9 @@ export const Organizations = ({ navigation, filters, setFilters }) => {
     useState(false);
   const [organizationToZoom, setOrganizationToZoom] = useState(null);
 
+  const [hasAppliedSpecialisations, setHasAppliedSpecialisations] =
+    useState(false);
+
   const clientDataQuery = useGetClientData(!isTmpUser)[0];
   const clientData = clientDataQuery.data;
 
@@ -80,6 +90,19 @@ export const Organizations = ({ navigation, filters, setFilters }) => {
     paymentMethod: filters.paymentMethod,
     specialisations: filters.specialisations,
   });
+
+  useEffect(() => {
+    if (
+      specialisations.length > 0 &&
+      data &&
+      data.length > 0 &&
+      !hasAppliedSpecialisations
+    ) {
+      console.log("APPLY CHANGES");
+      setHasAppliedSpecialisations(true);
+      handleChange("specialisations", specialisations);
+    }
+  }, [specialisations, data, hasAppliedSpecialisations]);
 
   const createBaselineAssessmentMutation = useCreateBaselineAssessment();
 
@@ -254,6 +277,12 @@ export const Organizations = ({ navigation, filters, setFilters }) => {
                 onChangeText={(value) => handleChange("search", value)}
                 placeholder={t("search_placeholder")}
                 style={styles.searchInput}
+              />
+              <ButtonOnlyIcon
+                iconName="filter"
+                iconSize="md"
+                onPress={() => setIsFilterOpen(true)}
+                style={{ marginTop: 10 }}
               />
             </View>
 

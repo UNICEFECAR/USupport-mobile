@@ -23,7 +23,7 @@ export const SOSCenter = ({ navigation }) => {
         handleGoBack={() => navigation.goBack()}
       />
       <ScrollView style={{ marginTop: 112 }}>
-        <SOSCenterBlock />
+        <SOSCenterBlock navigation={navigation} />
       </ScrollView>
     </Screen>
   );

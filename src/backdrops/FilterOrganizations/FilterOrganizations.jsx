@@ -25,16 +25,13 @@ export const FilterOrganizations = ({
 
   const [data, setData] = useState({ ...filters });
   const [selectedSpecialisations, setSelectedSpecialisations] = useState(
-    filters.specialisations
-      ? filters.specialisations
-      : filters.specialisation
-        ? [filters.specialisation]
-        : []
+    filters.specialisations || []
   );
 
   useEffect(() => {
     if (isOpen) {
       setData({ ...filters });
+      setSelectedSpecialisations(filters.specialisations || []);
     }
   }, [isOpen, filters]);
 

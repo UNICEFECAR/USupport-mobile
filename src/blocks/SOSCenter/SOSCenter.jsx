@@ -6,7 +6,7 @@ import { View, StyleSheet } from "react-native";
 import { Block, Loading, EmergencyCenter, AppText } from "#components";
 
 import { useEventListener, useAddSosCenterClick } from "#hooks";
-import { localStorage, cmsSvc, adminSvc } from "#services";
+import { localStorage, cmsSvc, adminSvc, clientSvc } from "#services";
 
 /**
  * SOSCenter
@@ -15,7 +15,7 @@ import { localStorage, cmsSvc, adminSvc } from "#services";
  *
  * @return {jsx}
  */
-export const SOSCenter = () => {
+export const SOSCenter = ({ navigation }) => {
   const { i18n, t } = useTranslation("blocks", { keyPrefix: "sos-center" });
 
   //--------------------- Country Change Event Listener ----------------------//
@@ -31,6 +31,8 @@ export const SOSCenter = () => {
       .getItem("country")
       .then((country) => setCurrentCountry(country || "KZ"));
   }, []);
+
+  const IS_RO = currentCountry === "RO";
 
   // Add event listener
   useEventListener("countryChanged", handler);
@@ -74,6 +76,23 @@ export const SOSCenter = () => {
     }
   );
 
+  const getOrganizationSpecializations = async () => {
+    const { data } = await clientSvc.getOrganizationSpecializations();
+    return data;
+  };
+
+  const { data: specializationsData } = useQuery(
+    ["organizationSpecializations", currentCountry],
+    getOrganizationSpecializations,
+    {
+      staleTime: 10 * 60 * 1000, // 10 minutes
+    }
+  );
+
+  const emergencyServiceSpecialization = specializationsData?.find(
+    (specialization) => specialization.name === "emergency_situations"
+  );
+
   const addSosCenterClickMutation = useAddSosCenterClick();
 
   const handleSosCenterClick = (sosCenter) => {
@@ -99,6 +118,22 @@ export const SOSCenter = () => {
     <Block style={styles.block}>
       {SOSCentersData && (
         <View style={styles.emergencyCenterContainer}>
+          {IS_RO && (
+            <EmergencyCenter
+              onPress={() => {
+                navigation.navigate("TabNavigation", {
+                  screen: "Consultations",
+                  params: {
+                    specialisations: [emergencyServiceSpecialization.id],
+                  },
+                });
+              }}
+              title={t("other_emergency_services")}
+              text={emergencyServiceSpecialization.description}
+              showCustomButton
+              btnLabelCustom={t("browse")}
+            />
+          )}
           {SOSCentersData.map((sosCenter, index) => {
             return (
               <EmergencyCenter
