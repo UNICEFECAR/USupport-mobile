@@ -149,12 +149,10 @@ const styles = StyleSheet.create({
   },
   emergencyButton: {
     position: "absolute",
-    bottom: -16,
-    right: -50,
+    bottom: 16,
+    right: 16,
     zIndex: 998,
     elevation: 998,
-    width: 180,
-    height: 100,
   },
   spiralImage: { width: "100%", position: "absolute", bottom: 0, zIndex: -1 },
 });
