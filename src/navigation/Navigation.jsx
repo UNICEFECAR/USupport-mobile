@@ -121,6 +121,7 @@ export function Navigation({
 
   // After five minutes of inactivity, the user will be prompted to enter their PIN code or authenticate with biometrics
   const resetInactivityTimeout = useCallback(async () => {
+    // return;
     const actualToken = await localStorage.getItem("token");
 
     if (!inConsultationRef.current && actualToken) {
@@ -222,7 +223,6 @@ export function Navigation({
       const countryID = countryObject.countryID;
       const currencySymbol = countryObject.currencySymbol;
       if (localStorageCountry === x.alpha2) {
-        console.log(countryObject);
         localStorage.setItem("country_id", countryID);
         localStorage.setItem("currency_symbol", currencySymbol);
         setCurrencySymbol(currencySymbol);
@@ -272,7 +272,7 @@ export function Navigation({
 
   useQuery(["platformAccess", token], userSvc.addPlatformAccess, {
     staleTime: Infinity,
-    enabled: !!token,
+    enabled: !!token && !isTmpUser,
   });
 
   return (
