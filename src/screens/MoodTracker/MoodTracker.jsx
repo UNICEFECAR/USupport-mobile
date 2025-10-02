@@ -7,11 +7,12 @@ import {
 } from "react-native";
 import { useTranslation } from "react-i18next";
 
-import { AppText, Screen, ButtonWithIcon, Block } from "#components";
+import { AppText, Screen, ButtonWithIcon } from "#components";
 import { GiveSuggestion, MascotHeadingBlock, MoodTrackHistory } from "#blocks";
 import { Context } from "#services";
 import { MoodTrackReport } from "#backdrops";
 import { useGetTheme } from "#hooks";
+import { appStyles } from "#styles";
 
 /**
  * MoodTracker
@@ -87,4 +88,5 @@ export const MoodTracker = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   marginTop16: { marginTop: 16 },
+  colorTextBlue: { color: appStyles.colorBlue_263238 },
 });
