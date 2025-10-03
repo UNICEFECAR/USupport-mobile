@@ -231,7 +231,15 @@
       "you_felt": "Ти відчув/ла себе",
       "comment_text": "і прокоментув/ла:",
       "no_result": "Жодних результатів не знайденою",
-      "critical_text": ""
+      "critical_text": "",
+      "recommendations": "Рекомендації відповідно до вашого настрою",
+      "articles": "Статті",
+      "videos": "Відео",
+      "podcasts": "Подкасти",
+      "read_more": "Читати більше",
+      "by": "від {{creator}}",
+      "min_read": "хв читання",
+      "view_more": "Переглянути більше"
     },
     "notification-preferences": {
       "email": "Сповіщення електронною поштою",

@@ -77,6 +77,7 @@ export const MoodTracker = ({ navigation }) => {
             <MoodTrackHistory
               openReport={() => setIsReportOpen(true)}
               showReport={IS_RO}
+              navigation={navigation}
             />
           ) : null}
           <GiveSuggestion navigation={navigation} type="mood-tracker" />

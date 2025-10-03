@@ -217,7 +217,15 @@
       "you_felt": "You felt",
       "comment_text": "and you commented",
       "no_result": "Results were not found",
-      "critical_text": "Related to a life event or critical situation"
+      "critical_text": "Related to a life event or critical situation",
+      "recommendations": "Recommendations based on your mood",
+      "articles": "Articles",
+      "videos": "Videos",
+      "podcasts": "Podcasts",
+      "read_more": "Read more",
+      "by": "by {{creator}}",
+      "min_read": "min read",
+      "view_more": "View more"
     },
     "notification-preferences": {
       "email": "Email notifications",

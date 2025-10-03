@@ -227,7 +227,15 @@
       "you_felt": "V-ați simțit",
       "comment_text": "și ați comentat",
       "no_result": "Rezultatele nu au fost găsite",
-      "critical_text": "Related to a life event or critical situation"
+      "critical_text": "Related to a life event or critical situation",
+      "recommendations": "Recomandări în funcție de starea ta",
+      "articles": "Articole",
+      "videos": "Videoclipuri",
+      "podcasts": "Podcasturi",
+      "read_more": "Citește mai mult",
+      "by": "de {{creator}}",
+      "min_read": "min de citit",
+      "view_more": "Vezi mai mult"
     },
     "notification-preferences": {
       "email": "Notificări prin e-mail",
