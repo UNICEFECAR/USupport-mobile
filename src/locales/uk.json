@@ -219,7 +219,7 @@
       "add_mood_tracker_success": "Щоденний настрій додано",
       "subheading": "",
       "emergency_button_label": "",
-      "emergency_label": ""
+      "emergency_label": "Does this relate to a life event or critical situation?"
     },
     "mood-track-history": {
       "saturday": "Сб",
@@ -260,6 +260,7 @@
       "consultation_suggestion": "{{providerName}} запропонував/ла консультацію на {{date}} з {{startHour}} до {{endHour}}",
       "consultation_suggestion_booking": "Прийнято запропоновану консультацію від {{providerName}} на {{date}} з {{startHour}} до {{endHour}}",
       "consultation_suggestion_cancellation": "Відхилено запропоновану консультацію з {{providerName}} на {{date}} з {{startHour}} до {{endHour}}",
+      "consultation_started": "Твоя консультація з консультантом/кою  <0>{{providerName}} почалася </0>",
       "join": "Приєднайся",
       "accept": "Прийняти",
       "accept_consultation_success": "Консультацію прийнято",
@@ -267,10 +268,9 @@
       "reject_consultation_success": "Консультацію відхилено",
       "no_notifications": "Ще немає жодних сповіщень.",
       "yesterday": "вчора",
-      "consultation_started": "Твоя консультація з консультантом/кою  <0>{{providerName}} почалася </0>",
-      "question_answered": "Консультант/ка <0>{{providerName}}</0> відповів/ла на твоє питання",
-      "consultation_remind_start_24_hours_before": "Твоя консультація з консультантом/кою <0>{{providerName}}</0> почнеться через 24 години",
-      "consultation_remind_start_48_hours_before": "Твоя консультація з консультантом/кою <0>{{providerName}}</0> почнеться через 48 годин"
+      "question_answered": "Provider <0>{{providerName}}</0> answered your question",
+      "consultation_remind_start_24_hours_before": "Your consultation with provider <0>{{providerName}}</0> starts in 24 hours",
+      "consultation_remind_start_48_hours_before": "Your consultation with provider <0>{{providerName}}</0> starts in 48 hours"
     },
     "passcode": {
       "change_passcode": "Змінити код доступу",
@@ -525,9 +525,7 @@
       "button_call": "Зв'яжися з нами зараз",
       "no_results": "Для обраної країни й мови немає результатів.",
       "heading": "",
-      "subheading": "",
-      "other_emergency_services": "Alte servicii de urgență",
-      "browse": "Răsfoiește"
+      "subheading": ""
     },
     "terms-of-use": {
       "heading": "Умови використання",
@@ -578,7 +576,7 @@
       "living_place_placeholder": "Введи своє місце проживання",
       "error_fetching_data": "При завантаженні даних профілю виникла помилка",
       "parent": "Мати/Батько/Опікун",
-      "delete_mood_tracker": "Очистити історію монітора настрою"
+      "delete_mood_tracker": "Clear mood tracker data"
     },
     "user-profile": {
       "heading": "Твій профіль",
@@ -696,49 +694,49 @@
       "phone": "Телефон",
       "email": "Електронна пошта",
       "check_organization": "Привіт, подивіться цю організацію",
-      "free_services": "",
-      "paid_services": "",
-      "co_payment_services": "",
-      "cnas_reimbursed_services": "",
-      "emergency_situations": "",
-      "pediatric_psychiatry": "",
-      "psychological_evaluation": "",
-      "psychological_counseling": "",
-      "support_groups": "",
-      "social_assistance_and_counseling": "",
-      "personal_development": "",
-      "vocational_counseling_and_career_guidance": "",
-      "occupational_therapy_ergotherapy": "",
-      "physiotherapy_physical_recovery": "",
-      "autism_spectrum_disorder_therapies": "",
-      "disability_assessment": "",
-      "pediatric_neurology": "",
-      "special_psychopedagogy": "",
-      "neuropsychomotor_recovery": "",
-      "aggression_violence_victim_or_aggressor": "",
-      "learning_difficulties_special_educational_needs": "",
-      "behavioral_disorder": "",
-      "eating_disorder": "",
-      "suicide_self_harm": "",
-      "addiction": "",
-      "identity_issues": "",
-      "illness_oncological_treatment_chronic_diseases": "",
-      "other_situations": "",
-      "public": "",
-      "private": "",
-      "ong": "",
-      "public_private": "",
-      "specialisations_placeholder": "",
-      "payment_methods_placeholder": "",
-      "user_interactions_placeholder": "",
-      "property_types_placeholder": "",
-      "filter_heading": "",
-      "filter_button_label": "",
-      "any": "",
-      "personalize": "",
-      "personalization": "",
-      "personalization_modal_text": "",
-      "personalization_modal_cta_label": ""
+      "free_services": "Free services",
+      "paid_services": "Paid services",
+      "co_payment_services": "Co-payment services",
+      "cnas_reimbursed_services": "CNAS reimbursed services",
+      "emergency_situations": "Emergency situations",
+      "pediatric_psychiatry": "Pediatric psychiatry",
+      "psychological_evaluation": "Psychological evaluation",
+      "psychological_counseling": "Psychological counseling",
+      "support_groups": "Support groups",
+      "social_assistance_and_counseling": "Social assistance and counseling",
+      "personal_development": "Personal development",
+      "vocational_counseling_and_career_guidance": "Vocational counseling and career guidance",
+      "occupational_therapy_ergotherapy": "Occupational therapy/Ergotherapy",
+      "physiotherapy_physical_recovery": "Physiotherapy/Physical recovery",
+      "autism_spectrum_disorder_therapies": "Autism spectrum disorder therapies",
+      "disability_assessment": "Disability assessment",
+      "pediatric_neurology": "Pediatric neurology",
+      "special_psychopedagogy": "Special psychopedagogy",
+      "neuropsychomotor_recovery": "Neuropsychomotor recovery",
+      "aggression_violence_victim_or_aggressor": "Aggression/violence - victim or aggressor",
+      "learning_difficulties_special_educational_needs": "Learning difficulties/Special educational needs",
+      "behavioral_disorder": "Behavioral disorder",
+      "eating_disorder": "Eating disorder",
+      "suicide_self_harm": "Suicide/Self-harm",
+      "addiction": "Addiction",
+      "identity_issues": "Identity issues",
+      "illness_oncological_treatment_chronic_diseases": "Illness (oncological treatment, chronic diseases)",
+      "other_situations": "Other situations",
+      "public": "Public",
+      "private": "Private",
+      "ong": "NGO",
+      "public_private": "Public-private",
+      "specialisations_placeholder": "Select offered services",
+      "payment_methods_placeholder": "Select payment methods",
+      "user_interactions_placeholder": "Select interaction modes",
+      "property_types_placeholder": "Select property types",
+      "filter_heading": "Filter",
+      "filter_button_label": "Apply",
+      "any": "Any",
+      "personalize": "Personalize",
+      "personalization": "Personalization",
+      "personalization_modal_text": "To receive personalized organization recommendations tailored to your needs, please complete our quick baseline assessment first. This helps us understand your preferences and goals to provide the most relevant suggestions.",
+      "personalization_modal_cta_label": "Complete assessment"
     },
     "organization-overview": {
       "error-loading-data": "Сталася помилка під час завантаження даних про організацію",
@@ -845,53 +843,6 @@
       "view_detailed_results": "Переглянути детальні результати",
       "started_at": "Почато {{date}}",
       "answered_questions": "Відповіді на питання: {{current}}/27"
-    },
-    "baseline-assesment-result": {
-      "assessment_completed": "Оцінювання завершено",
-      "loading_results": "Завантаження результатів...",
-      "recommended_articles": "Рекомендовані статті",
-      "recommended_videos": "Рекомендовані відео",
-      "recommended_podcasts": "Рекомендовані подкасти",
-      "read_more_button": "Читати далі",
-      "by": "від {{creator}}",
-      "min_read": "хв читання",
-      "psychological": "Психологічний",
-      "biological": "Біологічний",
-      "social": "Соціальний",
-      "inc_inc_inc": "Ми помітили деякі виклики: психологічний, біологічний та соціальний зросли.",
-      "inc_inc_same": "Ми помітили деякі виклики: психологічний та біологічний зросли, тоді як соціальний залишився без змін.",
-      "inc_inc_dec": "Чудово! Соціальний зменшився, хоча психологічний та біологічний зросли.",
-
-      "inc_same_inc": "Ми помітили деякі виклики: психологічний та соціальний зросли, тоді як біологічний залишився без змін.",
-      "inc_same_same": "Ми помітили деякі виклики: психологічний зріс, тоді як біологічний та соціальний залишилися без змін.",
-      "inc_same_dec": "Чудово! Соціальний зменшився, хоча психологічний зріс, а біологічний залишився без змін.",
-
-      "inc_dec_inc": "Чудово! Біологічний зменшився, хоча психологічний та соціальний зросли.",
-      "inc_dec_same": "Чудово! Біологічний зменшився, хоча психологічний зріс, а соціальний залишився без змін.",
-      "inc_dec_dec": "Великий прогрес! Біологічний та соціальний зменшилися, хоча психологічний зріс.",
-
-      "same_inc_inc": "Ми помітили деякі виклики: біологічний та соціальний зросли, тоді як психологічний залишився без змін.",
-      "same_inc_same": "Ми помітили деякі виклики: біологічний зріс, тоді як психологічний та соціальний залишилися без змін.",
-      "same_inc_dec": "Чудово! Соціальний зменшився, хоча біологічний зріс, а психологічний залишився без змін.",
-
-      "same_same_inc": "Ми помітили деякі виклики: соціальний зріс, тоді як психологічний та біологічний залишилися без змін.",
-      "same_same_dec": "Чудово! Соціальний зменшився, тоді як психологічний та біологічний залишилися без змін.",
-
-      "same_dec_inc": "Чудово! Біологічний зменшився, хоча соціальний зріс, а психологічний залишився без змін.",
-      "same_dec_same": "Чудово! Біологічний зменшився, тоді як психологічний та соціальний залишилися без змін.",
-      "same_dec_dec": "Великий прогрес! Біологічний та соціальний зменшилися, тоді як психологічний залишився без змін.",
-
-      "dec_inc_inc": "Чудово! Психологічний зменшився, хоча біологічний та соціальний зросли.",
-      "dec_inc_same": "Чудово! Психологічний зменшився, хоча біологічний зріс, а соціальний залишився без змін.",
-      "dec_inc_dec": "Великий прогрес! Психологічний та соціальний зменшилися, хоча біологічний зріс.",
-
-      "dec_same_inc": "Чудово! Психологічний зменшився, хоча соціальний зріс, а біологічний залишився без змін.",
-      "dec_same_same": "Чудово! Психологічний зменшився, тоді як біологічний та соціальний залишилися без змін.",
-      "dec_same_dec": "Великий прогрес! Психологічний та соціальний зменшилися, тоді як біологічний залишився без змін.",
-
-      "dec_dec_inc": "Великий прогрес! Психологічний та біологічний зменшилися, хоча соціальний зріс.",
-      "dec_dec_same": "Великий прогрес! Психологічний та біологічний зменшилися, тоді як соціальний залишився без змін.",
-      "dec_dec_dec": "Відмінний прогрес! Психологічний, біологічний та соціальний усі зменшилися."
     }
   },
   "screens": {
@@ -1211,9 +1162,9 @@
       "button_label_2": "Текстова консультація",
       "client_joined": "Клієнт/ка долучився/лася до консультації",
       "error": "Виникла помилка. Cпробуй ще раз",
-      "permissions_error": "Ви не надали дозвіл на використання камери або мікрофона",
-      "permissions_error_subheading": "Щоб приєднатися до консультації, надайте дозвіл на використання камери або мікрофона в налаштуваннях вашого пристрою",
-      "open_settings": "Відкрити налаштування"
+      "permissions_error": "You have not granted permission to use the camera or microphone",
+      "permissions_error_subheading": "Please grant permission to use the camera or microphone from the settings of your device, to join the consultation",
+      "open_settings": "Open settings"
     },
     "select-avatar": {
       "heading": "Зміни фото профілю",
@@ -1339,11 +1290,11 @@
       "secondary_cta_label": "Я не хочу проходити анкету"
     },
     "delete-mood-tracker-history": {
-      "heading": "Ви впевнені, що хочете видалити всі дані трекера настрою?",
-      "subheading": "Цю дію неможливо скасувати.",
-      "confirm": "Так, видалити всі мої дані трекера настрою",
-      "cancel": "Ні, залишити мої дані трекера настрою",
-      "success": "Ваші дані трекера настрою було успішно видалено."
+      "heading": "Are you sure you want to delete all your mood tracker data?",
+      "subheading": "This action is irreversible.",
+      "confirm": "Yes, delete all my mood tracker data",
+      "cancel": "No, keep my mood tracker data",
+      "success": "Your mood tracker data has been deleted successfully."
     }
   },
   "navigation": {

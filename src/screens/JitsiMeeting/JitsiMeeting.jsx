@@ -36,7 +36,7 @@ export const JitsiMeeting = ({
   // keyboardHeight,
   t,
 }) => {
-  const { top: topInset } = useSafeAreaInsets();
+  const { top: topInset, bottom: bottomInset } = useSafeAreaInsets();
   const jitsiMeeting = useRef(null);
 
   const [isAudioEnabled, setIsAudioEnabled] = useState(joinWithMicrophone);
@@ -147,7 +147,12 @@ export const JitsiMeeting = ({
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View
+      style={{
+        flex: 1,
+        paddingBottom: Platform.OS === "android" ? bottomInset : 0,
+      }}
+    >
       {!areControlsShown ? (
         <TouchableOpacity
           onPress={handleControlsToggle}
@@ -263,12 +268,7 @@ export const JitsiMeeting = ({
           {hasUnread && <View style={styles.unread} />}
 
           <Icon
-            style={{
-              alignItems: "center",
-              justifyContent: "center",
-              width: 25,
-              height: 25,
-            }}
+            style={styles.messageIcon}
             name="comment"
             size="md"
             color={"white"}
@@ -305,5 +305,11 @@ const styles = StyleSheet.create({
     backgroundColor: appStyles.colorRed_eb5757,
     zIndex: 999,
     left: 2,
+  },
+  messageIcon: {
+    alignItems: "center",
+    height: 25,
+    justifyContent: "center",
+    width: 25,
   },
 });
