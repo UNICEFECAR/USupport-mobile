@@ -150,10 +150,11 @@ export const generatePDF = async ({ articleData, t }) => {
     `;
 
     // Generate PDF
+    const fileName = `${articleData.title.replace(/[^a-z0-9]/gi, "_").toLowerCase()}_${Date.now()}.pdf`;
     const options = {
       html: htmlContent,
-      fileName: `${articleData.title.replace(/[^a-z0-9]/gi, "_").toLowerCase()}.pdf`,
-      directory: Platform.OS === "ios" ? "Documents" : "Download",
+      fileName: fileName,
+      directory: Platform.OS === "ios" ? "Documents" : "Cache",
       base64: false,
     };
 

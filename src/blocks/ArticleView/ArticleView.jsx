@@ -138,15 +138,20 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
   };
 
   const handleShare = async () => {
-    const url = await constructShareUrl({
-      contentType: "article",
-      id: articleData.id,
-      name: articleData.title,
-    });
-    Share.open({
-      title: articleData.title,
-      message: `${t("check_article")}\n\n${url}`,
-    });
+    try {
+      const url = await constructShareUrl({
+        contentType: "article",
+        id: articleData.id,
+        name: articleData.title,
+      });
+      await Share.open({
+        title: articleData.title,
+        message: `${t("check_article")}\n\n${url}`,
+      });
+    } catch (error) {
+      console.log("Share error:", error);
+      // User cancelled or error occurred
+    }
   };
   const [isPdfLoading, setIsPdfLoading] = useState(false);
   const handleExportPDF = async () => {
@@ -156,17 +161,28 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
         articleData,
         t,
       });
-      if (file.filePath) {
-        Share.open({
+
+      console.log("PDF file object:", file);
+
+      if (file && file.filePath) {
+        const shareOptions = {
           title: articleData.title,
-          message: "Here's the PDF version of the article",
-          url: `file://${file.filePath}`,
-          saveToFiles: true,
+          subject: articleData.title,
+          url: file.filePath,
           type: "application/pdf",
-        });
+          failOnCancel: false,
+        };
+
+        await Share.open(shareOptions);
+      } else {
+        console.error("PDF file path is missing");
       }
     } catch (error) {
       console.error("Error exporting PDF:", error);
+      if (error.message && !error.message.includes("User did not share")) {
+        // Show error to user only if it's not a cancellation
+        console.error("Failed to share PDF:", error);
+      }
     } finally {
       setIsPdfLoading(false);
     }
@@ -217,7 +233,7 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
               disabled={isPdfLoading}
             >
               {isPdfLoading ? (
-                <Loading style={{ width: 16, height: 16 }} />
+                <Loading style={styles.loading} />
               ) : (
                 <Icon name="download" size="sm" color={colors.text} />
               )}
@@ -285,47 +301,47 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
 };
 
 const styles = StyleSheet.create({
-  block: { paddingBottom: 40, paddingTop: 16 },
-  imageContainer: { width: "100%", height: 264, position: "relative" },
-  image: { flex: 1 },
-
-  labelsContainer: {
-    display: "flex",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    width: "70%",
-  },
-  label: { marginRight: 8, marginBottom: 8, paddingVertical: 0 },
-  creatorContainer: {
-    flexDirection: "row",
-    marginVertical: 8,
-    alignItems: "center",
-  },
-  iconTime: { marginLeft: 16, marginRight: 5 },
-  categoryContainer: {
-    alignSelf: "flex-start",
-    marginTop: 12,
-    backgroundColor: appStyles.colorBlue_20809E_0_3,
-    paddingHorizontal: 12,
-    paddingVertical: 2,
-    borderRadius: 25,
-    justifyContent: "center",
-  },
-  categoryText: {
-    fontFamily: appStyles.fontBold,
-    color: appStyles.colorBlue_3d527b,
+  actionButton: {
+    borderColor: appStyles.colorBlue_3d527b,
+    borderRadius: 10,
+    borderWidth: 1,
+    marginLeft: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
   },
   actionButtons: {
     flexDirection: "row",
     marginLeft: "auto",
     marginRight: 16,
   },
-  actionButton: {
-    marginLeft: 16,
-    borderWidth: 1,
-    borderColor: appStyles.colorBlue_3d527b,
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
+  block: { paddingBottom: 40, paddingTop: 16 },
+  categoryContainer: {
+    alignSelf: "flex-start",
+    backgroundColor: appStyles.colorBlue_20809E_0_3,
+    borderRadius: 25,
+    justifyContent: "center",
+    marginTop: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 2,
   },
+  categoryText: {
+    color: appStyles.colorBlue_3d527b,
+    fontFamily: appStyles.fontBold,
+  },
+  creatorContainer: {
+    alignItems: "center",
+    flexDirection: "row",
+    marginVertical: 8,
+  },
+  iconTime: { marginLeft: 16, marginRight: 5 },
+  image: { flex: 1 },
+  imageContainer: { height: 264, position: "relative", width: "100%" },
+  label: { marginBottom: 8, marginRight: 8, paddingVertical: 0 },
+  labelsContainer: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    width: "70%",
+  },
+  loading: { height: 16, width: 16 },
 });
