@@ -25,6 +25,7 @@ export default function useUpdateClientData(
     delete dataCopy.image;
     delete dataCopy.clientID;
     delete dataCopy.pushNotificationTokens;
+    delete dataCopy.hasCheckedBaselineAssessment;
 
     dataCopy.email = dataCopy.email?.toLowerCase().trim() || undefined;
     dataCopy.sex = dataCopy.sex || undefined;
