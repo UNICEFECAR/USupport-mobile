@@ -7,9 +7,12 @@ import {
   destructureVideoData,
 } from "#utils";
 
-export const useGetMoodTrackerRecommendations = (moodType) => {
+export const useGetMoodTrackerRecommendations = (moodType, language) => {
   const getMoodTrackerRecommendations = async () => {
-    const { data } = await cmsSvc.getMoodTrackerRecommendations(moodType);
+    const { data } = await cmsSvc.getMoodTrackerRecommendations(
+      moodType,
+      language
+    );
     const innerData = data.data;
     if (innerData.length) {
       const attributes = innerData[0].attributes;
@@ -39,7 +42,7 @@ export const useGetMoodTrackerRecommendations = (moodType) => {
   };
 
   return useQuery({
-    queryKey: ["getMoodTrackerRecommendations", moodType],
+    queryKey: ["getMoodTrackerRecommendations", moodType, language],
     queryFn: async () => await getMoodTrackerRecommendations(),
     enabled: !!moodType,
   });

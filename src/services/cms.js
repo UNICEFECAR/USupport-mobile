@@ -429,15 +429,15 @@ async function getRecommendedArticlesForCategory(payload) {
  * @returns {object} assessment result data
  */
 async function getAssessmentResult(queryObj) {
-  const queryString = `?populate[articles][populate]=*&populate[podcasts][populate]=*&populate[videos][populate]=*&filters[psychological][$eq]=${queryObj.psychological}&filters[social][$eq]=${queryObj.social}&filters[biological][$eq]=${queryObj.biological}`;
+  const queryString = `?populate[articles][populate]=*&populate[podcasts][populate]=*&populate[videos][populate]=*&filters[psychological][$eq]=${queryObj.psychological}&filters[social][$eq]=${queryObj.social}&filters[biological][$eq]=${queryObj.biological}&[locale][$eq]=${queryObj.locale}`;
 
   const { data } = await http.get(`${assessmentResultEndpoint}${queryString}`);
 
   return { data };
 }
 
-async function getMoodTrackerRecommendations(moodType) {
-  const queryString = `?populate[articles][populate]=*&populate[podcasts][populate]=*&populate[videos][populate]=*&filters[mood][$eq]=${moodType}`;
+async function getMoodTrackerRecommendations(moodType, locale) {
+  const queryString = `?populate[articles][populate]=*&populate[podcasts][populate]=*&populate[videos][populate]=*&filters[mood][$eq]=${moodType}&[locale][$eq]=${locale}`;
 
   const { data } = await http.get(`${moodTrackerEndpoint}${queryString}`);
 
