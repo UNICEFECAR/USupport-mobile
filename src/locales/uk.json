@@ -219,7 +219,10 @@
       "add_mood_tracker_success": "Щоденний настрій додано",
       "subheading": "",
       "emergency_button_label": "",
-      "emergency_label": "Does this relate to a life event or critical situation?"
+      "emergency_label": "Does this relate to a life event or critical situation?",
+      "recommendations": "Рекомендації",
+      "recommendations_text": "Хочете переглянути графік настрою та побачити рекомендований контент?",
+      "check_out": "Переглянути"
     },
     "mood-track-history": {
       "saturday": "Сб",
@@ -239,7 +242,8 @@
       "read_more": "Читати більше",
       "by": "від {{creator}}",
       "min_read": "хв читання",
-      "view_more": "Переглянути більше"
+      "view_more": "Переглянути більше",
+      "no_recommendations": "Не знайдено рекомендацій"
     },
     "notification-preferences": {
       "email": "Сповіщення електронною поштою",
