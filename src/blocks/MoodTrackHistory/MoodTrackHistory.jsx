@@ -1,12 +1,12 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useContext } from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { useTranslation } from "react-i18next";
 
 import {
+  AppText,
   Block,
   Emoticon,
   Icon,
-  AppText,
   Loading,
   MoodTrackLineChart,
   MoodTrackDetails,
@@ -17,6 +17,7 @@ import {
   useSwipe,
   useGetMoodTrackerRecommendations,
 } from "#hooks";
+import { Context } from "#services";
 
 /**
  * MoodTrackerHistory
@@ -26,7 +27,12 @@ import {
  * @return {JSX.Element}
  */
 export const MoodTrackHistory = ({ navigation }) => {
-  const { t } = useTranslation("blocks", { keyPrefix: "mood-track-history" });
+  const { t, i18n } = useTranslation("blocks", {
+    keyPrefix: "mood-track-history",
+  });
+  const language = i18n.language;
+  const { country } = useContext(Context);
+  const IS_RO = country === "RO";
 
   const [pageNum, setPageNum] = useState(0);
   const limit = `pageNum_${pageNum}_limitToLoad_5`;
@@ -62,15 +68,17 @@ export const MoodTrackHistory = ({ navigation }) => {
     loadedPagesCopy.push(pageNum);
     setLoadedPages(loadedPagesCopy);
 
-    if (curEntries.length > 0 && !lastMood) {
+    if (curEntries.length > 0 && !lastMood && IS_RO) {
       setLastMood(curEntries[curEntries.length - 1]?.mood);
     }
 
     setMoodTrackerData(dataCopy);
   };
 
-  const { data: moodTrackerRecommendations } =
-    useGetMoodTrackerRecommendations(lastMood);
+  const {
+    data: moodTrackerRecommendations,
+    isLoading: moodTrackerRecommendationsIsLoading,
+  } = useGetMoodTrackerRecommendations(lastMood, language);
 
   const enabled = useMemo(() => {
     return !loadedPages.includes(pageNum);
@@ -210,113 +218,126 @@ export const MoodTrackHistory = ({ navigation }) => {
           ) : null}
         </>
       )}
+      {IS_RO && (
+        <React.Fragment>
+          {moodTrackerRecommendations?.hasRecommendations && (
+            <View style={{ paddingTop: 18 }}>
+              <AppText namedStyle="h3">{t("recommendations")}</AppText>
+            </View>
+          )}
 
-      {moodTrackerRecommendations?.hasRecommendations && (
-        <View style={{ paddingTop: 18 }}>
-          <AppText namedStyle="h3">{t("recommendations")}</AppText>
-        </View>
-      )}
+          {moodTrackerRecommendationsIsLoading ? (
+            <View style={[styles.loadingContainer, { height: 100 }]}>
+              <Loading />
+            </View>
+          ) : !moodTrackerRecommendations?.hasRecommendations ? (
+            <View style={{ paddingTop: 16 }}>
+              <AppText namedStyle="h4">{t("no_recommendations")}</AppText>
+            </View>
+          ) : null}
 
-      {moodTrackerRecommendations?.articles?.length > 0 && (
-        <View style={{ paddingTop: 16 }}>
-          <AppText namedStyle="h4">{t("articles")}</AppText>
-          <View style={{ paddingTop: 10 }}>
-            {moodTrackerRecommendations.articles.map((article) => (
-              <CardMedia
-                style={{ marginTop: 12 }}
-                key={"article-" + article.id}
-                type="portrait"
-                size="md"
-                title={article.title}
-                image={article.imageMedium || article.imageSmall}
-                description={article.description}
-                labels={article.labels}
-                creator={article.creator}
-                readingTime={article.readingTime}
-                categoryName={article.categoryName}
-                contentType="articles"
-                // isLikedByUser={isLikedByUser}
-                // isDislikedByUser={isDislikedByUser}
-                likes={article.likes}
-                dislikes={article.dislikes}
-                // isRead={readArticleIds.includes(article.id)}
-                t={t}
-                onPress={() => {
-                  navigation.push("ArticleInformation", {
-                    articleId: article.id,
-                  });
-                }}
-              />
-            ))}
-          </View>
-        </View>
-      )}
-      {moodTrackerRecommendations?.podcasts?.length > 0 && (
-        <View style={{ paddingTop: 16 }}>
-          <AppText namedStyle="h4">{t("podcasts")}</AppText>
-          <View style={{ paddingTop: 10 }}>
-            {moodTrackerRecommendations.podcasts.map((podcast) => (
-              <CardMedia
-                style={{ marginTop: 12 }}
-                key={"podcast-" + podcast.id}
-                type="portrait"
-                size="md"
-                title={podcast.title}
-                image={podcast.imageMedium || podcast.imageSmall}
-                description={podcast.description}
-                labels={podcast.labels}
-                creator={podcast.creator}
-                readingTime={podcast.readingTime}
-                categoryName={podcast.categoryName}
-                contentType="podcasts"
-                // isLikedByUser={isLikedByUser}
-                // isDislikedByUser={isDislikedByUser}
-                likes={podcast.likes}
-                dislikes={podcast.dislikes}
-                // isRead={readArticleIds.includes(article.id)}
-                t={t}
-                onPress={() => {
-                  navigation.push("PodcastInformation", {
-                    podcastId: podcast.id,
-                  });
-                }}
-              />
-            ))}
-          </View>
-        </View>
-      )}
-      {moodTrackerRecommendations?.videos?.length > 0 && (
-        <View style={{ paddingTop: 16 }}>
-          <AppText namedStyle="h4">{t("videos")}</AppText>
-          <View style={{ paddingTop: 10 }}>
-            {moodTrackerRecommendations.videos.map((video) => (
-              <CardMedia
-                style={{ marginTop: 12 }}
-                key={"video-" + video.id}
-                type="portrait"
-                size="md"
-                title={video.title}
-                image={video.imageMedium || video.imageSmall}
-                description={video.description}
-                labels={video.labels}
-                creator={video.creator}
-                readingTime={video.readingTime}
-                categoryName={video.categoryName}
-                contentType="videos"
-                // isLikedByUser={isLikedByUser}
-                // isDislikedByUser={isDislikedByUser}
-                likes={video.likes}
-                dislikes={video.dislikes}
-                t={t}
-                onPress={() => {
-                  navigation.push("VideoInformation", {
-                    videoId: video.id,
-                  });
-                }}
-              />
-            ))}
-          </View>
-        </View>
+          {moodTrackerRecommendations?.articles?.length > 0 && (
+            <View style={{ paddingTop: 16 }}>
+              <AppText namedStyle="h4">{t("articles")}</AppText>
+              <View style={{ paddingTop: 10 }}>
+                {moodTrackerRecommendations.articles.map((article) => (
+                  <CardMedia
+                    style={{ marginTop: 12 }}
+                    key={"article-" + article.id}
+                    type="portrait"
+                    size="md"
+                    title={article.title}
+                    image={article.imageMedium || article.imageSmall}
+                    description={article.description}
+                    labels={article.labels}
+                    creator={article.creator}
+                    readingTime={article.readingTime}
+                    categoryName={article.categoryName}
+                    contentType="articles"
+                    // isLikedByUser={isLikedByUser}
+                    // isDislikedByUser={isDislikedByUser}
+                    likes={article.likes}
+                    dislikes={article.dislikes}
+                    // isRead={readArticleIds.includes(article.id)}
+                    t={t}
+                    onPress={() => {
+                      navigation.push("ArticleInformation", {
+                        articleId: article.id,
+                      });
+                    }}
+                  />
+                ))}
+              </View>
+            </View>
+          )}
+          {moodTrackerRecommendations?.podcasts?.length > 0 && (
+            <View style={{ paddingTop: 16 }}>
+              <AppText namedStyle="h4">{t("podcasts")}</AppText>
+              <View style={{ paddingTop: 10 }}>
+                {moodTrackerRecommendations.podcasts.map((podcast) => (
+                  <CardMedia
+                    style={{ marginTop: 12 }}
+                    key={"podcast-" + podcast.id}
+                    type="portrait"
+                    size="md"
+                    title={podcast.title}
+                    image={podcast.imageMedium || podcast.imageSmall}
+                    description={podcast.description}
+                    labels={podcast.labels}
+                    creator={podcast.creator}
+                    readingTime={podcast.readingTime}
+                    categoryName={podcast.categoryName}
+                    contentType="podcasts"
+                    // isLikedByUser={isLikedByUser}
+                    // isDislikedByUser={isDislikedByUser}
+                    likes={podcast.likes}
+                    dislikes={podcast.dislikes}
+                    // isRead={readArticleIds.includes(article.id)}
+                    t={t}
+                    onPress={() => {
+                      navigation.push("PodcastInformation", {
+                        podcastId: podcast.id,
+                      });
+                    }}
+                  />
+                ))}
+              </View>
+            </View>
+          )}
+          {moodTrackerRecommendations?.videos?.length > 0 && (
+            <View style={{ paddingTop: 16 }}>
+              <AppText namedStyle="h4">{t("videos")}</AppText>
+              <View style={{ paddingTop: 10 }}>
+                {moodTrackerRecommendations.videos.map((video) => (
+                  <CardMedia
+                    style={{ marginTop: 12 }}
+                    key={"video-" + video.id}
+                    type="portrait"
+                    size="md"
+                    title={video.title}
+                    image={video.imageMedium || video.imageSmall}
+                    description={video.description}
+                    labels={video.labels}
+                    creator={video.creator}
+                    readingTime={video.readingTime}
+                    categoryName={video.categoryName}
+                    contentType="videos"
+                    // isLikedByUser={isLikedByUser}
+                    // isDislikedByUser={isDislikedByUser}
+                    likes={video.likes}
+                    dislikes={video.dislikes}
+                    t={t}
+                    onPress={() => {
+                      navigation.push("VideoInformation", {
+                        videoId: video.id,
+                      });
+                    }}
+                  />
+                ))}
+              </View>
+            </View>
+          )}
+        </React.Fragment>
       )}
     </Block>
   );

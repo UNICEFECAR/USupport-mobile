@@ -4,12 +4,13 @@ import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { useTranslation } from "react-i18next";
 
 import {
+  AppText,
+  AppButton,
   Block,
   Emoticon,
   Toggle,
-  AppText,
   Textarea,
-  AppButton,
+  TransparentModal,
 } from "#components";
 import { useAddMoodTrack, useGetTheme } from "#hooks";
 import { showToast } from "#utils";
@@ -29,9 +30,13 @@ export const MoodTracker = ({
   openRequireDataAgreement,
 }) => {
   const { colors } = useGetTheme();
+
   const { t, i18n } = useTranslation("blocks", { keyPrefix: "mood-tracker" });
-  const { isTmpUser, handleRegistrationModalOpen } = useContext(Context);
+  const { country, isTmpUser, handleRegistrationModalOpen } =
+    useContext(Context);
   const queryClient = useQueryClient();
+
+  const IS_RO = country === "RO";
 
   const emoticonsInitialState = [
     { value: "happy", label: t("happy"), isSelected: false },
@@ -45,8 +50,9 @@ export const MoodTracker = ({
   const [comment, setComment] = useState("");
   const [emoticons, setEmoticons] = useState([...emoticonsInitialState]);
   const [isEmergency, setIsEmergency] = useState(false);
-
   const [showEmergency, setShowEmergency] = useState(false);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+
   useEffect(() => {
     localStorage.getItem("country").then((country) => {
       setShowEmergency(country === "RO");
@@ -66,12 +72,18 @@ export const MoodTracker = ({
   }, [emoticons]);
 
   const onSuccess = () => {
+    setComment("");
+    setEmoticons(emoticonsInitialState);
     setIsMoodTrackCompleted(true);
     queryClient.refetchQueries({
       queryKey: ["getMoodTrackEntries", 5, 0],
       refetchType: "all",
     });
     showToast({ message: t("add_mood_tracker_success") });
+
+    if (IS_RO) {
+      setIsSuccessModalOpen(true);
+    }
   };
   const onError = (error) => {
     showToast({ message: error, type: "error" });
@@ -163,43 +175,62 @@ export const MoodTracker = ({
   };
 
   return (
-    <Block
-      style={styles.block}
-      heading={t("heading")}
-      btnLabel={t("mood_tracker")}
-      btnOnPress={handleMoodtrackClick}
-    >
-      <View style={styles.rating}>{renderEmoticons()}</View>
-      {hasSelectedMoodtracker() && (
-        <View style={styles.additionalCommentContainer}>
-          <Textarea
-            value={comment}
-            onChange={(value) => setComment(value)}
-            placeholder={t("additional_comment_placeholder")}
-            size="md"
-            disabled={isMoodTrackCompleted}
-          />
-          {showEmergency && (
-            <Toggle
-              label={t("emergency_label")}
-              isToggled={isEmergency}
-              handleToggle={(checked) => setIsEmergency(checked)}
-            />
-          )}
-          {!isMoodTrackCompleted && (
-            <View>
-              <AppButton
-                label={t("submit_mood_track")}
-                size="lg"
-                onPress={handleSubmit}
-                loading={addMoodTrackMutation.isLoading}
-                style={styles.submitButton}
-              />
-            </View>
-          )}
+    <React.Fragment>
+      <TransparentModal
+        isOpen={isSuccessModalOpen}
+        handleClose={() => setIsSuccessModalOpen(false)}
+        heading={t("recommendations")}
+        text={t("recommendations_text")}
+        ctaLabel={t("check_out")}
+        ctaHandleClick={() => {
+          setIsSuccessModalOpen(false);
+          navigation.navigate("MoodTrackHistory");
+        }}
+      />
+      <Block style={styles.block}>
+        <View style={styles.heading}>
+          <AppText style={{ marginRight: 12 }} namedStyle="h3">
+            {t("heading")}
+          </AppText>
+          <TouchableOpacity onPress={handleMoodtrackClick}>
+            <AppText style={styles.moodTrackerButton}>
+              {t("mood_tracker")}
+            </AppText>
+          </TouchableOpacity>
         </View>
-      )}
-    </Block>
+        <View style={styles.rating}>{renderEmoticons()}</View>
+        {hasSelectedMoodtracker() && (
+          <View style={styles.additionalCommentContainer}>
+            <Textarea
+              value={comment}
+              onChange={(value) => setComment(value)}
+              placeholder={t("additional_comment_placeholder")}
+              size="md"
+              disabled={isMoodTrackCompleted}
+            />
+            {showEmergency && (
+              <Toggle
+                wrapperStyles={{ paddingTop: 12 }}
+                label={t("emergency_label")}
+                isToggled={isEmergency}
+                handleToggle={(checked) => setIsEmergency(checked)}
+              />
+            )}
+            {!isMoodTrackCompleted && (
+              <View>
+                <AppButton
+                  label={t("submit_mood_track")}
+                  size="lg"
+                  onPress={handleSubmit}
+                  loading={addMoodTrackMutation.isLoading}
+                  style={styles.submitButton}
+                />
+              </View>
+            )}
+          </View>
+        )}
+      </Block>
+    </React.Fragment>
   );
 };
 
