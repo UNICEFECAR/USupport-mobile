@@ -305,14 +305,12 @@ export const ArticlesDashboard = ({
 
   return (
     <>
-      <Block style={styles.headingBlock}>
-        <View style={styles.headingContainer}>
-          <AppText namedStyle="h3">{t("heading")}</AppText>
-          <TouchableOpacity onPress={() => handleRedirect("read_count")}>
-            <AppText style={styles.viewAllText}>{t("view_all")}</AppText>
-          </TouchableOpacity>
-        </View>
-      </Block>
+      <Block
+        style={styles.headingBlock}
+        heading={t("heading")}
+        btnLabel={t("view_all")}
+        btnOnPress={() => handleRedirect("read_count")}
+      />
       {ageGroupsQuery?.isLoading && (
         <View style={styles.container}>
           <Loading />
@@ -411,15 +409,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   headingBlock: { paddingTop: 40 },
-  headingContainer: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
   tabs: { marginTop: 24, zIndex: 2 },
   tabsUnderlined: { marginTop: 12 },
-  viewAllText: {
-    color: appStyles.colorSecondary_9749fa,
-    fontFamily: appStyles.fontSemiBold,
-  },
 });

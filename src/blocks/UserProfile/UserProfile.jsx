@@ -146,6 +146,16 @@ export const UserProfile = ({ navigation }) => {
     }
   };
 
+  const handleHighContrast = async () => {
+    if (theme === "highContrast") {
+      setTheme("light");
+      await localStorage.setItem("theme", "light");
+    } else {
+      setTheme("highContrast");
+      await localStorage.setItem("theme", "highContrast");
+    }
+  };
+
   return (
     <React.Fragment>
       <Heading
@@ -199,6 +209,12 @@ export const UserProfile = ({ navigation }) => {
               }
               iconName={isDarkMode ? "sun" : "moon"}
               onPress={handleThemeChange}
+              style={styles.buttonSelector}
+            />
+            <ButtonSelector
+              iconName="accessibility"
+              label={t("high_contrast_mode")}
+              onPress={handleHighContrast}
               style={styles.buttonSelector}
             />
           </View>

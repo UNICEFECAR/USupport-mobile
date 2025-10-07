@@ -7,7 +7,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { appStyles } from "#styles";
 import { Block, Heading, AppText, Loading } from "#components";
-import { useEventListener } from "#hooks";
+import { useEventListener, useGetTheme } from "#hooks";
 import { localStorage, cmsSvc } from "#services";
 
 /**
@@ -24,6 +24,7 @@ export const PrivacyPolicy = ({
 }) => {
   const { i18n, t } = useTranslation("blocks", { keyPrefix: "privacy-policy" });
   const { top: topInset } = useSafeAreaInsets();
+  const { isHighContrast } = useGetTheme();
 
   //--------------------- Country Change Event Listener ----------------------//
   const [currentCountry, setCurrentCountry] = useState();
@@ -76,7 +77,16 @@ export const PrivacyPolicy = ({
           style={[{ marginTop: 48 }, isModal && { marginTop: topInset + 60 }]}
         >
           <View style={styles.privacyContainer}>
-            {policiesData && <Markdown style={styles}>{policiesData}</Markdown>}
+            {policiesData && (
+              <Markdown
+                style={{
+                  ...styles,
+                  ...(isHighContrast ? stylesHighContrast : {}),
+                }}
+              >
+                {policiesData}
+              </Markdown>
+            )}
             {!policiesData && policiesLoading && (
               <View style={styles.loadingContainer}>
                 <Loading />
@@ -137,5 +147,17 @@ const styles = StyleSheet.create({
     borderLeftWidth: 1,
     borderRightWidth: 1,
     borderColor: appStyles.colorPrimary_20809e,
+  },
+});
+
+const stylesHighContrast = StyleSheet.create({
+  heading2: {
+    color: "#ffff00",
+  },
+  paragraph: {
+    color: "#ffff00",
+  },
+  list_item: {
+    color: "#ffff00",
   },
 });

@@ -67,11 +67,19 @@ export function Navigation({
     },
     dark: true,
   };
+  const highContrastTheme = {
+    colors: {
+      ...appColors.highContrast,
+    },
+    dark: true,
+    highContrast: true,
+  };
   const defaultTheme = {
     colors: {
       ...appColors.light,
     },
     dark: false,
+    highContrast: false,
   };
 
   const {
@@ -172,8 +180,16 @@ export function Navigation({
       if (!localStorageTheme) {
         const newTheme = theme === "dark" ? "dark" : "light";
         localStorage.setItem("theme", newTheme);
+        setTheme(newTheme);
+        return;
       }
-      setTheme(localStorageTheme === "dark" ? "dark" : "light");
+      if (localStorageTheme === "dark") {
+        setTheme("dark");
+      } else if (localStorageTheme === "highContrast") {
+        setTheme("highContrast");
+      } else {
+        setTheme("light");
+      }
     });
   }, [theme]);
 
@@ -277,7 +293,13 @@ export function Navigation({
 
   return (
     <NavigationContainer
-      theme={contextTheme === "dark" ? darkTheme : defaultTheme}
+      theme={
+        contextTheme === "highContrast"
+          ? highContrastTheme
+          : contextTheme === "dark"
+            ? darkTheme
+            : defaultTheme
+      }
     >
       <View style={{ flex: 1 }} {...panResponder.panHandlers}>
         {userPin && !hasAuthenticatedWithPin && token ? (

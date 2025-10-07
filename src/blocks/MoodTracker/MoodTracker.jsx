@@ -163,17 +163,12 @@ export const MoodTracker = ({
   };
 
   return (
-    <Block style={styles.block}>
-      <View style={styles.heading}>
-        <AppText style={{ marginRight: 12 }} namedStyle="h3">
-          {t("heading")}
-        </AppText>
-        <TouchableOpacity onPress={handleMoodtrackClick}>
-          <AppText style={styles.moodTrackerButton}>
-            {t("mood_tracker")}
-          </AppText>
-        </TouchableOpacity>
-      </View>
+    <Block
+      style={styles.block}
+      heading={t("heading")}
+      btnLabel={t("mood_tracker")}
+      btnOnPress={handleMoodtrackClick}
+    >
       <View style={styles.rating}>{renderEmoticons()}</View>
       {hasSelectedMoodtracker() && (
         <View style={styles.additionalCommentContainer}>

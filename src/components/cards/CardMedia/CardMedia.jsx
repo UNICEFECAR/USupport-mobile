@@ -43,7 +43,12 @@ export const CardMedia = ({
   style,
   isRead = false,
 }) => {
-  const { colors } = useGetTheme();
+  const { colors, isHighContrast } = useGetTheme();
+
+  const grayTextColor = isHighContrast
+    ? colors.textSecondary
+    : appStyles.colorGray_66768d;
+  const linkTextColor = isHighContrast ? colors.text : "#6989a4";
 
   const showPlayButton =
     (contentType === "videos" || contentType === "podcasts") && handlePlay;
@@ -93,8 +98,16 @@ export const CardMedia = ({
         )}
       </View>
 
-      <View style={styles.categoryContainer}>
-        <AppText namedStyle="smallText" style={styles.categoryText}>
+      <View
+        style={[
+          styles.categoryContainer,
+          isHighContrast && styles.categoryContainerHC,
+        ]}
+      >
+        <AppText
+          namedStyle="smallText"
+          style={[styles.categoryText, { color: grayTextColor }]}
+        >
           {categoryName}
         </AppText>
       </View>
@@ -125,7 +138,10 @@ export const CardMedia = ({
         {creator && (
           <View style={styles.creatorAndLikeContainer}>
             <View style={styles.creatorContainer}>
-              <AppText namedStyle="smallText" style={styles.creatorText}>
+              <AppText
+                namedStyle="smallText"
+                style={[styles.creatorText, { color: grayTextColor }]}
+              >
                 {t("by", { creator })}
               </AppText>
               {readingTime && (
@@ -133,12 +149,12 @@ export const CardMedia = ({
                   <Icon
                     size="sm"
                     name="time"
-                    color="#66768d"
+                    color={grayTextColor}
                     style={styles.icon}
                   />
                   <AppText
                     namedStyle="smallText"
-                    style={styles.readingTimeText}
+                    style={[styles.readingTimeText, { color: grayTextColor }]}
                   >
                     {readingTime} {t("min_read")}
                   </AppText>
@@ -160,7 +176,7 @@ export const CardMedia = ({
             namedStyle="smallText"
             id="description"
             numberOfLines={2}
-            style={styles.descriptionText}
+            style={[styles.descriptionText, { color: grayTextColor }]}
           >
             {description}
           </AppText>
@@ -170,7 +186,7 @@ export const CardMedia = ({
           label={t(contentType === "articles" ? "read_more" : "view_more")}
           size="sm"
           style={styles.readMoreButton}
-          textStyle={styles.readMoreButtonText}
+          textStyle={[styles.readMoreButtonText, { color: linkTextColor }]}
           onPress={onPress}
         />
       </View>
@@ -220,17 +236,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "rgba(255, 255, 255, 0.8)",
   },
-  mediaTypeIndicator: {
-    position: "absolute",
-    top: 12,
-    right: 12,
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: "rgba(0, 0, 0, 0.7)",
-    justifyContent: "center",
-    alignItems: "center",
-  },
   headingContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -249,6 +254,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     zIndex: 2,
   },
+  categoryContainerHC: {
+    backgroundColor: appStyles.colorBlack_1e,
+  },
   textContainer: {
     padding: 16,
   },
@@ -261,32 +269,10 @@ const styles = StyleSheet.create({
     marginTop: 8,
     flex: 1,
   },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginTop: 16,
-  },
   readMoreButton: {
     paddingLeft: 0,
     alignItems: "flex-start",
     flex: 1,
-  },
-  playTextButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 16,
-    backgroundColor: "rgba(105, 137, 164, 0.1)",
-  },
-  playTextIcon: {
-    marginRight: 6,
-  },
-  playTextButtonText: {
-    color: "#6989a4",
-    fontSize: 12,
-    fontWeight: appStyles.fontSemiBold,
   },
   icon: {
     marginRight: 5,

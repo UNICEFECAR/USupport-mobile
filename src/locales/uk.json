@@ -600,6 +600,7 @@
       "language_button_label": "Змінити мову",
       "dark_mode_button_label": "Темний режим",
       "light_mode_button_label": "Світлий режим",
+      "high_contrast_mode": "Режим високого контраста",
       "user_guide": "Використання платформи"
     },
     "welcome": {

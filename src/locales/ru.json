@@ -566,6 +566,7 @@
       "language_button_label": "Изменить язык",
       "dark_mode_button_label": "Темный режим",
       "light_mode_button_label": "Светлый режим",
+      "high_contrast_mode": "Режим высокого контраста",
       "user_guide": "Руководство по платформе"
     },
     "welcome": {
