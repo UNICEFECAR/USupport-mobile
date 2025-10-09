@@ -154,7 +154,7 @@ export const generatePDF = async ({ articleData, t }) => {
     const options = {
       html: htmlContent,
       fileName: fileName,
-      directory: Platform.OS === "ios" ? "Documents" : "Cache",
+      directory: Platform.OS === "ios" ? "Documents" : "Download",
       base64: false,
     };
 
