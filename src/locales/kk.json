@@ -206,7 +206,10 @@
       "additional_comment_placeholder": "Сізді осылай сезінуге не себеп болды?",
       "submit_mood_track": "Жіберу",
       "add_mood_tracker_success": "Сіздің көңіл-күйіңіз сәтті қосылды",
-      "emergency_label": "Бұл өмірлік оқиғаға немесе маңызды жағдайға қатысты ма?"
+      "emergency_label": "Бұл өмірлік оқиғаға немесе маңызды жағдайға қатысты ма?",
+      "recommendations": "Ұсыныстар",
+      "recommendations_text": "Көңіл-күй графигіңізді қарап, ұсынылған мазмұнды көргіңіз келе ме?",
+      "check_out": "Қарап шығу"
     },
     "mood-track-history": {
       "saturday": "Сб",
@@ -226,7 +229,8 @@
       "read_more": "Толығырақ оқу",
       "by": "{{creator}} авторынан",
       "min_read": "мин оқу",
-      "view_more": "Көбірек көру"
+      "view_more": "Көбірек көру",
+      "no_recommendations": "Ұсыныстар табылмады"
     },
     "notification-preferences": {
       "email": "Электрондық пошта арқылы хабарландырулар",

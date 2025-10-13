@@ -215,7 +215,10 @@
       "submit_mood_track": "Trimiteți",
       "add_mood_tracker_success": "Starea dvs. de spirit zilnică a fost adăugată",
       "subheading": "Aici puteți verifica și urmări progresul stării dvs. de spirit ",
-      "emergency_label": "Ajutor de urgență"
+      "emergency_label": "Ajutor de urgență",
+      "recommendations": "Recomandări",
+      "recommendations_text": "Vrei să vezi graficul stării tale și conținutul recomandat?",
+      "check_out": "Vezi detalii"
     },
     "mood-track-history": {
       "saturday": "sâ",
@@ -235,7 +238,8 @@
       "read_more": "Citește mai mult",
       "by": "de {{creator}}",
       "min_read": "min de citit",
-      "view_more": "Vezi mai mult"
+      "view_more": "Vezi mai mult",
+      "no_recommendations": "Nu s-au găsit recomandări"
     },
     "notification-preferences": {
       "email": "Notificări prin e-mail",

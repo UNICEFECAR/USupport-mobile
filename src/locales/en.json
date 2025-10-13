@@ -205,7 +205,10 @@
       "additional_comment_placeholder": "What made you feel this way?",
       "submit_mood_track": "Submit",
       "add_mood_tracker_success": "Your daily mood was added successfully",
-      "emergency_label": "Does this relate to a life event or critical situation?"
+      "emergency_label": "Does this relate to a life event or critical situation?",
+      "recommendations": "Recommendations",
+      "recommendations_text": "Do you want to check out your mood graph and see recommended content?",
+      "check_out": "Check out"
     },
     "mood-track-history": {
       "saturday": "Sat",
@@ -225,7 +228,8 @@
       "read_more": "Read more",
       "by": "by {{creator}}",
       "min_read": "min read",
-      "view_more": "View more"
+      "view_more": "View more",
+      "no_recommendations": "No recommendations found"
     },
     "notification-preferences": {
       "email": "Email notifications",

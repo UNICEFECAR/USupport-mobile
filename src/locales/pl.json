@@ -219,7 +219,10 @@
       "add_mood_tracker_success": "Twój codzienny nastrój został pomyślnie dodany",
       "subheading": "",
       "emergency_button_label": "",
-      "emergency_label": "Does this relate to a life event or critical situation?"
+      "emergency_label": "Does this relate to a life event or critical situation?",
+      "recommendations": "Rekomendacje",
+      "recommendations_text": "Chcesz zobaczyć wykres swojego nastroju i polecane treści?",
+      "check_out": "Zobacz"
     },
     "mood-track-history": {
       "saturday": "Sob.",
@@ -239,7 +242,8 @@
       "read_more": "Czytaj więcej",
       "by": "autor: {{creator}}",
       "min_read": "min czytania",
-      "view_more": "Zobacz więcej"
+      "view_more": "Zobacz więcej",
+      "no_recommendations": "Nie znaleziono żadnych rekomendacji"
     },
     "notification-preferences": {
       "email": "Powiadomienia email",

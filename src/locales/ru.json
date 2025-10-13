@@ -206,7 +206,10 @@
       "additional_comment_placeholder": "Что заставило Вас так себя чувствовать?",
       "submit_mood_track": "Отправить",
       "add_mood_tracker_success": "Ваше настроение было успешно добавлено ",
-      "emergency_label": "Это относится к жизненному событию или критической ситуации?"
+      "emergency_label": "Это относится к жизненному событию или критической ситуации?",
+      "recommendations": "Рекомендации",
+      "recommendations_text": "Хотите посмотреть график настроения и увидеть рекомендованный контент?",
+      "check_out": "Посмотреть"
     },
     "mood-track-history": {
       "saturday": "Сб",
@@ -226,7 +229,8 @@
       "read_more": "Читать далее",
       "by": "от {{creator}}",
       "min_read": "мин чтения",
-      "view_more": "Посмотреть больше"
+      "view_more": "Посмотреть больше",
+      "no_recommendations": "Не найдено рекомендаций"
     },
     "notification-preferences": {
       "email": "Уведомления по электронной почте",
