@@ -529,7 +529,9 @@
       "button_call": "Зв'яжися з нами зараз",
       "no_results": "Для обраної країни й мови немає результатів.",
       "heading": "",
-      "subheading": ""
+      "subheading": "",
+      "other_emergency_services": "„Інші постачальники екстрених служб”",
+      "browse": "Огляд"
     },
     "terms-of-use": {
       "heading": "Умови використання",

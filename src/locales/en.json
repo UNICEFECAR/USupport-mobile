@@ -493,7 +493,7 @@
       "button_link": "Visit website",
       "button_call": "Contact now",
       "no_results": "There are no results for the current selected country and language.",
-      "other_emergency_services": "Other emergency services",
+      "other_emergency_services": "Other emergency service providers",
       "browse": "Browse"
     },
     "terms-of-use": {
@@ -813,7 +813,11 @@
       "view": "View Results",
       "view_detailed_results": "View Detailed Results",
       "started_at": "Started on {{date}}",
-      "answered_questions": "Answered questions: {{current}}/27"
+      "answered_questions": "Answered questions: {{current}}/27",
+      "latest_result": "Latest Result",
+      "psychological": "Psychological",
+      "biological": "Biological",
+      "social": "Social"
     },
     "baseline-assesment-result": {
       "assessment_completed": "Assessment completed",
