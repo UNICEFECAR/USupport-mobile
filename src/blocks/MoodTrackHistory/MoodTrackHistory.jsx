@@ -77,7 +77,7 @@ export const MoodTrackHistory = ({ navigation }) => {
 
   const {
     data: moodTrackerRecommendations,
-    isLoading: moodTrackerRecommendationsIsLoading,
+    isFetching: moodTrackerRecommendationsIsFetching,
   } = useGetMoodTrackerRecommendations(lastMood, language);
 
   const enabled = useMemo(() => {
@@ -218,7 +218,7 @@ export const MoodTrackHistory = ({ navigation }) => {
           ) : null}
         </>
       )}
-      {IS_RO && (
+      {IS_RO && lastMood && (
         <React.Fragment>
           {moodTrackerRecommendations?.hasRecommendations && (
             <View style={{ paddingTop: 18 }}>
@@ -226,13 +226,15 @@ export const MoodTrackHistory = ({ navigation }) => {
             </View>
           )}
 
-          {moodTrackerRecommendationsIsLoading ? (
+          {moodTrackerRecommendationsIsFetching ? (
             <View style={[styles.loadingContainer, { height: 100 }]}>
               <Loading />
             </View>
           ) : !moodTrackerRecommendations?.hasRecommendations ? (
             <View style={{ paddingTop: 16 }}>
-              <AppText namedStyle="h4">{t("no_recommendations")}</AppText>
+              <AppText style={{ textAlign: "center" }} namedStyle="h4">
+                {t("no_recommendations")}
+              </AppText>
             </View>
           ) : null}
 
