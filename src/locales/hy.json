@@ -72,6 +72,7 @@
       "live_text": "Հիմա",
       "accept_button_label": "Ընդունել խորհրդատվությունը",
       "join_button_label": "Միանալ",
+      "join_button_label_tooltip": "Դուք կարող եք միանալ խորհրդատվությանը սկսելուց 5 րոպե առաջ",
       "change_button_label": "Փոփոխել",
       "ordinal_st": "ին",
       "ordinal_nd": "րդ",
@@ -119,7 +120,8 @@
       "registration_needed": "Խորհրդատվություն նշանակելու համար դուք պետք է գրանցվեք",
       "free": "Ազատ",
       "button_label": "Պլանավորել խորհրդատվություն",
-      "emergency_button_label": "Հրատապ օգնություն"
+      "emergency_button_label": "Հրատապ օգնություն",
+      "join_button_label_tooltip": "Դուք կարող եք միանալ խորհրդատվությանը սկսելուց 5 րոպե առաջ"
     },
     "contact-us-block": {
       "heading": "Կապվեք մեզ հետ",
@@ -862,7 +864,8 @@
       "october": "Հոկտեմբեր",
       "november": "Նոյեմբեր",
       "december": "Դեկտեմբեր",
-      "explore": "Explore"
+      "explore": "Explore",
+      "join_button_label_tooltip": "Դուք կարող եք միանալ խորհրդատվությանը սկսելուց 5 րոպե առաջ"
     },
     "local-authentication-screen": {
       "enter_pin": "Մուտքագրեք ձեր PIN կոդը",

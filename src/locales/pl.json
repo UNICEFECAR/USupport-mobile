@@ -72,6 +72,7 @@
       "live_text": "Teraz",
       "accept_button_label": "Zaakceptuj konsultację",
       "join_button_label": "Dołącz",
+      "join_button_label_tooltip": "Możesz dołączyć do konsultacji 5 minut przed rozpoczęciem",
       "change_button_label": "Zmiana",
       "ordinal_st": ".",
       "ordinal_nd": ".",
@@ -119,7 +120,8 @@
       "registration_needed": "Aby umówić się na konsultacje, musisz się zarejestrować.",
       "free": "Wolny",
       "button_label": "",
-      "emergency_button_label": ""
+      "emergency_button_label": "",
+      "join_button_label_tooltip": "Możesz dołączyć do konsultacji 5 minut przed rozpoczęciem"
     },
     "contact-us-block": {
       "heading": "Skontaktuj się z nami",
@@ -954,7 +956,8 @@
       "october": "Październik",
       "november": "Listopad",
       "december": "Grudzień",
-      "explore": "Odkryj"
+      "explore": "Odkryj",
+      "join_button_label_tooltip": "Możesz dołączyć do konsultacji 5 minut przed rozpoczęciem"
     },
     "forgot-password-screen": {
       "heading": "Wpisz swój adres email, aby zresetować hasło"

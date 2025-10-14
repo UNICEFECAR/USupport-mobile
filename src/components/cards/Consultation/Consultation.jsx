@@ -7,8 +7,14 @@ import { AppText } from "../../texts/AppText/AppText";
 import { appStyles } from "#styles";
 import { Icon } from "../../icons/Icon";
 import { AppButton } from "../../buttons/AppButton/AppButton";
-import { getDayOfTheWeek, getDateView, checkIsFiveMinutesBefore } from "#utils";
+import {
+  showToast,
+  getDayOfTheWeek,
+  getDateView,
+  checkIsFiveMinutesBefore,
+} from "#utils";
 import { useGetTheme } from "#hooks";
+
 const { AMAZON_S3_BUCKET } = Config;
 
 /**
@@ -226,13 +232,26 @@ export const Consultation = ({
         )}
 
         {!overview && !suggested && buttonAction === "edit" && (
-          <View style={styles.buttonContainer}>
+          <View style={styles.editButtonsContainer}>
+            <Pressable
+              onPress={() =>
+                showToast({
+                  message: t("join_button_label_tooltip"),
+                  type: "info",
+                })
+              }
+            >
+              <AppButton
+                onClick={() => {}}
+                label={buttonLabel}
+                color={"purple"}
+                disabled
+              />
+            </Pressable>
             <AppButton
               onPress={handleEdit}
               label={buttonLabel}
-              size="sm"
               type="secondary"
-              style={styles.oneButton}
             />
           </View>
         )}
@@ -299,6 +318,14 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   dateContainer: { alignItems: "center", flexDirection: "row" },
+  editButtonsContainer: {
+    alignItems: "center",
+    flexDirection: "row",
+    gap: 10,
+    justifyContent: "space-between",
+    marginTop: 10,
+    width: "100%",
+  },
   joinButton: { marginLeft: "auto", marginRight: "auto" },
   nameContainer: {
     flexDirection: "row",
@@ -339,8 +366,8 @@ const styles = StyleSheet.create({
 
   text: {
     color: appStyles.colorBlue_3d527b,
-    fontFamily: appStyles.fontBold,
     flex: 1,
+    fontFamily: appStyles.fontBold,
   },
   textContainer: { flexGrow: 1, paddingLeft: 16 },
   textPurple: {

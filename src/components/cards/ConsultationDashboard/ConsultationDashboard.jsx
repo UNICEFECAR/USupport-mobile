@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image, Pressable } from "react-native";
 
 import { AppText } from "../../texts/AppText/AppText";
 import { AppButton } from "../../buttons/AppButton/AppButton";
@@ -10,6 +10,7 @@ import {
   getDateView,
   getMonthName,
   getOrdinal,
+  showToast,
 } from "#utils";
 import Config from "react-native-config";
 import { useGetTheme } from "#hooks";
@@ -93,19 +94,35 @@ export const ConsultationDashboard = ({
               label={t("join_button_label")}
               color="purple"
               size="sm"
-              classes="consultation-dashboard__button"
               onPress={() => handleJoin(consultation)}
               style={styles.marginTop8}
             />
           ) : (
-            <AppButton
-              label={t("change_button_label")}
-              type="secondary"
-              size="sm"
-              color="purple"
-              onPress={() => handleEdit(consultation)}
-              style={styles.marginTop8}
-            />
+            <View style={styles.editButtonsContainer}>
+              <Pressable
+                onPress={() =>
+                  showToast({
+                    message: t("join_button_label_tooltip"),
+                    type: "info",
+                  })
+                }
+              >
+                <AppButton
+                  label={t("join_button_label")}
+                  color="purple"
+                  size="sm"
+                  onPress={() => handleJoin(consultation)}
+                  disabled
+                />
+              </Pressable>
+              <AppButton
+                label={t("change_button_label")}
+                type="secondary"
+                size="sm"
+                color="purple"
+                onPress={() => handleEdit(consultation)}
+              />
+            </View>
           )}
         </View>
       ) : (
@@ -127,34 +144,40 @@ export const ConsultationDashboard = ({
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    flexDirection: "column",
-    width: 200,
+    alignItems: "center",
     borderRadius: 16,
-    alignItems: "center",
+    flexDirection: "column",
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    width: 200,
   },
-  providerContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+  editButtonsContainer: {
+    alignSelf: "center",
+    flexDirection: "column",
+    gap: 8,
     marginTop: 8,
   },
-  providerImage: {
-    width: 32,
-    height: 32,
-    objectFit: "cover",
-    borderRadius: 16,
-    marginRight: 8,
-  },
+  marginTop8: { alignSelf: "center", marginTop: 8 },
+  noConsultationText: { marginBottom: 16 },
   nowText: {
     color: appStyles.colorSecondary_9749fa,
     fontFamily: appStyles.fontBold,
+  },
+  providerContainer: {
+    alignItems: "center",
+    flexDirection: "row",
+    marginTop: 8,
+  },
+  providerImage: {
+    borderRadius: 16,
+    height: 32,
+    marginRight: 8,
+    objectFit: "cover",
+    width: 32,
   },
   providerNameText: {
     color: appStyles.colorBlue_3d527b,
     fontFamily: appStyles.fontBold,
     wordBreak: "break-word",
   },
-  noConsultationText: { marginBottom: 16 },
-  marginTop8: { marginTop: 8, alignSelf: "center" },
 });

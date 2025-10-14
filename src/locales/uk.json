@@ -72,6 +72,7 @@
       "live_text": "Зараз",
       "accept_button_label": "Погодитись на консультацію",
       "join_button_label": "Приєднатись",
+      "join_button_label_tooltip": "Ви можете приєднатися до консультації за 5 хвилин до початку",
       "change_button_label": "Змінити",
       "ordinal_st": "-ий",
       "ordinal_nd": "-ий",
@@ -119,7 +120,8 @@
       "registration_needed": "Для запису на консультацію треба зареєструватися.",
       "free": "Безкоштовно",
       "button_label": "",
-      "emergency_button_label": ""
+      "emergency_button_label": "",
+      "join_button_label_tooltip": "Ви можете приєднатися до консультації за 5 хвилин до початку"
     },
     "contact-us-block": {
       "heading": "Зв'яжися з нами",
@@ -956,7 +958,8 @@
       "october": "Жовтень",
       "november": "Листопад",
       "december": "Грудень",
-      "explore": "Дослідити"
+      "explore": "Дослідити",
+      "join_button_label_tooltip": "Ви можете приєднатися до консультації за 5 хвилин до початку"
     },
     "forgot-password-screen": {
       "heading": "Введи свою електронну пошту для відновлення пароля"

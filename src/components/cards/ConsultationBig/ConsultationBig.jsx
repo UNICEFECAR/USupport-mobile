@@ -1,4 +1,4 @@
-import { View, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image, Pressable } from "react-native";
 import Config from "react-native-config";
 
 import { AppText } from "../../texts/AppText/AppText";
@@ -11,6 +11,7 @@ import {
   getDateView,
   getMonthName,
   getOrdinal,
+  showToast,
 } from "#utils";
 
 import { useGetTheme } from "#hooks";
@@ -101,13 +102,29 @@ export const ConsultationBig = ({
               onPress={() => handleJoin(consultation)}
             />
           ) : (
-            <AppButton
-              label={t("change_button_label")}
-              type="secondary"
-              color="purple"
-              style={styles.button}
-              onPress={() => handleChange(consultation)}
-            />
+            <View style={styles.editButtonsContainer}>
+              <Pressable
+                onPress={() =>
+                  showToast({
+                    message: t("join_button_label_tooltip"),
+                    type: "info",
+                  })
+                }
+              >
+                <AppButton
+                  label={t("join_button_label")}
+                  color="purple"
+                  onPress={() => handleJoin(consultation)}
+                  disabled
+                />
+              </Pressable>
+              <AppButton
+                label={t("change_button_label")}
+                type="secondary"
+                color="purple"
+                onPress={() => handleChange(consultation)}
+              />
+            </View>
           )}
         </View>
         <Image
@@ -123,37 +140,43 @@ export const ConsultationBig = ({
 };
 
 const styles = StyleSheet.create({
+  avatar: { marginRight: 8 },
+  button: { marginTop: 16 },
+  container: {
+    alignItems: "center",
+    borderRadius: 24,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    maxWidth: 420,
+    padding: 16,
+    width: "96%",
+  },
+  editButtonsContainer: {
+    alignSelf: "center",
+    flexDirection: "column",
+    gap: 8,
+    marginTop: 8,
+  },
+  imageMascot: { height: 100, width: 128 },
+  imageMascotSmall: { resizeMode: "contain", width: 100 },
   linearGradient: {
     borderRadius: 24,
     marginHorizontal: 4,
-  },
-  container: {
-    padding: 16,
-    flexDirection: "row",
-    width: "96%",
-    maxWidth: 420,
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderRadius: 24,
   },
   nowText: {
     color: appStyles.colorSecondary_9749fa,
     fontFamily: appStyles.fontBold,
   },
   providerContainer: {
-    flexDirection: "row",
     alignItems: "center",
+    flexDirection: "row",
     marginTop: 8,
   },
-  avatar: { marginRight: 8 },
   providerNameText: {
     color: appStyles.colorBlue_3d527b,
-    fontFamily: appStyles.fontBold,
-    wordBreak: "break-all",
-    textAlign: "left",
     flex: 1,
+    fontFamily: appStyles.fontBold,
+    textAlign: "left",
+    wordBreak: "break-all",
   },
-  button: { marginTop: 16 },
-  imageMascot: { width: 128, height: 100 },
-  imageMascotSmall: { width: 100, resizeMode: "contain" },
 });

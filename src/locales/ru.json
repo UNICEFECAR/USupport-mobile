@@ -63,6 +63,7 @@
       "live_text": "Сейчас",
       "accept_button_label": "Принять консультацию",
       "join_button_label": "Присоединиться",
+      "join_button_label_tooltip": "Вы можете присоединиться к консультации за 5 минут до начала",
       "change_button_label": "Изменить",
       "ordinal_st": "",
       "ordinal_nd": "",
@@ -109,7 +110,8 @@
       "conducted": "Консультация завершена",
       "not_conducted": "Не проводилась",
       "registration_needed": "Чтобы запланировать консультацию, Вам необходимо зарегистрироваться.",
-      "free": "Свободно"
+      "free": "Свободно",
+      "join_button_label_tooltip": "Вы можете присоединиться к консультации за 5 минут до начала"
     },
     "contact-us-block": {
       "heading": "Свяжитесь с нами",
@@ -917,7 +919,8 @@
       "october": "октября",
       "november": "ноября",
       "december": "декабря",
-      "explore": "Исследовать"
+      "explore": "Исследовать",
+      "join_button_label_tooltip": "Вы можете присоединиться к консультации за 5 минут до начала"
     },
     "forgot-password-screen": {
       "heading": "Введите свою электронную почту, чтобы сбросить пароль"
