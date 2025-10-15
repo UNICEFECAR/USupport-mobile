@@ -20,6 +20,9 @@ import {
   ButtonSelector,
   TransparentModal,
 } from "#components";
+
+import { useAddCountryEvent } from "#hooks";
+import { providerSvc } from "#services";
 import { showToast } from "../../utils/showToast";
 
 /**
@@ -35,6 +38,7 @@ export const JoinConsultation = ({ isOpen, onClose, consultation }) => {
   const [isPermissionsModalOpen, setIsPermissionsModalOpen] = useState(false);
   const appState = useRef("active");
   const hasCheckedPermissions = useRef(false);
+  const addCountryEventMutation = useAddCountryEvent();
 
   const requestCameraAndMic = useCallback(async () => {
     if (!isOpen) return;
@@ -71,6 +75,15 @@ export const JoinConsultation = ({ isOpen, onClose, consultation }) => {
   }, [isOpen]);
 
   const handleClick = async (redirectTo) => {
+    addCountryEventMutation.mutate({
+      eventType: "mobile_join_consultation_click",
+    });
+
+    await providerSvc.joinConsultation({
+      consultationId: consultation.consultationId,
+      userType: "client",
+    });
+
     try {
       // Navigate with appropriate settings
       navigation.navigate("Consultation", {
