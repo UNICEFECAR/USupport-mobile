@@ -1024,7 +1024,8 @@
       "coupon_paragraph": "Kupony zapewniają bezpłatne sesje i są sponsorowane przez naszych partnerów.",
       "coupon_paragraph_two": "Jeśli otrzymałeś/aś kod kuponu z kampanii w mediach społecznościowych lub od partnera, skopiuj go i wklej poniżej. Po przesłaniu kodu kuponu zobaczysz wszystkich konsultantów, którzy go obsługują i ich dostępność. Kupon może obsługiwać jedną lub więcej sesji. Platforma wskaże, czy kupon wygasł lub osiągnął maksymalną liczbę wykorzystanych sesji.",
       "max_price": "Cena maksymalna",
-      "providers_free_consultation_label": "Tylko bezpłatna konsultacja"
+      "providers_free_consultation_label": "Tylko bezpłatna konsultacja",
+      "coupon_note": "Tym razem wpisaliśmy za Ciebie kod na darmową sesję! Umów się z jednym z naszych konsultantów i zrób pierwszy krok, aby zadbać o swoje samopoczucie."
     },
     "share-platform-screen": {
       "heading": "Udostępnianie aplikacji",

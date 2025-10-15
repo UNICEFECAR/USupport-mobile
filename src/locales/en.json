@@ -135,7 +135,8 @@
       "contact_reason_2_pl": "Technical problem",
       "contact_reason_3_pl": "Complaint",
       "contact_reason_4_pl": "Something else",
-      "success": "Your issue was reported successfully. We'll get back to you soon"
+      "success": "Your issue was reported successfully. We'll get back to you soon",
+      "contact_form": "Contact form"
     },
     "faq": {
       "heading": "FAQ",
@@ -1049,7 +1050,8 @@
       "coupon_paragraph": "Coupons provide “no-cost” sessions and are sponsored by our partners.",
       "coupon_paragraph_two": "If you received a coupon code from a social media campaign or a partner, please copy and paste that below. After you submit the coupon code, you will see any providers that support it and their availability. A coupon may support one or more sessions. The platform will indicate if the coupon has expired or reached the maximum session usage.",
       "max_price": "Maximum price",
-      "providers_free_consultation_label": "Only free consultation"
+      "providers_free_consultation_label": "Only free consultation",
+      "coupon_note": "This time, we've entered a code for you for a free session! Schedule an appointment with one of our consultants and take the first step towards improving your well-being."
     },
     "share-platform-screen": {
       "heading": "Share the application",

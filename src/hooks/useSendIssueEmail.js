@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { emailSvc } from "#services";
+import { emailSvc, userSvc } from "#services";
 import { useError } from "./useError";
 
 export default function useSendIssueEmail(onSuccess, onError) {
@@ -9,8 +9,23 @@ export default function useSendIssueEmail(onSuccess, onError) {
    * @returns {Promise}
    */
   const sendIssueEmail = async (payload) => {
-    const res = await emailSvc.sendAdmin(payload);
-    return res;
+    const emailPromise = emailSvc.sendAdmin({
+      subject: payload.subjectLabel,
+      title: payload.title,
+      text: payload.text,
+      email: payload.email,
+    });
+
+    const addFormPromise = userSvc.addContactForm({
+      subject: payload.subjectValue,
+      email: payload.email,
+      message: payload.text,
+      sentFrom: "client",
+    });
+
+    await Promise.all([emailPromise, addFormPromise]);
+
+    return true;
   };
 
   const sendIssueEmailMutation = useMutation(sendIssueEmail, {
