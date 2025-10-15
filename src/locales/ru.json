@@ -882,7 +882,10 @@
       "sponsored_by": "Эта сессия спонсируется: <0>{{sponsorName}}<0>",
       "consultation_end_reminder": "Ваша консультация закончится через {{minutes}} минут",
       "consultation_in_progress": "Консультация в процессе",
-      "microphone_active": "Ваш микрофон и воспроизведение медиа активны."
+      "microphone_active": "Ваш микрофон и воспроизведение медиа активны.",
+      "cancel_confirmation_heading": "Вы уверены, что хотите выйти из консультации?",
+      "cancel_confirmation_cta": "Выйти из консультации",
+      "cancel_confirmation_secondary_cta": "Остаться"
     },
     "consultations-screen": {
       "heading": "Консультации",

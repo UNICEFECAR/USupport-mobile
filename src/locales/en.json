@@ -944,7 +944,10 @@
       "sponsored_by": "This session is sponsored by: <0>{{sponsorName}}<0>",
       "consultation_end_reminder": "Your consultation will end in {{minutes}} minutes",
       "consultation_in_progress": "Consultation in progress",
-      "microphone_active": "Your microphone and media playback are active."
+      "microphone_active": "Your microphone and media playback are active.",
+      "cancel_confirmation_heading": "Are you sure you want to leave the consultation?",
+      "cancel_confirmation_cta": "Leave consultation",
+      "cancel_confirmation_secondary_cta": "Cancel"
     },
     "consultations-screen": {
       "heading": "Consultations",

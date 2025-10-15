@@ -921,7 +921,10 @@
       "sponsored_by": "Ця сесія проходить за підтримки: <0>{{sponsorName}}<0>.",
       "consultation_end_reminder": "Консультація завершиться за {{minutes}} хвилин",
       "consultation_in_progress": "Консультація триває",
-      "microphone_active": "Твій мікрофон і відтворення медіа є активними"
+      "microphone_active": "Твій мікрофон і відтворення медіа є активними",
+      "cancel_confirmation_heading": "Ти впевнений/а, що хочеш вийти з консультації?",
+      "cancel_confirmation_cta": "Вийти з консультації",
+      "cancel_confirmation_secondary_cta": "Залишитися"
     },
     "consultations-screen": {
       "heading": "Консультації",

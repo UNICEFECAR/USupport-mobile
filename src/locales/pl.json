@@ -919,7 +919,10 @@
       "sponsored_by": "Ta sesja jest sponsorowana przez: <0>{{sponsorName}}<0>",
       "consultation_end_reminder": "Konsultacja zakończy się w ciągu {{minutes}} minut",
       "consultation_in_progress": "Konsultacja w toku",
-      "microphone_active": "Twój mikrofon i odtwarzanie multimediów są aktywne."
+      "microphone_active": "Twój mikrofon i odtwarzanie multimediów są aktywne.",
+      "cancel_confirmation_heading": "Czy na pewno chcesz opuścić konsultację?",
+      "cancel_confirmation_cta": "Opuść konsultację",
+      "cancel_confirmation_secondary_cta": "Zostań"
     },
     "consultations-screen": {
       "heading": "Konsultacje",

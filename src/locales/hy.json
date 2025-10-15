@@ -832,7 +832,10 @@
       "sponsored_by": "Այս խորհրդատվության հովանավորն է՝<0>{{sponsorName}}<0>",
       "consultation_end_reminder": "Ձեր խորհրդատվությունը կավարտվի {{minutes}} րոպեից",
       "consultation_in_progress": "Խորհրդատվությունը ընթացքի մեջ է",
-      "microphone_active": "Ձեր միկրոֆոնը և մեդիա նվագարկումը ակտիվ են"
+      "microphone_active": "Ձեր միկրոֆոնը և մեդիա նվագարկումը ակտիվ են",
+      "cancel_confirmation_heading": "Վստա՞հ եք, որ ցանկանում եք դուրս գալ խորհրդատվությունից։",
+      "cancel_confirmation_cta": "Դուրս գալ խորհրդատվությունից",
+      "cancel_confirmation_secondary_cta": "Մնալ"
     },
     "dashboard": {
       "welcome": "Բարի վերադարձ {{clientName}}",

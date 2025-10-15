@@ -1,13 +1,11 @@
 import React, { useRef, useCallback, useState, useEffect } from "react";
 import { JitsiMeeting as JitsiMeetingRoom } from "@jitsi/react-native-sdk";
 import {
+  BackHandler,
   StyleSheet,
   Platform,
   View,
-  PermissionsAndroid,
-  ScrollView,
   TouchableOpacity,
-  AppState,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, {
@@ -16,7 +14,7 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 
-import { Controls, Icon } from "#components";
+import { Controls, Icon, TransparentModal } from "#components";
 import { appStyles } from "#styles";
 
 export const JitsiMeeting = ({
@@ -43,6 +41,8 @@ export const JitsiMeeting = ({
   const [isVideoEnabled, setIsVideoEnabled] = useState(joinWithVideo);
   const [shrinkVideo, setShrinkVideo] = useState(false);
   const [areControlsShown, setAreControlsShown] = useState(true);
+  const [isCancelConfirmationOpen, setIsCancelConfirmationOpen] =
+    useState(false);
 
   useEffect(() => {
     let timeout;
@@ -58,6 +58,24 @@ export const JitsiMeeting = ({
       if (timeout) clearTimeout(timeout);
     };
   }, [isChatShown]);
+
+  useEffect(() => {
+    if (Platform.OS !== "android") return;
+
+    const onBackPress = () => {
+      setIsCancelConfirmationOpen((prev) => !prev);
+      return true; // prevent default back navigation
+    };
+
+    const subscription = BackHandler.addEventListener(
+      "hardwareBackPress",
+      onBackPress
+    );
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
 
   // Initialize audio and video state when conference is joined
   // useEffect(() => {
@@ -87,9 +105,8 @@ export const JitsiMeeting = ({
 
   const onReadyToClose = useCallback(() => {
     // @ts-ignore
-    jitsiMeeting.current.close();
-
-    leaveConsultation();
+    // jitsiMeeting.current.close();
+    // leaveConsultation();
   }, []);
 
   const eventListeners = {
@@ -128,6 +145,7 @@ export const JitsiMeeting = ({
   });
 
   const disconnect = () => {
+    setIsCancelConfirmationOpen(false);
     leaveConsultation();
     jitsiMeeting.current?.close();
   };
@@ -147,27 +165,33 @@ export const JitsiMeeting = ({
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        paddingBottom: Platform.OS === "android" ? bottomInset : 0,
-      }}
-    >
-      {!areControlsShown ? (
-        <TouchableOpacity
-          onPress={handleControlsToggle}
-          style={{
-            position: "absolute",
-            top: 20 + topInset,
-            left: 20,
-            zIndex: 999,
-          }}
-        >
-          <Icon name="arrow-chevron-forward" size="lg" color="#ffffff" />
-        </TouchableOpacity>
-      ) : null}
-      <Animated.View style={controlsStyles}>
-        {false ? (
+    <>
+      <TransparentModal
+        isOpen={isCancelConfirmationOpen}
+        handleClose={() => setIsCancelConfirmationOpen(false)}
+        heading={t("cancel_confirmation_heading")}
+        ctaLabel={t("cancel_confirmation_cta")}
+        ctaHandleClick={disconnect}
+        ctaColor="red"
+        secondaryCtaLabel={t("cancel_confirmation_secondary_cta")}
+        secondaryCtaHandleClick={() => setIsCancelConfirmationOpen(false)}
+        secondaryCtaType="secondary"
+      />
+      <View
+        style={[
+          styles.container,
+          Platform.OS === "android" ? { paddingBottom: bottomInset } : null,
+        ]}
+      >
+        {!areControlsShown ? (
+          <TouchableOpacity
+            onPress={handleControlsToggle}
+            style={[styles.controlsToggle, { top: 20 + topInset }]}
+          >
+            <Icon name="arrow-chevron-forward" size="lg" color="#ffffff" />
+          </TouchableOpacity>
+        ) : null}
+        <Animated.View style={controlsStyles}>
           <Controls
             consultation={consultation}
             isMicrophoneOn={isAudioEnabled}
@@ -175,141 +199,158 @@ export const JitsiMeeting = ({
             toggleMicrophone={toggleAudio}
             toggleCamera={toggleVideo}
             toggleChat={toggleChat}
-            leaveConsultation={disconnect}
+            leaveConsultation={() => setIsCancelConfirmationOpen(true)}
             handleSendMessage={handleSendMessage}
             handleClose={handleControlsToggle}
             isRoomConnecting={false}
             hasUnread={hasUnread}
             isProviderInSession={isProviderInSession}
             t={t}
-            style={{ marginTop: topInset, elevation: 10, zIndex: 10 }}
+            style={[styles.controls, { marginTop: topInset }]}
           />
-        ) : null}
-      </Animated.View>
-      <View style={styles.chatIconView}>
-        <TouchableOpacity onPress={toggleChat}>
-          {hasUnread && <View style={styles.unread} />}
-          <Icon
-            style={styles.chatIcon}
-            name="comment"
-            size="md"
-            color={"white"}
-          />
-        </TouchableOpacity>
+        </Animated.View>
+        <View style={styles.chatIconView}>
+          <TouchableOpacity onPress={toggleChat}>
+            {hasUnread && <View style={styles.unread} />}
+            <Icon
+              style={styles.chatIcon}
+              name="comment"
+              size="md"
+              color={"white"}
+            />
+          </TouchableOpacity>
+        </View>
+        <JitsiMeetingRoom
+          userInfo={{
+            displayName,
+          }}
+          config={{
+            hideConferenceTimer: true,
+            disableModeratorIndicator: true, // Ensures no "moderator" role
+            enableWelcomePage: false, // Skip welcome screen
+            prejoinConfig: { enabled: false }, // Users join instantly
+            lobbyMode: { enabled: false }, // Prevent waiting room
+            disableInviteFunctions: true, // Prevents requiring moderator approval
+
+            startWithAudioMuted: !joinWithMicrophone,
+            startWithVideoMuted: !joinWithVideo,
+            toolbarButtons: [
+              "camera",
+              "microphone",
+              // "chat",
+            ],
+            mainToolbarButtons: ["camera", "microphone", "chat"],
+            disableChat: true,
+            disableInviteFunctions: true,
+            disableShareVideo: true,
+          }}
+          eventListeners={eventListeners}
+          flags={{
+            "ios.screensharing.enabled": false,
+            "fullscreen.enabled": false,
+            "audioMute.enabled": true,
+            "audioOnly.enabled": false,
+            "video-mute.enabled": true,
+            "android.screensharing.enabled": false,
+            "pip.enabled": false,
+            "pip-while-screen-sharing.enabled": false,
+            "conference-timer.enabled": false,
+            "close-captions.enabled": false,
+            "toolbox.enabled": true,
+            "prejoinpage.enabled": false,
+            "lobby-mode.enabled": false,
+            "meeting-name.enabled": false,
+            "meeting-password.enabled": false,
+            "meeting-end-enabled": false,
+            "conference-end-enabled": false,
+            "end-conference-enabled": false,
+            "invite.enabled": false,
+            "chat.enabled": false,
+            "raise-hand.enabled": false,
+            "share.enabled": false,
+            "breakout-rooms.enabled": false,
+            "recording.enabled": false,
+            "share-video.enabled": false,
+            "reactions.enabled": false,
+            "security-options.enabled": false,
+            "car-mode.enabled": false,
+            "shared-video.enabled": false,
+            "sharedvideo.enabled": false,
+            "settings.enabled": false,
+            "menu.enabled": false,
+            "video-share.enabled": false,
+            "participants.enabled": false,
+          }}
+          ref={jitsiMeeting}
+          style={isChatShown ? styles.meetingShrunk : styles.meetingFull}
+          room={consultation.consultationId}
+          serverURL={"https://jitsi.usupport.online"}
+        >
+          <TouchableOpacity onPress={toggleChat}>
+            {hasUnread && <View style={styles.unread} />}
+
+            <Icon
+              style={styles.messageIcon}
+              name="comment"
+              size="md"
+              color={"white"}
+            />
+          </TouchableOpacity>
+        </JitsiMeetingRoom>
       </View>
-      <JitsiMeetingRoom
-        userInfo={{
-          displayName,
-        }}
-        config={{
-          hideConferenceTimer: true,
-          disableModeratorIndicator: true, // Ensures no "moderator" role
-          enableWelcomePage: false, // Skip welcome screen
-          prejoinConfig: { enabled: false }, // Users join instantly
-          lobbyMode: { enabled: false }, // Prevent waiting room
-          disableInviteFunctions: true, // Prevents requiring moderator approval
-
-          startWithAudioMuted: !joinWithMicrophone,
-          startWithVideoMuted: !joinWithVideo,
-          toolbarButtons: [
-            "camera",
-            "microphone",
-            // "chat",
-            "hangup",
-          ],
-          mainToolbarButtons: ["camera", "microphone", "chat", "hangup"],
-          disableChat: true,
-          disableInviteFunctions: true,
-          disableShareVideo: true,
-        }}
-        eventListeners={eventListeners}
-        flags={{
-          "ios.screensharing.enabled": false,
-          "fullscreen.enabled": false,
-          "audioMute.enabled": true,
-          "audioOnly.enabled": false,
-          "video-mute.enabled": true,
-          "android.screensharing.enabled": false,
-          "pip.enabled": false,
-          "pip-while-screen-sharing.enabled": false,
-          "conference-timer.enabled": false,
-          "close-captions.enabled": false,
-          "toolbox.enabled": true,
-          "prejoinpage.enabled": false,
-          "lobby-mode.enabled": false,
-          "meeting-name.enabled": false,
-          "meeting-password.enabled": false,
-          "meeting-end-enabled": false,
-          "conference-end-enabled": false,
-          "end-conference-enabled": false,
-          "invite.enabled": false,
-          "chat.enabled": false,
-          "raise-hand.enabled": false,
-          "share.enabled": false,
-          "breakout-rooms.enabled": false,
-          "recording.enabled": false,
-          "share-video.enabled": false,
-          "reactions.enabled": false,
-          "security-options.enabled": false,
-          "car-mode.enabled": false,
-          "shared-video.enabled": false,
-          "sharedvideo.enabled": false,
-          "settings.enabled": false,
-          "menu.enabled": false,
-          "video-share.enabled": false,
-          "participants.enabled": false,
-        }}
-        ref={jitsiMeeting}
-        style={{ flex: isChatShown ? 0.5 : 1 }}
-        room={consultation.consultationId}
-        serverURL={"https://jitsi.usupport.online"}
-      >
-        <TouchableOpacity onPress={toggleChat}>
-          {hasUnread && <View style={styles.unread} />}
-
-          <Icon
-            style={styles.messageIcon}
-            name="comment"
-            size="md"
-            color={"white"}
-          />
-        </TouchableOpacity>
-      </JitsiMeetingRoom>
-    </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  chatIconView: {
-    position: "absolute",
-    bottom: 125,
-    zIndex: 3,
-    left: 10,
-  },
   chatIcon: {
     alignItems: "center",
-    justifyContent: "center",
-    width: 45,
-    height: 45,
-    borderColor: appStyles.colorBlue_3d527b,
-    borderWidth: 0.5,
-    borderRadius: 45 / 2,
-    padding: 10,
     backgroundColor: appStyles.colorPrimary_20809e,
+    borderColor: appStyles.colorBlue_3d527b,
+    borderRadius: 45 / 2,
+    borderWidth: 0.5,
+    height: 45,
+    justifyContent: "center",
+    padding: 10,
+    width: 45,
   },
-  unread: {
+  chatIconView: {
+    bottom: 125,
+    left: 10,
     position: "absolute",
-    width: 12,
-    height: 12,
-    borderRadius: 12 / 2,
-    backgroundColor: appStyles.colorRed_eb5757,
+    zIndex: 3,
+  },
+  container: {
+    flex: 1,
+  },
+  controls: {
+    elevation: 10,
+    zIndex: 10,
+  },
+  controlsToggle: {
+    left: 20,
+    position: "absolute",
     zIndex: 999,
-    left: 2,
+  },
+  meetingFull: {
+    flex: 1,
+  },
+  meetingShrunk: {
+    flex: 0.5,
   },
   messageIcon: {
     alignItems: "center",
     height: 25,
     justifyContent: "center",
     width: 25,
+  },
+  unread: {
+    backgroundColor: appStyles.colorRed_eb5757,
+    borderRadius: 12 / 2,
+    height: 12,
+    left: 2,
+    position: "absolute",
+    width: 12,
+    zIndex: 999,
   },
 });

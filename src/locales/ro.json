@@ -966,7 +966,10 @@
       "sponsored_by": "Această sesiune este sponsorizată de: <0>{{sponsorName}}<0>",
       "consultation_end_reminder": "Consultația dvs. se va încheia în {{minutes}} minute",
       "consultation_in_progress": "Consultație în curs",
-      "microphone_active": "Microfonul dvs. și redarea media sunt active."
+      "microphone_active": "Microfonul dvs. și redarea media sunt active.",
+      "cancel_confirmation_heading": "Sigur doriți să părăsiți consultația?",
+      "cancel_confirmation_cta": "Părăsiți consultația",
+      "cancel_confirmation_secondary_cta": "Rămâneți"
     },
     "consultations-screen": {
       "heading": "Consultations",
