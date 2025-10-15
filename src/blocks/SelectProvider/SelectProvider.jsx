@@ -104,7 +104,7 @@ export const SelectProvider = ({
 
 const styles = StyleSheet.create({
   providersContainer: {
-    paddingVertical: 32,
+    paddingBottom: 32,
     height: "100%",
     width: "100%",
   },
