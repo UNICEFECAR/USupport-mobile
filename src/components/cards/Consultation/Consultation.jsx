@@ -243,7 +243,7 @@ export const Consultation = ({
             >
               <AppButton
                 onClick={() => {}}
-                label={buttonLabel}
+                label={t("join")}
                 color={"purple"}
                 disabled
               />
