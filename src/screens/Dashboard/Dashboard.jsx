@@ -48,6 +48,7 @@ import {
   useScheduleConsultation,
   useGetClientData,
   useGetTheme,
+  useAddCountryEvent,
 } from "#hooks";
 
 import { ONE_HOUR, showToast, parseUTCDate } from "#utils";
@@ -73,6 +74,7 @@ export const Dashboard = ({ navigation }) => {
     country,
   } = useContext(Context);
 
+  const addCountryEventMutation = useAddCountryEvent();
   const getClientDataEnabled = isTmpUser === false ? true : false;
   const clientDataQuery = useGetClientData(getClientDataEnabled)[0];
   const clientData = clientDataQuery.data;
@@ -284,12 +286,18 @@ export const Dashboard = ({ navigation }) => {
     if (!clientData.dataProcessing) {
       openRequireDataAgreement(true);
     } else {
+      addCountryEventMutation.mutate({
+        eventType: "mobile_schedule_button_click",
+      });
       navigation.push("SelectProvider");
     }
   };
 
   const handleDataAgreementSucess = () => {
     if (shouldRedirectToSelectProvider) {
+      addCountryEventMutation.mutate({
+        eventType: "mobile_schedule_button_click",
+      });
       navigation.navigate("SelectProvider");
     }
   };

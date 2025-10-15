@@ -26,6 +26,7 @@ import {
   useGetClientQuestions,
   useGetQuestions,
   useKeyboard,
+  useAddCountryEvent,
 } from "#hooks";
 import { showToast } from "#utils";
 import { appStyles } from "#styles";
@@ -133,6 +134,8 @@ export const MyQA = ({ navigation }) => {
     onMutate
   );
 
+  const addCountryEventMutation = useAddCountryEvent();
+
   const isUserQuestionsEnabled =
     tabs.filter((tab) => tab.value === "your_questions" && tab.isSelected)
       .length > 0 &&
@@ -189,6 +192,9 @@ export const MyQA = ({ navigation }) => {
       if (!clientData.dataProcessing) {
         openRequireDataAgreement();
       } else {
+        addCountryEventMutation.mutate({
+          eventType: "mobile_schedule_button_click",
+        });
         setIsSelectConsultationOpen(true);
       }
     }

@@ -13,7 +13,7 @@ import {
 } from "#components";
 
 import { userSvc, localStorage, Context } from "#services";
-import { useError, useGetTheme } from "#hooks";
+import { useError, useGetTheme, useAddCountryEvent } from "#hooks";
 
 const { AMAZON_S3_BUCKET } = Config;
 
@@ -29,6 +29,7 @@ export const RegisterPreview = ({ navigation }) => {
   const { t } = useTranslation("blocks", { keyPrefix: "register-preview" });
   const [error, setErrror] = useState();
   const queryClient = useQueryClient();
+  const addCountryEventMutation = useAddCountryEvent();
 
   const tmpLogin = async () => {
     const res = await userSvc.tmpLogin();
@@ -83,11 +84,24 @@ export const RegisterPreview = ({ navigation }) => {
     </View>
   );
 
+  const eventMap = {
+    Guest: "mobile_guest_register_click",
+    RegisterAnonymous: "mobile_anonymous_register_click",
+    RegisterEmail: "mobile_email_register_click",
+  };
+
   const handleRedirect = (redirectTo) => {
+    if (redirectTo !== "Login") {
+      addCountryEventMutation.mutate({
+        eventType: eventMap[redirectTo],
+      });
+    }
+
     if (redirectTo === "Guest") {
       tmpLoginMutation.mutate();
       return;
     }
+
     navigation.push(redirectTo);
   };
 

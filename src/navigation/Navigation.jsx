@@ -19,6 +19,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import { useNavigation } from "@react-navigation/native";
+import uuid from "react-native-uuid";
 
 import messaging from "@react-native-firebase/messaging";
 
@@ -51,6 +52,16 @@ Notifications.setNotificationHandler({
 });
 
 const TWENTY_MINUTES = FIVE_MINUTES * 4;
+
+const addPlatformAccess = async () => {
+  let visitorId = await localStorage.getItem("visitorId");
+  if (!visitorId) {
+    visitorId = uuid.v4();
+    await localStorage.setItem("visitorId", visitorId);
+  }
+
+  return await userSvc.addPlatformAccess(visitorId);
+};
 
 export function Navigation({
   contextTheme,
@@ -93,6 +104,7 @@ export function Navigation({
     initialRouteName,
     setIsPodcastsActive,
     setIsVideosActive,
+    country,
   } = useContext(Context);
 
   const getClientDataEnabled = !!(
@@ -286,9 +298,9 @@ export function Navigation({
     onError: (err) => console.log(err, "fetch countries error"),
   });
 
-  useQuery(["platformAccess", token], userSvc.addPlatformAccess, {
+  useQuery(["platformAccess", country], addPlatformAccess, {
     staleTime: Infinity,
-    enabled: !!token && !isTmpUser,
+    enabled: !!country && !isTmpUser,
   });
 
   return (
