@@ -242,6 +242,7 @@ export const Consultation = ({
               }
             >
               <AppButton
+                size="sm"
                 onClick={() => {}}
                 label={t("join")}
                 color={"purple"}
@@ -252,6 +253,7 @@ export const Consultation = ({
               onPress={handleEdit}
               label={buttonLabel}
               type="secondary"
+              // style={{ flexShrink: 1, maxWidth: "40%" }}
             />
           </View>
         )}
@@ -322,7 +324,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     gap: 10,
-    justifyContent: "space-between",
+    justifyContent: "center",
+    // flexWrap: "wrap",
     marginTop: 10,
     width: "100%",
   },
