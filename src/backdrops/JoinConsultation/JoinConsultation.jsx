@@ -79,10 +79,14 @@ export const JoinConsultation = ({ isOpen, onClose, consultation }) => {
       eventType: "mobile_join_consultation_click",
     });
 
-    await providerSvc.joinConsultation({
-      consultationId: consultation.consultationId,
-      userType: "client",
-    });
+    await providerSvc
+      .joinConsultation({
+        consultationId: consultation.consultationId,
+        userType: "client",
+      })
+      .catch((err) => {
+        console.log("Error sending join consultation request", err);
+      });
 
     try {
       // Navigate with appropriate settings
