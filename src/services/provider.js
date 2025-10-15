@@ -155,6 +155,7 @@ async function getAvailableSlotsForSingleDay(
  */
 async function blockSlot(clientId, providerId, slotTimestamp) {
   const response = await http.post(`${API_ENDPOINT}/consultation/block`, {
+    bookedFrom: "mobile",
     clientId,
     providerId,
     time:
@@ -248,6 +249,7 @@ async function getCalendarData(startDate) {
 async function acceptConsultation(consultationId) {
   const res = await http.put(`${API_ENDPOINT}/consultation/accept-suggest`, {
     consultationId,
+    bookedFrom: "mobile",
   });
   return res;
 }
@@ -313,6 +315,11 @@ async function getQuestionTags() {
   return res;
 }
 
+async function joinConsultation(payload) {
+  const response = await http.put(`${API_ENDPOINT}/consultation/join`, payload);
+  return response;
+}
+
 const exportedFunctions = {
   addAvailableSlot,
   addTemplateAvailability,
@@ -348,5 +355,6 @@ const exportedFunctions = {
   leaveConsultation,
   getConsultationsTime,
   getQuestionTags,
+  joinConsultation,
 };
 export default exportedFunctions;
