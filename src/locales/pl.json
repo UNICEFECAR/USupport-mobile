@@ -274,9 +274,9 @@
       "reject_consultation_success": "Konsultacja została pomyślnie odrzucona",
       "no_notifications": "Nie masz jeszcze żadnych powiadomień.",
       "yesterday": "wczoraj",
-      "question_answered": "Provider <0>{{providerName}}</0> answered your question",
-      "consultation_remind_start_24_hours_before": "Your consultation with provider <0>{{providerName}}</0> starts in 24 hours",
-      "consultation_remind_start_48_hours_before": "Your consultation with provider <0>{{providerName}}</0> starts in 48 hours"
+      "question_answered": "Konsultant/ka <0>{{providerName}}</0> odpowiedział/a na Twoje pytanie",
+      "consultation_remind_start_24_hours_before": "Twoja konsultacja z konsultantem/ką <0>{{providerName}}</0> rozpocznie się za 24 godziny",
+      "consultation_remind_start_48_hours_before": "Twoja konsultacja z konsultantem/ką <0>{{providerName}}</0> rozpocznie się za 48 godzin"
     },
     "passcode": {
       "change_passcode": "Zmień kod dostępu",
@@ -582,7 +582,7 @@
       "living_place_placeholder": "Wprowadź swoje miejsce zamieszkania",
       "error_fetching_data": "Wystąpił błąd podczas pobierania szczegółów profilu ",
       "parent": "Rodzic",
-      "delete_mood_tracker": "Clear mood tracker data"
+      "delete_mood_tracker": "Wyczyść historię monitora nastroju"
     },
     "user-profile": {
       "heading": "Twój profil",
@@ -1174,9 +1174,9 @@
       "button_label_2": "Konsultacja tekstowa",
       "client_joined": "Klient/ka dołączył/a do konsultacji",
       "error": "Wystąpił błąd. Spróbuj ponownie",
-      "permissions_error": "You have not granted permission to use the camera or microphone",
-      "permissions_error_subheading": "Please grant permission to use the camera or microphone from the settings of your device, to join the consultation",
-      "open_settings": "Open settings"
+      "permissions_error": "Nie nadano uprawnień do korzystania z kamery lub mikrofonu",
+      "permissions_error_subheading": "Aby dołączyć do konsultacji, nadaj uprawnienia do korzystania z kamery lub mikrofonu w ustawieniach urządzenia",
+      "open_settings": "Otwórz ustawienia"
     },
     "select-avatar": {
       "heading": "Zmień zdjęcie profilowe",
