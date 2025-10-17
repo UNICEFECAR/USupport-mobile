@@ -67,7 +67,13 @@ export const UserProfile = ({ navigation }) => {
     if (protectedPages.includes(redirectTo) && isTmpUser) {
       handleRegistrationModalOpen();
     } else {
-      navigation.push(redirectTo);
+      if (redirectTo === "MoodTracker") {
+        navigation.navigate("TabNavigation", {
+          screen: "MoodTrackHistory",
+        });
+      } else {
+        navigation.push(redirectTo);
+      }
     }
   };
 
@@ -176,6 +182,12 @@ export const UserProfile = ({ navigation }) => {
                 uri: `${AMAZON_S3_BUCKET}/${clientData?.image || "default"}`,
               }}
               style={[styles.buttonSelector, styles.buttonSelectorFirstInGroup]}
+            />
+            <ButtonSelector
+              iconName="mood"
+              label={t("mood_tracker_button_label")}
+              onPress={() => handleRedirect("MoodTracker")}
+              style={styles.buttonSelector}
             />
           </View>
 
