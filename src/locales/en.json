@@ -205,6 +205,7 @@
       "worried": "Worried",
       "heading": "How are you feeling today?",
       "mood_tracker": "Mood Tracker",
+      "how_it_works": "How it works",
       "additional_comment_placeholder": "What made you feel this way?",
       "submit_mood_track": "Submit",
       "add_mood_tracker_success": "Your daily mood was added successfully",
@@ -1009,7 +1010,8 @@
       "heading": "Mood tracker",
       "subheading": "Here you can check your mood tracking and progress ",
       "emergency_button_label": "Emergency help",
-      "report": "Generate report"
+      "report": "Generate report",
+      "how-it-works": "How it works"
     },
     "notification-preferences-screen": {
       "heading": "Notification settings",
@@ -1336,6 +1338,14 @@
       "consent": "To proceed, please consent to our <0>Privacy Policy</0>",
       "cta_label": "I agree to complete the questionnaire.",
       "secondary_cta_label": "I do not want to complete the questionnaire"
+    },
+    "how-it-works-mood-track": {
+      "heading": "How mood tracker works",
+      "subheading_1": "You can easily record your moods throughout the day or at custom time periods that suit you. Each entry helps build a personal mood history, allowing you to reflect on changes and patterns over time. It’s quick, private, and designed to fit naturally into your daily routine.",
+      "subheading_2": "When recording a mood, you can optionally mark it as a special or critical life event. You can also add comments to capture thoughts or details related to that moment. This helps give more context to your mood history.",
+      "subheading_3": "A chart will display your recorded moods by date and time, helping you visualize your emotional trends. Below it, you’ll find recommended content tailored to your most recent mood entry for support and insight.",
+      "subheading_4": "By clicking on a specific event, you can view all comments and notes recorded for that moment, giving you deeper insight into what influenced your mood.",
+      "subheading_5": "You can generate a report for any selected date range and export it as a CSV file, making it easy to review or share your mood data when needed."
     }
   },
 

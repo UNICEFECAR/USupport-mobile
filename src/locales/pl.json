@@ -216,6 +216,7 @@
       "worried": "Zmartwiony/a",
       "heading": "Monitor nastroju",
       "mood_tracker": "Monitor nastroju",
+      "how_it_works": "Jak to działa",
       "additional_comment_placeholder": "Co sprawiło, że tak się poczułeś/aś?",
       "submit_mood_track": "Prześlij",
       "add_mood_tracker_success": "Twój codzienny nastrój został pomyślnie dodany",
@@ -983,7 +984,8 @@
       "heading": "Monitor nastroju",
       "subheading": "Tutaj możesz śledzić swój nastrój i postępy ",
       "emergency_button_label": "Pomoc w nagłych wypadkach",
-      "report": "Generuj raport"
+      "report": "Generuj raport",
+      "how-it-works": "Jak to działa"
     },
     "notification-preferences-screen": {
       "heading": "Ustawienia powiadomień",
@@ -1307,6 +1309,14 @@
       "confirm": "Yes, delete all my mood tracker data",
       "cancel": "No, keep my mood tracker data",
       "success": "Your mood tracker data has been deleted successfully."
+    },
+    "how-it-works-mood-track": {
+      "heading": "Jak działa rejestrator nastroju",
+      "subheading_1": "Możesz łatwo zapisywać swoje nastroje w ciągu dnia lub w dowolnych, wybranych przez siebie odstępach czasu. Każdy wpis pomaga stworzyć osobistą historię nastroju, co pozwala śledzić zmiany i wzorce w czasie. To szybkie, prywatne i dopasowane do Twojej codziennej rutyny.",
+      "subheading_2": "Podczas zapisywania nastroju możesz opcjonalnie oznaczyć go jako szczególne lub ważne wydarzenie życiowe. Możesz też dodać komentarze, aby uchwycić myśli lub szczegóły związane z daną chwilą. To pomaga nadać więcej kontekstu historii Twojego nastroju.",
+      "subheading_3": "Wykres pokaże Twoje zarejestrowane nastroje według daty i godziny, pomagając wizualizować Twoje emocjonalne trendy. Poniżej znajdziesz polecane treści dopasowane do Twojego ostatniego wpisu nastroju – dla wsparcia i lepszego zrozumienia.",
+      "subheading_4": "Klikając konkretne wydarzenie, możesz zobaczyć wszystkie komentarze i notatki zarejestrowane w tym momencie, aby lepiej zrozumieć, co wpłynęło na Twój nastrój.",
+      "subheading_5": "Możesz wygenerować raport dla dowolnego zakresu dat i wyeksportować go jako plik CSV, aby łatwo przeglądać lub udostępniać dane o nastroju, gdy zajdzie taka potrzeba."
     }
   },
   "navigation": {
