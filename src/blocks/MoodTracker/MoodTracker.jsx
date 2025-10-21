@@ -1,4 +1,10 @@
-import React, { useState, useCallback, useContext, useEffect } from "react";
+import React, {
+  useState,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+} from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { useTranslation } from "react-i18next";
@@ -12,10 +18,15 @@ import {
   Textarea,
   TransparentModal,
 } from "#components";
-import { useAddMoodTrack, useGetTheme } from "#hooks";
+import {
+  useAddMoodTrack,
+  useGetTheme,
+  useGetHasCompletedMoodTrackerEver,
+} from "#hooks";
 import { showToast } from "#utils";
 import { appStyles } from "#styles";
 import { localStorage, Context } from "#services";
+import { HowItWorksMoodTrack } from "#modals";
 
 /**
  * MoodTracker
@@ -52,6 +63,8 @@ export const MoodTracker = ({
   const [isEmergency, setIsEmergency] = useState(false);
   const [showEmergency, setShowEmergency] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [isHowItWorksMoodTrackOpen, setIsHowItWorksMoodTrackOpen] =
+    useState(false);
 
   useEffect(() => {
     localStorage.getItem("country").then((country) => {
@@ -66,6 +79,14 @@ export const MoodTracker = ({
     });
     setEmoticons(emoticonsCopy);
   }, [i18n.language]);
+
+  const { data: hasCompletedMoodTrackerEver } =
+    useGetHasCompletedMoodTrackerEver(IS_RO);
+
+  const textDynamicStyle = useMemo(
+    () => ({ textAlign: "center", color: colors.textTertiary }),
+    [colors.textTertiary]
+  );
 
   const hasSelectedMoodtracker = useCallback(() => {
     return emoticons.some((emoticon) => emoticon.isSelected);
@@ -105,13 +126,7 @@ export const MoodTracker = ({
           <AppText
             numberOfLines={2}
             namedStyle="smallText"
-            style={[
-              styles.textSelected,
-              {
-                textAlign: "center",
-                color: colors.textTertiary,
-              },
-            ]}
+            style={[styles.textSelected, textDynamicStyle]}
           >
             {emoticon.label}
           </AppText>
@@ -187,16 +202,28 @@ export const MoodTracker = ({
           navigation.navigate("MoodTrackHistory");
         }}
       />
+      <HowItWorksMoodTrack
+        isOpen={isHowItWorksMoodTrackOpen}
+        onClose={() => setIsHowItWorksMoodTrackOpen(false)}
+      />
       <Block style={styles.block}>
         <View style={styles.heading}>
-          <AppText style={{ marginRight: 12 }} namedStyle="h3">
+          <AppText style={styles.headingText} namedStyle="h3">
             {t("heading")}
           </AppText>
-          <TouchableOpacity onPress={handleMoodtrackClick}>
-            <AppText style={styles.moodTrackerButton}>
-              {t("mood_tracker")}
-            </AppText>
-          </TouchableOpacity>
+          {!(IS_RO && !hasCompletedMoodTrackerEver) ? (
+            <TouchableOpacity onPress={handleMoodtrackClick}>
+              <AppText style={styles.moodTrackerButton}>
+                {t("mood_tracker")}
+              </AppText>
+            </TouchableOpacity>
+          ) : (
+            <AppButton
+              label={t("how_it_works")}
+              type="secondary"
+              onPress={() => setIsHowItWorksMoodTrackOpen(true)}
+            />
+          )}
         </View>
         <View style={styles.rating}>{renderEmoticons()}</View>
         {hasSelectedMoodtracker() && (
@@ -210,7 +237,7 @@ export const MoodTracker = ({
             />
             {showEmergency && (
               <Toggle
-                wrapperStyles={{ paddingTop: 12 }}
+                wrapperStyles={styles.toggle}
                 label={t("emergency_label")}
                 isToggled={isEmergency}
                 handleToggle={(checked) => setIsEmergency(checked)}
@@ -253,6 +280,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "100%",
   },
+  headingText: { marginRight: 12 },
   moodTrackerButton: {
     color: appStyles.colorSecondary_9749fa,
     fontFamily: appStyles.fontSemiBold,
@@ -265,4 +293,5 @@ const styles = StyleSheet.create({
   },
   submitButton: { marginTop: 16 },
   textSelected: { color: appStyles.colorBlack_37 },
+  toggle: { paddingTop: 12 },
 });
