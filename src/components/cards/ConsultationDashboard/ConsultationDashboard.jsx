@@ -58,7 +58,7 @@ export const ConsultationDashboard = ({
       ]}
     >
       {consultation ? (
-        <View className="consultation-dashboard__content">
+        <View style={styles.contentContainer}>
           {isLive ? (
             <AppText namedStyle="smallText" style={styles.nowText}>
               {t("live_label")}
@@ -72,7 +72,7 @@ export const ConsultationDashboard = ({
           <View style={styles.providerContainer}>
             <Image source={{ uri: imageUrl }} style={styles.providerImage} />
             <AppText style={[styles.providerNameText, { color: colors.text }]}>
-              {providerName}
+              Provider Expert Pro New asdasdad sgrewjiogew gerjiwgjiiii
             </AppText>
           </View>
           {status === "suggested" ? (
@@ -150,6 +150,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 8,
     width: 200,
+  },
+  contentContainer: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
   },
   editButtonsContainer: {
     alignSelf: "center",
