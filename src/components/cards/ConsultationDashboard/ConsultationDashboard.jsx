@@ -72,7 +72,7 @@ export const ConsultationDashboard = ({
           <View style={styles.providerContainer}>
             <Image source={{ uri: imageUrl }} style={styles.providerImage} />
             <AppText style={[styles.providerNameText, { color: colors.text }]}>
-              Provider Expert Pro New asdasdad sgrewjiogew gerjiwgjiiii
+              {providerName}
             </AppText>
           </View>
           {status === "suggested" ? (
