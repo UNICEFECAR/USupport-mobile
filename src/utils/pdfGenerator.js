@@ -155,7 +155,7 @@ export const generatePDF = async ({ articleData, t }) => {
       html: htmlContent,
       fileName: fileName,
       directory: Platform.OS === "ios" ? "Documents" : "Download",
-      base64: false,
+      base64: true,
     };
 
     const file = await RNHTMLtoPDF.convert(options);

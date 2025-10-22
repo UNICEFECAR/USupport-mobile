@@ -23,7 +23,7 @@ const { AMAZON_S3_BUCKET } = Config;
  * @return {jsx}
  */
 export const ArticleView = ({ articleData, isTmpUser }) => {
-  const { t } = useTranslation("article-information");
+  const { t } = useTranslation("screens", { keyPrefix: "article-information" });
   const { colors } = useGetTheme();
   const queryClient = useQueryClient();
 
@@ -164,11 +164,17 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
 
       console.log("PDF file object:", file);
 
-      if (file && file.filePath) {
+      if (file && (file.base64 || file.filePath)) {
+        // Prefer base64 data URL for Android to avoid sending a raw path
+        const url = file.base64
+          ? `data:application/pdf;base64,${file.base64}`
+          : file.filePath.startsWith("file://")
+            ? file.filePath
+            : `file://${file.filePath}`;
         const shareOptions = {
           title: articleData.title,
           subject: articleData.title,
-          url: file.filePath,
+          url,
           type: "application/pdf",
           failOnCancel: false,
         };
@@ -216,7 +222,9 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
         </View>
 
         <View style={styles.creatorContainer}>
-          <AppText namedStyle="smallText">By {articleData.creator}</AppText>
+          <AppText namedStyle="smallText">
+            {t("by", { creator: articleData.creator })}
+          </AppText>
           <Icon
             size="sm"
             name="time"
@@ -224,7 +232,7 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
             style={styles.iconTime}
           />
           <AppText namedStyle="smallText">
-            {articleData.readingTime} min read
+            {[articleData.readingTime, t("min_read")].join(" ")}
           </AppText>
           <View style={styles.actionButtons}>
             <TouchableOpacity
@@ -243,7 +251,7 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
+        <View style={styles.rowStart}>
           <View style={styles.labelsContainer}>
             {articleData.labels.map((label, index) => {
               return (
@@ -344,4 +352,5 @@ const styles = StyleSheet.create({
     width: "70%",
   },
   loading: { height: 16, width: 16 },
+  rowStart: { alignItems: "flex-start", flexDirection: "row" },
 });
