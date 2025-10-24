@@ -36,7 +36,7 @@ export const RegisterPreview = ({ navigation }) => {
     return res.data;
   };
 
-  const { setToken } = useContext(Context);
+  const { country, setToken } = useContext(Context);
 
   const tmpLoginMutation = useMutation(tmpLogin, {
     onSuccess: async (data) => {
@@ -130,6 +130,9 @@ export const RegisterPreview = ({ navigation }) => {
               renderItem={renderCarouselItems}
               style={styles.carousel}
             />
+            {country === "PL" && (
+              <AppText style={styles.plText}>{t("pl_text")}</AppText>
+            )}
             <AppButton
               label={t("login")}
               size="lg"
@@ -164,38 +167,39 @@ export const RegisterPreview = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  scrollView: { flexGrow: 1 },
-  block: {
-    flex: 1,
-  },
-  imageContainer: {
-    height: 258,
-    width: "100%",
-    position: "absolute",
-    right: -185,
-    top: 50,
-    paddingVertical: 32,
-  },
-  image: {
-    width: 325,
-    height: 258,
-    resizeMode: "contain",
-  },
-  contentContainer: {
-    flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center",
-    paddingBottom: 45,
-  },
-  carousel: { marginBottom: 20 },
   accessAnonymouslyButton: {
     marginVertical: 16,
   },
+  block: {
+    flex: 1,
+  },
+  carousel: { marginBottom: 20 },
   carouselItem: {
+    alignSelf: "center",
+    maxWidth: 420,
     padding: 16,
     width: "96%",
-    maxWidth: 420,
-    alignSelf: "center",
   },
   carouselItemText: { marginTop: 16 },
+  contentContainer: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "flex-end",
+    paddingBottom: 45,
+  },
+  image: {
+    height: 258,
+    resizeMode: "contain",
+    width: 325,
+  },
+  imageContainer: {
+    height: 258,
+    paddingVertical: 32,
+    position: "absolute",
+    right: -185,
+    top: 50,
+    width: "100%",
+  },
+  plText: { fontWeight: "600", marginVertical: 16, textAlign: "center" },
+  scrollView: { flexGrow: 1 },
 });
