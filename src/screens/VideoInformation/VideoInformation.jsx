@@ -131,7 +131,7 @@ export const VideoInformation = ({ navigation, route }) => {
         {!isMoreVideosLoading && moreVideos && moreVideos.length > 0 && (
           <View style={styles.moreVideosContainer}>
             <AppText namedStyle="h4" style={styles.moreVideosHeading}>
-              {t("what_more_videos")}
+              {t("more_videos")}
             </AppText>
             <View style={styles.moreVideosGrid}>
               {moreVideos.map((video, index) => {
