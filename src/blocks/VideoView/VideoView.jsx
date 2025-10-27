@@ -37,7 +37,7 @@ export const VideoView = ({ videoData, t, isTmpUser }) => {
   const getVideoInfo = (url) => {
     if (!url) return { platform: null, videoId: null };
 
-    const isYoutube = url.includes("youtube");
+    const isYoutube = url.includes("youtube") || url.includes("youtu.be");
     const isVimeo = url.includes("vimeo");
 
     if (isYoutube) {
