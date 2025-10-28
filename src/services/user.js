@@ -285,6 +285,13 @@ async function addCountryEvent(payload) {
   return response;
 }
 
+async function getMobileMap({ lat, lng }) {
+  const response = await http.get(
+    `${API_ENDPOINT}/mobile-map?lat=${lat}&lng=${lng}`
+  );
+  return response;
+}
+
 const exportedFunctions = {
   changePassword,
   generateClientAccesToken,
@@ -313,6 +320,7 @@ const exportedFunctions = {
   getRatingsForContent,
   addContactForm,
   addCountryEvent,
+  getMobileMap,
 };
 
 export default exportedFunctions;
