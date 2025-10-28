@@ -496,6 +496,7 @@ const styles = StyleSheet.create({
   // Navigation section
   navigation: {
     width: "100%",
+    paddingBottom: 50,
   },
   navigationButtons: {
     flexDirection: "row",
