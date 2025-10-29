@@ -59,24 +59,6 @@ export const JitsiMeeting = ({
     };
   }, [isChatShown]);
 
-  useEffect(() => {
-    if (Platform.OS !== "android") return;
-
-    const onBackPress = () => {
-      setIsCancelConfirmationOpen((prev) => !prev);
-      return true; // prevent default back navigation
-    };
-
-    const subscription = BackHandler.addEventListener(
-      "hardwareBackPress",
-      onBackPress
-    );
-
-    return () => {
-      subscription.remove();
-    };
-  }, []);
-
   // Initialize audio and video state when conference is joined
   // useEffect(() => {
   //   if (status === "connected" && jitsiMeeting.current) {
@@ -105,8 +87,8 @@ export const JitsiMeeting = ({
 
   const onReadyToClose = useCallback(() => {
     // @ts-ignore
-    // jitsiMeeting.current.close();
-    // leaveConsultation();
+    jitsiMeeting.current.close();
+    leaveConsultation();
   }, []);
 
   const eventListeners = {
@@ -252,8 +234,8 @@ export const JitsiMeeting = ({
             "audioOnly.enabled": false,
             "video-mute.enabled": true,
             "android.screensharing.enabled": false,
-            "pip.enabled": false,
-            "pip-while-screen-sharing.enabled": false,
+            "pip.enabled": true,
+            "pip-while-screen-sharing.enabled": true,
             "conference-timer.enabled": false,
             "close-captions.enabled": false,
             "toolbox.enabled": true,
