@@ -36,7 +36,6 @@ export const InteractiveMap = ({
     useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [mapReady, setMapReady] = useState(false);
-
   const [headers, setHeaders] = useState();
 
   useEffect(() => {
@@ -59,6 +58,7 @@ export const InteractiveMap = ({
         const { status } = await Location.requestForegroundPermissionsAsync();
 
         if (status !== "granted") {
+          console.warn("⚠️ Location permission denied");
           if (isInitialLoad) {
             setHasSetInitialView(true);
             setIsLoading(false);
@@ -95,7 +95,7 @@ export const InteractiveMap = ({
           );
         }
       } catch (error) {
-        console.log("Location error:", error);
+        console.error("❌ Location error:", error);
         if (isInitialLoad) {
           setHasSetInitialView(true);
           setIsLoading(false);
@@ -108,14 +108,18 @@ export const InteractiveMap = ({
 
   useEffect(() => {
     async function getHeaders() {
-      const token = await localStorage.getItem("token");
-      const country = await localStorage.getItem("country");
-      const language = await localStorage.getItem("language");
-      setHeaders({
-        Authorization: `Bearer ${token}`,
-        "x-country-alpha-2": country,
-        "x-language-alpha-2": language,
-      });
+      try {
+        const token = await localStorage.getItem("token");
+        const country = await localStorage.getItem("country");
+        const language = await localStorage.getItem("language");
+        setHeaders({
+          Authorization: `Bearer ${token}`,
+          "x-country-alpha-2": country,
+          "x-language-alpha-2": language,
+        });
+      } catch (error) {
+        console.error("❌ Error loading headers:", error);
+      }
     }
 
     if (!hasSetInitialView) {
@@ -127,12 +131,12 @@ export const InteractiveMap = ({
   // Send organizations data to WebView when they change or map becomes ready
   useEffect(() => {
     if (webViewRef.current && data && data.length > 0 && mapReady) {
-      webViewRef.current.postMessage(
-        JSON.stringify({
-          type: "SET_ORGANIZATIONS",
-          organizations: data,
-        })
-      );
+      const messagePayload = {
+        type: "SET_ORGANIZATIONS",
+        organizations: data,
+      };
+
+      webViewRef.current.postMessage(JSON.stringify(messagePayload));
     }
   }, [data, mapReady]);
 
@@ -173,15 +177,11 @@ export const InteractiveMap = ({
                   );
                 },
                 selectProvider: (organization) => {
-                  // Close any existing selection first
                   setSelectedMarker && setSelectedMarker(null);
-
-                  // Open the new selection with a small delay for clean transition
                   setTimeout(() => {
                     setSelectedMarker && setSelectedMarker(organization);
                   }, 100);
 
-                  // Also zoom to the organization
                   if (
                     organization.location?.latitude &&
                     organization.location?.longitude
@@ -201,44 +201,45 @@ export const InteractiveMap = ({
             break;
 
           case "MARKER_SELECTED":
-            console.log(
-              "Organization marker selected:",
-              messageData.organization
-            );
-
-            // Close any existing selection first (like web version)
             setSelectedMarker && setSelectedMarker(null);
-
-            // Open the new selection with a small delay for clean transition
             setTimeout(() => {
               setSelectedMarker && setSelectedMarker(messageData.organization);
             }, 100);
 
-            // Call onSelectItem if provided (for additional functionality)
             if (onSelectItem) {
               onSelectItem(messageData.organization);
             }
             break;
 
           case "MAP_CLICKED":
-            // Close backdrop when map is clicked (like web version)
             setSelectedMarker && setSelectedMarker(null);
             break;
 
           case "ERROR":
             console.error(
-              "WebView Error:",
+              "❌ WebView Error:",
               messageData.message,
               "Line:",
               messageData.line
             );
             break;
 
+          case "MAP_INITIALIZING":
+            break;
+
+          case "MESSAGE_RECEIVED":
+            break;
+
           default:
-            console.log("Unknown message type:", messageData.type);
+            break;
         }
       } catch (error) {
-        console.error("Error parsing WebView message:", error);
+        console.error(
+          "❌ Error parsing WebView message:",
+          error,
+          "Raw data:",
+          event.nativeEvent.data
+        );
       }
     },
     [onMapReady, onSelectItem, setSelectedMarker]
@@ -255,6 +256,7 @@ export const InteractiveMap = ({
       </View>
     );
   }
+
   return (
     <View style={[styles.mapContainer, style]}>
       <WebView
@@ -268,12 +270,18 @@ export const InteractiveMap = ({
         javaScriptEnabled={true}
         domStorageEnabled={true}
         startInLoadingState={true}
-        allowsInlineMediaPlaybook={true}
+        allowsInlineMediaPlayback={true}
         mediaPlaybackRequiresUserAction={false}
-        onError={(error) => console.log("WebView error:", error)}
-        onHttpError={(error) => console.log("WebView HTTP error:", error)}
-        onLoadStart={() => console.log("WebView started loading")}
-        onLoadEnd={() => console.log("WebView finished loading")}
+        onError={(error) => {
+          console.error("❌ WebView error:", error);
+          console.error("Error code:", error?.code);
+          console.error("Error description:", error?.description);
+        }}
+        onHttpError={(error) => {
+          console.error("❌ WebView HTTP error:", error);
+          console.error("HTTP error statusCode:", error?.statusCode);
+          console.error("HTTP error url:", error?.url);
+        }}
         originWhitelist={["*"]}
       />
 
@@ -307,55 +315,18 @@ export const InteractiveMap = ({
 };
 
 const styles = StyleSheet.create({
-  mapContainer: {
-    flex: 1,
-    position: "relative",
-    marginTop: 16,
-    backgroundColor: "#f0f0f0",
-    borderRadius: 12,
-    overflow: "hidden",
-    minHeight: 400,
-  },
-  webview: {
-    flex: 1,
-    backgroundColor: "transparent",
-  },
   controls: {
-    position: "absolute",
-    right: 16,
     bottom: 16,
-    zIndex: 1000,
-  },
-  permissionDeniedContainer: {
     position: "absolute",
-    top: 50,
-    left: 16,
     right: 16,
-    backgroundColor: "#ffffff",
-    borderRadius: 8,
-    padding: 12,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
     zIndex: 1000,
-  },
-  permissionDeniedText: {
-    fontSize: 14,
-    color: "#666",
-    textAlign: "center",
-    marginBottom: 8,
   },
   enableLocationButton: {
+    alignSelf: "center",
     backgroundColor: "#9749fa",
     borderRadius: 6,
-    paddingVertical: 8,
     paddingHorizontal: 16,
-    alignSelf: "center",
+    paddingVertical: 8,
   },
   enableLocationText: {
     color: "#ffffff",
@@ -363,8 +334,45 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   loadingContainer: {
-    width: "100%",
-    justifyContent: "center",
     alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+  },
+  mapContainer: {
+    backgroundColor: "#f0f0f0",
+    borderRadius: 12,
+    flex: 1,
+    marginTop: 16,
+    minHeight: 400,
+    overflow: "hidden",
+    position: "relative",
+  },
+  permissionDeniedContainer: {
+    backgroundColor: "#ffffff",
+    borderRadius: 8,
+    elevation: 5,
+    left: 16,
+    padding: 12,
+    position: "absolute",
+    right: 16,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    top: 50,
+    zIndex: 1000,
+  },
+  permissionDeniedText: {
+    color: "#666",
+    fontSize: 14,
+    marginBottom: 8,
+    textAlign: "center",
+  },
+  webview: {
+    backgroundColor: "transparent",
+    flex: 1,
   },
 });
