@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "transparent",
     minWidth: 60,
-    maxWidth: 200,
+    maxWidth: 260,
     alignItems: "center",
     justifyContent: "center",
   },

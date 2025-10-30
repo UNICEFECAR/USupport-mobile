@@ -116,6 +116,14 @@ export const InformationalPortal = ({
         ids: contentIdsQuery.data,
       });
 
+      // Handle async destructurePodcastData for podcasts
+      if (contentType === "podcasts") {
+        const contentItems = data.data || [];
+        return await Promise.all(
+          contentItems.map((item) => destructureData(item))
+        );
+      }
+
       return data.data.map(destructureData);
     };
 

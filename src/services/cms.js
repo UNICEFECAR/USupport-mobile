@@ -444,6 +444,70 @@ async function getMoodTrackerRecommendations(moodType, locale) {
   return { data };
 }
 
+/**
+ * send request to get all unique category IDs from articles
+ *
+ * @param {string} locale - the locale for which to retrieve category IDs
+ * @param {number} ageGroupId - the age group ID to filter by
+ * @param {array} articleIds - array of article IDs to filter by (optional)
+ *
+ * @returns {array} array of unique category IDs
+ */
+async function getArticleCategoryIds(locale, ageGroupId, articleIds) {
+  let queryString = "?locale=" + locale + "&ageGroupId=" + ageGroupId;
+
+  if (articleIds && articleIds.length > 0) {
+    queryString += "&ids=" + articleIds.join(",");
+  }
+
+  const { data } = await http.get(
+    articlesEndpoint + "/custom/category-ids" + queryString
+  );
+  return data;
+}
+
+/**
+ * send request to get all unique category IDs from podcasts
+ *
+ * @param {string} locale - the locale for which to retrieve category IDs
+ * @param {array} podcastIds - array of podcast IDs to filter by (optional)
+ *
+ * @returns {array} array of unique category IDs
+ */
+async function getPodcastCategoryIds(locale, podcastIds) {
+  let queryString = "?locale=" + locale;
+
+  if (podcastIds && podcastIds.length > 0) {
+    queryString += "&ids=" + podcastIds.join(",");
+  }
+
+  const { data } = await http.get(
+    podcastsEndpoint + "/custom/category-ids" + queryString
+  );
+  return data;
+}
+
+/**
+ * send request to get all unique category IDs from videos
+ *
+ * @param {string} locale - the locale for which to retrieve category IDs
+ * @param {array} videoIds - array of video IDs to filter by (optional)
+ *
+ * @returns {array} array of unique category IDs
+ */
+async function getVideoCategoryIds(locale, videoIds) {
+  let queryString = "?locale=" + locale;
+
+  if (videoIds && videoIds.length > 0) {
+    queryString += "&ids=" + videoIds.join(",");
+  }
+
+  const { data } = await http.get(
+    videosEndpoint + "/custom/category-ids" + queryString
+  );
+  return data;
+}
+
 export default {
   getArticles,
   getArticleById,
@@ -469,4 +533,7 @@ export default {
   getRecommendedArticlesForCategory,
   getAssessmentResult,
   getMoodTrackerRecommendations,
+  getArticleCategoryIds,
+  getPodcastCategoryIds,
+  getVideoCategoryIds,
 };

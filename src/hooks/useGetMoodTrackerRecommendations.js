@@ -22,8 +22,8 @@ export const useGetMoodTrackerRecommendations = (moodType, language) => {
       const articlesData = articles.data.map((article) =>
         destructureArticleData(article)
       );
-      const podcastsData = podcasts.data.map((podcast) =>
-        destructurePodcastData(podcast)
+      const podcastsData = await Promise.all(
+        podcasts.data.map((podcast) => destructurePodcastData(podcast))
       );
       const videosData = videos.data.map((video) =>
         destructureVideoData(video)
