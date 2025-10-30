@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useCallback, useContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useContext,
+  useMemo,
+} from "react";
 import { StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
@@ -40,10 +46,6 @@ export const Articles = ({
   showSearch = true,
   showCategories = true,
   openArticlesModal,
-  handleSetCategories,
-  handleCategorySelect,
-  selectedCategory,
-  allCategories,
 }) => {
   const { i18n, t } = useTranslation("blocks", { keyPrefix: "articles" });
   const { isTmpUser } = useContext(Context);
@@ -121,6 +123,9 @@ export const Articles = ({
 
     for (let i = 0; i < ageGroupsCopy.length; i++) {
       if (i === index) {
+        if (!ageGroupsCopy[i].isSelected) {
+          handleCategoryOnPress(0);
+        }
         ageGroupsCopy[i].isSelected = true;
         setSelectedAgeGroup(ageGroupsCopy[i]);
       } else {
@@ -132,14 +137,16 @@ export const Articles = ({
   };
 
   //--------------------- Categories ----------------------//
-  // const [selectedCategory, setSelectedCategory] = useState();
+  const [categories, setCategories] = useState();
+  const [selectedCategory, setSelectedCategory] = useState();
+
   const getCategories = async () => {
     try {
       const res = await cmsSvc.getCategories(usersLanguage);
       let categoriesData = [
         { label: t("all"), value: "all", isSelected: true },
       ];
-      res.data.map((category, index) =>
+      res.data.map((category) =>
         categoriesData.push({
           label: category.attributes.name,
           value: category.attributes.name,
@@ -147,10 +154,12 @@ export const Articles = ({
           isSelected: false,
         })
       );
-      handleCategorySelect(categoriesData[0]);
-      handleSetCategories(categoriesData);
+
+      setSelectedCategory(categoriesData[0]);
       return categoriesData;
-    } catch {}
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const categoriesQuery = useQuery(
@@ -159,26 +168,24 @@ export const Articles = ({
     {
       refetchOnWindowFocus: false,
       onSuccess: (data) => {
-        handleSetCategories([...data]);
+        setCategories([...data]);
       },
     }
   );
 
   const handleCategoryOnPress = (index) => {
-    const categoriesCopy = [...allCategories];
+    const selectedCategoryFromFiltered = categoriesToShow[index];
+    if (!selectedCategoryFromFiltered) return;
 
+    // Update all categories to set the selected one
+    const categoriesCopy = [...categories];
     for (let i = 0; i < categoriesCopy.length; i++) {
-      if (i === index) {
-        categoriesCopy[i].isSelected = true;
-        // setSelectedCategory(categoriesCopy[i]);
-        handleCategorySelect(categoriesCopy[i]);
-      } else {
-        categoriesCopy[i].isSelected = false;
-      }
+      categoriesCopy[i].isSelected =
+        categoriesCopy[i].id === selectedCategoryFromFiltered.id;
     }
-    handleSetCategories(categoriesCopy);
+    setCategories(categoriesCopy);
+    setSelectedCategory(selectedCategoryFromFiltered);
   };
-
   //--------------------- Search Input ----------------------//
   const [searchValue, setSearchValue] = useState("");
   const debouncedSearchValue = useDebounce(searchValue, 500);
@@ -232,6 +239,39 @@ export const Articles = ({
     ["articleIds", currentCountry],
     getArticlesIds
   );
+
+  const { data: articleCategoryIdsToShow } = useQuery(
+    [
+      "articles-category-ids",
+      usersLanguage,
+      selectedAgeGroup?.id,
+      articleIdsQuery.data,
+    ],
+    () => {
+      if (!selectedAgeGroup?.id) return [];
+      return cmsSvc.getArticleCategoryIds(
+        usersLanguage,
+        selectedAgeGroup.id,
+        articleIdsQuery.data?.length > 0 ? articleIdsQuery.data : undefined
+      );
+    },
+    {
+      enabled:
+        !!selectedAgeGroup?.id &&
+        !articleIdsQuery.isLoading &&
+        !!articleIdsQuery.data?.length,
+    }
+  );
+
+  const categoriesToShow = useMemo(() => {
+    if (!categories || !articleCategoryIdsToShow) return [];
+
+    return categories.filter(
+      (category) =>
+        articleCategoryIdsToShow.includes(category.id) ||
+        category.value === "all"
+    );
+  }, [categories, articleCategoryIdsToShow]);
 
   const [hasMoreGuest, setHasMoreGuest] = useState(true);
 
@@ -334,6 +374,10 @@ export const Articles = ({
     setArticles((prevArticles) => [...(prevArticles || []), ...newArticles]);
   };
 
+  const availableCategories = useMemo(() => {
+    return categoriesToShow.map((category) => category.id).filter((id) => !!id);
+  }, [categoriesToShow]);
+
   const {
     articles,
     loading: isArticlesLoading,
@@ -349,6 +393,7 @@ export const Articles = ({
       : selectedAgeGroup?.id && !ageGroupsQuery.isLoading,
     categoryIdFilter: selectedCategory?.id || null,
     searchValue: debouncedSearchValue,
+    availableCategories,
   });
 
   const articlesToTransform = isTmpUser ? guestArticles : articles;
@@ -417,9 +462,12 @@ export const Articles = ({
         ) : null}
       </Block>
 
-      {showCategories && areCategoriesAndAgeGroupsReady && allCategories ? (
+      {showCategories &&
+      areCategoriesAndAgeGroupsReady &&
+      categoriesToShow &&
+      categoriesToShow.length > 2 ? (
         <Tabs
-          options={allCategories}
+          options={categoriesToShow}
           handleSelect={handleCategoryOnPress}
           style={styles.tabs}
           t={t}

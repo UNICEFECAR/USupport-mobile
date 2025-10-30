@@ -25,13 +25,70 @@ const { width: screenWidth } = Dimensions.get("window");
 export const Tabs = ({ options, handleSelect, style, t = () => {} }) => {
   const { colors, isDarkMode } = useGetTheme();
   const scrollViewRef = useRef(null);
+  const tabRefs = useRef({});
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
   const [contentWidth, setContentWidth] = useState(0);
   const [scrollViewWidth, setScrollViewWidth] = useState(0);
   const [currentScrollX, setCurrentScrollX] = useState(0);
 
+  const scrollToTab = (index) => {
+    if (!scrollViewRef.current || !tabRefs.current[index]) {
+      return;
+    }
+
+    tabRefs.current[index].measureLayout(
+      scrollViewRef.current,
+      (x, y, width, height) => {
+        // Calculate the position to center the tab in the visible area
+        const tabCenter = x + width / 2;
+        const scrollViewCenter = scrollViewWidth / 2;
+        const targetScrollX = Math.max(
+          0,
+          Math.min(contentWidth - scrollViewWidth, tabCenter - scrollViewCenter)
+        );
+
+        scrollViewRef.current.scrollTo({
+          x: targetScrollX,
+          animated: true,
+        });
+
+        // Update state after a short delay to account for animation
+        setTimeout(() => {
+          setCurrentScrollX(targetScrollX);
+          checkScrollability(targetScrollX);
+        }, 100);
+      },
+      () => {
+        // Fallback: if measureLayout fails, try to scroll based on estimated position
+        // Average tab width is approximately 100px (padding + text + margins)
+        const estimatedTabWidth = 100;
+        const estimatedPosition = index * estimatedTabWidth;
+        const targetScrollX = Math.max(
+          0,
+          Math.min(
+            contentWidth - scrollViewWidth,
+            estimatedPosition - scrollViewWidth / 2 + estimatedTabWidth / 2
+          )
+        );
+
+        scrollViewRef.current.scrollTo({
+          x: targetScrollX,
+          animated: true,
+        });
+
+        setTimeout(() => {
+          setCurrentScrollX(targetScrollX);
+          checkScrollability(targetScrollX);
+        }, 100);
+      }
+    );
+  };
+
   const handleOnSelect = (index) => {
+    // Scroll to the selected tab
+    scrollToTab(index);
+
     if (handleSelect) {
       handleSelect(index);
     }
@@ -90,6 +147,25 @@ export const Tabs = ({ options, handleSelect, style, t = () => {} }) => {
     }
   }, [contentWidth, scrollViewWidth, currentScrollX]);
 
+  // Scroll to selected tab when options change
+  useEffect(() => {
+    if (
+      options &&
+      options.length > 0 &&
+      scrollViewWidth > 0 &&
+      contentWidth > 0
+    ) {
+      const selectedIndex = options.findIndex((opt) => opt.isSelected);
+      if (selectedIndex >= 0 && tabRefs.current[selectedIndex]) {
+        // Small delay to ensure layout is complete
+        setTimeout(() => {
+          scrollToTab(selectedIndex);
+        }, 100);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [options, scrollViewWidth, contentWidth]);
+
   const renderOptions = () => {
     if (!options || !Array.isArray(options)) {
       return null;
@@ -103,6 +179,11 @@ export const Tabs = ({ options, handleSelect, style, t = () => {} }) => {
         activeOpacity={0.7}
       >
         <View
+          ref={(ref) => {
+            if (ref) {
+              tabRefs.current[index] = ref;
+            }
+          }}
           style={[
             styles.tab,
             {
