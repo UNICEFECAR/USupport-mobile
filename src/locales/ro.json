@@ -901,7 +901,9 @@
       "read_more": "Citiți mai mult",
       "min_read": "durata lecturii",
       "by": "De către {{creator}}",
-      "check_article": "Bună ziua, citiți acest articol"
+      "check_article": "Bună ziua, citiți acest articol",
+      "share_success": "Articolul a fost distribuit",
+      "download_success": "Articolul a fost descărcat"
     },
     "articles-screen": {
       "heading_default": "All Articles",

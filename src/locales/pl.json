@@ -861,7 +861,9 @@
       "read_more": "Czytaj więcej",
       "min_read": "min czytać",
       "by": "Przez {{creator}}",
-      "check_article": "Cześć, sprawdź ten artykuł"
+      "check_article": "Cześć, sprawdź ten artykuł",
+      "share_success": "Artykuł został udostępniony",
+      "download_success": "Artykuł został pobrany"
     },
     "articles-screen": {
       "heading_default": "Wszystkie artykuły",

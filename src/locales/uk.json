@@ -863,7 +863,9 @@
       "read_more": "Читати далі",
       "min_read": "хв. читання",
       "by": "Від {{creator}}",
-      "check_article": "Привіт, переглянь цю статтю"
+      "check_article": "Привіт, переглянь цю статтю",
+      "share_success": "Статтю успішно поділено",
+      "download_success": "Статтю успішно завантажено"
     },
     "articles-screen": {
       "heading_default": "Всі статті",

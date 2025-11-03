@@ -881,7 +881,9 @@
       "read_more": "Click to read more",
       "min_read": "min read",
       "by": "By {{creator}}",
-      "check_article": "Hello, check this article"
+      "check_article": "Hello, check this article",
+      "share_success": "Article shared successfully",
+      "download_success": "Article downloaded successfully"
     },
     "articles-screen": {
       "heading_default": "All Articles",

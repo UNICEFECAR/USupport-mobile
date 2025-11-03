@@ -815,7 +815,9 @@
       "read_more": "Ары қарай оқу",
       "min_read": "минут оқуға",
       "by": "Дайындаушы {{creator}}",
-      "check_article": "Сәлем, осы мақаланы тексеріңіз"
+      "check_article": "Сәлем, осы мақаланы тексеріңіз",
+      "share_success": "Мақала сәтті бөлісілді",
+      "download_success": "Мақала сәтті жүктеп алынды"
     },
     "articles-screen": {
       "heading_default": "Барлық мақалалар",

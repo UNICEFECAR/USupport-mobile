@@ -11,7 +11,7 @@ import { appStyles } from "#styles";
 
 import { useGetTheme, useAddContentRating } from "#hooks";
 import { cmsSvc } from "#services";
-import { constructShareUrl, generatePDF } from "#utils";
+import { constructShareUrl, generatePDF, showToast } from "#utils";
 
 const { AMAZON_S3_BUCKET } = Config;
 
@@ -110,7 +110,7 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
   };
   const onError = (error, rollback) => {
     rollback();
-    toast.error(error);
+    showToast({ message: error, type: "error" });
   };
 
   const onSuccess = () => {
@@ -148,9 +148,12 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
         title: articleData.title,
         message: `${t("check_article")}\n\n${url}`,
       });
+      // If Share.open resolves without throwing, the share was successful
+      showToast({ message: t("share_success"), type: "success" });
     } catch (error) {
-      console.log("Share error:", error);
-      // User cancelled or error occurred
+      if (error.message && !error.message.includes("User did not share")) {
+        console.log("Share error:", error);
+      }
     }
   };
   const [isPdfLoading, setIsPdfLoading] = useState(false);
@@ -176,10 +179,14 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
           subject: articleData.title,
           url,
           type: "application/pdf",
-          failOnCancel: false,
+          failOnCancel: true,
         };
 
         await Share.open(shareOptions);
+        showToast({
+          message: t("download_success"),
+          type: "success",
+        });
       } else {
         console.error("PDF file path is missing");
       }
