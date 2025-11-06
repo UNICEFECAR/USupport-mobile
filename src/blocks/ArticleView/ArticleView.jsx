@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
 import Markdown from "react-native-markdown-display";
 import { useQueryClient } from "@tanstack/react-query";
 import Share from "react-native-share";
@@ -168,34 +174,68 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
       console.log("PDF file object:", file);
 
       if (file && (file.base64 || file.filePath)) {
-        // Prefer base64 data URL for Android to avoid sending a raw path
-        const url = file.base64
-          ? `data:application/pdf;base64,${file.base64}`
-          : file.filePath.startsWith("file://")
-            ? file.filePath
-            : `file://${file.filePath}`;
+        // Android: consider PDF generated => downloaded; show toast now.
+        if (Platform.OS === "android") {
+          showToast({
+            message: t("download_success"),
+            type: "success",
+          });
+        }
+        // Prefer file path on iOS, base64 on Android if available
+        let url;
+        if (Platform.OS === "ios") {
+          if (file.filePath) {
+            url = file.filePath.startsWith("file://")
+              ? file.filePath
+              : `file://${file.filePath}`;
+          } else if (file.base64) {
+            url = `data:application/pdf;base64,${file.base64}`;
+          }
+        } else {
+          if (file.base64) {
+            url = `data:application/pdf;base64,${file.base64}`;
+          } else if (file.filePath) {
+            url = file.filePath.startsWith("file://")
+              ? file.filePath
+              : `file://${file.filePath}`;
+          }
+        }
         const shareOptions = {
           title: articleData.title,
           subject: articleData.title,
           url,
           type: "application/pdf",
-          failOnCancel: true,
+          saveToFiles: Platform.OS === "ios",
+          // iOS: detect cancel as an error so we can avoid showing the toast
+          // Android: do not fail on cancel to avoid false negatives
+          failOnCancel: Platform.OS === "ios",
         };
-
-        await Share.open(shareOptions);
-        showToast({
-          message: t("download_success"),
-          type: "success",
-        });
+        try {
+          await Share.open(shareOptions);
+          // iOS: show toast only after user completes a share/save action
+          if (Platform.OS === "ios") {
+            showToast({
+              message: t("download_success"),
+              type: "success",
+            });
+          }
+        } catch (shareError) {
+          if (
+            shareError?.message &&
+            !shareError.message.includes("User did not share")
+          ) {
+            console.log("Share PDF error:", shareError);
+          }
+        }
       } else {
         console.error("PDF file path is missing");
       }
     } catch (error) {
       console.error("Error exporting PDF:", error);
-      if (error.message && !error.message.includes("User did not share")) {
-        // Show error to user only if it's not a cancellation
-        console.error("Failed to share PDF:", error);
+      if (error?.message && error.message.includes("User did not share")) {
+        return;
       }
+      console.error("Failed to export/share PDF:", error);
     } finally {
       setIsPdfLoading(false);
     }
