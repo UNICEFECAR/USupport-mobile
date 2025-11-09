@@ -15,7 +15,7 @@ import { clientSvc } from "#services";
  * @return {jsx}
  */
 export const DeleteChatHistory = ({ isOpen, onClose }) => {
-  const { t } = useTranslation("delete-chat-history");
+  const { t } = useTranslation("modals", { keyPrefix: "delete-chat-history" });
 
   const [errors, setErrors] = useState({});
 

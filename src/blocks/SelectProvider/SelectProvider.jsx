@@ -23,7 +23,7 @@ export const SelectProvider = ({
   isFiltering,
   onRefresh,
 }) => {
-  const { t } = useTranslation("select-provider");
+  const { t } = useTranslation("blocks", { keyPrefix: "select-provider" });
   const { currencySymbol } = useContext(Context);
 
   const handleProviderClick = (providerId) => {
@@ -104,7 +104,7 @@ export const SelectProvider = ({
 
 const styles = StyleSheet.create({
   providersContainer: {
-    paddingVertical: 32,
+    paddingBottom: 32,
     height: "100%",
     width: "100%",
   },

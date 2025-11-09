@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
@@ -20,7 +20,7 @@ import {
   useDebounce,
 } from "#hooks";
 
-import { localStorage, adminSvc, cmsSvc } from "#services";
+import { localStorage, adminSvc, cmsSvc, Context } from "#services";
 
 /**
  * Podcasts
@@ -30,8 +30,8 @@ import { localStorage, adminSvc, cmsSvc } from "#services";
  * @returns {JSX.Element}
  */
 export const Podcasts = ({ navigation, showSearch, showCategories, sort }) => {
-  const { t, i18n } = useTranslation("videos");
-
+  const { t, i18n } = useTranslation("blocks", { keyPrefix: "videos" });
+  const { isTmpUser } = useContext(Context);
   const [usersLanguage, setUsersLanguage] = useState(i18n.language);
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export const Podcasts = ({ navigation, showSearch, showCategories, sort }) => {
     }
   }, [i18n.language]);
 
-  const { data: contentRatings } = useGetUserContentRatings();
+  const { data: contentRatings } = useGetUserContentRatings(!isTmpUser);
 
   //--------------------- Country Change Event Listener ----------------------//
   const [currentCountry, setCurrentCountry] = useState();
@@ -63,13 +63,46 @@ export const Podcasts = ({ navigation, showSearch, showCategories, sort }) => {
   const [categories, setCategories] = useState();
   const [selectedCategory, setSelectedCategory] = useState();
 
+  //--------------------- Podcasts ----------------------//
+  const getPodcastsIds = async () => {
+    const podcastIds = await adminSvc.getPodcasts();
+    return podcastIds;
+  };
+
+  const podcastIdsQuery = useQuery(
+    ["podcastIds", currentCountry],
+    getPodcastsIds
+  );
+
   const getCategories = async () => {
     try {
+      // First get category IDs that have podcasts
+      const categoryIdsWithPodcasts = await cmsSvc.getPodcastCategoryIds(
+        usersLanguage,
+        podcastIdsQuery.data
+      );
+
+      // If no categories have podcasts, return empty array with "all" option
+      if (!categoryIdsWithPodcasts || categoryIdsWithPodcasts.length === 0) {
+        const categoriesData = [
+          { label: t("all"), value: "all", isSelected: true },
+        ];
+        setSelectedCategory(categoriesData[0]);
+        return categoriesData;
+      }
+
+      // Get all categories
       const res = await cmsSvc.getCategories(usersLanguage);
+
+      // Filter categories to only include those that have podcasts
+      const filteredCategories = res.data.filter((category) =>
+        categoryIdsWithPodcasts.includes(category.id)
+      );
+
       let categoriesData = [
         { label: t("all"), value: "all", isSelected: true },
       ];
-      res.data.map((category) =>
+      filteredCategories.map((category) =>
         categoriesData.push({
           label: category.attributes.name,
           value: category.attributes.name,
@@ -87,9 +120,10 @@ export const Podcasts = ({ navigation, showSearch, showCategories, sort }) => {
   };
 
   const categoriesQuery = useQuery(
-    ["podcasts-categories", usersLanguage],
+    ["podcasts-categories", usersLanguage, podcastIdsQuery.data],
     getCategories,
     {
+      enabled: !!podcastIdsQuery.data && podcastIdsQuery.data.length > 0,
       refetchOnWindowFocus: false,
       onSuccess: (data) => {
         setCategories([...data]);
@@ -120,16 +154,6 @@ export const Podcasts = ({ navigation, showSearch, showCategories, sort }) => {
   };
 
   //--------------------- Podcasts ----------------------//
-  const getPodcastsIds = async () => {
-    const podcastIds = await adminSvc.getPodcasts();
-    return podcastIds;
-  };
-
-  const podcastIdsQuery = useQuery(
-    ["podcastIds", currentCountry],
-    getPodcastsIds
-  );
-
   const getPodcastsData = async () => {
     let categoryId = "";
     if (selectedCategory && selectedCategory.value !== "all") {
@@ -147,7 +171,12 @@ export const Podcasts = ({ navigation, showSearch, showCategories, sort }) => {
       ids: podcastIdsQuery.data,
     });
 
-    return data.data || [];
+    // Destructure podcast data with async handling
+    const podcasts = data.data || [];
+    const destructuredPodcasts = await Promise.all(
+      podcasts.map((podcast) => destructurePodcastData(podcast))
+    );
+    return destructuredPodcasts;
   };
 
   const {
@@ -188,86 +217,94 @@ export const Podcasts = ({ navigation, showSearch, showCategories, sort }) => {
           </View>
         )}
 
-        {showCategories && areCategoriesReady && categories && (
-          <View style={styles.categoriesContainer}>
-            <Tabs
-              options={categories}
-              handleSelect={handleCategoryOnPress}
-              t={t}
-            />
-          </View>
-        )}
-
-        {podcasts?.length > 0 &&
+        {showCategories &&
           areCategoriesReady &&
-          !isPodcastsLoading &&
-          !isPodcastsFetching && (
-            <View style={styles.podcastsContainer}>
-              {podcasts?.map((podcast, index) => {
-                const isLikedByUser = contentRatings?.some(
-                  (rating) =>
-                    rating.content_id === podcast.id &&
-                    rating.content_type === "podcast" &&
-                    rating.positive === true
-                );
-                const isDislikedByUser = contentRatings?.some(
-                  (rating) =>
-                    rating.content_id === podcast.id &&
-                    rating.content_type === "podcast" &&
-                    rating.positive === false
-                );
-                const podcastData = destructurePodcastData(podcast);
-                return (
-                  <CardMedia
-                    key={index}
-                    title={podcastData.title}
-                    image={podcastData.imageMedium || podcastData.imageSmall}
-                    description={podcastData.description}
-                    labels={podcastData.labels}
-                    categoryName={podcastData.categoryName}
-                    creator={podcastData.creator}
-                    likes={podcastData.likes}
-                    dislikes={podcastData.dislikes}
-                    isLikedByUser={isLikedByUser}
-                    isDislikedByUser={isDislikedByUser}
-                    contentType="podcasts"
-                    t={t}
-                    onPress={() => {
-                      navigation.push("PodcastInformation", {
-                        podcastId: podcastData.id,
-                      });
-                    }}
-                    style={styles.podcastCard}
-                  />
-                );
-              })}
+          categories &&
+          categories.length > 2 && (
+            <View style={styles.categoriesContainer}>
+              <Tabs
+                options={categories}
+                handleSelect={handleCategoryOnPress}
+                t={t}
+              />
+            </View>
+          )}
+        <View
+          style={{
+            paddingHorizontal: 16,
+          }}
+        >
+          {podcasts?.length > 0 &&
+            areCategoriesReady &&
+            !isPodcastsLoading &&
+            !isPodcastsFetching && (
+              <View style={styles.podcastsContainer}>
+                {podcasts?.map((podcast, index) => {
+                  const isLikedByUser = contentRatings?.some(
+                    (rating) =>
+                      rating.content_id === podcast.id &&
+                      rating.content_type === "podcast" &&
+                      rating.positive === true
+                  );
+                  const isDislikedByUser = contentRatings?.some(
+                    (rating) =>
+                      rating.content_id === podcast.id &&
+                      rating.content_type === "podcast" &&
+                      rating.positive === false
+                  );
+                  const podcastData = podcast; // Already destructured in getPodcastsData
+                  return (
+                    <CardMedia
+                      key={index}
+                      title={podcastData.title}
+                      image={podcastData.imageMedium || podcastData.imageSmall}
+                      description={podcastData.description}
+                      labels={podcastData.labels}
+                      categoryName={podcastData.categoryName}
+                      creator={podcastData.creator}
+                      likes={podcastData.likes}
+                      dislikes={podcastData.dislikes}
+                      isLikedByUser={isLikedByUser}
+                      isDislikedByUser={isDislikedByUser}
+                      contentType="podcasts"
+                      t={t}
+                      onPress={() => {
+                        navigation.push("PodcastInformation", {
+                          podcastId: podcastData.id,
+                        });
+                      }}
+                      style={styles.podcastCard}
+                    />
+                  );
+                })}
+              </View>
+            )}
+
+          {!podcasts?.length &&
+            !isPodcastsLoading &&
+            !isPodcastsFetching &&
+            categoriesQuery?.data?.length > 0 && (
+              <View style={styles.noResultsContainer}>
+                <AppText>{t("no_results")}</AppText>
+              </View>
+            )}
+
+          {(isPodcastsFetching ||
+            podcastIdsQuery.isLoading ||
+            podcastIdsQuery.isFetching) && (
+            <View style={styles.loadingContainer}>
+              <Loading style={styles.loading} />
             </View>
           )}
 
-        {!podcasts?.length &&
-          !isPodcastsLoading &&
-          !isPodcastsFetching &&
-          categoriesQuery?.data?.length > 0 && (
-            <View style={styles.noResultsContainer}>
-              <AppText>{t("no_results")}</AppText>
-            </View>
-          )}
-
-        {(isPodcastsFetching ||
-          podcastIdsQuery.isLoading ||
-          podcastIdsQuery.isFetching) && (
-          <View style={styles.loadingContainer}>
-            <Loading style={styles.loading} />
-          </View>
-        )}
-
-        {podcastIdsQuery.isFetched &&
-          (isPodcastsFetched || podcastsFetchStatus === "idle") &&
-          !podcasts && (
-            <View style={styles.noResultsContainer}>
-              <AppText namedStyle="h3">{t("could_not_load_content")}</AppText>
-            </View>
-          )}
+          {podcastIdsQuery.isFetched &&
+            (isPodcastsFetched || podcastsFetchStatus === "idle") &&
+            !podcasts && (
+              <View style={styles.noResultsContainer}>
+                <AppText namedStyle="h3">{t("could_not_load_content")}</AppText>
+              </View>
+            )}
+        </View>
       </ScrollView>
     </Block>
   );
@@ -277,6 +314,7 @@ const styles = StyleSheet.create({
   podcastsBlock: {
     flex: 1,
     paddingTop: 94,
+    paddingHorizontal: 0,
   },
   searchContainer: {
     marginBottom: 24,

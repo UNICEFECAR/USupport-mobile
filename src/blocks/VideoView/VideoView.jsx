@@ -21,7 +21,7 @@ const VIDEO_HEIGHT = (SCREEN_WIDTH * 9) / 16; // 16:9 aspect ratio
  *
  * @returns {JSX.Element}
  */
-export const VideoView = ({ videoData, t }) => {
+export const VideoView = ({ videoData, t, isTmpUser }) => {
   const { colors } = useGetTheme();
 
   const [playing, setPlaying] = useState(false);
@@ -37,7 +37,7 @@ export const VideoView = ({ videoData, t }) => {
   const getVideoInfo = (url) => {
     if (!url) return { platform: null, videoId: null };
 
-    const isYoutube = url.includes("youtube");
+    const isYoutube = url.includes("youtube") || url.includes("youtu.be");
     const isVimeo = url.includes("vimeo");
 
     if (isYoutube) {
@@ -167,6 +167,7 @@ export const VideoView = ({ videoData, t }) => {
   );
 
   const handleAddRating = (action) => {
+    if (isTmpUser) return;
     addContentRatingMutation({
       contentId: videoData.id,
       positive:

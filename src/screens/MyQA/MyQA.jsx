@@ -1,10 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useTranslation, Trans } from "react-i18next";
-import { StyleSheet, View, ScrollView, Platform } from "react-native";
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Platform,
+  KeyboardAvoidingView,
+} from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { Screen, AppText, AppButton } from "#components";
-import { MascotHeadingBlock, MyQA as MyQABlock } from "#blocks";
+import { MascotHeadingBlock, MyQA as MyQABlock, GiveSuggestion } from "#blocks";
 import { HowItWorksMyQA } from "#modals";
 import {
   CreateQuestion,
@@ -18,6 +25,8 @@ import {
   useAddVoteQuestion,
   useGetClientQuestions,
   useGetQuestions,
+  useKeyboard,
+  useAddCountryEvent,
 } from "#hooks";
 import { showToast } from "#utils";
 import { appStyles } from "#styles";
@@ -31,7 +40,8 @@ import { Context } from "#services";
  * @returns {JSX.Element}
  */
 export const MyQA = ({ navigation }) => {
-  const { t } = useTranslation("my-qa-screen");
+  const { t } = useTranslation("screens", { keyPrefix: "my-qa-screen" });
+  const { bottom: bottomInset } = useSafeAreaInsets();
 
   const { isTmpUser, handleRegistrationModalOpen } = useContext(Context);
 
@@ -52,6 +62,14 @@ export const MyQA = ({ navigation }) => {
   const [filterTag, setFilterTag] = useState();
   const [selectedLanguage, setSelectedLanguage] = useState();
   const [shouldFetchQuestions, setShouldFetchQuestions] = useState(false);
+
+  const [isKeyboardShown, setIsKeyboardShown] = useState(false);
+
+  useKeyboard(
+    true,
+    () => setIsKeyboardShown(true),
+    () => setIsKeyboardShown(false)
+  );
 
   const clientData = useGetClientData()[1];
 
@@ -116,6 +134,8 @@ export const MyQA = ({ navigation }) => {
     onMutate
   );
 
+  const addCountryEventMutation = useAddCountryEvent();
+
   const isUserQuestionsEnabled =
     tabs.filter((tab) => tab.value === "your_questions" && tab.isSelected)
       .length > 0 &&
@@ -172,6 +192,9 @@ export const MyQA = ({ navigation }) => {
       if (!clientData.dataProcessing) {
         openRequireDataAgreement();
       } else {
+        addCountryEventMutation.mutate({
+          eventType: "mobile_schedule_button_click",
+        });
         setIsSelectConsultationOpen(true);
       }
     }
@@ -194,28 +217,41 @@ export const MyQA = ({ navigation }) => {
   };
   return (
     <Screen hasEmergencyButton={false} hasHeaderNavigation t={t}>
-      <ScrollView>
-        <MascotHeadingBlock style={styles.headingBlock}>
-          <Heading t={t} handleButtonPress={() => setIsHowItWorksOpen(true)} />
-        </MascotHeadingBlock>
-        <MyQABlock
-          tabs={tabs}
-          setTabs={setTabs}
-          questions={questions}
-          handleLike={handleLike}
-          handleAskQuestion={handleAskQuestion}
-          handleSchedulePress={handleScheduleConsultationPress}
-          handleReadMore={handleSetIsQuestionDetailsOpen}
-          handleFilterTags={() => setIsFilterQuestionsBackdropOpen(true)}
-          filterTag={filterTag}
-          userQuestionsLoading={userQuestionsQuery.isLoading}
-          allQuestionsLoading={allQuestionsQuery.isLoading}
-          handleProviderClick={handleProviderClick}
-          selectedLanguage={selectedLanguage}
-          setSelectedLanguage={setSelectedLanguage}
-          setShouldFetchQuestions={setShouldFetchQuestions}
-        />
-      </ScrollView>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "position" : null}
+        keyboardVerticalOffset={64}
+      >
+        <ScrollView>
+          <MascotHeadingBlock style={styles.headingBlock}>
+            <Heading
+              t={t}
+              handleButtonPress={() => setIsHowItWorksOpen(true)}
+            />
+          </MascotHeadingBlock>
+          <MyQABlock
+            tabs={tabs}
+            setTabs={setTabs}
+            questions={questions}
+            handleLike={handleLike}
+            handleAskQuestion={handleAskQuestion}
+            handleSchedulePress={handleScheduleConsultationPress}
+            handleReadMore={handleSetIsQuestionDetailsOpen}
+            handleFilterTags={() => setIsFilterQuestionsBackdropOpen(true)}
+            filterTag={filterTag}
+            userQuestionsLoading={userQuestionsQuery.isLoading}
+            allQuestionsLoading={allQuestionsQuery.isLoading}
+            handleProviderClick={handleProviderClick}
+            selectedLanguage={selectedLanguage}
+            setSelectedLanguage={setSelectedLanguage}
+            setShouldFetchQuestions={setShouldFetchQuestions}
+          />
+          <GiveSuggestion
+            navigation={navigation}
+            style={styles.marginBottom80}
+            type="my-qa"
+          />
+        </ScrollView>
+      </KeyboardAvoidingView>
       {isHowItWorksOpen ? (
         <HowItWorksMyQA
           isOpen={isHowItWorksOpen}
@@ -257,12 +293,17 @@ export const MyQA = ({ navigation }) => {
           setTag={setFilterTag}
         />
       )}
-      <AppButton
-        label={t("ask_button_label")}
-        size="lg"
-        style={styles.askButton}
-        onPress={handleAskQuestion}
-      />
+      {!isKeyboardShown && (
+        <AppButton
+          label={t("ask_button_label")}
+          size="lg"
+          style={{
+            bottom: Platform.OS === "ios" ? 70 : bottomInset + 120,
+            ...styles.askButton,
+          }}
+          onPress={handleAskQuestion}
+        />
+      )}
     </Screen>
   );
 };
@@ -270,17 +311,13 @@ export const MyQA = ({ navigation }) => {
 const Heading = ({ t, handleButtonPress }) => {
   return (
     <View>
-      <AppText namedStyle="h3" style={[styles.headingText]} black>
+      <AppText namedStyle="h3" style={styles.headingText} black>
         {t("heading")}
       </AppText>
       <AppText namedStyle="text" black>
         <Trans
           components={
-            <AppText
-              namedStyle="text"
-              style={[styles.textBold]}
-              black
-            ></AppText>
+            <AppText namedStyle="text" style={styles.textBold} black></AppText>
           }
         >
           {t("subheading")}
@@ -300,11 +337,11 @@ const Heading = ({ t, handleButtonPress }) => {
 const styles = StyleSheet.create({
   askButton: {
     alignSelf: "center",
-    bottom: Platform.OS === "ios" ? 70 : 100,
     position: "absolute",
   },
   headingBlock: { paddingTop: 88 },
   headingButton: { marginRight: 24, marginTop: 12 },
   headingText: { marginBottom: 12 },
+  marginBottom80: { marginBottom: 80 },
   textBold: { fontFamily: appStyles.fontExtraBold },
 });

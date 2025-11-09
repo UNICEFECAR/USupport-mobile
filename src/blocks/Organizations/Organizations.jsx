@@ -1,31 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   View,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
   Linking,
+  KeyboardAvoidingView,
 } from "react-native";
 import { useTranslation } from "react-i18next";
 import Share from "react-native-share";
 import Config from "react-native-config";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
 
 import {
+  AppText,
   Block,
   Input,
   InteractiveMap,
   Loading,
-  AppText,
   OrganizationOverview,
   Avatar,
   ButtonWithIcon,
   AppButton,
   Icon,
+  TransparentModal,
+  ButtonOnlyIcon,
 } from "#components";
-import { useGetOrganizationMetadata, useGetAllOrganizations } from "#hooks";
+
+import {
+  useGetAllOrganizations,
+  useGetClientData,
+  useGetLatestBaselineAssessment,
+  useCreateBaselineAssessment,
+  useGetTheme,
+} from "#hooks";
+
 import { appStyles } from "#styles";
+
 import { constructShareUrl } from "#utils";
-import { useGetTheme } from "#hooks";
+
+import { Context, clientSvc } from "#services";
+
+import { RequireRegistration, BaselineAssesmentModal } from "#modals";
+
+import { GiveSuggestion } from "../GiveSuggestion";
 
 const { GOOGLE_MAPS_API_KEY, AMAZON_S3_BUCKET } = Config;
 
@@ -35,21 +53,81 @@ const { GOOGLE_MAPS_API_KEY, AMAZON_S3_BUCKET } = Config;
  * Organizations block component that displays a list of organizations with filtering options
  * @returns {JSX.Element}
  */
-export const Organizations = ({ navigation, filters, setFilters }) => {
-  const { t } = useTranslation("organizations");
+export const Organizations = ({
+  navigation,
+  filters,
+  setFilters,
+  setIsFilterOpen,
+  specialisations,
+}) => {
+  const { t } = useTranslation("blocks", { keyPrefix: "organizations" });
+
+  const queryClient = useQueryClient();
+  const { isTmpUser } = useContext(Context);
+
   const [mapControls, setMapControls] = useState(null);
   const [selectedOrganization, setSelectedOrganization] = useState(null);
 
+  const [isPersonalizationModalOpen, setIsPersonalizationModalOpen] =
+    useState(false);
+  const [startPersonalization, setStartPersonalization] = useState(false);
+  const [isRegistrationModalOpen, setIsRegistrationModalOpen] = useState(false);
+  const [isBaselineAssesmentModalOpen, setIsBaselineAssesmentModalOpen] =
+    useState(false);
+  const [organizationToZoom, setOrganizationToZoom] = useState(null);
+
+  const [hasAppliedSpecialisations, setHasAppliedSpecialisations] =
+    useState(false);
+
+  const clientDataQuery = useGetClientData(!isTmpUser)[0];
+  const clientData = clientDataQuery.data;
+
+  const { data: latestAssessment } = useGetLatestBaselineAssessment(!isTmpUser);
+
   const { data, isLoading } = useGetAllOrganizations({
     search: filters.search,
-    workWith: filters.workWith,
     district: filters.district,
     paymentMethod: filters.paymentMethod,
-    specialisation: filters.specialisation,
+    specialisations: filters.specialisations,
   });
 
-  const { data: metadata, isLoading: isMetadataLoading } =
-    useGetOrganizationMetadata();
+  useEffect(() => {
+    if (
+      specialisations.length > 0 &&
+      data &&
+      data.length > 0 &&
+      !hasAppliedSpecialisations
+    ) {
+      console.log("APPLY CHANGES");
+      setHasAppliedSpecialisations(true);
+      handleChange("specialisations", specialisations);
+    }
+  }, [specialisations, data, hasAppliedSpecialisations]);
+
+  const createBaselineAssessmentMutation = useCreateBaselineAssessment();
+
+  const personalizationMutation = useMutation({
+    mutationFn: async () => {
+      return clientSvc.getPersonalizedOrganizations();
+    },
+    onSuccess: ({ data: specialisations }) => {
+      if (specialisations.length) {
+        const specialisationIds = specialisations.map(
+          (x) => x.organization_specialisation_id
+        );
+        handleChange("specialisations", specialisationIds);
+        setStartPersonalization(true);
+      }
+    },
+  });
+
+  useEffect(() => {
+    if (data && data.length && startPersonalization) {
+      setOrganizationToZoom(data[0]);
+      // handleOrganizationClick(data[0]);
+      setStartPersonalization(false);
+    }
+  }, [startPersonalization, data]);
 
   const handleChange = (field, value) => {
     setFilters({
@@ -116,50 +194,135 @@ export const Organizations = ({ navigation, filters, setFilters }) => {
     ));
   };
 
+  const handlePersonalizeClick = async () => {
+    if (isTmpUser) {
+      setIsRegistrationModalOpen(true);
+      return;
+    }
+    if (latestAssessment?.status === "completed") {
+      personalizationMutation.mutate();
+    } else {
+      setIsPersonalizationModalOpen(true);
+    }
+  };
+
+  const handleRegisterRedirection = () => {
+    userSvc.logout();
+    navigate("/register-preview");
+  };
+
+  const handleModalCtaClick = () => {
+    setIsPersonalizationModalOpen(false);
+    if (!clientData.dataProcessing) {
+      setIsBaselineAssesmentModalOpen(true);
+    } else if (latestAssessment?.status === "in_progress") {
+      navigation.navigate("BaselineAssesment", {
+        baselineAssessmentId: latestAssessment.baselineAssessmentId,
+      });
+    } else {
+      createBaselineAssessmentMutation.mutate(undefined, {
+        onSuccess: (assessmentData) => {
+          queryClient.invalidateQueries({
+            queryKey: ["latest-baseline-assessment"],
+          });
+          navigation.navigate("BaselineAssesment", {
+            baselineAssessmentId: assessmentData.baselineAssessmentId,
+          });
+        },
+      });
+    }
+  };
+
   return (
     <>
-      <ScrollView style={styles.scrollView}>
-        <Block style={styles.container}>
-          <View style={styles.searchContainer}>
-            <Input
-              value={filters.search}
-              onChangeText={(value) => handleChange("search", value)}
-              placeholder={t("search_placeholder")}
-              style={styles.searchInput}
+      <TransparentModal
+        isOpen={isPersonalizationModalOpen}
+        handleClose={() => setIsPersonalizationModalOpen(false)}
+        heading={t("personalization")}
+        ctaLabel={t("personalization_modal_cta_label")}
+        ctaHandleClick={handleModalCtaClick}
+      >
+        <AppText style={{ paddingBottom: 16 }}>
+          {t("personalization_modal_text")}
+        </AppText>
+      </TransparentModal>
+      <RequireRegistration
+        isOpen={isRegistrationModalOpen}
+        onClose={() => setIsRegistrationModalOpen(false)}
+        handleRegisterRedirection={handleRegisterRedirection}
+      />
+      <BaselineAssesmentModal
+        open={isBaselineAssesmentModalOpen}
+        setOpen={setIsBaselineAssesmentModalOpen}
+      />
+      <KeyboardAvoidingView
+        behavior="padding"
+        keyboardVerticalOffset={64}
+        style={{ flex: 1 }}
+      >
+        <ScrollView style={styles.scrollView}>
+          <Block style={styles.container}>
+            <AppButton
+              label={t("personalize")}
+              onPress={handlePersonalizeClick}
+              loading={personalizationMutation.isLoading}
+              // type="primary"
+              size="sm"
+              color="purple"
+              style={{ marginTop: 20, marginBottom: 20, alignSelf: "center" }}
             />
-          </View>
-
-          {isLoading ? (
-            <View style={styles.loadingContainer}>
-              <Loading />
-            </View>
-          ) : (
-            <>
-              <InteractiveMap
-                data={data}
-                onMapReady={handleMapReady}
-                setSelectedMarker={setSelectedOrganization}
-                t={t}
-                googleMapsApiKey={GOOGLE_MAPS_API_KEY}
-                style={styles.map}
+            <View style={styles.searchContainer}>
+              <Input
+                value={filters.search}
+                onChangeText={(value) => handleChange("search", value)}
+                placeholder={t("search_placeholder")}
+                style={styles.searchInput}
               />
+              <ButtonOnlyIcon
+                iconName="filter"
+                iconSize="md"
+                onPress={() => setIsFilterOpen(true)}
+                style={{ marginTop: 10 }}
+              />
+            </View>
 
-              <View style={styles.organizationsContainer}>
-                {renderOrganizations()}
+            {isLoading ? (
+              <View style={styles.loadingContainer}>
+                <Loading />
               </View>
+            ) : (
+              <>
+                <InteractiveMap
+                  data={data}
+                  onMapReady={handleMapReady}
+                  setSelectedMarker={setSelectedOrganization}
+                  t={t}
+                  googleMapsApiKey={GOOGLE_MAPS_API_KEY}
+                  style={styles.map}
+                  organizationToZoom={organizationToZoom}
+                />
 
-              {data && data.length === 0 && (
-                <View style={styles.noDataContainer}>
-                  <AppText style={styles.noDataText}>
-                    {t("no_data_found")}
-                  </AppText>
+                <View style={styles.organizationsContainer}>
+                  {renderOrganizations()}
                 </View>
-              )}
-            </>
-          )}
-        </Block>
-      </ScrollView>
 
+                {data && data.length === 0 && (
+                  <View style={styles.noDataContainer}>
+                    <AppText style={styles.noDataText}>
+                      {t("no_data_found")}
+                    </AppText>
+                  </View>
+                )}
+              </>
+            )}
+          </Block>
+          <GiveSuggestion
+            navigation={navigation}
+            style={{ marginBottom: 50 }}
+            type="organizations"
+          />
+        </ScrollView>
+      </KeyboardAvoidingView>
       {selectedOrganization && (
         <OrganizationBackdrop
           organization={selectedOrganization}
@@ -332,7 +495,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 50,
     paddingHorizontal: 16,
-    paddingBottom: 100,
+    paddingBottom: 20,
   },
   searchContainer: {
     flexDirection: "row",

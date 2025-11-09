@@ -13,7 +13,11 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ButtonOnlyIcon } from "../../buttons";
 import spiralBackground from "../../../assets/spiral_background.png";
 import { HeaderNavigation } from "../../headings";
-import { useCheckHasUnreadNotifications, useGetTheme } from "#hooks";
+import {
+  useCheckHasUnreadNotifications,
+  useGetTheme,
+  useAddSosCenterClick,
+} from "#hooks";
 import { Context } from "#services";
 import { appStyles } from "#styles";
 
@@ -36,7 +40,7 @@ export function Screen({
 
   const [hasUnreadNotifications, setHasUnreadNotifications] = useState();
 
-  const { top: topInset } = useSafeAreaInsets();
+  const { top: topInset, bottom: bottomInset } = useSafeAreaInsets();
 
   const onCheckHasUnreadNotificationsSuccess = (data) => {
     setHasUnreadNotifications(data);
@@ -47,8 +51,19 @@ export function Screen({
     onCheckHasUnreadNotificationsSuccess
   );
 
+  const addSosCenterClickMutation = useAddSosCenterClick();
+
+  const handleSosCenterClick = () => {
+    addSosCenterClickMutation.mutate({
+      isMain: true,
+      platform: "client",
+    });
+    navigation.push("SOSCenter");
+  };
+
   return (
     <SafeAreaView
+      edges={["top"]}
       style={[
         styles.screen,
         backgroundColor
@@ -63,12 +78,21 @@ export function Screen({
         backgroundColor={"transparent"}
         translucent={Platform.OS === "android" ? true : false}
       />
-      <View style={[styles.screenChildren, style]}>
+      <View
+        style={[
+          styles.screenChildren,
+          style,
+          Platform.OS === "android" && { paddingBottom: bottomInset },
+        ]}
+      >
         {children}
         {hasEmergencyButton && (
           <ButtonOnlyIcon
-            style={styles.emergencyButton}
-            onPress={() => navigation.push("SOSCenter")}
+            style={[
+              styles.emergencyButton,
+              Platform.OS === "android" && { bottom: 16 + bottomInset },
+            ]}
+            onPress={() => handleSosCenterClick()}
             color="red"
           />
         )}

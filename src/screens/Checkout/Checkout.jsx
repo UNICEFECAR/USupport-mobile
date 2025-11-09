@@ -14,7 +14,7 @@ import { showToast, hideToast } from "../../utils/showToast";
 const { AMAZON_S3_BUCKET } = Config;
 
 export function Checkout({ navigation, route }) {
-  const { t } = useTranslation("checkout-page");
+  const { t } = useTranslation("screens", { keyPrefix: "checkout-page" });
   const queryClient = useQueryClient();
 
   const {

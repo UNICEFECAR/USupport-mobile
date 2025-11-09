@@ -1,10 +1,16 @@
 import React, { useContext, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, StyleSheet, RefreshControl, Platform } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  RefreshControl,
+  Platform,
+  KeyboardAvoidingView,
+} from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { Screen, AppButton } from "#components";
-import { Consultations as ConsultationsBlock } from "#blocks";
+import { Consultations as ConsultationsBlock, GiveSuggestion } from "#blocks";
 
 import {
   EditConsultation,
@@ -22,6 +28,8 @@ import {
   useBlockSlot,
   useRescheduleConsultation,
   useGetClientData,
+  useKeyboard,
+  useAddCountryEvent,
 } from "#hooks";
 
 import { parseUTCDate } from "#utils";
@@ -34,15 +42,25 @@ import { parseUTCDate } from "#utils";
  * @returns {JSX.Element}
  */
 export const Consultations = ({ navigation }) => {
-  const { t } = useTranslation("consultations-screen");
+  const { t } = useTranslation("screens", {
+    keyPrefix: "consultations-screen",
+  });
 
   const { isTmpUser, handleRegistrationModalOpen, currencySymbol } =
     useContext(Context);
 
+  const addCountryEventMutation = useAddCountryEvent();
   const queryClient = useQueryClient();
 
   const clientDataQuery = useGetClientData()[0];
   const clientData = clientDataQuery.data;
+
+  const [isKeyboardShown, setIsKeyboardShown] = useState(false);
+  useKeyboard(
+    true,
+    () => setIsKeyboardShown(true),
+    () => setIsKeyboardShown(false)
+  );
 
   // Selected consultation data
   const [selectedConsultation, setSelectedConsultation] = useState();
@@ -159,11 +177,19 @@ export const Consultations = ({ navigation }) => {
     } else if (!clientData?.dataProcessing) {
       openRequireDataAgreement();
     } else {
+      addCountryEventMutation.mutate({
+        eventType: "mobile_schedule_button_click",
+      });
       navigation.push("SelectProvider");
     }
   };
 
-  const handleDataAgreementSucess = () => navigation.navigate("SelectProvider");
+  const handleDataAgreementSucess = () => {
+    addCountryEventMutation.mutate({
+      eventType: "mobile_schedule_button_click",
+    });
+    navigation.navigate("SelectProvider");
+  };
 
   const isSelectConsultationLoading =
     rescheduleConsultationMutation.isLoading || blockSlotMutation.isLoading;
@@ -180,27 +206,37 @@ export const Consultations = ({ navigation }) => {
 
   return (
     <Screen
-      style={styles.screen}
+      style={[
+        styles.screen,
+        {
+          paddingBottom: isKeyboardShown ? 0 : Platform.OS === "ios" ? 50 : 100,
+        },
+      ]}
       hasEmergencyButton={false}
       hasHeaderNavigation
       t={t}
     >
-      <ScrollView
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={() => onRefresh()}
-          />
-        }
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "position" : null}
       >
-        <ConsultationsBlock
-          openJoinConsultation={openJoinConsultation}
-          openEditConsultation={openEditConsultation}
-          isTmpUser={isTmpUser}
-          navigation={navigation}
-          currencySymbol={currencySymbol}
-        />
-      </ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={() => onRefresh()}
+            />
+          }
+        >
+          <ConsultationsBlock
+            openJoinConsultation={openJoinConsultation}
+            openEditConsultation={openEditConsultation}
+            isTmpUser={isTmpUser}
+            navigation={navigation}
+            currencySymbol={currencySymbol}
+          />
+          <GiveSuggestion navigation={navigation} type="consultations" />
+        </ScrollView>
+      </KeyboardAvoidingView>
       <JoinConsultation
         isOpen={isJoinConsultationOpen}
         onClose={closeJoinConsultation}
@@ -258,12 +294,14 @@ export const Consultations = ({ navigation }) => {
         onSuccess={handleDataAgreementSucess}
       />
 
-      <AppButton
-        label={t("button_label")}
-        size="lg"
-        style={styles.button}
-        onPress={handleScheduleConsultationClick}
-      />
+      {!isKeyboardShown && (
+        <AppButton
+          label={t("button_label")}
+          size="lg"
+          style={styles.button}
+          onPress={handleScheduleConsultationClick}
+        />
+      )}
     </Screen>
   );
 };
@@ -275,7 +313,6 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   screen: {
-    paddingBottom: Platform.OS === "ios" ? 50 : 100,
     paddingTop: 48,
   },
 });

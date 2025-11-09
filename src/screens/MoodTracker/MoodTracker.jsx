@@ -1,11 +1,19 @@
-import React, { useContext, useEffect } from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import React, { useState, useContext, useEffect } from "react";
+import {
+  ScrollView,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import { useTranslation } from "react-i18next";
 
-import { Screen, Block, Heading } from "#components";
-import { MoodTrackHistory } from "#blocks";
+import { AppText, Screen, ButtonWithIcon, AppButton } from "#components";
+import { GiveSuggestion, MascotHeadingBlock, MoodTrackHistory } from "#blocks";
+import { HowItWorksMoodTrack } from "#modals";
 import { Context } from "#services";
-import { AppText } from "../../components/texts";
+import { MoodTrackReport } from "#backdrops";
+import { useGetTheme } from "#hooks";
+import { appStyles } from "#styles";
 
 /**
  * MoodTracker
@@ -15,8 +23,14 @@ import { AppText } from "../../components/texts";
  * @returns {JSX.Element}
  */
 export const MoodTracker = ({ navigation }) => {
-  const { t } = useTranslation("mood-tracker-screen");
-  const { isTmpUser, handleRegistrationModalOpen } = useContext(Context);
+  const { t } = useTranslation("screens", { keyPrefix: "mood-tracker-screen" });
+  const { colors, isDarkMode } = useGetTheme();
+  const { country, isTmpUser, handleRegistrationModalOpen } =
+    useContext(Context);
+  const IS_RO = country === "RO";
+
+  const [isReportOpen, setIsReportOpen] = useState(false);
+  const [isHowItWorksOpen, setIsHowItWorksOpen] = useState(false);
 
   useEffect(() => {
     if (isTmpUser) {
@@ -25,25 +39,72 @@ export const MoodTracker = ({ navigation }) => {
   }, [isTmpUser]);
 
   return (
-    <Screen
-      hasEmergencyButton={false}
-      hasHeaderNavigation
-      t={t}
-      style={styles.screen}
-    >
-      <ScrollView>
-        <Block style={{ marginTop: 18 }}>
-          <AppText namedStyle="h3">{t("heading")}</AppText>
-          <AppText>{t("subheading")}</AppText>
-        </Block>
-        {!isTmpUser ? <MoodTrackHistory /> : null}
-      </ScrollView>
+    <Screen hasEmergencyButton={false} hasHeaderNavigation t={t}>
+      <MoodTrackReport
+        isOpen={isReportOpen}
+        onClose={() => setIsReportOpen(false)}
+      />
+      <HowItWorksMoodTrack
+        isOpen={isHowItWorksOpen}
+        onClose={() => setIsHowItWorksOpen(false)}
+      />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "position" : null}
+        keyboardVerticalOffset={64}
+      >
+        <ScrollView>
+          <MascotHeadingBlock style={styles.mascotHeadingBlock}>
+            <AppText namedStyle="h3" style={styles.colorTextBlue}>
+              {t("heading")}
+            </AppText>
+            <AppText
+              style={[
+                styles.marginTop16,
+                isDarkMode
+                  ? { color: appStyles.colorWhite_ff }
+                  : styles.colorTextBlue,
+              ]}
+            >
+              {t("subheading")}
+            </AppText>
+            {!isTmpUser && IS_RO && (
+              <>
+                <AppButton
+                  label={t("how-it-works")}
+                  onPress={() => setIsHowItWorksOpen(true)}
+                  color="purple"
+                  type="secondary"
+                  size="sm"
+                  style={styles.marginTop16}
+                />
+                <ButtonWithIcon
+                  label={t("report")}
+                  onPress={() => setIsReportOpen(true)}
+                  iconName="document"
+                  color="purple"
+                  iconColor={"#FFFFFF"}
+                  size="sm"
+                  style={styles.marginTop16}
+                />
+              </>
+            )}
+          </MascotHeadingBlock>
+          {!isTmpUser ? (
+            <MoodTrackHistory
+              openReport={() => setIsReportOpen(true)}
+              showReport={IS_RO}
+              navigation={navigation}
+            />
+          ) : null}
+          <GiveSuggestion navigation={navigation} type="mood-tracker" />
+        </ScrollView>
+      </KeyboardAvoidingView>
     </Screen>
   );
 };
 
 const styles = StyleSheet.create({
-  screen: {
-    paddingTop: 55,
-  },
+  colorTextBlue: { color: appStyles.colorBlue_263238 },
+  marginTop16: { marginTop: 16 },
+  mascotHeadingBlock: { paddingTop: 65 },
 });

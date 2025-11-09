@@ -5,8 +5,9 @@ buildscript {
         buildToolsVersion = '34.0.0'
         minSdkVersion = Integer.parseInt(findProperty('android.minSdkVersion') ?: '23')
         compileSdkVersion = 34
-        targetSdkVersion = Integer.parseInt(findProperty('android.targetSdkVersion') ?: '34')
-        kotlinVersion = findProperty('android.kotlinVersion') ?: '1.9.23'
+        targetSdkVersion = Integer.parseInt(findProperty('android.targetSdkVersion') ?: '35')
+        kotlinVersion = findProperty('android.kotlinVersion') ?: '1.9.24'
+        gradlePluginVersion = '8.4.2'
 
         ndkVersion = "26.1.10909125"
     }
@@ -27,10 +28,11 @@ buildscript {
         mavenCentral()
     }
     dependencies {
+        classpath "com.android.tools.build:gradle:$gradlePluginVersion"
         classpath 'com.google.gms:google-services:4.3.15'
         classpath('com.android.tools.build:gradle')
         classpath('com.facebook.react:react-native-gradle-plugin')
-        classpath('org.jetbrains.kotlin:kotlin-gradle-plugin')
+        classpath('org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion')
         classpath('de.undercouch:gradle-download-task:5.0.1')
         classpath 'com.google.firebase:firebase-crashlytics-gradle:3.0.3'
         // NOTE: Do not place your application dependencies here; they belong
@@ -59,6 +61,10 @@ allprojects {
         maven {
             // Android JSC is installed from npm
             url(new File(['node', '--print', "require.resolve('jsc-android/package.json', { paths: [require.resolve('react-native/package.json')] })"].execute(null, rootDir).text.trim(), '../dist'))
+        }
+
+        maven {
+          url "$rootDir/../node_modules/expo-camera/android/maven"
         }
 
         google()

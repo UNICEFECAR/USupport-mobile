@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
@@ -11,7 +11,7 @@ import { destructureVideoData } from "#utils";
 
 import { useGetUserContentRatings } from "#hooks";
 
-import { userSvc, cmsSvc, adminSvc, clientSvc } from "#services";
+import { userSvc, cmsSvc, adminSvc, clientSvc, Context } from "#services";
 
 /**
  * VideoInformation
@@ -22,7 +22,10 @@ import { userSvc, cmsSvc, adminSvc, clientSvc } from "#services";
  */
 export const VideoInformation = ({ navigation, route }) => {
   const { videoId: id } = route.params;
-  const { i18n, t } = useTranslation("information-portal");
+  const { i18n, t } = useTranslation("blocks", {
+    keyPrefix: "information-portal",
+  });
+  const { isTmpUser } = useContext(Context);
 
   const getVideosIds = async () => {
     // Request video ids from the master DB
@@ -30,13 +33,14 @@ export const VideoInformation = ({ navigation, route }) => {
     return videoIds;
   };
 
-  const { data: contentRatings } = useGetUserContentRatings();
+  const { data: contentRatings } = useGetUserContentRatings(!isTmpUser);
   const videoIdsQuery = useQuery(["videoIds"], getVideosIds);
 
   const getVideoData = async () => {
     const contentRatings = await userSvc.getRatingsForContent({
       contentType: "video",
       contentId: id,
+      isTmpUser,
     });
 
     const { data } = await cmsSvc.getVideoById(id, i18n.language);
@@ -52,7 +56,7 @@ export const VideoInformation = ({ navigation, route }) => {
       enabled: !!id,
       onSuccess: (data) => {
         // Add category interaction when video is successfully fetched
-        if (data && data.categoryId) {
+        if (data && data.categoryId && !isTmpUser) {
           clientSvc
             .addClientCategoryInteraction({
               categoryId: data.categoryId,
@@ -117,7 +121,7 @@ export const VideoInformation = ({ navigation, route }) => {
         />
 
         {videoData ? (
-          <VideoView videoData={videoData} t={t} />
+          <VideoView videoData={videoData} t={t} isTmpUser={isTmpUser} />
         ) : (
           <View style={styles.loadingContainer}>
             <Loading style={styles.loading} />

@@ -14,7 +14,9 @@ export const CancelConsultation = ({
   currencySymbol,
   secondaryCtaStyle,
 }) => {
-  const { t } = useTranslation("cancel-consultation");
+  const { t } = useTranslation("backdrops", {
+    keyPrefix: "cancel-consultation",
+  });
 
   const queryClient = useQueryClient();
 

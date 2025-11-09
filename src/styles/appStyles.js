@@ -56,11 +56,14 @@ export default {
   colorBlue_20809E_0_3: "rgba(32, 128, 158, 0.3)",
   color_blue_c1d7e0: "#c1d7e0",
   colorBlue_246FE5: "#246FE5",
+  colorBlue_eaf7f9: "#eaf7f9",
 
   colorRed_eb5757: "#eb5757",
   colorRed_cc4c4c: "#cc4c4c",
   colorRed_a63d3d: "#a63d3d",
   colorRed_ed5657: "#ed5657",
+
+  colorHighContrast_ffff00: "#ffff00",
 
   // Gradients
   gradientPrimary: {

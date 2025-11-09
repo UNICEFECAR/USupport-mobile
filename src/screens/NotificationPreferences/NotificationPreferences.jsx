@@ -15,7 +15,9 @@ import { NotificationPreferences as NotificationPreferencesBlock } from "#blocks
  * @returns {JSX.Element}
  */
 export const NotificationPreferences = ({ navigation }) => {
-  const { t } = useTranslation("notification-preferences-screen");
+  const { t } = useTranslation("screens", {
+    keyPrefix: "notification-preferences-screen",
+  });
 
   return (
     <Screen>

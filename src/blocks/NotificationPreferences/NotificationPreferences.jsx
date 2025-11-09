@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
@@ -9,6 +9,7 @@ import {
   RadioButtonSelectorGroup,
   Loading,
 } from "#components";
+import { Context } from "#services";
 
 import {
   useGetNotificationPreferences,
@@ -25,7 +26,10 @@ import {
  * @return {jsx}
  */
 export const NotificationPreferences = () => {
-  const { t } = useTranslation("notification-preferences");
+  const { t } = useTranslation("blocks", {
+    keyPrefix: "notification-preferences",
+  });
+  const { country } = useContext(Context);
 
   const minutes = [15, 30, 45, 60];
   const consultationReminderOptions = minutes.map((x) => ({
@@ -54,6 +58,8 @@ export const NotificationPreferences = () => {
     notificationsPreferencesMutation.mutate(dataCopy);
   };
 
+  const IS_RO = country === "RO";
+
   return (
     <Block style={{ paddingBottom: 30 }}>
       {notificationPreferencesQuery.isLoading &&
@@ -74,29 +80,35 @@ export const NotificationPreferences = () => {
               />
             </View>
           )}
-          <View style={styles.toggleContainer}>
-            <AppText>{t("appointment")}</AppText>
-            <Toggle
-              isToggled={
-                data?.consultationReminder ? data?.consultationReminder : false
-              }
-              handleToggle={(value) =>
-                handleChange("consultationReminder", value)
-              }
-              style={styles.toggle}
-            />
-          </View>
-          <View style={styles.radioButtonSelectorGroup}>
-            {data?.consultationReminder && (
-              <RadioButtonSelectorGroup
-                selected={data.consultationReminderMin}
-                setSelected={(value) =>
-                  handleChange("consultationReminderMin", value)
+          {!IS_RO && (
+            <View style={styles.toggleContainer}>
+              <AppText>{t("appointment")}</AppText>
+              <Toggle
+                isToggled={
+                  data?.consultationReminder
+                    ? data?.consultationReminder
+                    : false
                 }
-                options={consultationReminderOptions}
+                handleToggle={(value) =>
+                  handleChange("consultationReminder", value)
+                }
+                style={styles.toggle}
               />
-            )}
-          </View>
+            </View>
+          )}
+          {!IS_RO && (
+            <View style={styles.radioButtonSelectorGroup}>
+              {data?.consultationReminder && (
+                <RadioButtonSelectorGroup
+                  selected={data.consultationReminderMin}
+                  setSelected={(value) =>
+                    handleChange("consultationReminderMin", value)
+                  }
+                  options={consultationReminderOptions}
+                />
+              )}
+            </View>
+          )}
           {error ? <ErrorComponent message={error} /> : null}
         </View>
       )}

@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CurvedBottomBar } from "react-native-curved-bottom-bar";
 import {
@@ -8,6 +8,7 @@ import {
   Pressable,
   Platform,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { Icon, AppText } from "#components";
 import {
@@ -21,13 +22,21 @@ import {
 
 import { appStyles } from "#styles";
 import LinearGradient from "../components/LinearGradient";
-import { useGetTheme } from "#hooks";
+import { useGetTheme, useKeyboard } from "#hooks";
 import { Context } from "#services";
 
 export const TabNavigation = () => {
   const { colors, isDarkMode } = useGetTheme();
-  const { t } = useTranslation("tab-navigation");
+  const { t } = useTranslation("navigation", { keyPrefix: "tab-navigation" });
   const { country } = useContext(Context);
+  const { bottom: bottomInset } = useSafeAreaInsets();
+
+  const [isShown, setIsShown] = useState(true);
+  const _ = useKeyboard(
+    true,
+    () => setIsShown(false),
+    () => setIsShown(true)
+  );
 
   const screens = useMemo(() => {
     if (country === "RO") {
@@ -38,6 +47,13 @@ export const TabNavigation = () => {
           text: "home",
           iconName: "home",
           position: "LEFT",
+        },
+        {
+          name: "MoodTrackHistory",
+          component: MoodTracker,
+          iconName: "mood",
+          text: "mood",
+          position: "RIGHT",
         },
         {
           name: "Consultations",
@@ -154,6 +170,7 @@ export const TabNavigation = () => {
         screenOptions={{
           tabBarShowLabel: false,
           headerShown: false,
+          keyboardHidesTabBar: true,
           tabBarHideOnKeyboard: Platform.OS !== "ios",
         }}
         strokeWidth={0.5}
@@ -167,18 +184,21 @@ export const TabNavigation = () => {
             gradient={appStyles.gradientPrimary}
             style={styles.gradientCircle}
           >
-            <View
-              style={[styles.btnCircle, { backgroundColor: colors.navigation }]}
+            <Pressable
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              onPress={() => {
+                navigate("Consultations");
+              }}
             >
-              <Pressable
-                style={{
-                  flex: 1,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-                onPress={() => {
-                  navigate("Consultations");
-                }}
+              <View
+                style={[
+                  styles.btnCircle,
+                  { backgroundColor: colors.navigation },
+                ]}
               >
                 <View
                   style={[
@@ -198,12 +218,18 @@ export const TabNavigation = () => {
                     }
                   />
                 </View>
-              </Pressable>
-            </View>
+              </View>
+            </Pressable>
           </LinearGradient>
         )}
         tabBar={renderTabBar}
-        style={appStyles.shadow3}
+        style={[
+          appStyles.shadow3,
+          {
+            display: isShown ? "flex" : "none",
+            paddingBottom: Platform.OS === "android" ? bottomInset : 0,
+          },
+        ]}
       >
         {renderScreens()}
       </CurvedBottomBar.Navigator>

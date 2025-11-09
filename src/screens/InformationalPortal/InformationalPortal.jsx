@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import {
   View,
@@ -18,6 +18,7 @@ import {
 } from "#blocks";
 import { appStyles } from "#styles";
 import { useGetTheme } from "#hooks";
+import { Context } from "#services";
 
 /**
  * InformationPortal
@@ -28,16 +29,35 @@ import { useGetTheme } from "#hooks";
  */
 export const InformationalPortal = ({ navigation }) => {
   const { isDarkMode } = useGetTheme();
-  const { t } = useTranslation("informational-portal-screen");
+  const { t } = useTranslation("screens", {
+    keyPrefix: "informational-portal-screen",
+  });
   const queryClient = useQueryClient();
   const [refreshing, setRefreshing] = useState(false);
+
+  const { isPodcastsActive, isVideosActive } = useContext(Context);
 
   // Content type tabs
   const [contentTabs, setContentTabs] = useState([
     { label: "articles", value: "articles", isSelected: true },
-    { label: "videos", value: "videos", isSelected: false },
-    { label: "podcasts", value: "podcasts", isSelected: false },
   ]);
+
+  useEffect(() => {
+    let tabs = [...contentTabs];
+    if (isPodcastsActive) {
+      const podcastsTab = tabs.find((tab) => tab.value === "podcasts");
+      if (!podcastsTab) {
+        tabs.push({ label: "podcasts", value: "podcasts", isSelected: false });
+      }
+    }
+    if (isVideosActive) {
+      const videosTab = tabs.find((tab) => tab.value === "videos");
+      if (!videosTab) {
+        tabs.push({ label: "videos", value: "videos", isSelected: false });
+      }
+    }
+    setContentTabs(tabs);
+  }, [isPodcastsActive, isVideosActive]);
 
   const handleTabSelect = (index) => {
     const tabsCopy = [...contentTabs];
@@ -53,9 +73,15 @@ export const InformationalPortal = ({ navigation }) => {
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     Promise.all([
-      queryClient.invalidateQueries([`${selectedContentType}Ids`]),
-      queryClient.invalidateQueries([`${selectedContentType}-createdAt`]),
-      queryClient.invalidateQueries([`${selectedContentType}-popular`]),
+      queryClient.invalidateQueries({
+        queryKey: [`${selectedContentType}Ids`],
+      }),
+      queryClient.invalidateQueries({
+        queryKey: [`${selectedContentType}-createdAt`],
+      }),
+      queryClient.invalidateQueries({
+        queryKey: [`${selectedContentType}-popular`],
+      }),
     ]).finally(() => {
       setRefreshing(false);
     });
@@ -92,15 +118,17 @@ export const InformationalPortal = ({ navigation }) => {
             {heading}
           </MascotHeadingBlock>
 
-          <View style={styles.tabsContainer}>
-            <TabsUnderlined
-              options={contentTabs.map((x) => ({
-                ...x,
-                label: t(x.label),
-              }))}
-              handleSelect={handleTabSelect}
-            />
-          </View>
+          {contentTabs.length > 1 && (
+            <View style={styles.tabsContainer}>
+              <TabsUnderlined
+                options={contentTabs.map((x) => ({
+                  ...x,
+                  label: t(x.label),
+                }))}
+                handleSelect={handleTabSelect}
+              />
+            </View>
+          )}
 
           <InformationalPortalBlock
             navigation={navigation}

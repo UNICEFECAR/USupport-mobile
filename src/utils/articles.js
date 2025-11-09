@@ -125,7 +125,7 @@ const destructureVideoData = (videoData) => {
   };
 };
 
-const destructurePodcastData = (data) => {
+const destructurePodcastData = async (data) => {
   const parts = data.attributes.url.split("/");
   const type = parts[parts.length - 2];
   const id = parts[parts.length - 1].split("?")[0];
@@ -134,9 +134,19 @@ const destructurePodcastData = (data) => {
   const thumbnail = data.attributes.thumbnail;
   // Get thumbnail URLs with fallbacks
   const thumbnailData = thumbnail?.data?.attributes;
-  const imageLarge = thumbnailData?.url || "";
-  const imageMedium = thumbnailData?.formats?.small?.url || imageLarge;
-  const imageSmall = thumbnailData?.formats?.thumbnail?.url || imageMedium;
+  let imageLarge = thumbnailData?.url || "";
+  let imageMedium = thumbnailData?.formats?.small?.url || imageLarge;
+  let imageSmall = thumbnailData?.formats?.thumbnail?.url || imageMedium;
+
+  // If CMS thumbnails are missing, try to fetch from Spotify
+  if (!imageLarge && spotifyId) {
+    const spotifyThumbnail = await getSpotifyThumbnail(spotifyId);
+    if (spotifyThumbnail) {
+      imageLarge = spotifyThumbnail;
+      imageMedium = spotifyThumbnail;
+      imageSmall = spotifyThumbnail;
+    }
+  }
 
   const categoryData = data.attributes.category?.data?.attributes;
   const categoryName = categoryData?.name || "";
@@ -163,4 +173,37 @@ const destructurePodcastData = (data) => {
   };
 };
 
-export { destructureArticleData, destructureVideoData, destructurePodcastData };
+/**
+ * Fetches thumbnail URL for a Spotify podcast episode using Spotify's oEmbed API
+ * @param {string} spotifyId - Spotify ID in format "episode/{id}" or "show/{id}"
+ * @returns {Promise<string|null>} - Thumbnail URL or null if fetch fails
+ */
+const getSpotifyThumbnail = async (spotifyId) => {
+  if (!spotifyId) return null;
+
+  try {
+    const spotifyUrl = `https://open.spotify.com/${spotifyId}`;
+    const oEmbedUrl = `https://open.spotify.com/oembed?url=${encodeURIComponent(
+      spotifyUrl
+    )}&format=json`;
+
+    const response = await fetch(oEmbedUrl);
+    if (!response.ok) {
+      console.warn(`Spotify oEmbed API returned ${response.status}`);
+      return null;
+    }
+
+    const data = await response.json();
+    return data.thumbnail_url || null;
+  } catch (error) {
+    console.error("Error fetching Spotify thumbnail:", error);
+    return null;
+  }
+};
+
+export {
+  destructureArticleData,
+  destructureVideoData,
+  destructurePodcastData,
+  getSpotifyThumbnail,
+};

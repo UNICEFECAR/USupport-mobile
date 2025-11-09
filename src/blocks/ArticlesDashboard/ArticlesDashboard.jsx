@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useContext,
+  useMemo,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
@@ -14,7 +20,7 @@ import {
 
 import { appStyles } from "#styles";
 
-import { localStorage, cmsSvc } from "#services";
+import { localStorage, cmsSvc, adminSvc, Context } from "#services";
 
 import {
   useEventListener,
@@ -24,6 +30,11 @@ import {
 
 import { destructureArticleData, checkIsLikedAndDisliked } from "#utils";
 import { Error } from "../../components/errors";
+
+const PL_LANGUAGE_AGE_GROUP_IDS = {
+  pl: 13,
+  uk: 11,
+};
 
 /**
  * ArticlesDashboard
@@ -40,15 +51,31 @@ export const ArticlesDashboard = ({
   selectCategory,
   allCategories,
 }) => {
-  const { t, i18n } = useTranslation("articles-dashboard");
+  const { t, i18n } = useTranslation("blocks", {
+    keyPrefix: "articles-dashboard",
+  });
+
+  const { isTmpUser } = useContext(Context);
+  const [country, setCountry] = useState();
 
   const [usersLanguage, setUsersLanguage] = useState(i18n.language);
   const [showAgeGroups, setShowAgeGroups] = useState(true);
 
+  const selectedCategory = allCategories?.find((category) => {
+    return !!category.isSelected;
+  });
+
+  const isPLCountry = country === "PL";
+  const hardcodedAgeGroupId = isPLCountry
+    ? PL_LANGUAGE_AGE_GROUP_IDS[usersLanguage]
+    : null;
+  const shouldUseHardcodedAgeGroup = typeof hardcodedAgeGroupId === "number";
+
   useEffect(() => {
     async function checkCountry() {
-      const country = await localStorage.getItem("country");
-      if (country === "PL") {
+      const countryValue = await localStorage.getItem("country");
+      setCountry(countryValue);
+      if (countryValue === "PL") {
         setShowAgeGroups(false);
       }
     }
@@ -61,13 +88,25 @@ export const ArticlesDashboard = ({
     }
   }, [i18n.language]);
 
-  const { data: contentRatings } = useGetUserContentRatings();
+  const { data: contentRatings } = useGetUserContentRatings(!isTmpUser);
 
   //--------------------- Age Groups ----------------------//
   const [ageGroups, setAgeGroups] = useState();
   const [selectedAgeGroup, setSelectedAgeGroup] = useState();
+  const selectedAgeGroupId = selectedAgeGroup?.id;
 
   const getAgeGroups = async () => {
+    if (shouldUseHardcodedAgeGroup) {
+      const hardcodedAgeGroup = {
+        label: "",
+        id: hardcodedAgeGroupId,
+        isSelected: true,
+      };
+      setSelectedAgeGroup(hardcodedAgeGroup);
+      setAgeGroups([hardcodedAgeGroup]);
+      return [hardcodedAgeGroup];
+    }
+
     try {
       const res = await cmsSvc.getAgeGroups(usersLanguage);
       const ageGroupsData = res.data.map((age, index) => ({
@@ -80,19 +119,27 @@ export const ArticlesDashboard = ({
     } catch {}
   };
 
-  const ageGroupsQuery = useQuery(["ageGroups", usersLanguage], getAgeGroups, {
-    refetchOnWindowFocus: false,
-    refetchOnMount: true,
-    onSuccess: (data) => {
-      setAgeGroups([...data]);
-    },
-  });
+  const ageGroupsQuery = useQuery(
+    ["ageGroups", usersLanguage, hardcodedAgeGroupId],
+    getAgeGroups,
+    {
+      enabled: showAgeGroups || shouldUseHardcodedAgeGroup,
+      refetchOnWindowFocus: false,
+      refetchOnMount: true,
+      onSuccess: (data) => {
+        setAgeGroups([...data]);
+      },
+    }
+  );
 
   const handleAgeGroupOnPress = (index) => {
     const ageGroupsCopy = [...ageGroups];
 
     for (let i = 0; i < ageGroupsCopy.length; i++) {
       if (i === index) {
+        if (!ageGroupsCopy[i].isSelected) {
+          handleCategoryOnPress(0);
+        }
         ageGroupsCopy[i].isSelected = true;
         setSelectedAgeGroup(ageGroupsCopy[i]);
       } else {
@@ -147,51 +194,157 @@ export const ArticlesDashboard = ({
     }
   );
 
+  const getArticlesIds = async () => {
+    // Request articles ids from the master DB based for website platform
+    const articlesIds = await adminSvc.getArticles();
+
+    return articlesIds;
+  };
+
+  const articleIdsQuerry = useQuery(
+    ["articleIds", selectedAgeGroupId],
+    getArticlesIds
+  );
+
+  const { data: articleCategoryIdsToShow } = useQuery(
+    [
+      "articles-category-ids",
+      usersLanguage,
+      articleIdsQuerry.data,
+      selectedAgeGroupId,
+    ],
+    () =>
+      cmsSvc.getArticleCategoryIds(
+        usersLanguage,
+        selectedAgeGroupId,
+        articleIdsQuerry.data
+      ),
+    {
+      enabled: !!articleIdsQuerry.data && !!selectedAgeGroupId,
+    }
+  );
+
+  const categoriesToShow = useMemo(() => {
+    if (!allCategories || !articleCategoryIdsToShow) return [];
+
+    const filtered = allCategories.filter(
+      (category) =>
+        articleCategoryIdsToShow.includes(category.id) ||
+        category.value === "all"
+    );
+
+    return filtered;
+  }, [allCategories, articleCategoryIdsToShow]);
+
   const handleCategoryOnPress = (index) => {
     const categoriesCopy = [...allCategories];
 
+    const clicked = categoriesToShow[index];
     for (let i = 0; i < categoriesCopy.length; i++) {
-      if (i === index) {
-        categoriesCopy[i].isSelected = true;
-        handleCategorySelect(categoriesCopy[i]);
+      const cat = categoriesCopy[i];
+      if (cat.id === clicked.id) {
+        cat.isSelected = true;
+        handleCategorySelect(cat);
       } else {
-        categoriesCopy[i].isSelected = false;
+        cat.isSelected = false;
       }
     }
     handleSetCategories(categoriesCopy);
   };
 
+  //--------------------- Newest Article ----------------------//
+
+  const getNewestArticle = async () => {
+    let categoryId = "";
+    if (selectedCategory?.value !== "all") {
+      categoryId = selectedCategory.id;
+    }
+
+    const requestParams = {
+      limit: 2, // Only get the newest article
+      sortBy: "createdAt", // Sort by created date
+      sortOrder: "desc", // Sort in descending order
+      locale: usersLanguage,
+      populate: true,
+      ids: articleIdsQuerry.data,
+    };
+
+    if (categoryId) {
+      requestParams.categoryId = categoryId;
+    }
+
+    if (shouldUseHardcodedAgeGroup) {
+      requestParams.ageGroupId = hardcodedAgeGroupId;
+    } else if (showAgeGroups && selectedAgeGroupId) {
+      requestParams.ageGroupId = selectedAgeGroupId;
+    }
+
+    let { data } = await cmsSvc.getArticles(requestParams);
+    for (let i = 0; i < data.data.length; i++) {
+      data.data[i] = destructureArticleData(data.data[i]);
+    }
+
+    return data.data;
+  };
+
+  const {
+    data: newestArticles,
+    isLoading: newestArticlesLoading,
+    isFetched: isNewestArticlesFetched,
+  } = useQuery(
+    [
+      "newestArticle",
+      usersLanguage,
+      selectedCategory,
+      selectedAgeGroup?.id,
+      articleIdsQuerry.data,
+    ],
+    getNewestArticle,
+    {
+      onError: (error) => console.log(error),
+      enabled:
+        !articleIdsQuerry.isLoading &&
+        articleIdsQuerry.data?.length > 0 &&
+        !categoriesQuery.isLoading &&
+        categoriesQuery.data?.length > 0 &&
+        (isTmpUser || shouldUseHardcodedAgeGroup),
+
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  const availableCategories = useMemo(() => {
+    return categoriesToShow.map((category) => category.id).filter((id) => !!id);
+  }, [categoriesToShow]);
+
   //--------------------- Use Recommended Articles Hook ----------------------//
   const {
     articles,
     loading: isArticlesLoading,
-    hasMore,
-    totalCount,
-    categoriesData,
-    remainingArticlesCount,
-    readArticlesCount,
-    categoryArticlesCount,
-    loadMore,
     error,
     isReady,
-    fetchingCategories,
-    fetchingRemaining,
-    hasMoreRemaining,
-    hasMoreRead,
-    readArticleIds,
   } = useRecommendedArticles({
     limit: 6, // Only show 2 articles
     ageGroupId: selectedAgeGroup?.id,
-    enabled: selectedAgeGroup?.id && !ageGroupsQuery.isLoading,
-    categoryIdFilter: selectCategory?.id || null,
+    enabled: isTmpUser
+      ? false
+      : selectedAgeGroup?.id && !ageGroupsQuery.isLoading,
+    categoryIdFilter: selectedCategory?.id || null,
     sortFilter: "read_count",
+    availableCategories,
   });
 
+  const articlesToTransform = isTmpUser ? newestArticles : articles;
+
   // Transform articles data to match expected format
-  const transformedArticles = articles?.slice(0, 2)?.map((article) => {
-    // If article already has direct properties, use them, otherwise use article.data
-    return article.data ? article.data : article;
-  });
+  const transformedArticles = articlesToTransform
+    ?.slice(0, 2)
+    ?.map((article) => {
+      // If article already has direct properties, use them, otherwise use article.data
+      return article.data ? article.data : article;
+    });
+
+  const showLoading = isTmpUser ? newestArticlesLoading : isArticlesLoading;
 
   const handleRedirect = (sort) =>
     sort === "createdAt"
@@ -200,14 +353,12 @@ export const ArticlesDashboard = ({
 
   return (
     <>
-      <Block style={styles.headingBlock}>
-        <View style={styles.headingContainer}>
-          <AppText namedStyle="h3">{t("heading")}</AppText>
-          <TouchableOpacity onPress={() => handleRedirect("read_count")}>
-            <AppText style={styles.viewAllText}>{t("view_all")}</AppText>
-          </TouchableOpacity>
-        </View>
-      </Block>
+      <Block
+        style={styles.headingBlock}
+        heading={t("heading")}
+        btnLabel={t("view_all")}
+        btnOnPress={() => handleRedirect("read_count")}
+      />
       {ageGroupsQuery?.isLoading && (
         <View style={styles.container}>
           <Loading />
@@ -219,15 +370,13 @@ export const ArticlesDashboard = ({
             <TabsUnderlined
               options={ageGroups}
               handleSelect={handleAgeGroupOnPress}
-              style={{
-                marginTop: 12,
-              }}
+              style={styles.tabsUnderlined}
             />
           ) : null}
 
           {allCategories?.length > 1 && (
             <Tabs
-              options={allCategories}
+              options={categoriesToShow}
               handleSelect={handleCategoryOnPress}
               style={styles.tabs}
               t={t}
@@ -235,7 +384,7 @@ export const ArticlesDashboard = ({
             />
           )}
 
-          {isArticlesLoading && (
+          {showLoading && (
             <View style={styles.container}>
               <Loading />
             </View>
@@ -243,11 +392,13 @@ export const ArticlesDashboard = ({
 
           <Block>
             <View style={styles.articlesContainer}>
-              {!isArticlesLoading &&
+              {!showLoading &&
                 transformedArticles?.length > 0 &&
                 allCategories.length > 1 &&
                 transformedArticles?.map((article, index) => {
-                  const articleData = destructureArticleData(article);
+                  const articleData = article.attributes
+                    ? destructureArticleData(article)
+                    : article;
                   const { isLikedByUser, isDislikedByUser } =
                     checkIsLikedAndDisliked(
                       contentRatings,
@@ -284,11 +435,12 @@ export const ArticlesDashboard = ({
                 <Error message={t("heading_no_results")} />
               </View>
             )}
-            {isReady && transformedArticles?.length === 0 && (
-              <View style={styles.container}>
-                <AppText namedStyle="h3">{t("heading_no_results")}</AppText>
-              </View>
-            )}
+            {(isReady || isNewestArticlesFetched) &&
+              transformedArticles?.length === 0 && (
+                <View style={styles.container}>
+                  <AppText namedStyle="h3">{t("heading_no_results")}</AppText>
+                </View>
+              )}
           </Block>
         </>
       )}
@@ -305,14 +457,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   headingBlock: { paddingTop: 40 },
-  headingContainer: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
   tabs: { marginTop: 24, zIndex: 2 },
-  viewAllText: {
-    color: appStyles.colorSecondary_9749fa,
-    fontFamily: appStyles.fontSemiBold,
-  },
+  tabsUnderlined: { marginTop: 12 },
 });

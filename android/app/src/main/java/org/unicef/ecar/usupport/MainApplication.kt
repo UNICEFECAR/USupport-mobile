@@ -15,8 +15,9 @@ import com.facebook.soloader.SoLoader
 
 import expo.modules.ApplicationLifecycleDispatcher
 import expo.modules.ReactNativeHostWrapper
+import cl.json.ShareApplication
 
-class MainApplication : Application(), ReactApplication {
+class MainApplication : Application(), ReactApplication, ShareApplication {
 
   override val reactNativeHost: ReactNativeHost = ReactNativeHostWrapper(
         this,
@@ -52,5 +53,9 @@ class MainApplication : Application(), ReactApplication {
   override fun onConfigurationChanged(newConfig: Configuration) {
     super.onConfigurationChanged(newConfig)
     ApplicationLifecycleDispatcher.onConfigurationChanged(this, newConfig)
+  }
+
+  override fun getFileProviderAuthority(): String {
+    return BuildConfig.APPLICATION_ID + ".provider"
   }
 }

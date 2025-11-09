@@ -1,0 +1,8 @@
+{
+  "started_at": "Started at {{date}}",
+  "continue": "Continue",
+  "view": "View",
+  "in_progress": "In Progress",
+  "completed": "Completed",
+  "completed_at": "Completed at {{date}}"
+}

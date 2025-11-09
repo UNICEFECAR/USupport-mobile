@@ -96,6 +96,9 @@ import {
   IconGoogleMaps,
   IconWaze,
   IconLocation,
+  IconPlay,
+  IconSave,
+  IconAccessibility,
 } from "./assets/sprite";
 
 /**
@@ -379,6 +382,15 @@ export const Icon = ({ name, size = "md", color, style }) => {
       break;
     case "location":
       icon = <IconLocation color={color} />;
+      break;
+    case "play":
+      icon = <IconPlay color={color} />;
+      break;
+    case "save":
+      icon = <IconSave color={color} />;
+      break;
+    case "accessibility":
+      icon = <IconAccessibility color={color} />;
       break;
     default:
       icon = null;

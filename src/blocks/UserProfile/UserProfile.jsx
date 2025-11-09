@@ -6,15 +6,9 @@ import { useQuery } from "@tanstack/react-query";
 import DeviceInfo from "react-native-device-info";
 
 import { Block, Heading, AppText, ButtonSelector } from "#components";
-import { useGetTheme, useGetClientData } from "#hooks";
+import { useGetTheme, useGetClientData, useDropdownOptions } from "#hooks";
 import { appStyles } from "#styles";
-import {
-  Context,
-  localStorage,
-  languageSvc,
-  userSvc,
-  countrySvc,
-} from "#services";
+import { Context, localStorage, languageSvc, userSvc } from "#services";
 const { AMAZON_S3_BUCKET } = Config;
 
 /**
@@ -26,11 +20,17 @@ const { AMAZON_S3_BUCKET } = Config;
  */
 export const UserProfile = ({ navigation }) => {
   const { isDarkMode, colors } = useGetTheme();
-  const { t, i18n } = useTranslation("user-profile");
-  const { theme, setTheme } = useContext(Context);
+  const { t, i18n } = useTranslation("blocks", { keyPrefix: "user-profile" });
+  const { theme, setTheme, isTmpUser, handleRegistrationModalOpen, country } =
+    useContext(Context);
 
   const [version, setVersion] = React.useState("");
-  const [showPaymentHistory, setShowPaymentHistory] = useState(false);
+
+  const SHOW_PAYMENT_HISTORY =
+    country !== "KZ" &&
+    country !== "PL" &&
+    country !== "RO" &&
+    country !== "AM";
 
   useEffect(() => {
     const getAppVersion = async () => {
@@ -38,20 +38,17 @@ export const UserProfile = ({ navigation }) => {
       setVersion(appVersion);
     };
 
-    const checkCountry = async () => {
-      const country = await localStorage.getItem("country");
-      setShowPaymentHistory(country !== "KZ" && country !== "PL");
-    };
-
     getAppVersion();
-    checkCountry();
   }, []);
 
-  const { isTmpUser, handleRegistrationModalOpen } = useContext(Context);
   const [languagesData, setLanguagesData] = useState({
     language: "",
   });
-  const { dropdownOptions, setDropdownOptions } = useContext(Context);
+  const {
+    isOpen: dropdownIsOpen,
+    dropdownId: currentDropdownId,
+    setDropdownOptions,
+  } = useDropdownOptions();
 
   const clientQuery = useGetClientData(isTmpUser ? false : true)[0];
   const clientData = isTmpUser ? {} : clientQuery?.data;
@@ -70,7 +67,13 @@ export const UserProfile = ({ navigation }) => {
     if (protectedPages.includes(redirectTo) && isTmpUser) {
       handleRegistrationModalOpen();
     } else {
-      navigation.push(redirectTo);
+      if (redirectTo === "MoodTracker") {
+        navigation.navigate("TabNavigation", {
+          screen: "MoodTrackHistory",
+        });
+      } else {
+        navigation.push(redirectTo);
+      }
     }
   };
 
@@ -119,7 +122,7 @@ export const UserProfile = ({ navigation }) => {
   };
 
   const handlOpenLanguageDropdown = () => {
-    if (dropdownOptions.isOpen) {
+    if (dropdownIsOpen) {
       setDropdownOptions({
         heading: t("language_button_label"),
         options: languagesQuery.data || [],
@@ -149,6 +152,16 @@ export const UserProfile = ({ navigation }) => {
     }
   };
 
+  const handleHighContrast = async () => {
+    if (theme === "highContrast") {
+      setTheme("light");
+      await localStorage.setItem("theme", "light");
+    } else {
+      setTheme("highContrast");
+      await localStorage.setItem("theme", "highContrast");
+    }
+  };
+
   return (
     <React.Fragment>
       <Heading
@@ -169,6 +182,12 @@ export const UserProfile = ({ navigation }) => {
                 uri: `${AMAZON_S3_BUCKET}/${clientData?.image || "default"}`,
               }}
               style={[styles.buttonSelector, styles.buttonSelectorFirstInGroup]}
+            />
+            <ButtonSelector
+              iconName="mood"
+              label={t("mood_tracker_button_label")}
+              onPress={() => handleRedirect("MoodTracker")}
+              style={styles.buttonSelector}
             />
           </View>
 
@@ -204,6 +223,12 @@ export const UserProfile = ({ navigation }) => {
               onPress={handleThemeChange}
               style={styles.buttonSelector}
             />
+            <ButtonSelector
+              iconName="accessibility"
+              label={t("high_contrast_mode")}
+              onPress={handleHighContrast}
+              style={styles.buttonSelector}
+            />
           </View>
 
           <View style={styles.group}>
@@ -228,7 +253,7 @@ export const UserProfile = ({ navigation }) => {
             <AppText style={(styles.groupHeading, { color: colors.text })}>
               {t("other")}
             </AppText>
-            {showPaymentHistory && !isTmpUser ? (
+            {SHOW_PAYMENT_HISTORY && !isTmpUser ? (
               <ButtonSelector
                 label={t("payments_history_button_label")}
                 iconName="payment-history"

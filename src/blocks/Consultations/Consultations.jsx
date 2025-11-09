@@ -24,7 +24,7 @@ export const Consultations = ({
   navigation,
   currencySymbol,
 }) => {
-  const { t, i18n } = useTranslation("consultations");
+  const { t, i18n } = useTranslation("blocks", { keyPrefix: "consultations" });
 
   const [tabsOptions, setTabsOptions] = useState([
     { label: "upcoming_tab_label", value: "upcoming", isSelected: true },

@@ -11,7 +11,7 @@ import { Context } from "#services";
 import { getDateView, getTime } from "#utils";
 
 export const PaymentInformation = ({ isOpen, onClose, data }) => {
-  const { t } = useTranslation("payment-information");
+  const { t } = useTranslation("modals", { keyPrefix: "payment-information" });
 
   const { currencySymbol } = useContext(Context);
   const {

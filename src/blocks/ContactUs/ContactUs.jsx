@@ -1,6 +1,6 @@
 import "fast-text-encoding";
 import Joi from "joi";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -12,7 +12,9 @@ import { useTranslation } from "react-i18next";
 
 import { Block, Heading, Dropdown, Textarea, AppButton } from "#components";
 
-import { useSendIssueEmail } from "#hooks";
+import { useSendIssueEmail, useGetClientData } from "#hooks";
+
+import { Context } from "#services";
 
 import { validate, showToast } from "#utils";
 
@@ -29,18 +31,44 @@ const initialData = {
  * @return {jsx}
  */
 export const ContactUs = ({ navigation }) => {
-  const { t } = useTranslation("contact-us-block");
+  const { t } = useTranslation("blocks", { keyPrefix: "contact-us-block" });
   const [data, setData] = useState({ ...initialData });
+
+  const { country, isTmpUser } = useContext(Context);
+
+  const IS_PL = country === "PL";
+
   const [issues, setIssues] = useState([
-    { label: t("contact_reason_1"), value: "reason-1", selected: false },
-    { label: t("contact_reason_2"), value: "reason-2", selected: false },
-    { label: t("contact_reason_3"), value: "reason-3", selected: false },
-    { label: t("contact_reason_4"), value: "reason-4", selected: false },
+    {
+      label: t(IS_PL ? "contact_reason_1_pl" : "contact_reason_1"),
+      value: "information",
+      selected: false,
+    },
+    {
+      label: t(IS_PL ? "contact_reason_2_pl" : "contact_reason_2"),
+      value: "services-information",
+      selected: false,
+    },
+    {
+      label: t(IS_PL ? "contact_reason_3_pl" : "contact_reason_3"),
+      value: "technical_problem",
+      selected: false,
+    },
+    {
+      label: t(IS_PL ? "contact_reason_4_pl" : "contact_reason_4"),
+      value: "other",
+      selected: false,
+    },
   ]);
   const [errors, setErrors] = useState({});
   const [canSubmit, setCanSubmit] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+
+  const [clientDataQuery] = useGetClientData(!isTmpUser);
+
+  const clientData = clientDataQuery?.data;
+  const email = clientData?.email || "";
 
   const schema = Joi.object({
     issue: Joi.string().label(t("issue_error")),
@@ -101,9 +129,11 @@ export const ContactUs = ({ navigation }) => {
       };
       if ((await validate(dataToValidate, schema, setErrors)) === null) {
         const payload = {
-          subject: "Technical issue",
+          subjectValue: data.issue,
+          subjectLabel: t("contact_form"),
           title: issues.find((x) => x.value === data.issue)?.label,
           text: data.message,
+          email,
         };
         sendIssueEmailMutation.mutate(payload);
       }

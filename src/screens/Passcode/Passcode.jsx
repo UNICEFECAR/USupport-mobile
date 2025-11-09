@@ -12,7 +12,7 @@ import { Passcode as PasscodeBlock } from "#blocks";
  * @returns {JSX.Element}
  */
 export const Passcode = ({ navigation }) => {
-  const { t } = useTranslation("passcode-screen");
+  const { t } = useTranslation("screens", { keyPrefix: "passcode-screen" });
 
   return (
     <Screen>

@@ -19,7 +19,7 @@ import { StyleSheet } from "react-native";
  * @return {jsx}
  */
 export const DeleteAccount = ({ isOpen, onClose }) => {
-  const { t } = useTranslation("delete-account");
+  const { t } = useTranslation("backdrops", { keyPrefix: "delete-account" });
 
   const { setToken } = useContext(Context);
 

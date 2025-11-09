@@ -19,11 +19,44 @@
         "projectId": "94d84ded-b71b-4716-b049-e53d470a99de"
       }
     },
+    "assetBundlePatterns": ["src/assets/**/*"],
     "plugins": [
       "expo-local-authentication",
       "expo-localization",
-      "expo-font",
-      "expo-secure-store"
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./src/assets/fonts/Nunito_300Light.ttf",
+            "./src/assets/fonts/Nunito_400Regular.ttf",
+            "./src/assets/fonts/Nunito_500Medium.ttf",
+            "./src/assets/fonts/Nunito_600SemiBold.ttf",
+            "./src/assets/fonts/Nunito_700Bold.ttf",
+            "./src/assets/fonts/Nunito_800ExtraBold.ttf"
+          ],
+          "ios": {
+            "fonts": [
+              "./src/assets/fonts/Nunito_300Light.ttf",
+              "./src/assets/fonts/Nunito_400Regular.ttf",
+              "./src/assets/fonts/Nunito_500Medium.ttf",
+              "./src/assets/fonts/Nunito_600SemiBold.ttf",
+              "./src/assets/fonts/Nunito_700Bold.ttf",
+              "./src/assets/fonts/Nunito_800ExtraBold.ttf"
+            ]
+          }
+        }
+      ],
+      "expo-secure-store",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 35,
+            "buildToolsVersion": "35.0.0"
+          }
+        }
+      ]
     ]
   }
 }

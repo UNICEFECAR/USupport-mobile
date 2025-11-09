@@ -13,7 +13,7 @@ import { useGetQuestionsTags } from "#hooks";
  * @return {jsx}
  */
 export const FilterQuestions = ({ isOpen, onClose, selectedTag, setTag }) => {
-  const { t } = useTranslation("filter-questions");
+  const { t } = useTranslation("backdrops", { keyPrefix: "filter-questions" });
 
   const [tags, setTags] = useState([]);
 

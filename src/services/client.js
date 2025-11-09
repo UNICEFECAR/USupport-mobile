@@ -1,5 +1,9 @@
 import http from "./http";
 import Config from "react-native-config";
+import { Platform } from "react-native";
+import * as FileSystem from "expo-file-system";
+import Share from "react-native-share";
+
 const { API_URL_ENDPOINT } = Config;
 
 const API_ENDPOINT = `${API_URL_ENDPOINT}/v1/client`;
@@ -56,10 +60,11 @@ async function getAllConsultations() {
  * @param {string} mood the value of the mood
  * @returns {Promise} the response of the request
  */
-async function addMoodTrack(mood, comment) {
+async function addMoodTrack(mood, comment, emergency) {
   const response = await http.post(`${API_ENDPOINT}/mood-tracker`, {
     comment,
     mood,
+    emergency,
   });
   return response;
 }
@@ -173,6 +178,18 @@ async function deleteChatHistory() {
   return response;
 }
 
+async function deleteMoodTrackerHistory() {
+  const response = await http.put(
+    `${API_ENDPOINT}/mood-tracker/history/delete`
+  );
+  return response;
+}
+
+async function getHasCompletedMoodTrackerEver() {
+  const response = await http.get(`${API_ENDPOINT}/mood-tracker/has-completed`);
+  return response;
+}
+
 /**
  *
  * @param {Object} payload
@@ -202,10 +219,6 @@ async function getOrganizations(filters) {
     filtersQuery += `&search=${filters.search}`;
   }
 
-  if (filters.workWith) {
-    filtersQuery += `&workWith=${filters.workWith}`;
-  }
-
   if (filters.district) {
     filtersQuery += `&district=${filters.district}`;
   }
@@ -217,6 +230,11 @@ async function getOrganizations(filters) {
   if (filters.userInteraction) {
     filtersQuery += `&userInteraction=${filters.userInteraction}`;
   }
+
+  if (filters.specialisations && filters.specialisations.length > 0) {
+    filtersQuery += `&specialisations=${filters.specialisations.join(",")}`;
+  }
+
   const response = await http.get(
     `${API_ENDPOINT}/organization${filtersQuery ? `?${filtersQuery}` : ""}`
   );
@@ -226,6 +244,186 @@ async function getOrganizations(filters) {
 async function getOrganizationById(organizationId) {
   const response = await http.get(
     `${API_ENDPOINT}/organization/${organizationId}`
+  );
+  return response;
+}
+
+/**
+ *
+ * @param {string} suggestion
+ * @param {string} type "information-portal" | "my-qa" | "consultations" | "organizations" | "mood-tracker"
+ * @returns {Promise} the response of the request
+ */
+async function sendPlatformSuggestion({ suggestion, type }) {
+  const response = await http.post(`${API_ENDPOINT}/add-platform-suggestion`, {
+    suggestion,
+    type,
+  });
+  return response;
+}
+
+async function addSOSCenterClick(payload) {
+  const response = await http.post(
+    `${API_ENDPOINT}/add-sos-center-click`,
+    payload
+  );
+  return response;
+}
+
+async function getBaselineAssessmentQuestions() {
+  const response = await http.get(
+    `${API_ENDPOINT}/baseline-assessment/questions`
+  );
+  return response;
+}
+
+async function createBaselineAssessment() {
+  const response = await http.post(
+    `${API_ENDPOINT}/baseline-assessment/create-assessment`
+  );
+  return response;
+}
+
+async function addBaselineAssessmentAnswer({
+  questionId,
+  answerValue,
+  baselineAssessmentId,
+  currentPosition,
+}) {
+  const response = await http.post(
+    `${API_ENDPOINT}/baseline-assessment/add-answer`,
+    {
+      questionId,
+      answerValue,
+      baselineAssessmentId,
+      currentPosition,
+    }
+  );
+  return response;
+}
+
+async function getBaselineAssessments() {
+  const response = await http.get(
+    `${API_ENDPOINT}/baseline-assessment/assessments`
+  );
+  return response;
+}
+
+async function getClientAnswersForBaselineAssessmentById(baselineAssessmentId) {
+  const response = await http.get(
+    `${API_ENDPOINT}/baseline-assessment/answers?assessmentId=${baselineAssessmentId}`
+  );
+  return response;
+}
+
+async function updateClientHasCheckedBaselineAssessment(
+  hasCheckedBaselineAssessment
+) {
+  const response = await http.patch(
+    `${API_ENDPOINT}/has-checked-baseline-assessment`,
+    {
+      hasCheckedBaselineAssessment,
+    }
+  );
+  return response;
+}
+
+async function getLatestBaselineAssessment() {
+  const response = await http.get(`${API_ENDPOINT}/baseline-assessment/latest`);
+  return response;
+}
+
+async function getPersonalizedOrganizations() {
+  const response = await http.get(`${API_ENDPOINT}/organization/personalized`);
+  return response;
+}
+
+async function generateMoodTrackReport(payload) {
+  const { startDate, endDate } = payload || {};
+
+  const queryParams = new URLSearchParams();
+  if (startDate) queryParams.append("startDate", startDate);
+  if (endDate) queryParams.append("endDate", endDate);
+
+  const response = await http.get(
+    `${API_ENDPOINT}/mood-tracker/report?${queryParams.toString()}`
+  );
+
+  // The API returns JSON: { csvData, fileName, ... }
+  // but we also support the fallback where the API returns raw CSV string.
+  const responseData = response?.data;
+  let csvString = "";
+  let filename = "mood-track-report.csv";
+
+  if (typeof responseData === "string") {
+    // Server returned raw CSV
+    csvString = responseData;
+    const contentDisposition = response.headers?.["content-disposition"];
+    if (contentDisposition) {
+      const filenameMatch = contentDisposition.match(/filename="(.+)"/);
+      if (filenameMatch) {
+        filename = filenameMatch[1];
+      }
+    }
+  } else if (responseData && typeof responseData.csvData === "string") {
+    // Server returned JSON with csvData
+    csvString = responseData.csvData;
+    if (responseData.fileName) {
+      filename = responseData.fileName;
+    }
+  } else {
+    // Unexpected shape; do a safe stringify so the user still gets a file
+    csvString = JSON.stringify(responseData ?? {});
+  }
+
+  // Platform-specific handling
+  if (Platform.OS === "web") {
+    const blob = new Blob([csvString], { type: "text/csv;charset=utf-8" });
+    const downloadUrl = window.URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = downloadUrl;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(downloadUrl);
+
+    return { success: true, message: "Report downloaded successfully" };
+  }
+
+  // Native (iOS/Android): save to app documents and open share sheet
+  const ensuredFilename = filename?.toLowerCase().endsWith(".csv")
+    ? filename
+    : `${filename || "mood-track-report"}.csv`;
+  const fileUri = `${FileSystem.documentDirectory}${ensuredFilename}`;
+
+  await FileSystem.writeAsStringAsync(fileUri, csvString, {
+    encoding: FileSystem.EncodingType.UTF8,
+  });
+
+  try {
+    await Share.open({
+      url: fileUri,
+      type: "text/csv",
+      filename: ensuredFilename,
+      failOnCancel: false,
+      saveToFiles: true, // iOS Files app option
+    });
+  } catch (e) {
+    // User may cancel share; ignore
+  }
+
+  return {
+    success: true,
+    message: "Report saved and share sheet opened",
+    fileUri,
+    filename: ensuredFilename,
+  };
+}
+async function getOrganizationSpecializations() {
+  const response = await http.get(
+    `${API_ENDPOINT}/organization/specializations`
   );
   return response;
 }
@@ -255,10 +453,24 @@ const exportedFunctions = {
   getQuestions,
   addQuestionVote,
   deleteChatHistory,
+  deleteMoodTrackerHistory,
   addClientCategoryInteraction,
   getCategoryInteractions,
   getOrganizations,
   getOrganizationById,
+  sendPlatformSuggestion,
+  createBaselineAssessment,
+  getBaselineAssessmentQuestions,
+  getBaselineAssessments,
+  getClientAnswersForBaselineAssessmentById,
+  updateClientHasCheckedBaselineAssessment,
+  addBaselineAssessmentAnswer,
+  getLatestBaselineAssessment,
+  addSOSCenterClick,
+  getPersonalizedOrganizations,
+  generateMoodTrackReport,
+  getOrganizationSpecializations,
+  getHasCompletedMoodTrackerEver,
 };
 
 export default exportedFunctions;

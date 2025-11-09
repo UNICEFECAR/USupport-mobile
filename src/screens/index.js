@@ -43,3 +43,4 @@ export * from "./PodcastInformation";
 export * from "./Podcasts";
 export * from "./Organizations";
 export * from "./OrganizationOverview";
+export * from "./BaselineAssesment";

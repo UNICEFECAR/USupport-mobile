@@ -7,7 +7,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { appStyles } from "#styles";
 import { Block, Heading, AppText, Loading } from "#components";
-import { useEventListener } from "#hooks";
+import { useEventListener, useGetTheme } from "#hooks";
 import { localStorage, cmsSvc } from "#services";
 
 /**
@@ -22,8 +22,9 @@ export const PrivacyPolicy = ({
   isModal = false,
   handleModalClose,
 }) => {
-  const { i18n, t } = useTranslation("privacy-policy");
+  const { i18n, t } = useTranslation("blocks", { keyPrefix: "privacy-policy" });
   const { top: topInset } = useSafeAreaInsets();
+  const { isHighContrast } = useGetTheme();
 
   //--------------------- Country Change Event Listener ----------------------//
   const [currentCountry, setCurrentCountry] = useState();
@@ -73,10 +74,19 @@ export const PrivacyPolicy = ({
       />
       <ScrollView>
         <Block
-          style={[{ marginTop: 48 }, isModal && { marginTop: topInset + 48 }]}
+          style={[{ marginTop: 48 }, isModal && { marginTop: topInset + 60 }]}
         >
           <View style={styles.privacyContainer}>
-            {policiesData && <Markdown style={styles}>{policiesData}</Markdown>}
+            {policiesData && (
+              <Markdown
+                style={{
+                  ...styles,
+                  ...(isHighContrast ? stylesHighContrast : {}),
+                }}
+              >
+                {policiesData}
+              </Markdown>
+            )}
             {!policiesData && policiesLoading && (
               <View style={styles.loadingContainer}>
                 <Loading />
@@ -97,6 +107,7 @@ export const PrivacyPolicy = ({
 const styles = StyleSheet.create({
   privacyContainer: {
     paddingBottom: 28,
+    marginTop: 24,
   },
   heading2: {
     fontSize: 20,
@@ -117,5 +128,36 @@ const styles = StyleSheet.create({
     height: 250,
     alignItems: "center",
     justifyContent: "center",
+  },
+  // add table styling for th tr td etc.
+  table: {
+    borderWidth: 0,
+    borderColor: appStyles.colorPrimary_20809e,
+  },
+  th: {
+    borderTopWidth: 1,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderColor: appStyles.colorPrimary_20809e,
+  },
+  tr: {
+    borderColor: appStyles.colorPrimary_20809e,
+  },
+  td: {
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderColor: appStyles.colorPrimary_20809e,
+  },
+});
+
+const stylesHighContrast = StyleSheet.create({
+  heading2: {
+    color: "#ffff00",
+  },
+  paragraph: {
+    color: "#ffff00",
+  },
+  list_item: {
+    color: "#ffff00",
   },
 });

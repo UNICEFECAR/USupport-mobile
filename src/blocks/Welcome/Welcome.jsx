@@ -12,8 +12,13 @@ const { AMAZON_S3_BUCKET } = Config;
 
 export function Welcome({ navigation }) {
   const { isDarkMode } = useGetTheme();
-  const { t, i18n } = useTranslation("welcome");
-  const { setCurrencySymbol, setCountry } = useContext(Context);
+  const { t, i18n } = useTranslation("blocks", { keyPrefix: "welcome" });
+  const {
+    setCurrencySymbol,
+    setCountry,
+    setIsPodcastsActive,
+    setIsVideosActive,
+  } = useContext(Context);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState(null);
 
@@ -39,14 +44,19 @@ export function Welcome({ navigation }) {
         maxAge: x.max_client_age,
         currencySymbol: x.symbol,
         localName: x.local_name,
+        podcastsActive: x.podcasts_active,
+        videosActive: x.videos_active,
       };
       if (localStorageCountry === x.alpha2) {
         if (!localStorageCountryID) {
           localStorage.setItem("country_id", x["country_id"]);
         }
+        console.log(countryObject);
         setCurrencySymbol(x.currencySymbol);
         setSelectedCountry(x.alpha2);
         setCountry(x.alpha2);
+        setIsPodcastsActive(countryObject.podcastsActive);
+        setIsVideosActive(countryObject.videosActive);
       }
 
       return countryObject;
@@ -102,6 +112,8 @@ export function Welcome({ navigation }) {
 
     setCurrencySymbol(currencySymbol);
     setCountry(country);
+    setIsPodcastsActive(selectedCountryObject.podcastsActive);
+    setIsVideosActive(selectedCountryObject.videosActive);
 
     localStorage.setItem("country", country);
     localStorage.setItem("country_id", selectedCountryObject.countryID);
@@ -130,6 +142,11 @@ export function Welcome({ navigation }) {
           />
         </View>
         <View style={styles.dropdownsContainer}>
+          {selectedCountry === "PL" && (
+            <AppText style={{ paddingBottom: 16 }}>
+              {t("poland_description")}
+            </AppText>
+          )}
           <Dropdown
             options={countriesQuery.data?.map((x) => {
               return {

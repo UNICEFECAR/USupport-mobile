@@ -1,21 +1,17 @@
-import React, {
-  useState,
-  useRef,
-  useContext,
-  useCallback,
-  useMemo,
-} from "react";
+import React, { useState, useRef, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, ScrollView } from "react-native";
+import { StyleSheet, ScrollView, Platform } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { Screen, Block, Heading, AppButton } from "#components";
+import { Screen, Heading, AppButton } from "#components";
 import { ProviderOverview as ProviderOverviewBlock } from "#blocks";
 import { SelectConsultation, ConfirmConsultation } from "#backdrops";
 import {
   useGetClientData,
   useBlockSlot,
   useScheduleConsultation,
+  useAddCountryEvent,
 } from "#hooks";
 import { Context } from "#services";
 import { parseUTCDate } from "#utils";
@@ -28,9 +24,14 @@ import { parseUTCDate } from "#utils";
  * @return {jsx}
  */
 export const ProviderOverview = ({ navigation, route }) => {
-  const { t } = useTranslation("provider-overview-scren");
+  const { t } = useTranslation("screens", {
+    keyPrefix: "provider-overview-screen",
+  });
   const queryClient = useQueryClient();
   const { activeCoupon, setActiveCoupon } = useContext(Context);
+  const { bottom: bottomInset } = useSafeAreaInsets();
+
+  const addCountryEventMutation = useAddCountryEvent();
 
   const providerId = route.params.providerId;
 
@@ -55,6 +56,9 @@ export const ProviderOverview = ({ navigation, route }) => {
     if (!clientData.dataProcessing) {
       openRequireDataAgreement();
     } else {
+      addCountryEventMutation.mutate({
+        eventType: "mobile_schedule_button_click",
+      });
       setIsScheduleBackdropOpen(true);
     }
   };
@@ -144,7 +148,10 @@ export const ProviderOverview = ({ navigation, route }) => {
         />
       </ScrollView>
       <AppButton
-        style={styles.button}
+        style={[
+          styles.button,
+          { bottom: Platform.OS === "android" ? bottomInset + 6 : 15 },
+        ]}
         label={t("button_label")}
         size="lg"
         onPress={openScheduleBackdrop}
@@ -177,7 +184,6 @@ const styles = StyleSheet.create({
   flexGrow1: { flexGrow: 1 },
   button: {
     position: "absolute",
-    bottom: 15,
     alignSelf: "center",
     maxWidth: "96%",
   },

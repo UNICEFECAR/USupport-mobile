@@ -20,8 +20,11 @@ export const EmergencyCenter = ({
   phone,
   btnLabelLink,
   btnLabelCall,
+  btnLabelCustom,
   image,
   style,
+  onPress,
+  showCustomButton,
 }) => {
   const { colors } = useGetTheme();
 
@@ -33,13 +36,14 @@ export const EmergencyCenter = ({
     }
   };
   const handlePress = (isPhone = false) => {
+    onPress();
     if (isPhone) {
       if (Platform.OS === "android") {
         Linking.openURL(`tel:${phone}`);
       } else {
         Linking.openURL(`tel://${phone}`);
       }
-    } else {
+    } else if (link) {
       Linking.openURL(link);
     }
   };
@@ -78,6 +82,14 @@ export const EmergencyCenter = ({
             color="purple"
             size="sm"
             label={btnLabelLink}
+            onPress={() => handlePress()}
+          />
+        ) : null}
+        {showCustomButton ? (
+          <AppButton
+            color="purple"
+            size="sm"
+            label={btnLabelCustom}
             onPress={() => handlePress()}
           />
         ) : null}

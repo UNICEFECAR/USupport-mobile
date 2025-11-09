@@ -37,7 +37,7 @@ export function TransparentModal({
   errorMessage,
   style,
 }) {
-  const { isDarkMode } = useGetTheme();
+  const { isDarkMode, isHighContrast } = useGetTheme();
 
   return (
     <Modal transparent visible={isOpen}>
@@ -65,7 +65,11 @@ export function TransparentModal({
                     <TouchableOpacity onPress={handleClose}>
                       <Icon
                         name="close-x"
-                        color={isDarkMode ? appStyles.colorWhite_ff : "#263238"}
+                        color={
+                          isDarkMode || isHighContrast
+                            ? appStyles.colorWhite_ff
+                            : "#263238"
+                        }
                       />
                     </TouchableOpacity>
                   ) : null}

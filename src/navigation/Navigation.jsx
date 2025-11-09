@@ -19,6 +19,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import { useNavigation } from "@react-navigation/native";
+import uuid from "react-native-uuid";
 
 import messaging from "@react-native-firebase/messaging";
 
@@ -52,6 +53,16 @@ Notifications.setNotificationHandler({
 
 const TWENTY_MINUTES = FIVE_MINUTES * 4;
 
+const addPlatformAccess = async () => {
+  let visitorId = await localStorage.getItem("visitorId");
+  if (!visitorId) {
+    visitorId = uuid.v4();
+    await localStorage.setItem("visitorId", visitorId);
+  }
+
+  return await userSvc.addPlatformAccess(visitorId);
+};
+
 export function Navigation({
   contextTheme,
   setTheme,
@@ -67,11 +78,19 @@ export function Navigation({
     },
     dark: true,
   };
+  const highContrastTheme = {
+    colors: {
+      ...appColors.highContrast,
+    },
+    dark: true,
+    highContrast: true,
+  };
   const defaultTheme = {
     colors: {
       ...appColors.light,
     },
     dark: false,
+    highContrast: false,
   };
 
   const {
@@ -83,6 +102,9 @@ export function Navigation({
     userPin,
     hasCheckedTmpUser,
     initialRouteName,
+    setIsPodcastsActive,
+    setIsVideosActive,
+    country,
   } = useContext(Context);
 
   const getClientDataEnabled = !!(
@@ -119,6 +141,7 @@ export function Navigation({
 
   // After five minutes of inactivity, the user will be prompted to enter their PIN code or authenticate with biometrics
   const resetInactivityTimeout = useCallback(async () => {
+    // return;
     const actualToken = await localStorage.getItem("token");
 
     if (!inConsultationRef.current && actualToken) {
@@ -169,8 +192,16 @@ export function Navigation({
       if (!localStorageTheme) {
         const newTheme = theme === "dark" ? "dark" : "light";
         localStorage.setItem("theme", newTheme);
+        setTheme(newTheme);
+        return;
       }
-      setTheme(localStorageTheme === "dark" ? "dark" : "light");
+      if (localStorageTheme === "dark") {
+        setTheme("dark");
+      } else if (localStorageTheme === "highContrast") {
+        setTheme("highContrast");
+      } else {
+        setTheme("light");
+      }
     });
   }, [theme]);
 
@@ -198,7 +229,6 @@ export function Navigation({
   const fetchCountries = async () => {
     const localStorageCountry = await localStorage.getItem("country");
     const localStorageLanguage = await localStorage.getItem("language");
-
     i18n.changeLanguage(localStorageLanguage);
 
     const res = await countrySvc.getActiveCountries();
@@ -215,6 +245,8 @@ export function Navigation({
         maxAge: x["max_client_age"],
         currencySymbol: x["symbol"],
         localName: x["local_name"],
+        podcastsActive: x["podcasts_active"],
+        videosActive: x["videos_active"],
       };
       const countryID = countryObject.countryID;
       const currencySymbol = countryObject.currencySymbol;
@@ -222,6 +254,8 @@ export function Navigation({
         localStorage.setItem("country_id", countryID);
         localStorage.setItem("currency_symbol", currencySymbol);
         setCurrencySymbol(currencySymbol);
+        setIsPodcastsActive(countryObject.podcastsActive);
+        setIsVideosActive(countryObject.videosActive);
       } else if (!localStorageCountry) {
         if (validCountry?.alpha2 === x.alpha2) {
           hasSetDefaultCountry = true;
@@ -231,6 +265,8 @@ export function Navigation({
           localStorage.setItem("currency_symbol", countryObject.currencySymbol);
 
           setCurrencySymbol(countryObject.currencySymbol);
+          setIsPodcastsActive(countryObject.podcastsActive);
+          setIsVideosActive(countryObject.videosActive);
         }
       }
 
@@ -249,6 +285,8 @@ export function Navigation({
         kazakhstanCountryObject.currencySymbol
       );
 
+      setIsPodcastsActive(kazakhstanCountryObject.podcastsActive);
+      setIsVideosActive(kazakhstanCountryObject.videosActive);
       setCurrencySymbol(kazakhstanCountryObject.currencySymbol);
     }
 
@@ -256,18 +294,24 @@ export function Navigation({
   };
 
   useQuery(["countries"], fetchCountries, {
-    staleTime: Infinity,
+    // staleTime: Infinity,
     onError: (err) => console.log(err, "fetch countries error"),
   });
 
-  useQuery(["platformAccess", token], userSvc.addPlatformAccess, {
+  useQuery(["platformAccess", country], addPlatformAccess, {
     staleTime: Infinity,
-    enabled: !!token,
+    enabled: !!country && !isTmpUser,
   });
 
   return (
     <NavigationContainer
-      theme={contextTheme === "dark" ? darkTheme : defaultTheme}
+      theme={
+        contextTheme === "highContrast"
+          ? highContrastTheme
+          : contextTheme === "dark"
+            ? darkTheme
+            : defaultTheme
+      }
     >
       <View style={{ flex: 1 }} {...panResponder.panHandlers}>
         {userPin && !hasAuthenticatedWithPin && token ? (

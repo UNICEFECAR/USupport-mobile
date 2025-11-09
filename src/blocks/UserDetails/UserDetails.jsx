@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Trans, useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, View, Modal } from "react-native";
@@ -30,7 +30,7 @@ import {
   useLogout,
   useGetTheme,
 } from "#hooks";
-import { localStorage, clientSvc } from "#services";
+import { localStorage, clientSvc, Context } from "#services";
 import { validate, validateProperty, showToast } from "#utils";
 
 /**
@@ -46,11 +46,13 @@ export const UserDetails = ({
   openSelectAvatarBackdrop,
   openDeletePictureBackdrop,
   openDeleteChatHistoryBackdrop,
+  openDeleteMoodTrackerHistoryBackdrop,
   navigation,
 }) => {
   const { colors } = useGetTheme();
-  const { t } = useTranslation("user-details");
-
+  const { t } = useTranslation("blocks", { keyPrefix: "user-details" });
+  const { isHighContrast } = useGetTheme();
+  const { country } = useContext(Context);
   const queryClient = useQueryClient();
 
   const countriesData = queryClient.getQueryData(["countries"]);
@@ -69,6 +71,8 @@ export const UserDetails = ({
   };
   const [schema, setSchema] = useState(Joi.object(defaultSchema));
   const [schemaObject, setSchemaObject] = useState(defaultSchema);
+
+  const IS_RO = country === "RO";
 
   useEffect(() => {
     if (!clientDataQuery.isLoading && clientDataQuery.isSuccess) {
@@ -452,7 +456,9 @@ export const UserDetails = ({
                     components={[
                       <AppText
                         style={{
-                          color: appStyles.colorPrimary_20809e,
+                          color: isHighContrast
+                            ? "#fff"
+                            : appStyles.colorPrimary_20809e,
                         }}
                         isBold
                         onPress={() => setShowPrivacyPolicy(true)}
@@ -498,15 +504,28 @@ export const UserDetails = ({
                 onPress={openDeleteAccountBackdrop}
                 style={styles.textButton}
               />
+              {!IS_RO && (
+                <ButtonWithIcon
+                  iconName={"circle-actions-close"}
+                  iconSize={"md"}
+                  size="lg"
+                  iconColor={"#eb5757"}
+                  color={"red"}
+                  label={t("delete_chat")}
+                  type={"ghost"}
+                  onPress={openDeleteChatHistoryBackdrop}
+                  style={styles.textButton}
+                />
+              )}
               <ButtonWithIcon
                 iconName={"circle-actions-close"}
                 iconSize={"md"}
                 size="lg"
                 iconColor={"#eb5757"}
                 color={"red"}
-                label={t("delete_chat")}
+                label={t("delete_mood_tracker")}
                 type={"ghost"}
-                onPress={openDeleteChatHistoryBackdrop}
+                onPress={openDeleteMoodTrackerHistoryBackdrop}
                 style={[styles.textButton, styles.marginBottom20]}
               />
             </View>
@@ -521,7 +540,9 @@ export const UserDetails = ({
             components={[
               <AppText
                 style={{
-                  color: appStyles.colorPrimary_20809e,
+                  color: isHighContrast
+                    ? appStyles.colorWhite_ff
+                    : appStyles.colorPrimary_20809e,
                 }}
                 isBold
                 onPress={() => setShowPrivacyPolicy(true)}
@@ -554,47 +575,47 @@ export const UserDetails = ({
 };
 
 const styles = StyleSheet.create({
-  block: { flex: 1 },
-  profilePicturePreview: { alignSelf: "center", marginTop: 84 },
   accessToken: {
+    alignItems: "center",
     marginTop: 20,
     width: "93%",
-    alignItems: "center",
   },
-  inputsContainer: {
-    paddingTop: 8,
-    alignItems: "center",
-  },
-  input: { marginTop: 24 },
+  block: { flex: 1 },
+  button: { marginTop: 16 },
   buttonContainer: {
     alignItems: "center",
-    paddingTop: 32,
     paddingBottom: 20,
+    paddingTop: 32,
   },
-  button: { marginTop: 16 },
+  input: { marginTop: 24 },
+  inputsContainer: {
+    alignItems: "center",
+    paddingTop: 8,
+  },
+  marginBottom20: { marginBottom: 20 },
   privacyPolicyContainer: {
+    alignSelf: "center",
     paddingTop: 20,
     width: "93%",
-    alignSelf: "center",
   },
   privacyPolicyText: {
-    fontFamily: "Nunito-SemiBold",
     color: appStyles.colorBlue_3d527b,
+    fontFamily: "Nunito-SemiBold",
     fontSize: 18,
   },
+  profilePicturePreview: { alignSelf: "center", marginTop: 84 },
+  textButton: {
+    justifyContent: "flex-start",
+    marginTop: 20,
+  },
   toggleContainer: {
+    alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    paddingTop: 4,
     paddingBottom: 32,
+    paddingTop: 4,
   },
-  textButton: {
-    marginTop: 20,
-    justifyContent: "flex-start",
-  },
-  zIndex5: { zIndex: 5 },
-  zIndex4: { zIndex: 4 },
   zIndex3: { zIndex: 3 },
-  marginBottom20: { marginBottom: 20 },
+  zIndex4: { zIndex: 4 },
+  zIndex5: { zIndex: 5 },
 });

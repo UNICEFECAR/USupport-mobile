@@ -43,7 +43,7 @@ import Animated, {
 
 export const RegisterAnonymous = ({ navigation }) => {
   const { colors } = useGetTheme();
-  const { t } = useTranslation("register-anonymous");
+  const { t } = useTranslation("blocks", { keyPrefix: "register-anonymous" });
 
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [hasCopied, setHasCopied] = useState(false);
@@ -372,7 +372,6 @@ const SaveAccessCodeConfirmation = ({
   userAccessToken,
   handleRegister,
   isRegisterLoading,
-  copyLabel = "Click to copy",
   t,
 }) => {
   const [hasAgreed, setHasAgreed] = useState(false);
@@ -436,7 +435,7 @@ const SaveAccessCodeConfirmation = ({
             ]}
           >
             <Icon name="arrow-chevron-back" color="#3d527b" size="sm" />
-            <AppText namedStyle="smallText">{copyLabel}</AppText>
+            <AppText namedStyle="smallText">{t("click_to_copy")}</AppText>
           </Animated.View>
         </View>
       )}

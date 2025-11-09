@@ -3,10 +3,16 @@ import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { View, StyleSheet } from "react-native";
 
-import { Block, Loading, EmergencyCenter, AppText } from "#components";
+import {
+  AppButton,
+  AppText,
+  Block,
+  Loading,
+  EmergencyCenter,
+} from "#components";
 
-import { useEventListener } from "#hooks";
-import { localStorage, cmsSvc, adminSvc } from "#services";
+import { useEventListener, useAddSosCenterClick } from "#hooks";
+import { localStorage, cmsSvc, adminSvc, clientSvc } from "#services";
 
 /**
  * SOSCenter
@@ -15,8 +21,8 @@ import { localStorage, cmsSvc, adminSvc } from "#services";
  *
  * @return {jsx}
  */
-export const SOSCenter = () => {
-  const { i18n, t } = useTranslation("sos-center");
+export const SOSCenter = ({ navigation }) => {
+  const { i18n, t } = useTranslation("blocks", { keyPrefix: "sos-center" });
 
   //--------------------- Country Change Event Listener ----------------------//
   const [currentCountry, setCurrentCountry] = useState();
@@ -31,6 +37,8 @@ export const SOSCenter = () => {
       .getItem("country")
       .then((country) => setCurrentCountry(country || "KZ"));
   }, []);
+
+  const IS_RO = currentCountry === "RO";
 
   // Add event listener
   useEventListener("countryChanged", handler);
@@ -74,13 +82,78 @@ export const SOSCenter = () => {
     }
   );
 
+  const getOrganizationSpecializations = async () => {
+    const { data } = await clientSvc.getOrganizationSpecializations();
+    return data;
+  };
+
+  const { data: specializationsData } = useQuery(
+    ["organizationSpecializations", currentCountry],
+    getOrganizationSpecializations,
+    {
+      staleTime: 10 * 60 * 1000, // 10 minutes
+    }
+  );
+
+  const emergencyServiceSpecialization = specializationsData?.find(
+    (specialization) => specialization.name === "emergency_situations"
+  );
+
+  const addSosCenterClickMutation = useAddSosCenterClick();
+
+  const handleSosCenterClick = (sosCenter) => {
+    const { attributes } = sosCenter;
+    let id = sosCenter.id;
+    if (attributes.locale !== "en") {
+      const englishLocalization = attributes.localizations.data.find(
+        (x) => x.attributes.locale === "en"
+      );
+      if (englishLocalization) {
+        id = englishLocalization.id;
+      }
+    }
+
+    addSosCenterClickMutation.mutate({
+      sosCenterId: id,
+      isMain: false,
+      platform: "client",
+    });
+  };
+
   return (
     <Block style={styles.block}>
       {SOSCentersData && (
         <View style={styles.emergencyCenterContainer}>
+          {IS_RO && (
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <AppText namedStyle="h4" isSemibold>
+                {t("other_emergency_services")}
+              </AppText>
+              <AppButton
+                color="purple"
+                label={t("browse")}
+                style={{ width: "auto", alignSelf: "center" }}
+                onPress={() =>
+                  navigation.navigate("TabNavigation", {
+                    screen: "Consultations",
+                    params: {
+                      specialisations: [emergencyServiceSpecialization.id],
+                    },
+                  })
+                }
+              />
+            </View>
+          )}
           {SOSCentersData.map((sosCenter, index) => {
             return (
               <EmergencyCenter
+                onPress={() => handleSosCenterClick(sosCenter)}
                 title={sosCenter.attributes.title}
                 text={sosCenter.attributes.text}
                 link={sosCenter.attributes.url}

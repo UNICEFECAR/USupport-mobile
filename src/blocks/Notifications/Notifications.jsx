@@ -33,6 +33,7 @@ import {
   useGetAllConsultations,
   useMarkAllNotificationsAsRead,
   useGetClientData,
+  useGetTheme,
 } from "#hooks";
 
 /**
@@ -47,7 +48,8 @@ export const Notifications = ({
   openJoinConsultation,
   openRequireDataAgreement,
 }) => {
-  const { t } = useTranslation("notifications");
+  const { t } = useTranslation("blocks", { keyPrefix: "notifications" });
+  const { isHighContrast } = useGetTheme();
 
   const queryClient = useQueryClient();
 
@@ -574,6 +576,89 @@ export const Notifications = ({
             )}
           </Notification>
         );
+      case "question_answered":
+        return (
+          <Notification
+            t={t}
+            date={notification.createdAt}
+            isRead={notification.isRead}
+            title="uSupport"
+            text={
+              <Trans
+                components={[
+                  <AppText namedStyle="smallText" style={styles.fontBold} />,
+                ]}
+              >
+                {t(notification.type, {
+                  providerName: notification.content.providerName,
+                })}
+              </Trans>
+            }
+            icon="calendar"
+            handleClick={() => {
+              markNotificationAsReadByIdMutation.mutate([
+                notification.notificationId,
+              ]);
+              navigation.navigate("MyQA", { state: notification.content });
+            }}
+          />
+        );
+      case "consultation_remind_start_24_hours_before":
+        return (
+          <Notification
+            t={t}
+            date={notification.createdAt}
+            isRead={notification.isRead}
+            title="uSupport"
+            text={
+              <Trans
+                components={[
+                  <AppText namedStyle="smallText" style={styles.fontBold} />,
+                ]}
+              >
+                {t(notification.type, {
+                  providerName:
+                    notificationProviders[
+                      notification.content.providerDetailId ||
+                        notification.content.provider_detail_id
+                    ] || notification.content.providerName,
+                })}
+              </Trans>
+            }
+            icon="calendar"
+            handleClick={() =>
+              handleNotificationClick(notification.notificationId)
+            }
+          />
+        );
+      case "consultation_remind_start_48_hours_before":
+        return (
+          <Notification
+            t={t}
+            date={notification.createdAt}
+            isRead={notification.isRead}
+            title="uSupport"
+            text={
+              <Trans
+                components={[
+                  <AppText namedStyle="smallText" style={styles.fontBold} />,
+                ]}
+              >
+                {t(notification.type, {
+                  providerName:
+                    notificationProviders[
+                      notification.content.providerDetailId ||
+                        notification.content.provider_detail_id
+                    ] || notification.content.providerName,
+                })}
+              </Trans>
+            }
+            icon="calendar"
+            handleClick={() =>
+              handleNotificationClick(notification.notificationId)
+            }
+          />
+        );
       default:
         return null;
     }
@@ -582,7 +667,14 @@ export const Notifications = ({
   const MarkAllAsReadButton = () => {
     return (
       <TouchableOpacity onPress={handleMarkAllAsRead}>
-        <AppText style={styles.markAllAsReadButton}>{t("mark_read")}</AppText>
+        <AppText
+          style={[
+            styles.markAllAsReadButton,
+            isHighContrast ? styles.markAllAsReadButtonHC : {},
+          ]}
+        >
+          {t("mark_read")}
+        </AppText>
       </TouchableOpacity>
     );
   };
@@ -622,18 +714,12 @@ export const Notifications = ({
             return (
               <>
                 {renderNotification(item)}
-                {item.item.isRead && (
-                  <Line
-                    style={{ width: "85%", alignSelf: "center", marginTop: 0 }}
-                  />
-                )}
+                {item.item.isRead && <Line style={styles.line} />}
               </>
             );
           }}
           onEndReached={() => notificationsQuery.fetchNextPage()}
-          contentContainerStyle={{
-            paddingBottom: 200,
-          }}
+          contentContainerStyle={styles.paddingBottom200}
         />
       </View>
     </Block>
@@ -642,25 +728,41 @@ export const Notifications = ({
 
 const styles = StyleSheet.create({
   block: { paddingHorizontal: 0 },
-  markAllAsReadButton: {
-    color: appStyles.colorSecondary_9749fa,
-    fontFamily: appStyles.fontSemiBold,
-  },
+  centerButton: { alignSelf: "center", marginTop: 16, minWidth: 120 },
   loadingContainer: {
     width: "100%",
     paddingTop: 40,
     alignItems: "center",
   },
+  markAllAsReadButton: {
+    color: appStyles.colorSecondary_9749fa,
+    fontFamily: appStyles.fontSemiBold,
+  },
+  markAllAsReadButtonHC: {
+    color: appStyles.colorWhite_ff,
+    textDecoration: "underline",
+    textDecorationColor: appStyles.colorWhite_ff,
+  },
   flashListWrapper: {
     height: "100%",
     marginTop: 112,
   },
-  centerButton: { alignSelf: "center", minWidth: 120, marginTop: 16 },
+  fontBold: { fontFamily: appStyles.fontBold },
+  line: { alignSelf: "center", marginTop: 0, width: "85%" },
+  loadingContainer: {
+    alignItems: "center",
+    paddingTop: 40,
+    width: "100%",
+  },
+  markAllAsReadButton: {
+    color: appStyles.colorSecondary_9749fa,
+    fontFamily: appStyles.fontSemiBold,
+  },
+  paddingBottom200: { paddingBottom: 200 },
+  suggestButton: { minWidth: 120 },
   suggestButtonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     paddingTop: 16,
   },
-  suggestButton: { minWidth: 120 },
-  fontBold: { fontFamily: appStyles.fontBold },
 });

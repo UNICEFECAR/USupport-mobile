@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
@@ -7,7 +7,7 @@ import { Heading, Screen, AppText, Loading, CardMedia } from "#components";
 import { PodcastView } from "#blocks";
 import { destructurePodcastData } from "#utils";
 import { useGetUserContentRatings } from "#hooks";
-import { userSvc, cmsSvc, adminSvc, clientSvc } from "#services";
+import { userSvc, cmsSvc, adminSvc, clientSvc, Context } from "#services";
 
 /**
  * PodcastInformation
@@ -18,7 +18,10 @@ import { userSvc, cmsSvc, adminSvc, clientSvc } from "#services";
  */
 export const PodcastInformation = ({ navigation, route }) => {
   const { podcastId: id } = route.params;
-  const { i18n, t } = useTranslation("information-portal");
+  const { i18n, t } = useTranslation("blocks", {
+    keyPrefix: "information-portal",
+  });
+  const { isTmpUser } = useContext(Context);
 
   const getPodcastsIds = async () => {
     // Request podcast ids from the master DB
@@ -26,17 +29,18 @@ export const PodcastInformation = ({ navigation, route }) => {
     return podcastIds;
   };
 
-  const { data: contentRatings } = useGetUserContentRatings();
+  const { data: contentRatings } = useGetUserContentRatings(!isTmpUser);
   const podcastIdsQuery = useQuery(["podcastIds"], getPodcastsIds);
 
   const getPodcastData = async () => {
     const contentRatings = await userSvc.getRatingsForContent({
       contentType: "podcast",
       contentId: id,
+      isTmpUser,
     });
 
     const { data } = await cmsSvc.getPodcastById(id, i18n.language);
-    const finalData = destructurePodcastData(data);
+    const finalData = await destructurePodcastData(data);
     finalData.contentRating = contentRatings.data;
     return finalData;
   };
@@ -48,7 +52,7 @@ export const PodcastInformation = ({ navigation, route }) => {
       enabled: !!id,
       onSuccess: (data) => {
         // Add category interaction when podcast is successfully fetched
-        if (data && data.categoryId) {
+        if (data && data.categoryId && !isTmpUser) {
           clientSvc
             .addClientCategoryInteraction({
               categoryId: data.categoryId,
@@ -73,6 +77,7 @@ export const PodcastInformation = ({ navigation, route }) => {
       ids: podcastIdsQuery.data,
     });
 
+    let podcasts = [];
     if (data.length === 0) {
       let { data: newest } = await cmsSvc.getPodcasts({
         limit: 3,
@@ -83,9 +88,16 @@ export const PodcastInformation = ({ navigation, route }) => {
         populate: true,
         ids: podcastIdsQuery.data,
       });
-      return newest.data;
+      podcasts = newest.data || [];
+    } else {
+      podcasts = data.data || [];
     }
-    return data.data;
+
+    // Destructure podcast data with async handling
+    const destructuredPodcasts = await Promise.all(
+      podcasts.map((podcast) => destructurePodcastData(podcast))
+    );
+    return destructuredPodcasts;
   };
 
   const {
@@ -112,7 +124,7 @@ export const PodcastInformation = ({ navigation, route }) => {
         />
 
         {podcastData ? (
-          <PodcastView podcastData={podcastData} t={t} />
+          <PodcastView podcastData={podcastData} t={t} isTmpUser={isTmpUser} />
         ) : (
           <View style={styles.loadingContainer}>
             <Loading style={styles.loading} />
@@ -138,7 +150,7 @@ export const PodcastInformation = ({ navigation, route }) => {
                     rating.content_type === "podcast" &&
                     rating.positive === false
                 );
-                const podcastData = destructurePodcastData(podcast);
+                const podcastData = podcast; // Already destructured in getSimilarPodcasts
 
                 return (
                   <View key={index} style={styles.morePodcastCard}>

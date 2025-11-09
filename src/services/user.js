@@ -211,6 +211,7 @@ function transformUserData(data) {
     image: data.image,
     urbanRural: data.urban_rural || "",
     dataProcessing: data.data_processing,
+    hasCheckedBaselineAssessment: data.has_checked_baseline_assessment,
   };
 }
 
@@ -239,7 +240,7 @@ async function logoutRequest() {
 
 async function addPlatformAccess() {
   const response = await http.get(
-    `${API_ENDPOINT}/access-platform?platform=client`
+    `${API_ENDPOINT}/access-platform?platform=mobile`
   );
   return response;
 }
@@ -254,9 +255,39 @@ async function getUserContentRatings() {
   return response;
 }
 
-async function getRatingsForContent({ contentId, contentType }) {
+async function getRatingsForContent({ contentId, contentType, isTmpUser }) {
+  const headers = {};
+  if (isTmpUser) {
+    headers["x-is-guest"] = "true";
+  }
   const response = await http.get(
-    `${API_ENDPOINT}/ratings-for-content?contentId=${contentId}&contentType=${contentType}`
+    `${API_ENDPOINT}/ratings-for-content?contentId=${contentId}&contentType=${contentType}`,
+    {
+      headers,
+    }
+  );
+  return response;
+}
+
+async function addContactForm(payload) {
+  const response = await http.post(`${API_ENDPOINT}/add-contact-form`, payload);
+  return response;
+}
+
+/**
+ * Track country event (registration clicks, consultation actions, etc.)
+ * @param {Object} payload
+ * @param {string} payload.eventType - Type of event (e.g., 'web_email_register_click')
+ * @returns {Promise} the response of the request
+ */
+async function addCountryEvent(payload) {
+  const response = await http.post(`${API_ENDPOINT}/country-event`, payload);
+  return response;
+}
+
+async function getMobileMap({ lat, lng }) {
+  const response = await http.get(
+    `${API_ENDPOINT}/mobile-map?lat=${lat}&lng=${lng}`
   );
   return response;
 }
@@ -287,6 +318,9 @@ const exportedFunctions = {
   addContentRating,
   getUserContentRatings,
   getRatingsForContent,
+  addContactForm,
+  addCountryEvent,
+  getMobileMap,
 };
 
 export default exportedFunctions;

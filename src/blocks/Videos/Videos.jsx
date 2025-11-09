@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
@@ -22,7 +22,7 @@ import {
   useDebounce,
 } from "#hooks";
 
-import { localStorage, adminSvc, cmsSvc } from "#services";
+import { localStorage, adminSvc, cmsSvc, Context } from "#services";
 
 /**
  * Videos
@@ -32,8 +32,8 @@ import { localStorage, adminSvc, cmsSvc } from "#services";
  * @returns {JSX.Element}
  */
 export const Videos = ({ navigation, showSearch, showCategories, sort }) => {
-  const { t, i18n } = useTranslation("videos");
-
+  const { t, i18n } = useTranslation("blocks", { keyPrefix: "videos" });
+  const { isTmpUser } = useContext(Context);
   const [usersLanguage, setUsersLanguage] = useState(i18n.language);
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export const Videos = ({ navigation, showSearch, showCategories, sort }) => {
     }
   }, [i18n.language]);
 
-  const { data: contentRatings } = useGetUserContentRatings();
+  const { data: contentRatings } = useGetUserContentRatings(!isTmpUser);
 
   //--------------------- Country Change Event Listener ----------------------//
   const [currentCountry, setCurrentCountry] = useState();
@@ -65,13 +65,43 @@ export const Videos = ({ navigation, showSearch, showCategories, sort }) => {
   const [categories, setCategories] = useState();
   const [selectedCategory, setSelectedCategory] = useState();
 
+  //--------------------- Videos ----------------------//
+  const getVideosIds = async () => {
+    const videosIds = await adminSvc.getVideos();
+    return videosIds;
+  };
+
+  const videoIdsQuery = useQuery(["videoIds", currentCountry], getVideosIds);
+
   const getCategories = async () => {
     try {
+      // First get category IDs that have videos
+      const categoryIdsWithVideos = await cmsSvc.getVideoCategoryIds(
+        usersLanguage,
+        videoIdsQuery.data
+      );
+
+      // If no categories have videos, return empty array with "all" option
+      if (!categoryIdsWithVideos || categoryIdsWithVideos.length === 0) {
+        const categoriesData = [
+          { label: t("all"), value: "all", isSelected: true },
+        ];
+        setSelectedCategory(categoriesData[0]);
+        return categoriesData;
+      }
+
+      // Get all categories
       const res = await cmsSvc.getCategories(usersLanguage);
+
+      // Filter categories to only include those that have videos
+      const filteredCategories = res.data.filter((category) =>
+        categoryIdsWithVideos.includes(category.id)
+      );
+
       let categoriesData = [
         { label: t("all"), value: "all", isSelected: true },
       ];
-      res.data.map((category) =>
+      filteredCategories.map((category) =>
         categoriesData.push({
           label: category.attributes.name,
           value: category.attributes.name,
@@ -89,9 +119,10 @@ export const Videos = ({ navigation, showSearch, showCategories, sort }) => {
   };
 
   const categoriesQuery = useQuery(
-    ["videos-categories", usersLanguage],
+    ["videos-categories", usersLanguage, videoIdsQuery.data],
     getCategories,
     {
+      enabled: !!videoIdsQuery.data && videoIdsQuery.data.length > 0,
       refetchOnWindowFocus: false,
       onSuccess: (data) => {
         setCategories([...data]);
@@ -122,13 +153,6 @@ export const Videos = ({ navigation, showSearch, showCategories, sort }) => {
   };
 
   //--------------------- Videos ----------------------//
-  const getVideosIds = async () => {
-    const videosIds = await adminSvc.getVideos();
-    return videosIds;
-  };
-
-  const videoIdsQuery = useQuery(["videoIds", currentCountry], getVideosIds);
-
   const getVideosData = async () => {
     let categoryId = "";
     if (selectedCategory && selectedCategory.value !== "all") {
@@ -187,15 +211,18 @@ export const Videos = ({ navigation, showSearch, showCategories, sort }) => {
           </View>
         )}
 
-        {showCategories && areCategoriesReady && categories && (
-          <View style={styles.categoriesContainer}>
-            <Tabs
-              options={categories}
-              handleSelect={handleCategoryOnPress}
-              t={t}
-            />
-          </View>
-        )}
+        {showCategories &&
+          areCategoriesReady &&
+          categories &&
+          categories.length > 2 && (
+            <View style={styles.categoriesContainer}>
+              <Tabs
+                options={categories}
+                handleSelect={handleCategoryOnPress}
+                t={t}
+              />
+            </View>
+          )}
 
         {videos?.length > 0 &&
           areCategoriesReady &&

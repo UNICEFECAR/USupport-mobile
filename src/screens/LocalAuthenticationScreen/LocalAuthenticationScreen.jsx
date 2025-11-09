@@ -14,8 +14,10 @@ export function LocalAuthenticationScreen({
   userPin,
   setHasAuthenticatedWithPin,
 }) {
-  const { colors } = useGetTheme();
-  const { t } = useTranslation("local-authentication-screen");
+  const { colors, isHighContrast } = useGetTheme();
+  const { t } = useTranslation("screens", {
+    keyPrefix: "local-authentication-screen",
+  });
   const [data, setData] = useState([
     {
       name: "first",
@@ -65,9 +67,8 @@ export function LocalAuthenticationScreen({
 
   useEffect(() => {
     const biometricAuth = async () => {
-      const hasEnabledBiometrics = await localStorage.getItem(
-        "biometrics-enabled"
-      );
+      const hasEnabledBiometrics =
+        await localStorage.getItem("biometrics-enabled");
       setHasBiometricsEnabled(hasEnabledBiometrics);
 
       const hasHardware = await LocalAuthentication.hasHardwareAsync();
@@ -162,7 +163,11 @@ export function LocalAuthenticationScreen({
                   goToPreviousBox(box.previousIndex, keyValue)
                 }
                 maxFontSizeMultiplier={appStyles.maxFontSizeMultiplier}
-                style={[styles.textInput, { backgroundColor: colors.card }]}
+                style={[
+                  styles.textInput,
+                  isHighContrast ? styles.textInputHC : {},
+                  { backgroundColor: colors.card },
+                ]}
               />
             );
           })}
@@ -176,9 +181,14 @@ export function LocalAuthenticationScreen({
             <Icon
               name={isPinVisible ? "hide" : "view"}
               size="md"
-              color={appStyles.colorSecondary_9749fa}
+              color={isHighContrast ? "#fff" : appStyles.colorSecondary_9749fa}
             />
-            <AppText style={styles.viewPinButtonText}>
+            <AppText
+              style={[
+                styles.viewPinButtonText,
+                isHighContrast ? { color: "#fff" } : null,
+              ]}
+            >
               {t(isPinVisible ? "hide_pin" : "view_pin")}
             </AppText>
           </View>
@@ -222,6 +232,9 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: "#5F549B",
     ...appStyles.shadow2,
+  },
+  textInputHC: {
+    color: "#ffff00",
   },
   errorMessage: {
     textAlign: "center",

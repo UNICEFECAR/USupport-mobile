@@ -27,9 +27,11 @@ export const RequireDataAgreement = ({
   isLoading,
   onSuccess = () => {},
 }) => {
-  const { colors } = useGetTheme();
+  const { colors, isHighContrast } = useGetTheme();
   const queryClient = useQueryClient();
-  const { t } = useTranslation("require-data-agreement");
+  const { t } = useTranslation("modals", {
+    keyPrefix: "require-data-agreement",
+  });
 
   const updateDataProcessing = async () => {
     await clientSvc.changeDataProcessingAgreement(true);
@@ -98,7 +100,16 @@ export const RequireDataAgreement = ({
             setIsPrivacyPolicyOpen(true);
           }}
         >
-          <AppText style={styles.termsAndConditionsText}>
+          <AppText
+            style={[
+              styles.termsAndConditionsText,
+              {
+                color: isHighContrast
+                  ? appStyles.colorWhite_ff
+                  : colors.textSecondary,
+              },
+            ]}
+          >
             {t("privacy_policy")}
           </AppText>
         </TouchableOpacity>

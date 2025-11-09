@@ -9,6 +9,7 @@ export default function useGetClientData(
   enabled = true,
   shouldInvalidate = false
 ) {
+  const { isTmpUser } = useContext(Context);
   const queryClient = useQueryClient();
   const oldData = queryClient.getQueryData({ queryKey: ["client-data"] });
   const [clientData, setClientData] = useState(oldData || null);
@@ -24,7 +25,6 @@ export default function useGetClientData(
 
   const fetchClientData = async () => {
     const res = await clientSvc.getClientData();
-
     const data = {
       clientID: res.data.client_detail_id,
       accessToken: res.data.access_token,
@@ -38,19 +38,20 @@ export default function useGetClientData(
       urbanRural: res.data.urban_rural || "",
       dataProcessing: res.data.data_processing,
       pushNotificationTokens: res.data.push_notification_tokens,
+      hasCheckedBaselineAssessment: res.data.has_checked_baseline_assessment,
     };
 
     return data;
   };
 
   const clientDataQuery = useQuery(["client-data"], fetchClientData, {
-    enabled: enabled && !!token,
+    enabled: enabled && !!token && !isTmpUser,
     onSuccess: (data) => {
       const dataCopy = JSON.parse(JSON.stringify(data));
       setOldDataCopy(dataCopy);
       setClientData({ ...dataCopy });
     },
-    staleTime: Infinity,
+    // staleTime: Infinity,
   });
 
   const update = (data) => {

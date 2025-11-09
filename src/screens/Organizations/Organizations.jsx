@@ -8,11 +8,10 @@ import { FilterOrganizations } from "#backdrops";
 
 const INITIAL_FILTERS = {
   search: "",
-  workWith: "",
   district: "",
   paymentMethod: "",
   userInteraction: "",
-  specialisation: "",
+  specialisations: "",
 };
 
 /**
@@ -22,8 +21,13 @@ const INITIAL_FILTERS = {
  *
  * @returns {JSX.Element}
  */
-export const Organizations = ({ navigation }) => {
-  const { t } = useTranslation("organizations-screen");
+export const Organizations = ({ route, navigation }) => {
+  const { t } = useTranslation("screens", {
+    keyPrefix: "organizations-screen",
+  });
+
+  const params = route.params || { specialisations: [] };
+  const { specialisations } = params;
 
   const [filters, setFilters] = useState(INITIAL_FILTERS);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -34,7 +38,7 @@ export const Organizations = ({ navigation }) => {
   };
 
   return (
-    <Screen hasEmergencyButton={false}>
+    <Screen hasEmergencyButton={false} hasHeaderNavigation t={t}>
       <FilterOrganizations
         isOpen={isFilterOpen}
         onClose={() => setIsFilterOpen(false)}
@@ -43,22 +47,18 @@ export const Organizations = ({ navigation }) => {
         initialFilters={INITIAL_FILTERS}
       />
       <Heading
+        style={{ paddingTop: 80 }}
         heading={t("heading")}
         subheading={t("subheading")}
         hasGoBackArrow={false}
-        buttonComponent={
-          <ButtonOnlyIcon
-            iconName="filter"
-            iconSize="md"
-            onPress={() => setIsFilterOpen(true)}
-          />
-        }
       />
-      <View style={{ marginTop: 75 }} />
+      <View style={{ marginTop: 120 }} />
       <OrganizationsBlock
         navigation={navigation}
         filters={filters}
         setFilters={setFilters}
+        specialisations={specialisations}
+        setIsFilterOpen={setIsFilterOpen}
       />
     </Screen>
   );

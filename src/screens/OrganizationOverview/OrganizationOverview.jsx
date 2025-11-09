@@ -5,7 +5,9 @@ import { OrganizationOverview as OrganizationOverviewBlock } from "#blocks";
 import { Heading, Screen } from "#components";
 
 export const OrganizationOverview = ({ navigation, route }) => {
-  const { t } = useTranslation("organization-overview-screen");
+  const { t } = useTranslation("screens", {
+    keyPrefix: "organization-overview-screen",
+  });
 
   const organizationId = route.params.organizationId;
 

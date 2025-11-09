@@ -15,7 +15,7 @@ import { useGetTheme } from "#hooks";
  * @return {jsx}
  */
 export const MoodTrackDetails = ({ mood, handleClose, t = { t } }) => {
-  const { colors } = useGetTheme();
+  const { colors, isHighContrast } = useGetTheme();
   const dateText = `${
     mood.time.getDate() > 9 ? mood.time.getDate() : `0${mood.time.getDate()}`
   }.${
@@ -60,38 +60,55 @@ export const MoodTrackDetails = ({ mood, handleClose, t = { t } }) => {
           {t(mood.mood)} {t("comment_text")}
         </AppText>
       </View>
-      <AppText style={styles.commentText}>{mood.comment}</AppText>
+      <AppText style={[styles.commentText, styles.commentTextHC]}>
+        {mood.comment}
+      </AppText>
+      {mood.isCritical && (
+        <AppText style={styles.criticalText}>{t("critical_text")}</AppText>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  moodTrackDetails: {
-    paddingVertical: 20,
-    paddingHorizontal: 16,
-    borderRadius: 20,
-    flexDirection: "column",
-    alignItems: "center",
+  closeIcon: {
+    position: "absolute",
+    right: 20,
+    top: 20,
   },
-  subheadingContainer: {
+  commentText: {
+    alignSelf: "flex-start",
+    color: appStyles.colorPrimary_20809e,
     marginTop: 12,
-    flexDirection: "row",
-    alignItems: "center",
-    width: "100%",
+  },
+  criticalText: {
+    alignSelf: "flex-start",
+    color: appStyles.colorRed_eb5757,
+    marginTop: 12,
   },
   emoticon: {
     marginHorizontal: 6,
   },
-  commentText: {
+  moodTrackDetails: {
+    alignItems: "center",
+    borderRadius: 20,
+    flexDirection: "column",
+    paddingHorizontal: 16,
+    paddingVertical: 20,
+  },
+  subheadingContainer: {
+    alignItems: "center",
+    flexDirection: "row",
     marginTop: 12,
-    marginLeft: 14,
-    color: appStyles.colorPrimary_20809e,
-    alignSelf: "flex-start",
+    width: "100%",
+  },
+  commentTextHC: {
+    color: "#fff",
   },
   closeIcon: {
     position: "absolute",
-    top: 20,
     right: 20,
+    top: 20,
   },
 });
 

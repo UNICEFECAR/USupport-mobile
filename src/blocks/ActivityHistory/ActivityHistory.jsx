@@ -28,7 +28,7 @@ export const ActivityHistory = ({
   consultation,
   providerId,
 }) => {
-  const { t } = useTranslation("activity-history");
+  const { t } = useTranslation("blocks", { keyPrefix: "activity-history" });
   const { colors } = useGetTheme();
 
   const [shownMessages, setShownMessages] = useState();

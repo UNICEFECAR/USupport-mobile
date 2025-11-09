@@ -2026,6 +2026,84 @@ const IconLocation = ({ color = "#000000" }) => {
   );
 };
 
+const IconPlay = ({ color = "#ffffff" }) => {
+  return (
+    <Svg
+      id="icon-play"
+      viewBox="0 0 64 64"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <Circle
+        cx="32"
+        cy="32"
+        r="30"
+        fill="rgba(0, 0, 0, 0.7)"
+        stroke="rgba(255, 255, 255, 0.3)"
+        stroke-width="2"
+      />
+      <Path d="M26 20V44L42 32L26 20Z" fill={color} />
+    </Svg>
+  );
+};
+
+const IconSave = () => {
+  return (
+    <Svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <Path
+        d="M7 21H17C19.2091 21 21 19.2091 21 17V7.41421C21 7.149 20.8946 6.89464 20.7071 6.70711L17.2929 3.29289C17.1054 3.10536 16.851 3 16.5858 3H7C4.79086 3 3 4.79086 3 7V17C3 19.2091 4.79086 21 7 21Z"
+        stroke="white"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M9 3H15V6C15 6.55228 14.5523 7 14 7H10C9.44772 7 9 6.55228 9 6V3Z"
+        stroke="white"
+        strokeWidth="2"
+      />
+      <Path
+        d="M17 21V14C17 13.4477 16.5523 13 16 13H8C7.44772 13 7 13.4477 7 14V21"
+        stroke="white"
+        strokeWidth="2"
+      />
+      <Path
+        d="M11 17H13"
+        stroke="white"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </Svg>
+  );
+};
+
+const IconAccessibility = ({ color = "#000000" }) => {
+  return (
+    <Svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill={color}>
+      <G id="SVGRepo_bgCarrier" stroke-width="0" />
+      <G
+        id="SVGRepo_tracerCarrier"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <G id="SVGRepo_iconCarrier">
+        <G id="Layer_2" data-name="Layer 2">
+          <G id="invisible_box" data-name="invisible box">
+            <Rect width="48" height="48" fill="none" />
+          </G>
+          <G id="Layer_6" data-name="Layer 6">
+            <G>
+              <Path d="M24,2A22,22,0,1,0,46,24,21.9,21.9,0,0,0,24,2Zm0,40A18,18,0,1,1,42,24,18.1,18.1,0,0,1,24,42Z" />
+              <Circle cx="24" cy="13" r="3" />
+              <Path d="M35,17H13a2,2,0,0,0,0,4h7v4.8l-2,9.8A2.1,2.1,0,0,0,19.6,38H20a2.1,2.1,0,0,0,2-1.6L23.8,27h.4L26,36.4A2.1,2.1,0,0,0,28,38h.4A2.1,2.1,0,0,0,30,35.6l-2-9.8V21h7a2,2,0,0,0,0-4Z" />
+            </G>
+          </G>
+        </G>
+      </G>
+    </Svg>
+  );
+};
+
 export {
   IconFilter,
   IconPhoneEmergency,
@@ -2131,4 +2209,7 @@ export {
   IconWaze,
   IconGoogleMaps,
   IconLocation,
+  IconPlay,
+  IconSave,
+  IconAccessibility,
 };

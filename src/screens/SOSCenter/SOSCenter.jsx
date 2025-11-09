@@ -13,7 +13,7 @@ import { SOSCenter as SOSCenterBlock } from "#blocks";
  * @returns {JSX.Element}
  */
 export const SOSCenter = ({ navigation }) => {
-  const { t } = useTranslation("sos-center-screen");
+  const { t } = useTranslation("screens", { keyPrefix: "sos-center-screen" });
 
   return (
     <Screen hasEmergencyButton={false}>
@@ -23,7 +23,7 @@ export const SOSCenter = ({ navigation }) => {
         handleGoBack={() => navigation.goBack()}
       />
       <ScrollView style={{ marginTop: 112 }}>
-        <SOSCenterBlock />
+        <SOSCenterBlock navigation={navigation} />
       </ScrollView>
     </Screen>
   );

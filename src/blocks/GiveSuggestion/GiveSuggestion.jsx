@@ -11,7 +11,7 @@ import {
   TransparentModal,
 } from "#components";
 import { validate, showToast } from "#utils";
-import { useSendInformationPortalSuggestion } from "#hooks";
+import { useSendPlatformSuggestion } from "#hooks";
 import { Context } from "#services";
 
 const initialData = {
@@ -24,8 +24,12 @@ const initialData = {
  *
  * @return {jsx}
  */
-export const GiveSuggestion = ({ navigation }) => {
-  const { t } = useTranslation("give-suggestion");
+export const GiveSuggestion = ({
+  type = "information-portal",
+  navigation,
+  style,
+}) => {
+  const { t } = useTranslation("blocks", { keyPrefix: "give-suggestion" });
   const { isTmpUser, handleRegistrationModalOpen } = useContext(Context);
 
   const [data, setData] = useState({ ...initialData });
@@ -52,13 +56,17 @@ export const GiveSuggestion = ({ navigation }) => {
   };
   const onSuccess = () => {
     Keyboard.dismiss();
-    setIsSuccessModalOpen(true);
+    if (type === "information-portal") {
+      setIsSuccessModalOpen(true);
+    } else {
+      showToast({
+        message: t("send_success_text"),
+        type: "success",
+      });
+    }
     setData(initialData);
   };
-  const sendSuggestionMutation = useSendInformationPortalSuggestion(
-    onError,
-    onSuccess
-  );
+  const sendSuggestionMutation = useSendPlatformSuggestion(onError, onSuccess);
 
   const handleChange = (field, value) => {
     setData({
@@ -71,7 +79,10 @@ export const GiveSuggestion = ({ navigation }) => {
     if (isTmpUser) {
       handleRegistrationModalOpen();
     } else if ((await validate(data, schema, setErrors)) === null) {
-      sendSuggestionMutation.mutate(data.suggestion);
+      sendSuggestionMutation.mutate({
+        suggestion: data.suggestion,
+        type,
+      });
     }
   };
 
@@ -81,7 +92,7 @@ export const GiveSuggestion = ({ navigation }) => {
   };
 
   return (
-    <Block style={styles.block}>
+    <Block style={[styles.block, style]}>
       <AppText namedStyle="h3">{t("heading")}</AppText>
       <AppText style={styles.subheading}>{t("subheading")}</AppText>
       <Textarea
@@ -100,7 +111,8 @@ export const GiveSuggestion = ({ navigation }) => {
         }}
         type="primary"
         onPress={handleSubmit}
-        disabled={!canSubmit || sendSuggestionMutation.isLoading}
+        disabled={!canSubmit}
+        loading={sendSuggestionMutation.isLoading}
       />
       <TransparentModal
         isOpen={isSuccessModalOpen}

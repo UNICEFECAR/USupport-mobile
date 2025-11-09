@@ -7,7 +7,7 @@ import { Block, Heading, AppButton } from "#components";
 import { localStorage } from "#services";
 
 export const SetUpBiometrics = ({ navigation, goBackOnSkip }) => {
-  const { t } = useTranslation("set-up-biometrics");
+  const { t } = useTranslation("blocks", { keyPrefix: "set-up-biometrics" });
 
   const [canUseBiometrics, setCanUseBiometrics] = useState(false);
 
