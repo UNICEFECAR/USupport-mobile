@@ -666,7 +666,10 @@ export const Notifications = ({
 
   const MarkAllAsReadButton = () => {
     return (
-      <TouchableOpacity onPress={handleMarkAllAsRead}>
+      <TouchableOpacity
+        onPress={handleMarkAllAsRead}
+        style={styles.markAllAsReadButtonContainer}
+      >
         <AppText
           style={[
             styles.markAllAsReadButton,
@@ -685,9 +688,10 @@ export const Notifications = ({
         heading={t("heading")}
         subheading={t("subheading")}
         handleGoBack={() => navigation.goBack()}
-        buttonComponent={<MarkAllAsReadButton />}
+        // buttonComponent={<MarkAllAsReadButton />}
       />
       <View style={styles.flashListWrapper}>
+        <MarkAllAsReadButton />
         <FlashList
           ListEmptyComponent={
             isLoadingProviders ? (
@@ -729,20 +733,6 @@ export const Notifications = ({
 const styles = StyleSheet.create({
   block: { paddingHorizontal: 0 },
   centerButton: { alignSelf: "center", marginTop: 16, minWidth: 120 },
-  loadingContainer: {
-    width: "100%",
-    paddingTop: 40,
-    alignItems: "center",
-  },
-  markAllAsReadButton: {
-    color: appStyles.colorSecondary_9749fa,
-    fontFamily: appStyles.fontSemiBold,
-  },
-  markAllAsReadButtonHC: {
-    color: appStyles.colorWhite_ff,
-    textDecoration: "underline",
-    textDecorationColor: appStyles.colorWhite_ff,
-  },
   flashListWrapper: {
     height: "100%",
     marginTop: 112,
@@ -754,9 +744,27 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     width: "100%",
   },
+  loadingContainer: {
+    alignItems: "center",
+    paddingTop: 40,
+    width: "100%",
+  },
   markAllAsReadButton: {
     color: appStyles.colorSecondary_9749fa,
     fontFamily: appStyles.fontSemiBold,
+  },
+  markAllAsReadButton: {
+    color: appStyles.colorSecondary_9749fa,
+    fontFamily: appStyles.fontSemiBold,
+  },
+  markAllAsReadButtonContainer: {
+    alignItems: "flex-end",
+    paddingHorizontal: 16,
+  },
+  markAllAsReadButtonHC: {
+    color: appStyles.colorWhite_ff,
+    textDecoration: "underline",
+    textDecorationColor: appStyles.colorWhite_ff,
   },
   paddingBottom200: { paddingBottom: 200 },
   suggestButton: { minWidth: 120 },
