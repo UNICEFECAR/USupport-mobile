@@ -15,7 +15,6 @@
       "client_microphone_off": "Clientul a oprit microfonul",
       "client_microphone_on": "Clientul a pornit microfonul",
       "chat_history_deleted_by_client": "Ați șters istoricul chat-ului",
-
       "provider_joined": "Furnizorul a intrat la consultație",
       "provider_left": "Furnizorul a părăsit consultația",
       "provider_camera_off": "Furnizorul a oprit camera video",
@@ -32,7 +31,15 @@
       "min_read": "durata lecturii",
       "by": "De către {{creator}}",
       "number_of_more_options": "încă {{count}}",
-      "read": "Read"
+      "read": "Read",
+      "heading_no_results": "",
+      "view_all": "",
+      "heading_default": "",
+      "heading_newest": "",
+      "heading_most_read": "",
+      "subheading_default": "",
+      "subheading_newest": "",
+      "subheading_most_read": ""
     },
     "articles-dashboard": {
       "heading": "Articole",
@@ -98,7 +105,6 @@
       "no_past_consultations": "Nu aveți consultații anterioare",
       "reject_consultation_success": "Consultație respinsă ",
       "accept_consultation_success": "Consultație acceptată ",
-
       "join": "Intrare",
       "edit": "Editare",
       "details": "Vedeți detalii",
@@ -125,11 +131,9 @@
       "message_placeholder": "Mesajul dvs. pentru noi",
       "message_error": "Vă rugăm să introduceți mesajul",
       "button": "Trimiteți mesajul",
-
       "modal_title": "Mesajul dvs. a fost trimis ",
       "modal_text": "Vă vom răspunde cât mai curând posibil",
       "modal_cta_label": "Înapoi acasă",
-
       "contact_reason_1": "Despre ce este această platformă?",
       "contact_reason_2": "Doresc mai multe informații despre serviciile oferite prin intermediul platformei",
       "contact_reason_3": "Sunt client și mă confrunt cu o problemă tehnică",
@@ -160,7 +164,6 @@
       "subheading": "Nu puteți găsi informațiile care vă interesează? Sugerați un subiect și vom încerca să îl abordăm.",
       "submit": "Trimiteți sugestia",
       "suggestion_placeholder": "Scrieți sugestia dvs. aici",
-
       "modal_title": "Propunere trimisă ",
       "modal_text": "Ne pare foarte rău că nu ați putut găsi ceea ce căutați. Vom încerca să răspundem sugestiei dvs. cât mai curând posibil. Vă mulțumim pentru feedback.",
       "modal_cta_label": "Citiți mai multe articole",
@@ -215,6 +218,7 @@
       "submit_mood_track": "Trimiteți",
       "add_mood_tracker_success": "Starea dvs. de spirit zilnică a fost adăugată",
       "subheading": "Aici puteți verifica și urmări progresul stării dvs. de spirit ",
+      "emergency_button_label": "",
       "emergency_label": "Ajutor de urgență"
     },
     "mood-track-history": {
@@ -249,16 +253,16 @@
       "consultation_suggestion_booking": "Ați acceptat consultația <0>propusă</0> de <0>{{providerName}}</0> în data de <0>{{{date}}</0> de la <0>{{{startHour}}</0> la <0>{{{endHour}}</0>",
       "consultation_suggestion_cancellation": "Ați respins consultația <0>propusă</0> de <0>{{{providerName}}</0> pentru <0>{{{date}}</0> de la <0>{{{startHour}}</0> la <0>{{{endHour}}</0>",
       "consultation_started": "Consultația dvs. cu furnizorul <0>{{providerName}} a început</0>",
-      "question_answered": "Furnizorul <0>{{providerName}}</0> a răspuns la întrebarea dvs.",
-      "consultation_remind_start_24_hours_before": "Consultația dvs. cu furnizorul <0>{{providerName}}</0> începe în 24 de ore",
-      "consultation_remind_start_48_hours_before": "Consultația dvs. cu furnizorul <0>{{providerName}}</0> începe în 48 de ore",
       "join": "Intrare",
       "accept": "Acceptare",
       "accept_consultation_success": "Consultație acceptată",
       "reject": "Respingere",
       "reject_consultation_success": "Consultație respinsă",
       "no_notifications": "Nu aveți încă notificări.",
-      "yesterday": "ieri"
+      "yesterday": "ieri",
+      "question_answered": "Furnizorul <0>{{providerName}}</0> a răspuns la întrebarea dvs.",
+      "consultation_remind_start_24_hours_before": "Consultația dvs. cu furnizorul <0>{{providerName}}</0> începe în 24 de ore",
+      "consultation_remind_start_48_hours_before": "Consultația dvs. cu furnizorul <0>{{providerName}}</0> începe în 48 de ore"
     },
     "passcode": {
       "change_passcode": "Schimbare cod de acces",
@@ -297,7 +301,6 @@
     },
     "provider-overview": {
       "button_label": "Programare consultație",
-
       "earliest_slot_label": "Primul interval disponibil pentru consultație",
       "languages_label": "Limba",
       "education_label": "Educație",
@@ -310,11 +313,9 @@
       "delete_account": "Ștergere cont",
       "no_available_slot": "Nu există interval disponibil",
       "consultations": "consultații",
-
       "psychologist": "Psiholog",
       "psychiatrist": "Psihiatru",
       "psychotherapist": "Psihoterapeut",
-
       "addiction": "Dependență",
       "stress": "Stres",
       "burnout": "Burnout",
@@ -347,14 +348,12 @@
       "social_skills": "Social Skills and Friendship",
       "body_image": "Body Image and Self-Esteem",
       "video_label": "Reprezentare video",
-
       "hour_consultation": "{{currencySymbol}} pentru o oră de consultanță",
       "heading": "Prezentare generală a furnizorului",
       "subheading": "Prezentare detaliată a profilului furnizorului selectat"
     },
     "register-about-you": {
       "heading": "Despre dvs.",
-
       "input_name_label": "Prenume",
       "input_name_placeholder": "Introduceți prenumele dvs.",
       "input_surname_label": "Nume",
@@ -444,7 +443,6 @@
     },
     "register-support": {
       "heading": "Aveți nevoie de asistență?",
-
       "button_continue_label": "Continuați",
       "answer_yes_label": "Da, doresc o consultație",
       "answer_no_label": "Nu",
@@ -472,13 +470,11 @@
       "no": "Nu",
       "button": "Trimiteți feedback",
       "continue_button": "Păstrați răspunsurile",
-
       "very_satisfied": "Foarte mulțumit",
       "satisfied": "Mulțumit",
       "neutral": "Neutru",
       "dissatisfied": "Nemulțumit",
       "very_dissatisfied": "Foarte nemulțumit",
-
       "heading": "V-ați simțit în siguranță în timpul întâlnirii?",
       "subheading": "Spuneți-ne mai multe despre experiența pe care ați avut-o în cadrul ultimei consultații "
     },
@@ -495,7 +491,21 @@
       "wednesday": "mi",
       "thursday": "joi",
       "friday": "vi",
-      "saturday": "sâ"
+      "saturday": "sâ",
+      "heading": "",
+      "subheading": "",
+      "button_label": "",
+      "button_coupon_label": "",
+      "modal_coupon_heading": "",
+      "modal_coupon_button_label": "",
+      "modal_coupon_input_label": "",
+      "modal_coupon_input_placeholder": "",
+      "heading_with_coupon": "",
+      "remove_coupon_label": "",
+      "coupon_paragraph": "",
+      "coupon_paragraph_two": "",
+      "max_price": "",
+      "providers_free_consultation_label": ""
     },
     "share-platform": {
       "button_label_share_text": "Partajați pe",
@@ -541,7 +551,6 @@
       "delete_account": "Ștergere cont",
       "logout": "Deconectare",
       "delete_chat": "Ștergeți istoricul chat-ului",
-
       "dropdown_sex_label": "Gen",
       "dropdown_year_label": "Anul nașterii",
       "sex_male": "Masculin",
@@ -560,13 +569,13 @@
       "year_of_birth_placeholder": "Introduceți anul nașterii",
       "living_place_placeholder": "Introduceți locul dvs. de reședință",
       "error_fetching_data": "Eroare la încărcarea detaliilor profilului",
-      "parent": "Părinte"
+      "parent": "Părinte",
+      "delete_mood_tracker": "Clear mood tracker data"
     },
     "user-profile": {
       "heading": "Profilul dvs.",
       "subheading": "Aici găsiți toate informațiile de care aveți nevoie pentru profilul dvs. și setările contului.",
       "button_label": "Deconectare",
-
       "first_group_heading": "Detalii profil",
       "guest": "Invitat",
       "second_group_heading": "Setări aplicații",
@@ -607,7 +616,12 @@
       "schedule_consultation": "Programare consultație",
       "today": "Astăzi",
       "no_questions_found": "Nu s-au găsit întrebări",
-      "language_placeholder": "Select language"
+      "language_placeholder": "Select language",
+      "heading": "",
+      "subheading": "",
+      "heading_button_label": "",
+      "emergency_button_label": "",
+      "ask_button_label": ""
     },
     "set-up-biometrics": {
       "heading": "Configurați codul de acces și elementele biometrice",
@@ -631,37 +645,61 @@
       "online_interaction": "Online",
       "phone_interaction": "Phone",
       "hybrid_interaction": "Hybrid",
-
+      "cash": "Cash",
+      "bank_transfer": "Bank transfer",
+      "card": "Card",
+      "free": "Free",
+      "individual_psychotherapy": "Individual psychotherapy",
+      "group_psychotherapy": "Group psychotherapy",
+      "individual_psychological_counseling": "Individual psychological counseling",
+      "group_psychological_counseling": "Group psychological counseling",
+      "personal_development_counseling": "Personal development counseling",
+      "speech_therapy": "Speech therapy",
+      "social_information_counseling": "Social information and counseling",
+      "rehab_autism_children": "Rehabilitation and recovery services for children with autism",
+      "rehab_psycho_neuro_children": "Rehabilitation and recovery services for children with psycho-neuro-motor disorders",
+      "suicide_prevention_helpline": "Suicide prevention helpline",
+      "addiction_helpline": "Addiction helpline",
+      "violence_victim_helpline": "Violence victims helpline",
+      "child_helpline": "Child helpline",
+      "child_psychiatry": "Child psychiatry",
+      "art_recreational_activities": "Artistic recreational activities (theatre, music, poetry, painting, storytelling)",
+      "sport_recreational_activities": "Sports recreational activities (sports, games, dance)",
+      "sector_1": "Sector 1",
+      "sector_2": "Sector 2",
+      "sector_3": "Sector 3",
+      "sector_4": "Sector 4",
+      "sector_5": "Sector 5",
+      "sector_6": "Sector 6",
+      "children": "Children",
+      "children_disabilities": "Children with disabilities",
+      "adults": "Adults",
+      "adults_disabilities": "Adults with disabilities",
+      "work_with_placeholder": "Select work with categories",
+      "specialisation_placeholder": "Select specialisations",
+      "district_placeholder": "Select sector",
+      "payment_method_placeholder": "Select payment method",
+      "user_interaction_placeholder": "Select user interaction",
+      "search_placeholder": "Search by organization name",
+      "no_data_found": "No data found",
+      "reset_filters": "Reset filters",
+      "view_organization_details": "Read more",
+      "address": "Address",
+      "phone": "Phone",
+      "email": "Email",
+      "check_organization": "Hello, check out this organization",
       "free_services": "Free services",
       "paid_services": "Paid services",
       "co_payment_services": "Co-payment services",
       "cnas_reimbursed_services": "CNAS reimbursed services",
-
-      "violence_victim_helpline": "Violence victims helpline",
-      "social_information_counseling": "Social information and counseling",
-      "rehab_psycho_neuro_children": "Rehabilitation and recovery services for children with psycho-neuro-motor disorders",
-      "individual_psychological_counseling": "Individual psychological counseling",
-      "personal_development_counseling": "Personal development counseling",
-      "child_helpline": "Child helpline",
-      "suicide_prevention_helpline": "Suicide prevention helpline",
-      "child_psychiatry": "Child psychiatry",
-      "group_psychological_counseling": "Group psychological counseling",
-      "sport_recreational_activities": "Sports recreational activities (sports, games, dance)",
-      "rehab_autism_children": "Rehabilitation and recovery services for children with autism",
-      "art_recreational_activities": "Artistic recreational activities (theatre, music, poetry, painting, storytelling)",
-      "addiction_helpline": "Addiction helpline",
-
       "emergency_situations": "Emergency situations",
       "pediatric_psychiatry": "Pediatric psychiatry",
       "psychological_evaluation": "Psychological evaluation",
       "psychological_counseling": "Psychological counseling",
-      "individual_psychotherapy": "Individual psychotherapy",
-      "group_psychotherapy": "Group psychotherapy",
       "support_groups": "Support groups",
       "social_assistance_and_counseling": "Social assistance and counseling",
       "personal_development": "Personal development",
       "vocational_counseling_and_career_guidance": "Vocational counseling and career guidance",
-      "speech_therapy": "Speech therapy",
       "occupational_therapy_ergotherapy": "Occupational therapy/Ergotherapy",
       "physiotherapy_physical_recovery": "Physiotherapy/Physical recovery",
       "autism_spectrum_disorder_therapies": "Autism spectrum disorder therapies",
@@ -669,14 +707,6 @@
       "pediatric_neurology": "Pediatric neurology",
       "special_psychopedagogy": "Special psychopedagogy",
       "neuropsychomotor_recovery": "Neuropsychomotor recovery",
-
-      "sector_1": "Sector 1",
-      "sector_2": "Sector 2",
-      "sector_3": "Sector 3",
-      "sector_4": "Sector 4",
-      "sector_5": "Sector 5",
-      "sector_6": "Sector 6",
-
       "aggression_violence_victim_or_aggressor": "Aggression/violence - victim or aggressor",
       "learning_difficulties_special_educational_needs": "Learning difficulties/Special educational needs",
       "behavioral_disorder": "Behavioral disorder",
@@ -686,29 +716,16 @@
       "identity_issues": "Identity issues",
       "illness_oncological_treatment_chronic_diseases": "Illness (oncological treatment, chronic diseases)",
       "other_situations": "Other situations",
-
       "public": "Public",
       "private": "Private",
       "ong": "NGO",
       "public_private": "Public-private",
-
-      "work_with_placeholder": "Select work with categories",
       "specialisations_placeholder": "Select offered services",
-      "district_placeholder": "Select sector",
       "payment_methods_placeholder": "Select payment methods",
       "user_interactions_placeholder": "Select interaction modes",
       "property_types_placeholder": "Select property types",
-      "search_placeholder": "Search by organization name",
-
-      "no_data_found": "No data found",
-      "reset_filters": "Reset filters",
       "filter_heading": "Filter",
       "filter_button_label": "Apply",
-
-      "view_organization_details": "Read more",
-      "address": "Address",
-      "phone": "Phone",
-      "email": "Email",
       "any": "Any",
       "personalize": "Personalize",
       "personalization": "Personalization",
@@ -724,7 +741,6 @@
       "work_with_label": "Works With",
       "specialisations_label": "Specialisations",
       "providers_label": "Providers",
-
       "individual_psychotherapy": "Individual psychotherapy",
       "group_psychotherapy": "Group psychotherapy",
       "individual_psychological_counseling": "Individual psychological counseling",
@@ -741,24 +757,20 @@
       "child_psychiatry": "Child psychiatry",
       "art_recreational_activities": "Artistic recreational activities (theatre, music, poetry, painting, storytelling)",
       "sport_recreational_activities": "Sports recreational activities (sports, games, dance)",
-
       "in_person_interaction": "In person",
       "online_interaction": "Online",
       "phone_interaction": "Phone",
       "hybrid_interaction": "Hybrid",
-
       "cash": "Cash",
       "bank_transfer": "Bank transfer",
       "card": "Card",
       "free": "Free",
-
       "sector_1": "Sector 1",
       "sector_2": "Sector 2",
       "sector_3": "Sector 3",
       "sector_4": "Sector 4",
       "sector_5": "Sector 5",
       "sector_6": "Sector 6",
-
       "children": "Children",
       "children_disabilities": "Children with disabilities",
       "adults": "Adults",
@@ -794,7 +806,6 @@
       "appetite_loss": "I have no appetite.",
       "substance_use": "I have tried smoking or using illegal substances (alcohol, drugs, etc.) several times.",
       "frequent_headaches": "I have frequent headaches for no reason.",
-
       "question": "Question {{number}} of {{total}}",
       "completed": "{{percentage}}% completed",
       "back": "Back",
@@ -804,7 +815,6 @@
       "assessment_completed": "Assessment Completed",
       "assessment_completed_description": "Thank you for completing the assessment. Your answers have been saved and will be used to help you.",
       "assessment_completed_button": "Back to Home",
-
       "loading_results": "Loading your results...",
       "recommended_articles": "Recommended Articles",
       "recommended_videos": "Recommended Videos",
@@ -837,48 +847,37 @@
       "read_more_button": "Read more",
       "by": "by {{creator}}",
       "min_read": "min read",
-
       "psychological": "Psihologic",
       "biological": "Biologic",
       "social": "Social",
-
       "inc_inc_inc": "Am observat unele provocări: psihologic, biologic și social au crescut.",
       "inc_inc_same": "Am observat unele provocări: psihologic și biologic au crescut, în timp ce social a rămas la fel.",
       "inc_inc_dec": "Bravo! Social a scăzut, deși psihologic și biologic au crescut.",
-
       "inc_same_inc": "Am observat unele provocări: psihologic și social au crescut, în timp ce biologic a rămas la fel.",
       "inc_same_same": "Am observat unele provocări: psihologic a crescut, în timp ce biologic și social au rămas la fel.",
       "inc_same_dec": "Bravo! Social a scăzut, deși psihologic a crescut și biologic a rămas la fel.",
-
       "inc_dec_inc": "Bravo! Biologic a scăzut, deși psihologic și social au crescut.",
       "inc_dec_same": "Bravo! Biologic a scăzut, deși psihologic a crescut și social a rămas la fel.",
       "inc_dec_dec": "Progres grozav! Biologic și social au scăzut, deși psihologic a crescut.",
-
       "same_inc_inc": "Am observat unele provocări: biologic și social au crescut, în timp ce psihologic a rămas la fel.",
       "same_inc_same": "Am observat unele provocări: biologic a crescut, în timp ce psihologic și social au rămas la fel.",
       "same_inc_dec": "Bravo! Social a scăzut, deși biologic a crescut și psihologic a rămas la fel.",
-
       "same_same_inc": "Am observat unele provocări: social a crescut, în timp ce psihologic și biologic au rămas la fel.",
       "same_same_dec": "Bravo! Social a scăzut, în timp ce psihologic și biologic au rămas la fel.",
-
       "same_dec_inc": "Bravo! Biologic a scăzut, deși social a crescut și psihologic a rămas la fel.",
       "same_dec_same": "Bravo! Biologic a scăzut, în timp ce psihologic și social au rămas la fel.",
       "same_dec_dec": "Progres grozav! Biologic și social au scăzut, în timp ce psihologic a rămas la fel.",
-
       "dec_inc_inc": "Bravo! Psihologic a scăzut, deși biologic și social au crescut.",
       "dec_inc_same": "Bravo! Psihologic a scăzut, deși biologic a crescut și social a rămas la fel.",
       "dec_inc_dec": "Progres grozav! Psihologic și social au scăzut, deși biologic a crescut.",
-
       "dec_same_inc": "Bravo! Psihologic a scăzut, deși social a crescut și biologic a rămas la fel.",
       "dec_same_same": "Bravo! Psihologic a scăzut, în timp ce biologic și social au rămas la fel.",
       "dec_same_dec": "Progres grozav! Psihologic și social au scăzut, în timp ce biologic a rămas la fel.",
-
       "dec_dec_inc": "Progres grozav! Psihologic și biologic au scăzut, deși social a crescut.",
       "dec_dec_same": "Progres grozav! Psihologic și biologic au scăzut, în timp ce social a rămas la fel.",
       "dec_dec_dec": "Progres excelent! Psihologic, biologic și social au scăzut toți."
     }
   },
-
   "screens": {
     "article-information": {
       "heading": "Mai multe articole",
@@ -906,16 +905,12 @@
       "subheading": "Introduceți datele cardului dvs. pentru a plăti pentru această sesiune.",
       "payment_succeded_heading": "Plata dvs. a fost efectuată",
       "payment_succeded_subheading": "Vă mulțumim pentru achiziție. Consultația este programată pentru {{consultationDate}} la {{consultationTime}}.",
-
       "payment_processing_heading": "Plata dvs. este în curs de procesare.",
       "payment_processing_subheading": "Procesăm plata dvs. Vă rugăm să așteptați un moment.",
-
       "payment_requires_payment_method_heading": "Plata dvs. nu a reușit. Vă rugăm să încercați din nou.",
       "payment_requires_payment_method_subheading": "A apărut o problemă în timpul procesării plății. Ne pare rău pentru acest lucru.",
-
       "payment_failed_heading": "Plata dvs. nu a reușit. Vă rugăm să încercați din nou.",
       "payment_failed_subheading": "A apărut o problemă în timpul procesării plății. Ne pare rău pentru acest lucru.",
-
       "continue_button_label": "Continuați",
       "try_again_button_label": "Încercați din nou",
       "session_timeout": "Sesiunea dvs. a expirat. Vă rugăm să reveniți și să programați consultația din nou"
@@ -934,7 +929,6 @@
       "client_camera_on": "Clientul a pornit camera video",
       "client_microphone_off": "Clientul a oprit microfonul",
       "client_microphone_on": "Clientul a pornit microfonul",
-
       "provider_joined": "Furnizorul a intrat la consultație",
       "provider_left": "Furnizorul a părăsit consultația",
       "provider_camera_off": "Furnizorul a oprit camera video",
@@ -942,7 +936,6 @@
       "provider_microphone_off": "Furnizorul a oprit microfonul",
       "provider_microphone_on": "Furnizorul a pornit microfonul",
       "chat_history_deleted_by_client": "Ați șters istoricul chat-ului",
-
       "send_message": "Introduceți mesajul dvs. aici...",
       "show_system_messages": "Afișați mesajele sistemului",
       "show_previous_consultations": "Afișarea consultațiilor anterioare",
@@ -1090,14 +1083,14 @@
     },
     "organizations-screen": {
       "heading": "Organizations",
-      "subheading": "Here you can find all the organizations that are available in your area."
+      "subheading": "Here you can find all the organizations that are available in your area.",
+      "emergency_button_label": "Emergency help"
     },
     "organization-overview-screen": {
       "heading": "Organization overview",
       "subheading": "Detailed overview of the profile of the organization you selected"
     }
   },
-
   "backdrops": {
     "cancel-consultation": {
       "heading": "Sunteți sigur că doriți să anulați consultația",
@@ -1202,7 +1195,10 @@
       "button_label_1": "Consultație video/audio",
       "button_label_2": "Consultație prin text",
       "client_joined": "Clientul a intrat la consultație",
-      "error": "A apărut o eroare. Vă rugăm să încercați din nou"
+      "error": "A apărut o eroare. Vă rugăm să încercați din nou",
+      "permissions_error": "You have not granted permission to use the camera or microphone",
+      "permissions_error_subheading": "Please grant permission to use the camera or microphone from the settings of your device, to join the consultation",
+      "open_settings": "Open settings"
     },
     "select-avatar": {
       "heading": "Schimbare imagine profil",
@@ -1266,7 +1262,6 @@
       "confirm": "Confirm"
     }
   },
-
   "modals": {
     "mood-tracker-more-information": {
       "you_felt": "V-ați simțit",
@@ -1327,9 +1322,15 @@
       "consent": "To proceed, please consent to our <0>Privacy Policy</0>",
       "cta_label": "I agree to complete the questionnaire.",
       "secondary_cta_label": "I do not want to complete the questionnaire"
+    },
+    "delete-mood-tracker-history": {
+      "heading": "Are you sure you want to delete all your mood tracker data?",
+      "subheading": "This action is irreversible.",
+      "confirm": "Yes, delete all my mood tracker data",
+      "cancel": "No, keep my mood tracker data",
+      "success": "Your mood tracker data has been deleted successfully."
     }
   },
-
   "navigation": {
     "tab-navigation": {
       "home": "Acasă",
