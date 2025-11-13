@@ -15,7 +15,6 @@
       "client_microphone_off": "The client has turned off the microphone",
       "client_microphone_on": "The client has turned on the microphone",
       "chat_history_deleted_by_client": "You have deleted the chat history",
-
       "provider_joined": "Provider joined the consultation",
       "provider_left": "The provider has left the consultation",
       "provider_camera_off": "The provider has turned off the camera",
@@ -32,7 +31,15 @@
       "min_read": "min read",
       "by": "By {{creator}}",
       "number_of_more_options": "{{count}} more",
-      "read": "Read"
+      "read": "Read",
+      "heading_no_results": "",
+      "view_all": "",
+      "heading_default": "",
+      "heading_newest": "",
+      "heading_most_read": "",
+      "subheading_default": "",
+      "subheading_newest": "",
+      "subheading_most_read": ""
     },
     "articles-dashboard": {
       "heading": "Articles",
@@ -53,7 +60,10 @@
       "pin_not_matching": "The PIN Code is incorrect",
       "success": "PIN Code set successfully",
       "remove_success": "PIN Code removed successfully",
-      "error": "There was an error setting your PIN Code. Please try again."
+      "error": "There was an error setting your PIN Code. Please try again.",
+      "heading": "",
+      "delete_subheading": "",
+      "create_subheading": ""
     },
     "consultations-dashboard": {
       "heading": "My Consultations",
@@ -95,7 +105,6 @@
       "no_past_consultations": "You have no past consultations",
       "reject_consultation_success": "Consultation rejected successfully",
       "accept_consultation_success": "Consultation accepted successfully",
-
       "join": "Join",
       "edit": "Edit",
       "details": "See details",
@@ -108,7 +117,9 @@
       "conducted": "Consultation ended",
       "not_conducted": "Not conducted",
       "registration_needed": "To schedule consultations you need to register.",
-      "free": "Free"
+      "free": "Free",
+      "button_label": "",
+      "emergency_button_label": ""
     },
     "contact-us-block": {
       "heading": "Contact us",
@@ -120,11 +131,9 @@
       "message_placeholder": "Your message to us",
       "message_error": "Please enter your message",
       "button": "Send Message",
-
       "modal_title": "Your message was successfully sent",
       "modal_text": "We will get back to you as soon as possible",
       "modal_cta_label": "Go back to Home",
-
       "contact_reason_1": "What is this platform about?",
       "contact_reason_2": "I need more info about the services provided through the platform",
       "contact_reason_3": "I am a client and I am experiencing a technical problem",
@@ -147,14 +156,14 @@
       "reset_password_button_label": "Reset password",
       "register_redirect_button_label": "I don’t have an account",
       "modal_heading": "Check your email",
-      "modal_text": "We have sent you an email with a link to reset your password"
+      "modal_text": "We have sent you an email with a link to reset your password",
+      "heading": ""
     },
     "give-suggestion": {
       "heading": "Give us your suggestions",
       "subheading": "Cannot find information you’re interested in? Suggest a topic and we’ll try to address that.",
       "submit": "Send your suggestion",
       "suggestion_placeholder": "Write your suggestion here",
-
       "modal_title": "Suggestion submited successfully",
       "modal_text": "We are really sorry you could not find what you were loooking for. We will try to address your suggestion as soon as possible. Thank you for your feedback.",
       "modal_cta_label": "Explore more articles",
@@ -177,7 +186,10 @@
       "heading_newest_podcasts": "Newest podcasts",
       "heading_popular_podcasts": "Most popular podcasts",
       "more_podcasts": "More podcasts",
-      "no_results": "No results found"
+      "no_results": "No results found",
+      "heading": "",
+      "subheading": "",
+      "emergency_button_label": ""
     },
     "login": {
       "heading": "Welcome back",
@@ -205,6 +217,8 @@
       "additional_comment_placeholder": "What made you feel this way?",
       "submit_mood_track": "Submit",
       "add_mood_tracker_success": "Your daily mood was added successfully",
+      "subheading": "",
+      "emergency_button_label": "",
       "emergency_label": "Does this relate to a life event or critical situation?"
     },
     "mood-track-history": {
@@ -222,7 +236,9 @@
     "notification-preferences": {
       "email": "Email notifications",
       "appointment": "Appointment notifications",
-      "minutes_before": "minutes before"
+      "minutes_before": "minutes before",
+      "heading": "",
+      "subheading": ""
     },
     "notifications": {
       "heading": "Notifications",
@@ -237,23 +253,25 @@
       "consultation_suggestion_booking": "You accepted the <0>suggested</0> consultation from <0>{{providerName}}</0> on <0>{{date}}</0> from <0>{{startHour}}</0> to <0>{{endHour}}</0>",
       "consultation_suggestion_cancellation": "You rejected the <0>suggested</0> consultation from <0>{{providerName}}</0> on <0>{{date}}</0> from <0>{{startHour}}</0> to <0>{{endHour}}</0>",
       "consultation_started": "Your consultation with provider <0>{{providerName}} started</0>",
-      "question_answered": "Provider <0>{{providerName}}</0> answered your question",
-      "consultation_remind_start_24_hours_before": "Your consultation with provider <0>{{providerName}}</0> starts in 24 hours",
-      "consultation_remind_start_48_hours_before": "Your consultation with provider <0>{{providerName}}</0> starts in 48 hours",
       "join": "Join",
       "accept": "Accept",
       "accept_consultation_success": "Succesfully accepted consultation",
       "reject": "Reject",
       "reject_consultation_success": "Succesfully rejected consultation",
       "no_notifications": "You have no notifications yet.",
-      "yesterday": "yesterday"
+      "yesterday": "yesterday",
+      "question_answered": "Provider <0>{{providerName}}</0> answered your question",
+      "consultation_remind_start_24_hours_before": "Your consultation with provider <0>{{providerName}}</0> starts in 24 hours",
+      "consultation_remind_start_48_hours_before": "Your consultation with provider <0>{{providerName}}</0> starts in 48 hours"
     },
     "passcode": {
       "change_passcode": "Change Passcode",
       "passcode": "Passcode",
       "biometrics": "Biometrics",
       "create_passcode": "Create Passcode",
-      "delete_passcode": "Delete Passcode"
+      "delete_passcode": "Delete Passcode",
+      "heading": "",
+      "subheading": ""
     },
     "payment-history": {
       "service": "Service",
@@ -263,7 +281,9 @@
       "no_payments_history_found": "You don't have any payments yet",
       "text_audio_video_consultation": "Online consultation",
       "download_success": "File downloaded successfully",
-      "export_label": "Export"
+      "export_label": "Export",
+      "heading": "",
+      "subheading": ""
     },
     "platform-rating": {
       "rating_label": "Rate us",
@@ -271,7 +291,9 @@
       "textarea_placeholder": "Leave your comment here",
       "button_label": "Send the rating",
       "rating_success": "Rating sent successfully",
-      "rating_error": "An unexpected error occured. Please try again."
+      "rating_error": "An unexpected error occured. Please try again.",
+      "heading": "",
+      "subheading": ""
     },
     "privacy-policy": {
       "heading": "Privacy Policy",
@@ -279,7 +301,6 @@
     },
     "provider-overview": {
       "button_label": "Schedule consultation",
-
       "earliest_slot_label": "Earliest available slot for consultation",
       "languages_label": "Languages",
       "education_label": "Education",
@@ -292,11 +313,9 @@
       "delete_account": "Delete account",
       "no_available_slot": "There is no available slot",
       "consultations": "consultations",
-
       "psychologist": "Psychologist",
       "psychiatrist": "Psychiatrist",
       "psychotherapist": "Psychotherapist",
-
       "addiction": "Addiction and Substance Abuse ",
       "stress": "Stress Management",
       "burnout": "Burnout and Academic Stress",
@@ -329,12 +348,12 @@
       "social_skills": "Social Skills and Friendship",
       "body_image": "Body Image and Self-Esteem",
       "video_label": "Video representation",
-
-      "hour_consultation": "{{currencySymbol}} for 1 hour consultation"
+      "hour_consultation": "{{currencySymbol}} for 1 hour consultation",
+      "heading": "",
+      "subheading": ""
     },
     "register-about-you": {
       "heading": "About you",
-
       "input_name_label": "Name",
       "input_name_placeholder": "Enter your name",
       "input_surname_label": "Surname",
@@ -424,7 +443,6 @@
     },
     "register-support": {
       "heading": "Do you need support?",
-
       "button_continue_label": "Continue",
       "answer_yes_label": "Yes, I want a consultation",
       "answer_no_label": "No",
@@ -452,12 +470,13 @@
       "no": "No",
       "button": "Send feedback",
       "continue_button": "Keep answers",
-
       "very_satisfied": "Very Satisfied",
       "satisfied": "Satisfied",
       "neutral": "Neutral",
       "dissatisfied": "Dissatisfied",
-      "very_dissatisfied": "Very Dissatisfied"
+      "very_dissatisfied": "Very Dissatisfied",
+      "heading": "",
+      "subheading": ""
     },
     "select-provider": {
       "psychologist": "Psychologist",
@@ -472,15 +491,33 @@
       "wednesday": "Wed",
       "thursday": "Thu",
       "friday": "Fri",
-      "saturday": "Sat"
+      "saturday": "Sat",
+      "heading": "",
+      "subheading": "",
+      "button_label": "",
+      "button_coupon_label": "",
+      "modal_coupon_heading": "",
+      "modal_coupon_button_label": "",
+      "modal_coupon_input_label": "",
+      "modal_coupon_input_placeholder": "",
+      "heading_with_coupon": "",
+      "remove_coupon_label": "",
+      "coupon_paragraph": "",
+      "coupon_paragraph_two": "",
+      "max_price": "",
+      "providers_free_consultation_label": ""
     },
     "share-platform": {
-      "button_label_share_text": "Share on"
+      "button_label_share_text": "Share on",
+      "heading": "",
+      "subheading": ""
     },
     "sos-center": {
       "button_link": "Visit website",
       "button_call": "Contact now",
       "no_results": "There are no results for the current selected country and language.",
+      "heading": "",
+      "subheading": "",
       "other_emergency_services": "Other emergency services",
       "browse": "Browse"
     },
@@ -514,8 +551,6 @@
       "delete_account": "Delete account",
       "logout": "Logout",
       "delete_chat": "Clear chat history",
-      "delete_mood_tracker": "Clear mood tracker data",
-
       "dropdown_sex_label": "Gender",
       "dropdown_year_label": "Year of birth",
       "sex_male": "Male",
@@ -534,13 +569,13 @@
       "year_of_birth_placeholder": "Enter your year of birth",
       "living_place_placeholder": "Enter your living place",
       "error_fetching_data": "An error occured while fetching profile details",
-      "parent": "Parent"
+      "parent": "Parent",
+      "delete_mood_tracker": "Clear mood tracker data"
     },
     "user-profile": {
       "heading": "Your profile",
       "subheading": "Here you can find all the information you need for your profile and account settings.",
       "button_label": "Logout",
-
       "first_group_heading": "Profile details",
       "guest": "Guest",
       "second_group_heading": "Application settings",
@@ -581,7 +616,12 @@
       "schedule_consultation": "Schedule consultation",
       "today": "Today",
       "no_questions_found": "No questions found",
-      "language_placeholder": "Select language"
+      "language_placeholder": "Select language",
+      "heading": "",
+      "subheading": "",
+      "heading_button_label": "",
+      "emergency_button_label": "",
+      "ask_button_label": ""
     },
     "set-up-biometrics": {
       "heading": "Set up passcode and biometrics",
@@ -605,37 +645,61 @@
       "online_interaction": "Online",
       "phone_interaction": "Phone",
       "hybrid_interaction": "Hybrid",
-
+      "cash": "Cash",
+      "bank_transfer": "Bank transfer",
+      "card": "Card",
+      "free": "Free",
+      "individual_psychotherapy": "Individual psychotherapy",
+      "group_psychotherapy": "Group psychotherapy",
+      "individual_psychological_counseling": "Individual psychological counseling",
+      "group_psychological_counseling": "Group psychological counseling",
+      "personal_development_counseling": "Personal development counseling",
+      "speech_therapy": "Speech therapy",
+      "social_information_counseling": "Social information and counseling",
+      "rehab_autism_children": "Rehabilitation and recovery services for children with autism",
+      "rehab_psycho_neuro_children": "Rehabilitation and recovery services for children with psycho-neuro-motor disorders",
+      "suicide_prevention_helpline": "Suicide prevention helpline",
+      "addiction_helpline": "Addiction helpline",
+      "violence_victim_helpline": "Violence victims helpline",
+      "child_helpline": "Child helpline",
+      "child_psychiatry": "Child psychiatry",
+      "art_recreational_activities": "Artistic recreational activities (theatre, music, poetry, painting, storytelling)",
+      "sport_recreational_activities": "Sports recreational activities (sports, games, dance)",
+      "sector_1": "Sector 1",
+      "sector_2": "Sector 2",
+      "sector_3": "Sector 3",
+      "sector_4": "Sector 4",
+      "sector_5": "Sector 5",
+      "sector_6": "Sector 6",
+      "children": "Children",
+      "children_disabilities": "Children with disabilities",
+      "adults": "Adults",
+      "adults_disabilities": "Adults with disabilities",
+      "work_with_placeholder": "Select work with categories",
+      "specialisation_placeholder": "Select specialisations",
+      "district_placeholder": "Select sector",
+      "payment_method_placeholder": "Select payment method",
+      "user_interaction_placeholder": "Select user interaction",
+      "search_placeholder": "Search by organization name",
+      "no_data_found": "No data found",
+      "reset_filters": "Reset filters",
+      "view_organization_details": "Read more",
+      "address": "Address",
+      "phone": "Phone",
+      "email": "Email",
+      "check_organization": "Hello, check out this organization",
       "free_services": "Free services",
       "paid_services": "Paid services",
       "co_payment_services": "Co-payment services",
       "cnas_reimbursed_services": "CNAS reimbursed services",
-
-      "violence_victim_helpline": "Violence victims helpline",
-      "social_information_counseling": "Social information and counseling",
-      "rehab_psycho_neuro_children": "Rehabilitation and recovery services for children with psycho-neuro-motor disorders",
-      "individual_psychological_counseling": "Individual psychological counseling",
-      "personal_development_counseling": "Personal development counseling",
-      "child_helpline": "Child helpline",
-      "suicide_prevention_helpline": "Suicide prevention helpline",
-      "child_psychiatry": "Child psychiatry",
-      "group_psychological_counseling": "Group psychological counseling",
-      "sport_recreational_activities": "Sports recreational activities (sports, games, dance)",
-      "rehab_autism_children": "Rehabilitation and recovery services for children with autism",
-      "art_recreational_activities": "Artistic recreational activities (theatre, music, poetry, painting, storytelling)",
-      "addiction_helpline": "Addiction helpline",
-
       "emergency_situations": "Emergency situations",
       "pediatric_psychiatry": "Pediatric psychiatry",
       "psychological_evaluation": "Psychological evaluation",
       "psychological_counseling": "Psychological counseling",
-      "individual_psychotherapy": "Individual psychotherapy",
-      "group_psychotherapy": "Group psychotherapy",
       "support_groups": "Support groups",
       "social_assistance_and_counseling": "Social assistance and counseling",
       "personal_development": "Personal development",
       "vocational_counseling_and_career_guidance": "Vocational counseling and career guidance",
-      "speech_therapy": "Speech therapy",
       "occupational_therapy_ergotherapy": "Occupational therapy/Ergotherapy",
       "physiotherapy_physical_recovery": "Physiotherapy/Physical recovery",
       "autism_spectrum_disorder_therapies": "Autism spectrum disorder therapies",
@@ -643,14 +707,6 @@
       "pediatric_neurology": "Pediatric neurology",
       "special_psychopedagogy": "Special psychopedagogy",
       "neuropsychomotor_recovery": "Neuropsychomotor recovery",
-
-      "sector_1": "Sector 1",
-      "sector_2": "Sector 2",
-      "sector_3": "Sector 3",
-      "sector_4": "Sector 4",
-      "sector_5": "Sector 5",
-      "sector_6": "Sector 6",
-
       "aggression_violence_victim_or_aggressor": "Aggression/violence - victim or aggressor",
       "learning_difficulties_special_educational_needs": "Learning difficulties/Special educational needs",
       "behavioral_disorder": "Behavioral disorder",
@@ -660,29 +716,16 @@
       "identity_issues": "Identity issues",
       "illness_oncological_treatment_chronic_diseases": "Illness (oncological treatment, chronic diseases)",
       "other_situations": "Other situations",
-
       "public": "Public",
       "private": "Private",
       "ong": "NGO",
       "public_private": "Public-private",
-
-      "work_with_placeholder": "Select work with categories",
       "specialisations_placeholder": "Select offered services",
-      "district_placeholder": "Select sector",
       "payment_methods_placeholder": "Select payment methods",
       "user_interactions_placeholder": "Select interaction modes",
       "property_types_placeholder": "Select property types",
-      "search_placeholder": "Search by organization name",
-
-      "no_data_found": "No data found",
-      "reset_filters": "Reset filters",
       "filter_heading": "Filter",
       "filter_button_label": "Apply",
-
-      "view_organization_details": "Read more",
-      "address": "Address",
-      "phone": "Phone",
-      "email": "Email",
       "any": "Any",
       "personalize": "Personalize",
       "personalization": "Personalization",
@@ -698,7 +741,6 @@
       "work_with_label": "Works With",
       "specialisations_label": "Specialisations",
       "providers_label": "Providers",
-
       "individual_psychotherapy": "Individual psychotherapy",
       "group_psychotherapy": "Group psychotherapy",
       "individual_psychological_counseling": "Individual psychological counseling",
@@ -715,24 +757,20 @@
       "child_psychiatry": "Child psychiatry",
       "art_recreational_activities": "Artistic recreational activities (theatre, music, poetry, painting, storytelling)",
       "sport_recreational_activities": "Sports recreational activities (sports, games, dance)",
-
       "in_person_interaction": "In person",
       "online_interaction": "Online",
       "phone_interaction": "Phone",
       "hybrid_interaction": "Hybrid",
-
       "cash": "Cash",
       "bank_transfer": "Bank transfer",
       "card": "Card",
       "free": "Free",
-
       "sector_1": "Sector 1",
       "sector_2": "Sector 2",
       "sector_3": "Sector 3",
       "sector_4": "Sector 4",
       "sector_5": "Sector 5",
       "sector_6": "Sector 6",
-
       "children": "Children",
       "children_disabilities": "Children with disabilities",
       "adults": "Adults",
@@ -768,7 +806,6 @@
       "appetite_loss": "I have no appetite.",
       "substance_use": "I have tried smoking or using illegal substances (alcohol, drugs, etc.) several times.",
       "frequent_headaches": "I have frequent headaches for no reason.",
-
       "question": "Question {{number}} of {{total}}",
       "completed": "{{percentage}}% completed",
       "back": "Back",
@@ -778,7 +815,6 @@
       "assessment_completed": "Assessment Completed",
       "assessment_completed_description": "Thank you for completing the assessment. Your answers have been saved and will be used to help you.",
       "assessment_completed_button": "Back to Home",
-
       "loading_results": "Loading your results...",
       "recommended_articles": "Recommended Articles",
       "recommended_videos": "Recommended Videos",
@@ -814,44 +850,34 @@
       "psychological": "Psychological",
       "biological": "Biological",
       "social": "Social",
-
       "inc_inc_inc": "We noticed some challenges: psychological, biological, and social all increased.",
       "inc_inc_same": "We noticed some challenges: psychological and biological increased, while social stayed the same.",
       "inc_inc_dec": "Good job! Social decreased, though psychological and biological increased.",
-
       "inc_same_inc": "We noticed some challenges: psychological and social increased, while biological stayed the same.",
       "inc_same_same": "We noticed some challenges: psychological increased, while biological and social stayed the same.",
       "inc_same_dec": "Good job! Social decreased, though psychological increased and biological stayed the same.",
-
       "inc_dec_inc": "Good job! Biological decreased, though psychological and social increased.",
       "inc_dec_same": "Good job! Biological decreased, though psychological increased and social stayed the same.",
       "inc_dec_dec": "Great progress! Biological and social decreased, though psychological increased.",
-
       "same_inc_inc": "We noticed some challenges: biological and social increased, while psychological stayed the same.",
       "same_inc_same": "We noticed some challenges: biological increased, while psychological and social stayed the same.",
       "same_inc_dec": "Good job! Social decreased, though biological increased and psychological stayed the same.",
-
       "same_same_inc": "We noticed some challenges: social increased, while psychological and biological stayed the same.",
       "same_same_dec": "Good job! Social decreased, while psychological and biological stayed the same.",
-
       "same_dec_inc": "Good job! Biological decreased, though social increased and psychological stayed the same.",
       "same_dec_same": "Good job! Biological decreased, while psychological and social stayed the same.",
       "same_dec_dec": "Great progress! Biological and social decreased, while psychological stayed the same.",
-
       "dec_inc_inc": "Good job! Psychological decreased, though biological and social increased.",
       "dec_inc_same": "Good job! Psychological decreased, though biological increased and social stayed the same.",
       "dec_inc_dec": "Great progress! Psychological and social decreased, though biological increased.",
-
       "dec_same_inc": "Good job! Psychological decreased, though social increased and biological stayed the same.",
       "dec_same_same": "Good job! Psychological decreased, while biological and social stayed the same.",
       "dec_same_dec": "Great progress! Psychological and social decreased, while biological stayed the same.",
-
       "dec_dec_inc": "Great progress! Psychological and biological decreased, though social increased.",
       "dec_dec_same": "Great progress! Psychological and biological decreased, while social stayed the same.",
       "dec_dec_dec": "Excellent progress! Psychological, biological, and social all decreased."
     }
   },
-
   "screens": {
     "article-information": {
       "heading": "More Articles",
@@ -879,16 +905,12 @@
       "subheading": "Enter your card details to pay for this session.",
       "payment_succeded_heading": "Your payment was successful.",
       "payment_succeded_subheading": "Thank you for your purchase your consultation is scheduled for {{consultationDate}} at {{consultationTime}}.",
-
       "payment_processing_heading": "Your payment is being processed.",
       "payment_processing_subheading": "We are processing your payment, please wait a moment.",
-
       "payment_requires_payment_method_heading": "Your payment was not successful, please try again.",
       "payment_requires_payment_method_subheading": "There was a problem while trying to process your payment. We are sorry about that.",
-
       "payment_failed_heading": "Your payment was not successful, please try again.",
       "payment_failed_subheading": "There was a problem while trying to process your payment. We are sorry about that.",
-
       "continue_button_label": "Continue",
       "try_again_button_label": "Try again",
       "session_timeout": "Your session has expired. Please go back and book your consultation again"
@@ -907,7 +929,6 @@
       "client_camera_on": "The client has turned on the camera",
       "client_microphone_off": "The client has turned off the microphone",
       "client_microphone_on": "The client has turned on the microphone",
-
       "provider_joined": "Provider joined the consultation",
       "provider_left": "The provider has left the consultation",
       "provider_camera_off": "The provider has turned off the camera",
@@ -915,7 +936,6 @@
       "provider_microphone_off": "The provider has turned off the microphone",
       "provider_microphone_on": "The provider has turned on the microphone",
       "chat_history_deleted_by_client": "You have deleted the chat history",
-
       "send_message": "Type your message here...",
       "show_system_messages": "Show system messages",
       "show_previous_consultations": "Show previous consultations",
@@ -1071,7 +1091,6 @@
       "subheading": "Detailed overview of the profile of the organization you selected"
     }
   },
-
   "backdrops": {
     "cancel-consultation": {
       "heading": "Are you sure you want to cancel your consultation",
@@ -1243,7 +1262,6 @@
       "confirm": "Confirm"
     }
   },
-
   "modals": {
     "mood-tracker-more-information": {
       "you_felt": "You felt",
@@ -1294,13 +1312,6 @@
       "cancel": "No, keep my chat data",
       "success": "Your chat data has been deleted successfully."
     },
-    "delete-mood-tracker-history": {
-      "heading": "Are you sure you want to delete all your mood tracker data?",
-      "subheading": "This action is irreversible.",
-      "confirm": "Yes, delete all my mood tracker data",
-      "cancel": "No, keep my mood tracker data",
-      "success": "Your mood tracker data has been deleted successfully."
-    },
     "baseline-assesment-modal": {
       "heading": "Baseline Assesment",
       "paragraph_1": "The following questions will help you better understand how you are feeling and find out if you need help to feel better. The questions are about your mood, thoughts and feelings over the last two weeks. There are no right or wrong answers, just answers that represent you. It is important to answer as honestly as possible, so that we can understand what you are feeling and see how we can help you.",
@@ -1311,9 +1322,15 @@
       "consent": "To proceed, please consent to our <0>Privacy Policy</0>",
       "cta_label": "I agree to complete the questionnaire.",
       "secondary_cta_label": "I do not want to complete the questionnaire"
+    },
+    "delete-mood-tracker-history": {
+      "heading": "Are you sure you want to delete all your mood tracker data?",
+      "subheading": "This action is irreversible.",
+      "confirm": "Yes, delete all my mood tracker data",
+      "cancel": "No, keep my mood tracker data",
+      "success": "Your mood tracker data has been deleted successfully."
     }
   },
-
   "navigation": {
     "tab-navigation": {
       "home": "Home",
