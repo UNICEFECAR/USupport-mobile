@@ -23,7 +23,7 @@
       "provider_microphone_on": "Konsultant/ka włączył/a mikrofon"
     },
     "articles": {
-      "heading": "Portal informacyjny",
+      "heading": "Wiedza",
       "no_results": "Nie znaleziono żadnych wyników.",
       "could_not_load_content": "Brak wyników dla aktualnie wybranego kraju i języka.",
       "all": "Wszystkie",
@@ -391,12 +391,12 @@
       "password_error": "Hasło powinno zawierać co najmniej 8 znaków, 1 wielką literę, 1 małą literę i 1 cyfrę.",
       "register_button_label": "Rejestracja",
       "login_button_label": "Już posiadam konto",
-      "copy_text": "Skopiuj i zapisz lub zanotuj swój anonimowy kod, jeśli go zgubisz, nie będziesz mógł/ogła uzyskać dostępu do swojego konta.",
-      "modal_heading": "Potwierdź zapisanie kodu dostępu",
-      "modal_copy_text": "Upewnij się, że zapisałeś/aś lub zanotowałeś/aś swój kod dostępu. W przeciwnym razie utracisz dostęp do swojego anonimowego konta i postępu w aplikacji.",
-      "modal_button_label": "Zapisałem/am kod dostępu",
-      "copy_success": "Kod został pomyślnie skopiowany",
-      "warning": "Rozumiem, że nie będę mieć dostępu do konta, jeśli zgubię ten kod.",
+      "copy_text": "Skopiuj i zapisz lub zanotuj swój anonimowy token. Jeśli go zgubisz, nie zalogujesz się na swoje konto i nie połączysz się na konsultację z psychologiem! Do odbycia sesji z psychologiem potrzebujesz tokenu dostępu i hasła do konta.",
+      "modal_heading": "Potwierdź zapisanie tokenu dostępu",
+      "modal_copy_text": "Upewnij się, że zapisałeś/aś lub zanotowałeś/aś swój token dostępu. W przeciwnym razie utracisz dostęp do swojego anonimowego konta i postępu w aplikacji.",
+      "modal_button_label": "Zapisałem/am token dostępu",
+      "copy_success": "Token został pomyślnie skopiowany",
+      "warning": "Rozumiem, że nie będę mieć dostępu do konta, jeśli zgubię ten token.",
       "confirm_password_label": "Potwierdź hasło",
       "password_match_error": "Pola Hasło i Potwierdź hasło nie są zgodne",
       "password_placeholder": "Wprowadź swoje hasło",
@@ -434,12 +434,12 @@
       "register_email": "Zarejestruj się za pomocą adresu email",
       "register_anonymously": "Zarejestruj się anonimowo",
       "continue_as_guest": "Kontynuuj bez rejestracji",
-      "heading_1": "Informacje o platformie",
-      "text_1": "Platforma, która szanuje Twoją prywatność i bezpieczeństwo. Twoje dobro jest dla nas najważniejsze! uSupport oferuje spersonalizowaną i dyskretną opiekę psychologiczną.",
-      "heading_2": "Informacje o wsparciu",
-      "text_2": "uSupport to platforma poświęcona zdrowiu psychicznemu, dobrostanowi psychospołecznemu i dobremu samopoczuciu, przeznaczona dla młodych ludzi, gdzie prywatność i bezpieczeństwo są priorytetem.",
-      "heading_3": "O tobie",
-      "text_3": "Bądź najlepszą wersją siebie! Twoje zdrowie psychiczne ma znaczenie."
+      "heading_1": "Umawianie konsultacji",
+      "text_1": "1. Zarejestruj się anonimowo lub za pomocą adresu e-mail.\n2. Wybierz konsultanta i odpowiadający Ci termin spotkania.\n3. W dniu konsultacji zaloguj się na swoje konto za pomocą adresu e-mail lub tokenu dostępu i hasła.\n4. Porozmawiaj z psychologiem.",
+      "heading_2": "Konsultacje po polsku i ukraińsku",
+      "text_2": "Na uSupport możesz umówić się na konsultację z psychologiem w języku polskim, ale także w języku ukraińskim! Wybierając konsultanta, sprawdź w jakich językach prowadzi sesje.",
+      "heading_3": "Nie czekaj! Umów się na konsultację z psychologiem",
+      "text_3": "Potrzebujesz rozmowy z psychologiem? Już dziś umów się na indywidualną konsultację na platformie uSupport. Twoje zdrowie psychiczne jest ważne!"
     },
     "register-support": {
       "heading": "Czy potrzebujesz wsparcia?",
@@ -517,7 +517,9 @@
       "button_call": "Skontaktuj się teraz",
       "no_results": "Brak wyników dla aktualnie wybranego kraju i języka.",
       "heading": "",
-      "subheading": ""
+      "subheading": "",
+      "other_emergency_services": "Other emergency services",
+      "browse": "Browse"
     },
     "terms-of-use": {
       "heading": "Regulamin",
@@ -525,7 +527,7 @@
     },
     "user-details": {
       "heading": "Szczegóły profilu",
-      "access_token": "Twój anonimowy kod dostępu",
+      "access_token": "Twój anonimowy token dostępu",
       "change_photo": "Zmień zdjęcie",
       "nickname": "Nick",
       "nickname_placeholder": "Wprowadzić swój nick",
@@ -562,7 +564,7 @@
       "data_processing_modal_confirm_button": "Usuń uprawnienia",
       "data_processing_modal_cancel_button": "Anuluj",
       "success_message": "Profil został pomyślnie zaktualizowany",
-      "access_token_copy": "Kod został pomyślnie skopiowany",
+      "access_token_copy": "Token został pomyślnie skopiowany",
       "sex_placeholder": "Wprowadź swoją płeć",
       "year_of_birth_placeholder": "Wprowadź swój rok urodzenia",
       "living_place_placeholder": "Wprowadź swoje miejsce zamieszkania",
@@ -835,6 +837,45 @@
       "view_detailed_results": "Zobacz szczegółowe wyniki",
       "started_at": "Rozpoczęte {{date}}",
       "answered_questions": "Odpowiedzi na pytania: {{current}}/27"
+    },
+    "baseline-assesment-result": {
+      "assessment_completed": "Assessment completed",
+      "loading_results": "Loading your results...",
+      "recommended_articles": "Recommended articles",
+      "recommended_videos": "Recommended videos",
+      "recommended_podcasts": "Recommended podcasts",
+      "read_more_button": "Read more",
+      "by": "by {{creator}}",
+      "min_read": "min read",
+      "psychological": "Psychological",
+      "biological": "Biological",
+      "social": "Social",
+      "inc_inc_inc": "We noticed some challenges: psychological, biological, and social all increased.",
+      "inc_inc_same": "We noticed some challenges: psychological and biological increased, while social stayed the same.",
+      "inc_inc_dec": "Good job! Social decreased, though psychological and biological increased.",
+      "inc_same_inc": "We noticed some challenges: psychological and social increased, while biological stayed the same.",
+      "inc_same_same": "We noticed some challenges: psychological increased, while biological and social stayed the same.",
+      "inc_same_dec": "Good job! Social decreased, though psychological increased and biological stayed the same.",
+      "inc_dec_inc": "Good job! Biological decreased, though psychological and social increased.",
+      "inc_dec_same": "Good job! Biological decreased, though psychological increased and social stayed the same.",
+      "inc_dec_dec": "Great progress! Biological and social decreased, though psychological increased.",
+      "same_inc_inc": "We noticed some challenges: biological and social increased, while psychological stayed the same.",
+      "same_inc_same": "We noticed some challenges: biological increased, while psychological and social stayed the same.",
+      "same_inc_dec": "Good job! Social decreased, though biological increased and psychological stayed the same.",
+      "same_same_inc": "We noticed some challenges: social increased, while psychological and biological stayed the same.",
+      "same_same_dec": "Good job! Social decreased, while psychological and biological stayed the same.",
+      "same_dec_inc": "Good job! Biological decreased, though social increased and psychological stayed the same.",
+      "same_dec_same": "Good job! Biological decreased, while psychological and social stayed the same.",
+      "same_dec_dec": "Great progress! Biological and social decreased, while psychological stayed the same.",
+      "dec_inc_inc": "Good job! Psychological decreased, though biological and social increased.",
+      "dec_inc_same": "Good job! Psychological decreased, though biological increased and social stayed the same.",
+      "dec_inc_dec": "Great progress! Psychological and social decreased, though biological increased.",
+      "dec_same_inc": "Good job! Psychological decreased, though social increased and biological stayed the same.",
+      "dec_same_same": "Good job! Psychological decreased, while biological and social stayed the same.",
+      "dec_same_dec": "Great progress! Psychological and social decreased, while biological stayed the same.",
+      "dec_dec_inc": "Great progress! Psychological and biological decreased, though social increased.",
+      "dec_dec_same": "Great progress! Psychological and biological decreased, while social stayed the same.",
+      "dec_dec_dec": "Excellent progress! Psychological, biological, and social all decreased."
     }
   },
   "screens": {
@@ -947,7 +988,7 @@
       "heading": "Wpisz swój adres email, aby zresetować hasło"
     },
     "informational-portal-screen": {
-      "heading": "Portal informacyjny",
+      "heading": "Wiedza",
       "subheading": "Tutaj możesz odkryć wszystko, czego potrzebujesz, aby poprawić swoje zdrowie psychiczne",
       "emergency_button_label": "Pomoc w nagłych wypadkach",
       "articles": "Artykuły",
@@ -1020,7 +1061,7 @@
       "subheading": "To jest <0>ANONIMOWE</0>! Twoje pytania <0>NIE</0> są powiązane z Tobą. Odpowiedzi będą dostępne publicznie, aby każdy mógł zobaczyć, z jakimi zagadnieniami mierzą się inni.",
       "heading_button_label": "Zobacz, jak to działa",
       "emergency_button_label": "Pomoc w nagłych wypadkach",
-      "ask_button_label": "Zapytaj anonimowo"
+      "ask_button_label": "Zapytaj psychologa"
     },
     "videos-screen": {
       "heading_default": "Filmy",
@@ -1042,7 +1083,8 @@
     },
     "organizations-screen": {
       "heading": "Przegląd organizacji",
-      "subheading": "Szczegółowy przegląd profilu wybranej organizacji"
+      "subheading": "Szczegółowy przegląd profilu wybranej organizacji",
+      "emergency_button_label": "Emergency help"
     },
     "organization-overview-screen": {
       "heading": "Przegląd organizacji",
@@ -1292,7 +1334,7 @@
   "navigation": {
     "tab-navigation": {
       "home": "Strona główna",
-      "qaa": "Q&A",
+      "qaa": "Zapytaj psychologa",
       "articles": "Treść",
       "mood": "Nastrój"
     }
