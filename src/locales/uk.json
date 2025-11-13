@@ -23,7 +23,7 @@
       "provider_microphone_on": "Консультант/ка увімкнув/ла мікрофон"
     },
     "articles": {
-      "heading": "Інформаційний портал",
+      "heading": "Знання",
       "no_results": "Жодних результатів не знайдено",
       "could_not_load_content": "Для обраної країни й мови немає результатів.",
       "all": "Усі",
@@ -219,7 +219,7 @@
       "add_mood_tracker_success": "Щоденний настрій додано",
       "subheading": "",
       "emergency_button_label": "",
-      "emergency_label": ""
+      "emergency_label": "Does this relate to a life event or critical situation?"
     },
     "mood-track-history": {
       "saturday": "Сб",
@@ -231,7 +231,7 @@
       "you_felt": "Ти відчув/ла себе",
       "comment_text": "і прокоментув/ла:",
       "no_result": "Жодних результатів не знайденою",
-      "critical_text": ""
+      "critical_text": "Related to a life event or critical situation"
     },
     "notification-preferences": {
       "email": "Сповіщення електронною поштою",
@@ -252,6 +252,7 @@
       "consultation_suggestion": "{{providerName}} запропонував/ла консультацію на {{date}} з {{startHour}} до {{endHour}}",
       "consultation_suggestion_booking": "Прийнято запропоновану консультацію від {{providerName}} на {{date}} з {{startHour}} до {{endHour}}",
       "consultation_suggestion_cancellation": "Відхилено запропоновану консультацію з {{providerName}} на {{date}} з {{startHour}} до {{endHour}}",
+      "consultation_started": "Твоя консультація з консультантом/кою  <0>{{providerName}} почалася </0>",
       "join": "Приєднайся",
       "accept": "Прийняти",
       "accept_consultation_success": "Консультацію прийнято",
@@ -259,7 +260,6 @@
       "reject_consultation_success": "Консультацію відхилено",
       "no_notifications": "Ще немає жодних сповіщень.",
       "yesterday": "вчора",
-      "consultation_started": "Твоя консультація з консультантом/кою  <0>{{providerName}} почалася </0>",
       "question_answered": "Консультант/ка <0>{{providerName}}</0> відповів/ла на твоє питання",
       "consultation_remind_start_24_hours_before": "Твоя консультація з консультантом/кою <0>{{providerName}}</0> почнеться через 24 години",
       "consultation_remind_start_48_hours_before": "Твоя консультація з консультантом/кою <0>{{providerName}}</0> почнеться через 48 годин"
@@ -378,11 +378,11 @@
     "register-anonymous": {
       "heading": "Зареєструйся анонімно",
       "subheading": "Ти будеш зареєстрований/а анонімно. Ми жодним чином не пов'язуємо цей обліковий запис із фізичною особою.",
-      "access_code": "Твій анонімний код доступу",
+      "access_code": "Твій анонімний токен доступу",
       "nickname_label": "Нікнейм *",
       "nickname_placeholder": "Введи свій нікнейм",
       "nickname_error": "Нікнейм є обов'язковим",
-      "paragraph_1": "Твій анонімний код доступу",
+      "paragraph_1": "Твій анонімний токен доступу",
       "password_label": "Пароль *",
       "terms_agreement_text_1": "Погоджуюся з",
       "terms_agreement_text_2": "Політика конфіденційності",
@@ -391,12 +391,12 @@
       "password_error": "Пароль має містити щонайменше 8 символів, 1 велику літеру, 1 малу літеру і 1 цифру",
       "register_button_label": "Зареєструватися",
       "login_button_label": "Вже маю обліковий запис",
-      "copy_text": "Скопіюй та збережи або занотуй анонімний код. Якщо ти його втратиш, то більше не зможеш отримати доступ до облікового запису.",
-      "modal_heading": "Підтвердь, що зберіг/егла код доступу",
-      "modal_copy_text": "Переконайся, що зберіг/егла або занототував/ала код доступу. Інакше ти втратиш доступ до анонімного облікового запису та свого прогресу в додатку.",
-      "modal_button_label": "Я зберіг/зберегла код доступу",
-      "copy_success": "Код скопіювано",
-      "warning": "Розумію, що не матиму доступу до облікового запису, якщо втрачу цей код",
+      "copy_text": "Скопіюй і збережи або запиши свій анонімний токен.\nЯкщо ти його загубиш, не зможеш увійти до свого облікового запису та приєднатися до консультації з психологом!\nДля проведення сесії з психологом тобі потрібні токен доступу та пароль до облікового запису.",
+      "modal_heading": "Підтвердь, що зберіг/егла токен доступу",
+      "modal_copy_text": "Переконайся, що зберіг/егла або занототував/ала токен доступу. Інакше ти втратиш доступ до анонімного облікового запису та свого прогресу в додатку.",
+      "modal_button_label": "Я зберіг/зберегла токен доступу",
+      "copy_success": "токен скопіювано",
+      "warning": "Розумію, що не матиму доступу до облікового запису, якщо втрачу цей токен",
       "confirm_password_label": "Підтвердь пароль",
       "password_match_error": "Поля «Пароль» і «Підтвердь пароль» не збігаються",
       "password_placeholder": "Введи свій пароль",
@@ -430,16 +430,16 @@
       "cancel": "Скасуй"
     },
     "register-preview": {
-      "login": "Увійди за допомогою електронної пошти/кода доступу",
+      "login": "Увійди за допомогою електронної пошти/токена доступу",
       "register_email": "Зареєструйся за допомогою електронної пошти",
       "register_anonymously": "Зареєструйся анонімно",
       "continue_as_guest": "Продовжити без реєстрації",
-      "heading_1": "Про платформу",
-      "text_1": "Платформа, яка поважає твою конфіденційність і безпеку. Твій добробут — наш пріоритет! uSupport надає персоналізовану й делікатну психологічну допомогу.",
-      "heading_2": "Про підтримку",
-      "text_2": "uSupport — це платформа з підтримки ментального здоров'я та консультування молодих людей, їхніх батьків/опікунів, де конфіденційність і безпека є пріоритетом.",
-      "heading_3": "Про тебе",
-      "text_3": "Будь найкращою версією себе! Твоє ментальне здоров'я має значення."
+      "heading_1": "Запис на консультацію",
+      "text_1": "1. Зареєструйся анонімно або за допомогою електронної пошти.\n2. Обери консультанта та зручний для тебе час зустрічі.\n3. У день консультації увійди до свого облікового запису за допомогою електронної пошти або токена доступу та пароля.\n4. Поспілкуйся з психологом.",
+      "heading_2": "Консультації польською та українською мовами",
+      "text_2": "На платформі uSupport ти можеш записатися на консультацію з психологом не лише польською, а й українською мовою!\nПід час вибору консультанта перевір, якими мовами він проводить сесії.",
+      "heading_3": "Не чекай! Запишись на консультацію з психологом",
+      "text_3": "Потребуєш розмови з психологом? Уже сьогодні запишись на індивідуальну консультацію на платформі uSupport. Твоє психічне здоров’я — важливе!"
     },
     "register-support": {
       "heading": "Потрібна підтримка?",
@@ -527,7 +527,7 @@
     },
     "user-details": {
       "heading": "Деталі профілю",
-      "access_token": "Твій анонімний код доступу",
+      "access_token": "Твій анонімний токен доступу",
       "change_photo": "Змінити фото",
       "nickname": "Нікнейм",
       "nickname_placeholder": "Введи нікнейм",
@@ -564,7 +564,7 @@
       "data_processing_modal_confirm_button": "Видали дозвіл",
       "data_processing_modal_cancel_button": "Скасувати",
       "success_message": "Профіль оновлено",
-      "access_token_copy": "Код скопіювано",
+      "access_token_copy": "токен скопіювано",
       "sex_placeholder": "Введи свою стать",
       "year_of_birth_placeholder": "Введи свій рік народження",
       "living_place_placeholder": "Введи своє місце проживання",
@@ -688,49 +688,49 @@
       "phone": "Телефон",
       "email": "Електронна пошта",
       "check_organization": "Привіт, подивіться цю організацію",
-      "free_services": "",
-      "paid_services": "",
-      "co_payment_services": "",
-      "cnas_reimbursed_services": "",
-      "emergency_situations": "",
-      "pediatric_psychiatry": "",
-      "psychological_evaluation": "",
-      "psychological_counseling": "",
-      "support_groups": "",
-      "social_assistance_and_counseling": "",
-      "personal_development": "",
-      "vocational_counseling_and_career_guidance": "",
-      "occupational_therapy_ergotherapy": "",
-      "physiotherapy_physical_recovery": "",
-      "autism_spectrum_disorder_therapies": "",
-      "disability_assessment": "",
-      "pediatric_neurology": "",
-      "special_psychopedagogy": "",
-      "neuropsychomotor_recovery": "",
-      "aggression_violence_victim_or_aggressor": "",
-      "learning_difficulties_special_educational_needs": "",
-      "behavioral_disorder": "",
-      "eating_disorder": "",
-      "suicide_self_harm": "",
-      "addiction": "",
-      "identity_issues": "",
-      "illness_oncological_treatment_chronic_diseases": "",
-      "other_situations": "",
-      "public": "",
-      "private": "",
-      "ong": "",
-      "public_private": "",
-      "specialisations_placeholder": "",
-      "payment_methods_placeholder": "",
-      "user_interactions_placeholder": "",
-      "property_types_placeholder": "",
-      "filter_heading": "",
-      "filter_button_label": "",
-      "any": "",
-      "personalize": "",
-      "personalization": "",
-      "personalization_modal_text": "",
-      "personalization_modal_cta_label": ""
+      "free_services": "Free services",
+      "paid_services": "Paid services",
+      "co_payment_services": "Co-payment services",
+      "cnas_reimbursed_services": "CNAS reimbursed services",
+      "emergency_situations": "Emergency situations",
+      "pediatric_psychiatry": "Pediatric psychiatry",
+      "psychological_evaluation": "Psychological evaluation",
+      "psychological_counseling": "Psychological counseling",
+      "support_groups": "Support groups",
+      "social_assistance_and_counseling": "Social assistance and counseling",
+      "personal_development": "Personal development",
+      "vocational_counseling_and_career_guidance": "Vocational counseling and career guidance",
+      "occupational_therapy_ergotherapy": "Occupational therapy/Ergotherapy",
+      "physiotherapy_physical_recovery": "Physiotherapy/Physical recovery",
+      "autism_spectrum_disorder_therapies": "Autism spectrum disorder therapies",
+      "disability_assessment": "Disability assessment",
+      "pediatric_neurology": "Pediatric neurology",
+      "special_psychopedagogy": "Special psychopedagogy",
+      "neuropsychomotor_recovery": "Neuropsychomotor recovery",
+      "aggression_violence_victim_or_aggressor": "Aggression/violence - victim or aggressor",
+      "learning_difficulties_special_educational_needs": "Learning difficulties/Special educational needs",
+      "behavioral_disorder": "Behavioral disorder",
+      "eating_disorder": "Eating disorder",
+      "suicide_self_harm": "Suicide/Self-harm",
+      "addiction": "Addiction",
+      "identity_issues": "Identity issues",
+      "illness_oncological_treatment_chronic_diseases": "Illness (oncological treatment, chronic diseases)",
+      "other_situations": "Other situations",
+      "public": "Public",
+      "private": "Private",
+      "ong": "NGO",
+      "public_private": "Public-private",
+      "specialisations_placeholder": "Select offered services",
+      "payment_methods_placeholder": "Select payment methods",
+      "user_interactions_placeholder": "Select interaction modes",
+      "property_types_placeholder": "Select property types",
+      "filter_heading": "Filter",
+      "filter_button_label": "Apply",
+      "any": "Any",
+      "personalize": "Personalize",
+      "personalization": "Personalization",
+      "personalization_modal_text": "To receive personalized organization recommendations tailored to your needs, please complete our quick baseline assessment first. This helps us understand your preferences and goals to provide the most relevant suggestions.",
+      "personalization_modal_cta_label": "Complete assessment"
     },
     "organization-overview": {
       "error-loading-data": "Сталася помилка під час завантаження даних про організацію",
@@ -853,34 +853,26 @@
       "inc_inc_inc": "Ми помітили деякі виклики: психологічний, біологічний та соціальний зросли.",
       "inc_inc_same": "Ми помітили деякі виклики: психологічний та біологічний зросли, тоді як соціальний залишився без змін.",
       "inc_inc_dec": "Чудово! Соціальний зменшився, хоча психологічний та біологічний зросли.",
-
       "inc_same_inc": "Ми помітили деякі виклики: психологічний та соціальний зросли, тоді як біологічний залишився без змін.",
       "inc_same_same": "Ми помітили деякі виклики: психологічний зріс, тоді як біологічний та соціальний залишилися без змін.",
       "inc_same_dec": "Чудово! Соціальний зменшився, хоча психологічний зріс, а біологічний залишився без змін.",
-
       "inc_dec_inc": "Чудово! Біологічний зменшився, хоча психологічний та соціальний зросли.",
       "inc_dec_same": "Чудово! Біологічний зменшився, хоча психологічний зріс, а соціальний залишився без змін.",
       "inc_dec_dec": "Великий прогрес! Біологічний та соціальний зменшилися, хоча психологічний зріс.",
-
       "same_inc_inc": "Ми помітили деякі виклики: біологічний та соціальний зросли, тоді як психологічний залишився без змін.",
       "same_inc_same": "Ми помітили деякі виклики: біологічний зріс, тоді як психологічний та соціальний залишилися без змін.",
       "same_inc_dec": "Чудово! Соціальний зменшився, хоча біологічний зріс, а психологічний залишився без змін.",
-
       "same_same_inc": "Ми помітили деякі виклики: соціальний зріс, тоді як психологічний та біологічний залишилися без змін.",
       "same_same_dec": "Чудово! Соціальний зменшився, тоді як психологічний та біологічний залишилися без змін.",
-
       "same_dec_inc": "Чудово! Біологічний зменшився, хоча соціальний зріс, а психологічний залишився без змін.",
       "same_dec_same": "Чудово! Біологічний зменшився, тоді як психологічний та соціальний залишилися без змін.",
       "same_dec_dec": "Великий прогрес! Біологічний та соціальний зменшилися, тоді як психологічний залишився без змін.",
-
       "dec_inc_inc": "Чудово! Психологічний зменшився, хоча біологічний та соціальний зросли.",
       "dec_inc_same": "Чудово! Психологічний зменшився, хоча біологічний зріс, а соціальний залишився без змін.",
       "dec_inc_dec": "Великий прогрес! Психологічний та соціальний зменшилися, хоча біологічний зріс.",
-
       "dec_same_inc": "Чудово! Психологічний зменшився, хоча соціальний зріс, а біологічний залишився без змін.",
       "dec_same_same": "Чудово! Психологічний зменшився, тоді як біологічний та соціальний залишилися без змін.",
       "dec_same_dec": "Великий прогрес! Психологічний та соціальний зменшилися, тоді як біологічний залишився без змін.",
-
       "dec_dec_inc": "Великий прогрес! Психологічний та біологічний зменшилися, хоча соціальний зріс.",
       "dec_dec_same": "Великий прогрес! Психологічний та біологічний зменшилися, тоді як соціальний залишився без змін.",
       "dec_dec_dec": "Відмінний прогрес! Психологічний, біологічний та соціальний усі зменшилися."
@@ -996,7 +988,7 @@
       "heading": "Введи свою електронну пошту для відновлення пароля"
     },
     "informational-portal-screen": {
-      "heading": "Інформаційний портал",
+      "heading": "Знання",
       "subheading": "Тут можна ознайомитися зі всім, що потрібно для покращення психічного здоров'я",
       "emergency_button_label": "Невідкладна допомога",
       "articles": "Статті",
@@ -1069,7 +1061,7 @@
       "subheading": "Це <0>АНОНІМНО</0>! Твої питання <0>НЕ</0> пов'язані з тобоб. Відповіді будуть доступні для загального перекладу, щоб кожен міг побачити, з якими проблемами стикаються інші.",
       "heading_button_label": "Подивися, як це працює",
       "emergency_button_label": "Невідкладна допомога",
-      "ask_button_label": "Запитай анонімно"
+      "ask_button_label": "Запитай психолога"
     },
     "videos-screen": {
       "heading_default": "Відео",
@@ -1091,7 +1083,8 @@
     },
     "organizations-screen": {
       "heading": "Огляд організації",
-      "subheading": "Детальний огляд профілю вибраної вами організації"
+      "subheading": "Детальний огляд профілю вибраної вами організації",
+      "emergency_button_label": "Emergency help"
     },
     "organization-overview-screen": {
       "heading": "Огляд організації",
@@ -1341,7 +1334,7 @@
   "navigation": {
     "tab-navigation": {
       "home": "Головна",
-      "qaa": "Q&A",
+      "qaa": "Запитай психолога",
       "articles": "Зміст",
       "mood": "Настрій"
     }
