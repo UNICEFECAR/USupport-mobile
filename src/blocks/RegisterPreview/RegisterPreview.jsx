@@ -149,7 +149,6 @@ export const RegisterPreview = ({ navigation }) => {
             <AppButton
               label={t("register_email")}
               size="lg"
-              type="ghost"
               onPress={() => handleRedirect("RegisterEmail")}
             />
             <AppButton
