@@ -144,7 +144,8 @@
       "contact_reason_2_pl": "Technical problem",
       "contact_reason_3_pl": "Complaint",
       "contact_reason_4_pl": "Something else",
-      "success": "Problema dvs. a fost raportată. Vă vom contacta în curând."
+      "success": "Problema dvs. a fost raportată. Vă vom contacta în curând.",
+      "contact_form": "Contact form"
     },
     "faq": {
       "heading": "ÎNTREBĂRI FRECVENTE",
@@ -851,7 +852,11 @@
       "view": "View Results",
       "view_detailed_results": "View Detailed Results",
       "started_at": "Started on {{date}}",
-      "answered_questions": "Answered questions: {{current}}/27"
+      "answered_questions": "Answered questions: {{current}}/27",
+      "latest_result": "Latest Result",
+      "psychological": "Psychological",
+      "biological": "Biological",
+      "social": "Social"
     },
     "baseline-assesment-result": {
       "assessment_completed": "Assessment completed",
@@ -1068,7 +1073,8 @@
       "coupon_paragraph": "Cupoanele oferă sesiuni „gratuite” și sunt sponsorizate de partenerii noștri.",
       "coupon_paragraph_two": "Dacă ați primit un cod de cupon de la o campanie de social media sau de la un partener, vă rugăm să îl copiați și să îl lipiți mai jos. După ce trimiteți codul cuponului, veți vedea toți furnizorii care îl acceptă și disponibilitatea acestora. Un cupon poate acoperi una sau mai multe sesiuni. Platforma va indica dacă cuponul a expirat sau s-a folosit numărul maxim de sesiuni.",
       "max_price": "Preț maxim",
-      "providers_free_consultation_label": "Doar consultație gratuită"
+      "providers_free_consultation_label": "Doar consultație gratuită",
+      "coupon_note": "This time, we've entered a code for you for a free session! Schedule an appointment with one of our consultants and take the first step towards improving your well-being."
     },
     "share-platform-screen": {
       "heading": "Share the application",
