@@ -16,7 +16,11 @@ import {
   checkIsLikedAndDisliked,
 } from "#utils";
 
-import { useEventListener, useGetUserContentRatings } from "#hooks";
+import {
+  useEventListener,
+  useGetUserContentRatings,
+  useGetTheme,
+} from "#hooks";
 
 import { localStorage, adminSvc, cmsSvc, Context } from "#services";
 
@@ -34,7 +38,8 @@ export const InformationalPortal = ({
   const { t, i18n } = useTranslation("blocks", {
     keyPrefix: "information-portal",
   });
-  const { isTmpUser } = useContext(Context);
+  const { isHighContrast, isTmpUser } = useGetTheme();
+
   const [videoToPlay, setVideoToPlay] = useState(null);
   const [podcastToPlay, setPodcastToPlay] = useState(null);
 
@@ -111,6 +116,14 @@ export const InformationalPortal = ({
         ids: contentIdsQuery.data,
       });
 
+      // Handle async destructurePodcastData for podcasts
+      if (contentType === "podcasts") {
+        const contentItems = data.data || [];
+        return await Promise.all(
+          contentItems.map((item) => destructureData(item))
+        );
+      }
+
       return data.data.map(destructureData);
     };
 
@@ -152,7 +165,10 @@ export const InformationalPortal = ({
       <>
         <View style={styles.headingContainer}>
           <AppText namedStyle="h3">{heading}</AppText>
-          <AppText style={styles.viewAllText} onPress={handleRedirect}>
+          <AppText
+            style={[styles.viewAllText, isHighContrast && styles.viewAllTextHC]}
+            onPress={handleRedirect}
+          >
             {t("view_all")}
           </AppText>
         </View>
@@ -318,6 +334,11 @@ const styles = StyleSheet.create({
   viewAllText: {
     color: appStyles.colorSecondary_9749fa,
     fontFamily: appStyles.fontSemiBold,
+  },
+  viewAllTextHC: {
+    color: "#fff",
+    textDecorationColor: "#fff",
+    textDecorationLine: "underline",
   },
   loading: { alignSelf: "center" },
   articlesContainer: { alignItems: "center", paddingTop: 16 },

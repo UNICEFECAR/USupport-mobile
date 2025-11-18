@@ -13,7 +13,7 @@ import {
 } from "#components";
 
 import { userSvc, localStorage, Context } from "#services";
-import { useError, useGetTheme } from "#hooks";
+import { useError, useGetTheme, useAddCountryEvent } from "#hooks";
 
 const { AMAZON_S3_BUCKET } = Config;
 
@@ -29,13 +29,14 @@ export const RegisterPreview = ({ navigation }) => {
   const { t } = useTranslation("blocks", { keyPrefix: "register-preview" });
   const [error, setErrror] = useState();
   const queryClient = useQueryClient();
+  const addCountryEventMutation = useAddCountryEvent();
 
   const tmpLogin = async () => {
     const res = await userSvc.tmpLogin();
     return res.data;
   };
 
-  const { setToken } = useContext(Context);
+  const { country, setToken } = useContext(Context);
 
   const tmpLoginMutation = useMutation(tmpLogin, {
     onSuccess: async (data) => {
@@ -83,11 +84,24 @@ export const RegisterPreview = ({ navigation }) => {
     </View>
   );
 
+  const eventMap = {
+    Guest: "mobile_guest_register_click",
+    RegisterAnonymous: "mobile_anonymous_register_click",
+    RegisterEmail: "mobile_email_register_click",
+  };
+
   const handleRedirect = (redirectTo) => {
+    if (redirectTo !== "Login") {
+      addCountryEventMutation.mutate({
+        eventType: eventMap[redirectTo],
+      });
+    }
+
     if (redirectTo === "Guest") {
       tmpLoginMutation.mutate();
       return;
     }
+
     navigation.push(redirectTo);
   };
 
@@ -116,6 +130,9 @@ export const RegisterPreview = ({ navigation }) => {
               renderItem={renderCarouselItems}
               style={styles.carousel}
             />
+            {country === "PL" && (
+              <AppText style={styles.plText}>{t("pl_text")}</AppText>
+            )}
             <AppButton
               label={t("login")}
               size="lg"
@@ -150,38 +167,39 @@ export const RegisterPreview = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  scrollView: { flexGrow: 1 },
-  block: {
-    flex: 1,
-  },
-  imageContainer: {
-    height: 258,
-    width: "100%",
-    position: "absolute",
-    right: -185,
-    top: 50,
-    paddingVertical: 32,
-  },
-  image: {
-    width: 325,
-    height: 258,
-    resizeMode: "contain",
-  },
-  contentContainer: {
-    flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center",
-    paddingBottom: 45,
-  },
-  carousel: { marginBottom: 20 },
   accessAnonymouslyButton: {
     marginVertical: 16,
   },
+  block: {
+    flex: 1,
+  },
+  carousel: { marginBottom: 20 },
   carouselItem: {
+    alignSelf: "center",
+    maxWidth: 420,
     padding: 16,
     width: "96%",
-    maxWidth: 420,
-    alignSelf: "center",
   },
   carouselItemText: { marginTop: 16 },
+  contentContainer: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "flex-end",
+    paddingBottom: 45,
+  },
+  image: {
+    height: 258,
+    resizeMode: "contain",
+    width: 325,
+  },
+  imageContainer: {
+    height: 258,
+    paddingVertical: 32,
+    position: "absolute",
+    right: -185,
+    top: 50,
+    width: "100%",
+  },
+  plText: { fontWeight: "600", marginVertical: 16, textAlign: "center" },
+  scrollView: { flexGrow: 1 },
 });

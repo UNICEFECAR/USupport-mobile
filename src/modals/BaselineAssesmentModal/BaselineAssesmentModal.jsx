@@ -53,6 +53,12 @@ export const BaselineAssesmentModal = ({ navigation, setOpen, open }) => {
   const handleCtaClick = () => {
     createBaselineAssessmentMutation.mutate(undefined, {
       onSuccess: (assessmentData) => {
+        queryClient.invalidateQueries({
+          queryKey: ["baseline-assessments"],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ["latest-baseline-assessment"],
+        });
         onClose();
         navigation.navigate("BaselineAssesment", {
           baselineAssessmentId: assessmentData.baselineAssessmentId,

@@ -40,7 +40,7 @@ export const PodcastInformation = ({ navigation, route }) => {
     });
 
     const { data } = await cmsSvc.getPodcastById(id, i18n.language);
-    const finalData = destructurePodcastData(data);
+    const finalData = await destructurePodcastData(data);
     finalData.contentRating = contentRatings.data;
     return finalData;
   };
@@ -77,6 +77,7 @@ export const PodcastInformation = ({ navigation, route }) => {
       ids: podcastIdsQuery.data,
     });
 
+    let podcasts = [];
     if (data.length === 0) {
       let { data: newest } = await cmsSvc.getPodcasts({
         limit: 3,
@@ -87,9 +88,16 @@ export const PodcastInformation = ({ navigation, route }) => {
         populate: true,
         ids: podcastIdsQuery.data,
       });
-      return newest.data;
+      podcasts = newest.data || [];
+    } else {
+      podcasts = data.data || [];
     }
-    return data.data;
+
+    // Destructure podcast data with async handling
+    const destructuredPodcasts = await Promise.all(
+      podcasts.map((podcast) => destructurePodcastData(podcast))
+    );
+    return destructuredPodcasts;
   };
 
   const {
@@ -142,7 +150,7 @@ export const PodcastInformation = ({ navigation, route }) => {
                     rating.content_type === "podcast" &&
                     rating.positive === false
                 );
-                const podcastData = destructurePodcastData(podcast);
+                const podcastData = podcast; // Already destructured in getSimilarPodcasts
 
                 return (
                   <View key={index} style={styles.morePodcastCard}>

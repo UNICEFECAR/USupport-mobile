@@ -67,7 +67,13 @@ export const UserProfile = ({ navigation }) => {
     if (protectedPages.includes(redirectTo) && isTmpUser) {
       handleRegistrationModalOpen();
     } else {
-      navigation.push(redirectTo);
+      if (redirectTo === "MoodTracker") {
+        navigation.navigate("TabNavigation", {
+          screen: "MoodTrackHistory",
+        });
+      } else {
+        navigation.push(redirectTo);
+      }
     }
   };
 
@@ -146,6 +152,16 @@ export const UserProfile = ({ navigation }) => {
     }
   };
 
+  const handleHighContrast = async () => {
+    if (theme === "highContrast") {
+      setTheme("light");
+      await localStorage.setItem("theme", "light");
+    } else {
+      setTheme("highContrast");
+      await localStorage.setItem("theme", "highContrast");
+    }
+  };
+
   return (
     <React.Fragment>
       <Heading
@@ -166,6 +182,12 @@ export const UserProfile = ({ navigation }) => {
                 uri: `${AMAZON_S3_BUCKET}/${clientData?.image || "default"}`,
               }}
               style={[styles.buttonSelector, styles.buttonSelectorFirstInGroup]}
+            />
+            <ButtonSelector
+              iconName="mood"
+              label={t("mood_tracker_button_label")}
+              onPress={() => handleRedirect("MoodTracker")}
+              style={styles.buttonSelector}
             />
           </View>
 
@@ -199,6 +221,12 @@ export const UserProfile = ({ navigation }) => {
               }
               iconName={isDarkMode ? "sun" : "moon"}
               onPress={handleThemeChange}
+              style={styles.buttonSelector}
+            />
+            <ButtonSelector
+              iconName="accessibility"
+              label={t("high_contrast_mode")}
+              onPress={handleHighContrast}
               style={styles.buttonSelector}
             />
           </View>

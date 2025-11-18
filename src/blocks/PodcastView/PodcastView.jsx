@@ -229,7 +229,7 @@ export const PodcastView = ({ podcastData, t, isTmpUser }) => {
 const styles = StyleSheet.create({
   podcastViewBlock: {
     flex: 1,
-    paddingTop: 84,
+    paddingTop: 94,
   },
   playerContainer: {
     width: "100%",

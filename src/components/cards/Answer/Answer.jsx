@@ -32,7 +32,7 @@ export const Answer = ({
   style,
   t,
 }) => {
-  const { colors } = useGetTheme();
+  const { colors, isHighContrast } = useGetTheme();
   const providerInfo = question.providerData;
   const isAskedByCurrentClient = question.isAskedByCurrentClient;
 
@@ -83,7 +83,12 @@ export const Answer = ({
           <View style={styles.scheduleContainer}>
             <TouchableOpacity onPress={() => handleSchedulePress(question)}>
               <View>
-                <Icon name="calendar" color={appStyles.colorPrimary_20809e} />
+                <Icon
+                  name="calendar"
+                  color={
+                    isHighContrast ? "#ffff00" : appStyles.colorPrimary_20809e
+                  }
+                />
               </View>
             </TouchableOpacity>
           </View>
@@ -100,8 +105,14 @@ export const Answer = ({
             {isAskedByCurrentClient ? (
               <View>
                 <View style={styles.dateContainer}>
-                  <Icon name="calendar" color="#92989B" />
-                  <AppText namedStyle="text" style={styles.text}>
+                  <Icon
+                    name="calendar"
+                    color={isHighContrast ? "#ffff00" : "#92989B"}
+                  />
+                  <AppText
+                    namedStyle="text"
+                    style={[styles.text, isHighContrast && colorHighContrast]}
+                  >
                     {getDateText()}
                   </AppText>
                 </View>
@@ -121,8 +132,17 @@ export const Answer = ({
       ) : (
         <>
           <View style={styles.dateContainer}>
-            <Icon name="calendar" color="#92989B" />
-            <AppText namedStyle="text" style={styles.dateContainerText}>
+            <Icon
+              name="calendar"
+              color={isHighContrast ? "#ffff00" : "#92989B"}
+            />
+            <AppText
+              namedStyle="text"
+              style={[
+                styles.dateContainerText,
+                isHighContrast && styles.colorHighContrast,
+              ]}
+            >
               {getDateText()}
             </AppText>
           </View>
@@ -147,7 +167,14 @@ export const Answer = ({
           <View style={styles.likeContainer}>
             <TouchableOpacity onPress={() => handleReadMore(question)}>
               <View style={styles.readMoreContainer}>
-                <AppText style={styles.readMoreText}>{t("read_more")}</AppText>
+                <AppText
+                  style={[
+                    styles.readMoreText,
+                    isHighContrast && styles.readtMoreTextHC,
+                  ]}
+                >
+                  {t("read_more")}
+                </AppText>
               </View>
             </TouchableOpacity>
             <Like
@@ -227,6 +254,11 @@ const styles = StyleSheet.create({
     color: appStyles.colorPrimary_20809e,
     fontFamily: appStyles.fontBold,
   },
+  readtMoreTextHC: {
+    color: "#fff",
+    textDecorationColor: "#fff",
+    textDecorationLine: "underline",
+  },
   scheduleButton: { flexDirection: "row", marginTop: 20 },
   scheduleButtonText: {
     color: appStyles.colorPrimary_20809e,
@@ -241,4 +273,5 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
+  colorHighContrast: { color: "#ffff00" },
 });

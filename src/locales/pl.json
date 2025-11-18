@@ -72,6 +72,7 @@
       "live_text": "Teraz",
       "accept_button_label": "Zaakceptuj konsultację",
       "join_button_label": "Dołącz",
+      "join_button_label_tooltip": "Możesz dołączyć do konsultacji 5 minut przed rozpoczęciem",
       "change_button_label": "Zmiana",
       "ordinal_st": ".",
       "ordinal_nd": ".",
@@ -119,7 +120,8 @@
       "registration_needed": "Aby umówić się na konsultacje, musisz się zarejestrować.",
       "free": "Wolny",
       "button_label": "",
-      "emergency_button_label": ""
+      "emergency_button_label": "",
+      "join_button_label_tooltip": "Możesz dołączyć do konsultacji 5 minut przed rozpoczęciem"
     },
     "contact-us-block": {
       "heading": "Skontaktuj się z nami",
@@ -214,12 +216,16 @@
       "worried": "Zmartwiony/a",
       "heading": "Monitor nastroju",
       "mood_tracker": "Monitor nastroju",
+      "how_it_works": "Jak to działa",
       "additional_comment_placeholder": "Co sprawiło, że tak się poczułeś/aś?",
       "submit_mood_track": "Prześlij",
       "add_mood_tracker_success": "Twój codzienny nastrój został pomyślnie dodany",
       "subheading": "",
       "emergency_button_label": "",
-      "emergency_label": "Does this relate to a life event or critical situation?"
+      "emergency_label": "Does this relate to a life event or critical situation?",
+      "recommendations": "Rekomendacje",
+      "recommendations_text": "Chcesz zobaczyć wykres swojego nastroju i polecane treści?",
+      "check_out": "Zobacz"
     },
     "mood-track-history": {
       "saturday": "Sob.",
@@ -231,7 +237,16 @@
       "you_felt": "Poczułeś/aś",
       "comment_text": "i skomentowałeś/aś:",
       "no_result": "Nie znaleziono żadnych wyników.",
-      "critical_text": "Related to a life event or critical situation"
+      "critical_text": "Related to a life event or critical situation",
+      "recommendations": "Rekomendacje w zależności od nastroju",
+      "articles": "Artykuły",
+      "videos": "Filmy",
+      "podcasts": "Podcasty",
+      "read_more": "Czytaj więcej",
+      "by": "autor: {{creator}}",
+      "min_read": "min czytania",
+      "view_more": "Zobacz więcej",
+      "no_recommendations": "Nie znaleziono żadnych rekomendacji"
     },
     "notification-preferences": {
       "email": "Powiadomienia email",
@@ -594,6 +609,7 @@
       "language_button_label": "Zmień język",
       "dark_mode_button_label": "Tryb ciemny",
       "light_mode_button_label": "Tryb jasny",
+      "high_contrast_mode": "Tryb wysokiego kontrastu",
       "user_guide": "Wykorzystanie platformy"
     },
     "welcome": {
@@ -885,7 +901,9 @@
       "read_more": "Czytaj więcej",
       "min_read": "min czytać",
       "by": "Przez {{creator}}",
-      "check_article": "Cześć, sprawdź ten artykuł"
+      "check_article": "Cześć, sprawdź ten artykuł",
+      "share_success": "Artykuł został udostępniony",
+      "download_success": "Artykuł został pobrany"
     },
     "articles-screen": {
       "heading_default": "Wszystkie artykuły",
@@ -945,7 +963,10 @@
       "sponsored_by": "Ta sesja jest sponsorowana przez: <0>{{sponsorName}}<0>",
       "consultation_end_reminder": "Konsultacja zakończy się w ciągu {{minutes}} minut",
       "consultation_in_progress": "Konsultacja w toku",
-      "microphone_active": "Twój mikrofon i odtwarzanie multimediów są aktywne."
+      "microphone_active": "Twój mikrofon i odtwarzanie multimediów są aktywne.",
+      "cancel_confirmation_heading": "Czy na pewno chcesz opuścić konsultację?",
+      "cancel_confirmation_cta": "Opuść konsultację",
+      "cancel_confirmation_secondary_cta": "Zostań"
     },
     "consultations-screen": {
       "heading": "Konsultacje",
@@ -982,7 +1003,8 @@
       "october": "Październik",
       "november": "Listopad",
       "december": "Grudzień",
-      "explore": "Odkryj"
+      "explore": "Odkryj",
+      "join_button_label_tooltip": "Możesz dołączyć do konsultacji 5 minut przed rozpoczęciem"
     },
     "forgot-password-screen": {
       "heading": "Wpisz swój adres email, aby zresetować hasło"
@@ -1005,7 +1027,8 @@
       "heading": "Monitor nastroju",
       "subheading": "Tutaj możesz śledzić swój nastrój i postępy ",
       "emergency_button_label": "Pomoc w nagłych wypadkach",
-      "report": "Generuj raport"
+      "report": "Generuj raport",
+      "how-it-works": "Jak to działa"
     },
     "notification-preferences-screen": {
       "heading": "Ustawienia powiadomień",
@@ -1046,7 +1069,8 @@
       "coupon_paragraph": "Kupony zapewniają bezpłatne sesje i są sponsorowane przez naszych partnerów.",
       "coupon_paragraph_two": "Jeśli otrzymałeś/aś kod kuponu z kampanii w mediach społecznościowych lub od partnera, skopiuj go i wklej poniżej. Po przesłaniu kodu kuponu zobaczysz wszystkich konsultantów, którzy go obsługują i ich dostępność. Kupon może obsługiwać jedną lub więcej sesji. Platforma wskaże, czy kupon wygasł lub osiągnął maksymalną liczbę wykorzystanych sesji.",
       "max_price": "Cena maksymalna",
-      "providers_free_consultation_label": "Tylko bezpłatna konsultacja"
+      "providers_free_consultation_label": "Tylko bezpłatna konsultacja",
+      "coupon_note": "Tym razem wpisaliśmy za Ciebie kod na darmową sesję! Umów się z jednym z naszych konsultantów i zrób pierwszy krok, aby zadbać o swoje samopoczucie."
     },
     "share-platform-screen": {
       "heading": "Udostępnianie aplikacji",
@@ -1329,6 +1353,14 @@
       "confirm": "Yes, delete all my mood tracker data",
       "cancel": "No, keep my mood tracker data",
       "success": "Your mood tracker data has been deleted successfully."
+    },
+    "how-it-works-mood-track": {
+      "heading": "Jak działa rejestrator nastroju",
+      "subheading_1": "Możesz łatwo zapisywać swoje nastroje w ciągu dnia lub w dowolnych, wybranych przez siebie odstępach czasu. Każdy wpis pomaga stworzyć osobistą historię nastroju, co pozwala śledzić zmiany i wzorce w czasie. To szybkie, prywatne i dopasowane do Twojej codziennej rutyny.",
+      "subheading_2": "Podczas zapisywania nastroju możesz opcjonalnie oznaczyć go jako szczególne lub ważne wydarzenie życiowe. Możesz też dodać komentarze, aby uchwycić myśli lub szczegóły związane z daną chwilą. To pomaga nadać więcej kontekstu historii Twojego nastroju.",
+      "subheading_3": "Wykres pokaże Twoje zarejestrowane nastroje według daty i godziny, pomagając wizualizować Twoje emocjonalne trendy. Poniżej znajdziesz polecane treści dopasowane do Twojego ostatniego wpisu nastroju – dla wsparcia i lepszego zrozumienia.",
+      "subheading_4": "Klikając konkretne wydarzenie, możesz zobaczyć wszystkie komentarze i notatki zarejestrowane w tym momencie, aby lepiej zrozumieć, co wpłynęło na Twój nastrój.",
+      "subheading_5": "Możesz wygenerować raport dla dowolnego zakresu dat i wyeksportować go jako plik CSV, aby łatwo przeglądać lub udostępniać dane o nastroju, gdy zajdzie taka potrzeba."
     }
   },
   "navigation": {

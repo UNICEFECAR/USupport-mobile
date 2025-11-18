@@ -15,7 +15,7 @@ import { useGetTheme } from "#hooks";
  * @return {jsx}
  */
 export const MoodTrackDetails = ({ mood, handleClose, t = { t } }) => {
-  const { colors } = useGetTheme();
+  const { colors, isHighContrast } = useGetTheme();
   const dateText = `${
     mood.time.getDate() > 9 ? mood.time.getDate() : `0${mood.time.getDate()}`
   }.${
@@ -60,7 +60,9 @@ export const MoodTrackDetails = ({ mood, handleClose, t = { t } }) => {
           {t(mood.mood)} {t("comment_text")}
         </AppText>
       </View>
-      <AppText style={styles.commentText}>{mood.comment}</AppText>
+      <AppText style={[styles.commentText, styles.commentTextHC]}>
+        {mood.comment}
+      </AppText>
       {mood.isCritical && (
         <AppText style={styles.criticalText}>{t("critical_text")}</AppText>
       )}
@@ -99,6 +101,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 12,
     width: "100%",
+  },
+  commentTextHC: {
+    color: "#fff",
+  },
+  closeIcon: {
+    position: "absolute",
+    right: 20,
+    top: 20,
   },
 });
 

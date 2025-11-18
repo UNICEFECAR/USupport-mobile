@@ -150,11 +150,12 @@ export const generatePDF = async ({ articleData, t }) => {
     `;
 
     // Generate PDF
+    const fileName = `${articleData.title.replace(/[^a-z0-9]/gi, "_").toLowerCase()}_${Date.now()}.pdf`;
     const options = {
       html: htmlContent,
-      fileName: `${articleData.title.replace(/[^a-z0-9]/gi, "_").toLowerCase()}.pdf`,
+      fileName: fileName,
       directory: Platform.OS === "ios" ? "Documents" : "Download",
-      base64: false,
+      base64: true,
     };
 
     const file = await RNHTMLtoPDF.convert(options);

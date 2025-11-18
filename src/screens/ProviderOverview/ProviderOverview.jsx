@@ -11,6 +11,7 @@ import {
   useGetClientData,
   useBlockSlot,
   useScheduleConsultation,
+  useAddCountryEvent,
 } from "#hooks";
 import { Context } from "#services";
 import { parseUTCDate } from "#utils";
@@ -29,6 +30,8 @@ export const ProviderOverview = ({ navigation, route }) => {
   const queryClient = useQueryClient();
   const { activeCoupon, setActiveCoupon } = useContext(Context);
   const { bottom: bottomInset } = useSafeAreaInsets();
+
+  const addCountryEventMutation = useAddCountryEvent();
 
   const providerId = route.params.providerId;
 
@@ -53,6 +56,9 @@ export const ProviderOverview = ({ navigation, route }) => {
     if (!clientData.dataProcessing) {
       openRequireDataAgreement();
     } else {
+      addCountryEventMutation.mutate({
+        eventType: "mobile_schedule_button_click",
+      });
       setIsScheduleBackdropOpen(true);
     }
   };

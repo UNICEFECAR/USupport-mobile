@@ -29,6 +29,7 @@ import {
   useRescheduleConsultation,
   useGetClientData,
   useKeyboard,
+  useAddCountryEvent,
 } from "#hooks";
 
 import { parseUTCDate } from "#utils";
@@ -48,6 +49,7 @@ export const Consultations = ({ navigation }) => {
   const { isTmpUser, handleRegistrationModalOpen, currencySymbol } =
     useContext(Context);
 
+  const addCountryEventMutation = useAddCountryEvent();
   const queryClient = useQueryClient();
 
   const clientDataQuery = useGetClientData()[0];
@@ -175,11 +177,19 @@ export const Consultations = ({ navigation }) => {
     } else if (!clientData?.dataProcessing) {
       openRequireDataAgreement();
     } else {
+      addCountryEventMutation.mutate({
+        eventType: "mobile_schedule_button_click",
+      });
       navigation.push("SelectProvider");
     }
   };
 
-  const handleDataAgreementSucess = () => navigation.navigate("SelectProvider");
+  const handleDataAgreementSucess = () => {
+    addCountryEventMutation.mutate({
+      eventType: "mobile_schedule_button_click",
+    });
+    navigation.navigate("SelectProvider");
+  };
 
   const isSelectConsultationLoading =
     rescheduleConsultationMutation.isLoading || blockSlotMutation.isLoading;

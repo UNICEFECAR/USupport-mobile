@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
 import Markdown from "react-native-markdown-display";
 import { useQueryClient } from "@tanstack/react-query";
 import Share from "react-native-share";
@@ -11,7 +17,7 @@ import { appStyles } from "#styles";
 
 import { useGetTheme, useAddContentRating } from "#hooks";
 import { cmsSvc } from "#services";
-import { constructShareUrl, generatePDF } from "#utils";
+import { constructShareUrl, generatePDF, showToast } from "#utils";
 
 const { AMAZON_S3_BUCKET } = Config;
 
@@ -23,7 +29,7 @@ const { AMAZON_S3_BUCKET } = Config;
  * @return {jsx}
  */
 export const ArticleView = ({ articleData, isTmpUser }) => {
-  const { t } = useTranslation("article-information");
+  const { t } = useTranslation("screens", { keyPrefix: "article-information" });
   const { colors } = useGetTheme();
   const queryClient = useQueryClient();
 
@@ -110,7 +116,7 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
   };
   const onError = (error, rollback) => {
     rollback();
-    toast.error(error);
+    showToast({ message: error, type: "error" });
   };
 
   const onSuccess = () => {
@@ -138,15 +144,23 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
   };
 
   const handleShare = async () => {
-    const url = await constructShareUrl({
-      contentType: "article",
-      id: articleData.id,
-      name: articleData.title,
-    });
-    Share.open({
-      title: articleData.title,
-      message: `${t("check_article")}\n\n${url}`,
-    });
+    try {
+      const url = await constructShareUrl({
+        contentType: "article",
+        id: articleData.id,
+        name: articleData.title,
+      });
+      await Share.open({
+        title: articleData.title,
+        message: `${t("check_article")}\n\n${url}`,
+      });
+      // If Share.open resolves without throwing, the share was successful
+      showToast({ message: t("share_success"), type: "success" });
+    } catch (error) {
+      if (error.message && !error.message.includes("User did not share")) {
+        console.log("Share error:", error);
+      }
+    }
   };
   const [isPdfLoading, setIsPdfLoading] = useState(false);
   const handleExportPDF = async () => {
@@ -156,17 +170,72 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
         articleData,
         t,
       });
-      if (file.filePath) {
-        Share.open({
+
+      console.log("PDF file object:", file);
+
+      if (file && (file.base64 || file.filePath)) {
+        // Android: consider PDF generated => downloaded; show toast now.
+        if (Platform.OS === "android") {
+          showToast({
+            message: t("download_success"),
+            type: "success",
+          });
+        }
+        // Prefer file path on iOS, base64 on Android if available
+        let url;
+        if (Platform.OS === "ios") {
+          if (file.filePath) {
+            url = file.filePath.startsWith("file://")
+              ? file.filePath
+              : `file://${file.filePath}`;
+          } else if (file.base64) {
+            url = `data:application/pdf;base64,${file.base64}`;
+          }
+        } else {
+          if (file.base64) {
+            url = `data:application/pdf;base64,${file.base64}`;
+          } else if (file.filePath) {
+            url = file.filePath.startsWith("file://")
+              ? file.filePath
+              : `file://${file.filePath}`;
+          }
+        }
+        const shareOptions = {
           title: articleData.title,
-          message: "Here's the PDF version of the article",
-          url: `file://${file.filePath}`,
-          saveToFiles: true,
+          subject: articleData.title,
+          url,
           type: "application/pdf",
-        });
+          saveToFiles: Platform.OS === "ios",
+          // iOS: detect cancel as an error so we can avoid showing the toast
+          // Android: do not fail on cancel to avoid false negatives
+          failOnCancel: Platform.OS === "ios",
+        };
+        try {
+          await Share.open(shareOptions);
+          // iOS: show toast only after user completes a share/save action
+          if (Platform.OS === "ios") {
+            showToast({
+              message: t("download_success"),
+              type: "success",
+            });
+          }
+        } catch (shareError) {
+          if (
+            shareError?.message &&
+            !shareError.message.includes("User did not share")
+          ) {
+            console.log("Share PDF error:", shareError);
+          }
+        }
+      } else {
+        console.error("PDF file path is missing");
       }
     } catch (error) {
       console.error("Error exporting PDF:", error);
+      if (error?.message && error.message.includes("User did not share")) {
+        return;
+      }
+      console.error("Failed to export/share PDF:", error);
     } finally {
       setIsPdfLoading(false);
     }
@@ -200,7 +269,9 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
         </View>
 
         <View style={styles.creatorContainer}>
-          <AppText namedStyle="smallText">By {articleData.creator}</AppText>
+          <AppText namedStyle="smallText">
+            {t("by", { creator: articleData.creator })}
+          </AppText>
           <Icon
             size="sm"
             name="time"
@@ -208,7 +279,7 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
             style={styles.iconTime}
           />
           <AppText namedStyle="smallText">
-            {articleData.readingTime} min read
+            {[articleData.readingTime, t("min_read")].join(" ")}
           </AppText>
           <View style={styles.actionButtons}>
             <TouchableOpacity
@@ -217,7 +288,7 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
               disabled={isPdfLoading}
             >
               {isPdfLoading ? (
-                <Loading style={{ width: 16, height: 16 }} />
+                <Loading style={styles.loading} />
               ) : (
                 <Icon name="download" size="sm" color={colors.text} />
               )}
@@ -227,7 +298,7 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
+        <View style={styles.rowStart}>
           <View style={styles.labelsContainer}>
             {articleData.labels.map((label, index) => {
               return (
@@ -285,47 +356,48 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
 };
 
 const styles = StyleSheet.create({
-  block: { paddingBottom: 40, paddingTop: 16 },
-  imageContainer: { width: "100%", height: 264, position: "relative" },
-  image: { flex: 1 },
-
-  labelsContainer: {
-    display: "flex",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    width: "70%",
-  },
-  label: { marginRight: 8, marginBottom: 8, paddingVertical: 0 },
-  creatorContainer: {
-    flexDirection: "row",
-    marginVertical: 8,
-    alignItems: "center",
-  },
-  iconTime: { marginLeft: 16, marginRight: 5 },
-  categoryContainer: {
-    alignSelf: "flex-start",
-    marginTop: 12,
-    backgroundColor: appStyles.colorBlue_20809E_0_3,
-    paddingHorizontal: 12,
-    paddingVertical: 2,
-    borderRadius: 25,
-    justifyContent: "center",
-  },
-  categoryText: {
-    fontFamily: appStyles.fontBold,
-    color: appStyles.colorBlue_3d527b,
+  actionButton: {
+    borderColor: appStyles.colorBlue_3d527b,
+    borderRadius: 10,
+    borderWidth: 1,
+    marginLeft: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
   },
   actionButtons: {
     flexDirection: "row",
     marginLeft: "auto",
     marginRight: 16,
   },
-  actionButton: {
-    marginLeft: 16,
-    borderWidth: 1,
-    borderColor: appStyles.colorBlue_3d527b,
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
+  block: { paddingBottom: 40, paddingTop: 16 },
+  categoryContainer: {
+    alignSelf: "flex-start",
+    backgroundColor: appStyles.colorBlue_20809E_0_3,
+    borderRadius: 25,
+    justifyContent: "center",
+    marginTop: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 2,
   },
+  categoryText: {
+    color: appStyles.colorBlue_3d527b,
+    fontFamily: appStyles.fontBold,
+  },
+  creatorContainer: {
+    alignItems: "center",
+    flexDirection: "row",
+    marginVertical: 8,
+  },
+  iconTime: { marginLeft: 16, marginRight: 5 },
+  image: { flex: 1 },
+  imageContainer: { height: 264, position: "relative", width: "100%" },
+  label: { marginBottom: 8, marginRight: 8, paddingVertical: 0 },
+  labelsContainer: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    width: "70%",
+  },
+  loading: { height: 16, width: 16 },
+  rowStart: { alignItems: "flex-start", flexDirection: "row" },
 });

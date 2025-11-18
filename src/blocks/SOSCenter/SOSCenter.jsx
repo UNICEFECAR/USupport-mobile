@@ -3,7 +3,13 @@ import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { View, StyleSheet } from "react-native";
 
-import { Block, Loading, EmergencyCenter, AppText } from "#components";
+import {
+  AppButton,
+  AppText,
+  Block,
+  Loading,
+  EmergencyCenter,
+} from "#components";
 
 import { useEventListener, useAddSosCenterClick } from "#hooks";
 import { localStorage, cmsSvc, adminSvc, clientSvc } from "#services";
@@ -119,20 +125,30 @@ export const SOSCenter = ({ navigation }) => {
       {SOSCentersData && (
         <View style={styles.emergencyCenterContainer}>
           {IS_RO && (
-            <EmergencyCenter
-              onPress={() => {
-                navigation.navigate("TabNavigation", {
-                  screen: "Consultations",
-                  params: {
-                    specialisations: [emergencyServiceSpecialization.id],
-                  },
-                });
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
               }}
-              title={t("other_emergency_services")}
-              text={emergencyServiceSpecialization.description}
-              showCustomButton
-              btnLabelCustom={t("browse")}
-            />
+            >
+              <AppText namedStyle="h4" isSemibold>
+                {t("other_emergency_services")}
+              </AppText>
+              <AppButton
+                color="purple"
+                label={t("browse")}
+                style={{ width: "auto", alignSelf: "center" }}
+                onPress={() =>
+                  navigation.navigate("TabNavigation", {
+                    screen: "Consultations",
+                    params: {
+                      specialisations: [emergencyServiceSpecialization.id],
+                    },
+                  })
+                }
+              />
+            </View>
           )}
           {SOSCentersData.map((sosCenter, index) => {
             return (

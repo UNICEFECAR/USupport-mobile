@@ -33,6 +33,7 @@ import {
   useGetAllConsultations,
   useMarkAllNotificationsAsRead,
   useGetClientData,
+  useGetTheme,
 } from "#hooks";
 
 /**
@@ -48,6 +49,7 @@ export const Notifications = ({
   openRequireDataAgreement,
 }) => {
   const { t } = useTranslation("blocks", { keyPrefix: "notifications" });
+  const { isHighContrast } = useGetTheme();
 
   const queryClient = useQueryClient();
 
@@ -664,8 +666,18 @@ export const Notifications = ({
 
   const MarkAllAsReadButton = () => {
     return (
-      <TouchableOpacity onPress={handleMarkAllAsRead}>
-        <AppText style={styles.markAllAsReadButton}>{t("mark_read")}</AppText>
+      <TouchableOpacity
+        onPress={handleMarkAllAsRead}
+        style={styles.markAllAsReadButtonContainer}
+      >
+        <AppText
+          style={[
+            styles.markAllAsReadButton,
+            isHighContrast ? styles.markAllAsReadButtonHC : {},
+          ]}
+        >
+          {t("mark_read")}
+        </AppText>
       </TouchableOpacity>
     );
   };
@@ -676,9 +688,10 @@ export const Notifications = ({
         heading={t("heading")}
         subheading={t("subheading")}
         handleGoBack={() => navigation.goBack()}
-        buttonComponent={<MarkAllAsReadButton />}
+        // buttonComponent={<MarkAllAsReadButton />}
       />
       <View style={styles.flashListWrapper}>
+        <MarkAllAsReadButton />
         <FlashList
           ListEmptyComponent={
             isLoadingProviders ? (
@@ -731,9 +744,27 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     width: "100%",
   },
+  loadingContainer: {
+    alignItems: "center",
+    paddingTop: 40,
+    width: "100%",
+  },
   markAllAsReadButton: {
     color: appStyles.colorSecondary_9749fa,
     fontFamily: appStyles.fontSemiBold,
+  },
+  markAllAsReadButton: {
+    color: appStyles.colorSecondary_9749fa,
+    fontFamily: appStyles.fontSemiBold,
+  },
+  markAllAsReadButtonContainer: {
+    alignItems: "flex-end",
+    paddingHorizontal: 16,
+  },
+  markAllAsReadButtonHC: {
+    color: appStyles.colorWhite_ff,
+    textDecoration: "underline",
+    textDecorationColor: appStyles.colorWhite_ff,
   },
   paddingBottom200: { paddingBottom: 200 },
   suggestButton: { minWidth: 120 },

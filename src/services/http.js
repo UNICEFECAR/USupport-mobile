@@ -19,16 +19,23 @@ axios.interceptors.request.use(async (config) => {
   config.headers["x-platform"] = "client";
 
   const requestURI = axios.getUri(config) || "VITE CMS API URL";
-  console.log("requestURI", requestURI);
   if (!requestURI.includes(CMS_API_URL_ENDPOINT)) {
     const token = await localStorage.getItem("token");
-    config.headers["Authorization"] = `Bearer ${token}`;
+    const visitorId = await localStorage.getItem("visitorId");
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+    if (visitorId) {
+      config.headers["x-visitor-id"] = visitorId;
+    }
   }
-
   return config;
 });
 
 const interceptError = async (error) => {
+  if (error.config) {
+    console.error("Errored request URL: ", error.config.url);
+  }
   if (error?.response?.status === 401) {
     if (error.response?.data.error.name === "REFRESH TOKEN NOT VALID") {
       localStorage.removeItem("token");

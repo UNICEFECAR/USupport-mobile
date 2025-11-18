@@ -13,9 +13,13 @@ import {
   Input,
   Toggle,
 } from "#components";
+
 import { SelectProvider as SelectProviderBlock } from "#blocks";
+
 import { FilterProviders } from "#backdrops";
-import { useGetProvidersData, useError } from "#hooks";
+
+import { useGetProvidersData, useError, useAddCountryEvent } from "#hooks";
+
 import {
   Context,
   clientSvc,
@@ -31,6 +35,11 @@ const fetchCountry = async () => {
   return currentCountry?.alpha2 === "KZ" ? true : false;
 };
 
+const POLAND_COUPON = {
+  couponValue: "UNICEF2025",
+  campaignId: "f035657b-daa7-417a-9784-959b042473e7",
+};
+
 /**
  * SelectProvider
  *
@@ -42,9 +51,12 @@ export const SelectProvider = ({ navigation }) => {
   const { t } = useTranslation("screens", {
     keyPrefix: "select-provider-screen",
   });
+  const addCountryEventMutation = useAddCountryEvent();
   const queryClient = useQueryClient();
 
-  const { activeCoupon, setActiveCoupon } = useContext(Context);
+  const { activeCoupon, setActiveCoupon, country } = useContext(Context);
+
+  const IS_PL = country === "PL";
 
   const { data: isKzCountry } = useQuery(["country-min-price"], fetchCountry);
 
@@ -62,6 +74,11 @@ export const SelectProvider = ({ navigation }) => {
       setShowCoupon(country !== "KZ");
       setShowPrices(country !== "KZ" && country !== "PL");
     });
+
+    if (IS_PL) {
+      setCouponValue(POLAND_COUPON.couponValue);
+      setActiveCoupon(POLAND_COUPON);
+    }
   }, []);
 
   const { data: languages } = useQuery(["languages"], async () => {
@@ -203,6 +220,7 @@ export const SelectProvider = ({ navigation }) => {
               showCoupon={showCoupon}
               showPrices={showPrices}
               isToggleDisabled={isKzCountry}
+              IS_PL={IS_PL}
             />
           </>
         }
@@ -253,6 +271,7 @@ const FiltersBlock = ({
   showCoupon,
   showPrices,
   isToggleDisabled,
+  IS_PL,
 }) => {
   const [data, setData] = useState({
     maxPrice: "",
@@ -273,7 +292,7 @@ const FiltersBlock = ({
   return (
     <View style={{ paddingBottom: 20 }}>
       <View style={styles.buttonContainer}>
-        {showCoupon && (
+        {showCoupon && IS_PL && (
           <AppButton
             label={
               activeCoupon ? t("remove_coupon_label") : t("button_coupon_label")
@@ -292,6 +311,11 @@ const FiltersBlock = ({
           onPress={handleFilterClick}
         />
       </View>
+      {showCoupon && (
+        <AppText style={{ paddingTop: 18 }} namedStyle="smallText">
+          {t("coupon_note")}
+        </AppText>
+      )}
       <View style={[styles.buttonContainer]}>
         {/* <Toggle
           isToggled={allFilters.onlyFreeConsultation}

@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 
 import { Block, Heading, Dropdown, Textarea, AppButton } from "#components";
 
-import { useSendIssueEmail } from "#hooks";
+import { useSendIssueEmail, useGetClientData } from "#hooks";
 
 import { Context } from "#services";
 
@@ -34,29 +34,29 @@ export const ContactUs = ({ navigation }) => {
   const { t } = useTranslation("blocks", { keyPrefix: "contact-us-block" });
   const [data, setData] = useState({ ...initialData });
 
-  const { country } = useContext(Context);
+  const { country, isTmpUser } = useContext(Context);
 
   const IS_PL = country === "PL";
 
   const [issues, setIssues] = useState([
     {
       label: t(IS_PL ? "contact_reason_1_pl" : "contact_reason_1"),
-      value: IS_PL ? "reason-1_pl" : "reason-1",
+      value: "information",
       selected: false,
     },
     {
       label: t(IS_PL ? "contact_reason_2_pl" : "contact_reason_2"),
-      value: IS_PL ? "reason-2_pl" : "reason-2",
+      value: "services-information",
       selected: false,
     },
     {
       label: t(IS_PL ? "contact_reason_3_pl" : "contact_reason_3"),
-      value: IS_PL ? "reason-3_pl" : "reason-3",
+      value: "technical_problem",
       selected: false,
     },
     {
       label: t(IS_PL ? "contact_reason_4_pl" : "contact_reason_4"),
-      value: IS_PL ? "reason-4_pl" : "reason-4",
+      value: "other",
       selected: false,
     },
   ]);
@@ -64,6 +64,11 @@ export const ContactUs = ({ navigation }) => {
   const [canSubmit, setCanSubmit] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+
+  const [clientDataQuery] = useGetClientData(!isTmpUser);
+
+  const clientData = clientDataQuery?.data;
+  const email = clientData?.email || "";
 
   const schema = Joi.object({
     issue: Joi.string().label(t("issue_error")),
@@ -124,9 +129,11 @@ export const ContactUs = ({ navigation }) => {
       };
       if ((await validate(dataToValidate, schema, setErrors)) === null) {
         const payload = {
-          subject: "Technical issue",
+          subjectValue: data.issue,
+          subjectLabel: t("contact_form"),
           title: issues.find((x) => x.value === data.issue)?.label,
           text: data.message,
+          email,
         };
         sendIssueEmailMutation.mutate(payload);
       }

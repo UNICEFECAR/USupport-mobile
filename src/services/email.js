@@ -13,11 +13,12 @@ const API_ENDPOINT = `${API_URL_ENDPOINT}/v1/email`;
  *
  * @returns {boolean} false if there was a problem with the email
  */
-async function sendAdmin({ subject, title, text }) {
+async function sendAdmin({ subject, title, text, email }) {
   const response = await http.post(`${API_ENDPOINT}/admin`, {
     subject,
     title,
     text,
+    email,
   });
 
   return response;

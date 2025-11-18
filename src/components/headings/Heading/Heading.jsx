@@ -19,7 +19,7 @@ export const Heading = ({
   style,
   wrapperStyle,
 }) => {
-  const { colors } = useGetTheme();
+  const { colors, isHighContrast } = useGetTheme();
 
   return (
     <View
@@ -37,7 +37,7 @@ export const Heading = ({
             <Icon
               style={styles.backArrow}
               name="arrow-chevron-back"
-              color={appStyles.colorPrimary_20809e}
+              color={isHighContrast ? "#fff" : appStyles.colorPrimary_20809e}
             />
           </TouchableOpacity>
         )}
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     top: 0,
     zIndex: 3,
     width: appStyles.screenWidth,
-    paddingLeft: 16,
+    paddingHorizontal: 16,
   },
   container: {
     alignItems: "center",
@@ -84,14 +84,14 @@ const styles = StyleSheet.create({
     paddingTop: 16,
   },
   backArrow: {
-    marginRight: 16,
+    marginRight: 10,
   },
   heading: {
-    marginRight: 12,
+    marginRight: 8,
   },
   button: {
     marginLeft: "auto",
-    maxWidth: "50%",
+    maxWidth: "40%",
     marginRight: 8,
     // marginLeft: 12,
   },

@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useCallback, useContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useContext,
+  useMemo,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
@@ -59,8 +65,6 @@ export const ArticlesDashboard = ({
     return !!category.isSelected;
   });
 
-  const selectedAgeGroupId = selectedAgeGroup?.id;
-
   const isPLCountry = country === "PL";
   const hardcodedAgeGroupId = isPLCountry
     ? PL_LANGUAGE_AGE_GROUP_IDS[usersLanguage]
@@ -89,6 +93,7 @@ export const ArticlesDashboard = ({
   //--------------------- Age Groups ----------------------//
   const [ageGroups, setAgeGroups] = useState();
   const [selectedAgeGroup, setSelectedAgeGroup] = useState();
+  const selectedAgeGroupId = selectedAgeGroup?.id;
 
   const getAgeGroups = async () => {
     if (shouldUseHardcodedAgeGroup) {
@@ -132,6 +137,9 @@ export const ArticlesDashboard = ({
 
     for (let i = 0; i < ageGroupsCopy.length; i++) {
       if (i === index) {
+        if (!ageGroupsCopy[i].isSelected) {
+          handleCategoryOnPress(0);
+        }
         ageGroupsCopy[i].isSelected = true;
         setSelectedAgeGroup(ageGroupsCopy[i]);
       } else {
@@ -186,20 +194,6 @@ export const ArticlesDashboard = ({
     }
   );
 
-  const handleCategoryOnPress = (index) => {
-    const categoriesCopy = [...allCategories];
-
-    for (let i = 0; i < categoriesCopy.length; i++) {
-      if (i === index) {
-        categoriesCopy[i].isSelected = true;
-        handleCategorySelect(categoriesCopy[i]);
-      } else {
-        categoriesCopy[i].isSelected = false;
-      }
-    }
-    handleSetCategories(categoriesCopy);
-  };
-
   const getArticlesIds = async () => {
     // Request articles ids from the master DB based for website platform
     const articlesIds = await adminSvc.getArticles();
@@ -207,7 +201,56 @@ export const ArticlesDashboard = ({
     return articlesIds;
   };
 
-  const articleIdsQuerry = useQuery(["articleIds"], getArticlesIds);
+  const articleIdsQuerry = useQuery(
+    ["articleIds", selectedAgeGroupId],
+    getArticlesIds
+  );
+
+  const { data: articleCategoryIdsToShow } = useQuery(
+    [
+      "articles-category-ids",
+      usersLanguage,
+      articleIdsQuerry.data,
+      selectedAgeGroupId,
+    ],
+    () =>
+      cmsSvc.getArticleCategoryIds(
+        usersLanguage,
+        selectedAgeGroupId,
+        articleIdsQuerry.data
+      ),
+    {
+      enabled: !!articleIdsQuerry.data && !!selectedAgeGroupId,
+    }
+  );
+
+  const categoriesToShow = useMemo(() => {
+    if (!allCategories || !articleCategoryIdsToShow) return [];
+
+    const filtered = allCategories.filter(
+      (category) =>
+        articleCategoryIdsToShow.includes(category.id) ||
+        category.value === "all"
+    );
+
+    return filtered;
+  }, [allCategories, articleCategoryIdsToShow]);
+
+  const handleCategoryOnPress = (index) => {
+    const categoriesCopy = [...allCategories];
+
+    const clicked = categoriesToShow[index];
+    for (let i = 0; i < categoriesCopy.length; i++) {
+      const cat = categoriesCopy[i];
+      if (cat.id === clicked.id) {
+        cat.isSelected = true;
+        handleCategorySelect(cat);
+      } else {
+        cat.isSelected = false;
+      }
+    }
+    handleSetCategories(categoriesCopy);
+  };
 
   //--------------------- Newest Article ----------------------//
 
@@ -270,6 +313,10 @@ export const ArticlesDashboard = ({
     }
   );
 
+  const availableCategories = useMemo(() => {
+    return categoriesToShow.map((category) => category.id).filter((id) => !!id);
+  }, [categoriesToShow]);
+
   //--------------------- Use Recommended Articles Hook ----------------------//
   const {
     articles,
@@ -284,6 +331,7 @@ export const ArticlesDashboard = ({
       : selectedAgeGroup?.id && !ageGroupsQuery.isLoading,
     categoryIdFilter: selectedCategory?.id || null,
     sortFilter: "read_count",
+    availableCategories,
   });
 
   const articlesToTransform = isTmpUser ? newestArticles : articles;
@@ -305,14 +353,12 @@ export const ArticlesDashboard = ({
 
   return (
     <>
-      <Block style={styles.headingBlock}>
-        <View style={styles.headingContainer}>
-          <AppText namedStyle="h3">{t("heading")}</AppText>
-          <TouchableOpacity onPress={() => handleRedirect("read_count")}>
-            <AppText style={styles.viewAllText}>{t("view_all")}</AppText>
-          </TouchableOpacity>
-        </View>
-      </Block>
+      <Block
+        style={styles.headingBlock}
+        heading={t("heading")}
+        btnLabel={t("view_all")}
+        btnOnPress={() => handleRedirect("read_count")}
+      />
       {ageGroupsQuery?.isLoading && (
         <View style={styles.container}>
           <Loading />
@@ -330,7 +376,7 @@ export const ArticlesDashboard = ({
 
           {allCategories?.length > 1 && (
             <Tabs
-              options={allCategories}
+              options={categoriesToShow}
               handleSelect={handleCategoryOnPress}
               style={styles.tabs}
               t={t}
@@ -411,15 +457,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   headingBlock: { paddingTop: 40 },
-  headingContainer: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
   tabs: { marginTop: 24, zIndex: 2 },
   tabsUnderlined: { marginTop: 12 },
-  viewAllText: {
-    color: appStyles.colorSecondary_9749fa,
-    fontFamily: appStyles.fontSemiBold,
-  },
 });

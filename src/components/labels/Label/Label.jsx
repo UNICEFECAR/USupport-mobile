@@ -3,6 +3,7 @@ import { View, StyleSheet, Pressable } from "react-native";
 import { AppText } from "../../texts/AppText/AppText";
 
 import { appStyles } from "#styles";
+import { useGetTheme } from "#hooks";
 
 /**
  * Label
@@ -12,10 +13,15 @@ import { appStyles } from "#styles";
  * @return {jsx}
  */
 export const Label = ({ text, onPress, style, textStyle }) => {
+  const { isHighContrast } = useGetTheme();
+
   return (
     <Pressable onPress={onPress}>
       <View style={[styles.label, style]}>
-        <AppText namedStyle="textSmall" style={[styles.text, textStyle]}>
+        <AppText
+          namedStyle="textSmall"
+          style={[styles.text, isHighContrast && styles.textHC, textStyle]}
+        >
           {text}
         </AppText>
       </View>
@@ -37,4 +43,5 @@ const styles = StyleSheet.create({
     width: "auto",
   },
   text: { color: appStyles.colorPrimary_20809e },
+  textHC: { color: "#fff" },
 });

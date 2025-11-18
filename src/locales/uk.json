@@ -72,6 +72,7 @@
       "live_text": "Зараз",
       "accept_button_label": "Погодитись на консультацію",
       "join_button_label": "Приєднатись",
+      "join_button_label_tooltip": "Ви можете приєднатися до консультації за 5 хвилин до початку",
       "change_button_label": "Змінити",
       "ordinal_st": "-ий",
       "ordinal_nd": "-ий",
@@ -119,7 +120,8 @@
       "registration_needed": "Для запису на консультацію треба зареєструватися.",
       "free": "Безкоштовно",
       "button_label": "",
-      "emergency_button_label": ""
+      "emergency_button_label": "",
+      "join_button_label_tooltip": "Ви можете приєднатися до консультації за 5 хвилин до початку"
     },
     "contact-us-block": {
       "heading": "Зв'яжися з нами",
@@ -214,12 +216,16 @@
       "worried": "Схвильованим/ою",
       "heading": "Монітор настрою",
       "mood_tracker": "Монітор настрою",
+      "how_it_works": "Як це працює",
       "additional_comment_placeholder": "Що є причиною того, що ти себе так почуваєш?",
       "submit_mood_track": "Надішли",
       "add_mood_tracker_success": "Щоденний настрій додано",
       "subheading": "",
       "emergency_button_label": "",
-      "emergency_label": "Does this relate to a life event or critical situation?"
+      "emergency_label": "Does this relate to a life event or critical situation?",
+      "recommendations": "Рекомендації",
+      "recommendations_text": "Хочете переглянути графік настрою та побачити рекомендований контент?",
+      "check_out": "Переглянути"
     },
     "mood-track-history": {
       "saturday": "Сб",
@@ -231,7 +237,16 @@
       "you_felt": "Ти відчув/ла себе",
       "comment_text": "і прокоментув/ла:",
       "no_result": "Жодних результатів не знайденою",
-      "critical_text": "Related to a life event or critical situation"
+      "critical_text": "Related to a life event or critical situation",
+      "recommendations": "Рекомендації відповідно до вашого настрою",
+      "articles": "Статті",
+      "videos": "Відео",
+      "podcasts": "Подкасти",
+      "read_more": "Читати більше",
+      "by": "від {{creator}}",
+      "min_read": "хв читання",
+      "view_more": "Переглянути більше",
+      "no_recommendations": "Не знайдено рекомендацій"
     },
     "notification-preferences": {
       "email": "Сповіщення електронною поштою",
@@ -252,7 +267,7 @@
       "consultation_suggestion": "{{providerName}} запропонував/ла консультацію на {{date}} з {{startHour}} до {{endHour}}",
       "consultation_suggestion_booking": "Прийнято запропоновану консультацію від {{providerName}} на {{date}} з {{startHour}} до {{endHour}}",
       "consultation_suggestion_cancellation": "Відхилено запропоновану консультацію з {{providerName}} на {{date}} з {{startHour}} до {{endHour}}",
-      "consultation_started": "Твоя консультація з консультантом/кою  <0>{{providerName}} почалася </0>",
+      "consultation_started": "Твоя консультація з консультантом/кою  <0>{{providerName}} почалася </0>",
       "join": "Приєднайся",
       "accept": "Прийняти",
       "accept_consultation_success": "Консультацію прийнято",
@@ -518,8 +533,8 @@
       "no_results": "Для обраної країни й мови немає результатів.",
       "heading": "",
       "subheading": "",
-      "other_emergency_services": "Alte servicii de urgență",
-      "browse": "Răsfoiește"
+      "other_emergency_services": "„Інші постачальники екстрених служб”",
+      "browse": "Огляд"
     },
     "terms-of-use": {
       "heading": "Умови використання",
@@ -570,7 +585,7 @@
       "living_place_placeholder": "Введи своє місце проживання",
       "error_fetching_data": "При завантаженні даних профілю виникла помилка",
       "parent": "Мати/Батько/Опікун",
-      "delete_mood_tracker": "Очистити історію монітора настрою"
+      "delete_mood_tracker": "Clear mood tracker data"
     },
     "user-profile": {
       "heading": "Твій профіль",
@@ -594,6 +609,7 @@
       "language_button_label": "Змінити мову",
       "dark_mode_button_label": "Темний режим",
       "light_mode_button_label": "Світлий режим",
+      "high_contrast_mode": "Режим високого контраста",
       "user_guide": "Використання платформи"
     },
     "welcome": {
@@ -885,7 +901,9 @@
       "read_more": "Читати далі",
       "min_read": "хв. читання",
       "by": "Від {{creator}}",
-      "check_article": "Привіт, переглянь цю статтю"
+      "check_article": "Привіт, переглянь цю статтю",
+      "share_success": "Статтю успішно поділено",
+      "download_success": "Статтю успішно завантажено"
     },
     "articles-screen": {
       "heading_default": "Всі статті",
@@ -945,7 +963,10 @@
       "sponsored_by": "Ця сесія проходить за підтримки: <0>{{sponsorName}}<0>.",
       "consultation_end_reminder": "Консультація завершиться за {{minutes}} хвилин",
       "consultation_in_progress": "Консультація триває",
-      "microphone_active": "Твій мікрофон і відтворення медіа є активними"
+      "microphone_active": "Твій мікрофон і відтворення медіа є активними",
+      "cancel_confirmation_heading": "Ти впевнений/а, що хочеш вийти з консультації?",
+      "cancel_confirmation_cta": "Вийти з консультації",
+      "cancel_confirmation_secondary_cta": "Залишитися"
     },
     "consultations-screen": {
       "heading": "Консультації",
@@ -982,7 +1003,8 @@
       "october": "Жовтень",
       "november": "Листопад",
       "december": "Грудень",
-      "explore": "Дослідити"
+      "explore": "Дослідити",
+      "join_button_label_tooltip": "Ви можете приєднатися до консультації за 5 хвилин до початку"
     },
     "forgot-password-screen": {
       "heading": "Введи свою електронну пошту для відновлення пароля"
@@ -1005,7 +1027,8 @@
       "heading": "Трекер настрою",
       "subheading": "Тут можна відстежувати свій настрій і прогрес ",
       "emergency_button_label": "Невідкладна допомога",
-      "report": "Сгенерировать отчет"
+      "report": "Сгенерировать отчет",
+      "how_it_works": "Як це працює"
     },
     "notification-preferences-screen": {
       "heading": "Налаштування сповіщень",
@@ -1046,7 +1069,8 @@
       "coupon_paragraph": "Наші партнери спонсорують купони, які забезпечують безкоштовні сесії.",
       "coupon_paragraph_two": "Якщо ти отримав/ла код купона в рамках кампанії в соціальних мережах або від партнера, скопіюй його та встав нижче. Після надсилання коду купона ти побачиш всіх консультантів, які його обслуговують, та їхню доступність. Купон може обслуговувати одну або кілька сесій. Платформа покаже, чи купон втратив чинність або досяг максимальної кількості використаних сесій.",
       "max_price": "Максимальна ціна",
-      "providers_free_consultation_label": "Тільки безкоштовна консультація"
+      "providers_free_consultation_label": "Тільки безкоштовна консультація",
+      "coupon_note": " Цього разу ми ввели за тебе код на безкоштовну сесію! Запишись на зустріч з одним із наших консультантів і зроби перший крок, щоб подбати про своє самопочуття."
     },
     "share-platform-screen": {
       "heading": "Поділися додатком",
@@ -1196,9 +1220,9 @@
       "button_label_2": "Текстова консультація",
       "client_joined": "Клієнт/ка долучився/лася до консультації",
       "error": "Виникла помилка. Cпробуй ще раз",
-      "permissions_error": "Ви не надали дозвіл на використання камери або мікрофона",
-      "permissions_error_subheading": "Щоб приєднатися до консультації, надайте дозвіл на використання камери або мікрофона в налаштуваннях вашого пристрою",
-      "open_settings": "Відкрити налаштування"
+      "permissions_error": "You have not granted permission to use the camera or microphone",
+      "permissions_error_subheading": "Please grant permission to use the camera or microphone from the settings of your device, to join the consultation",
+      "open_settings": "Open settings"
     },
     "select-avatar": {
       "heading": "Зміни фото профілю",
@@ -1324,11 +1348,19 @@
       "secondary_cta_label": "Я не хочу проходити анкету"
     },
     "delete-mood-tracker-history": {
-      "heading": "Ви впевнені, що хочете видалити всі дані трекера настрою?",
-      "subheading": "Цю дію неможливо скасувати.",
-      "confirm": "Так, видалити всі мої дані трекера настрою",
-      "cancel": "Ні, залишити мої дані трекера настрою",
-      "success": "Ваші дані трекера настрою було успішно видалено."
+      "heading": "Are you sure you want to delete all your mood tracker data?",
+      "subheading": "This action is irreversible.",
+      "confirm": "Yes, delete all my mood tracker data",
+      "cancel": "No, keep my mood tracker data",
+      "success": "Your mood tracker data has been deleted successfully."
+    },
+    "how-it-works-mood-track": {
+      "heading": "Як працює трекер настрою",
+      "subheading_1": "Ви можете легко записувати свій настрій протягом дня або у зручні для вас періоди часу. Кожен запис допомагає створити особисту історію настрою, що дозволяє відстежувати зміни та закономірності з часом. Це швидко, конфіденційно та природно вписується у ваш щоденний ритм життя.",
+      "subheading_2": "Під час запису настрою ви можете позначити його як особливу або важливу життєву подію. Також можна додати коментарі, щоб зафіксувати думки чи деталі, пов’язані з цим моментом. Це допомагає краще зрозуміти контекст вашої історії настрою.",
+      "subheading_3": "Діаграма показуватиме ваші записані настрої за датою та часом, допомагаючи візуалізувати емоційні тенденції. Нижче ви знайдете рекомендований контент, адаптований до вашого останнього запису настрою — для підтримки та кращого розуміння.",
+      "subheading_4": "Натиснувши на конкретну подію, ви можете переглянути всі коментарі та нотатки, зроблені в цей момент, щоб глибше зрозуміти, що вплинуло на ваш настрій.",
+      "subheading_5": "Ви можете створити звіт за будь-який обраний період і експортувати його у форматі CSV, щоб легко переглядати або ділитися своїми даними про настрій за потреби."
     }
   },
   "navigation": {

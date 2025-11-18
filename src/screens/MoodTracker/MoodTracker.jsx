@@ -7,11 +7,13 @@ import {
 } from "react-native";
 import { useTranslation } from "react-i18next";
 
-import { AppText, Screen, ButtonWithIcon, Block } from "#components";
+import { AppText, Screen, ButtonWithIcon, AppButton } from "#components";
 import { GiveSuggestion, MascotHeadingBlock, MoodTrackHistory } from "#blocks";
+import { HowItWorksMoodTrack } from "#modals";
 import { Context } from "#services";
 import { MoodTrackReport } from "#backdrops";
 import { useGetTheme } from "#hooks";
+import { appStyles } from "#styles";
 
 /**
  * MoodTracker
@@ -28,6 +30,7 @@ export const MoodTracker = ({ navigation }) => {
   const IS_RO = country === "RO";
 
   const [isReportOpen, setIsReportOpen] = useState(false);
+  const [isHowItWorksOpen, setIsHowItWorksOpen] = useState(false);
 
   useEffect(() => {
     if (isTmpUser) {
@@ -41,12 +44,16 @@ export const MoodTracker = ({ navigation }) => {
         isOpen={isReportOpen}
         onClose={() => setIsReportOpen(false)}
       />
+      <HowItWorksMoodTrack
+        isOpen={isHowItWorksOpen}
+        onClose={() => setIsHowItWorksOpen(false)}
+      />
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "position" : null}
         keyboardVerticalOffset={64}
       >
         <ScrollView>
-          <MascotHeadingBlock>
+          <MascotHeadingBlock style={styles.mascotHeadingBlock}>
             <AppText namedStyle="h3" style={styles.colorTextBlue}>
               {t("heading")}
             </AppText>
@@ -61,21 +68,32 @@ export const MoodTracker = ({ navigation }) => {
               {t("subheading")}
             </AppText>
             {!isTmpUser && IS_RO && (
-              <ButtonWithIcon
-                label={t("report")}
-                onPress={() => setIsReportOpen(true)}
-                iconName="document"
-                color="purple"
-                iconColor={"#FFFFFF"}
-                size="sm"
-                style={styles.marginTop16}
-              />
+              <>
+                <AppButton
+                  label={t("how-it-works")}
+                  onPress={() => setIsHowItWorksOpen(true)}
+                  color="purple"
+                  type="secondary"
+                  size="sm"
+                  style={styles.marginTop16}
+                />
+                <ButtonWithIcon
+                  label={t("report")}
+                  onPress={() => setIsReportOpen(true)}
+                  iconName="document"
+                  color="purple"
+                  iconColor={"#FFFFFF"}
+                  size="sm"
+                  style={styles.marginTop16}
+                />
+              </>
             )}
           </MascotHeadingBlock>
           {!isTmpUser ? (
             <MoodTrackHistory
               openReport={() => setIsReportOpen(true)}
               showReport={IS_RO}
+              navigation={navigation}
             />
           ) : null}
           <GiveSuggestion navigation={navigation} type="mood-tracker" />
@@ -86,5 +104,7 @@ export const MoodTracker = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  colorTextBlue: { color: appStyles.colorBlue_263238 },
   marginTop16: { marginTop: 16 },
+  mascotHeadingBlock: { paddingTop: 65 },
 });

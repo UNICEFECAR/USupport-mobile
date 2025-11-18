@@ -72,6 +72,7 @@
       "live_text": "Now",
       "accept_button_label": "Accept consultation",
       "join_button_label": "Join",
+      "join_button_label_tooltip": "You can join the consultation 5 minutes before the start time",
       "change_button_label": "Change",
       "ordinal_st": "st",
       "ordinal_nd": "nd",
@@ -119,7 +120,8 @@
       "registration_needed": "To schedule consultations you need to register.",
       "free": "Free",
       "button_label": "",
-      "emergency_button_label": ""
+      "emergency_button_label": "",
+      "join_button_label_tooltip": "You can join the consultation 5 minutes before the start time"
     },
     "contact-us-block": {
       "heading": "Contact us",
@@ -142,7 +144,8 @@
       "contact_reason_2_pl": "Technical problem",
       "contact_reason_3_pl": "Complaint",
       "contact_reason_4_pl": "Something else",
-      "success": "Your issue was reported successfully. We'll get back to you soon"
+      "success": "Your issue was reported successfully. We'll get back to you soon",
+      "contact_form": "Contact form"
     },
     "faq": {
       "heading": "FAQ",
@@ -214,12 +217,14 @@
       "worried": "Worried",
       "heading": "How are you feeling today?",
       "mood_tracker": "Mood Tracker",
+      "how_it_works": "How it works",
       "additional_comment_placeholder": "What made you feel this way?",
       "submit_mood_track": "Submit",
       "add_mood_tracker_success": "Your daily mood was added successfully",
-      "subheading": "",
-      "emergency_button_label": "",
-      "emergency_label": "Does this relate to a life event or critical situation?"
+      "emergency_label": "Does this relate to a life event or critical situation?",
+      "recommendations": "Recommendations",
+      "recommendations_text": "Do you want to check out your mood graph and see recommended content?",
+      "check_out": "Check out"
     },
     "mood-track-history": {
       "saturday": "Sat",
@@ -231,7 +236,16 @@
       "you_felt": "You felt",
       "comment_text": "and you commented",
       "no_result": "Results were not found",
-      "critical_text": "Related to a life event or critical situation"
+      "critical_text": "Related to a life event or critical situation",
+      "recommendations": "Recommendations based on your mood",
+      "articles": "Articles",
+      "videos": "Videos",
+      "podcasts": "Podcasts",
+      "read_more": "Read more",
+      "by": "by {{creator}}",
+      "min_read": "min read",
+      "view_more": "View more",
+      "no_recommendations": "No recommendations found"
     },
     "notification-preferences": {
       "email": "Email notifications",
@@ -439,7 +453,8 @@
       "heading_2": "About the support",
       "text_2": "uSupport is a mental health, psychosocial and wellbeing platform designed for young people and their carers where privacy and safety is a priority.",
       "heading_3": "About you",
-      "text_3": "Be your best self! Your mental health matters."
+      "text_3": "Be your best self! Your mental health matters.",
+      "pl_text": "uSupport is a mental health and well-being platform designed for youth (16–24)."
     },
     "register-support": {
       "heading": "Do you need support?",
@@ -594,6 +609,7 @@
       "language_button_label": "Change language",
       "dark_mode_button_label": "Dark mode",
       "light_mode_button_label": "Light mode",
+      "high_contrast_mode": "High contrast mode",
       "user_guide": "Platform usage"
     },
     "welcome": {
@@ -836,7 +852,11 @@
       "view": "View Results",
       "view_detailed_results": "View Detailed Results",
       "started_at": "Started on {{date}}",
-      "answered_questions": "Answered questions: {{current}}/27"
+      "answered_questions": "Answered questions: {{current}}/27",
+      "latest_result": "Latest Result",
+      "psychological": "Psychological",
+      "biological": "Biological",
+      "social": "Social"
     },
     "baseline-assesment-result": {
       "assessment_completed": "Assessment completed",
@@ -885,7 +905,9 @@
       "read_more": "Click to read more",
       "min_read": "min read",
       "by": "By {{creator}}",
-      "check_article": "Hello, check this article"
+      "check_article": "Hello, check this article",
+      "share_success": "Article shared successfully",
+      "download_success": "Article downloaded successfully"
     },
     "articles-screen": {
       "heading_default": "All Articles",
@@ -945,7 +967,10 @@
       "sponsored_by": "This session is sponsored by: <0>{{sponsorName}}<0>",
       "consultation_end_reminder": "Your consultation will end in {{minutes}} minutes",
       "consultation_in_progress": "Consultation in progress",
-      "microphone_active": "Your microphone and media playback are active."
+      "microphone_active": "Your microphone and media playback are active.",
+      "cancel_confirmation_heading": "Are you sure you want to leave the consultation?",
+      "cancel_confirmation_cta": "Leave consultation",
+      "cancel_confirmation_secondary_cta": "Cancel"
     },
     "consultations-screen": {
       "heading": "Consultations",
@@ -982,7 +1007,8 @@
       "october": "October",
       "november": "November",
       "december": "December",
-      "explore": "Explore"
+      "explore": "Explore",
+      "join_button_label_tooltip": "You can join the consultation 5 minutes before the start time"
     },
     "forgot-password-screen": {
       "heading": "Enter your email to reset your password"
@@ -1005,7 +1031,8 @@
       "heading": "Mood tracker",
       "subheading": "Here you can check your mood tracking and progress ",
       "emergency_button_label": "Emergency help",
-      "report": "Generate report"
+      "report": "Generate report",
+      "how-it-works": "How it works"
     },
     "notification-preferences-screen": {
       "heading": "Notification settings",
@@ -1046,7 +1073,8 @@
       "coupon_paragraph": "Coupons provide “no-cost” sessions and are sponsored by our partners.",
       "coupon_paragraph_two": "If you received a coupon code from a social media campaign or a partner, please copy and paste that below. After you submit the coupon code, you will see any providers that support it and their availability. A coupon may support one or more sessions. The platform will indicate if the coupon has expired or reached the maximum session usage.",
       "max_price": "Maximum price",
-      "providers_free_consultation_label": "Only free consultation"
+      "providers_free_consultation_label": "Only free consultation",
+      "coupon_note": "This time, we've entered a code for you for a free session! Schedule an appointment with one of our consultants and take the first step towards improving your well-being."
     },
     "share-platform-screen": {
       "heading": "Share the application",
@@ -1329,6 +1357,14 @@
       "confirm": "Yes, delete all my mood tracker data",
       "cancel": "No, keep my mood tracker data",
       "success": "Your mood tracker data has been deleted successfully."
+    },
+    "how-it-works-mood-track": {
+      "heading": "How mood tracker works",
+      "subheading_1": "You can easily record your moods throughout the day or at custom time periods that suit you. Each entry helps build a personal mood history, allowing you to reflect on changes and patterns over time. It’s quick, private, and designed to fit naturally into your daily routine.",
+      "subheading_2": "When recording a mood, you can optionally mark it as a special or critical life event. You can also add comments to capture thoughts or details related to that moment. This helps give more context to your mood history.",
+      "subheading_3": "A chart will display your recorded moods by date and time, helping you visualize your emotional trends. Below it, you’ll find recommended content tailored to your most recent mood entry for support and insight.",
+      "subheading_4": "By clicking on a specific event, you can view all comments and notes recorded for that moment, giving you deeper insight into what influenced your mood.",
+      "subheading_5": "You can generate a report for any selected date range and export it as a CSV file, making it easy to review or share your mood data when needed."
     }
   },
   "navigation": {

@@ -16,6 +16,7 @@ const termsOfUseEndpoint = CMS_API_URL + "/terms-of-uses";
 const videosEndpoint = CMS_API_URL + "/videos";
 const podcastsEndpoint = CMS_API_URL + "/podcasts";
 const assessmentResultEndpoint = CMS_API_URL + "/assessment-results";
+const moodTrackerEndpoint = CMS_API_URL + "/mood-tracker-recomendations";
 
 /**
  * generate a querry string from an object
@@ -428,11 +429,83 @@ async function getRecommendedArticlesForCategory(payload) {
  * @returns {object} assessment result data
  */
 async function getAssessmentResult(queryObj) {
-  const queryString = `?populate[articles][populate]=*&populate[podcasts][populate]=*&populate[videos][populate]=*&filters[psychological][$eq]=${queryObj.psychological}&filters[social][$eq]=${queryObj.social}&filters[biological][$eq]=${queryObj.biological}`;
+  const queryString = `?populate[articles][populate]=*&populate[podcasts][populate]=*&populate[videos][populate]=*&filters[psychological][$eq]=${queryObj.psychological}&filters[social][$eq]=${queryObj.social}&filters[biological][$eq]=${queryObj.biological}&[locale][$eq]=${queryObj.locale}`;
 
   const { data } = await http.get(`${assessmentResultEndpoint}${queryString}`);
 
   return { data };
+}
+
+async function getMoodTrackerRecommendations(moodType, locale) {
+  const queryString = `?populate[articles][populate]=*&populate[podcasts][populate]=*&populate[videos][populate]=*&filters[mood][$eq]=${moodType}&[locale][$eq]=${locale}`;
+
+  const { data } = await http.get(`${moodTrackerEndpoint}${queryString}`);
+
+  return { data };
+}
+
+/**
+ * send request to get all unique category IDs from articles
+ *
+ * @param {string} locale - the locale for which to retrieve category IDs
+ * @param {number} ageGroupId - the age group ID to filter by
+ * @param {array} articleIds - array of article IDs to filter by (optional)
+ *
+ * @returns {array} array of unique category IDs
+ */
+async function getArticleCategoryIds(locale, ageGroupId, articleIds) {
+  let queryString = "?locale=" + locale + "&ageGroupId=" + ageGroupId;
+
+  if (articleIds && articleIds.length > 0) {
+    queryString += "&ids=" + articleIds.join(",");
+  }
+
+  const { data } = await http.get(
+    articlesEndpoint + "/custom/category-ids" + queryString
+  );
+  return data;
+}
+
+/**
+ * send request to get all unique category IDs from podcasts
+ *
+ * @param {string} locale - the locale for which to retrieve category IDs
+ * @param {array} podcastIds - array of podcast IDs to filter by (optional)
+ *
+ * @returns {array} array of unique category IDs
+ */
+async function getPodcastCategoryIds(locale, podcastIds) {
+  let queryString = "?locale=" + locale;
+
+  if (podcastIds && podcastIds.length > 0) {
+    queryString += "&ids=" + podcastIds.join(",");
+  }
+
+  const { data } = await http.get(
+    podcastsEndpoint + "/custom/category-ids" + queryString
+  );
+  return data;
+}
+
+/**
+ * send request to get all unique category IDs from videos
+ *
+ * @param {string} locale - the locale for which to retrieve category IDs
+ * @param {array} videoIds - array of video IDs to filter by (optional)
+ *
+ * @returns {array} array of unique category IDs
+ */
+async function getVideoCategoryIds(locale, videoIds) {
+  let queryString = "?locale=" + locale;
+
+  if (videoIds && videoIds.length > 0) {
+    queryString += "&ids=" + videoIds.join(",");
+  }
+
+  const { data } = await http.get(
+    videosEndpoint + "/custom/category-ids" + queryString
+  );
+  return data;
 }
 
 export default {
@@ -459,4 +532,8 @@ export default {
   getPodcastLocales,
   getRecommendedArticlesForCategory,
   getAssessmentResult,
+  getMoodTrackerRecommendations,
+  getArticleCategoryIds,
+  getPodcastCategoryIds,
+  getVideoCategoryIds,
 };

@@ -72,6 +72,7 @@
       "live_text": "Acum",
       "accept_button_label": "Acceptați consultația",
       "join_button_label": "Intrare",
+      "join_button_label_tooltip": "Puteți intra la consultație cu 5 minute înainte de începere",
       "change_button_label": "Modificare",
       "ordinal_st": "st",
       "ordinal_nd": "nd",
@@ -119,7 +120,8 @@
       "registration_needed": "Pentru a programa consultații trebuie să vă înregistrați.",
       "free": "Gratuit",
       "button_label": "Programați o consultație",
-      "emergency_button_label": "Ajutor de urgență"
+      "emergency_button_label": "Ajutor de urgență",
+      "join_button_label_tooltip": "Puteți intra la consultație cu 5 minute înainte de începere"
     },
     "contact-us-block": {
       "heading": "Contactați-ne",
@@ -214,12 +216,16 @@
       "worried": "Îngrijorat",
       "heading": "Urmărirea stării de spirit",
       "mood_tracker": "Urmărirea stării de spirit",
+      "how_it_works": "Cum funcționează",
       "additional_comment_placeholder": "Ce v-a făcut să vă simțiți așa?",
       "submit_mood_track": "Trimiteți",
       "add_mood_tracker_success": "Starea dvs. de spirit zilnică a fost adăugată",
       "subheading": "Aici puteți verifica și urmări progresul stării dvs. de spirit ",
       "emergency_button_label": "",
-      "emergency_label": "Ajutor de urgență"
+      "emergency_label": "Ajutor de urgență",
+      "recommendations": "Recomandări",
+      "recommendations_text": "Vrei să vezi graficul stării tale și conținutul recomandat?",
+      "check_out": "Vezi detalii"
     },
     "mood-track-history": {
       "saturday": "sâ",
@@ -231,7 +237,16 @@
       "you_felt": "V-ați simțit",
       "comment_text": "și ați comentat",
       "no_result": "Rezultatele nu au fost găsite",
-      "critical_text": "Related to a life event or critical situation"
+      "critical_text": "Related to a life event or critical situation",
+      "recommendations": "Recomandări în funcție de starea ta",
+      "articles": "Articole",
+      "videos": "Videoclipuri",
+      "podcasts": "Podcasturi",
+      "read_more": "Citește mai mult",
+      "by": "de {{creator}}",
+      "min_read": "min de citit",
+      "view_more": "Vezi mai mult",
+      "no_recommendations": "Nu s-au găsit recomandări"
     },
     "notification-preferences": {
       "email": "Notificări prin e-mail",
@@ -518,7 +533,7 @@
       "no_results": "Nu există rezultate pentru țara și limba selectate.",
       "heading": "Urgență",
       "subheading": "Aveți nevoie urgentă de ajutor? Vă rugăm să contactați chiar acum unul dintre centrele enumerate.",
-      "other_emergency_services": "Alte servicii de urgență",
+      "other_emergency_services": "Alți furnizori de servicii de urgență",
       "browse": "Răsfoiește"
     },
     "terms-of-use": {
@@ -885,7 +900,9 @@
       "read_more": "Citiți mai mult",
       "min_read": "durata lecturii",
       "by": "De către {{creator}}",
-      "check_article": "Bună ziua, citiți acest articol"
+      "check_article": "Bună ziua, citiți acest articol",
+      "share_success": "Articolul a fost distribuit",
+      "download_success": "Articolul a fost descărcat"
     },
     "articles-screen": {
       "heading_default": "All Articles",
@@ -945,7 +962,10 @@
       "sponsored_by": "Această sesiune este sponsorizată de: <0>{{sponsorName}}<0>",
       "consultation_end_reminder": "Consultația dvs. se va încheia în {{minutes}} minute",
       "consultation_in_progress": "Consultație în curs",
-      "microphone_active": "Microfonul dvs. și redarea media sunt active."
+      "microphone_active": "Microfonul dvs. și redarea media sunt active.",
+      "cancel_confirmation_heading": "Sigur doriți să părăsiți consultația?",
+      "cancel_confirmation_cta": "Părăsiți consultația",
+      "cancel_confirmation_secondary_cta": "Rămâneți"
     },
     "consultations-screen": {
       "heading": "Consultations",
@@ -982,7 +1002,8 @@
       "october": "octombrie",
       "november": "noiembrie",
       "december": "Decembrie",
-      "explore": "Explore"
+      "explore": "Explore",
+      "join_button_label_tooltip": "Puteți intra la consultație cu 5 minute înainte de începere"
     },
     "forgot-password-screen": {
       "heading": "Enter your email to reset your password"
@@ -1005,7 +1026,8 @@
       "heading": "Urmărirea stării de spirit",
       "subheading": "Aici poți verifica urmărirea stării tale de spirit și progresul",
       "emergency_button_label": "Ajutor de urgență",
-      "report": "Generează raport"
+      "report": "Generează raport",
+      "how_it_works": "Cum funcționează"
     },
     "notification-preferences-screen": {
       "heading": "Notification settings",
@@ -1329,6 +1351,14 @@
       "confirm": "Yes, delete all my mood tracker data",
       "cancel": "No, keep my mood tracker data",
       "success": "Your mood tracker data has been deleted successfully."
+    },
+    "how-it-works-mood-track": {
+      "heading": "Cum funcționează monitorizarea stării de spirit",
+      "subheading_1": "Poți înregistra cu ușurință stările tale de spirit pe parcursul zilei sau la intervale personalizate care ți se potrivesc. Fiecare înregistrare contribuie la construirea unui istoric personal al stărilor de spirit, permițându-ți să observi schimbările și tiparele în timp. Este rapid, privat și gândit să se integreze natural în rutina ta zilnică.",
+      "subheading_2": "Când înregistrezi o stare de spirit, poți marca opțional momentul ca un eveniment special sau important din viață. De asemenea, poți adăuga comentarii pentru a nota gânduri sau detalii legate de acel moment. Acest lucru oferă mai mult context istoricului tău emoțional.",
+      "subheading_3": "Un grafic va afișa stările tale de spirit înregistrate în funcție de dată și oră, ajutându-te să vizualizezi tendințele emoționale. Mai jos vei găsi conținut recomandat, adaptat celei mai recente înregistrări a stării tale de spirit, pentru sprijin și înțelegere.",
+      "subheading_4": "Făcând clic pe un anumit eveniment, poți vedea toate comentariile și notițele înregistrate pentru acel moment, oferindu-ți o înțelegere mai profundă a factorilor care ți-au influențat starea de spirit.",
+      "subheading_5": "Poți genera un raport pentru orice interval de date selectat și îl poți exporta ca fișier CSV, ceea ce îți permite să îți revizuiești sau să împarți datele despre stările tale de spirit atunci când este necesar."
     }
   },
   "navigation": {

@@ -269,6 +269,29 @@ async function getRatingsForContent({ contentId, contentType, isTmpUser }) {
   return response;
 }
 
+async function addContactForm(payload) {
+  const response = await http.post(`${API_ENDPOINT}/add-contact-form`, payload);
+  return response;
+}
+
+/**
+ * Track country event (registration clicks, consultation actions, etc.)
+ * @param {Object} payload
+ * @param {string} payload.eventType - Type of event (e.g., 'web_email_register_click')
+ * @returns {Promise} the response of the request
+ */
+async function addCountryEvent(payload) {
+  const response = await http.post(`${API_ENDPOINT}/country-event`, payload);
+  return response;
+}
+
+async function getMobileMap({ lat, lng }) {
+  const response = await http.get(
+    `${API_ENDPOINT}/mobile-map?lat=${lat}&lng=${lng}`
+  );
+  return response;
+}
+
 const exportedFunctions = {
   changePassword,
   generateClientAccesToken,
@@ -295,6 +318,9 @@ const exportedFunctions = {
   addContentRating,
   getUserContentRatings,
   getRatingsForContent,
+  addContactForm,
+  addCountryEvent,
+  getMobileMap,
 };
 
 export default exportedFunctions;

@@ -4,8 +4,7 @@ import { StyleSheet } from "react-native";
 import { Screen } from "#components";
 import { ActivityHistory as ActivityHistoryBlock } from "#blocks";
 import { ScheduleConsultationGroup } from "#backdrops";
-
-import { useGetClientData } from "#hooks";
+import { useGetClientData, useAddCountryEvent } from "#hooks";
 
 export const ActivityHistory = ({ navigation, route }) => {
   const consultation = route.params?.consultation;
@@ -14,6 +13,7 @@ export const ActivityHistory = ({ navigation, route }) => {
   if (!consultation || !providerId) return navigation.navigate("Consultations");
 
   const clientData = useGetClientData()[1];
+  const addCountryEventMutation = useAddCountryEvent();
 
   // Modal state variables
   const [isSelectConsultationOpen, setIsSelectConsultationOpen] =
@@ -29,6 +29,9 @@ export const ActivityHistory = ({ navigation, route }) => {
     if (!clientData.dataProcessing) {
       openRequireDataAgreement();
     } else {
+      addCountryEventMutation.mutate({
+        eventType: "mobile_schedule_button_click",
+      });
       setIsSelectConsultationOpen(true);
     }
   };

@@ -259,6 +259,12 @@ export const BaselineAssesment = ({
   };
 
   const handleRedirectToDashboard = () => {
+    queryClient.invalidateQueries({
+      queryKey: ["baseline-assessments"],
+    });
+    queryClient.invalidateQueries({
+      queryKey: ["latest-baseline-assessment"],
+    });
     navigation.navigate("Dashboard");
   };
 
@@ -356,7 +362,7 @@ export const BaselineAssesment = ({
                 </View>
                 <ButtonWithIcon
                   label={t("save")}
-                  // onPress={redirectToDashboard}
+                  onPress={handleRedirectToDashboard}
                   variant="secondary"
                   iconName="save"
                   style={{ width: "50%", alignSelf: "center", marginTop: 16 }}
@@ -490,6 +496,7 @@ const styles = StyleSheet.create({
   // Navigation section
   navigation: {
     width: "100%",
+    paddingBottom: 50,
   },
   navigationButtons: {
     flexDirection: "row",
