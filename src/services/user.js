@@ -292,6 +292,42 @@ async function getMobileMap({ lat, lng }) {
   return response;
 }
 
+async function addContentEngagement(payload) {
+  const response = await http.post(
+    `${API_ENDPOINT}/content-engagement`,
+    payload
+  );
+  return response;
+}
+
+async function removeContentEngagement({ contentId, contentType }) {
+  const response = await http.delete(
+    `${API_ENDPOINT}/content-engagement?contentId=${contentId}&contentType=${contentType}`
+  );
+  return response;
+}
+
+async function getUserContentEngagements() {
+  const response = await http.get(`${API_ENDPOINT}/content-engagements`);
+  return response;
+}
+
+/**
+ * Get content engagements by id and content type
+ * @param {Object} data
+ * @param {number[]} data.ids - The ids of the content
+ * @param {string} data.contentType - The type of the content - video, article, podcast
+ * @returns {Promise} the response of the request
+ */
+async function getContentEngagementsById({ ids, contentType }) {
+  const response = await http.get(
+    `${API_ENDPOINT}/content-engagements-by-id?ids=${ids.join(
+      ","
+    )}&contentType=${contentType}`
+  );
+  return response;
+}
+
 const exportedFunctions = {
   changePassword,
   generateClientAccesToken,
@@ -321,6 +357,10 @@ const exportedFunctions = {
   addContactForm,
   addCountryEvent,
   getMobileMap,
+  addContentEngagement,
+  removeContentEngagement,
+  getUserContentEngagements,
+  getContentEngagementsById,
 };
 
 export default exportedFunctions;
