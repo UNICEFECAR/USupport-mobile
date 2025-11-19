@@ -19,11 +19,11 @@
 		<key>CFBundlePackageType</key>
 		<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 		<key>CFBundleShortVersionString</key>
-		<string>1.0.8</string>
+		<string>1.0.15</string>
 		<key>CFBundleSignature</key>
 		<string>????</string>
 		<key>CFBundleVersion</key>
-		<string>29</string>
+		<string>1</string>
 		<key>LSApplicationQueriesSchemes</key>
 		<dict>
 			<key>Item 0</key>
@@ -50,6 +50,8 @@
 		<string>Allow $(PRODUCT_NAME) to use FaceID</string>
 		<key>NSMicrophoneUsageDescription</key>
 		<string>Please allow access to your microphone</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>Please allow access to your photo library</string>
 		<key>NSCalendarsUsageDescription</key>
 		<string>Allow $(PRODUCT_NAME) to access your calendar</string>
 		<key>UIBackgroundModes</key>

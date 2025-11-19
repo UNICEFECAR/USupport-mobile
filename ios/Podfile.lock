@@ -274,7 +274,7 @@ PODS:
   - hermes-engine (0.74.2):
     - hermes-engine/Pre-built (= 0.74.2)
   - hermes-engine/Pre-built (0.74.2)
-  - jitsi-meet-rnsdk (11.4.0):
+  - jitsi-meet-rnsdk (11.6.3):
     - ObjectiveDropboxOfficial (= 6.2.3)
     - React-Core
     - react-native-webrtc
@@ -1255,9 +1255,9 @@ PODS:
     - React-Core
   - react-native-blob-util (0.18.6):
     - React-Core
-  - react-native-config (1.5.7):
-    - react-native-config/App (= 1.5.7)
-  - react-native-config/App (1.5.7):
+  - react-native-config (1.5.9):
+    - react-native-config/App (= 1.5.9)
+  - react-native-config/App (1.5.9):
     - React-Core
   - react-native-date-picker (4.4.2):
     - React-Core
@@ -1363,10 +1363,31 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-webrtc (124.0.4):
+  - react-native-webrtc (124.0.7):
     - JitsiWebRTC (~> 124.0.0)
     - React-Core
   - react-native-webview (13.13.5):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Codegen
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
+  - react-native-worklets-core (1.6.2):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1720,7 +1741,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNScreens (4.0.0):
+  - RNScreens (4.11.1):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1742,8 +1763,27 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNShare (8.2.2):
+  - RNShare (12.2.0):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Codegen
     - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
   - RNSound (0.11.2):
     - React-Core
     - RNSound/Core (= 0.11.2)
@@ -1902,6 +1942,7 @@ DEPENDENCIES:
   - react-native-video (from `../node_modules/react-native-video`)
   - react-native-webrtc (from `../node_modules/react-native-webrtc`)
   - react-native-webview (from `../node_modules/react-native-webview`)
+  - react-native-worklets-core (from `../node_modules/react-native-worklets-core`)
   - React-nativeconfig (from `../node_modules/react-native/ReactCommon`)
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -2138,6 +2179,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-webrtc"
   react-native-webview:
     :path: "../node_modules/react-native-webview"
+  react-native-worklets-core:
+    :path: "../node_modules/react-native-worklets-core"
   React-nativeconfig:
     :path: "../node_modules/react-native/ReactCommon"
   React-NativeModulesApple:
@@ -2284,7 +2327,7 @@ SPEC CHECKSUMS:
   GTMAppAuth: f69bd07d68cd3b766125f7e072c45d7340dea0de
   GTMSessionFetcher: 5aea5ba6bd522a239e236100971f10cb71b96ab6
   hermes-engine: 01d3e052018c2a13937aca1860fbedbccd4a41b7
-  jitsi-meet-rnsdk: 96c17bb7737ec8bb1e661556a8258a5e4e8cbe87
+  jitsi-meet-rnsdk: a19879ee556627a830939595b81d47554cbdb072
   JitsiWebRTC: b47805ab5668be38e7ee60e2258f49badfe8e1d0
   libwebp: 02b23773aedb6ff1fd38cec7a77b81414c6842a8
   lottie-ios: e047b1d2e6239b787cc5e9755b988869cf190494
@@ -2319,7 +2362,7 @@ SPEC CHECKSUMS:
   React-Mapbuffer: bf56147c9775491e53122a94c423ac201417e326
   react-native-background-timer: 17ea5e06803401a379ebf1f20505b793ac44d0fe
   react-native-blob-util: c5430d091e011b7fc57f888c356da2a2ff8dc8ad
-  react-native-config: b2afdf5efe0848b5f9d4cb8b5a62d90b1385a722
+  react-native-config: ec6c5f8782a987964b80a6845e7b974d2d9b3020
   react-native-date-picker: 312c387d2ff873c66c5e4cf78ff6827fa91644e2
   react-native-get-random-values: 21325b2244dfa6b58878f51f9aa42821e7ba3d06
   react-native-html-to-pdf: 4c5c6e26819fe202971061594058877aa9b25265
@@ -2332,8 +2375,9 @@ SPEC CHECKSUMS:
   react-native-slider: 04b00ccd4b9fa0882004ea22f9e753244f1a48dc
   react-native-twilio-video-webrtc: f4411c13ecc86041a4716ef2b8c7f34e39788122
   react-native-video: cfebaaf4eb1d6d8a5eb761eb3fb3ac50477b1a19
-  react-native-webrtc: 48295e7228279470c4f5acb38570e170723bd3b2
+  react-native-webrtc: b5062b745a26c99835efdf0d6c027c9b2ee7ddbc
   react-native-webview: db97533d0b7534225f48ad4e0c313b83cfae8a20
+  react-native-worklets-core: c6016fb7a1b3bf270aa94d7ea64f488a2985c19c
   React-nativeconfig: 9f223cd321823afdecf59ed00861ab2d69ee0fc1
   React-NativeModulesApple: ff7efaff7098639db5631236cfd91d60abff04c0
   React-perflogger: 32ed45d9cee02cf6639acae34251590dccd30994
@@ -2374,8 +2418,8 @@ SPEC CHECKSUMS:
   RNNotifee: 4a6ee5c7deaf00e005050052d73ee6315dff7ec9
   RNPermissions: f4df15c4027ee5093d0436c67868216c046da115
   RNReanimated: 35f9ac9c3ac42d0497ebd1cce5c39d7687a8493e
-  RNScreens: 2f7514065a5020e632c62e5fff2a6a11f4eb1870
-  RNShare: d82e10f6b7677f4b0048c23709bd04098d5aee6c
+  RNScreens: 4d8217a364d9e1a1828bd9c081a927c97f2e3517
+  RNShare: ca7285dd981556b011d317f8f7c2736ab161620c
   RNSound: 6c156f925295bdc83e8e422e7d8b38d33bc71852
   RNSVG: e451741721b9fd3db71b06aafe9335d09a189692
   RNWatch: fd30ca40a5b5ef58dcbc195638e68219bc455236
