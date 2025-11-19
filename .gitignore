@@ -41,3 +41,8 @@ extract-translations.py
 jsonToCsv.js
 ios/tmp.xcconfig
 .env.production
+ios/assets/
+.cursorrules
+*.md
+*.mdc
+android/app/release/baselineProfiles/

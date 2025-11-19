@@ -45,7 +45,7 @@ import { RequireRegistration, BaselineAssesmentModal } from "#modals";
 
 import { GiveSuggestion } from "../GiveSuggestion";
 
-const { GOOGLE_MAPS_API_KEY, AMAZON_S3_BUCKET } = Config;
+const { AMAZON_S3_BUCKET } = Config;
 
 /**
  * Organizations
@@ -297,7 +297,6 @@ export const Organizations = ({
                   onMapReady={handleMapReady}
                   setSelectedMarker={setSelectedOrganization}
                   t={t}
-                  googleMapsApiKey={GOOGLE_MAPS_API_KEY}
                   style={styles.map}
                   organizationToZoom={organizationToZoom}
                 />
