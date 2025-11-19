@@ -56,7 +56,15 @@ export const MyQA = ({ navigation }) => {
     { label: "All", value: "all", isSelected: true },
     { label: "Most popular", value: "most_popular", isSelected: false },
     { label: "New", value: "newest", isSelected: false },
-    { label: "Your questions", value: "your_questions", isSelected: false },
+    ...(!isTmpUser
+      ? [
+          {
+            label: "Your questions",
+            value: "your_questions",
+            isSelected: false,
+          },
+        ]
+      : []),
   ]);
   const [providerId, setProviderId] = useState(null);
   const [filterTag, setFilterTag] = useState();
