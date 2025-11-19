@@ -7,7 +7,7 @@ import {
   Platform,
 } from "react-native";
 import Markdown from "react-native-markdown-display";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, useQuery } from "@tanstack/react-query";
 import Share from "react-native-share";
 import { useTranslation } from "react-i18next";
 import Config from "react-native-config";
@@ -15,7 +15,12 @@ import Config from "react-native-config";
 import { Icon, Label, Block, AppText, Like, Loading } from "#components";
 import { appStyles } from "#styles";
 
-import { useGetTheme, useAddContentRating } from "#hooks";
+import {
+  useGetTheme,
+  useAddContentRating,
+  useAddContentEngagement,
+  useRemoveContentEngagement,
+} from "#hooks";
 import { cmsSvc } from "#services";
 import { constructShareUrl, generatePDF, showToast } from "#utils";
 
@@ -33,12 +38,12 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
   const { colors } = useGetTheme();
   const queryClient = useQueryClient();
 
-  const [contentRating, setContentRating] = React.useState(
-    articleData.contentRating
-  );
-  useEffect(() => {
-    setContentRating(articleData.contentRating);
-  }, [articleData.contentRating]);
+  const [contentRating, setContentRating] = React.useState({
+    likes: articleData.likes || 0,
+    dislikes: articleData.dislikes || 0,
+    isLikedByUser: articleData.contentRating?.isLikedByUser || false,
+    isDislikedByUser: articleData.contentRating?.isDislikedByUser || false,
+  });
 
   const onMutate = (data) => {
     const prevData = JSON.parse(JSON.stringify(contentRating));
@@ -121,6 +126,8 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
 
   const onSuccess = () => {
     queryClient.invalidateQueries({ queryKey: ["userContentRatings"] });
+    queryClient.invalidateQueries({ queryKey: ["userContentEngagements"] });
+    queryClient.invalidateQueries({ queryKey: ["articles-ratings"] });
   };
 
   const addContentRatingMutation = useAddContentRating(
@@ -129,16 +136,51 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
     onSuccess
   );
 
+  const addContentEngagementMutation = useAddContentEngagement();
+  const removeContentEngagementMutation = useRemoveContentEngagement();
+
+  // Track view when article is loaded using useQuery
+  useQuery(
+    ["article-view-tracking", articleData.id],
+    async () => {
+      addContentEngagementMutation({
+        contentId: articleData.id,
+        contentType: "article",
+        action: "view",
+      });
+      return true;
+    },
+    {
+      enabled: !!articleData?.id && !isTmpUser,
+    }
+  );
+
   const handleAddRating = (action) => {
     if (isTmpUser) return;
+
+    const isRemovingReaction =
+      action === "remove-like" || action === "remove-dislike";
+
+    // Track engagement
+    if (isRemovingReaction) {
+      // Remove like/dislike from engagement tracking
+      removeContentEngagementMutation({
+        contentId: articleData.id,
+        contentType: "article",
+      });
+    } else {
+      // Add like/dislike to engagement tracking
+      addContentEngagementMutation({
+        contentId: articleData.id,
+        contentType: "article",
+        action: action === "like" ? "like" : "dislike",
+      });
+    }
+
+    // Update rating in the rating system
     addContentRatingMutation({
       contentId: articleData.id,
-      positive:
-        action === "like"
-          ? true
-          : action === "remove-like" || action === "remove-dislike"
-            ? null
-            : false,
+      positive: action === "like" ? true : isRemovingReaction ? null : false,
       contentType: "article",
     });
   };
@@ -156,6 +198,13 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
       });
       // If Share.open resolves without throwing, the share was successful
       showToast({ message: t("share_success"), type: "success" });
+      if (!isTmpUser) {
+        addContentEngagementMutation({
+          contentId: articleData.id,
+          contentType: "article",
+          action: "share",
+        });
+      }
     } catch (error) {
       if (error.message && !error.message.includes("User did not share")) {
         console.log("Share error:", error);
@@ -229,6 +278,14 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
         }
       } else {
         console.error("PDF file path is missing");
+      }
+      // Track download engagement
+      if (!isTmpUser) {
+        addContentEngagementMutation({
+          contentId: articleData.id,
+          contentType: "article",
+          action: "download",
+        });
       }
     } catch (error) {
       console.error("Error exporting PDF:", error);

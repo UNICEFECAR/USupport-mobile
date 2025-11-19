@@ -16,7 +16,7 @@ import { destructurePodcastData } from "#utils";
 
 import {
   useEventListener,
-  useGetUserContentRatings,
+  useGetUserContentEngagements,
   useDebounce,
 } from "#hooks";
 
@@ -40,7 +40,7 @@ export const Podcasts = ({ navigation, showSearch, showCategories, sort }) => {
     }
   }, [i18n.language]);
 
-  const { data: contentRatings } = useGetUserContentRatings(!isTmpUser);
+  const { data: contentEngagements } = useGetUserContentEngagements(!isTmpUser);
 
   //--------------------- Country Change Event Listener ----------------------//
   const [currentCountry, setCurrentCountry] = useState();
@@ -240,17 +240,17 @@ export const Podcasts = ({ navigation, showSearch, showCategories, sort }) => {
             !isPodcastsFetching && (
               <View style={styles.podcastsContainer}>
                 {podcasts?.map((podcast, index) => {
-                  const isLikedByUser = contentRatings?.some(
-                    (rating) =>
-                      rating.content_id === podcast.id &&
-                      rating.content_type === "podcast" &&
-                      rating.positive === true
+                  const isLikedByUser = contentEngagements?.some(
+                    (engagement) =>
+                      engagement.content_id === podcast.id &&
+                      engagement.content_type === "podcast" &&
+                      engagement.action === "like"
                   );
-                  const isDislikedByUser = contentRatings?.some(
-                    (rating) =>
-                      rating.content_id === podcast.id &&
-                      rating.content_type === "podcast" &&
-                      rating.positive === false
+                  const isDislikedByUser = contentEngagements?.some(
+                    (engagement) =>
+                      engagement.content_id === podcast.id &&
+                      engagement.content_type === "podcast" &&
+                      engagement.action === "dislike"
                   );
                   const podcastData = podcast; // Already destructured in getPodcastsData
                   return (

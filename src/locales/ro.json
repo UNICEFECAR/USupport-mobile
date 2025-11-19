@@ -49,7 +49,8 @@
       "read_more": "Citiți mai mult",
       "min_read": "durata lecturii",
       "by": "De către {{creator}}",
-      "number_of_more_options": "încă {{count}}"
+      "number_of_more_options": "încă {{count}}",
+      "read": "Citire"
     },
     "change-passcode": {
       "enter_passcode": "Introduceți codul de acces actual",

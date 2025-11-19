@@ -7,9 +7,13 @@ import { CardMedia, Heading, Screen, AppText, Loading } from "#components";
 
 import { VideoView } from "#blocks";
 
-import { destructureVideoData } from "#utils";
+import {
+  destructureVideoData,
+  getLikesAndDislikesForContent,
+  isLikedOrDislikedByUser,
+} from "#utils";
 
-import { useGetUserContentRatings } from "#hooks";
+import { useGetUserContentEngagements } from "#hooks";
 
 import { userSvc, cmsSvc, adminSvc, clientSvc, Context } from "#services";
 
@@ -33,7 +37,31 @@ export const VideoInformation = ({ navigation, route }) => {
     return videoIds;
   };
 
-  const { data: contentRatings } = useGetUserContentRatings(!isTmpUser);
+  const { data: userContentEngagements } =
+    useGetUserContentEngagements(!isTmpUser);
+  const {
+    data: videoContentEngagements,
+    isLoading: isLoadingVideoContentEngagements,
+  } = useQuery(["videoContentEngagements", id], async () => {
+    console.log("Execute videoContentEngagements with id: ", id);
+    const { data } = await userSvc.getContentEngagementsById({
+      contentType: "video",
+      ids: [id],
+    });
+
+    const { likes, dislikes } = data.reduce(
+      (acc, engagement) => {
+        if (engagement.action === "like") {
+          acc.likes += 1;
+        } else if (engagement.action === "dislike") {
+          acc.dislikes += 1;
+        }
+        return acc;
+      },
+      { likes: 0, dislikes: 0 }
+    );
+    return { likes, dislikes };
+  });
   const videoIdsQuery = useQuery(["videoIds"], getVideosIds);
 
   const getVideoData = async () => {
@@ -49,27 +77,27 @@ export const VideoInformation = ({ navigation, route }) => {
     return finalData;
   };
 
-  const { data: videoData, isFetching: isFetchingVideoData } = useQuery(
-    ["video", i18n.language, id],
-    getVideoData,
-    {
-      enabled: !!id,
-      onSuccess: (data) => {
-        // Add category interaction when video is successfully fetched
-        if (data && data.categoryId && !isTmpUser) {
-          clientSvc
-            .addClientCategoryInteraction({
-              categoryId: data.categoryId,
-              videoId: data.id,
-              tagIds: data.labels?.map((label) => label.id) || [],
-            })
-            .catch((error) => {
-              console.error("Failed to track category interaction:", error);
-            });
-        }
-      },
-    }
-  );
+  const {
+    data: videoData,
+    isFetching: isFetchingVideoData,
+    isFetched,
+  } = useQuery(["video", i18n.language, id], getVideoData, {
+    enabled: !!id,
+    onSuccess: (data) => {
+      // Add category interaction when video is successfully fetched
+      if (data && data.categoryId && !isTmpUser) {
+        clientSvc
+          .addClientCategoryInteraction({
+            categoryId: data.categoryId,
+            videoId: data.id,
+            tagIds: data.labels?.map((label) => label.id) || [],
+          })
+          .catch((error) => {
+            console.error("Failed to track category interaction:", error);
+          });
+      }
+    },
+  });
 
   const getSimilarVideos = async () => {
     let { data } = await cmsSvc.getVideos({
@@ -81,7 +109,9 @@ export const VideoInformation = ({ navigation, route }) => {
       ids: videoIdsQuery.data,
     });
 
-    if (data.length === 0) {
+    let videos = data.data;
+
+    if (videos.length === 0) {
       let { data: newest } = await cmsSvc.getVideos({
         limit: 3,
         sortBy: "createdAt",
@@ -91,9 +121,20 @@ export const VideoInformation = ({ navigation, route }) => {
         populate: true,
         ids: videoIdsQuery.data,
       });
-      return newest.data;
+      videos = newest.data;
     }
-    return data.data;
+
+    const videoIds = videos.map((video) => video.id);
+    const { likes, dislikes } = await getLikesAndDislikesForContent(
+      videoIds,
+      "video"
+    );
+
+    return videos.map((video) => ({
+      ...video,
+      likes: likes.get(video.id) || 0,
+      dislikes: dislikes.get(video.id) || 0,
+    }));
   };
 
   const {
@@ -111,6 +152,14 @@ export const VideoInformation = ({ navigation, route }) => {
         : false,
   });
 
+  const { isLiked, isDisliked } = isLikedOrDislikedByUser({
+    contentType: "video",
+    contentData: videoData,
+    userEngagements: userContentEngagements,
+  });
+
+  const isLoading = isLoadingVideoContentEngagements || isFetchingVideoData;
+
   return (
     <Screen>
       <ScrollView style={styles.container}>
@@ -120,8 +169,22 @@ export const VideoInformation = ({ navigation, route }) => {
           handleGoBack={() => navigation.goBack()}
         />
 
-        {videoData ? (
-          <VideoView videoData={videoData} t={t} isTmpUser={isTmpUser} />
+        {!isLoading && videoData ? (
+          <VideoView
+            videoData={{
+              ...videoData,
+              likes: videoContentEngagements?.likes || 0,
+              dislikes: videoContentEngagements?.dislikes || 0,
+              contentRating: {
+                isLikedByUser: isLiked,
+                isDislikedByUser: isDisliked,
+              },
+            }}
+            t={t}
+            isTmpUser={isTmpUser}
+          />
+        ) : isFetched && !isLoading ? (
+          <AppText>{t("not_found")}</AppText>
         ) : (
           <View style={styles.loadingContainer}>
             <Loading style={styles.loading} />
@@ -135,18 +198,11 @@ export const VideoInformation = ({ navigation, route }) => {
             </AppText>
             <View style={styles.moreVideosGrid}>
               {moreVideos.map((video, index) => {
-                const isLikedByUser = contentRatings?.some(
-                  (rating) =>
-                    rating.content_id === video.id &&
-                    rating.content_type === "video" &&
-                    rating.positive === true
-                );
-                const isDislikedByUser = contentRatings?.some(
-                  (rating) =>
-                    rating.content_id === video.id &&
-                    rating.content_type === "video" &&
-                    rating.positive === false
-                );
+                const { isLiked, isDisliked } = isLikedOrDislikedByUser({
+                  contentType: "video",
+                  contentData: video,
+                  userEngagements: userContentEngagements,
+                });
                 const videoData = destructureVideoData(video);
 
                 return (
@@ -165,8 +221,8 @@ export const VideoInformation = ({ navigation, route }) => {
                       categoryName={videoData.categoryName}
                       likes={videoData.likes}
                       dislikes={videoData.dislikes}
-                      isLikedByUser={isLikedByUser}
-                      isDislikedByUser={isDislikedByUser}
+                      isLikedByUser={isLiked}
+                      isDislikedByUser={isDisliked}
                       t={t}
                       onPress={() => {
                         navigation.push("VideoInformation", {

@@ -23,10 +23,14 @@ import { cmsSvc, adminSvc, localStorage, Context } from "#services";
 import {
   useDebounce,
   useEventListener,
-  useGetUserContentRatings,
+  useGetUserContentEngagements,
   useRecommendedArticles,
 } from "#hooks";
-import { destructureArticleData, checkIsLikedAndDisliked } from "#utils";
+import {
+  destructureArticleData,
+  getLikesAndDislikesForContent,
+  checkIsLikedAndDisliked,
+} from "#utils";
 import { appStyles } from "#styles";
 
 const PL_LANGUAGE_AGE_GROUP_IDS = {
@@ -52,6 +56,9 @@ export const Articles = ({
   const [usersLanguage, setUsersLanguage] = useState(i18n.language);
   const [showAgeGroups, setShowAgeGroups] = useState(true);
   const [country, setCountry] = useState();
+  const [articlesLikes, setArticlesLikes] = useState(new Map());
+  const [articlesDislikes, setArticlesDislikes] = useState(new Map());
+  const [articleIdsForRatings, setArticleIdsForRatings] = useState([]);
 
   const isPLCountry = country === "PL";
   const hardcodedAgeGroupId = isPLCountry
@@ -210,28 +217,13 @@ export const Articles = ({
   // Add event listener
   useEventListener("countryChanged", handler);
 
-  const { data: contentRatings } = useGetUserContentRatings(!isTmpUser);
-
-  // useEffect(() => {
-  //   if (ageGroups) {
-  //     const notSelectedAgeGroup = ageGroups.find((x) => x.isSelected === false);
-  //     queryClient.prefetchQuery({
-  //       queryKey: [
-  //         "articles",
-  //         debouncedSearchValue,
-  //         notSelectedAgeGroup,
-  //         selectCategory,
-  //         articleIdsQuery.data,
-  //         usersLanguage,
-  //       ],
-  //       queryFn: async () => await getArticlesData(notSelectedAgeGroup.id),
-  //     });
-  //   }
-  // }, [ageGroups]);
+  const { data: contentEngagements } = useGetUserContentEngagements(!isTmpUser);
 
   const getArticlesIds = async () => {
     const articlesIds = await adminSvc.getArticles();
-
+    if (usersLanguage === "en") {
+      setArticleIdsForRatings(articlesIds);
+    }
     return articlesIds;
   };
 
@@ -390,28 +382,64 @@ export const Articles = ({
     ageGroupId: selectedAgeGroup?.id,
     enabled: isTmpUser
       ? false
-      : selectedAgeGroup?.id && !ageGroupsQuery.isLoading,
-    categoryIdFilter: selectedCategory?.id || null,
+      : selectedAgeGroup?.id &&
+        !ageGroupsQuery.isLoading &&
+        availableCategories.length > 0,
+    categoryIdFilter:
+      selectedCategory?.value === "all" ? null : selectedCategory?.id || null,
     searchValue: debouncedSearchValue,
     availableCategories,
+  });
+
+  useEffect(() => {
+    if (usersLanguage !== "en") {
+      const articleIds = articles.map((article) => {
+        const articleData = article.data ? article.data : article;
+        return articleData.id;
+      });
+      if (articleIds.length > 0) {
+        setArticleIdsForRatings((prev) => [...prev, ...articleIds]);
+      }
+    }
+  }, [usersLanguage, articles]);
+
+  useQuery({
+    queryKey: ["articles-ratings", usersLanguage, articleIdsForRatings],
+    queryFn: async () => {
+      const { likes, dislikes } = await getLikesAndDislikesForContent(
+        articleIdsForRatings,
+        "article"
+      );
+      setArticlesLikes(likes);
+      setArticlesDislikes(dislikes);
+      return true;
+    },
+    enabled: articleIdsForRatings.length > 0,
   });
 
   const articlesToTransform = isTmpUser ? guestArticles : articles;
 
   // Transform articles data to match expected format
   const transformedArticles = articlesToTransform?.map((article) => {
-    // If article already has direct properties, use them, otherwise use article.data
-    return article.data ? article.data : article;
+    const baseArticle = article.data ? article.data : article;
+    // console.log(Object.keys(baseArticle));
+
+    return {
+      ...article,
+
+      likes: articlesLikes.get(article.id) || 0,
+      dislikes: articlesDislikes.get(article.id) || 0,
+    };
   });
 
   let areCategoriesAndAgeGroupsReady =
     categoriesQuery?.data?.length > 1 && ageGroupsQuery?.data?.length > 0;
 
   const renderArticle = ({ item, index }) => {
-    const articleData = destructureArticleData(item);
+    const articleData = destructureArticleData(item.data ? item.data : item);
     const { isLikedByUser, isDislikedByUser } = checkIsLikedAndDisliked(
-      contentRatings,
-      item.id,
+      contentEngagements,
+      articleData.id,
       "article"
     );
     return (
@@ -424,14 +452,14 @@ export const Articles = ({
         creator={articleData.creator}
         readingTime={articleData.readingTime}
         categoryName={articleData.categoryName}
-        likes={articleData.likes}
-        dislikes={articleData.dislikes}
+        likes={articlesLikes.get(articleData.id) || 0}
+        dislikes={articlesDislikes.get(articleData.id) || 0}
         isLikedByUser={isLikedByUser}
         isDislikedByUser={isDislikedByUser}
         isRead={readArticleIds.includes(articleData.id)}
         onPress={() => {
           navigation.push("ArticleInformation", {
-            articleId: item.id,
+            articleId: item.id || articleData.id,
           });
         }}
         t={t}
@@ -492,13 +520,27 @@ export const Articles = ({
             }}
             onEndReachedThreshold={0.2}
             ListFooterComponent={
-              (isTmpUser ? isGuestArticlesLoading : isArticlesLoading) &&
-              !transformedArticles?.length ? (
+              !isTmpUser ? (
+                // Logged-in user
+                isArticlesLoading && transformedArticles?.length === 0 ? (
+                  <View style={styles.loadingContainer}>
+                    <Loading />
+                  </View>
+                ) : isReady &&
+                  !isArticlesLoading &&
+                  transformedArticles?.length === 0 ? (
+                  <View style={styles.articlesNoResultsContainer}>
+                    <AppText>{t("no_results")}</AppText>
+                  </View>
+                ) : null
+              ) : // Guest
+              isGuestArticlesLoading && transformedArticles?.length === 0 ? (
                 <View style={styles.loadingContainer}>
                   <Loading />
                 </View>
-              ) : (isTmpUser ? !isGuestArticlesLoading : !isArticlesLoading) &&
-                !transformedArticles?.length ? (
+              ) : isArticlesFetched &&
+                !isGuestArticlesLoading &&
+                transformedArticles?.length === 0 ? (
                 <View style={styles.articlesNoResultsContainer}>
                   <AppText>{t("no_results")}</AppText>
                 </View>
@@ -507,15 +549,6 @@ export const Articles = ({
             contentContainerStyle={styles.flashListWrapperWithPadding}
           />
         </View>
-        {!transformedArticles?.length &&
-        (isTmpUser ? isArticlesFetched : isReady) &&
-        (isTmpUser ? !isGuestArticlesLoading : !isArticlesLoading) &&
-        categoriesQuery?.data?.length > 1 &&
-        ageGroupsQuery?.data?.length > 0 ? (
-          <View style={styles.articlesNoResultsContainer}>
-            <AppText>{t("no_results")}</AppText>
-          </View>
-        ) : null}
       </Block>
     </>
   );

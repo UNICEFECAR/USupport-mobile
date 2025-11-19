@@ -49,7 +49,8 @@
       "read_more": "Узнать больше",
       "min_read": "минут на прочтение",
       "by": "От {{creator}}",
-      "number_of_more_options": "еще {{count}}"
+      "number_of_more_options": "еще {{count}}",
+      "read": "Читать"
     },
     "change-passcode": {
       "enter_passcode": "Введите текущий код доступа",

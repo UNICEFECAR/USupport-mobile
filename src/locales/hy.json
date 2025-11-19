@@ -49,7 +49,8 @@
       "read_more": "Կարդալ ավելին",
       "min_read": "րոպե կարդալու համար",
       "by": "{{creator}}-ի կողմից",
-      "number_of_more_options": "{{count}} ավելին"
+      "number_of_more_options": "{{count}} ավելին",
+      "read": "Կարդալ"
     },
     "change-passcode": {
       "enter_passcode": "Մուտքագրեք ներկայիս մուտքի կոդը",
