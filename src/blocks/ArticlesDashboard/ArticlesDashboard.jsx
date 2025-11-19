@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import {
   Block,
@@ -24,11 +24,15 @@ import { localStorage, cmsSvc, adminSvc, Context } from "#services";
 
 import {
   useEventListener,
-  useGetUserContentRatings,
+  useGetUserContentEngagements,
   useRecommendedArticles,
 } from "#hooks";
 
-import { destructureArticleData, checkIsLikedAndDisliked } from "#utils";
+import {
+  destructureArticleData,
+  checkIsLikedAndDisliked,
+  getLikesAndDislikesForContent,
+} from "#utils";
 import { Error } from "../../components/errors";
 
 const PL_LANGUAGE_AGE_GROUP_IDS = {
@@ -60,6 +64,9 @@ export const ArticlesDashboard = ({
 
   const [usersLanguage, setUsersLanguage] = useState(i18n.language);
   const [showAgeGroups, setShowAgeGroups] = useState(true);
+  const [articlesLikes, setArticlesLikes] = useState(new Map());
+  const [articlesDislikes, setArticlesDislikes] = useState(new Map());
+  const [articleIdsForRatings, setArticleIdsForRatings] = useState([]);
 
   const selectedCategory = allCategories?.find((category) => {
     return !!category.isSelected;
@@ -88,11 +95,12 @@ export const ArticlesDashboard = ({
     }
   }, [i18n.language]);
 
-  const { data: contentRatings } = useGetUserContentRatings(!isTmpUser);
+  const { data: contentEngagements } = useGetUserContentEngagements(!isTmpUser);
 
   //--------------------- Age Groups ----------------------//
   const [ageGroups, setAgeGroups] = useState();
   const [selectedAgeGroup, setSelectedAgeGroup] = useState();
+
   const selectedAgeGroupId = selectedAgeGroup?.id;
 
   const getAgeGroups = async () => {
@@ -194,9 +202,29 @@ export const ArticlesDashboard = ({
     }
   );
 
+  useQuery({
+    queryKey: ["articles-ratings", usersLanguage, articleIdsForRatings],
+    queryFn: async () => {
+      const { likes, dislikes } = await getLikesAndDislikesForContent(
+        articleIdsForRatings,
+        "article"
+      );
+
+      setArticlesLikes(likes);
+      setArticlesDislikes(dislikes);
+
+      return true;
+    },
+    enabled: articleIdsForRatings.length > 0,
+  });
+
   const getArticlesIds = async () => {
     // Request articles ids from the master DB based for website platform
     const articlesIds = await adminSvc.getArticles();
+
+    if (usersLanguage === "en") {
+      setArticleIdsForRatings(articlesIds);
+    }
 
     return articlesIds;
   };
@@ -284,6 +312,9 @@ export const ArticlesDashboard = ({
       data.data[i] = destructureArticleData(data.data[i]);
     }
 
+    const ids = data.data.map((article) => article.id);
+    setArticleIdsForRatings((prev) => [...prev, ...ids]);
+
     return data.data;
   };
 
@@ -323,16 +354,28 @@ export const ArticlesDashboard = ({
     loading: isArticlesLoading,
     error,
     isReady,
+    readArticleIds,
   } = useRecommendedArticles({
     limit: 6, // Only show 2 articles
     ageGroupId: selectedAgeGroup?.id,
-    enabled: isTmpUser
-      ? false
-      : selectedAgeGroup?.id && !ageGroupsQuery.isLoading,
-    categoryIdFilter: selectedCategory?.id || null,
+    categoryIdFilter:
+      selectedCategory?.value === "all" ? null : selectedCategory?.id || null,
     sortFilter: "read_count",
     availableCategories,
+    enabled: !isTmpUser,
   });
+
+  useEffect(() => {
+    if (usersLanguage !== "en") {
+      const articleIds = articles.map((article) => {
+        const articleData = article.data ? article.data : article;
+        return articleData.id;
+      });
+      if (articleIds.length > 0) {
+        setArticleIdsForRatings((prev) => [...prev, ...articleIds]);
+      }
+    }
+  }, [usersLanguage, articles]);
 
   const articlesToTransform = isTmpUser ? newestArticles : articles;
 
@@ -401,12 +444,13 @@ export const ArticlesDashboard = ({
                     : article;
                   const { isLikedByUser, isDislikedByUser } =
                     checkIsLikedAndDisliked(
-                      contentRatings,
+                      contentEngagements,
                       article.id,
                       "article"
                     );
                   return (
                     <CardMedia
+                      isRead={readArticleIds.includes(article.id)}
                       style={styles.cardMedia}
                       title={articleData.title}
                       image={articleData.imageMedium || articleData.imageSmall}
@@ -415,8 +459,8 @@ export const ArticlesDashboard = ({
                       creator={articleData.creator}
                       readingTime={articleData.readingTime}
                       categoryName={articleData.categoryName}
-                      likes={articleData.likes}
-                      dislikes={articleData.dislikes}
+                      likes={articlesLikes.get(article.id) || 0}
+                      dislikes={articlesDislikes.get(article.id) || 0}
                       isLikedByUser={isLikedByUser}
                       isDislikedByUser={isDislikedByUser}
                       onPress={() => {

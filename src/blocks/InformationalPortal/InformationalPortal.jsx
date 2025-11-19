@@ -13,12 +13,13 @@ import {
   destructureArticleData,
   destructureVideoData,
   destructurePodcastData,
-  checkIsLikedAndDisliked,
+  getLikesAndDislikesForContent,
+  isLikedOrDislikedByUser,
 } from "#utils";
 
 import {
   useEventListener,
-  useGetUserContentRatings,
+  useGetUserContentEngagements,
   useGetTheme,
 } from "#hooks";
 
@@ -60,8 +61,6 @@ export const InformationalPortal = ({
   // Add event listener
   useEventListener("countryChanged", handler);
 
-  const { data: contentRatings } = useGetUserContentRatings(!isTmpUser);
-
   //--------------------- Content IDs ----------------------//
   const getContentIds = async () => {
     if (contentType === "articles") {
@@ -92,6 +91,9 @@ export const InformationalPortal = ({
   };
 
   const ContentList = ({ heading, sortBy, sortField }) => {
+    const { data: userContentEngagements } =
+      useGetUserContentEngagements(!isTmpUser);
+
     const getContent = async () => {
       let service;
       let destructureData;
@@ -151,6 +153,32 @@ export const InformationalPortal = ({
       });
     };
 
+    // Get likes and dislikes for content items
+    const { data: contentLikesAndDislikes } = useQuery(
+      [
+        `${contentType}-likes-dislikes-${sortBy}`,
+        contentItems?.map((item) => item.id),
+      ],
+      async () => {
+        if (!contentItems?.length)
+          return { likes: new Map(), dislikes: new Map() };
+        const ids = contentItems.map((item) => item.id);
+
+        const contentTypeString =
+          contentType === "articles"
+            ? "article"
+            : contentType === "videos"
+              ? "video"
+              : "podcast";
+
+        return await getLikesAndDislikesForContent(ids, contentTypeString);
+      },
+      {
+        enabled: !!contentItems?.length,
+        refetchOnWindowFocus: false,
+      }
+    );
+
     if (isLoading) {
       return (
         <View style={styles.loadingContainer}>
@@ -184,12 +212,13 @@ export const InformationalPortal = ({
                   : contentType === "videos"
                     ? "video"
                     : "podcast";
-              const { isLikedByUser, isDislikedByUser } =
-                checkIsLikedAndDisliked(
-                  contentRatings,
-                  item.id,
-                  contentTypeString
-                );
+
+              console.log("contentTypeString", contentTypeString);
+              const { isLiked, isDisliked } = isLikedOrDislikedByUser({
+                contentType: contentTypeString,
+                contentData: item,
+                userEngagements: userContentEngagements,
+              });
 
               let screenName, idParam;
               if (contentType === "articles") {
@@ -202,7 +231,7 @@ export const InformationalPortal = ({
                 screenName = "PodcastInformation";
                 idParam = "podcastId";
               }
-
+              console.log(idParam, "idParam");
               let handlePlayFunction;
               if (contentType === "videos") {
                 handlePlayFunction = () =>
@@ -225,12 +254,13 @@ export const InformationalPortal = ({
                   creator={item.creator}
                   readingTime={item.readingTime}
                   categoryName={item.categoryName}
-                  likes={item.likes}
-                  dislikes={item.dislikes}
-                  isLikedByUser={isLikedByUser}
-                  isDislikedByUser={isDislikedByUser}
+                  likes={contentLikesAndDislikes?.likes.get(item.id) || 0}
+                  dislikes={contentLikesAndDislikes?.dislikes.get(item.id) || 0}
+                  isLikedByUser={isLiked}
+                  isDislikedByUser={isDisliked}
                   contentType={contentType}
                   onPress={() => {
+                    console.log("ITEM", item);
                     navigation.push(screenName, {
                       [idParam]: item.id,
                     });

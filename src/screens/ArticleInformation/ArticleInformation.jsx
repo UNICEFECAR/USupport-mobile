@@ -9,9 +9,13 @@ import { ArticleView } from "#blocks";
 
 import { cmsSvc, adminSvc, userSvc, clientSvc, Context } from "#services";
 
-import { destructureArticleData, checkIsLikedAndDisliked } from "#utils";
+import {
+  destructureArticleData,
+  isLikedOrDislikedByUser,
+  getLikesAndDislikesForContent,
+} from "#utils";
 
-import { useGetUserContentRatings } from "#hooks";
+import { useGetUserContentEngagements } from "#hooks";
 
 import { appStyles } from "#styles";
 
@@ -28,7 +32,32 @@ export const ArticleInformation = ({ navigation, route }) => {
   const { i18n, t } = useTranslation("screens", {
     keyPrefix: "article-information",
   });
-  const { data: userContentRatings } = useGetUserContentRatings(!isTmpUser);
+  const { data: userContentEngagements } =
+    useGetUserContentEngagements(!isTmpUser);
+
+  const {
+    data: articleContentEngagements,
+    isLoading: isArticleContentEngagementsLoading,
+  } = useQuery(["articleContentEngagements", id], async () => {
+    const { data } = await userSvc.getContentEngagementsById({
+      contentType: "article",
+      ids: [id],
+    });
+
+    const { likes, dislikes } = data.reduce(
+      (acc, engagement) => {
+        if (engagement.action === "like") {
+          acc.likes += 1;
+        } else if (engagement.action === "dislike") {
+          acc.dislikes += 1;
+        }
+        return acc;
+      },
+      { likes: 0, dislikes: 0 }
+    );
+    return { likes, dislikes };
+  });
+
   const getArticlesIds = async () => {
     // Request articles ids from the master DB based for website platform
     const articlesIds = await adminSvc.getArticles();
@@ -41,42 +70,39 @@ export const ArticleInformation = ({ navigation, route }) => {
   const getArticleData = async () => {
     let articleIdToFetch = id;
 
-    const contentRatings = await userSvc.getRatingsForContent({
-      contentType: "article",
-      contentId: articleIdToFetch,
-      isTmpUser,
-    });
     const { data } = await cmsSvc.getArticleById(
       articleIdToFetch,
       i18n.language
     );
 
     const finalData = destructureArticleData(data);
-    finalData.contentRating = contentRatings.data;
     return finalData;
   };
 
-  const { data: articleData, isFetching: isFetchingArticleData } = useQuery(
-    ["article", i18n.language, id],
-    getArticleData,
-    {
-      enabled: !!id,
-      onSuccess: (data) => {
-        // Add category interaction when article is successfully fetched
-        if (data && data.categoryId && !isTmpUser) {
-          clientSvc
-            .addClientCategoryInteraction({
-              categoryId: data.categoryId,
-              articleId: data.id,
-              tagIds: data.labels?.map((label) => label.id) || [],
-            })
-            .catch((error) => {
-              console.error("Failed to track category interaction:", error);
-            });
-        }
-      },
-    }
-  );
+  const {
+    data: articleData,
+    isFetching: isFetchingArticleData,
+    error,
+  } = useQuery(["article", i18n.language, id], getArticleData, {
+    enabled: !!id,
+    onSuccess: (data) => {
+      // Add category interaction when article is successfully fetched
+      if (data && data.categoryId && !isTmpUser) {
+        clientSvc
+          .addClientCategoryInteraction({
+            categoryId: data.categoryId,
+            articleId: data.id,
+            tagIds: data.labels?.map((label) => label.id) || [],
+          })
+          .catch((error) => {
+            console.error("Failed to track category interaction:", error);
+          });
+      }
+    },
+  });
+  if (error) {
+    console.error("Error fetching article data:", error);
+  }
 
   const getSimilarArticles = async () => {
     if (!articleData?.categoryId) return [];
@@ -84,9 +110,12 @@ export const ArticleInformation = ({ navigation, route }) => {
     try {
       let readArticleIds = [];
       // If no results in current category, get category interactions to try other categories
+      let categoryInteractions = [];
+
       if (!isTmpUser) {
-        const { data: categoryInteractions } =
-          await clientSvc.getCategoryInteractions();
+        const { data } = await clientSvc.getCategoryInteractions();
+        categoryInteractions = data;
+
         readArticleIds = [
           ...categoryInteractions.map((x) => Number(x.article_id)),
           Number(articleData.id),
@@ -116,13 +145,22 @@ export const ArticleInformation = ({ navigation, route }) => {
       }
 
       if (articles.length >= 3) {
-        return articles;
+        const ids = articles.map((article) => article.id);
+        const { likes, dislikes } = await getLikesAndDislikesForContent(
+          ids,
+          "article"
+        );
+        return articles.map((article) => ({
+          ...article,
+          likes: likes.get(article.id),
+          dislikes: dislikes.get(article.id),
+        }));
       }
 
-      if (categoryInteractions?.data?.length > 0) {
+      if (categoryInteractions?.length > 0) {
         // Build category interaction map and sort by weight
         const categoryInteractionMap = new Map();
-        categoryInteractions.data.forEach((interaction) => {
+        categoryInteractions.forEach((interaction) => {
           const {
             category_id: categoryId,
             count,
@@ -173,7 +211,7 @@ export const ArticleInformation = ({ navigation, route }) => {
           if (result.success && result.data?.length > 0) {
             articles.push(...result.data);
             readArticleIds.push(...result.data.map((x) => x.id));
-            console.log(readArticleIds, "READ");
+
             if (articles.length >= 3) {
               return articles;
             }
@@ -192,7 +230,18 @@ export const ArticleInformation = ({ navigation, route }) => {
         ids: articleIdsQuerry.data,
         ageGroupId: articleData.ageGroupId,
       });
-      return [...articles, ...newest.data];
+      const combinedArticles = [...articles, ...newest.data];
+      const combinedArticlesIds = combinedArticles.map((article) => article.id);
+      const {
+        likes: combinedArticlesLikes,
+        dislikes: combinedArticlesDislikes,
+      } = await getLikesAndDislikesForContent(combinedArticlesIds, "article");
+
+      return combinedArticles.map((article) => ({
+        ...article,
+        likes: combinedArticlesLikes.get(article.id),
+        dislikes: combinedArticlesDislikes.get(article.id),
+      }));
     } catch (error) {
       console.error("Error fetching similar articles:", error);
       return [];
@@ -214,6 +263,14 @@ export const ArticleInformation = ({ navigation, route }) => {
         : false,
   });
 
+  const { isLiked, isDisliked } = isLikedOrDislikedByUser({
+    contentType: "article",
+    contentData: articleData,
+    userEngagements: userContentEngagements,
+  });
+
+  const isLoading = isFetchingArticleData || isArticleContentEngagementsLoading;
+
   return (
     <Screen>
       <TouchableOpacity
@@ -223,9 +280,17 @@ export const ArticleInformation = ({ navigation, route }) => {
         <Icon name="arrow-chevron-back" color={appStyles.colorPrimary_20809e} />
       </TouchableOpacity>
       <ScrollView showsVerticalScrollIndicator={false}>
-        {articleData ? (
+        {articleData && !isLoading ? (
           <ArticleView
-            articleData={articleData}
+            articleData={{
+              ...articleData,
+              likes: articleContentEngagements?.likes || 0,
+              dislikes: articleContentEngagements?.dislikes || 0,
+              contentRating: {
+                isLikedByUser: isLiked,
+                isDislikedByUser: isDisliked,
+              },
+            }}
             navigation={navigation}
             isTmpUser={isTmpUser}
           />
@@ -244,8 +309,11 @@ export const ArticleInformation = ({ navigation, route }) => {
               const articleData = destructureArticleData(
                 article.data ? article.data : article
               );
-              const { isLikedByUser, isDislikedByUser } =
-                checkIsLikedAndDisliked(userContentRatings, article.id);
+              const { isLiked, isDisliked } = isLikedOrDislikedByUser({
+                contentType: "article",
+                contentData: article,
+                userEngagements: userContentEngagements,
+              });
               return (
                 <CardMedia
                   title={articleData.title}
@@ -257,8 +325,8 @@ export const ArticleInformation = ({ navigation, route }) => {
                   categoryName={articleData.categoryName}
                   likes={articleData.likes}
                   dislikes={articleData.dislikes}
-                  isLikedByUser={isLikedByUser}
-                  isDislikedByUser={isDislikedByUser}
+                  isLikedByUser={isLiked}
+                  isDislikedByUser={isDisliked}
                   onPress={() => {
                     navigation.push("ArticleInformation", {
                       articleId: articleData.id,

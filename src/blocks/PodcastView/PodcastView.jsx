@@ -1,11 +1,16 @@
-import React, { useState, useCallback, useRef, useEffect } from "react";
-import { StyleSheet, View, Dimensions, TouchableOpacity } from "react-native";
+import React, { useState, useRef, useEffect } from "react";
+import { StyleSheet, View, Dimensions } from "react-native";
 import { WebView } from "react-native-webview";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { Block, AppText, Label, Icon, Like } from "#components";
-import { userSvc, cmsSvc } from "#services";
-import { useAddContentRating, useGetTheme } from "#hooks";
+import { Block, AppText, Label, Like } from "#components";
+import { cmsSvc } from "#services";
+import {
+  useAddContentRating,
+  useGetTheme,
+  useAddContentEngagement,
+  useRemoveContentEngagement,
+} from "#hooks";
 import { appStyles } from "#styles";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -24,10 +29,33 @@ export const PodcastView = ({ podcastData, t, isTmpUser }) => {
   const webViewRef = useRef(null);
   const queryClient = useQueryClient();
 
-  const [contentRating, setContentRating] = useState(podcastData.contentRating);
-  useEffect(() => {
-    setContentRating(podcastData.contentRating);
-  }, [podcastData.contentRating]);
+  const [contentRating, setContentRating] = useState({
+    likes: podcastData.likes,
+    dislikes: podcastData.dislikes,
+    isLikedByUser: podcastData.contentRating?.isLikedByUser || false,
+    isDislikedByUser: podcastData.contentRating?.isDislikedByUser || false,
+  });
+
+  const addContentEngagementMutation = useAddContentEngagement();
+  const removeContentEngagementMutation = useRemoveContentEngagement();
+
+  // Track view when podcast is loaded using useQuery
+  useQuery(
+    ["podcast-view-tracking", podcastData.id],
+    async () => {
+      addContentEngagementMutation({
+        contentId: podcastData.id,
+        contentType: "podcast",
+        action: "view",
+      });
+      return true;
+    },
+    {
+      enabled: !!podcastData?.id && !isTmpUser,
+      staleTime: Infinity,
+      cacheTime: Infinity,
+    }
+  );
 
   // Like/Dislike functionality
   const onMutate = (data) => {
@@ -112,6 +140,7 @@ export const PodcastView = ({ podcastData, t, isTmpUser }) => {
 
   const onSuccess = () => {
     queryClient.invalidateQueries({ queryKey: ["userContentRatings"] });
+    queryClient.invalidateQueries({ queryKey: ["userContentEngagements"] });
   };
 
   const addContentRatingMutation = useAddContentRating(
@@ -122,14 +151,29 @@ export const PodcastView = ({ podcastData, t, isTmpUser }) => {
 
   const handleAddRating = (action) => {
     if (isTmpUser) return;
+
+    const isRemovingReaction =
+      action === "remove-like" || action === "remove-dislike";
+
+    if (isRemovingReaction) {
+      // Remove like/dislike from engagement tracking
+      removeContentEngagementMutation({
+        contentId: podcastData.id,
+        contentType: "podcast",
+      });
+    } else {
+      // Add like/dislike to engagement tracking
+      addContentEngagementMutation({
+        contentId: podcastData.id,
+        contentType: "podcast",
+        action: action === "like" ? "like" : "dislike",
+      });
+    }
+
     addContentRatingMutation({
       contentId: podcastData.id,
-      positive:
-        action === "like"
-          ? true
-          : action === "remove-like" || action === "remove-dislike"
-            ? null
-            : false,
+      positive: action === "like" ? true : isRemovingReaction ? null : false,
+
       contentType: "podcast",
     });
   };

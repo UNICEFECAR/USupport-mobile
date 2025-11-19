@@ -1,15 +1,20 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
-import { StyleSheet, View, Dimensions, Platform } from "react-native";
+import { StyleSheet, View, Dimensions } from "react-native";
 import YoutubePlayer from "react-native-youtube-iframe";
 import { WebView } from "react-native-webview";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { Block, AppText, Loading, Label } from "#components";
+import { Block, AppText, Label } from "#components";
 import { appStyles } from "#styles";
 import { Like } from "../../components/icons/Like";
 
-import { userSvc, cmsSvc } from "#services";
-import { useAddContentRating, useGetTheme } from "#hooks";
+import { cmsSvc } from "#services";
+import {
+  useAddContentRating,
+  useGetTheme,
+  useAddContentEngagement,
+  useRemoveContentEngagement,
+} from "#hooks";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const VIDEO_HEIGHT = (SCREEN_WIDTH * 9) / 16; // 16:9 aspect ratio
@@ -28,10 +33,12 @@ export const VideoView = ({ videoData, t, isTmpUser }) => {
   const webViewRef = useRef(null);
   const queryClient = useQueryClient();
 
-  const [contentRating, setContentRating] = useState(videoData.contentRating);
-  useEffect(() => {
-    setContentRating(videoData.contentRating);
-  }, [videoData.contentRating]);
+  const [contentRating, setContentRating] = useState({
+    likes: videoData.likes || 0,
+    dislikes: videoData.dislikes || 0,
+    isLikedByUser: videoData.contentRating?.isLikedByUser || false,
+    isDislikedByUser: videoData.contentRating?.isDislikedByUser || false,
+  });
 
   // Extract video ID and platform from URL
   const getVideoInfo = (url) => {
@@ -58,23 +65,25 @@ export const VideoView = ({ videoData, t, isTmpUser }) => {
     }
   }, []);
 
-  // // Update view count
-  // const updateViewCount = async () => {
-  //   try {
-  //     await userSvc.rateContent({
-  //       contentType: "video",
-  //       contentId: videoData.id,
-  //       action: "view",
-  //     });
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+  const addContentEngagementMutation = useAddContentEngagement();
+  const removeContentEngagementMutation = useRemoveContentEngagement();
 
-  // useQuery(["update-view-count", videoData.id], updateViewCount, {
-  //   enabled: !!videoData.id,
-  // });
-
+  useQuery(
+    ["video-view-tracking", videoData.id],
+    async () => {
+      addContentEngagementMutation({
+        contentId: videoData.id,
+        contentType: "video",
+        action: "view",
+      });
+      return true;
+    },
+    {
+      enabled: !!videoData?.id && !isTmpUser,
+      staleTime: Infinity,
+      cacheTime: Infinity,
+    }
+  );
   // Like/Dislike functionality
   const onMutate = (data) => {
     const prevData = JSON.parse(JSON.stringify(contentRating));
@@ -158,6 +167,7 @@ export const VideoView = ({ videoData, t, isTmpUser }) => {
 
   const onSuccess = () => {
     queryClient.invalidateQueries({ queryKey: ["userContentRatings"] });
+    queryClient.invalidateQueries({ queryKey: ["userContentEngagements"] });
   };
 
   const addContentRatingMutation = useAddContentRating(
@@ -168,14 +178,30 @@ export const VideoView = ({ videoData, t, isTmpUser }) => {
 
   const handleAddRating = (action) => {
     if (isTmpUser) return;
+
+    const isRemovingReaction =
+      action === "remove-like" || action === "remove-dislike";
+
+    // Track engagement
+    if (isRemovingReaction) {
+      // Remove like/dislike from engagement tracking
+      removeContentEngagementMutation({
+        contentId: videoData.id,
+        contentType: "video",
+      });
+    } else {
+      // Add like/dislike to engagement tracking
+      addContentEngagementMutation({
+        contentId: videoData.id,
+        contentType: "video",
+        action: action === "like" ? "like" : "dislike",
+      });
+    }
+
+    // Update rating in the rating system
     addContentRatingMutation({
       contentId: videoData.id,
-      positive:
-        action === "like"
-          ? true
-          : action === "remove-like" || action === "remove-dislike"
-            ? null
-            : false,
+      positive: action === "like" ? true : isRemovingReaction ? null : false,
       contentType: "video",
     });
   };
