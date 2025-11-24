@@ -328,7 +328,7 @@ const FiltersBlock = ({
           labelStyle={{ marginBottom: 12 }}
           disabled={isToggleDisabled}
         /> */}
-        {!allFilters.onlyFreeConsultation && showPrices && (
+        {/* {!allFilters.onlyFreeConsultation && showPrices && (
           <Input
             type="number"
             label={t("max_price")}
@@ -337,7 +337,7 @@ const FiltersBlock = ({
             onChange={(e) => handleChange("maxPrice", e)}
             style={{ marginLeft: 16, flex: 1 }}
           />
-        )}
+        )} */}
       </View>
     </View>
   );
