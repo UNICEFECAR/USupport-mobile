@@ -225,7 +225,7 @@ export const FilterProviders = ({
         dropdownId="filterLanguage"
         emptyMessage={t("no_languages_found")}
       />
-      {!isToggleDisabled && (
+      {/* {!isToggleDisabled && (
         <View style={styles.toggleContainer}>
           <Toggle
             label={t("providers_free_consultation_label")}
@@ -237,7 +237,7 @@ export const FilterProviders = ({
             disabled={isToggleDisabled}
           />
         </View>
-      )}
+      )} */}
     </Backdrop>
   );
 };
