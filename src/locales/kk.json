@@ -51,7 +51,6 @@
       "by": "Дайындаушы {{creator}}",
       "number_of_more_options": "тағы {{count}}",
       "read": "Оқу"
-
     },
     "change-passcode": {
       "enter_passcode": "Ағымдағы кіру кодын енгізіңіз",
@@ -639,7 +638,8 @@
       "subheading": "",
       "heading_button_label": "",
       "emergency_button_label": "",
-      "ask_button_label": ""
+      "ask_button_label": "",
+      "date_answered": "{{date}} күні"
     },
     "set-up-biometrics": {
       "heading": "Құпия сөз бен биометрияны орнату",
@@ -1255,7 +1255,8 @@
     "question-details": {
       "today": "Бүгін",
       "answered_by": "Жауап беруші:",
-      "schedule_consultation": "Консультацияны жоспарлау"
+      "schedule_consultation": "Консультацияны жоспарлау",
+      "date_answered": "{{date}} күні"
     },
     "filter-questions": {
       "heading": "Тег бойынша сұрағыңызды сүзгіден өткізіңіз",

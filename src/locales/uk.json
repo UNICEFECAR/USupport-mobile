@@ -51,7 +51,6 @@
       "by": "Від {{creator}}",
       "number_of_more_options": "ще {{count}}",
       "read": "Читати"
-
     },
     "change-passcode": {
       "enter_passcode": "Введи дійсний пароль",
@@ -640,7 +639,8 @@
       "subheading": "",
       "heading_button_label": "",
       "emergency_button_label": "",
-      "ask_button_label": ""
+      "ask_button_label": "",
+      "date_answered": "від {{date}}"
     },
     "set-up-biometrics": {
       "heading": "Налаштуй код доступу та біометрію",
@@ -1259,7 +1259,8 @@
     "question-details": {
       "today": "Сьогодні",
       "answered_by": "Відповідав/ла:",
-      "schedule_consultation": "Заплануй консультацію"
+      "schedule_consultation": "Заплануй консультацію",
+      "date_answered": "від {{date}}"
     },
     "filter-questions": {
       "heading": "Фільтруй запитання за тегом",

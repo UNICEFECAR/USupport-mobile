@@ -638,7 +638,8 @@
       "subheading": "",
       "heading_button_label": "",
       "emergency_button_label": "",
-      "ask_button_label": ""
+      "ask_button_label": "",
+      "date_answered": "on {{date}}"
     },
     "set-up-biometrics": {
       "heading": "Set up passcode and biometrics",
@@ -1259,7 +1260,8 @@
     "question-details": {
       "today": "Today",
       "answered_by": "Answered by",
-      "schedule_consultation": "Schedule consultation"
+      "schedule_consultation": "Schedule consultation",
+      "date_answered": "on {{date}}"
     },
     "filter-questions": {
       "heading": "Filter questions by tag",

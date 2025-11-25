@@ -638,7 +638,8 @@
       "subheading": "I<0>ԱՆԱՆՈՒՆ</0>։ Ձեր հարցերը<0>ԿԱՊ ՉՈՒՆԵՆ</0> ձեզ հետ։ Պատասխանները հրապարակվելու են, ուստի, կարող եք տեսնել նաև այն խնդիրները, որ ունեն ուրիշները։",
       "heading_button_label": "Տեսեք, թե ինչպես է դա աշխատում",
       "emergency_button_label": "Հրատապ օգնություն",
-      "ask_button_label": "Ուղղել անանուն հարց"
+      "ask_button_label": "Ուղղել անանուն հարց",
+      "date_answered": "ըստ {{date}}"
     },
     "set-up-biometrics": {
       "heading": "Սահմանել մուտքի կոդ և զետեղել կենսաչափական տվյալներ",
@@ -1254,7 +1255,8 @@
     "question-details": {
       "today": "Այսօր",
       "answered_by": "Պատասխանող՝",
-      "schedule_consultation": "Պլանավորել խորհրդատվություն"
+      "schedule_consultation": "Պլանավորել խորհրդատվություն",
+      "date_answered": "ըստ {{date}}"
     },
     "filter-questions": {
       "heading": "Հարցերը ֆիլտրել tag-ի օգնությամբ",

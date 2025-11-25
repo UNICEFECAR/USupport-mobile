@@ -33,15 +33,15 @@ export const QuestionDetails = ({
   handleSchedulePress,
   handleProviderClick,
 }) => {
-  const { t } = useTranslation("question-details");
+  const { t } = useTranslation("backdrops", { keyPrefix: "question-details" });
 
   const isInMyQuestions = question.isAskedByCurrentClient;
   const providerInfo = question.providerData;
 
   const imageUrl = AMAZON_S3_BUCKET + "/" + (providerInfo.image || "default");
 
-  const getDateText = () => {
-    const date = new Date(question.questionCreatedAt);
+  const getDateText = (dateString) => {
+    const date = new Date(dateString);
 
     if (isDateToday(date)) {
       return t("today");
@@ -58,7 +58,9 @@ export const QuestionDetails = ({
     <Backdrop isOpen={isOpen} onClose={onClose}>
       <View style={styles.dateContainer}>
         <Icon name="calendar" color="#92989B" />
-        <AppText style={styles.dateContainerText}>{getDateText()}</AppText>
+        <AppText style={styles.dateContainerText}>
+          {getDateText(question.questionCreatedAt)}
+        </AppText>
       </View>
       {isInMyQuestions ? (
         <AppText>{question.question}</AppText>
@@ -83,7 +85,10 @@ export const QuestionDetails = ({
               <AppText
                 onPress={() => handleProviderClick(providerInfo.providerId)}
               >
-                {providerInfo.name} {providerInfo.surname}
+                {providerInfo.name} {providerInfo.surname}{" "}
+                {t("date_answered", {
+                  date: getDateText(question.answerCreatedAt),
+                })}
               </AppText>
             </View>
           </View>
