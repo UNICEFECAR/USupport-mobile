@@ -74,16 +74,6 @@ export const Videos = ({ navigation, showSearch, showCategories, sort }) => {
   const getVideosIds = async () => {
     const videosIds = await adminSvc.getVideos();
 
-    if (usersLanguage === "en") {
-      const { likes, dislikes } = await getLikesAndDislikesForContent(
-        videosIds,
-        "video"
-      );
-
-      setVideosLikes(likes);
-      setVideosDislikes(dislikes);
-    }
-
     return videosIds;
   };
 
@@ -188,20 +178,6 @@ export const Videos = ({ navigation, showSearch, showCategories, sort }) => {
 
     const videos = data.data || [];
 
-    if (videos.length > 0) {
-      const videoIds = videos.map((video) => video.id);
-      const { likes, dislikes } = await getLikesAndDislikesForContent(
-        videoIds,
-        "video"
-      );
-
-      return videos.map((video) => ({
-        ...video,
-        likes: likes.get(video.id) || 0,
-        dislikes: dislikes.get(video.id) || 0,
-      }));
-    }
-
     return videos;
   };
 
@@ -234,26 +210,26 @@ export const Videos = ({ navigation, showSearch, showCategories, sort }) => {
 
   useEffect(() => {
     async function getVideosRatings() {
-      if (usersLanguage !== "en") {
-        const videoIds = videos.reduce((acc, video) => {
-          if (!videosLikes.has(video.id) && !videosDislikes.has(video.id)) {
-            acc.push(video.id);
-          }
-          return acc;
-        }, []);
+      const videoIds = videos.reduce((acc, video) => {
+        if (!videosLikes.has(video.id) && !videosDislikes.has(video.id)) {
+          acc.push(video.id);
+        }
+        return acc;
+      }, []);
 
-        const { likes, dislikes } = await getLikesAndDislikesForContent(
-          videoIds,
-          "video"
-        );
+      if (!videoIds.length) return;
 
-        setVideosLikes((prevVideosLikes) => {
-          return new Map([...prevVideosLikes, ...likes]);
-        });
-        setVideosDislikes((prevVideosDislikes) => {
-          return new Map([...prevVideosDislikes, ...dislikes]);
-        });
-      }
+      const { likes, dislikes } = await getLikesAndDislikesForContent(
+        videoIds,
+        "video"
+      );
+
+      setVideosLikes((prevVideosLikes) => {
+        return new Map([...prevVideosLikes, ...likes]);
+      });
+      setVideosDislikes((prevVideosDislikes) => {
+        return new Map([...prevVideosDislikes, ...dislikes]);
+      });
     }
 
     getVideosRatings();

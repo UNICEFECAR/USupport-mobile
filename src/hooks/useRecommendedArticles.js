@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { cmsSvc, clientSvc, adminSvc } from "#services";
@@ -271,8 +271,14 @@ export const useRecommendedArticles = ({
   // FINAL MERGED LIST
   // ----------------------------------
 
-  const merged = [...stage1, ...stage2, ...stage3];
-  const paged = merged.slice(0, uiPage * limit);
+  const merged = useMemo(
+    () => [...stage1, ...stage2, ...stage3],
+    [stage1, stage2, stage3]
+  );
+  const paged = useMemo(
+    () => merged.slice(0, uiPage * limit),
+    [merged, uiPage, limit]
+  );
 
   const loadMore = () => {
     if (paged.length < merged.length) {
