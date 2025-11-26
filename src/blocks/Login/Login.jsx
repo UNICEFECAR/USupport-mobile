@@ -61,9 +61,9 @@ export const Login = ({ navigation }) => {
           await LocalAuthentication.hasHardwareAsync();
         const biometryType = await Keychain.getSupportedBiometryType();
         setBiometryType(biometryType || isHardwareAvailable);
-        const hasCredentials = await Keychain.hasInternetCredentials({
-          server: "https://usupport.online",
-        });
+        const hasCredentials = await Keychain.hasInternetCredentials(
+          "https://usupport.online"
+        );
         if (hasCredentials) {
           setHasCredentials(true);
         }
@@ -98,6 +98,9 @@ export const Login = ({ navigation }) => {
           savedCredentials.current?.password !== data.password)
       ) {
         let iosSuccess = false;
+        const usernameForKeychain = data.email.includes("@")
+          ? data.email.toLowerCase().trim()
+          : String(data.email).trim();
 
         // For some reason Keychain.setInternetCredentials doesn't trigger the biometric prompt
         // on iOS, so we need to do it manually
@@ -111,7 +114,7 @@ export const Login = ({ navigation }) => {
         if (Platform.OS === "android" || iosSuccess) {
           await Keychain.setInternetCredentials(
             "https://usupport.online",
-            data.email,
+            usernameForKeychain,
             data.password,
             {
               accessControl:
