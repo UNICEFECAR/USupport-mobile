@@ -6,6 +6,7 @@ import {
   RefreshControl,
   Platform,
   KeyboardAvoidingView,
+  View,
 } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -235,6 +236,7 @@ export const Consultations = ({ navigation }) => {
             currencySymbol={currencySymbol}
           />
           <GiveSuggestion navigation={navigation} type="consultations" />
+          <View style={{ marginBottom: 85 }} />
         </ScrollView>
       </KeyboardAvoidingView>
       <JoinConsultation
