@@ -72,7 +72,6 @@
       "live_text": "Сейчас",
       "accept_button_label": "Принять консультацию",
       "join_button_label": "Присоединиться",
-      "join_button_label_tooltip": "Вы можете присоединиться к консультации за 5 минут до начала",
       "change_button_label": "Изменить",
       "ordinal_st": "st",
       "ordinal_nd": "nd",
@@ -89,7 +88,8 @@
       "september": "сентября",
       "october": "октября",
       "november": "ноября",
-      "december": "декабря"
+      "december": "декабря",
+      "join_button_label_tooltip": "Вы можете присоединиться к консультации за 5 минут до начала"
     },
     "consultations": {
       "heading": "Консультации",
@@ -144,7 +144,8 @@
       "contact_reason_2_pl": "Техническая проблема",
       "contact_reason_3_pl": "Жалоба",
       "contact_reason_4_pl": "Прочее",
-      "success": "Сообщение о вашей проблеме было успешно получено. Мы скоро свяжемся с Вами"
+      "success": "Сообщение о вашей проблеме было успешно получено. Мы скоро свяжемся с Вами",
+      "contact_form": "Contact form"
     },
     "faq": {
       "heading": "Часто задаваемые вопросы",
@@ -210,19 +211,19 @@
     },
     "mood-tracker": {
       "happy": "Отлично",
-      "good": "Счастливый",
-      "sad": "Грустный",
-      "depressed": "В депрессии",
-      "worried": "Взволнованный",
-      "heading": "Как самочувствие сегодня?",
+      "good": "Хорошо",
+      "sad": "Грустно",
+      "depressed": "Депрессивно",
+      "worried": "Тревожно",
+      "heading": "Как Вы себя чувствуете сегодня?",
       "mood_tracker": "Трекер настроения",
-      "how_it_works": "Как это работает",
       "additional_comment_placeholder": "Что заставило Вас так себя чувствовать?",
       "submit_mood_track": "Отправить",
       "add_mood_tracker_success": "Ваше настроение было успешно добавлено ",
       "subheading": "",
       "emergency_button_label": "",
       "emergency_label": "Это относится к жизненному событию или критической ситуации?",
+      "how_it_works": "Как это работает",
       "recommendations": "Рекомендации",
       "recommendations_text": "Хотите посмотреть график настроения и увидеть рекомендованный контент?",
       "check_out": "Посмотреть"
@@ -230,10 +231,10 @@
     "mood-track-history": {
       "saturday": "Сб",
       "happy": "Отлично",
-      "good": "Счастливый",
-      "sad": "Грустный",
-      "depressed": "В депрессии",
-      "worried": "Взволнованный",
+      "good": "Хорошо",
+      "sad": "Грустно",
+      "depressed": "Депрессивно",
+      "worried": "Тревожно",
       "you_felt": "Вы почувствовали",
       "comment_text": "и Вы прокомментировали:",
       "no_result": "Ничего не найдено",
@@ -454,7 +455,8 @@
       "heading_2": "О поддержке",
       "text_2": "uSupport предоставляет персонализированную, ненавязчивую и быструю психологическую помощь для вашего общего благополучия.",
       "heading_3": "О Вас",
-      "text_3": "Ваша история имеет значение! Смело делитесь."
+      "text_3": "Ваша история имеет значение! Смело делитесь.",
+      "pl_text": "uSupport is a mental health and well-being platform designed for youth (16–24)."
     },
     "register-support": {
       "heading": "Вам нужна поддержка?",
@@ -609,8 +611,8 @@
       "language_button_label": "Изменить язык",
       "dark_mode_button_label": "Темный режим",
       "light_mode_button_label": "Светлый режим",
-      "high_contrast_mode": "Режим высокого контраста",
-      "user_guide": "Руководство по платформе"
+      "user_guide": "Руководство по платформе",
+      "high_contrast_mode": "Режим высокого контраста"
     },
     "welcome": {
       "heading": "Добро пожаловать в",
@@ -852,7 +854,11 @@
       "view": "Посмотреть результаты",
       "view_detailed_results": "Посмотреть подробные результаты",
       "started_at": "Начато {{date}}",
-      "answered_questions": "Отвечено на вопросы: {{current}}/27"
+      "answered_questions": "Отвечено на вопросы: {{current}}/27",
+      "latest_result": "Latest Result",
+      "psychological": "Psychological",
+      "biological": "Biological",
+      "social": "Social"
     },
     "baseline-assesment-result": {
       "assessment_completed": "Assessment completed",
@@ -1028,6 +1034,7 @@
       "subheading": "Здесь Вы можете проверить свое настроение и прогресс",
       "emergency_button_label": "Экстренная помощь",
       "report": "Сгенерировать отчет",
+      "how-it-works": "How it works",
       "how_it_works": "Как это работает"
     },
     "notification-preferences-screen": {
@@ -1069,7 +1076,8 @@
       "coupon_paragraph": "Купоны предоставляют \"бесплатные\" сессии и спонсируются нашими партнерами.",
       "coupon_paragraph_two": "Если Вы получили код купона через социальные сети или от нашего партнера, пожалуйста, скопируйте и вставьте его ниже. После того, как Вы отправите код купона, Вы увидите всех консультантов, которые его поддерживают, и их доступность. Купон может предоставлять один или несколько сеансов. Платформа укажет, истек ли срок действия купона или все сеансы использованы.",
       "max_price": "Максимальная цена",
-      "providers_free_consultation_label": "Только бесплатная консультация"
+      "providers_free_consultation_label": "Только бесплатная консультация",
+      "coupon_note": "This time, we've entered a code for you for a free session! Schedule an appointment with one of our consultants and take the first step towards improving your well-being."
     },
     "share-platform-screen": {
       "heading": "Поделиться приложением",
