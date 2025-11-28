@@ -72,7 +72,6 @@
       "live_text": "Қазір",
       "accept_button_label": "Консультацияны қабылдау",
       "join_button_label": "Қосылу",
-      "join_button_label_tooltip": "Сіз консультацияға басталғанға дейін 5 минут бұрын қосыла аласыз",
       "change_button_label": "Құпия сөзді өзгерту",
       "ordinal_st": "-ші",
       "ordinal_nd": "-ші",
@@ -89,7 +88,8 @@
       "september": "қыркүйек",
       "october": "қазан",
       "november": "қараша",
-      "december": "желтоқсан"
+      "december": "желтоқсан",
+      "join_button_label_tooltip": "Сіз консультацияға басталғанға дейін 5 минут бұрын қосыла аласыз"
     },
     "consultations": {
       "heading": "Консультациялар",
@@ -144,7 +144,8 @@
       "contact_reason_2_pl": "Техникалық мәселе",
       "contact_reason_3_pl": "Шағым",
       "contact_reason_4_pl": "Басқа",
-      "success": "Сіздің мәселеңіз туралы хабарлама сәтті қабылданды. Жақында біз Сізбен байланысамыз"
+      "success": "Сіздің мәселеңіз туралы хабарлама сәтті қабылданды. Жақында біз Сізбен байланысамыз",
+      "contact_form": "Contact form"
     },
     "faq": {
       "heading": "Жиі қойылатын сұрақтар",
@@ -210,19 +211,19 @@
     },
     "mood-tracker": {
       "happy": "Керемет",
-      "good": "Бақытты",
-      "sad": "Қайғылы",
-      "depressed": "Депрессияда",
-      "worried": "Қобалжыған",
-      "heading": "Бүгін хал-жағдайыңыз қалай?",
+      "good": "Жақсы",
+      "sad": "Көңілсіз",
+      "depressed": "Депрессия",
+      "worried": "Беймаза",
+      "heading": "Бүгін жағдайыңыз қалай?",
       "mood_tracker": "Көңіл-күй трекері",
-      "how_it_works": "Қалай жұмыс істейді",
       "additional_comment_placeholder": "Сізді осылай сезінуге не себеп болды?",
       "submit_mood_track": "Жіберу",
       "add_mood_tracker_success": "Сіздің көңіл-күйіңіз сәтті қосылды",
       "subheading": "",
       "emergency_button_label": "",
       "emergency_label": "Бұл өмірлік оқиғаға немесе маңызды жағдайға қатысты ма?",
+      "how_it_works": "Қалай жұмыс істейді",
       "recommendations": "Ұсыныстар",
       "recommendations_text": "Көңіл-күй графигіңізді қарап, ұсынылған мазмұнды көргіңіз келе ме?",
       "check_out": "Қарап шығу"
@@ -230,10 +231,10 @@
     "mood-track-history": {
       "saturday": "Сб",
       "happy": "Керемет",
-      "good": "Бақытты",
-      "sad": "Қайғылы",
-      "depressed": "Депрессияда",
-      "worried": "Қобалжыған",
+      "good": "Жақсы",
+      "sad": "Көңілсіз",
+      "depressed": "Депрессия",
+      "worried": "Беймаза",
       "you_felt": "Сіз сездіңіз",
       "comment_text": "және Сіз түсініктеме бердіңіз:",
       "no_result": "Ештеңе табылмады",
@@ -256,7 +257,7 @@
       "subheading": ""
     },
     "notifications": {
-      "heading": "Хабарландырулар",
+      "heading": "Хабарлама",
       "mark_read": "Барлығын оқылған деп белгілеу",
       "subheading": "Мұнда Сіз аккаунтыңызда алған барлық хабарландыруларды таба аласыз.",
       "consultation_booking": "<0>{{providerName}}</0> консультантімен консультацияңыз <0>{{date}}</0> <0>{{startHour}}</0> бастап <0>{{endHour}}</0> дейін сәтті жоспарланған.",
@@ -454,7 +455,8 @@
       "heading_2": "Қолдау жайлы",
       "text_2": "uSupport сіздің игілігіңіз үшін кедергісіз, жеке әрі жылдам психологиялық көмек ұсынады",
       "heading_3": "Сіз жайлы",
-      "text_3": "Сіздің оқиғаңыз маңызды. Батыл бөлісіңіз."
+      "text_3": "Сіздің оқиғаңыз маңызды. Батыл бөлісіңіз.",
+      "pl_text": "uSupport is a mental health and well-being platform designed for youth (16–24)."
     },
     "register-support": {
       "heading": "Сізге қолдау керек пе?",
@@ -609,8 +611,8 @@
       "language_button_label": "Тілді өзгерту",
       "dark_mode_button_label": "Қараңғы режим",
       "light_mode_button_label": "Жарық режим",
-      "high_contrast_mode": "Биік контраст режимі",
-      "user_guide": "Платформа нұсқаулығы"
+      "user_guide": "Платформа нұсқаулығы",
+      "high_contrast_mode": "Биік контраст режимі"
     },
     "welcome": {
       "heading": "Қош келдіңіз, бұл - ",
@@ -852,7 +854,11 @@
       "view": "Нәтижені қарау",
       "view_detailed_results": "Толық нәтижені қарау",
       "started_at": "Басталған {{date}}",
-      "answered_questions": "Жауаптар: {{current}}/27"
+      "answered_questions": "Жауаптар: {{current}}/27",
+      "latest_result": "Latest Result",
+      "psychological": "Psychological",
+      "biological": "Biological",
+      "social": "Social"
     },
     "baseline-assesment-result": {
       "assessment_completed": "Assessment completed",
@@ -1028,6 +1034,7 @@
       "subheading": "Мұнда Сіз көңіл-күйіңізді және жетістіктеріңізді тексере аласыз",
       "emergency_button_label": "Шұғыл көмек",
       "report": "Жіберу",
+      "how-it-works": "How it works",
       "how_it_works": "Қалай жұмыс істейді"
     },
     "notification-preferences-screen": {
@@ -1069,7 +1076,8 @@
       "coupon_paragraph": "Купондар «тегін» сессияларды қамтамасыз етеді және серіктестеріміздің демеушілігімен жүзеге асырылады.",
       "coupon_paragraph_two": "Егер Сіз әлеуметтік желілер арқылы немесе серіктесімізден купон кодын алсаңыз, кодты көшіріп, төменде қойыңыз. Купон кодын жібергеннен кейін Сіз оны қолдайтын барлық консультанттарды және олардың қолжетімділігін көресіз. Купон бір немесе бірнеше сеансты қамтамасыз ете алады. Платформа купонның мерзімі өткенін немесе барлық сеанстардың қолданылғанын көрсетеді.",
       "max_price": "Ең жоғары баға",
-      "providers_free_consultation_label": "Тек тегін консультация"
+      "providers_free_consultation_label": "Тек тегін консультация",
+      "coupon_note": "This time, we've entered a code for you for a free session! Schedule an appointment with one of our consultants and take the first step towards improving your well-being."
     },
     "share-platform-screen": {
       "heading": "Қосымшамен бөлісу",
