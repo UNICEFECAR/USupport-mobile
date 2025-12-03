@@ -99,6 +99,7 @@ import {
   IconPlay,
   IconSave,
   IconAccessibility,
+  IconMap,
 } from "./assets/sprite";
 
 /**
@@ -391,6 +392,9 @@ export const Icon = ({ name, size = "md", color, style }) => {
       break;
     case "accessibility":
       icon = <IconAccessibility color={color} />;
+      break;
+    case "map":
+      icon = <IconMap color={color} />;
       break;
     default:
       icon = null;
