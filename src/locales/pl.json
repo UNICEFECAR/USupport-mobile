@@ -418,6 +418,7 @@
       "password_placeholder": "Wprowadź swoje hasło",
       "age_terms_agreement_text": "Mam ponad {{age}} lat",
       "prompt_title": "Zapisz swoje dane uwierzytelniające, aby szybko się zalogować",
+      "prompt_2_title": "Uwierzytelnij się, aby zapisać swoje dane logowania",
       "cancel": "Anuluj",
       "click_to_copy": "Kliknij, aby skopiować"
     },
