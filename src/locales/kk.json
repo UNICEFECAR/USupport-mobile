@@ -49,7 +49,8 @@
       "read_more": "Ары қарай оқу",
       "min_read": "минут оқуға",
       "by": "Дайындаушы {{creator}}",
-      "number_of_more_options": "тағы {{count}}"
+      "number_of_more_options": "тағы {{count}}",
+      "read": "Оқу"
     },
     "change-passcode": {
       "enter_passcode": "Ағымдағы кіру кодын енгізіңіз",
@@ -418,6 +419,7 @@
       "password_placeholder": "Құпия сөзіңізді енгізіңіз",
       "age_terms_agreement_text": "Менің жасым 10-нен үлкен",
       "prompt_title": "Жылдам кіру үшін құпиясөздеріңізді сақтаңыз",
+      "prompt_2_title": "Құпиясөздеріңізді сақтау үшін аутентификация жасаңыз",
       "cancel": "Болдырмау",
       "click_to_copy": "Көшіру үшін басыңыз"
     },
@@ -639,7 +641,8 @@
       "subheading": "",
       "heading_button_label": "",
       "emergency_button_label": "",
-      "ask_button_label": ""
+      "ask_button_label": "",
+      "date_answered": "{{date}} күні"
     },
     "set-up-biometrics": {
       "heading": "Құпия сөз бен биометрияны орнату",
@@ -748,7 +751,9 @@
       "personalize": "Дараландыру",
       "personalization": "Дараландыру",
       "personalization_modal_text": "Сіздің қажеттіліктеріңізге сәйкес дараланған ұйымдастырушылық ұсыныстарды алу үшін, алдымен біздің жылдам базалық бағалауды толтырыңыз. Бұл бізге сіздің қалауларыңыз бен мақсаттарыңызды түсінуге көмектеседі және ең маңызды ұсыныстарды ұсынады.",
-      "personalization_modal_cta_label": "Бағалауды толтыру"
+      "personalization_modal_cta_label": "Бағалауды толтыру",
+      "location_permission_denied": "Орналасқан жерге рұқсат берілмеді",
+      "enable_location": "Орналасқан жерді қосу"
     },
     "organization-overview": {
       "error-loading-data": "Ұйым туралы деректерді жүктеу кезінде қате орын алды",
@@ -1261,7 +1266,8 @@
     "question-details": {
       "today": "Бүгін",
       "answered_by": "Жауап беруші:",
-      "schedule_consultation": "Консультацияны жоспарлау"
+      "schedule_consultation": "Консультацияны жоспарлау",
+      "date_answered": "{{date}} күні"
     },
     "filter-questions": {
       "heading": "Тег бойынша сұрағыңызды сүзгіден өткізіңіз",

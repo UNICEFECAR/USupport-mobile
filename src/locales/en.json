@@ -49,7 +49,8 @@
       "read_more": "Click to read more",
       "min_read": "min read",
       "by": "By {{creator}}",
-      "number_of_more_options": "{{count}} more"
+      "number_of_more_options": "{{count}} more",
+      "read": "Read"
     },
     "change-passcode": {
       "enter_passcode": "Enter current passcode",
@@ -416,6 +417,7 @@
       "password_placeholder": "Enter your password",
       "age_terms_agreement_text": "I am over {{age}} years old",
       "prompt_title": "Save your credentials for quick login",
+      "prompt_2_title": "Authenticate to save your credentials",
       "cancel": "Cancel",
       "click_to_copy": "Click to copy"
     },
@@ -637,7 +639,8 @@
       "subheading": "",
       "heading_button_label": "",
       "emergency_button_label": "",
-      "ask_button_label": ""
+      "ask_button_label": "",
+      "date_answered": "on {{date}}"
     },
     "set-up-biometrics": {
       "heading": "Set up passcode and biometrics",
@@ -746,7 +749,9 @@
       "personalize": "Personalize",
       "personalization": "Personalization",
       "personalization_modal_text": "To receive personalized organization recommendations tailored to your needs, please complete our quick baseline assessment first. This helps us understand your preferences and goals to provide the most relevant suggestions.",
-      "personalization_modal_cta_label": "Complete assessment"
+      "personalization_modal_cta_label": "Complete assessment",
+      "location_permission_denied": "Location permission denied",
+      "enable_location": "Enable location"
     },
     "organization-overview": {
       "error-loading-data": "An error occurred while loading the organization data",
@@ -1258,7 +1263,8 @@
     "question-details": {
       "today": "Today",
       "answered_by": "Answered by",
-      "schedule_consultation": "Schedule consultation"
+      "schedule_consultation": "Schedule consultation",
+      "date_answered": "on {{date}}"
     },
     "filter-questions": {
       "heading": "Filter questions by tag",

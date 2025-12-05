@@ -12,11 +12,15 @@ import {
   Tabs,
 } from "#components";
 
-import { destructurePodcastData } from "#utils";
+import {
+  destructurePodcastData,
+  getLikesAndDislikesForContent,
+  isLikedOrDislikedByUser,
+} from "#utils";
 
 import {
   useEventListener,
-  useGetUserContentRatings,
+  useGetUserContentEngagements,
   useDebounce,
 } from "#hooks";
 
@@ -33,6 +37,8 @@ export const Podcasts = ({ navigation, showSearch, showCategories, sort }) => {
   const { t, i18n } = useTranslation("blocks", { keyPrefix: "videos" });
   const { isTmpUser } = useContext(Context);
   const [usersLanguage, setUsersLanguage] = useState(i18n.language);
+  const [podcastsLikes, setPodcastsLikes] = useState(new Map());
+  const [podcastsDislikes, setPodcastsDislikes] = useState(new Map());
 
   useEffect(() => {
     if (i18n.language !== usersLanguage) {
@@ -40,7 +46,7 @@ export const Podcasts = ({ navigation, showSearch, showCategories, sort }) => {
     }
   }, [i18n.language]);
 
-  const { data: contentRatings } = useGetUserContentRatings(!isTmpUser);
+  const { data: contentEngagements } = useGetUserContentEngagements(!isTmpUser);
 
   //--------------------- Country Change Event Listener ----------------------//
   const [currentCountry, setCurrentCountry] = useState();
@@ -206,6 +212,36 @@ export const Podcasts = ({ navigation, showSearch, showCategories, sort }) => {
     }
   );
 
+  useEffect(() => {
+    async function getPodcastsRatings() {
+      const podcastIds = podcasts.reduce((acc, podcast) => {
+        if (
+          !podcastsLikes.has(podcast.id) &&
+          !podcastsDislikes.has(podcast.id)
+        ) {
+          acc.push(podcast.id);
+        }
+        return acc;
+      }, []);
+
+      if (!podcastIds.length) return;
+
+      const { likes, dislikes } = await getLikesAndDislikesForContent(
+        podcastIds,
+        "podcast"
+      );
+
+      setPodcastsLikes((prevLikes) => {
+        return new Map([...prevLikes, ...likes]);
+      });
+      setPodcastsDislikes((prevDislikes) => {
+        return new Map([...prevDislikes, ...dislikes]);
+      });
+    }
+
+    getPodcastsRatings();
+  }, [podcasts, usersLanguage]);
+
   let areCategoriesReady = categoriesQuery?.data?.length > 1;
 
   return (
@@ -240,18 +276,11 @@ export const Podcasts = ({ navigation, showSearch, showCategories, sort }) => {
             !isPodcastsFetching && (
               <View style={styles.podcastsContainer}>
                 {podcasts?.map((podcast, index) => {
-                  const isLikedByUser = contentRatings?.some(
-                    (rating) =>
-                      rating.content_id === podcast.id &&
-                      rating.content_type === "podcast" &&
-                      rating.positive === true
-                  );
-                  const isDislikedByUser = contentRatings?.some(
-                    (rating) =>
-                      rating.content_id === podcast.id &&
-                      rating.content_type === "podcast" &&
-                      rating.positive === false
-                  );
+                  const { isLiked, isDisliked } = isLikedOrDislikedByUser({
+                    contentType: "podcast",
+                    contentData: podcast,
+                    userEngagements: contentEngagements,
+                  });
                   const podcastData = podcast; // Already destructured in getPodcastsData
                   return (
                     <CardMedia
@@ -262,10 +291,10 @@ export const Podcasts = ({ navigation, showSearch, showCategories, sort }) => {
                       labels={podcastData.labels}
                       categoryName={podcastData.categoryName}
                       creator={podcastData.creator}
-                      likes={podcastData.likes}
-                      dislikes={podcastData.dislikes}
-                      isLikedByUser={isLikedByUser}
-                      isDislikedByUser={isDislikedByUser}
+                      likes={podcastsLikes.get(podcastData.id) || 0}
+                      dislikes={podcastsDislikes.get(podcastData.id) || 0}
+                      isLikedByUser={isLiked}
+                      isDislikedByUser={isDisliked}
                       contentType="podcasts"
                       t={t}
                       onPress={() => {

@@ -23,7 +23,10 @@ axios.interceptors.request.use(async (config) => {
     const token = await localStorage.getItem("token");
     const visitorId = await localStorage.getItem("visitorId");
     if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`;
+      const isGuest = jwtDecode(token).sub === "tmp-user";
+      if (!isGuest) {
+        config.headers["Authorization"] = `Bearer ${token}`;
+      }
     }
     if (visitorId) {
       config.headers["x-visitor-id"] = visitorId;

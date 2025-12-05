@@ -31,7 +31,7 @@
       "min_read": "durata lecturii",
       "by": "De către {{creator}}",
       "number_of_more_options": "încă {{count}}",
-      "read": "Read",
+      "read": "Citește",
       "heading_no_results": "",
       "view_all": "",
       "heading_default": "",
@@ -49,7 +49,8 @@
       "read_more": "Citiți mai mult",
       "min_read": "durata lecturii",
       "by": "De către {{creator}}",
-      "number_of_more_options": "încă {{count}}"
+      "number_of_more_options": "încă {{count}}",
+      "read": "Citire"
     },
     "change-passcode": {
       "enter_passcode": "Introduceți codul de acces actual",
@@ -144,7 +145,8 @@
       "contact_reason_2_pl": "Technical problem",
       "contact_reason_3_pl": "Complaint",
       "contact_reason_4_pl": "Something else",
-      "success": "Problema dvs. a fost raportată. Vă vom contacta în curând."
+      "success": "Problema dvs. a fost raportată. Vă vom contacta în curând.",
+      "contact_form": "Contact form"
     },
     "faq": {
       "heading": "ÎNTREBĂRI FRECVENTE",
@@ -179,16 +181,16 @@
       "min_read": "durata lecturii",
       "by": "De către {{creator}}",
       "heading_no_language_results": "Nu am găsit niciun articol în limba selectată..",
-      "heading_no_language_results_videos": "We could not find any videos based on your selected language.",
-      "heading_no_language_results_podcasts": "We could not find any podcasts based on your selected language.",
-      "heading_newest_videos": "Newest videos",
-      "heading_popular_videos": "Most popular videos",
-      "view_more": "View more",
-      "more_videos": "More videos",
-      "heading_newest_podcasts": "Newest podcasts",
-      "heading_popular_podcasts": "Most popular podcasts",
-      "more_podcasts": "More podcasts",
-      "no_results": "No results found",
+      "heading_no_language_results_videos": "Nu am găsit niciun videoclip în limba selectată.",
+      "heading_no_language_results_podcasts": "Nu am găsit niciun podcast în limba selectată.",
+      "heading_newest_videos": "Cele mai noi videoclipuri",
+      "heading_popular_videos": "Cele mai populare videoclipuri",
+      "view_more": "Vezi mai mult",
+      "more_videos": "Mai multe videoclipuri",
+      "heading_newest_podcasts": "Cele mai noi podcasturi",
+      "heading_popular_podcasts": "Cele mai populare podcasturi",
+      "more_podcasts": "Mai multe podcasturi",
+      "no_results": "Nu s-au găsit rezultate",
       "heading": "Portal de informații",
       "subheading": "Aici puteți afla tot ceea ce aveți nevoie pentru a vă îmbunătăți sănătatea mintală",
       "emergency_button_label": "Ajutor de urgență"
@@ -206,7 +208,7 @@
       "prompt_title": "Autentificare pentru conectare rapidă",
       "prompt_2_title": "Autentificați-vă pentru a vă salva datele de identificare",
       "cancel": "Anulare",
-      "save_credentials": "Save credentials"
+      "save_credentials": "Salvați datele de autentificare"
     },
     "mood-tracker": {
       "happy": "Fericit",
@@ -237,7 +239,7 @@
       "you_felt": "V-ați simțit",
       "comment_text": "și ați comentat",
       "no_result": "Rezultatele nu au fost găsite",
-      "critical_text": "Related to a life event or critical situation",
+      "critical_text": "Legat de un eveniment de viață sau o situație critică",
       "recommendations": "Recomandări în funcție de starea ta",
       "articles": "Articole",
       "videos": "Videoclipuri",
@@ -417,6 +419,7 @@
       "password_placeholder": "Introduceți parola dvs.",
       "age_terms_agreement_text": "Am peste 10 ani ",
       "prompt_title": "Salvați datele dvs. de identificare pentru o autentificare rapidă",
+      "prompt_2_title": "Autentificați-vă pentru a vă salva datele de identificare",
       "cancel": "Anulare",
       "click_to_copy": "Click to copy"
     },
@@ -585,7 +588,7 @@
       "living_place_placeholder": "Introduceți locul dvs. de reședință",
       "error_fetching_data": "Eroare la încărcarea detaliilor profilului",
       "parent": "Părinte",
-      "delete_mood_tracker": "Clear mood tracker data"
+      "delete_mood_tracker": "Șterge datele din monitorizarea stării de spirit"
     },
     "user-profile": {
       "heading": "Profilul dvs.",
@@ -617,7 +620,7 @@
       "language": "Limba",
       "placeholder": "Selectați",
       "button": "Continuați",
-      "poland_description": "uSupport is a mental health and well-being platform designed for youth (16–24)."
+      "poland_description": "uSupport este o platformă pentru sănătate mintală și bunăstare, concepută pentru tineri (16–24)."
     },
     "my-qa": {
       "search_input_placeholder": "Căutare",
@@ -631,12 +634,13 @@
       "schedule_consultation": "Programare consultație",
       "today": "Astăzi",
       "no_questions_found": "Nu s-au găsit întrebări",
-      "language_placeholder": "Select language",
+      "language_placeholder": "Selectați limba",
       "heading": "",
       "subheading": "",
       "heading_button_label": "",
       "emergency_button_label": "",
-      "ask_button_label": ""
+      "ask_button_label": "",
+      "date_answered": "pe {{date}}"
     },
     "set-up-biometrics": {
       "heading": "Configurați codul de acces și elementele biometrice",
@@ -646,14 +650,14 @@
       "btn_skip": "Omite acum"
     },
     "videos": {
-      "read_more_button": "View more",
-      "all": "All",
-      "could_not_load_content": "Could not load content.",
-      "no_results": "No results found",
-      "number_of_more_options": "{{count}} more",
-      "view_more": "View more",
-      "more_videos": "More videos",
-      "all_videos": "All videos"
+      "read_more_button": "Vezi mai mult",
+      "all": "Toate",
+      "could_not_load_content": "Conținutul nu a putut fi încărcat.",
+      "no_results": "Nu s-au găsit rezultate",
+      "number_of_more_options": "{{count}} în plus",
+      "view_more": "Vezi mai mult",
+      "more_videos": "Mai multe videoclipuri",
+      "all_videos": "Toate videoclipurile"
     },
     "organizations": {
       "in_person_interaction": "In person",
@@ -745,7 +749,9 @@
       "personalize": "Personalize",
       "personalization": "Personalization",
       "personalization_modal_text": "To receive personalized organization recommendations tailored to your needs, please complete our quick baseline assessment first. This helps us understand your preferences and goals to provide the most relevant suggestions.",
-      "personalization_modal_cta_label": "Complete assessment"
+      "personalization_modal_cta_label": "Complete assessment",
+      "location_permission_denied": "Permisiunea de locație refuzată",
+      "enable_location": "Activează locația"
     },
     "organization-overview": {
       "error-loading-data": "An error occurred while loading the organization data",
@@ -793,65 +799,69 @@
       "check_organization": "Hello, check out this organization"
     },
     "baseline-assesment": {
-      "instructions": "Instructions: Thinking about the last two weeks, please choose the option that you think fits you best for the following statements.",
-      "stress_level": "I am very stressed.",
-      "sadness_anxiety": "I often feel sad or anxious.",
-      "fear_frequency": "I feel afraid(s) often.",
-      "emotion_control": "I find it very difficult to control my emotions.",
-      "worry_anxiety": "I often worry and feel anxious.",
-      "nervousness": "I often get nervous.",
-      "sensitivity_agitation": "I am more agitated and sensitive than others.",
-      "physical_weakness": "I feel physically weak or have frequent aches and pains.",
-      "tired_waking": "I wake up tired.",
-      "body_health_concerns": "I think there is something seriously wrong with my body.",
-      "slow_movements": "I am slower in my movements and reactions compared to others.",
-      "friendship_difficulty": "I find it difficult to make friends with other children. I prefer to be alone.",
-      "communication_difficulty": "I find it difficult to communicate with friends or family.",
-      "emotional_expression": "I cannot talk openly about how I feel.",
-      "parental_overwhelm": "I feel overwhelmed by my parents.",
-      "school_helplessness": "I feel helpless in school in front of others.",
-      "difficult_parents": "My parents are very difficult.",
-      "concentration_problems": "I have a hard time concentrating.",
-      "lack_happiness": "There are few things that really make me happy.",
-      "maturity_pressure": "I feel like I should have matured faster.",
-      "internet_dependency": "I would feel lonely without the internet.",
-      "economic_bullying": "I have been bullied or marginalized because I can't afford the same things as my friends or colleagues (for example: clothes, phone, etc.).",
-      "few_friends": "I don't have many friends.",
-      "nightmares": "I often have nightmares when I sleep.",
-      "appetite_loss": "I have no appetite.",
-      "substance_use": "I have tried smoking or using illegal substances (alcohol, drugs, etc.) several times.",
-      "frequent_headaches": "I have frequent headaches for no reason.",
-      "question": "Question {{number}} of {{total}}",
-      "completed": "{{percentage}}% completed",
-      "back": "Back",
-      "next": "Next",
-      "start_assessment": "Start Assessment",
-      "finish_assessment": "Finish Assessment",
-      "assessment_completed": "Assessment Completed",
-      "assessment_completed_description": "Thank you for completing the assessment. Your answers have been saved and will be used to help you.",
-      "assessment_completed_button": "Back to Home",
-      "loading_results": "Loading your results...",
-      "recommended_articles": "Recommended Articles",
-      "recommended_videos": "Recommended Videos",
-      "recommended_podcasts": "Recommended Podcasts",
-      "by": "By {{creator}}",
-      "min_read": "min read",
-      "read_more": "Read More",
-      "view_more": "View More",
-      "read": "Read",
-      "save": "Save for later"
+      "instructions": "Instrucțiuni: Gândindu-vă la ultimele două săptămâni, alegeți opțiunea care vi se potrivește cel mai bine pentru afirmațiile de mai jos.",
+      "stress_level": "Sunt foarte stresat/stresată.",
+      "sadness_anxiety": "Mă simt adesea trist/tristă sau anxios/anxioasă.",
+      "fear_frequency": "Simt frică des.",
+      "emotion_control": "Îmi este foarte greu să îmi controlez emoțiile.",
+      "worry_anxiety": "Mă îngrijorez des și mă simt anxios/anxioasă.",
+      "nervousness": "Devin des nervos/nervoasă.",
+      "sensitivity_agitation": "Sunt mai agitat/agitată și sensibil/sensibilă decât alții.",
+      "physical_weakness": "Mă simt fizic slăbit/slăbită sau am dureri frecvente.",
+      "tired_waking": "Mă trezesc obosit/obosită.",
+      "body_health_concerns": "Cred că este ceva grav în neregulă cu corpul meu.",
+      "slow_movements": "Sunt mai lent/lentă în mișcări și reacții față de alții.",
+      "friendship_difficulty": "Îmi este greu să îmi fac prieteni printre alți copii. Prefer să fiu singur/singură.",
+      "communication_difficulty": "Îmi este greu să comunic cu prietenii sau familia.",
+      "emotional_expression": "Nu pot vorbi deschis despre cum mă simt.",
+      "parental_overwhelm": "Mă simt copleșit/copleșită de părinții mei.",
+      "school_helplessness": "Mă simt neajutorat/neajutorată la școală în fața celorlalți.",
+      "difficult_parents": "Părinții mei sunt foarte dificili.",
+      "concentration_problems": "Îmi este greu să mă concentrez.",
+      "lack_happiness": "Puține lucruri mă fac cu adevărat fericit/fericită.",
+      "maturity_pressure": "Simt că ar fi trebuit să mă maturizez mai repede.",
+      "internet_dependency": "M-aș simți singur/singură fără internet.",
+      "economic_bullying": "Am fost hărțuit(ă) sau marginalizat(ă) pentru că nu îmi permit aceleași lucruri ca prietenii sau colegii mei (de exemplu: haine, telefon etc.).",
+      "few_friends": "Nu am mulți prieteni.",
+      "nightmares": "Am adesea coșmaruri când dorm.",
+      "appetite_loss": "Nu am poftă de mâncare.",
+      "substance_use": "Am încercat de mai multe ori să fumez sau să folosesc substanțe interzise (alcool, droguri etc.).",
+      "frequent_headaches": "Am dureri de cap frecvente fără motiv.",
+      "question": "Întrebarea {{number}} din {{total}}",
+      "completed": "{{percentage}}% finalizat",
+      "back": "Înapoi",
+      "next": "Înainte",
+      "start_assessment": "Începe evaluarea",
+      "finish_assessment": "Finalizează evaluarea",
+      "assessment_completed": "Evaluare finalizată",
+      "assessment_completed_description": "Vă mulțumim pentru completare. Răspunsurile au fost salvate și vor fi folosite pentru a vă ajuta.",
+      "assessment_completed_button": "Înapoi la Acasă",
+      "loading_results": "Se încarcă rezultatele...",
+      "recommended_articles": "Articole recomandate",
+      "recommended_videos": "Videoclipuri recomandate",
+      "recommended_podcasts": "Podcasturi recomandate",
+      "by": "de {{creator}}",
+      "min_read": "min de citit",
+      "read_more": "Citește mai mult",
+      "view_more": "Vezi mai mult",
+      "read": "Citește",
+      "save": "Salvează pentru mai târziu"
     },
     "baseline-assessment-dashboard": {
-      "heading": "Your Baseline Assessment",
-      "no_assessment_text": "You haven't completed a baseline assessment yet. Complete one to get personalized insights about your mental health.",
-      "start_new_assessment": "Start Assessment",
-      "completed": "Completed",
-      "in_progress": "In Progress",
-      "continue": "Continue",
-      "view": "View Results",
-      "view_detailed_results": "View Detailed Results",
-      "started_at": "Started on {{date}}",
-      "answered_questions": "Answered questions: {{current}}/27"
+      "heading": "Evaluarea dvs. de bază",
+      "no_assessment_text": "Nu ați completat încă o evaluare de bază. Completați una pentru a primi recomandări personalizate despre sănătatea dvs. mintală.",
+      "start_new_assessment": "Începe evaluarea",
+      "completed": "Finalizat",
+      "in_progress": "În curs",
+      "continue": "Continuă",
+      "view": "Vizualizați rezultatele",
+      "view_detailed_results": "Vizualizați rezultatele detaliate",
+      "started_at": "Început la {{date}}",
+      "answered_questions": "Întrebări răspunse: {{current}}/27",
+      "latest_result": "Cel mai recent rezultat",
+      "psychological": "Psihologic",
+      "biological": "Biologic",
+      "social": "Social"
     },
     "baseline-assesment-result": {
       "assessment_completed": "Assessment completed",
@@ -968,9 +978,9 @@
       "cancel_confirmation_secondary_cta": "Rămâneți"
     },
     "consultations-screen": {
-      "heading": "Consultations",
-      "button_label": "Schedule a consultation",
-      "emergency_button_label": "Emergency help"
+      "heading": "Consultații",
+      "button_label": "Programați o consultație",
+      "emergency_button_label": "Ajutor de urgență"
     },
     "dashboard": {
       "welcome": "Bine ați revenit {{clientName}}!",
@@ -1006,15 +1016,15 @@
       "join_button_label_tooltip": "Puteți intra la consultație cu 5 minute înainte de începere"
     },
     "forgot-password-screen": {
-      "heading": "Enter your email to reset your password"
+      "heading": "Introduceți adresa de e-mail pentru a vă reseta parola"
     },
     "informational-portal-screen": {
-      "heading": "Information portal",
-      "subheading": "Here you can explore everything you need to improve your mental health",
-      "emergency_button_label": "Emergency help",
-      "articles": "Articles",
-      "videos": "Videos",
-      "podcasts": "Podcasts"
+      "heading": "Portal de informații",
+      "subheading": "Aici puteți explora tot ceea ce aveți nevoie pentru a vă îmbunătăți sănătatea mintală",
+      "emergency_button_label": "Ajutor de urgență",
+      "articles": "Articole",
+      "videos": "Videoclipuri",
+      "podcasts": "Podcasturi"
     },
     "local-authentication-screen": {
       "enter_pin": "Introduceți codul PIN",
@@ -1030,29 +1040,29 @@
       "how_it_works": "Cum funcționează"
     },
     "notification-preferences-screen": {
-      "heading": "Notification settings",
-      "subheading": "Here you can manage what type of notification you want to receive or not."
+      "heading": "Setări notificări",
+      "subheading": "Aici puteți gestiona ce tip de notificări doriți să primiți sau nu."
     },
     "passcode-screen": {
-      "heading": "Passcode and biometrics",
-      "subheading": "Here you can set up your passcode and biometrics or change them"
+      "heading": "Cod de acces și date biometrice",
+      "subheading": "Aici puteți configura codul de acces și datele biometrice sau le puteți modifica"
     },
     "payment-history-screen": {
-      "heading": "Payment history",
-      "subheading": "Here you can see your full payment history"
+      "heading": "Istoric plăți",
+      "subheading": "Aici puteți vedea istoricul complet al plăților"
     },
     "platfrom-rating-screen": {
-      "heading": "Want to rate us?",
-      "subheading": "We’ll be counting stars. Let’s stay honest. Tell us how you feel about this platform. Rate us and leave us your comment."
+      "heading": "Doriți să ne evaluați?",
+      "subheading": "Vom număra stelele. Să fim sinceri. Spuneți-ne ce părere aveți despre această platformă. Evaluați-ne și lăsați-ne comentariul dvs."
     },
     "provider-overview-screen": {
-      "heading": "Provider overview",
-      "subheading": "Detailed overview of the profile of the provider you selected",
-      "button_label": "Schedule consultation"
+      "heading": "Prezentare furnizor",
+      "subheading": "Prezentare detaliată a profilului furnizorului selectat",
+      "button_label": "Programați o consultație"
     },
     "safety-feedback-screen": {
-      "heading": "Did you feel safe during the meeting?",
-      "subheading": "Tell us more about the experience you had through the last consultation you had. "
+      "heading": "V-ați simțit în siguranță în timpul întâlnirii?",
+      "subheading": "Spuneți-ne mai multe despre experiența pe care ați avut-o în cadrul ultimei consultații."
     },
     "select-provider-screen": {
       "heading": "Selectați un furnizor",
@@ -1068,15 +1078,16 @@
       "coupon_paragraph": "Cupoanele oferă sesiuni „gratuite” și sunt sponsorizate de partenerii noștri.",
       "coupon_paragraph_two": "Dacă ați primit un cod de cupon de la o campanie de social media sau de la un partener, vă rugăm să îl copiați și să îl lipiți mai jos. După ce trimiteți codul cuponului, veți vedea toți furnizorii care îl acceptă și disponibilitatea acestora. Un cupon poate acoperi una sau mai multe sesiuni. Platforma va indica dacă cuponul a expirat sau s-a folosit numărul maxim de sesiuni.",
       "max_price": "Preț maxim",
-      "providers_free_consultation_label": "Doar consultație gratuită"
+      "providers_free_consultation_label": "Doar consultație gratuită",
+      "coupon_note": "This time, we've entered a code for you for a free session! Schedule an appointment with one of our consultants and take the first step towards improving your well-being."
     },
     "share-platform-screen": {
-      "heading": "Share the application",
-      "subheading": "Share the application on your social media, and give more people the chance to help them."
+      "heading": "Distribuiți aplicația",
+      "subheading": "Distribuiți aplicația pe rețelele de socializare și oferiți mai multor persoane șansa de a primi ajutor."
     },
     "sos-center-screen": {
-      "heading": "Emergency",
-      "subheading": "Need help urgently? Please, contact some of the listed centers right now."
+      "heading": "Urgență",
+      "subheading": "Aveți nevoie urgentă de ajutor? Contactați chiar acum unul dintre centrele listate."
     },
     "my-qa-screen": {
       "heading": "My Q&A (întrebări și răspunsuri)",
@@ -1104,9 +1115,9 @@
       "all": "All"
     },
     "organizations-screen": {
-      "heading": "Organizations",
-      "subheading": "Here you can find all the organizations that are available in your area.",
-      "emergency_button_label": "Emergency help"
+      "heading": "Organizații",
+      "subheading": "Aici puteți găsi toate organizațiile disponibile în zona dvs.",
+      "emergency_button_label": "Ajutor de urgență"
     },
     "organization-overview-screen": {
       "heading": "Organization overview",
@@ -1218,9 +1229,9 @@
       "button_label_2": "Consultație prin text",
       "client_joined": "Clientul a intrat la consultație",
       "error": "A apărut o eroare. Vă rugăm să încercați din nou",
-      "permissions_error": "You have not granted permission to use the camera or microphone",
-      "permissions_error_subheading": "Please grant permission to use the camera or microphone from the settings of your device, to join the consultation",
-      "open_settings": "Open settings"
+      "permissions_error": "Nu ați acordat permisiunea de a utiliza camera sau microfonul",
+      "permissions_error_subheading": "Pentru a vă alătura consultației, acordați permisiunea de a utiliza camera sau microfonul din setările dispozitivului.",
+      "open_settings": "Deschide setările"
     },
     "select-avatar": {
       "heading": "Schimbare imagine profil",
@@ -1252,7 +1263,8 @@
     "question-details": {
       "today": "Astăzi",
       "answered_by": "Răspuns de către",
-      "schedule_consultation": "Programare consultație"
+      "schedule_consultation": "Programare consultație",
+      "date_answered": "pe {{date}}"
     },
     "filter-questions": {
       "heading": "Filtrați întrebările după etichetă",
@@ -1274,14 +1286,14 @@
       "categories": "Categorii"
     },
     "mood-track-report": {
-      "heading": "Your mood tracking report",
-      "subheading": "Export your mood tracking history as a CSV file for the selected period. Weekly reports will be sent to your email address.",
-      "export_button": "Export report",
-      "cancel_button": "Cancel",
-      "start_date": "Start date",
-      "end_date": "End date",
-      "end_date_before_start_error": "End date must be after start date",
-      "confirm": "Confirm"
+      "heading": "Raportul tău de monitorizare a stării de spirit",
+      "subheading": "Exportă istoricul monitorizării stării de spirit ca fișier CSV pentru perioada selectată. Rapoartele săptămânale vor fi trimise la adresa ta de e-mail.",
+      "export_button": "Exportă raportul",
+      "cancel_button": "Anulează",
+      "start_date": "Data de început",
+      "end_date": "Data de sfârșit",
+      "end_date_before_start_error": "Data de sfârșit trebuie să fie după data de început",
+      "confirm": "Confirmă"
     }
   },
   "modals": {
@@ -1346,11 +1358,11 @@
       "secondary_cta_label": "I do not want to complete the questionnaire"
     },
     "delete-mood-tracker-history": {
-      "heading": "Are you sure you want to delete all your mood tracker data?",
-      "subheading": "This action is irreversible.",
-      "confirm": "Yes, delete all my mood tracker data",
-      "cancel": "No, keep my mood tracker data",
-      "success": "Your mood tracker data has been deleted successfully."
+      "heading": "Sunteți sigur că doriți să ștergeți toate datele din monitorizarea stării de spirit?",
+      "subheading": "Această acțiune este ireversibilă.",
+      "confirm": "Da, ștergeți toate datele din monitorizarea stării de spirit",
+      "cancel": "Nu, păstrați datele din monitorizarea stării de spirit",
+      "success": "Datele din monitorizarea stării de spirit au fost șterse cu succes."
     },
     "how-it-works-mood-track": {
       "heading": "Cum funcționează monitorizarea stării de spirit",

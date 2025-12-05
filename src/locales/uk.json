@@ -49,7 +49,8 @@
       "read_more": "Читати далі",
       "min_read": "хв. читання",
       "by": "Від {{creator}}",
-      "number_of_more_options": "ще {{count}}"
+      "number_of_more_options": "ще {{count}}",
+      "read": "Читати"
     },
     "change-passcode": {
       "enter_passcode": "Введи дійсний пароль",
@@ -108,7 +109,7 @@
       "accept_consultation_success": "Консультацію прийнято",
       "join": "Приєднайся",
       "edit": "Редагувати",
-      "details": "Пеереглянути деталі",
+      "details": "Переглянути деталі",
       "active": "Зараз",
       "reject": "Відхилити пропозицію",
       "accept": "Погодитись на консультацію",
@@ -144,7 +145,8 @@
       "contact_reason_2_pl": "Мені потрібна додаткова інформація про послуги, що надаються платформою",
       "contact_reason_3_pl": "Я клієнт/ка, і у мене виникла технічна проблема",
       "contact_reason_4_pl": "Щось інше.",
-      "success": "Про твою проблему повідомлено. Найближчим часом ми зв'яжемося з тобою"
+      "success": "Про твою проблему повідомлено. Найближчим часом ми зв'яжемося з тобою",
+      "contact_form": "Contact form"
     },
     "faq": {
       "heading": "Поширені запитання",
@@ -222,7 +224,7 @@
       "add_mood_tracker_success": "Щоденний настрій додано",
       "subheading": "",
       "emergency_button_label": "",
-      "emergency_label": "Does this relate to a life event or critical situation?",
+      "emergency_label": "Чи пов'язане це з подією в житті або критичною ситуацією?",
       "recommendations": "Рекомендації",
       "recommendations_text": "Хочете переглянути графік настрою та побачити рекомендований контент?",
       "check_out": "Переглянути"
@@ -237,7 +239,7 @@
       "you_felt": "Ти відчув/ла себе",
       "comment_text": "і прокоментув/ла:",
       "no_result": "Жодних результатів не знайденою",
-      "critical_text": "Related to a life event or critical situation",
+      "critical_text": "Пов'язано з життєвою подією або критичною ситуацією",
       "recommendations": "Рекомендації відповідно до вашого настрою",
       "articles": "Статті",
       "videos": "Відео",
@@ -417,6 +419,7 @@
       "password_placeholder": "Введи свій пароль",
       "age_terms_agreement_text": "Мені більше 16 років",
       "prompt_title": "Збережіи свої дані, щоб швидко входити до систему",
+      "prompt_2_title": "Пройди автентифікацію для збереження твоїх даних для входу",
       "cancel": "Скасувати",
       "click_to_copy": "Натисніть, щоб скопіювати"
     },
@@ -585,7 +588,7 @@
       "living_place_placeholder": "Введи своє місце проживання",
       "error_fetching_data": "При завантаженні даних профілю виникла помилка",
       "parent": "Мати/Батько/Опікун",
-      "delete_mood_tracker": "Clear mood tracker data"
+      "delete_mood_tracker": "Очистити дані трекера настрою"
     },
     "user-profile": {
       "heading": "Твій профіль",
@@ -637,7 +640,8 @@
       "subheading": "",
       "heading_button_label": "",
       "emergency_button_label": "",
-      "ask_button_label": ""
+      "ask_button_label": "",
+      "date_answered": "від {{date}}"
     },
     "set-up-biometrics": {
       "heading": "Налаштуй код доступу та біометрію",
@@ -704,49 +708,51 @@
       "phone": "Телефон",
       "email": "Електронна пошта",
       "check_organization": "Привіт, подивіться цю організацію",
-      "free_services": "Free services",
-      "paid_services": "Paid services",
-      "co_payment_services": "Co-payment services",
-      "cnas_reimbursed_services": "CNAS reimbursed services",
-      "emergency_situations": "Emergency situations",
-      "pediatric_psychiatry": "Pediatric psychiatry",
-      "psychological_evaluation": "Psychological evaluation",
-      "psychological_counseling": "Psychological counseling",
-      "support_groups": "Support groups",
-      "social_assistance_and_counseling": "Social assistance and counseling",
-      "personal_development": "Personal development",
-      "vocational_counseling_and_career_guidance": "Vocational counseling and career guidance",
-      "occupational_therapy_ergotherapy": "Occupational therapy/Ergotherapy",
-      "physiotherapy_physical_recovery": "Physiotherapy/Physical recovery",
-      "autism_spectrum_disorder_therapies": "Autism spectrum disorder therapies",
-      "disability_assessment": "Disability assessment",
-      "pediatric_neurology": "Pediatric neurology",
-      "special_psychopedagogy": "Special psychopedagogy",
-      "neuropsychomotor_recovery": "Neuropsychomotor recovery",
-      "aggression_violence_victim_or_aggressor": "Aggression/violence - victim or aggressor",
-      "learning_difficulties_special_educational_needs": "Learning difficulties/Special educational needs",
-      "behavioral_disorder": "Behavioral disorder",
-      "eating_disorder": "Eating disorder",
-      "suicide_self_harm": "Suicide/Self-harm",
-      "addiction": "Addiction",
-      "identity_issues": "Identity issues",
-      "illness_oncological_treatment_chronic_diseases": "Illness (oncological treatment, chronic diseases)",
-      "other_situations": "Other situations",
-      "public": "Public",
-      "private": "Private",
-      "ong": "NGO",
-      "public_private": "Public-private",
-      "specialisations_placeholder": "Select offered services",
-      "payment_methods_placeholder": "Select payment methods",
-      "user_interactions_placeholder": "Select interaction modes",
-      "property_types_placeholder": "Select property types",
-      "filter_heading": "Filter",
-      "filter_button_label": "Apply",
-      "any": "Any",
-      "personalize": "Personalize",
-      "personalization": "Personalization",
-      "personalization_modal_text": "To receive personalized organization recommendations tailored to your needs, please complete our quick baseline assessment first. This helps us understand your preferences and goals to provide the most relevant suggestions.",
-      "personalization_modal_cta_label": "Complete assessment"
+      "free_services": "Безкоштовні послуги",
+      "paid_services": "Платні послуги",
+      "co_payment_services": "Послуги з доплатою",
+      "cnas_reimbursed_services": "Послуги, відшкодовані CNAS",
+      "emergency_situations": "Надзвичайні ситуації",
+      "pediatric_psychiatry": "Дитяча психіатрія",
+      "psychological_evaluation": "Психологічна оцінка",
+      "psychological_counseling": "Психологічне консультування",
+      "support_groups": "Групи підтримки",
+      "social_assistance_and_counseling": "Соціальна допомога та консультування",
+      "personal_development": "Особистісний розвиток",
+      "vocational_counseling_and_career_guidance": "Профорієнтаційне консультування та кар’єрні поради",
+      "occupational_therapy_ergotherapy": "Ерготерапія/Професійна терапія",
+      "physiotherapy_physical_recovery": "Фізіотерапія/Фізична реабілітація",
+      "autism_spectrum_disorder_therapies": "Терапії розладів аутистичного спектра",
+      "disability_assessment": "Оцінка інвалідності",
+      "pediatric_neurology": "Дитяча неврологія",
+      "special_psychopedagogy": "Спеціальна психопедагогіка",
+      "neuropsychomotor_recovery": "Нейропсихомоторна реабілітація",
+      "aggression_violence_victim_or_aggressor": "Агресія/насильство — жертва або кривдник",
+      "learning_difficulties_special_educational_needs": "Труднощі в навчанні/особливі освітні потреби",
+      "behavioral_disorder": "Поведінкові розлади",
+      "eating_disorder": "Розлади харчової поведінки",
+      "suicide_self_harm": "Самогубство/самопошкодження",
+      "addiction": "Залежність",
+      "identity_issues": "Проблеми ідентичності",
+      "illness_oncological_treatment_chronic_diseases": "Захворювання (онкологічне лікування, хронічні хвороби)",
+      "other_situations": "Інші ситуації",
+      "public": "Державна",
+      "private": "Приватна",
+      "ong": "НУО",
+      "public_private": "Державнo-приватна",
+      "specialisations_placeholder": "Виберіть надані послуги",
+      "payment_methods_placeholder": "Виберіть способи оплати",
+      "user_interactions_placeholder": "Виберіть режими взаємодії",
+      "property_types_placeholder": "Виберіть типи власності",
+      "filter_heading": "Фільтр",
+      "filter_button_label": "Застосувати",
+      "any": "Будь-які",
+      "personalize": "Персоналізувати",
+      "personalization": "Персоналізація",
+      "personalization_modal_text": "Щоб отримувати персоналізовані рекомендації щодо організацій, адаптовані до ваших потреб, спочатку пройдіть нашу коротку базову оцінку. Це допоможе нам зрозуміти ваші вподобання та цілі, щоб надати найрелевантніші пропозиції.",
+      "personalization_modal_cta_label": "Пройти оцінювання",
+      "location_permission_denied": "Доступ до місцезнаходження заборонено",
+      "enable_location": "Увімкнути місцезнаходження"
     },
     "organization-overview": {
       "error-loading-data": "Сталася помилка під час завантаження даних про організацію",
@@ -831,15 +837,15 @@
       "assessment_completed": "Оцінку завершено",
       "assessment_completed_description": "Дякуємо за проходження оцінки. Ваші відповіді збережено і вони допоможуть нам підтримати вас.",
       "assessment_completed_button": "Повернутися на головну",
-      "loading_results": "Loading your results...",
-      "recommended_articles": "Recommended Articles",
-      "recommended_videos": "Recommended Videos",
-      "recommended_podcasts": "Recommended Podcasts",
-      "by": "By {{creator}}",
-      "min_read": "min read",
-      "read_more": "Read More",
-      "view_more": "View More",
-      "read": "Read",
+      "loading_results": "Завантаження результатів...",
+      "recommended_articles": "Рекомендовані статті",
+      "recommended_videos": "Рекомендовані відео",
+      "recommended_podcasts": "Рекомендовані подкасти",
+      "by": "Від {{creator}}",
+      "min_read": "хв читання",
+      "read_more": "Читати більше",
+      "view_more": "Переглянути більше",
+      "read": "Читати",
       "save": "Зберегти"
     },
     "baseline-assessment-dashboard": {
@@ -891,7 +897,9 @@
       "dec_same_dec": "Великий прогрес! Психологічний та соціальний зменшилися, тоді як біологічний залишився без змін.",
       "dec_dec_inc": "Великий прогрес! Психологічний та біологічний зменшилися, хоча соціальний зріс.",
       "dec_dec_same": "Великий прогрес! Психологічний та біологічний зменшилися, тоді як соціальний залишився без змін.",
-      "dec_dec_dec": "Відмінний прогрес! Психологічний, біологічний та соціальний усі зменшилися."
+      "dec_dec_dec": "Відмінний прогрес! Психологічний, біологічний та соціальний усі зменшилися.",
+      "answered_questions": "Відповіді на питання: {{current}}/27",
+      "latest_result": "Останній результат"
     }
   },
   "screens": {
@@ -1027,7 +1035,7 @@
       "heading": "Трекер настрою",
       "subheading": "Тут можна відстежувати свій настрій і прогрес ",
       "emergency_button_label": "Невідкладна допомога",
-      "report": "Сгенерировать отчет",
+      "report": "Згенерувати звіт",
       "how_it_works": "Як це працює"
     },
     "notification-preferences-screen": {
@@ -1108,7 +1116,7 @@
     "organizations-screen": {
       "heading": "Огляд організації",
       "subheading": "Детальний огляд профілю вибраної вами організації",
-      "emergency_button_label": "Emergency help"
+      "emergency_button_label": "Невідкладна допомога"
     },
     "organization-overview-screen": {
       "heading": "Огляд організації",
@@ -1220,9 +1228,9 @@
       "button_label_2": "Текстова консультація",
       "client_joined": "Клієнт/ка долучився/лася до консультації",
       "error": "Виникла помилка. Cпробуй ще раз",
-      "permissions_error": "You have not granted permission to use the camera or microphone",
-      "permissions_error_subheading": "Please grant permission to use the camera or microphone from the settings of your device, to join the consultation",
-      "open_settings": "Open settings"
+      "permissions_error": "Ви не надали дозволу на використання камери або мікрофона",
+      "permissions_error_subheading": "Щоб приєднатися до консультації, надайте дозвіл на використання камери або мікрофона в налаштуваннях вашого пристрою",
+      "open_settings": "Відкрити налаштування"
     },
     "select-avatar": {
       "heading": "Зміни фото профілю",
@@ -1254,7 +1262,8 @@
     "question-details": {
       "today": "Сьогодні",
       "answered_by": "Відповідав/ла:",
-      "schedule_consultation": "Заплануй консультацію"
+      "schedule_consultation": "Заплануй консультацію",
+      "date_answered": "від {{date}}"
     },
     "filter-questions": {
       "heading": "Фільтруй запитання за тегом",
@@ -1276,14 +1285,14 @@
       "categories": "Категорії"
     },
     "mood-track-report": {
-      "heading": "Your mood tracking report",
-      "subheading": "Export your mood tracking history as a CSV file for the selected period. Weekly reports will be sent to your email address.",
-      "export_button": "Export report",
-      "cancel_button": "Cancel",
-      "start_date": "Start date",
-      "end_date": "End date",
-      "end_date_before_start_error": "End date must be after start date",
-      "confirm": "Confirm"
+      "heading": "Звіт про відстеження настрою",
+      "subheading": "Експортуйте історію відстеження настрою у файл CSV за вибраний період. Щотижневі звіти надходитимуть на вашу електронну адресу.",
+      "export_button": "Експортувати звіт",
+      "cancel_button": "Скасувати",
+      "start_date": "Дата початку",
+      "end_date": "Дата завершення",
+      "end_date_before_start_error": "Кінцева дата має бути після початкової дати",
+      "confirm": "Підтвердити"
     }
   },
   "modals": {
@@ -1348,11 +1357,11 @@
       "secondary_cta_label": "Я не хочу проходити анкету"
     },
     "delete-mood-tracker-history": {
-      "heading": "Are you sure you want to delete all your mood tracker data?",
-      "subheading": "This action is irreversible.",
-      "confirm": "Yes, delete all my mood tracker data",
-      "cancel": "No, keep my mood tracker data",
-      "success": "Your mood tracker data has been deleted successfully."
+      "heading": "Ви впевнені, що хочете видалити всі дані трекера настрою?",
+      "subheading": "Цю дію не можна скасувати.",
+      "confirm": "Так, видалити всі мої дані трекера настрою",
+      "cancel": "Ні, зберегти мої дані трекера настрою",
+      "success": "Ваші дані трекера настрою успішно видалено."
     },
     "how-it-works-mood-track": {
       "heading": "Як працює трекер настрою",

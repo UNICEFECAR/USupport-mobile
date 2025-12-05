@@ -1,4 +1,4 @@
-import { Platform, PermissionsAndroid, Alert, Linking } from "react-native";
+import { Platform } from "react-native";
 import RNHTMLtoPDF from "react-native-html-to-pdf";
 import { marked } from "marked";
 

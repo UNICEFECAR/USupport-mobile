@@ -301,6 +301,7 @@ export function Navigation({
   useQuery(["platformAccess", country], addPlatformAccess, {
     staleTime: Infinity,
     enabled: !!country && !isTmpUser,
+    retry: false,
   });
 
   return (

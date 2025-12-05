@@ -29,7 +29,11 @@
     "react-native/no-color-literals": "off",
     "import/namespace": "off",
     "import/export": 0,
-    "import/no-named-as-default": 0
+    "import/no-named-as-default": 0,
+    "react-native/no-inline-styles": "off",
+    "react-native/no-raw-text": "off",
+    "react-native/sort-styles": "off",
+    "react-native/no-unused-styles": "off"
   },
   "ignorePatterns": ["node_modules/", "build/", "*.config.js"],
   "plugins": ["react", "react-hooks", "react-native"],

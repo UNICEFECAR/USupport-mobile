@@ -5,8 +5,12 @@ import { useTranslation } from "react-i18next";
 
 import { Heading, Screen, AppText, Loading, CardMedia } from "#components";
 import { PodcastView } from "#blocks";
-import { destructurePodcastData } from "#utils";
-import { useGetUserContentRatings } from "#hooks";
+import {
+  destructurePodcastData,
+  getLikesAndDislikesForContent,
+  isLikedOrDislikedByUser,
+} from "#utils";
+import { useGetUserContentEngagements } from "#hooks";
 import { userSvc, cmsSvc, adminSvc, clientSvc, Context } from "#services";
 
 /**
@@ -29,43 +33,62 @@ export const PodcastInformation = ({ navigation, route }) => {
     return podcastIds;
   };
 
-  const { data: contentRatings } = useGetUserContentRatings(!isTmpUser);
+  const {
+    data: userContentEngagements,
+    isLoading: isLoadingUserContentEngagements,
+  } = useGetUserContentEngagements(!isTmpUser);
+  const {
+    data: podcastContentEngagements,
+    isLoading: isLoadingPodcastContentEngagements,
+  } = useQuery(["podcastContentEngagements", id], async () => {
+    const { data } = await userSvc.getContentEngagementsById({
+      contentType: "podcast",
+      ids: [id],
+    });
+
+    const { likes, dislikes } = data.reduce(
+      (acc, engagement) => {
+        if (engagement.action === "like") {
+          acc.likes += 1;
+        } else if (engagement.action === "dislike") {
+          acc.dislikes += 1;
+        }
+        return acc;
+      },
+      { likes: 0, dislikes: 0 }
+    );
+    return { likes, dislikes };
+  });
+
   const podcastIdsQuery = useQuery(["podcastIds"], getPodcastsIds);
 
   const getPodcastData = async () => {
-    const contentRatings = await userSvc.getRatingsForContent({
-      contentType: "podcast",
-      contentId: id,
-      isTmpUser,
-    });
-
     const { data } = await cmsSvc.getPodcastById(id, i18n.language);
     const finalData = await destructurePodcastData(data);
-    finalData.contentRating = contentRatings.data;
     return finalData;
   };
 
-  const { data: podcastData, isFetching: isFetchingPodcastData } = useQuery(
-    ["podcast", i18n.language, id],
-    getPodcastData,
-    {
-      enabled: !!id,
-      onSuccess: (data) => {
-        // Add category interaction when podcast is successfully fetched
-        if (data && data.categoryId && !isTmpUser) {
-          clientSvc
-            .addClientCategoryInteraction({
-              categoryId: data.categoryId,
-              podcastId: data.id,
-              tagIds: data.labels?.map((label) => label.id) || [],
-            })
-            .catch((error) => {
-              console.error("Failed to track category interaction:", error);
-            });
-        }
-      },
-    }
-  );
+  const {
+    data: podcastData,
+    isFetching: isFetchingPodcastData,
+    isFetched,
+  } = useQuery(["podcast", i18n.language, id], getPodcastData, {
+    enabled: !!id,
+    onSuccess: (data) => {
+      // Add category interaction when podcast is successfully fetched
+      if (data && data.categoryId && !isTmpUser) {
+        clientSvc
+          .addClientCategoryInteraction({
+            categoryId: data.categoryId,
+            podcastId: data.id,
+            tagIds: data.labels?.map((label) => label.id) || [],
+          })
+          .catch((error) => {
+            console.error("Failed to track category interaction:", error);
+          });
+      }
+    },
+  });
 
   const getSimilarPodcasts = async () => {
     let { data } = await cmsSvc.getPodcasts({
@@ -93,11 +116,21 @@ export const PodcastInformation = ({ navigation, route }) => {
       podcasts = data.data || [];
     }
 
+    const podcastIds = podcasts.map((podcast) => podcast.id);
+    const { likes, dislikes } = await getLikesAndDislikesForContent(
+      podcastIds,
+      "podcast"
+    );
+
     // Destructure podcast data with async handling
     const destructuredPodcasts = await Promise.all(
       podcasts.map((podcast) => destructurePodcastData(podcast))
     );
-    return destructuredPodcasts;
+    return destructuredPodcasts.map((x) => ({
+      ...x,
+      likes: likes.get(x.id) || 0,
+      dislikes: dislikes.get(x.id) || 0,
+    }));
   };
 
   const {
@@ -115,6 +148,17 @@ export const PodcastInformation = ({ navigation, route }) => {
         : false,
   });
 
+  const { isLiked, isDisliked } = isLikedOrDislikedByUser({
+    contentType: "podcast",
+    contentData: podcastData,
+    userEngagements: userContentEngagements,
+  });
+
+  const isLoading =
+    isLoadingUserContentEngagements ||
+    isLoadingPodcastContentEngagements ||
+    isFetchingPodcastData;
+
   return (
     <Screen>
       <ScrollView style={styles.container}>
@@ -123,8 +167,22 @@ export const PodcastInformation = ({ navigation, route }) => {
           handleGoBack={() => navigation.goBack()}
         />
 
-        {podcastData ? (
-          <PodcastView podcastData={podcastData} t={t} isTmpUser={isTmpUser} />
+        {podcastData && !isLoading ? (
+          <PodcastView
+            podcastData={{
+              ...podcastData,
+              likes: podcastContentEngagements?.likes || 0,
+              dislikes: podcastContentEngagements?.dislikes || 0,
+              contentRating: {
+                isLikedByUser: isLiked,
+                isDislikedByUser: isDisliked,
+              },
+            }}
+            t={t}
+            isTmpUser={isTmpUser}
+          />
+        ) : isFetched && !isLoading ? (
+          <AppText>{t("not_found")}</AppText>
         ) : (
           <View style={styles.loadingContainer}>
             <Loading style={styles.loading} />
@@ -138,18 +196,11 @@ export const PodcastInformation = ({ navigation, route }) => {
             </AppText>
             <View style={styles.morePodcastsGrid}>
               {morePodcasts.map((podcast, index) => {
-                const isLikedByUser = contentRatings?.some(
-                  (rating) =>
-                    rating.content_id === podcast.id &&
-                    rating.content_type === "podcast" &&
-                    rating.positive === true
-                );
-                const isDislikedByUser = contentRatings?.some(
-                  (rating) =>
-                    rating.content_id === podcast.id &&
-                    rating.content_type === "podcast" &&
-                    rating.positive === false
-                );
+                const { isLiked, isDisliked } = isLikedOrDislikedByUser({
+                  contentType: "podcast",
+                  contentData: podcast,
+                  userEngagements: userContentEngagements,
+                });
                 const podcastData = podcast; // Already destructured in getSimilarPodcasts
 
                 return (
@@ -163,8 +214,8 @@ export const PodcastInformation = ({ navigation, route }) => {
                       categoryName={podcastData.categoryName}
                       likes={podcastData.likes}
                       dislikes={podcastData.dislikes}
-                      isLikedByUser={isLikedByUser}
-                      isDislikedByUser={isDislikedByUser}
+                      isLikedByUser={isLiked}
+                      isDislikedByUser={isDisliked}
                       contentType="podcasts"
                       t={t}
                       onPress={() => {

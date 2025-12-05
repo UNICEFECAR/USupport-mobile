@@ -12,13 +12,15 @@ import {
   Tabs,
 } from "#components";
 
-import { appStyles } from "#styles";
-
-import { destructureVideoData } from "#utils";
+import {
+  destructureVideoData,
+  getLikesAndDislikesForContent,
+  isLikedOrDislikedByUser,
+} from "#utils";
 
 import {
   useEventListener,
-  useGetUserContentRatings,
+  useGetUserContentEngagements,
   useDebounce,
 } from "#hooks";
 
@@ -34,7 +36,10 @@ import { localStorage, adminSvc, cmsSvc, Context } from "#services";
 export const Videos = ({ navigation, showSearch, showCategories, sort }) => {
   const { t, i18n } = useTranslation("blocks", { keyPrefix: "videos" });
   const { isTmpUser } = useContext(Context);
+
   const [usersLanguage, setUsersLanguage] = useState(i18n.language);
+  const [videosLikes, setVideosLikes] = useState(new Map());
+  const [videosDislikes, setVideosDislikes] = useState(new Map());
 
   useEffect(() => {
     if (i18n.language !== usersLanguage) {
@@ -42,7 +47,7 @@ export const Videos = ({ navigation, showSearch, showCategories, sort }) => {
     }
   }, [i18n.language]);
 
-  const { data: contentRatings } = useGetUserContentRatings(!isTmpUser);
+  const { data: contentEngagements } = useGetUserContentEngagements(!isTmpUser);
 
   //--------------------- Country Change Event Listener ----------------------//
   const [currentCountry, setCurrentCountry] = useState();
@@ -68,6 +73,7 @@ export const Videos = ({ navigation, showSearch, showCategories, sort }) => {
   //--------------------- Videos ----------------------//
   const getVideosIds = async () => {
     const videosIds = await adminSvc.getVideos();
+
     return videosIds;
   };
 
@@ -170,7 +176,9 @@ export const Videos = ({ navigation, showSearch, showCategories, sort }) => {
       ids: videoIdsQuery.data,
     });
 
-    return data.data || [];
+    const videos = data.data || [];
+
+    return videos;
   };
 
   const {
@@ -200,6 +208,43 @@ export const Videos = ({ navigation, showSearch, showCategories, sort }) => {
     }
   );
 
+  useEffect(() => {
+    async function getVideosRatings() {
+      const videoIds = videos.reduce((acc, video) => {
+        if (!videosLikes.has(video.id) && !videosDislikes.has(video.id)) {
+          acc.push(video.id);
+        }
+        return acc;
+      }, []);
+
+      if (!videoIds.length) return;
+
+      const { likes, dislikes } = await getLikesAndDislikesForContent(
+        videoIds,
+        "video"
+      );
+
+      setVideosLikes((prevVideosLikes) => {
+        return new Map([...prevVideosLikes, ...likes]);
+      });
+      setVideosDislikes((prevVideosDislikes) => {
+        return new Map([...prevVideosDislikes, ...dislikes]);
+      });
+    }
+
+    getVideosRatings();
+  }, [videos, usersLanguage]);
+
+  // Transform videos data to use state likes/dislikes
+  const transformedVideos = videos?.map((video) => {
+    const baseVideo = video.data ? video.data : video;
+    return {
+      ...baseVideo,
+      likes: videosLikes.get(baseVideo.id) || 0,
+      dislikes: videosDislikes.get(baseVideo.id) || 0,
+    };
+  });
+
   let areCategoriesReady = categoriesQuery?.data?.length > 1;
 
   return (
@@ -224,24 +269,17 @@ export const Videos = ({ navigation, showSearch, showCategories, sort }) => {
             </View>
           )}
 
-        {videos?.length > 0 &&
+        {transformedVideos?.length > 0 &&
           areCategoriesReady &&
           !isVideosLoading &&
           !isVideosFetching && (
             <View style={styles.videosContainer}>
-              {videos?.map((video, index) => {
-                const isLikedByUser = contentRatings?.some(
-                  (rating) =>
-                    rating.content_id === video.id &&
-                    rating.content_type === "video" &&
-                    rating.positive === true
-                );
-                const isDislikedByUser = contentRatings?.some(
-                  (rating) =>
-                    rating.content_id === video.id &&
-                    rating.content_type === "video" &&
-                    rating.positive === false
-                );
+              {transformedVideos?.map((video, index) => {
+                const { isLiked, isDisliked } = isLikedOrDislikedByUser({
+                  contentType: "video",
+                  contentData: video,
+                  userEngagements: contentEngagements,
+                });
                 const videoData = destructureVideoData(video);
 
                 return (
@@ -257,8 +295,8 @@ export const Videos = ({ navigation, showSearch, showCategories, sort }) => {
                     description={videoData.description}
                     labels={videoData.labels}
                     categoryName={videoData.categoryName}
-                    isLikedByUser={isLikedByUser}
-                    isDislikedByUser={isDislikedByUser}
+                    isLikedByUser={isLiked}
+                    isDislikedByUser={isDisliked}
                     likes={videoData.likes}
                     dislikes={videoData.dislikes}
                     t={t}
@@ -274,7 +312,7 @@ export const Videos = ({ navigation, showSearch, showCategories, sort }) => {
             </View>
           )}
 
-        {!videos?.length &&
+        {!transformedVideos?.length &&
           !isVideosLoading &&
           !isVideosFetching &&
           categoriesQuery?.data?.length > 0 && (
@@ -293,7 +331,7 @@ export const Videos = ({ navigation, showSearch, showCategories, sort }) => {
 
         {videoIdsQuery.isFetched &&
           (isVideosFetched || videosFetchStatus === "idle") &&
-          !videos && (
+          !transformedVideos && (
             <View style={styles.noResultsContainer}>
               <AppText namedStyle="h3">{t("could_not_load_content")}</AppText>
             </View>

@@ -49,7 +49,8 @@
       "read_more": "Կարդալ ավելին",
       "min_read": "րոպե կարդալու համար",
       "by": "{{creator}}-ի կողմից",
-      "number_of_more_options": "{{count}} ավելին"
+      "number_of_more_options": "{{count}} ավելին",
+      "read": "Կարդալ"
     },
     "change-passcode": {
       "enter_passcode": "Մուտքագրեք ներկայիս մուտքի կոդը",
@@ -417,6 +418,7 @@
       "password_placeholder": "Մուտքագրեք ձեր գաղտնաբառը",
       "age_terms_agreement_text": "Ես 13 տարեկանից բարձր եմ",
       "prompt_title": "Պահպանել մուտքի տվյալները՝ արագ մուտք գործելու համար",
+      "prompt_2_title": "Հաստատեք ձեր ինքնությունը՝ ձեր տվյալները պահպանելու համար",
       "cancel": "Չեղարկել",
       "click_to_copy": "Click to copy"
     },
@@ -637,7 +639,8 @@
       "subheading": "I<0>ԱՆԱՆՈՒՆ</0>։ Ձեր հարցերը<0>ԿԱՊ ՉՈՒՆԵՆ</0> ձեզ հետ։ Պատասխանները հրապարակվելու են, ուստի, կարող եք տեսնել նաև այն խնդիրները, որ ունեն ուրիշները։",
       "heading_button_label": "Տեսեք, թե ինչպես է դա աշխատում",
       "emergency_button_label": "Հրատապ օգնություն",
-      "ask_button_label": "Ուղղել անանուն հարց"
+      "ask_button_label": "Ուղղել անանուն հարց",
+      "date_answered": "ըստ {{date}}"
     },
     "set-up-biometrics": {
       "heading": "Սահմանել մուտքի կոդ և զետեղել կենսաչափական տվյալներ",
@@ -746,7 +749,9 @@
       "personalize": "Անհատականացնել",
       "personalization": "Անհատականացում",
       "personalization_modal_text": "Ձեր կարիքներին համապատասխան անհատականացված կազմակերպական առաջարկություններ ստանալու համար, խնդրում ենք նախ լրացնել մեր արագ բազային գնահատումը: Սա օգնում է մեզ հասկանալ ձեր նախասիրությունները և նպատակները՝ ամենակարևոր առաջարկությունները տրամադրելու համար:",
-      "personalization_modal_cta_label": "Լրացնել գնահատումը"
+      "personalization_modal_cta_label": "Լրացնել գնահատումը",
+      "location_permission_denied": "Location permission denied",
+      "enable_location": "Enable location"
     },
     "organization-overview": {
       "error-loading-data": "An error occurred while loading the organization data",
@@ -1253,7 +1258,8 @@
     "question-details": {
       "today": "Այսօր",
       "answered_by": "Պատասխանող՝",
-      "schedule_consultation": "Պլանավորել խորհրդատվություն"
+      "schedule_consultation": "Պլանավորել խորհրդատվություն",
+      "date_answered": "ըստ {{date}}"
     },
     "filter-questions": {
       "heading": "Հարցերը ֆիլտրել tag-ի օգնությամբ",

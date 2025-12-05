@@ -56,8 +56,7 @@ export const PlatformRating = ({ navigation }) => {
     setData(newData);
   };
 
-  const canContinue =
-    data.rating === null || data.comment === "" || data.comment.length < 4;
+  const canContinue = data.rating === null;
 
   return (
     <KeyboardAvoidingView

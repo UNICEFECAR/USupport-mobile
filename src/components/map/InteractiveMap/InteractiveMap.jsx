@@ -1,10 +1,18 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  Linking,
+  AppState,
+} from "react-native";
 import { WebView } from "react-native-webview";
 import * as Location from "expo-location";
 
 import { localStorage } from "#services";
 
+import { TransparentModal } from "../../modals";
 import { Loading } from "../../loaders";
 import { ButtonOnlyIcon } from "../../buttons";
 
@@ -26,6 +34,7 @@ export const InteractiveMap = ({
   organizationToZoom,
 }) => {
   const webViewRef = useRef(null);
+  const appStateRef = useRef(AppState.currentState);
   const [userLocation, setUserLocation] = useState(null);
   const [initialCenter, setInitialCenter] = useState({
     lat: 44.4268,
@@ -37,6 +46,8 @@ export const InteractiveMap = ({
   const [isLoading, setIsLoading] = useState(true);
   const [mapReady, setMapReady] = useState(false);
   const [headers, setHeaders] = useState();
+  const [showPermissionsContainer, setShowPermissionsContainer] =
+    useState(false);
 
   useEffect(() => {
     if (organizationToZoom) {
@@ -51,10 +62,27 @@ export const InteractiveMap = ({
     }
   }, [organizationToZoom]);
 
+  // Open device settings for location permissions
+  const openLocationSettings = useCallback(() => {
+    Linking.openSettings();
+    setShowPermissionsContainer(false);
+  }, []);
+
   // Request location permission and get current location
   const getCurrentLocation = useCallback(
     async (isInitialLoad = false) => {
       try {
+        // Check current permission status first
+        const { status: existingStatus } =
+          await Location.getForegroundPermissionsAsync();
+
+        // If permission was already denied and this is a manual request, open settings
+        if (existingStatus === "denied" && !isInitialLoad) {
+          console.log("📍 Opening settings for location permission");
+          setShowPermissionsContainer(true);
+          return;
+        }
+
         const { status } = await Location.requestForegroundPermissionsAsync();
 
         if (status !== "granted") {
@@ -103,7 +131,7 @@ export const InteractiveMap = ({
         setLocationPermissionDenied(true);
       }
     },
-    [mapReady]
+    [mapReady, openLocationSettings]
   );
 
   useEffect(() => {
@@ -112,6 +140,14 @@ export const InteractiveMap = ({
         const token = await localStorage.getItem("token");
         const country = await localStorage.getItem("country");
         const language = await localStorage.getItem("language");
+
+        if (!token) {
+          setTimeout(() => {
+            getHeaders();
+          }, 1000);
+          return;
+        }
+
         setHeaders({
           Authorization: `Bearer ${token}`,
           "x-country-alpha-2": country,
@@ -151,6 +187,39 @@ export const InteractiveMap = ({
       );
     }
   }, [userLocation, mapReady]);
+
+  // Recheck location permission when app comes back to foreground
+  useEffect(() => {
+    const handleAppStateChange = async (nextAppState) => {
+      // App is coming back to foreground from background/inactive
+      if (
+        appStateRef.current.match(/inactive|background/) &&
+        nextAppState === "active"
+      ) {
+        console.log("📍 App became active, rechecking location permission");
+
+        // Check if permission status has changed
+        const { status } = await Location.getForegroundPermissionsAsync();
+
+        if (status === "granted" && locationPermissionDenied) {
+          // Permission was granted while in settings, get location now
+          setLocationPermissionDenied(false);
+          getCurrentLocation(false);
+        }
+      }
+
+      appStateRef.current = nextAppState;
+    };
+
+    const subscription = AppState.addEventListener(
+      "change",
+      handleAppStateChange
+    );
+
+    return () => {
+      subscription?.remove();
+    };
+  }, [locationPermissionDenied, getCurrentLocation]);
 
   // Handle messages from WebView
   const handleWebViewMessage = useCallback(
@@ -256,36 +325,49 @@ export const InteractiveMap = ({
       </View>
     );
   }
+  console.log(headers);
+  const args = locationPermissionDenied
+    ? ""
+    : `?lat=${initialCenter.lat}&lng=${initialCenter.lng}`;
 
   return (
-    <View style={[styles.mapContainer, style]}>
-      <WebView
-        ref={webViewRef}
-        source={{
-          uri: `https://staging.usupport.online/api/v1/user/mobile-map?lat=${initialCenter.lat}&lng=${initialCenter.lng}`,
-          headers,
-        }}
-        style={styles.webview}
-        onMessage={handleWebViewMessage}
-        javaScriptEnabled={true}
-        domStorageEnabled={true}
-        startInLoadingState={true}
-        allowsInlineMediaPlayback={true}
-        mediaPlaybackRequiresUserAction={false}
-        onError={(error) => {
-          console.error("❌ WebView error:", error);
-          console.error("Error code:", error?.code);
-          console.error("Error description:", error?.description);
-        }}
-        onHttpError={(error) => {
-          console.error("❌ WebView HTTP error:", error);
-          console.error("HTTP error statusCode:", error?.statusCode);
-          console.error("HTTP error url:", error?.url);
-        }}
-        originWhitelist={["*"]}
+    <>
+      <TransparentModal
+        heading={t("location_permission_denied")}
+        ctaLabel={t("enable_location")}
+        ctaHandleClick={openLocationSettings}
+        isOpen={showPermissionsContainer}
+        handleClose={() => setShowPermissionsContainer(false)}
       />
+      <View style={[styles.mapContainer, style]}>
+        {headers?.Authorization && (
+          <WebView
+            ref={webViewRef}
+            source={{
+              uri: `https://staging.usupport.online/api/v1/user/mobile-map${args}`,
+              headers,
+            }}
+            style={styles.webview}
+            onMessage={handleWebViewMessage}
+            javaScriptEnabled={true}
+            domStorageEnabled={true}
+            startInLoadingState={true}
+            allowsInlineMediaPlayback={true}
+            mediaPlaybackRequiresUserAction={false}
+            onError={(error) => {
+              console.error("❌ WebView error:", error);
+              console.error("Error code:", error?.code);
+              console.error("Error description:", error?.description);
+            }}
+            onHttpError={(error) => {
+              console.error("❌ WebView HTTP error:", error);
+              console.error("HTTP error statusCode:", error?.statusCode);
+              console.error("HTTP error url:", error?.url);
+            }}
+            originWhitelist={["*"]}
+          />
+        )}
 
-      {!locationPermissionDenied && (
         <View style={styles.controls}>
           <ButtonOnlyIcon
             iconName="current-location"
@@ -293,24 +375,24 @@ export const InteractiveMap = ({
             onPress={handleManualLocationRequest}
           />
         </View>
-      )}
 
-      {locationPermissionDenied && (
-        <View style={styles.permissionDeniedContainer}>
-          <Text style={styles.permissionDeniedText}>
-            {t("location_permission_denied")}
-          </Text>
-          <TouchableOpacity
-            style={styles.enableLocationButton}
-            onPress={handleManualLocationRequest}
-          >
-            <Text style={styles.enableLocationText}>
-              {t("enable_location")}
+        {false && (
+          <View style={styles.permissionDeniedContainer}>
+            <Text style={styles.permissionDeniedText}>
+              {t("location_permission_denied")}
             </Text>
-          </TouchableOpacity>
-        </View>
-      )}
-    </View>
+            <TouchableOpacity
+              style={styles.enableLocationButton}
+              onPress={openLocationSettings}
+            >
+              <Text style={styles.enableLocationText}>
+                {t("enable_location")}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
+    </>
   );
 };
 

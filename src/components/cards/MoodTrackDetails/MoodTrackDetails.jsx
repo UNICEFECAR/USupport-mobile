@@ -60,7 +60,9 @@ export const MoodTrackDetails = ({ mood, handleClose, t = { t } }) => {
           {t(mood.mood)} {t("comment_text")}
         </AppText>
       </View>
-      <AppText style={[styles.commentText, styles.commentTextHC]}>
+      <AppText
+        style={[styles.commentText, isHighContrast && styles.commentTextHC]}
+      >
         {mood.comment}
       </AppText>
       {mood.isCritical && (

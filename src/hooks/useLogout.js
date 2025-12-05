@@ -11,10 +11,10 @@ export const useLogout = () => {
     userSvc.logoutRequest();
     setInitialRouteName("TabNavigation");
     setInitialAuthRouteName("Login");
-    queryClient.clear();
     setToken(null);
     setTimeout(() => {
       localStorage.removeItem("token");
+      queryClient.clear();
     }, 900);
   });
 

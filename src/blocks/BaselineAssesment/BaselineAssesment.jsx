@@ -45,11 +45,7 @@ export const BaselineAssesment = ({
     finalResult: null,
   });
 
-  const {
-    isLoading,
-    data: questions,
-    error,
-  } = useGetBaselineAssessmentQuestions();
+  const { data: questions } = useGetBaselineAssessmentQuestions();
 
   const {
     isFetching: isFetchingAnswers,
@@ -83,7 +79,7 @@ export const BaselineAssesment = ({
     ? ((state.currentQuestionIndex + 1) / questions.length) * 100
     : 0;
   const answeredProgress = questions?.length
-    ? (Object.keys(state.answers).length / questions.length) * 100
+    ? (state.currentQuestionIndex / questions.length) * 100
     : 0;
 
   // Check if user can start a new assessment
@@ -374,7 +370,7 @@ export const BaselineAssesment = ({
           {/* Completed Step */}
         </View>
       </Block>
-      {state.currentStep === "completed" && (
+      {state.currentStep === "completed" && state.finalResult && (
         <BaselineAssesmentResult
           redirectToDashboard={handleRedirectToDashboard}
           result={state.finalResult}

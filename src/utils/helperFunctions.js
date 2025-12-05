@@ -56,21 +56,23 @@ function res(start, end) {
   return { start: { x: start[0], y: start[1] }, end: { x: end[0], y: end[1] } };
 }
 
-const checkIsLikedAndDisliked = (contentRatings, articleId, contentType) => {
-  const isLikedByUser =
-    contentRatings?.some(
-      (rating) =>
-        rating.content_id === articleId &&
-        rating.content_type === contentType &&
-        rating.positive === true
-    ) || false;
-  const isDislikedByUser =
-    contentRatings?.some(
-      (rating) =>
-        rating.content_id === articleId &&
-        rating.content_type === contentType &&
-        rating.positive === false
-    ) || false;
+const checkIsLikedAndDisliked = (
+  contentEngagements,
+  contentId,
+  contentType
+) => {
+  const isLikedByUser = contentEngagements?.some(
+    (engagement) =>
+      engagement.content_id === contentId &&
+      engagement.content_type === contentType &&
+      engagement.action === "like"
+  );
+  const isDislikedByUser = contentEngagements?.some(
+    (engagement) =>
+      engagement.content_id === contentId &&
+      engagement.content_type === contentType &&
+      engagement.action === "dislike"
+  );
 
   return { isLikedByUser, isDislikedByUser };
 };
@@ -79,6 +81,7 @@ const countryMap = {
   kz: "kazakhstan",
   ro: "romania",
   pl: "poland",
+  am: "armenia",
 };
 
 const createArticleSlug = (title) => {

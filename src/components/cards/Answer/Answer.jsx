@@ -38,8 +38,8 @@ export const Answer = ({
 
   const imageUrl = AMAZON_S3_BUCKET + "/" + (providerInfo.image || "default");
 
-  const getDateText = () => {
-    const date = new Date(question.questionCreatedAt);
+  const getDateText = (dateString) => {
+    const date = new Date(dateString);
 
     if (isDateToday(date)) {
       return t("today");
@@ -78,7 +78,10 @@ export const Answer = ({
             namedStyle="text"
             onPress={() => handleProviderClick(providerInfo.providerId)}
           >
-            {providerInfo.name} {providerInfo.surname}
+            {providerInfo.name} {providerInfo.surname}{" "}
+            {t("date_answered", {
+              date: getDateText(question.answerCreatedAt),
+            })}
           </AppText>
           <View style={styles.scheduleContainer}>
             <TouchableOpacity onPress={() => handleSchedulePress(question)}>
@@ -113,7 +116,7 @@ export const Answer = ({
                     namedStyle="text"
                     style={[styles.text, isHighContrast && colorHighContrast]}
                   >
-                    {getDateText()}
+                    {getDateText(question.questionCreatedAt)}
                   </AppText>
                 </View>
                 <AppText
@@ -143,7 +146,7 @@ export const Answer = ({
                 isHighContrast && styles.colorHighContrast,
               ]}
             >
-              {getDateText()}
+              {getDateText(question.questionCreatedAt)}
             </AppText>
           </View>
           <AppText style={styles.marginTop_0_8} numberOfLines={2}>

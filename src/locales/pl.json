@@ -49,7 +49,8 @@
       "read_more": "Czytaj więcej",
       "min_read": "min czytania",
       "by": "Przez {{creator}}",
-      "number_of_more_options": "jeszcze {{count}}"
+      "number_of_more_options": "jeszcze {{count}}",
+      "read": "Czytać"
     },
     "change-passcode": {
       "enter_passcode": "Wprowadź aktualny kod dostępu",
@@ -417,6 +418,7 @@
       "password_placeholder": "Wprowadź swoje hasło",
       "age_terms_agreement_text": "Mam ponad {{age}} lat",
       "prompt_title": "Zapisz swoje dane uwierzytelniające, aby szybko się zalogować",
+      "prompt_2_title": "Uwierzytelnij się, aby zapisać swoje dane logowania",
       "cancel": "Anuluj",
       "click_to_copy": "Kliknij, aby skopiować"
     },
@@ -637,7 +639,8 @@
       "subheading": "",
       "heading_button_label": "",
       "emergency_button_label": "",
-      "ask_button_label": ""
+      "ask_button_label": "",
+      "date_answered": "w dniu {{date}}"
     },
     "set-up-biometrics": {
       "heading": "Skonfiguruj kod dostępu i dane biometryczne",
@@ -746,7 +749,9 @@
       "personalize": "Personalize",
       "personalization": "Personalization",
       "personalization_modal_text": "To receive personalized organization recommendations tailored to your needs, please complete our quick baseline assessment first. This helps us understand your preferences and goals to provide the most relevant suggestions.",
-      "personalization_modal_cta_label": "Complete assessment"
+      "personalization_modal_cta_label": "Complete assessment",
+      "location_permission_denied": "Odmowa dostępu do lokalizacji",
+      "enable_location": "Włącz lokalizację"
     },
     "organization-overview": {
       "error-loading-data": "Wystąpił błąd podczas ładowania danych organizacji",
@@ -1254,7 +1259,8 @@
     "question-details": {
       "today": "Dzisiaj",
       "answered_by": "Odpowiedź od:",
-      "schedule_consultation": "Zaplanuj konsultację"
+      "schedule_consultation": "Zaplanuj konsultację",
+      "date_answered": "w dniu {{date}}"
     },
     "filter-questions": {
       "heading": "Filtruj pytania według tagu",

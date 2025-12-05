@@ -31,6 +31,8 @@ export const TabNavigation = () => {
   const { country } = useContext(Context);
   const { bottom: bottomInset } = useSafeAreaInsets();
 
+  const IS_RO = country === "RO";
+
   const [isShown, setIsShown] = useState(true);
   const _ = useKeyboard(
     true,
@@ -39,7 +41,7 @@ export const TabNavigation = () => {
   );
 
   const screens = useMemo(() => {
-    if (country === "RO") {
+    if (IS_RO) {
       return [
         {
           name: "Dashboard",
@@ -59,7 +61,7 @@ export const TabNavigation = () => {
           name: "Consultations",
           component: Organizations,
           text: "organizations",
-          iconName: "calendar",
+          iconName: "map",
           position: "CENTER",
         },
         {
@@ -208,7 +210,7 @@ export const TabNavigation = () => {
                   ]}
                 >
                   <Icon
-                    name="calendar"
+                    name={IS_RO ? "map" : "calendar"}
                     color={
                       selectedTab === "Consultations"
                         ? appStyles.colorPrimary_20809e
