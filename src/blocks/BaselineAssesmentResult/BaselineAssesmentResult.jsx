@@ -31,29 +31,26 @@ import appStyles from "../../styles/appStyles";
  *
  * @return {jsx}
  */
-export const BaselineAssesmentResult = ({
-  // result,
-  redirectToDashboard,
-}) => {
+export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
   const { t } = useTranslation("blocks", {
     keyPrefix: "baseline-assesment-result",
   });
   const navigation = useNavigation();
   const { colors, isDarkMode } = useGetTheme();
 
-  const result = {
-    psychological: "moderate",
-    biological: "moderate",
-    social: "high",
-    psychologicalScore: 30,
-    biologicalScore: 23,
-    socialScore: 27,
-    comparePrevious: {
-      psychological: "lower",
-      biological: "equal",
-      social: "higher",
-    },
-  };
+  // const result = {
+  //   psychological: "moderate",
+  //   biological: "moderate",
+  //   social: "high",
+  //   psychologicalScore: 30,
+  //   biologicalScore: 23,
+  //   socialScore: 27,
+  //   comparePrevious: {
+  //     psychological: "lower",
+  //     biological: "equal",
+  //     social: "higher",
+  //   },
+  // };
 
   // Use the hook if provided, otherwise return mock data
   const { isLoading, data } = useGetAssessmentResult({
@@ -106,7 +103,10 @@ export const BaselineAssesmentResult = ({
 
   let resultText = "";
   if (result?.comparePrevious) {
-    resultText = t(generateKey(result.comparePrevious));
+    const key = generateKey(result.comparePrevious);
+    if (key !== "same_same_same") {
+      resultText = t(key);
+    }
   }
 
   const renderContentGrid = (contentData, onPress, contentType) => {

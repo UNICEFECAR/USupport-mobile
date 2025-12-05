@@ -93,9 +93,9 @@ export const MoodTracker = ({
   }, [emoticons]);
 
   const onSuccess = () => {
-    // setComment("");
-    // setEmoticons(emoticonsInitialState);
-    setIsMoodTrackCompleted(true);
+    setComment("");
+    setEmoticons(emoticonsInitialState);
+    setIsEmergency(false);
     queryClient.refetchQueries({
       queryKey: ["getMoodTrackEntries", 5, 0],
       refetchType: "all",
