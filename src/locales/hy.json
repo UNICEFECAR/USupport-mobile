@@ -749,7 +749,9 @@
       "personalize": "Անհատականացնել",
       "personalization": "Անհատականացում",
       "personalization_modal_text": "Ձեր կարիքներին համապատասխան անհատականացված կազմակերպական առաջարկություններ ստանալու համար, խնդրում ենք նախ լրացնել մեր արագ բազային գնահատումը: Սա օգնում է մեզ հասկանալ ձեր նախասիրությունները և նպատակները՝ ամենակարևոր առաջարկությունները տրամադրելու համար:",
-      "personalization_modal_cta_label": "Լրացնել գնահատումը"
+      "personalization_modal_cta_label": "Լրացնել գնահատումը",
+      "location_permission_denied": "Location permission denied",
+      "enable_location": "Enable location"
     },
     "organization-overview": {
       "error-loading-data": "An error occurred while loading the organization data",
