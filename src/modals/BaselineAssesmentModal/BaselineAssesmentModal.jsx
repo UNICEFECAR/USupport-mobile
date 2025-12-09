@@ -127,12 +127,10 @@ export const BaselineAssesmentModal = ({ navigation, setOpen, open }) => {
       >
         {/* Wrap into Pressable to prevent scrolling issues */}
         <Pressable onPress={() => {}}>
-          <AppText>
-            {t("paragraph_1")}
-            <AppText>{t("paragraph_2")}</AppText>
-            <AppText>{t("paragraph_3")}</AppText>
-            <AppText>{t("paragraph_3")}</AppText>
-          </AppText>
+          <AppText>{t("paragraph_1")}</AppText>
+          <AppText>{t("paragraph_2")}</AppText>
+          <AppText>{t("paragraph_3")}</AppText>
+          <AppText>{t("paragraph_3")}</AppText>
         </Pressable>
       </ScrollView>
       <View style={{ marginBottom: 18, paddingTop: 12 }}>
