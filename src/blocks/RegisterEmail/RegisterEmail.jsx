@@ -271,8 +271,9 @@ export const RegisterEmail = ({ navigation }) => {
             handleGoBack={() => navigation.goBack()}
           />
           <ScrollView
-            contentContainerStyle={[styles.flexGrow, { marginTop: 84 }]}
+            contentContainerStyle={[styles.scrollContent, { marginTop: 84 }]}
             keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
           >
             <Input
               label={t("email_label")}
@@ -381,6 +382,9 @@ const styles = StyleSheet.create({
   },
   flexGrow: {
     flexGrow: 1,
+  },
+  scrollContent: {
+    paddingBottom: 150,
   },
   error: { marginTop: 12, marginLeft: "auto", marginRight: "auto" },
 });
