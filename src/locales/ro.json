@@ -706,7 +706,7 @@
       "address": "Address",
       "phone": "Phone",
       "email": "Email",
-      "check_organization": "Hello, check out this organization",
+      "check_organization": "Check out this organization on uSupport",
       "free_services": "Free services",
       "paid_services": "Paid services",
       "co_payment_services": "Co-payment services",
@@ -796,7 +796,7 @@
       "children_disabilities": "Children with disabilities",
       "adults": "Adults",
       "adults_disabilities": "Adults with disabilities",
-      "check_organization": "Hello, check out this organization"
+      "check_organization": "Check out this organization on uSupport"
     },
     "baseline-assesment": {
       "instructions": "Instrucțiuni: Gândindu-vă la ultimele două săptămâni, alegeți opțiunea care vi se potrivește cel mai bine pentru afirmațiile de mai jos.",

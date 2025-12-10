@@ -706,7 +706,7 @@
       "address": "Address",
       "phone": "Phone",
       "email": "Email",
-      "check_organization": "Hello, check out this organization",
+      "check_organization": "Check out this organization on uSupport",
       "free_services": "Free services",
       "paid_services": "Paid services",
       "co_payment_services": "Co-payment services",
@@ -796,7 +796,7 @@
       "children_disabilities": "Children with disabilities",
       "adults": "Adults",
       "adults_disabilities": "Adults with disabilities",
-      "check_organization": "Hello, check out this organization"
+      "check_organization": "Check out this organization on uSupport"
     },
     "baseline-assesment": {
       "instructions": "Instructions: Thinking about the last two weeks, please choose the option that you think fits you best for the following statements.",
@@ -910,7 +910,7 @@
       "read_more": "Click to read more",
       "min_read": "min read",
       "by": "By {{creator}}",
-      "check_article": "Hello, check this article",
+      "check_article": "Check out this organization on uSupport",
       "share_success": "Article shared successfully",
       "download_success": "Article downloaded successfully"
     },
