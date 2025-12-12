@@ -861,7 +861,8 @@
       "latest_result": "Cel mai recent rezultat",
       "psychological": "Psihologic",
       "biological": "Biologic",
-      "social": "Social"
+      "social": "Social",
+      "how_it_works": "Cum funcționează"
     },
     "baseline-assesment-result": {
       "assessment_completed": "Assessment completed",
@@ -1371,6 +1372,16 @@
       "subheading_3": "Un grafic va afișa stările tale de spirit înregistrate în funcție de dată și oră, ajutându-te să vizualizezi tendințele emoționale. Mai jos vei găsi conținut recomandat, adaptat celei mai recente înregistrări a stării tale de spirit, pentru sprijin și înțelegere.",
       "subheading_4": "Făcând clic pe un anumit eveniment, poți vedea toate comentariile și notițele înregistrate pentru acel moment, oferindu-ți o înțelegere mai profundă a factorilor care ți-au influențat starea de spirit.",
       "subheading_5": "Poți genera un raport pentru orice interval de date selectat și îl poți exporta ca fișier CSV, ceea ce îți permite să îți revizuiești sau să împarți datele despre stările tale de spirit atunci când este necesar."
+    },
+    "how-it-works-ba": {
+      "heading": "Cum funcționează evaluarea inițială",
+      "subheading_1": "Before accessing your baseline assessment, please review and accept the Privacy Policy. You must accept it to continue.",
+      "subheading_2": "You can also start the assessment anytime from your dashboard.",
+      "subheading_3": "The assessment is divided into multiple questions with a progress bar, and you can save your progress and continue later.",
+      "subheading_4": "When you continue your assessment, you’ll see the start date and your saved progress, and you’ll pick up right where you left off.",
+      "subheading_5": "When you complete the assessment, you’ll see your psychological, biological, and social results. You can retake it later to compare changes in your well-being, and related content based on your results will appear below.",
+      "subheading_6": "Once completed, your results will appear in the dashboard, along with an option to retake the assessment anytime.",
+      "subheading_7": "Stat changes are shown with green or red arrows, comparing only your most recent results to the previous assessment."
     }
   },
   "navigation": {
