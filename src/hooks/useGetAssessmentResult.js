@@ -73,8 +73,7 @@ export function useGetAssessmentResult(queryObj, enabled = true) {
         typeof queryObj.psychological !== "undefined" &&
         typeof queryObj.social !== "undefined" &&
         typeof queryObj.biological !== "undefined",
-      staleTime: 5 * 60 * 1000, // 5 minutes
-      cacheTime: 10 * 60 * 1000, // 10 minutes
+      retry: false,
     }
   );
 
