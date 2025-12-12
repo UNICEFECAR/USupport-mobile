@@ -218,11 +218,13 @@ export const MoodTracker = ({
               </AppText>
             </TouchableOpacity>
           ) : (
-            <AppButton
-              label={t("how_it_works")}
-              type="secondary"
+            <TouchableOpacity
               onPress={() => setIsHowItWorksMoodTrackOpen(true)}
-            />
+            >
+              <AppText style={styles.moodTrackerButton}>
+                {t("how_it_works")}
+              </AppText>
+            </TouchableOpacity>
           )}
         </View>
         <View style={styles.rating}>{renderEmoticons()}</View>
