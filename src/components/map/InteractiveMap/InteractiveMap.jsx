@@ -9,6 +9,9 @@ import {
 } from "react-native";
 import { WebView } from "react-native-webview";
 import * as Location from "expo-location";
+import Config from "react-native-config";
+
+const { API_URL_ENDPOINT } = Config;
 
 import { localStorage } from "#services";
 
@@ -344,7 +347,7 @@ export const InteractiveMap = ({
           <WebView
             ref={webViewRef}
             source={{
-              uri: `https://staging.usupport.online/api/v1/user/mobile-map${args}`,
+              uri: `${API_URL_ENDPOINT}/v1/user/mobile-map${args}`,
               headers,
             }}
             style={styles.webview}
