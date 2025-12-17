@@ -6,9 +6,13 @@ import {
   Text,
   Linking,
   AppState,
+  Platform,
 } from "react-native";
 import { WebView } from "react-native-webview";
 import * as Location from "expo-location";
+import Config from "react-native-config";
+
+const { API_URL_ENDPOINT } = Config;
 
 import { localStorage } from "#services";
 
@@ -325,7 +329,7 @@ export const InteractiveMap = ({
       </View>
     );
   }
-  console.log(headers);
+
   const args = locationPermissionDenied
     ? ""
     : `?lat=${initialCenter.lat}&lng=${initialCenter.lng}`;
@@ -344,8 +348,13 @@ export const InteractiveMap = ({
           <WebView
             ref={webViewRef}
             source={{
-              uri: `https://staging.usupport.online/api/v1/user/mobile-map${args}`,
-              headers,
+              uri: `${API_URL_ENDPOINT}/v1/user/mobile-map${args}`,
+              headers: {
+                ...headers,
+                ...(Platform.OS === "ios" && {
+                  Referer: "https://usupport.online/",
+                }),
+              },
             }}
             style={styles.webview}
             onMessage={handleWebViewMessage}

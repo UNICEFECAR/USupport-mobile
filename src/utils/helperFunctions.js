@@ -82,6 +82,7 @@ const countryMap = {
   ro: "romania",
   pl: "poland",
   am: "armenia",
+  cy: "cyprus",
 };
 
 const createArticleSlug = (title) => {

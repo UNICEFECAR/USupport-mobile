@@ -53,7 +53,7 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
   // };
 
   // Use the hook if provided, otherwise return mock data
-  const { isLoading, data } = useGetAssessmentResult({
+  const { isFetching, data } = useGetAssessmentResult({
     ...result,
     language: "en",
   });
@@ -203,7 +203,7 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
           </View>
         )}
 
-        {isLoading && (
+        {isFetching && (
           <View style={styles.loadingSection}>
             <AppText namedStyle="text" style={styles.loadingText}>
               {t("loading_results")}

@@ -861,7 +861,8 @@
       "latest_result": "Latest Result",
       "psychological": "Psychological",
       "biological": "Biological",
-      "social": "Social"
+      "social": "Social",
+      "how_it_works": "How it works"
     },
     "baseline-assesment-result": {
       "assessment_completed": "Assessment completed",
@@ -1371,6 +1372,16 @@
       "subheading_3": "A chart will display your recorded moods by date and time, helping you visualize your emotional trends. Below it, you’ll find recommended content tailored to your most recent mood entry for support and insight.",
       "subheading_4": "By clicking on a specific event, you can view all comments and notes recorded for that moment, giving you deeper insight into what influenced your mood.",
       "subheading_5": "You can generate a report for any selected date range and export it as a CSV file, making it easy to review or share your mood data when needed."
+    },
+    "how-it-works-ba": {
+      "heading": "How baseline assessment works",
+      "subheading_1": "Before accessing your baseline assessment, please review and accept the Privacy Policy. You must accept it to continue.",
+      "subheading_2": "You can also start the assessment anytime from your dashboard.",
+      "subheading_3": "The assessment is divided into multiple questions with a progress bar, and you can save your progress and continue later.",
+      "subheading_4": "When you continue your assessment, you’ll see the start date and your saved progress, and you’ll pick up right where you left off.",
+      "subheading_5": "When you complete the assessment, you’ll see your psychological, biological, and social results. You can retake it later to compare changes in your well-being, and related content based on your results will appear below.",
+      "subheading_6": "Once completed, your results will appear in the dashboard, along with an option to retake the assessment anytime.",
+      "subheading_7": "Stat changes are shown with green or red arrows, comparing only your most recent results to the previous assessment."
     }
   },
   "navigation": {
