@@ -17,6 +17,8 @@ export const useGetAllOrganizations = (filters) => {
       phone: organization?.phone,
       email: organization?.email,
       description: organization?.description,
+      descriptionRO: organization?.description_ro,
+      descritpionUK: organization?.description_uk,
       location: {
         longitude: organization?.longitude,
         latitude: organization?.latitude,
