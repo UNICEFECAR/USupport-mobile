@@ -6,6 +6,7 @@ import {
   Text,
   Linking,
   AppState,
+  Platform,
 } from "react-native";
 import { WebView } from "react-native-webview";
 import * as Location from "expo-location";
@@ -328,7 +329,7 @@ export const InteractiveMap = ({
       </View>
     );
   }
-  console.log(headers);
+
   const args = locationPermissionDenied
     ? ""
     : `?lat=${initialCenter.lat}&lng=${initialCenter.lng}`;
@@ -348,7 +349,12 @@ export const InteractiveMap = ({
             ref={webViewRef}
             source={{
               uri: `${API_URL_ENDPOINT}/v1/user/mobile-map${args}`,
-              headers,
+              headers: {
+                ...headers,
+                ...(Platform.OS === "ios" && {
+                  Referer: "https://usupport.online/",
+                }),
+              },
             }}
             style={styles.webview}
             onMessage={handleWebViewMessage}
