@@ -238,12 +238,15 @@ export const MoodTracker = ({
               disabled={isMoodTrackCompleted}
             />
             {showEmergency && (
-              <Toggle
-                wrapperStyles={styles.toggle}
-                label={t("emergency_label")}
-                isToggled={isEmergency}
-                handleToggle={(checked) => setIsEmergency(checked)}
-              />
+              <View style={styles.emergencyContainer}>
+                <Toggle
+                  isToggled={isEmergency}
+                  handleToggle={(checked) => setIsEmergency(checked)}
+                />
+                <AppText namedStyle="text" style={styles.emergencyLabel}>
+                  {t("emergency_label")}
+                </AppText>
+              </View>
             )}
             {!isMoodTrackCompleted && (
               <View>
@@ -276,6 +279,15 @@ const styles = StyleSheet.create({
     width: 62,
   },
   emoticonContainerNotSelected: { opacity: 0.5 },
+  emergencyContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+  },
+  emergencyLabel: {
+    marginLeft: 12,
+  },
   heading: {
     alignItems: "center",
     flexDirection: "row",
@@ -295,5 +307,4 @@ const styles = StyleSheet.create({
   },
   submitButton: { marginTop: 16 },
   textSelected: { color: appStyles.colorBlack_37 },
-  toggle: { paddingTop: 12 },
 });
