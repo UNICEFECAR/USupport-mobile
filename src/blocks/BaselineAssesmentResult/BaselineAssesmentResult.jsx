@@ -214,6 +214,9 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
 
         {data && (
           <View style={styles.summarySection}>
+            <AppText namedStyle="h3" style={styles.summaryTitle}>
+              {t("summary_heading")}
+            </AppText>
             <AppText namedStyle="text" style={styles.summaryText}>
               {data.summary}
             </AppText>
@@ -300,6 +303,10 @@ const styles = StyleSheet.create({
     marginBottom: 32,
     marginTop: 32,
     paddingHorizontal: 16,
+  },
+  summaryTitle: {
+    marginBottom: 16,
+    textAlign: "center",
   },
   summaryText: {
     textAlign: "center",
