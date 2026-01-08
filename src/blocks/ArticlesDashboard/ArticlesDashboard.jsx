@@ -433,7 +433,7 @@ export const ArticlesDashboard = ({
             </View>
           )}
 
-          <Block>
+          <Block style={country === "RO" && { paddingBottom: 100 }}>
             <View style={styles.articlesContainer}>
               {!showLoading &&
                 transformedArticles?.length > 0 &&
