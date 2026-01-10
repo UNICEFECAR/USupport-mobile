@@ -109,7 +109,9 @@ export const Articles = ({
       }));
       setSelectedAgeGroup(ageGroupsData[0]);
       return ageGroupsData;
-    } catch {}
+    } catch {
+      return [];
+    }
   };
 
   const ageGroupsQuery = useQuery(
@@ -166,6 +168,7 @@ export const Articles = ({
       return categoriesData;
     } catch (err) {
       console.log(err);
+      return [];
     }
   };
 
@@ -414,7 +417,7 @@ export const Articles = ({
       setArticlesDislikes(dislikes);
       return true;
     },
-    enabled: articleIdsForRatings.length > 0,
+    enabled: articleIdsForRatings?.length > 0,
   });
 
   const articlesToTransform = isTmpUser ? guestArticles : articles;
