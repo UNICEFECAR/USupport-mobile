@@ -59,6 +59,7 @@ export const Organizations = ({
   setFilters,
   setIsFilterOpen,
   specialisations,
+  triggerPersonalization,
 }) => {
   const { t } = useTranslation("blocks", { keyPrefix: "organizations" });
 
@@ -93,7 +94,7 @@ export const Organizations = ({
 
   useEffect(() => {
     if (
-      specialisations.length > 0 &&
+      specialisations?.length > 0 &&
       data &&
       data.length > 0 &&
       !hasAppliedSpecialisations
@@ -103,6 +104,13 @@ export const Organizations = ({
       handleChange("specialisations", specialisations);
     }
   }, [specialisations, data, hasAppliedSpecialisations]);
+
+  // Auto-trigger personalization when coming from assessment result
+  useEffect(() => {
+    if (triggerPersonalization && !isTmpUser) {
+      personalizationMutation.mutate();
+    }
+  }, [triggerPersonalization]);
 
   const createBaselineAssessmentMutation = useCreateBaselineAssessment();
 

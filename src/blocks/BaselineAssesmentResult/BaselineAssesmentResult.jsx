@@ -16,6 +16,7 @@ import {
   Loading,
   CardMedia,
   Icon,
+  AppButton,
 } from "#components";
 
 import { useGetTheme, useGetAssessmentResult } from "#hooks";
@@ -220,6 +221,15 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
             <AppText namedStyle="text" style={styles.summaryText}>
               {data.summary}
             </AppText>
+            <AppButton
+              label={t("organizations")}
+              onPress={() =>
+                navigation.navigate("Organizations", {
+                  triggerPersonalization: true,
+                })
+              }
+              style={styles.organizationsButton}
+            />
           </View>
         )}
 
@@ -311,6 +321,10 @@ const styles = StyleSheet.create({
   summaryText: {
     textAlign: "center",
     lineHeight: 24,
+  },
+  organizationsButton: {
+    marginTop: 24,
+    alignSelf: "center",
   },
 
   // Content sections

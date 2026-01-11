@@ -26,8 +26,8 @@ export const Organizations = ({ route, navigation }) => {
     keyPrefix: "organizations-screen",
   });
 
-  const params = route.params || { specialisations: [] };
-  const { specialisations } = params;
+  const params = route.params || {};
+  const { specialisations = [], triggerPersonalization = false } = params;
 
   const [filters, setFilters] = useState(INITIAL_FILTERS);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -59,6 +59,7 @@ export const Organizations = ({ route, navigation }) => {
         setFilters={setFilters}
         specialisations={specialisations}
         setIsFilterOpen={setIsFilterOpen}
+        triggerPersonalization={triggerPersonalization}
       />
     </Screen>
   );
