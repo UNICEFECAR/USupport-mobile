@@ -252,7 +252,6 @@ export const MoodTracker = ({
               <View>
                 <AppButton
                   label={t("submit_mood_track")}
-                  size="lg"
                   onPress={handleSubmit}
                   loading={addMoodTrackMutation.isLoading}
                   style={styles.submitButton}
