@@ -751,7 +751,8 @@
       "personalization_modal_text": "To receive personalized organization recommendations tailored to your needs, please complete our quick baseline assessment first. This helps us understand your preferences and goals to provide the most relevant suggestions.",
       "personalization_modal_cta_label": "Complete assessment",
       "location_permission_denied": "Location permission denied",
-      "enable_location": "Enable location"
+      "enable_location": "Enable location",
+      "filter": "Filter"
     },
     "organization-overview": {
       "error_loading_data": "An error occurred while loading the organization data",

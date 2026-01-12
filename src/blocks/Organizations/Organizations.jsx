@@ -270,27 +270,30 @@ export const Organizations = ({
       >
         <ScrollView style={styles.scrollView}>
           <Block style={styles.container}>
-            <AppButton
-              label={t("personalize")}
-              onPress={handlePersonalizeClick}
-              loading={personalizationMutation.isLoading}
-              // type="primary"
-              size="sm"
-              color="purple"
-              style={{ marginTop: 20, marginBottom: 20, alignSelf: "center" }}
-            />
+            <View style={styles.buttonsContainer}>
+              <ButtonWithIcon
+                label={t("personalize")}
+                onPress={handlePersonalizeClick}
+                loading={personalizationMutation.isLoading}
+                // type="primary"
+                color="purple"
+                iconName="person"
+                style={styles.buttonsContainerItem}
+              />
+              <ButtonWithIcon
+                label={t("filter")}
+                onPress={() => setIsFilterOpen(true)}
+                iconName="filter"
+                color="purple"
+                style={styles.buttonsContainerItem}
+              />
+            </View>
             <View style={styles.searchContainer}>
               <Input
                 value={filters.search}
                 onChangeText={(value) => handleChange("search", value)}
                 placeholder={t("search_placeholder")}
                 style={styles.searchInput}
-              />
-              <ButtonOnlyIcon
-                iconName="filter"
-                iconSize="md"
-                onPress={() => setIsFilterOpen(true)}
-                style={{ marginTop: 10 }}
               />
             </View>
 
@@ -498,20 +501,27 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
   },
+  buttonsContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    width: "100%",
+    paddingBottom: 16,
+    gap: 16,
+  },
+  buttonsContainerItem: {
+    width: "100%",
+    maxWidth: "45%",
+  },
   container: {
     flex: 1,
     paddingTop: 50,
     paddingHorizontal: 16,
     paddingBottom: 20,
   },
-  searchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 16,
-    gap: 12,
-  },
   searchInput: {
-    flex: 1,
+    marginBottom: 16,
+    width: "100%",
   },
   resetButton: {
     backgroundColor: appStyles.colorSecondary_9749fa,
