@@ -234,18 +234,18 @@ export const MoodTracker = ({
               value={comment}
               onChange={(value) => setComment(value)}
               placeholder={t("additional_comment_placeholder")}
-              size="md"
               disabled={isMoodTrackCompleted}
+              style={{ width: "100%" }}
             />
             {showEmergency && (
               <View style={styles.emergencyContainer}>
+                <AppText namedStyle="text" style={styles.emergencyLabel}>
+                  {t("emergency_label")}
+                </AppText>
                 <Toggle
                   isToggled={isEmergency}
                   handleToggle={(checked) => setIsEmergency(checked)}
                 />
-                <AppText namedStyle="text" style={styles.emergencyLabel}>
-                  {t("emergency_label")}
-                </AppText>
               </View>
             )}
             {!isMoodTrackCompleted && (
@@ -283,10 +283,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    width: "100%",
+    width: "97%",
+    marginTop: 16,
+    marginHorizontal: "auto",
   },
   emergencyLabel: {
-    marginLeft: 12,
+    marginRight: 12,
   },
   heading: {
     alignItems: "center",
