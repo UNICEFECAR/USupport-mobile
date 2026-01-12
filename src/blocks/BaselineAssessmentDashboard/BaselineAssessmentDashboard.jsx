@@ -35,11 +35,19 @@ export const BaselineAssessmentDashboard = ({
   const hasCompletedAssessment = latestAssessment?.status === "completed";
 
   const handleViewAssessment = () => {
-    if (!hasCompletedAssessment) () => setIsHowItWorksBAOpen(true);
+    if (!hasCompletedAssessment) setIsHowItWorksBAOpen(true);
     else
       navigation.navigate("BaselineAssesment", {
         baselineAssessmentId: latestAssessment.baselineAssessmentId,
       });
+  };
+
+  const handleContinueAssessment = () => {
+    if (latestAssessment) {
+      navigation.navigate("BaselineAssesment", {
+        baselineAssessmentId: latestAssessment.baselineAssessmentId,
+      });
+    }
   };
 
   return (
@@ -101,7 +109,6 @@ export const BaselineAssessmentDashboard = ({
                 </Box>
                 <AppButton
                   style={{ marginTop: 24 }}
-                  size="lg"
                   onPress={openBaselineAssesmentModal}
                   label={t("start_new_assessment")}
                 />
@@ -113,7 +120,7 @@ export const BaselineAssessmentDashboard = ({
                 startedAt={latestAssessment.startedAt}
                 currentPosition={latestAssessment.currentPosition}
                 completionPercentage={latestAssessment.completionPercentage}
-                handleViewAssessment={handleViewAssessment}
+                handleViewAssessment={handleContinueAssessment}
                 t={t}
               />
             )}
