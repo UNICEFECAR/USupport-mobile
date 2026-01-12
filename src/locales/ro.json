@@ -752,7 +752,8 @@
       "personalization_modal_cta_label": "Complete assessment",
       "location_permission_denied": "Permisiunea de locație refuzată",
       "enable_location": "Activează locația",
-      "filter": "Filtrare"
+      "filter": "Filtrare",
+      "share": "Partajează"
     },
     "organization-overview": {
       "error_loading_data": "A apărut o eroare la încărcarea datelor organizației",

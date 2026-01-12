@@ -7,6 +7,7 @@ import appStyles from "../../styles/appStyles";
 import {
   IconFilter,
   IconPhoneEmergency,
+  IconPhone,
   IconComment,
   IconInfo,
   IconFingerprint,
@@ -116,6 +117,9 @@ export const Icon = ({ name, size = "md", color, style }) => {
       break;
     case "phone-emergency":
       icon = <IconPhoneEmergency color={color} />;
+      break;
+    case "phone":
+      icon = <IconPhone color={color} />;
       break;
     case "comment":
       icon = <IconComment color={color} />;

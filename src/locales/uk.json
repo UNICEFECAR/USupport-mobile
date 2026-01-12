@@ -753,7 +753,8 @@
       "personalization_modal_cta_label": "Пройти оцінювання",
       "location_permission_denied": "Доступ до місцезнаходження заборонено",
       "enable_location": "Увімкнути місцезнаходження",
-      "filter": "Фільтр"
+      "filter": "Фільтр",
+      "share": "Поділитися"
     },
     "organization-overview": {
       "error_loading_data": "При завантаженні даних виникла помилка",

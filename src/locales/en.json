@@ -752,7 +752,8 @@
       "personalization_modal_cta_label": "Complete assessment",
       "location_permission_denied": "Location permission denied",
       "enable_location": "Enable location",
-      "filter": "Filter"
+      "filter": "Filter",
+      "share": "Share"
     },
     "organization-overview": {
       "error_loading_data": "An error occurred while loading the organization data",

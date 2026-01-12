@@ -24,7 +24,6 @@ import {
   AppButton,
   Icon,
   TransparentModal,
-  ButtonOnlyIcon,
 } from "#components";
 
 import {
@@ -443,30 +442,39 @@ const OrganizationBackdrop = ({ organization, onClose, t, navigation }) => {
         {/* Contact Info */}
         <View style={styles.contactInfo}>
           {organization.phone && (
-            <AppText style={styles.contactItem}>
-              <AppText style={styles.contactLabel}>{t("phone")}:</AppText>{" "}
-              {organization.phone}
-            </AppText>
+            <View style={styles.contactContainer}>
+              <Icon name="phone" color={appStyles.colorPrimary_20809e} />
+              <AppText style={styles.contactItem}>
+                <AppText style={styles.contactLabel}>{t("phone")}:</AppText>{" "}
+                {organization.phone}
+              </AppText>
+            </View>
           )}
           {organization.email && (
-            <AppText style={styles.contactItem}>
-              <AppText style={styles.contactLabel}>{t("email")}:</AppText>{" "}
-              {organization.email}
-            </AppText>
+            <View style={styles.contactContainer}>
+              <Icon name="mail" color={appStyles.colorPrimary_20809e} />
+              <AppText style={styles.contactItem}>
+                <AppText style={styles.contactLabel}>{t("email")}:</AppText>{" "}
+                {organization.email}
+              </AppText>
+            </View>
           )}
           {organization.address && (
-            <AppText style={styles.contactItem}>
-              <AppText style={styles.contactLabel}>{t("address")}:</AppText>{" "}
-              {organization.address}
-            </AppText>
+            <View style={styles.contactContainer}>
+              <Icon name="location" color={appStyles.colorPrimary_20809e} />
+              <AppText style={styles.contactItem}>
+                <AppText style={styles.contactLabel}>{t("address")}:</AppText>{" "}
+                {organization.address}
+              </AppText>
+            </View>
           )}
         </View>
 
         {/* Action Buttons */}
         <View style={styles.actionButtons}>
-          <TouchableOpacity style={styles.actionButton} onPress={handleShare}>
+          {/* <TouchableOpacity style={styles.actionButton} onPress={handleShare}>
             <Icon name="share" size="sm" color={colors.text} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <AppButton
             onPress={handleViewDetails}
             label={t("view_organization_details")}
@@ -491,6 +499,15 @@ const OrganizationBackdrop = ({ organization, onClose, t, navigation }) => {
                 />
               </View>
             )}
+          <ButtonWithIcon
+            iconName="share"
+            iconColor={colors.text}
+            iconSize="sm"
+            label={t("share")}
+            onPress={handleShare}
+            type="secondary"
+            style={[styles.navigationButton, styles.shareButton]}
+          />
         </View>
       </View>
     </View>
@@ -651,13 +668,18 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     lineHeight: 18,
   },
+  contactContainer: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: 6,
+    paddingBottom: 8,
+  },
   contactInfo: {
     marginBottom: 24,
   },
   contactItem: {
     fontSize: 13,
     color: appStyles.colorGray_66768d,
-    marginBottom: 8,
     lineHeight: 18,
   },
   contactLabel: {
@@ -689,14 +711,5 @@ const styles = StyleSheet.create({
     maxWidth: "50%",
     width: "50%",
   },
-  actionButton: {
-    // width: 40,
-    marginLeft: "auto",
-    marginRight: "auto",
-    borderWidth: 1,
-    borderColor: appStyles.colorBlue_3d527b,
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-  },
+  shareButton: { marginHorizontal: "auto" },
 });
