@@ -896,7 +896,8 @@
       "psychological": "Psihologic",
       "biological": "Biologic",
       "social": "Social",
-      "how_it_works": "Cum funcționează"
+      "how_it_works": "Cum funcționează",
+      "see_last_result": "Rezultatele evaluării de bază"
     },
     "baseline-assesment-result": {
       "assessment_completed": "Assessment completed",

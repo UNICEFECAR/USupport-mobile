@@ -153,6 +153,8 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
     );
   };
 
+  console.log(result);
+
   return (
     <ScrollView
       style={[styles.container, { backgroundColor: colors.background }]}
@@ -174,7 +176,7 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
           </View>
         </View>
 
-        {result?.comparePrevious && (
+        {result && (
           <View
             style={{
               flexDirection: "column",
@@ -182,25 +184,34 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
               alignItems: "center",
             }}
           >
-            <AppText namedStyle="h4">{resultText}</AppText>
-            <Box boxShadow={2} style={styles.factor}>
-              <AppText>
-                {t("psychological")}: {result.psychologicalScore}
-              </AppText>
-              {renderIcon(result.comparePrevious.psychological)}
-            </Box>
-            <Box boxShadow={2} style={styles.factor}>
-              <AppText>
-                {t("biological")}: {result.biologicalScore}
-              </AppText>
-              {renderIcon(result.comparePrevious.biological)}
-            </Box>
-            <Box boxShadow={2} style={styles.factor}>
-              <AppText>
-                {t("social")}: {result.socialScore}
-              </AppText>
-              {renderIcon(result.comparePrevious.social)}
-            </Box>
+            {resultText && <AppText namedStyle="h4">{resultText}</AppText>}
+            {result.psychologicalScore !== undefined && (
+              <Box boxShadow={2} style={styles.factor}>
+                <AppText>
+                  {t("psychological")}: {result.psychologicalScore}
+                </AppText>
+                {result?.comparePrevious?.psychological &&
+                  renderIcon(result.comparePrevious.psychological)}
+              </Box>
+            )}
+            {result.biologicalScore !== undefined && (
+              <Box boxShadow={2} style={styles.factor}>
+                <AppText>
+                  {t("biological")}: {result.biologicalScore}
+                </AppText>
+                {result?.comparePrevious?.biological &&
+                  renderIcon(result.comparePrevious.biological)}
+              </Box>
+            )}
+            {result.socialScore !== undefined && (
+              <Box boxShadow={2} style={styles.factor}>
+                <AppText>
+                  {t("social")}: {result.socialScore}
+                </AppText>
+                {result?.comparePrevious?.social &&
+                  renderIcon(result.comparePrevious.social)}
+              </Box>
+            )}
           </View>
         )}
 

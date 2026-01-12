@@ -32,13 +32,14 @@ export const BaselineAssessmentDashboard = ({
 
   const { data: latestAssessment, isLoading } =
     useGetLatestBaselineAssessment();
+  const hasCompletedAssessment = latestAssessment?.status === "completed";
 
   const handleViewAssessment = () => {
-    if (latestAssessment) {
+    if (!hasCompletedAssessment) () => setIsHowItWorksBAOpen(true);
+    else
       navigation.navigate("BaselineAssesment", {
         baselineAssessmentId: latestAssessment.baselineAssessmentId,
       });
-    }
   };
 
   return (
@@ -53,10 +54,16 @@ export const BaselineAssessmentDashboard = ({
             <AppText t namedStyle="h3">
               {t("heading")}
             </AppText>
-            <TouchableOpacity onPress={() => setIsHowItWorksBAOpen(true)}>
-              <AppText style={styles.headingButton}>
-                {t("how_it_works")}
-              </AppText>
+            <TouchableOpacity onPress={handleViewAssessment}>
+              {hasCompletedAssessment ? (
+                <AppText style={styles.headingButton}>
+                  {t("see_last_result")}
+                </AppText>
+              ) : (
+                <AppText style={styles.headingButton}>
+                  {t("how_it_works")}
+                </AppText>
+              )}
             </TouchableOpacity>
           </View>
 
