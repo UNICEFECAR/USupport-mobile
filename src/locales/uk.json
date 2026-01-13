@@ -888,7 +888,7 @@
       "started_at": "Почато {{date}}",
       "answered_questions": "Відповіді на питання: {{current}}/27",
       "how_it_works": "Як це працює",
-      "see_last_result": "Результати базового оцінювання"
+      "see_last_result": "Останній результат"
     },
     "baseline-assesment-result": {
       "assessment_completed": "Оцінювання завершено",
