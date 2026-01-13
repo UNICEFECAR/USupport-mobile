@@ -30,7 +30,8 @@ export const UserProfile = ({ navigation }) => {
     country !== "KZ" &&
     country !== "PL" &&
     country !== "RO" &&
-    country !== "AM";
+    country !== "AM" &&
+    country !== "CY";
 
   useEffect(() => {
     const getAppVersion = async () => {
