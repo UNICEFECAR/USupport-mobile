@@ -139,6 +139,7 @@ export const InformationalPortal = ({
       {
         enabled: !contentIdsQuery.isLoading && contentIdsQuery.data?.length > 0,
         refetchOnWindowFocus: false,
+        retry: false,
       }
     );
 
