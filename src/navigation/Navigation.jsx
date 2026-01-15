@@ -141,7 +141,7 @@ export function Navigation({
 
   // After five minutes of inactivity, the user will be prompted to enter their PIN code or authenticate with biometrics
   const resetInactivityTimeout = useCallback(async () => {
-    // return;
+    // return
     const actualToken = await localStorage.getItem("token");
 
     if (!inConsultationRef.current && actualToken) {
@@ -252,7 +252,9 @@ export function Navigation({
       const currencySymbol = countryObject.currencySymbol;
       if (localStorageCountry === x.alpha2) {
         localStorage.setItem("country_id", countryID);
-        localStorage.setItem("currency_symbol", currencySymbol);
+        if (currencySymbol) {
+          localStorage.setItem("currency_symbol", currencySymbol);
+        }
         setCurrencySymbol(currencySymbol);
         setIsPodcastsActive(countryObject.podcastsActive);
         setIsVideosActive(countryObject.videosActive);
@@ -262,7 +264,12 @@ export function Navigation({
 
           localStorage.setItem("country", x.alpha2);
           localStorage.setItem("country_id", countryObject.countryID);
-          localStorage.setItem("currency_symbol", countryObject.currencySymbol);
+          if (countryObject.currencySymbol) {
+            localStorage.setItem(
+              "currency_symbol",
+              countryObject.currencySymbol
+            );
+          }
 
           setCurrencySymbol(countryObject.currencySymbol);
           setIsPodcastsActive(countryObject.podcastsActive);
