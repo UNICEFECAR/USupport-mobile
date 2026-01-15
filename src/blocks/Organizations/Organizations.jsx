@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import {
   View,
   StyleSheet,
@@ -78,6 +78,8 @@ export const Organizations = ({
 
   const [hasAppliedSpecialisations, setHasAppliedSpecialisations] =
     useState(false);
+  const scrollViewRef = useRef(null);
+  const isMapInteractingRef = useRef(false);
 
   const clientDataQuery = useGetClientData(!isTmpUser)[0];
   const clientData = clientDataQuery.data;
@@ -267,7 +269,12 @@ export const Organizations = ({
         keyboardVerticalOffset={64}
         style={{ flex: 1 }}
       >
-        <ScrollView style={styles.scrollView}>
+        <ScrollView
+          ref={scrollViewRef}
+          style={styles.scrollView}
+          nestedScrollEnabled={false}
+          scrollEventThrottle={16}
+        >
           <Block style={styles.container}>
             <View style={styles.buttonsContainer}>
               <ButtonWithIcon
@@ -302,14 +309,32 @@ export const Organizations = ({
               </View>
             ) : (
               <>
-                <InteractiveMap
-                  data={data}
-                  onMapReady={handleMapReady}
-                  setSelectedMarker={setSelectedOrganization}
-                  t={t}
-                  style={styles.map}
-                  organizationToZoom={organizationToZoom}
-                />
+                <View style={styles.mapWrapper}>
+                  <InteractiveMap
+                    data={data}
+                    onMapReady={handleMapReady}
+                    setSelectedMarker={setSelectedOrganization}
+                    t={t}
+                    style={styles.map}
+                    organizationToZoom={organizationToZoom}
+                    onInteractionStart={() => {
+                      if (!isMapInteractingRef.current) {
+                        isMapInteractingRef.current = true;
+                        scrollViewRef.current?.setNativeProps({
+                          scrollEnabled: false,
+                        });
+                      }
+                    }}
+                    onInteractionEnd={() => {
+                      if (isMapInteractingRef.current) {
+                        isMapInteractingRef.current = false;
+                        scrollViewRef.current?.setNativeProps({
+                          scrollEnabled: true,
+                        });
+                      }
+                    }}
+                  />
+                </View>
 
                 <View style={styles.organizationsContainer}>
                   {renderOrganizations()}
@@ -561,10 +586,12 @@ const styles = StyleSheet.create({
     minWidth: "45%",
     flexGrow: 1,
   },
+  mapWrapper: {
+    marginBottom: 16,
+  },
   map: {
     flex: 1,
     minHeight: 400,
-    marginBottom: 16,
   },
   noDataContainer: {
     flex: 1,
