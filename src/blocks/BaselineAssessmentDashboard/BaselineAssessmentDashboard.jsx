@@ -59,7 +59,12 @@ export const BaselineAssessmentDashboard = ({
       <Block style={{ marginTop: 40 }}>
         <View>
           <View style={styles.heading}>
-            <AppText t namedStyle="h3">
+            <AppText
+              style={{
+                maxWidth: "45%",
+              }}
+              namedStyle="h3"
+            >
               {t("heading")}
             </AppText>
             <TouchableOpacity onPress={handleViewAssessment}>
