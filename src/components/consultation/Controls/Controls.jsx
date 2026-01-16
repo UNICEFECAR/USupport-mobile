@@ -88,7 +88,7 @@ export const Controls = ({
         <TouchableOpacity onPress={handleMicClick}>
           <Icon
             style={styles.button}
-            name={!isMicOpen ? "stop-mic" : "microphone"}
+            name={!isMicOpen ? "microphone" : "stop-mic"}
             size="sm"
             color={appStyles.colorPrimary_20809e}
           />
