@@ -240,6 +240,8 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
                 })
               }
               style={styles.organizationsButton}
+              color="purple"
+              size="lg"
             />
           </View>
         )}

@@ -887,6 +887,10 @@
       "view_detailed_results": "Переглянути детальні результати",
       "started_at": "Почато {{date}}",
       "answered_questions": "Відповіді на питання: {{current}}/27",
+      "latest_result": "Останній результат",
+      "psychological": "Психологічний",
+      "biological": "Біологічний",
+      "social": "Соціальний",
       "how_it_works": "Як це працює",
       "see_last_result": "Останній результат"
     },

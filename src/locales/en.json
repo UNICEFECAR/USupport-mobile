@@ -887,7 +887,7 @@
       "view_detailed_results": "View Detailed Results",
       "started_at": "Started on {{date}}",
       "answered_questions": "Answered questions: {{current}}/27",
-      "latest_result": "Latest Result",
+      "latest_result": "Your last score",
       "psychological": "Psychological",
       "biological": "Biological",
       "social": "Social",
