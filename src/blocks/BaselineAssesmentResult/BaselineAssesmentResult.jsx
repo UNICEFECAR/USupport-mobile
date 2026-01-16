@@ -133,7 +133,9 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
               ]}
             >
               <CardMedia
-                image={item.imageMedium || item.imageSmall}
+                image={
+                  item.imageMedium || item.imageThumbnail || item.imageSmall
+                }
                 title={item.title}
                 creator={item.creator}
                 readingTime={item.readingTime}

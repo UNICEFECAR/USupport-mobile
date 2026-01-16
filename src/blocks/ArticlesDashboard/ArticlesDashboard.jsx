@@ -453,7 +453,11 @@ export const ArticlesDashboard = ({
                       isRead={readArticleIds.includes(article.id)}
                       style={styles.cardMedia}
                       title={articleData.title}
-                      image={articleData.imageMedium || articleData.imageSmall}
+                      image={
+                        articleData.imageMedium ||
+                        articleData.imageThumbnail ||
+                        articleData.imageSmall
+                      }
                       description={articleData.description}
                       labels={articleData.labels}
                       creator={articleData.creator}

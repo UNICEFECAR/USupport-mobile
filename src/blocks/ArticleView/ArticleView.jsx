@@ -298,13 +298,18 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
     }
   };
 
+  const articleImageUri =
+    articleData.imageMedium ||
+    articleData.imageThumbnail ||
+    articleData.imageSmall;
+
   return (
     <>
       <View style={styles.imageContainer}>
         <Image
           source={
-            articleData.imageMedium
-              ? { uri: articleData.imageMedium }
+            articleImageUri
+              ? { uri: articleImageUri }
               : { uri: `${AMAZON_S3_BUCKET}/article-placeholder` }
           }
           style={styles.image}
