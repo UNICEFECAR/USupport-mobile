@@ -73,7 +73,6 @@
       "live_text": "Teraz",
       "accept_button_label": "Zaakceptuj konsultację",
       "join_button_label": "Dołącz",
-      "join_button_label_tooltip": "Możesz dołączyć do konsultacji 5 minut przed rozpoczęciem",
       "change_button_label": "Zmiana",
       "ordinal_st": ".",
       "ordinal_nd": ".",
@@ -90,7 +89,8 @@
       "september": "Wrzesień",
       "october": "Październik",
       "november": "Listopad",
-      "december": "Grudzień"
+      "december": "Grudzień",
+      "join_button_label_tooltip": "Możesz dołączyć do konsultacji 5 minut przed rozpoczęciem"
     },
     "consultations": {
       "heading": "Konsultacje",
@@ -145,7 +145,8 @@
       "contact_reason_2_pl": "Problem techniczny",
       "contact_reason_3_pl": "Skarga",
       "contact_reason_4_pl": "Coś innego",
-      "success": "Zagadnienie zostało pomyślnie zgłoszone. Wkrótce się odezwiemy"
+      "success": "Zagadnienie zostało pomyślnie zgłoszone. Wkrótce się odezwiemy",
+      "contact_form": "Contact form"
     },
     "faq": {
       "heading": "Najczęściej zadawane pytania",
@@ -217,13 +218,13 @@
       "worried": "Zmartwiony/a",
       "heading": "Monitor nastroju",
       "mood_tracker": "Monitor nastroju",
-      "how_it_works": "Jak to działa",
       "additional_comment_placeholder": "Co sprawiło, że tak się poczułeś/aś?",
       "submit_mood_track": "Prześlij",
       "add_mood_tracker_success": "Twój codzienny nastrój został pomyślnie dodany",
       "subheading": "",
       "emergency_button_label": "",
       "emergency_label": "Does this relate to a life event or critical situation?",
+      "how_it_works": "Jak to działa",
       "recommendations": "Rekomendacje",
       "recommendations_text": "Chcesz zobaczyć wykres swojego nastroju i polecane treści?",
       "check_out": "Zobacz"
@@ -418,9 +419,9 @@
       "password_placeholder": "Wprowadź swoje hasło",
       "age_terms_agreement_text": "Mam ponad {{age}} lat",
       "prompt_title": "Zapisz swoje dane uwierzytelniające, aby szybko się zalogować",
-      "prompt_2_title": "Uwierzytelnij się, aby zapisać swoje dane logowania",
       "cancel": "Anuluj",
-      "click_to_copy": "Kliknij, aby skopiować"
+      "click_to_copy": "Kliknij, aby skopiować",
+      "prompt_2_title": "Uwierzytelnij się, aby zapisać swoje dane logowania"
     },
     "register-email": {
       "heading": "Zarejestruj się za pomocą adresu email",
@@ -456,7 +457,8 @@
       "heading_2": "Konsultacje po polsku i ukraińsku",
       "text_2": "Na uSupport możesz umówić się na konsultację z psychologiem w języku polskim, ale także w języku ukraińskim! Wybierając konsultanta, sprawdź w jakich językach prowadzi sesje.",
       "heading_3": "Nie czekaj! Umów się na konsultację z psychologiem",
-      "text_3": "Potrzebujesz rozmowy z psychologiem? Już dziś umów się na indywidualną konsultację na platformie uSupport. Twoje zdrowie psychiczne jest ważne!"
+      "text_3": "Potrzebujesz rozmowy z psychologiem? Już dziś umów się na indywidualną konsultację na platformie uSupport. Twoje zdrowie psychiczne jest ważne!",
+      "pl_text": "uSupport is a mental health and well-being platform designed for youth (16–24)."
     },
     "register-support": {
       "heading": "Czy potrzebujesz wsparcia?",
@@ -611,8 +613,8 @@
       "language_button_label": "Zmień język",
       "dark_mode_button_label": "Tryb ciemny",
       "light_mode_button_label": "Tryb jasny",
-      "high_contrast_mode": "Tryb wysokiego kontrastu",
-      "user_guide": "Wykorzystanie platformy"
+      "user_guide": "Wykorzystanie platformy",
+      "high_contrast_mode": "Tryb wysokiego kontrastu"
     },
     "welcome": {
       "heading": "Witamy w",
@@ -857,7 +859,12 @@
       "view": "Zobacz wyniki",
       "view_detailed_results": "Zobacz szczegółowe wyniki",
       "started_at": "Rozpoczęte {{date}}",
-      "answered_questions": "Odpowiedzi na pytania: {{current}}/27"
+      "answered_questions": "Odpowiedzi na pytania: {{current}}/27",
+      "latest_result": "Latest Result",
+      "psychological": "Psychological",
+      "biological": "Biological",
+      "social": "Social",
+      "how_it_works": "How it works"
     },
     "baseline-assesment-result": {
       "assessment_completed": "Assessment completed",
@@ -897,6 +904,8 @@
       "dec_dec_inc": "Great progress! Psychological and biological decreased, though social increased.",
       "dec_dec_same": "Great progress! Psychological and biological decreased, while social stayed the same.",
       "dec_dec_dec": "Excellent progress! Psychological, biological, and social all decreased.",
+      "answered_questions": "",
+      "latest_result": "",
       "organizations": "Polecane organizacje"
     }
   },
@@ -1034,7 +1043,8 @@
       "subheading": "Tutaj możesz śledzić swój nastrój i postępy ",
       "emergency_button_label": "Pomoc w nagłych wypadkach",
       "report": "Generuj raport",
-      "how-it-works": "Jak to działa"
+      "how-it-works": "Jak to działa",
+      "how_it_works": ""
     },
     "notification-preferences-screen": {
       "heading": "Ustawienia powiadomień",
@@ -1180,7 +1190,7 @@
     },
     "edit-consultation": {
       "heading": "Zmień konsultację",
-      "subheading": "Wybierz formę komunikacji, która najlepiej odpowiada Twoim potrzebom i uzyskaj pomoc, której potrzebujesz.",
+      "subheading": "Zmień termin lub odwołaj konsultację.",
       "specialist_button_label": "Zmień specjalistę/kę",
       "date_button_label": "Zmień datę i godzinę",
       "cancel_button_label": "Anulowanie konsultacji",
@@ -1368,6 +1378,16 @@
       "subheading_3": "Wykres pokaże Twoje zarejestrowane nastroje według daty i godziny, pomagając wizualizować Twoje emocjonalne trendy. Poniżej znajdziesz polecane treści dopasowane do Twojego ostatniego wpisu nastroju – dla wsparcia i lepszego zrozumienia.",
       "subheading_4": "Klikając konkretne wydarzenie, możesz zobaczyć wszystkie komentarze i notatki zarejestrowane w tym momencie, aby lepiej zrozumieć, co wpłynęło na Twój nastrój.",
       "subheading_5": "Możesz wygenerować raport dla dowolnego zakresu dat i wyeksportować go jako plik CSV, aby łatwo przeglądać lub udostępniać dane o nastroju, gdy zajdzie taka potrzeba."
+    },
+    "how-it-works-ba": {
+      "heading": "How baseline assessment works",
+      "subheading_1": "Before accessing your baseline assessment, please review and accept the Privacy Policy. You must accept it to continue.",
+      "subheading_2": "You can also start the assessment anytime from your dashboard.",
+      "subheading_3": "The assessment is divided into multiple questions with a progress bar, and you can save your progress and continue later.",
+      "subheading_4": "When you continue your assessment, you’ll see the start date and your saved progress, and you’ll pick up right where you left off.",
+      "subheading_5": "When you complete the assessment, you’ll see your psychological, biological, and social results. You can retake it later to compare changes in your well-being, and related content based on your results will appear below.",
+      "subheading_6": "Once completed, your results will appear in the dashboard, along with an option to retake the assessment anytime.",
+      "subheading_7": "Stat changes are shown with green or red arrows, comparing only your most recent results to the previous assessment."
     }
   },
   "navigation": {
