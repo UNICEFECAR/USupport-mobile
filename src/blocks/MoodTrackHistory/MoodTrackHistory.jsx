@@ -249,7 +249,11 @@ export const MoodTrackHistory = ({ navigation }) => {
                     type="portrait"
                     size="md"
                     title={article.title}
-                    image={article.imageMedium || article.imageSmall}
+                    image={
+                      article.imageMedium ||
+                      article.imageSmall ||
+                      article.imageThumbnail
+                    }
                     description={article.description}
                     labels={article.labels}
                     creator={article.creator}

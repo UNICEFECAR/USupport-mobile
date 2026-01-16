@@ -247,7 +247,9 @@ export const InformationalPortal = ({
                   title={item.title}
                   image={
                     contentType === "articles" || contentType === "podcasts"
-                      ? item.imageMedium
+                      ? item.imageMedium ||
+                        item.imageSmall ||
+                        item.imageThumbnail
                       : item.image
                   }
                   description={item.description}
