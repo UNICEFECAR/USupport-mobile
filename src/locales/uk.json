@@ -73,7 +73,6 @@
       "live_text": "Зараз",
       "accept_button_label": "Погодитись на консультацію",
       "join_button_label": "Приєднатись",
-      "join_button_label_tooltip": "Ви можете приєднатися до консультації за 5 хвилин до початку",
       "change_button_label": "Змінити",
       "ordinal_st": "-ий",
       "ordinal_nd": "-ий",
@@ -90,7 +89,8 @@
       "september": "Вересень",
       "october": "Жовтень",
       "november": "Листопад",
-      "december": "Грудень"
+      "december": "Грудень",
+      "join_button_label_tooltip": "Ви можете приєднатися до консультації за 5 хвилин до початку"
     },
     "consultations": {
       "heading": "Консультації",
@@ -218,13 +218,13 @@
       "worried": "Схвильованим/ою",
       "heading": "Монітор настрою",
       "mood_tracker": "Монітор настрою",
-      "how_it_works": "Як це працює",
       "additional_comment_placeholder": "Що є причиною того, що ти себе так почуваєш?",
       "submit_mood_track": "Надішли",
       "add_mood_tracker_success": "Щоденний настрій додано",
       "subheading": "",
       "emergency_button_label": "",
       "emergency_label": "Чи пов'язане це з подією в житті або критичною ситуацією?",
+      "how_it_works": "Як це працює",
       "recommendations": "Рекомендації",
       "recommendations_text": "Хочете переглянути графік настрою та побачити рекомендований контент?",
       "check_out": "Переглянути"
@@ -419,9 +419,9 @@
       "password_placeholder": "Введи свій пароль",
       "age_terms_agreement_text": "Мені більше 16 років",
       "prompt_title": "Збережіи свої дані, щоб швидко входити до систему",
-      "prompt_2_title": "Пройди автентифікацію для збереження твоїх даних для входу",
       "cancel": "Скасувати",
-      "click_to_copy": "Натисніть, щоб скопіювати"
+      "click_to_copy": "Натисніть, щоб скопіювати",
+      "prompt_2_title": "Пройди автентифікацію для збереження твоїх даних для входу"
     },
     "register-email": {
       "heading": "Зареєструйся за допомогою електронної пошти",
@@ -457,7 +457,8 @@
       "heading_2": "Консультації польською та українською мовами",
       "text_2": "На платформі uSupport ти можеш записатися на консультацію з психологом не лише польською, а й українською мовою!\nПід час вибору консультанта перевір, якими мовами він проводить сесії.",
       "heading_3": "Не чекай! Запишись на консультацію з психологом",
-      "text_3": "Потребуєш розмови з психологом? Уже сьогодні запишись на індивідуальну консультацію на платформі uSupport. Твоє психічне здоров’я — важливе!"
+      "text_3": "Потребуєш розмови з психологом? Уже сьогодні запишись на індивідуальну консультацію на платформі uSupport. Твоє психічне здоров’я — важливе!",
+      "pl_text": "uSupport is a mental health and well-being platform designed for youth (16–24)."
     },
     "register-support": {
       "heading": "Потрібна підтримка?",
@@ -612,8 +613,8 @@
       "language_button_label": "Змінити мову",
       "dark_mode_button_label": "Темний режим",
       "light_mode_button_label": "Світлий режим",
-      "high_contrast_mode": "Режим високого контраста",
-      "user_guide": "Використання платформи"
+      "user_guide": "Використання платформи",
+      "high_contrast_mode": "Режим високого контраста"
     },
     "welcome": {
       "heading": "Вітаємо в",
@@ -859,6 +860,10 @@
       "view_detailed_results": "Переглянути детальні результати",
       "started_at": "Почато {{date}}",
       "answered_questions": "Відповіді на питання: {{current}}/27",
+      "latest_result": "Latest Result",
+      "psychological": "Psychological",
+      "biological": "Biological",
+      "social": "Social",
       "how_it_works": "Як це працює"
     },
     "baseline-assesment-result": {
@@ -1037,6 +1042,7 @@
       "subheading": "Тут можна відстежувати свій настрій і прогрес ",
       "emergency_button_label": "Невідкладна допомога",
       "report": "Згенерувати звіт",
+      "how-it-works": "How it works",
       "how_it_works": "Як це працює"
     },
     "notification-preferences-screen": {
@@ -1183,7 +1189,7 @@
     },
     "edit-consultation": {
       "heading": "Зміни консультацію",
-      "subheading": "Обери форму зв'язку, яка найкраще відповідає твоїм потребам, і отримай необхідну допомогу.",
+      "subheading": "Змініть дату або скасуйте консультацію.",
       "specialist_button_label": "Зміни спеціаліста/ку",
       "date_button_label": "Зміни дату й час",
       "cancel_button_label": "Скасуй консультацію",
