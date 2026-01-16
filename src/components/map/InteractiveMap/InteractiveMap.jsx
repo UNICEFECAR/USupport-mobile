@@ -36,6 +36,8 @@ export const InteractiveMap = ({
   t,
   setSelectedMarker,
   organizationToZoom,
+  onInteractionStart,
+  onInteractionEnd,
 }) => {
   const webViewRef = useRef(null);
   const appStateRef = useRef(AppState.currentState);
@@ -55,16 +57,14 @@ export const InteractiveMap = ({
 
   useEffect(() => {
     if (organizationToZoom) {
-      webViewRef.current?.postMessage(
-        JSON.stringify({
-          type: "ZOOM_TO_LOCATION",
-          lat: organizationToZoom.location.latitude,
-          lng: organizationToZoom.location.longitude,
-          zoom: 14,
-        })
-      );
+      sendMessageToWebView({
+        type: "ZOOM_TO_LOCATION",
+        lat: organizationToZoom.location.latitude,
+        lng: organizationToZoom.location.longitude,
+        zoom: 14,
+      });
     }
-  }, [organizationToZoom]);
+  }, [organizationToZoom, sendMessageToWebView]);
 
   // Open device settings for location permissions
   const openLocationSettings = useCallback(() => {
@@ -104,7 +104,7 @@ export const InteractiveMap = ({
           timeout: 10000,
           maximumAge: 300000,
         });
-
+        console.log("location", location);
         const { latitude, longitude } = location.coords;
         const userPos = { lat: latitude, lng: longitude };
 
@@ -119,12 +119,10 @@ export const InteractiveMap = ({
 
         // Send location to WebView
         if (webViewRef.current && mapReady) {
-          webViewRef.current.postMessage(
-            JSON.stringify({
-              type: "SET_USER_LOCATION",
-              location: userPos,
-            })
-          );
+          sendMessageToWebView({
+            type: "SET_USER_LOCATION",
+            location: userPos,
+          });
         }
       } catch (error) {
         console.error("❌ Location error:", error);
@@ -168,6 +166,56 @@ export const InteractiveMap = ({
     }
   }, [hasSetInitialView, getCurrentLocation]);
 
+  // Helper function to send messages to WebView (works on both iOS and Android)
+  const sendMessageToWebView = useCallback((messageData) => {
+    if (!webViewRef.current) return;
+
+    const messageStr = JSON.stringify(messageData);
+
+    // On Android, postMessage doesn't reliably trigger window.addEventListener('message')
+    // So we inject JavaScript to dispatch a MessageEvent that the HTML listener can catch
+    if (Platform.OS === "android") {
+      // Escape the message string for JavaScript injection
+      // Need to escape backslashes, quotes, and newlines
+      const escapedMessage = messageStr
+        .replace(/\\/g, "\\\\")
+        .replace(/'/g, "\\'")
+        .replace(/\n/g, "\\n")
+        .replace(/\r/g, "\\r");
+
+      const script = `
+        (function() {
+          try {
+            const messageStr = '${escapedMessage}';
+            const messageData = JSON.parse(messageStr);
+            // Dispatch a MessageEvent that matches what window.addEventListener('message') expects
+            const event = new MessageEvent('message', { 
+              data: messageData,
+              origin: window.location.origin
+            });
+            window.dispatchEvent(event);
+          } catch (e) {
+            console.error('Error handling message:', e);
+          }
+        })();
+        true;
+      `;
+      webViewRef.current.injectJavaScript(script);
+    } else {
+      // On iOS, postMessage works fine
+      webViewRef.current.postMessage(messageStr);
+    }
+  }, []);
+
+  const setOrganizations = () => {
+    const messagePayload = {
+      type: "SET_ORGANIZATIONS",
+      organizations: data,
+    };
+
+    sendMessageToWebView(messagePayload);
+  };
+
   // Send organizations data to WebView when they change or map becomes ready
   useEffect(() => {
     if (webViewRef.current && data && data.length > 0 && mapReady) {
@@ -176,21 +224,19 @@ export const InteractiveMap = ({
         organizations: data,
       };
 
-      webViewRef.current.postMessage(JSON.stringify(messagePayload));
+      sendMessageToWebView(messagePayload);
     }
-  }, [data, mapReady]);
+  }, [data, mapReady, sendMessageToWebView]);
 
   // Send user location when map becomes ready
   useEffect(() => {
     if (webViewRef.current && userLocation && mapReady) {
-      webViewRef.current.postMessage(
-        JSON.stringify({
-          type: "SET_USER_LOCATION",
-          location: userLocation,
-        })
-      );
+      sendMessageToWebView({
+        type: "SET_USER_LOCATION",
+        location: userLocation,
+      });
     }
-  }, [userLocation, mapReady]);
+  }, [userLocation, mapReady, sendMessageToWebView]);
 
   // Recheck location permission when app comes back to foreground
   useEffect(() => {
@@ -240,14 +286,12 @@ export const InteractiveMap = ({
             if (onMapReady) {
               onMapReady({
                 zoomToLocation: (lat, lng, zoom = 12) => {
-                  webViewRef.current?.postMessage(
-                    JSON.stringify({
-                      type: "ZOOM_TO_LOCATION",
-                      lat,
-                      lng,
-                      zoom,
-                    })
-                  );
+                  sendMessageToWebView({
+                    type: "ZOOM_TO_LOCATION",
+                    lat,
+                    lng,
+                    zoom,
+                  });
                 },
                 selectProvider: (organization) => {
                   setSelectedMarker && setSelectedMarker(null);
@@ -259,14 +303,12 @@ export const InteractiveMap = ({
                     organization.location?.latitude &&
                     organization.location?.longitude
                   ) {
-                    webViewRef.current?.postMessage(
-                      JSON.stringify({
-                        type: "ZOOM_TO_LOCATION",
-                        lat: organization.location.latitude,
-                        lng: organization.location.longitude,
-                        zoom: 14,
-                      })
-                    );
+                    sendMessageToWebView({
+                      type: "ZOOM_TO_LOCATION",
+                      lat: organization.location.latitude,
+                      lng: organization.location.longitude,
+                      zoom: 14,
+                    });
                   }
                 },
               });
@@ -315,7 +357,7 @@ export const InteractiveMap = ({
         );
       }
     },
-    [onMapReady, onSelectItem, setSelectedMarker]
+    [onMapReady, onSelectItem, setSelectedMarker, sendMessageToWebView]
   );
 
   const handleManualLocationRequest = useCallback(() => {
@@ -343,7 +385,18 @@ export const InteractiveMap = ({
         isOpen={showPermissionsContainer}
         handleClose={() => setShowPermissionsContainer(false)}
       />
-      <View style={[styles.mapContainer, style]}>
+      <View
+        style={[styles.mapContainer, style]}
+        onTouchStart={() => {
+          onInteractionStart && onInteractionStart();
+        }}
+        onTouchEnd={() => {
+          onInteractionEnd && onInteractionEnd();
+        }}
+        onTouchCancel={() => {
+          onInteractionEnd && onInteractionEnd();
+        }}
+      >
         {headers?.Authorization && (
           <WebView
             ref={webViewRef}

@@ -113,6 +113,92 @@ export const BaselineAssesment = ({
     });
   };
 
+  // Navigate to next question
+  const handleNext = useCallback(
+    (providedAnswerValue = null) => {
+      if (!currentQuestion) return;
+
+      const questionId = currentQuestion.questionId;
+      const answerValue = providedAnswerValue ?? state.answers[questionId];
+
+      if (!answerValue) return;
+
+      const currentAnswer = answers ? answers[questionId] : null;
+
+      if (
+        answers &&
+        currentAnswer &&
+        currentAnswer === answerValue &&
+        !isLastQuestion
+      ) {
+        console.log("same answer");
+        setState((prev) => ({
+          ...prev,
+          currentQuestionIndex: prev.currentQuestionIndex + 1,
+        }));
+        return;
+      }
+
+      // Submit answer to API first
+      addBaselineAssessmentAnswerMutation.mutate(
+        {
+          questionId,
+          answerValue,
+          baselineAssessmentId: state.baselineAssessmentId,
+          currentPosition: state.currentQuestionIndex + 1,
+        },
+        {
+          onSuccess: (data) => {
+            setState((prev) => {
+              // Update session ID if we got one back
+              const updatedState = { ...prev };
+              if (data.baselineAssessmentId && !prev.baselineAssessmentId) {
+                updatedState.baselineAssessmentId = data.baselineAssessmentId;
+              }
+
+              // Navigate after successful submission
+              if (prev.currentQuestionIndex < questions.length - 1) {
+                updatedState.currentQuestionIndex =
+                  prev.currentQuestionIndex + 1;
+              } else {
+                // Assessment completed
+                updatedState.currentStep = "completed";
+                updatedState.finalResult = data.finalResult;
+              }
+              return updatedState;
+            });
+            queryClient.invalidateQueries({
+              queryKey: ["baseline-assessments"],
+            });
+            queryClient.invalidateQueries({
+              queryKey: ["latest-baseline-assessment"],
+            });
+          },
+          onError: (error) => {
+            // toast.error("Error submitting answer. Please try again.");
+            // Remove the answer from local state if submission failed
+            setState((prev) => {
+              const newAnswers = { ...prev.answers };
+              delete newAnswers[questionId];
+              return { ...prev, answers: newAnswers };
+            });
+          },
+        }
+      );
+    },
+    [
+      currentQuestion,
+      state.answers,
+      state.baselineAssessmentId,
+      state.currentQuestionIndex,
+      answers,
+      isLastQuestion,
+      questions,
+      addBaselineAssessmentAnswerMutation,
+      queryClient,
+    ]
+  );
+
   // Handle answer selection
   const handleAnswerSelect = useCallback(
     (answerValue) => {
@@ -120,6 +206,7 @@ export const BaselineAssesment = ({
 
       const questionId = currentQuestion.questionId;
 
+      // Update state first
       setState((prev) => ({
         ...prev,
         answers: {
@@ -127,83 +214,15 @@ export const BaselineAssesment = ({
           [questionId]: answerValue,
         },
       }));
+
+      // Automatically proceed to next question after selecting an answer
+      // Use setTimeout to ensure state update is processed first
+      setTimeout(() => {
+        handleNext(answerValue);
+      }, 0);
     },
-    [currentQuestion]
+    [currentQuestion, handleNext]
   );
-
-  // Navigate to next question
-  const handleNext = () => {
-    if (!currentQuestion || !state.answers[currentQuestion.questionId]) return;
-    const currentAnswer = answers ? answers[currentQuestion.questionId] : null;
-
-    const questionId = currentQuestion.questionId;
-    const answerValue = state.answers[questionId];
-
-    if (
-      answers &&
-      currentAnswer &&
-      currentAnswer === answerValue &&
-      !isLastQuestion
-    ) {
-      console.log("same answer");
-      setState((prev) => ({
-        ...prev,
-        currentQuestionIndex: prev.currentQuestionIndex + 1,
-      }));
-      return;
-    }
-
-    // Submit answer to API first
-    addBaselineAssessmentAnswerMutation.mutate(
-      {
-        questionId,
-        answerValue,
-        baselineAssessmentId: state.baselineAssessmentId,
-        currentPosition: state.currentQuestionIndex + 1,
-      },
-      {
-        onSuccess: (data) => {
-          // Update session ID if we got one back
-          if (data.baselineAssessmentId && !state.baselineAssessmentId) {
-            setState((prev) => ({
-              ...prev,
-              baselineAssessmentId: data.baselineAssessmentId,
-            }));
-          }
-
-          // Navigate after successful submission
-          if (state.currentQuestionIndex < questions.length - 1) {
-            setState((prev) => ({
-              ...prev,
-              currentQuestionIndex: prev.currentQuestionIndex + 1,
-            }));
-          } else {
-            // Assessment completed
-            setState((prev) => ({
-              ...prev,
-              currentStep: "completed",
-              finalResult: data.finalResult,
-            }));
-            queryClient.invalidateQueries({
-              queryKey: ["baseline-assessments"],
-            });
-          }
-          queryClient.invalidateQueries({
-            queryKey: ["latest-baseline-assessment"],
-          });
-        },
-        onError: (error) => {
-          // toast.error("Error submitting answer. Please try again.");
-          // Remove the answer from local state if submission failed
-          setState((prev) => {
-            const newAnswers = { ...prev.answers };
-            delete newAnswers[questionId];
-            return { ...prev, answers: newAnswers };
-          });
-        },
-      }
-    );
-  };
 
   // Navigate to previous question
   const handleBack = () => {
@@ -345,14 +364,6 @@ export const BaselineAssesment = ({
                     type="secondary"
                     size="lg"
                     onPress={handleBack}
-                    style={styles.navButton}
-                  />
-                  <AppButton
-                    label={isLastQuestion ? t("finish_assessment") : t("next")}
-                    size="lg"
-                    onPress={handleNext}
-                    disabled={!canContinue}
-                    loading={addBaselineAssessmentAnswerMutation.isLoading}
                     style={styles.navButton}
                   />
                 </View>

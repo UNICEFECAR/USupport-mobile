@@ -16,6 +16,7 @@ import {
   Loading,
   CardMedia,
   Icon,
+  AppButton,
 } from "#components";
 
 import { useGetTheme, useGetAssessmentResult } from "#hooks";
@@ -132,7 +133,9 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
               ]}
             >
               <CardMedia
-                image={item.imageMedium || item.imageSmall}
+                image={
+                  item.imageMedium || item.imageThumbnail || item.imageSmall
+                }
                 title={item.title}
                 creator={item.creator}
                 readingTime={item.readingTime}
@@ -151,6 +154,8 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
       />
     );
   };
+
+  console.log(result);
 
   return (
     <ScrollView
@@ -173,7 +178,7 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
           </View>
         </View>
 
-        {result?.comparePrevious && (
+        {result && (
           <View
             style={{
               flexDirection: "column",
@@ -181,25 +186,34 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
               alignItems: "center",
             }}
           >
-            <AppText namedStyle="h4">{resultText}</AppText>
-            <Box boxShadow={2} style={styles.factor}>
-              <AppText>
-                {t("psychological")}: {result.psychologicalScore}
-              </AppText>
-              {renderIcon(result.comparePrevious.psychological)}
-            </Box>
-            <Box boxShadow={2} style={styles.factor}>
-              <AppText>
-                {t("biological")}: {result.biologicalScore}
-              </AppText>
-              {renderIcon(result.comparePrevious.biological)}
-            </Box>
-            <Box boxShadow={2} style={styles.factor}>
-              <AppText>
-                {t("social")}: {result.socialScore}
-              </AppText>
-              {renderIcon(result.comparePrevious.social)}
-            </Box>
+            {resultText && <AppText namedStyle="h4">{resultText}</AppText>}
+            {result.psychologicalScore !== undefined && (
+              <Box boxShadow={2} style={styles.factor}>
+                <AppText>
+                  {t("psychological")}: {result.psychologicalScore}
+                </AppText>
+                {result?.comparePrevious?.psychological &&
+                  renderIcon(result.comparePrevious.psychological)}
+              </Box>
+            )}
+            {result.biologicalScore !== undefined && (
+              <Box boxShadow={2} style={styles.factor}>
+                <AppText>
+                  {t("biological")}: {result.biologicalScore}
+                </AppText>
+                {result?.comparePrevious?.biological &&
+                  renderIcon(result.comparePrevious.biological)}
+              </Box>
+            )}
+            {result.socialScore !== undefined && (
+              <Box boxShadow={2} style={styles.factor}>
+                <AppText>
+                  {t("social")}: {result.socialScore}
+                </AppText>
+                {result?.comparePrevious?.social &&
+                  renderIcon(result.comparePrevious.social)}
+              </Box>
+            )}
           </View>
         )}
 
@@ -214,9 +228,23 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
 
         {data && (
           <View style={styles.summarySection}>
+            <AppText namedStyle="h3" style={styles.summaryTitle}>
+              {t("summary_heading")}
+            </AppText>
             <AppText namedStyle="text" style={styles.summaryText}>
               {data.summary}
             </AppText>
+            <AppButton
+              label={t("organizations")}
+              onPress={() =>
+                navigation.navigate("Organizations", {
+                  triggerPersonalization: true,
+                })
+              }
+              style={styles.organizationsButton}
+              color="purple"
+              size="lg"
+            />
           </View>
         )}
 
@@ -301,9 +329,17 @@ const styles = StyleSheet.create({
     marginTop: 32,
     paddingHorizontal: 16,
   },
+  summaryTitle: {
+    marginBottom: 16,
+    textAlign: "center",
+  },
   summaryText: {
     textAlign: "center",
     lineHeight: 24,
+  },
+  organizationsButton: {
+    marginTop: 24,
+    alignSelf: "center",
   },
 
   // Content sections

@@ -32,8 +32,17 @@ export const BaselineAssessmentDashboard = ({
 
   const { data: latestAssessment, isLoading } =
     useGetLatestBaselineAssessment();
+  const hasCompletedAssessment = latestAssessment?.status === "completed";
 
   const handleViewAssessment = () => {
+    if (!hasCompletedAssessment) setIsHowItWorksBAOpen(true);
+    else
+      navigation.navigate("BaselineAssesment", {
+        baselineAssessmentId: latestAssessment.baselineAssessmentId,
+      });
+  };
+
+  const handleContinueAssessment = () => {
     if (latestAssessment) {
       navigation.navigate("BaselineAssesment", {
         baselineAssessmentId: latestAssessment.baselineAssessmentId,
@@ -50,13 +59,24 @@ export const BaselineAssessmentDashboard = ({
       <Block style={{ marginTop: 40 }}>
         <View>
           <View style={styles.heading}>
-            <AppText t namedStyle="h3">
+            <AppText
+              style={{
+                maxWidth: "45%",
+              }}
+              namedStyle="h3"
+            >
               {t("heading")}
             </AppText>
-            <TouchableOpacity onPress={() => setIsHowItWorksBAOpen(true)}>
-              <AppText style={styles.headingButton}>
-                {t("how_it_works")}
-              </AppText>
+            <TouchableOpacity onPress={handleViewAssessment}>
+              {hasCompletedAssessment ? (
+                <AppText style={styles.headingButton}>
+                  {t("see_last_result")}
+                </AppText>
+              ) : (
+                <AppText style={styles.headingButton}>
+                  {t("how_it_works")}
+                </AppText>
+              )}
             </TouchableOpacity>
           </View>
 
@@ -94,7 +114,6 @@ export const BaselineAssessmentDashboard = ({
                 </Box>
                 <AppButton
                   style={{ marginTop: 24 }}
-                  size="lg"
                   onPress={openBaselineAssesmentModal}
                   label={t("start_new_assessment")}
                 />
@@ -106,7 +125,7 @@ export const BaselineAssessmentDashboard = ({
                 startedAt={latestAssessment.startedAt}
                 currentPosition={latestAssessment.currentPosition}
                 completionPercentage={latestAssessment.completionPercentage}
-                handleViewAssessment={handleViewAssessment}
+                handleViewAssessment={handleContinueAssessment}
                 t={t}
               />
             )}

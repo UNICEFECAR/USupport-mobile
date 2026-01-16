@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { View, StyleSheet, Linking, TouchableOpacity } from "react-native";
 
 import { Block, Loading, AppText, Avatar, Icon } from "#components";
@@ -9,7 +9,7 @@ import { constructShareUrl } from "#utils";
 import Share from "react-native-share";
 
 export const OrganizationOverview = ({ organizationId }) => {
-  const { t } = useTranslation("blocks", {
+  const { t, i18n } = useTranslation("blocks", {
     keyPrefix: "organization-overview",
   });
 
@@ -36,6 +36,21 @@ export const OrganizationOverview = ({ organizationId }) => {
 
 const OrganizationDetails = ({ organization, t }) => {
   const { colors } = useGetTheme();
+  const { i18n } = useTranslation();
+
+  const description = useMemo(() => {
+    const language = i18n.language?.toLowerCase();
+
+    if (language === "ro") {
+      return organization.descriptionRO || null;
+    }
+
+    if (language === "uk") {
+      return organization.descriptionUK || null;
+    }
+
+    return organization.description || null;
+  }, [organization, i18n.language]);
 
   const renderSpecialisations = useCallback(() => {
     if (organization && organization.specialisations) {
@@ -245,12 +260,12 @@ const OrganizationDetails = ({ organization, t }) => {
         </View>
       )}
 
-      {organization.description && (
+      {description && (
         <View style={styles.infoSection}>
           <AppText style={[styles.headingText, { color: colors.text }]}>
             {t("description_label")}
           </AppText>
-          <AppText style={styles.infoText}>{organization.description}</AppText>
+          <AppText style={styles.infoText}>{description}</AppText>
         </View>
       )}
     </View>

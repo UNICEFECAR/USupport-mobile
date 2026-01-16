@@ -39,29 +39,19 @@ export const useRecommendedArticles = ({
 
   // UI pagination
   const [uiPage, setUiPage] = useState(page);
-  if (!enabled)
-    return {
-      articles: [],
-      total: 0,
-      hasMore: false,
-      loading: false,
-      loadMore: () => {},
-      refetch: () => {},
-      isReady: false,
-      readArticleIds: [],
-    };
 
-  // Base data
+  // Base data - hooks must be called unconditionally
   const { data: countryArticles, isFetching: loadingCountry } = useQuery(
     ["countryArticles"],
-    () => adminSvc.getArticles()
+    () => adminSvc.getArticles(),
+    { enabled }
   );
 
   const { data: interactions, isFetching: loadingInteractions } = useQuery(
     ["categoryInteractions"],
     () => clientSvc.getCategoryInteractions(),
     {
-      enabled: !loadingCountry,
+      enabled: enabled && !loadingCountry,
     }
   );
 
@@ -136,6 +126,7 @@ export const useRecommendedArticles = ({
   // ----------------------------------
 
   useEffect(() => {
+    if (!enabled) return;
     if (loadingCountry || loadingInteractions) return;
     if (!countryArticles) return;
 
@@ -256,6 +247,7 @@ export const useRecommendedArticles = ({
       }
     })();
   }, [
+    enabled,
     loadingCountry,
     loadingInteractions,
     categoryIdFilter,
@@ -287,6 +279,20 @@ export const useRecommendedArticles = ({
   };
 
   const isReady = !pipelineLoading && !loadingCountry && !loadingInteractions;
+
+  // Return empty state when disabled (moved from early return to maintain hook order)
+  if (!enabled) {
+    return {
+      articles: [],
+      total: 0,
+      hasMore: false,
+      loading: false,
+      loadMore: () => {},
+      refetch: () => {},
+      isReady: false,
+      readArticleIds: [],
+    };
+  }
 
   return {
     articles: paged,

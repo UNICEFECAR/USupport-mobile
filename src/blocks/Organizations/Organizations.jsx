@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import {
   View,
   StyleSheet,
@@ -24,7 +24,6 @@ import {
   AppButton,
   Icon,
   TransparentModal,
-  ButtonOnlyIcon,
 } from "#components";
 
 import {
@@ -59,6 +58,7 @@ export const Organizations = ({
   setFilters,
   setIsFilterOpen,
   specialisations,
+  triggerPersonalization,
 }) => {
   const { t } = useTranslation("blocks", { keyPrefix: "organizations" });
 
@@ -78,6 +78,8 @@ export const Organizations = ({
 
   const [hasAppliedSpecialisations, setHasAppliedSpecialisations] =
     useState(false);
+  const scrollViewRef = useRef(null);
+  const isMapInteractingRef = useRef(false);
 
   const clientDataQuery = useGetClientData(!isTmpUser)[0];
   const clientData = clientDataQuery.data;
@@ -93,7 +95,7 @@ export const Organizations = ({
 
   useEffect(() => {
     if (
-      specialisations.length > 0 &&
+      specialisations?.length > 0 &&
       data &&
       data.length > 0 &&
       !hasAppliedSpecialisations
@@ -103,6 +105,13 @@ export const Organizations = ({
       handleChange("specialisations", specialisations);
     }
   }, [specialisations, data, hasAppliedSpecialisations]);
+
+  // Auto-trigger personalization when coming from assessment result
+  useEffect(() => {
+    if (triggerPersonalization && !isTmpUser) {
+      personalizationMutation.mutate();
+    }
+  }, [triggerPersonalization]);
 
   const createBaselineAssessmentMutation = useCreateBaselineAssessment();
 
@@ -260,29 +269,37 @@ export const Organizations = ({
         keyboardVerticalOffset={64}
         style={{ flex: 1 }}
       >
-        <ScrollView style={styles.scrollView}>
+        <ScrollView
+          ref={scrollViewRef}
+          style={styles.scrollView}
+          nestedScrollEnabled={false}
+          scrollEventThrottle={16}
+        >
           <Block style={styles.container}>
-            <AppButton
-              label={t("personalize")}
-              onPress={handlePersonalizeClick}
-              loading={personalizationMutation.isLoading}
-              // type="primary"
-              size="sm"
-              color="purple"
-              style={{ marginTop: 20, marginBottom: 20, alignSelf: "center" }}
-            />
+            <View style={styles.buttonsContainer}>
+              <ButtonWithIcon
+                label={t("personalize")}
+                onPress={handlePersonalizeClick}
+                loading={personalizationMutation.isLoading}
+                // type="primary"
+                color="purple"
+                iconName="person"
+                style={styles.buttonsContainerItem}
+              />
+              <ButtonWithIcon
+                label={t("filter")}
+                onPress={() => setIsFilterOpen(true)}
+                iconName="filter"
+                color="purple"
+                style={styles.buttonsContainerItem}
+              />
+            </View>
             <View style={styles.searchContainer}>
               <Input
                 value={filters.search}
                 onChangeText={(value) => handleChange("search", value)}
                 placeholder={t("search_placeholder")}
                 style={styles.searchInput}
-              />
-              <ButtonOnlyIcon
-                iconName="filter"
-                iconSize="md"
-                onPress={() => setIsFilterOpen(true)}
-                style={{ marginTop: 10 }}
               />
             </View>
 
@@ -292,14 +309,32 @@ export const Organizations = ({
               </View>
             ) : (
               <>
-                <InteractiveMap
-                  data={data}
-                  onMapReady={handleMapReady}
-                  setSelectedMarker={setSelectedOrganization}
-                  t={t}
-                  style={styles.map}
-                  organizationToZoom={organizationToZoom}
-                />
+                <View style={styles.mapWrapper}>
+                  <InteractiveMap
+                    data={data}
+                    onMapReady={handleMapReady}
+                    setSelectedMarker={setSelectedOrganization}
+                    t={t}
+                    style={styles.map}
+                    organizationToZoom={organizationToZoom}
+                    onInteractionStart={() => {
+                      if (!isMapInteractingRef.current) {
+                        isMapInteractingRef.current = true;
+                        scrollViewRef.current?.setNativeProps({
+                          scrollEnabled: false,
+                        });
+                      }
+                    }}
+                    onInteractionEnd={() => {
+                      if (isMapInteractingRef.current) {
+                        isMapInteractingRef.current = false;
+                        scrollViewRef.current?.setNativeProps({
+                          scrollEnabled: true,
+                        });
+                      }
+                    }}
+                  />
+                </View>
 
                 <View style={styles.organizationsContainer}>
                   {renderOrganizations()}
@@ -432,30 +467,39 @@ const OrganizationBackdrop = ({ organization, onClose, t, navigation }) => {
         {/* Contact Info */}
         <View style={styles.contactInfo}>
           {organization.phone && (
-            <AppText style={styles.contactItem}>
-              <AppText style={styles.contactLabel}>{t("phone")}:</AppText>{" "}
-              {organization.phone}
-            </AppText>
+            <View style={styles.contactContainer}>
+              <Icon name="phone" color={appStyles.colorPrimary_20809e} />
+              <AppText style={styles.contactItem}>
+                <AppText style={styles.contactLabel}>{t("phone")}:</AppText>{" "}
+                {organization.phone}
+              </AppText>
+            </View>
           )}
           {organization.email && (
-            <AppText style={styles.contactItem}>
-              <AppText style={styles.contactLabel}>{t("email")}:</AppText>{" "}
-              {organization.email}
-            </AppText>
+            <View style={styles.contactContainer}>
+              <Icon name="mail" color={appStyles.colorPrimary_20809e} />
+              <AppText style={styles.contactItem}>
+                <AppText style={styles.contactLabel}>{t("email")}:</AppText>{" "}
+                {organization.email}
+              </AppText>
+            </View>
           )}
           {organization.address && (
-            <AppText style={styles.contactItem}>
-              <AppText style={styles.contactLabel}>{t("address")}:</AppText>{" "}
-              {organization.address}
-            </AppText>
+            <View style={styles.contactContainer}>
+              <Icon name="location" color={appStyles.colorPrimary_20809e} />
+              <AppText style={styles.contactItem}>
+                <AppText style={styles.contactLabel}>{t("address")}:</AppText>{" "}
+                {organization.address}
+              </AppText>
+            </View>
           )}
         </View>
 
         {/* Action Buttons */}
         <View style={styles.actionButtons}>
-          <TouchableOpacity style={styles.actionButton} onPress={handleShare}>
+          {/* <TouchableOpacity style={styles.actionButton} onPress={handleShare}>
             <Icon name="share" size="sm" color={colors.text} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <AppButton
             onPress={handleViewDetails}
             label={t("view_organization_details")}
@@ -480,6 +524,15 @@ const OrganizationBackdrop = ({ organization, onClose, t, navigation }) => {
                 />
               </View>
             )}
+          <ButtonWithIcon
+            iconName="share"
+            iconColor={colors.text}
+            iconSize="sm"
+            label={t("share")}
+            onPress={handleShare}
+            type="secondary"
+            style={[styles.navigationButton, styles.shareButton]}
+          />
         </View>
       </View>
     </View>
@@ -490,20 +543,27 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
   },
+  buttonsContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    width: "100%",
+    paddingBottom: 16,
+    gap: 16,
+  },
+  buttonsContainerItem: {
+    width: "100%",
+    maxWidth: "45%",
+  },
   container: {
     flex: 1,
     paddingTop: 50,
     paddingHorizontal: 16,
     paddingBottom: 20,
   },
-  searchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 16,
-    gap: 12,
-  },
   searchInput: {
-    flex: 1,
+    marginBottom: 16,
+    width: "100%",
   },
   resetButton: {
     backgroundColor: appStyles.colorSecondary_9749fa,
@@ -526,10 +586,12 @@ const styles = StyleSheet.create({
     minWidth: "45%",
     flexGrow: 1,
   },
+  mapWrapper: {
+    marginBottom: 16,
+  },
   map: {
     flex: 1,
     minHeight: 400,
-    marginBottom: 16,
   },
   noDataContainer: {
     flex: 1,
@@ -633,13 +695,18 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     lineHeight: 18,
   },
+  contactContainer: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: 6,
+    paddingBottom: 8,
+  },
   contactInfo: {
     marginBottom: 24,
   },
   contactItem: {
     fontSize: 13,
     color: appStyles.colorGray_66768d,
-    marginBottom: 8,
     lineHeight: 18,
   },
   contactLabel: {
@@ -671,14 +738,5 @@ const styles = StyleSheet.create({
     maxWidth: "50%",
     width: "50%",
   },
-  actionButton: {
-    // width: 40,
-    marginLeft: "auto",
-    marginRight: "auto",
-    borderWidth: 1,
-    borderColor: appStyles.colorBlue_3d527b,
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-  },
+  shareButton: { marginHorizontal: "auto" },
 });

@@ -13,6 +13,8 @@ export default function useGetOrganizationById(organizationId) {
       phone: data?.phone,
       email: data?.email,
       description: data?.description,
+      descriptionRO: data?.description_ro,
+      descriptionUK: data?.description_uk,
       location: {
         longitude: data?.longitude,
         latitude: data?.latitude,

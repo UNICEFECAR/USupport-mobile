@@ -5,11 +5,7 @@ import { View } from "react-native";
 import { BaselineAssesment as BaselineAssesmentBlock } from "#blocks";
 import { useGetBaselineAssessments } from "#hooks";
 
-import {
-  //   BaselineAssesmentBox,
-  Loading,
-  Screen,
-} from "#components";
+import { Loading, Screen } from "#components";
 
 /**
  * BaselineAssesment

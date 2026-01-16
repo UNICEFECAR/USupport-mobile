@@ -234,22 +234,24 @@ export const MoodTracker = ({
               value={comment}
               onChange={(value) => setComment(value)}
               placeholder={t("additional_comment_placeholder")}
-              size="md"
               disabled={isMoodTrackCompleted}
+              style={{ width: "100%" }}
             />
             {showEmergency && (
-              <Toggle
-                wrapperStyles={styles.toggle}
-                label={t("emergency_label")}
-                isToggled={isEmergency}
-                handleToggle={(checked) => setIsEmergency(checked)}
-              />
+              <View style={styles.emergencyContainer}>
+                <AppText namedStyle="text" style={styles.emergencyLabel}>
+                  {t("emergency_label")}
+                </AppText>
+                <Toggle
+                  isToggled={isEmergency}
+                  handleToggle={(checked) => setIsEmergency(checked)}
+                />
+              </View>
             )}
             {!isMoodTrackCompleted && (
               <View>
                 <AppButton
                   label={t("submit_mood_track")}
-                  size="lg"
                   onPress={handleSubmit}
                   loading={addMoodTrackMutation.isLoading}
                   style={styles.submitButton}
@@ -276,6 +278,17 @@ const styles = StyleSheet.create({
     width: 62,
   },
   emoticonContainerNotSelected: { opacity: 0.5 },
+  emergencyContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "97%",
+    marginTop: 16,
+    marginHorizontal: "auto",
+  },
+  emergencyLabel: {
+    marginRight: 12,
+  },
   heading: {
     alignItems: "center",
     flexDirection: "row",
@@ -295,5 +308,4 @@ const styles = StyleSheet.create({
   },
   submitButton: { marginTop: 16 },
   textSelected: { color: appStyles.colorBlack_37 },
-  toggle: { paddingTop: 12 },
 });

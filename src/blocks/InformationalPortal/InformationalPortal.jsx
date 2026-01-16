@@ -139,6 +139,7 @@ export const InformationalPortal = ({
       {
         enabled: !contentIdsQuery.isLoading && contentIdsQuery.data?.length > 0,
         refetchOnWindowFocus: false,
+        retry: false,
       }
     );
 
@@ -246,7 +247,9 @@ export const InformationalPortal = ({
                   title={item.title}
                   image={
                     contentType === "articles" || contentType === "podcasts"
-                      ? item.imageMedium
+                      ? item.imageMedium ||
+                        item.imageSmall ||
+                        item.imageThumbnail
                       : item.image
                   }
                   description={item.description}

@@ -15,6 +15,7 @@ import {
   Screen,
   AppText,
   AppButton,
+  ButtonWithIcon,
   ConsultationDashboard,
   Loading,
 } from "#components";
@@ -546,11 +547,12 @@ const HeadingBlockContent = ({
               }}
             >
               <View style={styles.mapContainer}>
-                <View>
-                  <AppButton
+                <View style={styles.mapContainerButton}>
+                  <ButtonWithIcon
+                    iconName="search"
+                    iconSize="sm"
                     label={t("explore")}
                     color="purple"
-                    size="md"
                     onPress={() => {
                       navigation.navigate("Consultations");
                     }}
@@ -596,5 +598,11 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     backgroundColor: appStyles.overlay,
+  },
+  mapContainerButton: {
+    marginTop: 75,
+    backgroundColor: "white",
+    padding: 1,
+    borderRadius: 20,
   },
 });
