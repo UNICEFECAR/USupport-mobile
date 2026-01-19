@@ -311,7 +311,7 @@ export const Consultations = ({ navigation }) => {
 const styles = StyleSheet.create({
   button: {
     alignSelf: "center",
-    bottom: Platform.OS === "ios" ? 70 : 100,
+    bottom: Platform.OS === "ios" ? 70 : 152,
     position: "absolute",
   },
   screen: {
