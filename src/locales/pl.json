@@ -904,6 +904,7 @@
       "dec_dec_inc": "Great progress! Psychological and biological decreased, though social increased.",
       "dec_dec_same": "Great progress! Psychological and biological decreased, while social stayed the same.",
       "dec_dec_dec": "Excellent progress! Psychological, biological, and social all decreased.",
+      "same_same_same": "Twoje wyniki są takie same jak w poprzedniej ocenie.",
       "answered_questions": "",
       "latest_result": "",
       "organizations": "Polecane organizacje"

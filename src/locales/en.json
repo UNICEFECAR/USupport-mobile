@@ -932,6 +932,7 @@
       "dec_dec_inc": "Great progress! Psychological and biological decreased, though social increased.",
       "dec_dec_same": "Great progress! Psychological and biological decreased, while social stayed the same.",
       "dec_dec_dec": "Excellent progress! Psychological, biological, and social all decreased.",
+      "same_same_same":"Your results are the same as the previous assessment.",
       "summary_heading": "Recommendations generated based on the score obtained",
       "organizations": "Recommended organizations"
     }
