@@ -233,10 +233,34 @@ function getOrdinal(n) {
 }
 
 const parseUTCDate = (dateString) => {
-  const dateParams = dateString.replace(/ UTC/, "").split(/[\s-:]/);
-  dateParams[1] = (parseInt(dateParams[1], 10) - 1).toString();
+  try {
+    if (!dateString) {
+      console.warn("parseUTCDate called with undefined/null value");
+      return null;
+    }
 
-  return new Date(Date.UTC(...dateParams));
+    // If it's already a Date object, return it as-is
+    if (dateString instanceof Date) {
+      return dateString;
+    }
+
+    // Handle ISO 8601 format (e.g., "2026-01-18T03:00:00.000Z")
+    if (
+      dateString.includes("T") &&
+      (dateString.endsWith("Z") || dateString.includes("+"))
+    ) {
+      return new Date(dateString);
+    }
+
+    // Handle legacy format (e.g., "2026-01-18 03:00:00 UTC")
+    const dateParams = dateString.replace(/ UTC/, "").split(/[\s-:]/);
+    dateParams[1] = (parseInt(dateParams[1], 10) - 1).toString();
+
+    return new Date(Date.UTC(...dateParams));
+  } catch (err) {
+    console.log(typeof dateString, dateString, "dateString");
+    return dateString;
+  }
 };
 
 export {
