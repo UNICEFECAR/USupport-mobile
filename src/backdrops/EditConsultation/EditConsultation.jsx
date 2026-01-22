@@ -20,6 +20,10 @@ export const EditConsultation = ({
   const imageUrl = image || "default";
   const startDate = new Date(timestamp);
   const endDate = new Date(timestamp + ONE_HOUR);
+  const today = new Date().getTime();
+
+  const startsInLessThan24Hours = (startDate - today) < 24 * 60 * 60 * 1000;
+
 
   const handleCancelClick = () => {
     onClose();
@@ -50,12 +54,12 @@ export const EditConsultation = ({
         t={t}
       />
       <View style={styles.buttonContainer}>
-        <ButtonSelector
+      {!startsInLessThan24Hours &&        <ButtonSelector
           onPress={handleEditClick}
           iconName="calendar"
           label={t("date_button_label")}
           style={styles.buttonSelector}
-        />
+        />}
         <ButtonSelector
           onPress={handleCancelClick}
           iconName="close-x"
