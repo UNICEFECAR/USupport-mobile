@@ -973,7 +973,12 @@
       "microphone_active": "Ձեր միկրոֆոնը և մեդիա նվագարկումը ակտիվ են",
       "cancel_confirmation_heading": "Վստա՞հ եք, որ ցանկանում եք դուրս գալ խորհրդատվությունից։",
       "cancel_confirmation_cta": "Դուրս գալ խորհրդատվությունից",
-      "cancel_confirmation_secondary_cta": "Մնալ"
+      "cancel_confirmation_secondary_cta": "Մնալ",
+      "permissions_error_camera": "Չի կարելի գործարկել տեսանյութը",
+      "permissions_error_camera_subheading": "Տեսախցիկի թույլատվությունը մերժված է: Խնդրում ենք անցնել կարգավորումներ և միացնել տեսախցիկի թույլատվությունը շարունակելու համար",
+      "permissions_error_microphone": "Չի կարելի գործարկել աուդիոն",
+      "permissions_error_microphone_subheading": "Խոսափողի թույլատվությունը մերժված է: Խնդրում ենք անցնել կարգավորումներ և միացնել խոսափողի թույլատվությունը շարունակելու համար",
+      "open_settings": "Բացել կարգավորումները"
     },
     "consultations-screen": {
       "heading": "Consultations",

@@ -1009,7 +1009,12 @@
       "microphone_active": "Your microphone and media playback are active.",
       "cancel_confirmation_heading": "Are you sure you want to leave the consultation?",
       "cancel_confirmation_cta": "Leave consultation",
-      "cancel_confirmation_secondary_cta": "Cancel"
+      "cancel_confirmation_secondary_cta": "Cancel",
+      "permissions_error_camera":"Cannot start video",
+      "permissions_error_camera_subheading":"Camera permission is denied. Please go to settings and enable camera permissions to continue",
+      "permissions_error_microphone":"Cannot start audio",
+      "permissions_error_microphone_subheading":"Microphone permission is denied. Please go to settings and enable microphone permissions to continue",
+      "open_settings":"Open settings"
     },
     "consultations-screen": {
       "heading": "Consultations",

@@ -24,6 +24,7 @@ import {
 import { useAddCountryEvent } from "#hooks";
 import { providerSvc } from "#services";
 import { showToast } from "../../utils/showToast";
+import { Loading } from "../../components/loaders";
 
 /**
  * JoinConsultation
@@ -40,25 +41,26 @@ export const JoinConsultation = ({ isOpen, onClose, consultation }) => {
   const hasCheckedPermissions = useRef(false);
   const addCountryEventMutation = useAddCountryEvent();
 
+  const [permissionsStatus, setPermissionsStatus] = useState({
+    camera: undefined,
+    microphone: undefined,
+  });
+
   const requestCameraAndMic = useCallback(async () => {
     if (!isOpen) return;
     const cameraRes = await Camera.requestCameraPermissionsAsync();
     const micRes = await Camera.requestMicrophonePermissionsAsync();
 
-    if (!cameraRes.granted || !micRes.granted) {
-      setIsPermissionsModalOpen(true);
-    } else {
-      setIsPermissionsModalOpen(false);
-    }
-
+    
+setPermissionsStatus({
+        camera: cameraRes.granted,
+        microphone: micRes.granted,
+      });
     hasCheckedPermissions.current = true;
   }, [isOpen]);
 
   useEffect(() => {
     const subscription = AppState.addEventListener("change", (state) => {
-      console.log(state, "state");
-      console.log(appState.current, "appState");
-      console.log(hasCheckedPermissions.current, "hasCheckedPermissions");
 
       appState.current = state;
       if (state === "active" && hasCheckedPermissions.current) {
@@ -75,6 +77,10 @@ export const JoinConsultation = ({ isOpen, onClose, consultation }) => {
   }, [isOpen]);
 
   const handleClick = async (redirectTo) => {
+    if (permissionsStatus.camera === undefined || permissionsStatus.microphone === undefined) {
+      return;
+    }
+
     addCountryEventMutation.mutate({
       eventType: "mobile_join_consultation_click",
     });
@@ -92,8 +98,10 @@ export const JoinConsultation = ({ isOpen, onClose, consultation }) => {
       // Navigate with appropriate settings
       navigation.navigate("Consultation", {
         consultation,
-        videoOn: redirectTo === "video",
-        microphoneOn: redirectTo === "video" || redirectTo === "audio",
+        videoOn: redirectTo === "video" && permissionsStatus.camera,
+        microphoneOn: (redirectTo === "video" || redirectTo === "audio") && permissionsStatus.microphone,
+        cameraGranted: permissionsStatus.camera,
+        microphoneGranted: permissionsStatus.microphone,
       });
     } catch (err) {
       console.error("Navigation error:", err);
@@ -102,6 +110,7 @@ export const JoinConsultation = ({ isOpen, onClose, consultation }) => {
 
     onClose();
   };
+
 
   return (
     <React.Fragment>

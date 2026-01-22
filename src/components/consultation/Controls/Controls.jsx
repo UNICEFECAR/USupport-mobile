@@ -23,7 +23,6 @@ export const Controls = ({
   toggleMicrophone,
   toggleChat,
   leaveConsultation,
-  handleSendMessage,
   handleClose,
   isCameraOn,
   isMicrophoneOn,
@@ -31,12 +30,10 @@ export const Controls = ({
   hasUnread,
   style,
   isProviderInSession,
+  showCamera = true,
   t,
 }) => {
   const { isDarkMode } = useGetTheme();
-
-  const [isMicOpen, setIsMicOpen] = useState(isMicrophoneOn);
-  const [isCameraOpen, setIsCameraOpen] = useState(isCameraOn);
 
   const timestamp =
     consultation.timestamp || new Date(consultation.time).getTime();
@@ -46,23 +43,11 @@ export const Controls = ({
 
   const handleMicClick = () => {
     if (isRoomConnecting) return;
-
-    const content = isMicOpen
-      ? "client_microphone_off"
-      : "client_microphone_on";
-    handleSendMessage(content, "system");
-
-    setIsMicOpen(!isMicOpen);
     toggleMicrophone();
   };
 
   const handleCameraClick = () => {
     if (isRoomConnecting) return;
-
-    const content = isCameraOpen ? "client_camera_off" : "client_camera_on";
-    handleSendMessage(content, "system");
-
-    setIsCameraOpen(!isCameraOpen);
     toggleCamera();
   };
 
@@ -77,18 +62,20 @@ export const Controls = ({
   const renderAllButtons = () => {
     return (
       <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={handleCameraClick}>
-          <Icon
-            style={styles.button}
-            name={!isCameraOpen ? "stop-camera" : "video"}
-            size="sm"
-            color={appStyles.colorPrimary_20809e}
-          />
-        </TouchableOpacity>
+        {showCamera && (
+          <TouchableOpacity onPress={handleCameraClick}>
+            <Icon
+              style={styles.button}
+              name={isCameraOn ? "video" : "stop-camera"}
+              size="sm"
+              color={appStyles.colorPrimary_20809e}
+            />
+          </TouchableOpacity>
+        )}
         <TouchableOpacity onPress={handleMicClick}>
           <Icon
             style={styles.button}
-            name={!isMicOpen ? "microphone" : "stop-mic"}
+            name={isMicrophoneOn ? "microphone" : "stop-mic"}
             size="sm"
             color={appStyles.colorPrimary_20809e}
           />
@@ -247,19 +234,19 @@ Controls.propTypes = {
   leaveConsultation: PropTypes.func.isRequired,
 
   /**
-   * Handle send message
-   * */
-  handleSendMessage: PropTypes.func.isRequired,
-
-  /**
-   * Is camera on
+   * Is camera on (single source of truth from parent)
    * */
   isCameraOn: PropTypes.bool.isRequired,
 
   /**
-   * Is microphone on
+   * Is microphone on (single source of truth from parent)
    * */
   isMicrophoneOn: PropTypes.bool.isRequired,
+
+  /**
+   * Show camera button (based on joinWithVideo from parent)
+   * */
+  showCamera: PropTypes.bool,
 
   /**
    * Translation function

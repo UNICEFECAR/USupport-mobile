@@ -71,6 +71,8 @@ export const Consultation = ({ navigation, route }) => {
   const consultation = location?.consultation;
   const joinWithVideo = location?.videoOn;
   const joinWithMicrophone = location?.microphoneOn;
+  const cameraGranted = location?.cameraGranted;
+  const microphoneGranted = location?.microphoneGranted;
 
   const [clientDataQuery, clientData] = useGetClientData();
 
@@ -146,9 +148,6 @@ export const Consultation = ({ navigation, route }) => {
   const [search, setSearch] = useState("");
   const [hasUnreadMessages, setHasUnreadMessages] = useState(false);
   const [isProviderInSession, setIsProviderInSession] = useState(false);
-  const [hasCheckedPermissions, setHasCheckedPermissions] = useState(
-    Platform.OS === "ios"
-  );
 
   const [keyboardHeight, setKeyboardHeight] = useState(200);
 
@@ -189,48 +188,7 @@ export const Consultation = ({ navigation, route }) => {
     chatDataQuery.isFetched
   );
 
-  const requestAndroidPermissions = async () => {
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      // Request audio permission
-      await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-        {
-          title: "Need permission to access microphone",
-          message: "",
-          buttonNegative: "Cancel",
-          buttonPositive: "OK",
-        }
-      );
-
-      // Add a small delay between permission requests
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      // Request camera permission
-      await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA, {
-        title: "Need permission to access camera",
-        message: "",
-        buttonNegative: "Cancel",
-        buttonPositive: "OK",
-      });
-
-      setHasCheckedPermissions(true);
-    } catch (error) {
-      console.error("Permission request error:", error);
-      setHasCheckedPermissions(true);
-    }
-  };
-
   useEffect(() => {
-    const initializePermissions = async () => {
-      if (Platform.OS === "android") {
-        await requestAndroidPermissions();
-      }
-    };
-
-    initializePermissions();
-
     const endTime = new Date(consultation.timestamp + ONE_HOUR);
     let isTenMinAlertShown,
       isFiveMinAlertShown = false;
@@ -576,10 +534,12 @@ export const Consultation = ({ navigation, route }) => {
   ) : (
     <View style={styles.container}>
       <View style={{ flexGrow: 1 }}>
-        {hasCheckedPermissions && clientData ? (
+        {clientData ? (
           <JitsiMeeting
             joinWithVideo={joinWithVideo}
             joinWithMicrophone={joinWithMicrophone}
+            cameraGranted={cameraGranted}
+            microphoneGranted={microphoneGranted}
             consultation={consultation}
             toggleChat={toggleChat}
             leaveConsultation={leaveConsultation}

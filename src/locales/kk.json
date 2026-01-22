@@ -979,7 +979,12 @@
       "microphone_active": "Микрофоныңыз және медиа ойнату белсенді.",
       "cancel_confirmation_heading": "Консультациядан шынымен шығуды қалайсыз ба?",
       "cancel_confirmation_cta": "Консультациядан шығу",
-      "cancel_confirmation_secondary_cta": "Қалу"
+      "cancel_confirmation_secondary_cta": "Қалу",
+      "permissions_error_camera": "Бейне бастау мүмкін емес",
+      "permissions_error_camera_subheading": "Камераға рұқсат құлыпталған. Жалғастыру үшін параметрлерге өтіп, камера рұқсатын қосыңыз",
+      "permissions_error_microphone": "Аудио бастау мүмкін емес",
+      "permissions_error_microphone_subheading": "Микрофонға рұқсат құлыпталған. Жалғастыру үшін параметрлерге өтіп, микрофон рұқсатын қосыңыз",
+      "open_settings": "Параметрлерді ашу"
     },
     "consultations-screen": {
       "heading": "Консультациялар",

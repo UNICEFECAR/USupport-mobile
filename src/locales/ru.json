@@ -979,7 +979,12 @@
       "microphone_active": "Ваш микрофон и воспроизведение медиа активны.",
       "cancel_confirmation_heading": "Вы уверены, что хотите выйти из консультации?",
       "cancel_confirmation_cta": "Выйти из консультации",
-      "cancel_confirmation_secondary_cta": "Остаться"
+      "cancel_confirmation_secondary_cta": "Остаться",
+      "permissions_error_camera": "Невозможно запустить видео",
+      "permissions_error_camera_subheading": "Доступ к камере запрещен. Пожалуйста, перейдите в настройки и включите разрешение для камеры, чтобы продолжить",
+      "permissions_error_microphone": "Невозможно запустить аудио",
+      "permissions_error_microphone_subheading": "Доступ к микрофону запрещен. Пожалуйста, перейдите в настройки и включите разрешение для микрофона, чтобы продолжить",
+      "open_settings": "Открыть настройки"
     },
     "consultations-screen": {
       "heading": "Консультации",

@@ -982,7 +982,12 @@
       "microphone_active": "Twój mikrofon i odtwarzanie multimediów są aktywne.",
       "cancel_confirmation_heading": "Czy na pewno chcesz opuścić konsultację?",
       "cancel_confirmation_cta": "Opuść konsultację",
-      "cancel_confirmation_secondary_cta": "Zostań"
+      "cancel_confirmation_secondary_cta": "Zostań",
+      "permissions_error_camera": "Nie można uruchomić wideo",
+      "permissions_error_camera_subheading": "Odmówiono dostępu do kamery. Przejdź do ustawień i włącz uprawnienia kamery, aby kontynuować",
+      "permissions_error_microphone": "Nie można uruchomić audio",
+      "permissions_error_microphone_subheading": "Odmówiono dostępu do mikrofonu. Przejdź do ustawień i włącz uprawnienia mikrofonu, aby kontynuować",
+      "open_settings": "Otwórz ustawienia"
     },
     "consultations-screen": {
       "heading": "Konsultacje",

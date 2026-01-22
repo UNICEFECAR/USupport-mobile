@@ -1016,7 +1016,12 @@
       "microphone_active": "Microfonul dvs. și redarea media sunt active.",
       "cancel_confirmation_heading": "Sigur doriți să părăsiți consultația?",
       "cancel_confirmation_cta": "Părăsiți consultația",
-      "cancel_confirmation_secondary_cta": "Rămâneți"
+      "cancel_confirmation_secondary_cta": "Rămâneți",
+      "permissions_error_camera": "Nu se poate porni video-ul",
+      "permissions_error_camera_subheading": "Permisiunea camerei este refuzată. Vă rugăm să accesați setările și să activați permisiunile camerei pentru a continua",
+      "permissions_error_microphone": "Nu se poate porni audio-ul",
+      "permissions_error_microphone_subheading": "Permisiunea microfonului este refuzată. Vă rugăm să accesați setările și să activați permisiunile microfonului pentru a continua",
+      "open_settings": "Deschide setările"
     },
     "consultations-screen": {
       "heading": "Consultații",

@@ -6,6 +6,8 @@ import {
   Platform,
   View,
   TouchableOpacity,
+  Linking,
+  AppState,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, {
@@ -13,9 +15,18 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
+import { Camera } from "expo-camera";
 
-import { Controls, Icon, TransparentModal } from "#components";
+import {
+  Controls,
+  Icon,
+  TransparentModal,
+  AppText,
+  AppButton,
+} from "#components";
 import { appStyles } from "#styles";
+
+import { baseJitsiConfig, baseJitsiFlags } from "./setup";
 
 export const JitsiMeeting = ({
   displayName,
@@ -28,6 +39,8 @@ export const JitsiMeeting = ({
   handleSendMessage,
   hasUnread,
   isProviderInSession,
+  cameraGranted,
+  microphoneGranted,
   // setIsProviderInSession,
   isChatShown,
   // isKeyboardShown,
@@ -37,12 +50,77 @@ export const JitsiMeeting = ({
   const { top: topInset, bottom: bottomInset } = useSafeAreaInsets();
   const jitsiMeeting = useRef(null);
 
-  const [isAudioEnabled, setIsAudioEnabled] = useState(joinWithMicrophone);
-  const [isVideoEnabled, setIsVideoEnabled] = useState(joinWithVideo);
+  const [roomKey, setRoomKey] = useState(1);
+  const [isAudioEnabled, setIsAudioEnabled] = useState(
+    microphoneGranted && joinWithMicrophone
+  );
+  const [isVideoEnabled, setIsVideoEnabled] = useState(
+    cameraGranted && joinWithVideo
+  );  
   const [shrinkVideo, setShrinkVideo] = useState(false);
   const [areControlsShown, setAreControlsShown] = useState(true);
   const [isCancelConfirmationOpen, setIsCancelConfirmationOpen] =
     useState(false);
+  const [isCameraPermissionModalOpen, setIsCameraPermissionModalOpen] =
+    useState(false);
+  const [isMicrophonePermissionModalOpen, setIsMicrophonePermissionModalOpen] =
+    useState(false);
+  const [currentCameraGranted, setCurrentCameraGranted] =
+    useState(cameraGranted);
+  const [currentMicrophoneGranted, setCurrentMicrophoneGranted] =
+    useState(microphoneGranted);
+  const [shouldStartVideo, setShouldStartVideo] = useState(false);
+  const [shouldStartMicrophone, setShouldStartMicrophone] = useState(false);
+  const [showCameraInControls, setShowCameraInControls] = useState(!currentCameraGranted ? true : (joinWithVideo && currentCameraGranted));
+
+  const appStateRef = useRef(AppState.currentState);
+  const hasInitializedRef = useRef(false);
+
+
+  const MAIN_TOOLBAR_BUTTONS = [
+    ...(currentCameraGranted ? ["camera"] : []),
+    ...(currentMicrophoneGranted ? ["microphone"] : []),
+    "chat",
+  ];
+
+
+    console.log(`
+      ("====Start with audio muted\n
+      Join with microphone: ${joinWithMicrophone}\n
+      Current microphone granted: ${currentMicrophoneGranted}\n
+      Should start microphone: ${shouldStartMicrophone}\n
+      `);
+
+  const jitsiConfig = {
+    ...baseJitsiConfig,
+    // When microphone permission is denied, start with audio muted
+    // This tells Jitsi to mute audio, but it may still try to get the track
+    startWithAudioMuted: 
+       shouldStartMicrophone ? false :
+      !currentMicrophoneGranted ? true :
+      !joinWithMicrophone,
+
+    startWithVideoMuted:
+      shouldStartVideo ? false : // If user went to allow the camera permissions  - start with video unmuted
+      !currentCameraGranted ? true : // If no camera permissions - start with video muted
+      !joinWithVideo, // Default to joinWithVideo(coming from JoinConsultation backdrop)
+      
+      startAudioOnly: !currentCameraGranted,
+    toolbarButtons: [
+      ...(currentCameraGranted ? ["camera"] : []),
+      ...(currentMicrophoneGranted ? ["microphone"] : []),
+    ],
+    mainToolbarButtons: MAIN_TOOLBAR_BUTTONS,
+  };
+
+  const jitsiFlags = {
+    ...baseJitsiFlags,
+    "audioMute.enabled": currentMicrophoneGranted ? true : false,
+    "audioOnly.enabled":
+      (!currentMicrophoneGranted || !currentCameraGranted) ? true : false,
+      "video-mute.enabled": currentCameraGranted ? true : false,
+
+  };
 
   useEffect(() => {
     let timeout;
@@ -59,31 +137,53 @@ export const JitsiMeeting = ({
     };
   }, [isChatShown]);
 
-  // Initialize audio and video state when conference is joined
-  // useEffect(() => {
-  //   if (status === "connected" && jitsiMeeting.current) {
-  //     // Add a small delay to ensure Jitsi is fully initialized
-  //     setTimeout(() => {
-  //       // Set initial audio state
-  //       if (!joinWithMicrophone) {
-  //         jitsiMeeting.current?.setAudioMuted(true);
-  //         setIsAudioEnabled(false);
-  //       } else {
-  //         jitsiMeeting.current?.setAudioMuted(false);
-  //         setIsAudioEnabled(true);
-  //       }
+  // Recheck permissions when app comes back from settings
+  useEffect(() => {
+    const subscription = AppState.addEventListener(
+      "change",
+      async (nextAppState) => {
+        // App is coming back to foreground from background/inactive
+        if (
+          appStateRef.current.match(/inactive|background/) &&
+          nextAppState === "active"
+        ) {
+          // Recheck permissions if modals were open
+          if (isCameraPermissionModalOpen || isMicrophonePermissionModalOpen) {
+            const cameraGranted = await checkCameraPermission();
+            const micGranted = await checkMicrophonePermission();
 
-  //       // Set initial video state
-  //       if (!joinWithVideo) {
-  //         jitsiMeeting.current?.setVideoMuted(true);
-  //         setIsVideoEnabled(false);
-  //       } else {
-  //         jitsiMeeting.current?.setVideoMuted(false);
-  //         setIsVideoEnabled(true);
-  //       }
-  //     }, 1000);
-  //   }
-  // }, [status, joinWithMicrophone, joinWithVideo]);
+            // Close modals if permissions are now granted
+            if (isCameraPermissionModalOpen && cameraGranted) {
+              setIsCameraPermissionModalOpen(false);
+              // Reset initialization flag so Jitsi events are ignored during remount
+              hasInitializedRef.current = false;
+              setShouldStartVideo(true); // Make sure jitsi initializes the camera
+              setIsVideoEnabled(true); // Update the camera icon
+              setRoomKey((prev) => prev + 1);
+            }
+            if (isMicrophonePermissionModalOpen && micGranted) {
+              console.log('ENTER HERE TO UNMUTE MICROPHONE');
+              setIsMicrophonePermissionModalOpen(false);
+              // Reset initialization flag so Jitsi events are ignored during remount
+              hasInitializedRef.current = false;
+
+              console.log("==== Set shouldStartMicrophone to true");
+              setShouldStartMicrophone(true);
+              setIsAudioEnabled(true);
+              setRoomKey((prev) => prev + 1);
+            }
+          }
+        }
+
+        appStateRef.current = nextAppState;
+      }
+    );
+
+    return () => {
+      subscription?.remove();
+    };
+  }, [isCameraPermissionModalOpen, isMicrophonePermissionModalOpen]);
+
 
   const onReadyToClose = useCallback(() => {
     // @ts-ignore
@@ -93,16 +193,33 @@ export const JitsiMeeting = ({
 
   const eventListeners = {
     onConferenceJoined: () => {
+      // Mark as initialized after a delay to ignore initial muted change events
       setTimeout(() => {
+        hasInitializedRef.current = true;
         sendJoinConsultationMessage();
       }, 1000);
     },
     onReadyToClose,
     onVideoMutedChanged: (data) => {
-      setIsVideoEnabled(!data.muted);
+      // Only update state from Jitsi events after initialization
+      // This prevents Jitsi from overriding our initial joinWithVideo setting
+      console.log('Videomutedchanged: ', data);
+      if (hasInitializedRef.current && currentCameraGranted) {
+        setIsVideoEnabled(!data);
+        setShowCameraInControls(true);
+        setShouldStartVideo(!data);
+      }
     },
     onAudioMutedChanged: (data) => {
-      setIsAudioEnabled(!data.muted);
+      console.log('("==== Audiomutedchanged: ', data);
+      console.log('("==== Current microphone granted: ', currentMicrophoneGranted);
+      // Only update state from Jitsi events after initialization
+      // This prevents Jitsi from overriding our initial joinWithMicrophone setting
+      if (hasInitializedRef.current && currentMicrophoneGranted) {
+        console.log('("==== Set shouldStartMicrophone to: ', !data);
+        setIsAudioEnabled(!data);
+        setShouldStartMicrophone(!data);
+      }
     },
     onConferenceLeft: () => {
       leaveConsultation();
@@ -132,19 +249,117 @@ export const JitsiMeeting = ({
     jitsiMeeting.current?.close();
   };
 
-  const toggleAudio = () => {
-    jitsiMeeting.current?.setAudioMuted(!isAudioEnabled);
-    setIsAudioEnabled(!isAudioEnabled);
+  const checkMicrophonePermission = async () => {
+    try {
+      const { status } = await Camera.getMicrophonePermissionsAsync();
+      const granted = status === "granted";
+      setCurrentMicrophoneGranted(granted);
+      return granted;
+    } catch (error) {
+      console.error("Error checking microphone permission:", error);
+      return false;
+    }
   };
 
-  const toggleVideo = () => {
-    if (isVideoEnabled) {
-      jitsiMeeting.current?.setVideoMuted(true);
-    } else {
-      jitsiMeeting.current?.setVideoMuted(false);
+  const checkCameraPermission = async () => {
+    try {
+      const { status } = await Camera.getCameraPermissionsAsync();
+      const granted = status === "granted";
+      setCurrentCameraGranted(granted);
+      return granted;
+    } catch (error) {
+      console.error("Error checking camera permission:", error);
+      return false;
     }
-    setIsVideoEnabled(!isVideoEnabled);
   };
+
+  const requestMicrophonePermission = async () => {
+    try {
+      const { status } = await Camera.requestMicrophonePermissionsAsync();
+      const granted = status === "granted";
+      setCurrentMicrophoneGranted(granted);
+      return granted;
+    } catch (error) {
+      console.error("Error requesting microphone permission:", error);
+      return false;
+    }
+  };
+
+  const requestCameraPermission = async () => {
+    try {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      const granted = status === "granted";
+      setCurrentCameraGranted(granted);
+      return granted;
+    } catch (error) {
+      console.error("Error requesting camera permission:", error);
+      return false;
+    }
+  };
+
+  const toggleAudio = async () => {
+    // Check current permission status
+
+    const hasPermission = await checkMicrophonePermission();
+
+    if(!hasPermission){
+      setIsMicrophonePermissionModalOpen(true);
+      return;
+    }
+
+    // if (!hasPermission) {
+    //   // Try to request permission again
+    //   const granted = await requestMicrophonePermission();
+
+    //   if (!granted) {
+    //     // Show settings modal if permission still not granted
+    //     setIsMicrophonePermissionModalOpen(true);
+    //     return;
+    //   }
+    // }
+
+    // Permission is granted, proceed with toggle
+    const newAudioState = !isAudioEnabled;
+    jitsiMeeting.current?.setAudioMuted(!newAudioState);
+    setIsAudioEnabled(newAudioState);
+
+    // Send system message about microphone state change
+    const content = newAudioState
+      ? "client_microphone_on"
+      : "client_microphone_off";
+    handleSendMessage(content, "system");
+  };
+
+  const toggleVideo = async () => {
+    // Check current permission status
+    const hasPermission = await checkCameraPermission();
+
+    if(!hasPermission){
+      setIsCameraPermissionModalOpen(true);
+      return;
+    }
+
+    // if (!hasPermission) {
+    //   // Try to request permission again
+    //   const granted = await requestCameraPermission();
+
+    //   if (!granted) {
+    //     // Show settings modal if permission still not granted
+    //     setIsCameraPermissionModalOpen(true);
+    //     return;
+    //   }
+    // }
+
+    // Permission is granted, proceed with toggle
+    const newVideoState = !isVideoEnabled;
+    jitsiMeeting.current?.setVideoMuted(!newVideoState);
+    setIsVideoEnabled(newVideoState);
+
+    // Send system message about camera state change
+    const content = newVideoState ? "client_camera_on" : "client_camera_off";
+    handleSendMessage(content, "system");
+  };
+
 
   return (
     <>
@@ -159,20 +374,37 @@ export const JitsiMeeting = ({
         secondaryCtaHandleClick={() => setIsCancelConfirmationOpen(false)}
         secondaryCtaType="secondary"
       />
+      <MicrophonePermissionModal
+        isMicrophonePermissionModalOpen={isMicrophonePermissionModalOpen}
+        setIsMicrophonePermissionModalOpen={setIsMicrophonePermissionModalOpen}
+        t={t}
+      />
+      <CameraPermissionModal
+        isCameraPermissionModalOpen={isCameraPermissionModalOpen}
+        setIsCameraPermissionModalOpen={setIsCameraPermissionModalOpen}
+        t={t}
+      />
       <View
         style={[
           styles.container,
           Platform.OS === "android" ? { paddingBottom: bottomInset } : null,
         ]}
       >
-        {!areControlsShown ? (
+        {areControlsShown ? (
+          <TouchableOpacity
+            onPress={handleControlsToggle}
+            style={[styles.controlsToggle, { top: 15 + topInset }]}
+          >
+            <Icon name="arrow-chevron-back" size="md" color="#ffffff" />
+          </TouchableOpacity>
+        ) : (
           <TouchableOpacity
             onPress={handleControlsToggle}
             style={[styles.controlsToggle, { top: 20 + topInset }]}
           >
-            <Icon name="arrow-chevron-forward" size="lg" color="#ffffff" />
+            <Icon name="arrow-chevron-forward" size="md" color="#ffffff" />
           </TouchableOpacity>
-        ) : null}
+        )}
         <Animated.View style={controlsStyles}>
           <Controls
             consultation={consultation}
@@ -182,11 +414,11 @@ export const JitsiMeeting = ({
             toggleCamera={toggleVideo}
             toggleChat={toggleChat}
             leaveConsultation={() => setIsCancelConfirmationOpen(true)}
-            handleSendMessage={handleSendMessage}
             handleClose={handleControlsToggle}
             isRoomConnecting={false}
             hasUnread={hasUnread}
             isProviderInSession={isProviderInSession}
+            showCamera={showCameraInControls}
             t={t}
             style={[styles.controls, { marginTop: topInset }]}
           />
@@ -206,64 +438,11 @@ export const JitsiMeeting = ({
           userInfo={{
             displayName,
           }}
-          config={{
-            hideConferenceTimer: true,
-            disableModeratorIndicator: true, // Ensures no "moderator" role
-            enableWelcomePage: false, // Skip welcome screen
-            prejoinConfig: { enabled: false }, // Users join instantly
-            lobbyMode: { enabled: false }, // Prevent waiting room
-            disableInviteFunctions: true, // Prevents requiring moderator approval
-
-            startWithAudioMuted: !joinWithMicrophone,
-            startWithVideoMuted: !joinWithVideo,
-            toolbarButtons: [
-              "camera",
-              "microphone",
-              // "chat",
-            ],
-            mainToolbarButtons: ["camera", "microphone", "chat"],
-            disableChat: true,
-            disableInviteFunctions: true,
-            disableShareVideo: true,
-          }}
+          config={jitsiConfig}
           eventListeners={eventListeners}
-          flags={{
-            "ios.screensharing.enabled": false,
-            "fullscreen.enabled": false,
-            "audioMute.enabled": true,
-            "audioOnly.enabled": false,
-            "video-mute.enabled": true,
-            "android.screensharing.enabled": false,
-            "pip.enabled": true,
-            "pip-while-screen-sharing.enabled": true,
-            "conference-timer.enabled": false,
-            "close-captions.enabled": false,
-            "toolbox.enabled": true,
-            "prejoinpage.enabled": false,
-            "lobby-mode.enabled": false,
-            "meeting-name.enabled": false,
-            "meeting-password.enabled": false,
-            "meeting-end-enabled": false,
-            "conference-end-enabled": false,
-            "end-conference-enabled": false,
-            "invite.enabled": false,
-            "chat.enabled": false,
-            "raise-hand.enabled": false,
-            "share.enabled": false,
-            "breakout-rooms.enabled": false,
-            "recording.enabled": false,
-            "share-video.enabled": false,
-            "reactions.enabled": false,
-            "security-options.enabled": false,
-            "car-mode.enabled": false,
-            "shared-video.enabled": false,
-            "sharedvideo.enabled": false,
-            "settings.enabled": false,
-            "menu.enabled": false,
-            "video-share.enabled": false,
-            "participants.enabled": false,
-          }}
+          flags={jitsiFlags}
           ref={jitsiMeeting}
+          key={roomKey}
           style={isChatShown ? styles.meetingShrunk : styles.meetingFull}
           room={consultation.consultationId}
           serverURL={"https://jitsi.usupport.online"}
@@ -283,6 +462,55 @@ export const JitsiMeeting = ({
     </>
   );
 };
+
+const MicrophonePermissionModal = ({
+  isMicrophonePermissionModalOpen,
+  setIsMicrophonePermissionModalOpen,
+  t,
+}) => {
+  return (
+    <TransparentModal
+    isOpen={isMicrophonePermissionModalOpen}
+    handleClose={() => setIsMicrophonePermissionModalOpen(false)}
+    heading={t("permissions_error_microphone")}
+  >
+    <AppText>{t("permissions_error_microphone_subheading")}</AppText>
+    <AppButton
+      label={t("open_settings")}
+      onPress={() => {
+        Linking.openSettings();
+      }}
+      style={{ marginTop: 16 }}
+    />
+  </TransparentModal>
+  );
+};
+
+const CameraPermissionModal = ({
+  isCameraPermissionModalOpen,
+  setIsCameraPermissionModalOpen,
+  t,
+}) => {
+  return (
+    <TransparentModal
+        isOpen={isCameraPermissionModalOpen}
+        handleClose={() => setIsCameraPermissionModalOpen(false)}
+        heading={t("permissions_error_camera")}
+      >
+        <AppText>{t("permissions_error_camera_subheading")}</AppText>
+        <AppButton
+          label={t("open_settings")}
+          onPress={() => {
+            Linking.openSettings();
+          }}
+          style={{ marginTop: 16 }}
+        />
+      </TransparentModal>
+
+  );
+};
+
+
 
 const styles = StyleSheet.create({
   chatIcon: {

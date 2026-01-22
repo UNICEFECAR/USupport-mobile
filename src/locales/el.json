@@ -974,7 +974,12 @@
       "microphone_active": "Το μικρόφωνο και η αναπαραγωγή πολυμέσων είναι ενεργά.",
       "cancel_confirmation_heading": "Είστε σίγουροι ότι θέλετε να αποχωρήσετε από τη συνεδρία;",
       "cancel_confirmation_cta": "Αποχώρηση από τη συνεδρία",
-      "cancel_confirmation_secondary_cta": "Ακύρωση"
+      "cancel_confirmation_secondary_cta": "Ακύρωση",
+      "permissions_error_camera": "Δεν είναι δυνατή η έναρξη βίντεο",
+      "permissions_error_camera_subheading": "Η άδεια πρόσβασης στην κάμερα έχει απορριφθεί. Παρακαλώ μεταβείτε στις ρυθμίσεις και ενεργοποιήστε τις άδειες πρόσβασης στην κάμερα για να συνεχίσετε",
+      "permissions_error_microphone": "Δεν είναι δυνατή η έναρξη ήχου",
+      "permissions_error_microphone_subheading": "Η άδεια πρόσβασης στο μικρόφωνο έχει απορριφθεί. Παρακαλώ μεταβείτε στις ρυθμίσεις και ενεργοποιήστε τις άδειες πρόσβασης στο μικρόφωνο για να συνεχίσετε",
+      "open_settings": "Άνοιγμα ρυθμίσεων"
     },
     "consultations-screen": {
       "heading": "Συνεδρίες",

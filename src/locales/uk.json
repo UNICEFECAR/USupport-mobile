@@ -1012,7 +1012,12 @@
       "microphone_active": "Твій мікрофон і відтворення медіа є активними",
       "cancel_confirmation_heading": "Ти впевнений/а, що хочеш вийти з консультації?",
       "cancel_confirmation_cta": "Вийти з консультації",
-      "cancel_confirmation_secondary_cta": "Залишитися"
+      "cancel_confirmation_secondary_cta": "Залишитися",
+      "permissions_error_camera": "Неможливо запустити відео",
+      "permissions_error_camera_subheading": "Доступ до камери заборонено. Будь ласка, перейдіть у налаштування та увімкніть дозвіл на використання камери, щоб продовжити",
+      "permissions_error_microphone": "Неможливо запустити аудіо",
+      "permissions_error_microphone_subheading": "Доступ до мікрофона заборонено. Будь ласка, перейдіть у налаштування та увімкніть дозвіл на використання мікрофона, щоб продовжити",
+      "open_settings": "Відкрити налаштування"
     },
     "consultations-screen": {
       "heading": "Консультації",
