@@ -142,13 +142,12 @@ const destructurePodcastData = async (data) => {
   const type = parts[parts.length - 2];
   const id = parts[parts.length - 1].split("?")[0];
   const spotifyId = `${type}/${id}`;
-
   const thumbnail = data.attributes.thumbnail;
   // Get thumbnail URLs with fallbacks
   const thumbnailData = thumbnail?.data?.attributes;
-  const imageLarge = thumbnailData?.url || "";
-  const imageMedium = thumbnailData?.formats?.small?.url || imageLarge;
-  const imageSmall = thumbnailData?.formats?.thumbnail?.url || imageMedium;
+  let imageLarge = thumbnailData?.url || "";
+  let imageMedium = thumbnailData?.formats?.small?.url || imageLarge;
+  let imageSmall = thumbnailData?.formats?.thumbnail?.url || imageMedium;
 
   // If CMS thumbnails are missing, try to fetch from Spotify
   if (!imageLarge && spotifyId) {
