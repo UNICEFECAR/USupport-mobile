@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   View,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { Screen, AppButton } from "#components";
@@ -50,6 +51,7 @@ export const Consultations = ({ navigation }) => {
   const { isTmpUser, handleRegistrationModalOpen, currencySymbol } =
     useContext(Context);
 
+  const { bottom: bottomInset } = useSafeAreaInsets();
   const addCountryEventMutation = useAddCountryEvent();
   const queryClient = useQueryClient();
 
@@ -210,7 +212,11 @@ export const Consultations = ({ navigation }) => {
       style={[
         styles.screen,
         {
-          paddingBottom: isKeyboardShown ? 0 : Platform.OS === "ios" ? 50 : 100,
+          paddingBottom: isKeyboardShown
+            ? 0
+            : Platform.OS === "ios"
+              ? 50
+              : 100 + bottomInset,
         },
       ]}
       hasEmergencyButton={false}
@@ -300,7 +306,12 @@ export const Consultations = ({ navigation }) => {
         <AppButton
           label={t("button_label")}
           size="lg"
-          style={styles.button}
+          style={[
+            styles.button,
+            {
+              bottom: Platform.OS === "ios" ? 70 : 115 + bottomInset,
+            },
+          ]}
           onPress={handleScheduleConsultationClick}
         />
       )}
@@ -311,7 +322,6 @@ export const Consultations = ({ navigation }) => {
 const styles = StyleSheet.create({
   button: {
     alignSelf: "center",
-    bottom: Platform.OS === "ios" ? 70 : 152,
     position: "absolute",
   },
   screen: {
