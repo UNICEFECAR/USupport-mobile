@@ -25,7 +25,6 @@ import {
   Icon,
   TransparentModal,
 } from "#components";
-
 import {
   useGetAllOrganizations,
   useGetClientData,
@@ -33,13 +32,9 @@ import {
   useCreateBaselineAssessment,
   useGetTheme,
 } from "#hooks";
-
 import { appStyles } from "#styles";
-
 import { constructShareUrl } from "#utils";
-
 import { Context, clientSvc } from "#services";
-
 import { RequireRegistration, BaselineAssesmentModal } from "#modals";
 
 import { GiveSuggestion } from "../GiveSuggestion";
@@ -421,13 +416,19 @@ const OrganizationBackdrop = ({ organization, onClose, t, navigation }) => {
   return (
     <View style={styles.backdrop}>
       <TouchableOpacity
-        style={styles.backdropOverlay}
+        style={[styles.backdropOverlay, { backgroundColor: appStyles.overlay }]}
         onPress={onClose}
         activeOpacity={1}
       />
-      <View style={styles.backdropContent}>
+      <View
+        style={[styles.backdropContent, { backgroundColor: colors.background }]}
+      >
         <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-          <AppText style={styles.closeButtonText}>✕</AppText>
+          <AppText
+            style={[styles.closeButtonText, { color: colors.textSecondary }]}
+          >
+            ✕
+          </AppText>
         </TouchableOpacity>
 
         {/* Organization Logo */}
@@ -438,11 +439,15 @@ const OrganizationBackdrop = ({ organization, onClose, t, navigation }) => {
         )}
 
         {/* Organization Name */}
-        <AppText style={styles.organizationName}>{organization.name}</AppText>
+        <AppText style={[styles.organizationName, { color: colors.text }]}>
+          {organization.name}
+        </AppText>
 
         {/* Unit Name */}
         {organization.unitName && (
-          <AppText style={styles.unitName}>{organization.unitName}</AppText>
+          <AppText style={[styles.unitName, { color: colors.textSecondary }]}>
+            {organization.unitName}
+          </AppText>
         )}
 
         {/* Payment Method */}
@@ -457,7 +462,9 @@ const OrganizationBackdrop = ({ organization, onClose, t, navigation }) => {
         {/* Specializations */}
         {organization.specialisations &&
           organization.specialisations.length > 0 && (
-            <AppText style={styles.specializations}>
+            <AppText
+              style={[styles.specializations, { color: colors.textSecondary }]}
+            >
               {organization.specialisations
                 .map((spec) => t(typeof spec === "string" ? spec : spec.name))
                 .join(", ")}
@@ -469,8 +476,12 @@ const OrganizationBackdrop = ({ organization, onClose, t, navigation }) => {
           {organization.phone && (
             <View style={styles.contactContainer}>
               <Icon name="phone" color={appStyles.colorPrimary_20809e} />
-              <AppText style={styles.contactItem}>
-                <AppText style={styles.contactLabel}>{t("phone")}:</AppText>{" "}
+              <AppText
+                style={[styles.contactItem, { color: colors.textSecondary }]}
+              >
+                <AppText style={[styles.contactLabel, { color: colors.text }]}>
+                  {t("phone")}:
+                </AppText>{" "}
                 {organization.phone}
               </AppText>
             </View>
@@ -478,8 +489,12 @@ const OrganizationBackdrop = ({ organization, onClose, t, navigation }) => {
           {organization.email && (
             <View style={styles.contactContainer}>
               <Icon name="mail" color={appStyles.colorPrimary_20809e} />
-              <AppText style={styles.contactItem}>
-                <AppText style={styles.contactLabel}>{t("email")}:</AppText>{" "}
+              <AppText
+                style={[styles.contactItem, { color: colors.textSecondary }]}
+              >
+                <AppText style={[styles.contactLabel, { color: colors.text }]}>
+                  {t("email")}:
+                </AppText>{" "}
                 {organization.email}
               </AppText>
             </View>
@@ -487,8 +502,12 @@ const OrganizationBackdrop = ({ organization, onClose, t, navigation }) => {
           {organization.address && (
             <View style={styles.contactContainer}>
               <Icon name="location" color={appStyles.colorPrimary_20809e} />
-              <AppText style={styles.contactItem}>
-                <AppText style={styles.contactLabel}>{t("address")}:</AppText>{" "}
+              <AppText
+                style={[styles.contactItem, { color: colors.textSecondary }]}
+              >
+                <AppText style={[styles.contactLabel, { color: colors.text }]}>
+                  {t("address")}:
+                </AppText>{" "}
                 {organization.address}
               </AppText>
             </View>
@@ -632,10 +651,8 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   backdropContent: {
-    backgroundColor: "white",
     borderRadius: 16,
     padding: 24,
     margin: 20,
@@ -654,7 +671,6 @@ const styles = StyleSheet.create({
   closeButtonText: {
     fontSize: 20,
     fontWeight: "bold",
-    color: appStyles.colorGray_66768d,
   },
   avatarContainer: {
     alignItems: "center",
@@ -664,14 +680,12 @@ const styles = StyleSheet.create({
   organizationName: {
     fontSize: 18,
     fontWeight: "bold",
-    color: appStyles.colorPrimary_20809e,
     textAlign: "center",
     marginBottom: 8,
     marginTop: 20,
   },
   unitName: {
     fontSize: 14,
-    color: appStyles.colorGray_66768d,
     textAlign: "center",
     marginBottom: 12,
   },
@@ -690,7 +704,6 @@ const styles = StyleSheet.create({
   },
   specializations: {
     fontSize: 13,
-    color: appStyles.colorGray_66768d,
     textAlign: "center",
     marginBottom: 20,
     lineHeight: 18,
@@ -706,12 +719,10 @@ const styles = StyleSheet.create({
   },
   contactItem: {
     fontSize: 13,
-    color: appStyles.colorGray_66768d,
     lineHeight: 18,
   },
   contactLabel: {
     fontWeight: "600",
-    color: appStyles.colorPrimary_20809e,
   },
   actionButtons: {
     gap: 12,
