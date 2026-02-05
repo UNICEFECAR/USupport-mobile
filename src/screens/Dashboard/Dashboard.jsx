@@ -16,6 +16,7 @@ import {
   AppText,
   AppButton,
   ButtonWithIcon,
+  ButtonOnlyIcon,
   ConsultationDashboard,
   Loading,
 } from "#components";
@@ -35,6 +36,8 @@ import {
   SelectConsultation,
   ConfirmConsultation,
   ArticleCategories,
+  EmergencySituation,
+  UserGuide,
 } from "#backdrops";
 
 import { BaselineAssesmentModal, RequireDataAgreement } from "#modals";
@@ -340,6 +343,22 @@ export const Dashboard = ({ navigation }) => {
     setIsBaselineAssesmentModalOpen(true);
   };
 
+  const [isEmergencySituationOpen, setIsEmergencySituationOpen] =
+    useState(false);
+  const openEmergencySituation = () => {
+    console.log("openEmergencySituation");
+    setIsEmergencySituationOpen(true);
+    closeUserGuide();
+  };
+  const closeEmergencySituation = () => {
+    setIsEmergencySituationOpen(false);
+    openUserGuide();
+  };
+
+  const [isUserGuideOpen, setIsUserGuideOpen] = useState(false);
+  const openUserGuide = () => setIsUserGuideOpen(true);
+  const closeUserGuide = () => setIsUserGuideOpen(false);
+
   return (
     <Screen hasHeaderNavigation t={t} hasEmergencyButton={false}>
       {IS_RO && (
@@ -363,6 +382,8 @@ export const Dashboard = ({ navigation }) => {
             <Loading />
           ) : (
             <HeadingBlockContent
+              openEmergencySituation={openEmergencySituation}
+              openUserGuide={openUserGuide}
               isTmpUser={isTmpUser}
               t={t}
               clientName={clientName}
@@ -480,11 +501,24 @@ export const Dashboard = ({ navigation }) => {
         onClose={closeRequireDataAgreement}
         onSuccess={handleDataAgreementSucess}
       />
+      <EmergencySituation
+        isOpen={isEmergencySituationOpen}
+        onClose={closeEmergencySituation}
+      />
+      <UserGuide
+        isOpen={isUserGuideOpen}
+        onClose={closeUserGuide}
+        handleOpenEmergencySituation={() => {
+          console.log("openEmergencySituation");
+          openEmergencySituation();
+        }}
+      />
     </Screen>
   );
 };
 
 const HeadingBlockContent = ({
+  openUserGuide,
   isTmpUser,
   t,
   clientName,
@@ -526,7 +560,22 @@ const HeadingBlockContent = ({
         </>
       ) : (
         <>
-          <AppText namedStyle="h3">{t("welcome", { clientName })}</AppText>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <AppText namedStyle="h3">{t("welcome", { clientName })}</AppText>
+            {IS_RO && (
+              <View>
+                <ButtonOnlyIcon
+                  iconName="read-book"
+                  iconSize="sm"
+                  label={t("info")}
+                  color="purple"
+                  onPress={openUserGuide}
+                />
+              </View>
+            )}
+          </View>
           {!IS_RO && (
             <AppText
               style={[

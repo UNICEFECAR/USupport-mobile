@@ -15,10 +15,9 @@ import {
   View,
 } from "react-native";
 import { useQuery } from "@tanstack/react-query";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer , useNavigation } from "@react-navigation/native";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
-import { useNavigation } from "@react-navigation/native";
 import uuid from "react-native-uuid";
 
 import messaging from "@react-native-firebase/messaging";

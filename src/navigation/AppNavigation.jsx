@@ -36,6 +36,7 @@ import {
   Organizations,
   OrganizationOverview,
   BaselineAssesment,
+  ChildrenRights,
 } from "#screens";
 
 import { Context } from "#services";
@@ -101,6 +102,7 @@ export const AppNavigation = () => {
         name="SetUpBiometrics"
         component={SetUpBiometrics}
       />
+      <Stack.Screen name="ChildrenRights" component={ChildrenRights} />
     </Stack.Navigator>
   );
 };

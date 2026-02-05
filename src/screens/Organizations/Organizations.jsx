@@ -27,9 +27,25 @@ export const Organizations = ({ route, navigation }) => {
   });
 
   const params = route.params || {};
-  const { specialisations = [], triggerPersonalization = false } = params;
+  const {
+    specialisations = [],
+    triggerPersonalization = false,
+    district = "",
+    paymentMethod = "",
+    userInteraction = "",
+  } = params;
 
-  const [filters, setFilters] = useState(INITIAL_FILTERS);
+  // Initialize filters with params from navigation
+  const [filters, setFilters] = useState({
+    ...INITIAL_FILTERS,
+    district: district || INITIAL_FILTERS.district,
+    paymentMethod: paymentMethod || INITIAL_FILTERS.paymentMethod,
+    userInteraction: userInteraction || INITIAL_FILTERS.userInteraction,
+    // Ensure specialisations is always an array (even if empty)
+    specialisations: Array.isArray(specialisations) && specialisations.length > 0 
+      ? specialisations 
+      : [],
+  });
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const handleGoBack = () => {

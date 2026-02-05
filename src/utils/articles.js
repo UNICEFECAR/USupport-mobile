@@ -26,9 +26,9 @@ function destructureArticleData(article) {
   const categoryName = articleData.category?.data?.attributes?.name;
   const description = articleData.description;
   const creator =
-    articleData.createdBy.data.attributes.firstname +
+    articleData.createdBy?.data.attributes.firstname +
     " " +
-    articleData.createdBy.data.attributes.lastname;
+    articleData.createdBy?.data.attributes.lastname;
 
   return {
     id: articleId,
