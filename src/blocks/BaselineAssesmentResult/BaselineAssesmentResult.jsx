@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
+import RenderHtml from "react-native-render-html";
 
 import {
   Box,
@@ -39,21 +40,6 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
   const navigation = useNavigation();
   const { colors, isDarkMode } = useGetTheme();
 
-  // const result = {
-  //   psychological: "moderate",
-  //   biological: "moderate",
-  //   social: "high",
-  //   psychologicalScore: 30,
-  //   biologicalScore: 23,
-  //   socialScore: 27,
-  //   comparePrevious: {
-  //     psychological: "lower",
-  //     biological: "equal",
-  //     social: "higher",
-  //   },
-  // };
-
-  // Use the hook if provided, otherwise return mock data
   const { isFetching, data } = useGetAssessmentResult({
     ...result,
     language: "en",
@@ -155,7 +141,7 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
     );
   };
 
-  console.log(result);
+  console.log(data?.summary_ck);
 
   return (
     <ScrollView
@@ -231,9 +217,13 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
             <AppText namedStyle="h3" style={styles.summaryTitle}>
               {t("summary_heading")}
             </AppText>
-            <AppText namedStyle="text" style={styles.summaryText}>
-              {data.summary}
-            </AppText>
+            {data.summary_ck ? (
+              <CKRenderer data={data.summary_ck} />
+            ) : (
+              <AppText namedStyle="text" style={styles.summaryText}>
+                {data.summary}
+              </AppText>
+            )}
             <AppButton
               label={t("organizations")}
               onPress={() =>

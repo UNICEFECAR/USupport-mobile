@@ -11,6 +11,7 @@ function destructureArticleData(article) {
   const articleData = article.attributes;
 
   const body = articleData.body;
+  const bodyCK = articleData.body_ck;
   const articleLabels = computeArticleLabels(articleData.labels?.data);
   const articleReadingTime = articleData.reading_time;
 
@@ -37,12 +38,13 @@ function destructureArticleData(article) {
     imageMedium: articleImageMedium,
     imageSmall: articleImageSmall,
     readingTime: articleReadingTime,
-    body: body,
+    body,
+    bodyCK,
     labels: articleLabels,
-    creator: creator,
-    categoryId: categoryId,
-    categoryName: categoryName,
-    description: description,
+    creator,
+    categoryId,
+    categoryName,
+    description,
     likes: article.likes || 0,
     dislikes: article.dislikes || 0,
   };
