@@ -12,6 +12,10 @@ export const CKRenderer = ({ data }) => {
       source={{
         html: `<html><body>${data}</body></html>`,
       }}
+      baseStyle={{
+        color: isDarkMode ? "#ffffff" : colors.text || "#000000",
+        fontFamily: "Nunito",
+      }}
       renderers={{
         tr: (props) => {
           const { TDefaultRenderer, ...rest } = props;
@@ -81,7 +85,6 @@ export const CKRenderer = ({ data }) => {
                   borderColor: colors.border || "#ccc",
                   padding: 8,
                   backgroundColor: cellBackgroundColor,
-                  color: isDarkMode ? "#ffffff" : colors.text || "#000000",
                   fontFamily: "Nunito",
                 },
                 rest.style,
@@ -94,7 +97,6 @@ export const CKRenderer = ({ data }) => {
         p: {
           marginTop: 0,
           marginBottom: 8,
-          color: isDarkMode ? "#ffffff" : colors.text || "#000000",
           fontFamily: "Nunito",
         },
         img: {
@@ -107,7 +109,6 @@ export const CKRenderer = ({ data }) => {
           paddingRight: 8,
           paddingTop: 4,
           paddingBottom: 4,
-          color: isDarkMode ? "#ffffff" : colors.text || "#000000",
           fontFamily: "Nunito",
         },
         ul: {
@@ -117,66 +118,51 @@ export const CKRenderer = ({ data }) => {
           paddingRight: 8,
           paddingTop: 4,
           paddingBottom: 4,
-          color: isDarkMode ? "#ffffff" : colors.text || "#000000",
           fontFamily: "Nunito",
         },
         li: {
           marginTop: 4,
           marginBottom: 4,
           paddingLeft: 4,
-          color: isDarkMode ? "#ffffff" : colors.text || "#000000",
           fontFamily: "Nunito",
         },
         span: {
-          color: isDarkMode ? "#ffffff" : colors.text || "#000000",
           fontFamily: "Nunito",
         },
         div: {
-          color: isDarkMode ? "#ffffff" : colors.text || "#000000",
           fontFamily: "Nunito",
         },
         strong: {
-          color: isDarkMode ? "#ffffff" : colors.text || "#000000",
           fontFamily: "Nunito",
         },
         em: {
-          color: isDarkMode ? "#ffffff" : colors.text || "#000000",
           fontFamily: "Nunito",
         },
         b: {
-          color: isDarkMode ? "#ffffff" : colors.text || "#000000",
           fontFamily: "Nunito",
         },
         i: {
-          color: isDarkMode ? "#ffffff" : colors.text || "#000000",
           fontFamily: "Nunito",
         },
         h1: {
-          color: isDarkMode ? "#ffffff" : colors.text || "#000000",
           fontFamily: "Nunito",
         },
         h2: {
-          color: isDarkMode ? "#ffffff" : colors.text || "#000000",
           fontFamily: "Nunito",
         },
         h3: {
-          color: isDarkMode ? "#ffffff" : colors.text || "#000000",
           fontFamily: "Nunito",
         },
         h4: {
-          color: isDarkMode ? "#ffffff" : colors.text || "#000000",
           fontFamily: "Nunito",
         },
         h5: {
-          color: isDarkMode ? "#ffffff" : colors.text || "#000000",
           fontFamily: "Nunito",
         },
         h6: {
-          color: isDarkMode ? "#ffffff" : colors.text || "#000000",
           fontFamily: "Nunito",
         },
         a: {
-          color: isDarkMode ? "#ffffff" : colors.text || "#000000",
           fontFamily: "Nunito",
         },
         table: {
@@ -204,7 +190,6 @@ export const CKRenderer = ({ data }) => {
         },
         td: {
           padding: 8,
-          color: isDarkMode ? "#ffffff" : colors.text || "#000000",
           fontFamily: "Nunito",
         },
       }}
