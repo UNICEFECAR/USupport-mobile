@@ -941,7 +941,9 @@
       "dec_dec_dec": "Progres excelent! Psihologic, biologic și social au scăzut toți.",
       "same_same_same": "Rezultatele dvs. sunt aceleași ca la evaluarea anterioară.",
       "summary_heading": "Recomandări generate în funcție de scorul obținut",
-      "organizations": "Organizații recomandate"
+      "organizations": "Organizații recomandate",
+      "read_more": "Citește mai mult",
+      "view_more": "Vezi mai mult"
     }
   },
   "screens": {

@@ -904,7 +904,9 @@
       "dec_dec_same": "Great progress! Psychological and biological decreased, while social stayed the same.",
       "dec_dec_dec": "Excellent progress! Psychological, biological, and social all decreased.",
       "same_same_same": "Сіздің нәтижелеріңіз алдыңғы бағалаумен бірдей.",
-      "organizations": "Ұсынылған ұйымдар"
+      "organizations": "Ұсынылған ұйымдар",
+      "read_more": "Ары қарай оқу",
+      "view_more": "Көбірек көру"
     }
   },
   "screens": {

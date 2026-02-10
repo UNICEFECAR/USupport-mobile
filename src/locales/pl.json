@@ -907,7 +907,9 @@
       "same_same_same": "Twoje wyniki są takie same jak w poprzedniej ocenie.",
       "answered_questions": "",
       "latest_result": "",
-      "organizations": "Polecane organizacje"
+      "organizations": "Polecane organizacje",
+      "read_more": "Czytaj więcej",
+      "view_more": "Zobacz więcej"
     }
   },
   "screens": {

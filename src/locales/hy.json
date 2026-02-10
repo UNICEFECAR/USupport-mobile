@@ -898,7 +898,9 @@
       "dec_dec_same": "Great progress! Psychological and biological decreased, while social stayed the same.",
       "dec_dec_dec": "Excellent progress! Psychological, biological, and social all decreased.",
       "same_same_same": "Ձեր արդյունքները նույնն են, ինչ նախորդ գնահատումը:",
-      "organizations": "Առաջարկվող կազմակերպություններ"
+      "organizations": "Առաջարկվող կազմակերպություններ",
+      "read_more": "Կարդալ ավելին",
+      "view_more": "Տեսանել ավելին"
     }
   },
   "screens": {
