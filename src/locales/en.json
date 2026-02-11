@@ -1481,6 +1481,7 @@
       "paragraph": "This interactive map presents mental health and psychosocial well-being services available for children and adolescents in Bucharest. We will try to guide you in order to offer the options that best match your needs.",
       "paragraph_two": "<0>Disclaimer:</0> This map was created based on the descriptions found on the service providers’ websites. We cannot guarantee the accuracy of the information at the time you access the map. Services and providers are constantly changing, so we recommend that when you choose a provider, you contact them by phone and explain in detail the situation for which you need professional help.",
       "question": "Are you looking for services for an emergency situation?",
+      "subquestion": "For example: self-harm, suicide attempt, school or family violence, sexual abuse, etc",
       "yes": "Yes",
       "no": "No",
       "dont_know": "I don't know if it's urgent"

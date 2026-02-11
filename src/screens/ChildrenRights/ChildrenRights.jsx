@@ -211,7 +211,7 @@ const SCREENS = {
     type: "content",
     titleKey: "section_3_title",
     paragraphKey: "section_3_paragraph",
-    sectionNumber: 12,
+    sectionNumber: 3,
   },
 
   // Section 4 - Services for SEN students (Content)
@@ -227,7 +227,7 @@ const SCREENS = {
     type: "content",
     titleKey: "section_5_title",
     paragraphKey: "section_5_paragraph",
-    sectionNumber: 5,
+    sectionNumber: 3,
   },
 
   // Section 6 - Services for violence victims (Content)

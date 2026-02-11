@@ -1467,6 +1467,22 @@
       "end_date": "Data de sfârșit",
       "end_date_before_start_error": "Data de sfârșit trebuie să fie după data de început",
       "confirm": "Confirmă"
+    },
+    "user-guide": {
+      "heading": "Vrei sa afli mai multe despre:",
+      "emergency_services": "Sevicii de urgenta",
+      "map": "Harta serviciilor de sanatate mintala si suport psiho-emotional disponibile in Bucuresti",
+      "rights": "Drepturile copiilor si adolescentilor de a accesa servicii pentru sanatate mintala si suport psiho-emotional"
+    },
+    "emergency-situation": {
+      "heading": "Harta serviciilor de sănătate mintală şi sprijin psihosocial pentru copiii și adolescenții din București",
+      "paragraph": "Aceasta harta interactiva prezinta serviciile de sanatate mintala si bunastare psihosociala adresate copiilor si adolescentilor din Bucuresti. Vom incerca sa te ghidam pentru a-ti putea oferi variantele cele mai apropiate de nevoile tale. ",
+      "paragraph_two": "<0>Disclaimer:</0> aceasta harta a fost creata pornind de la descrierile de pe site-urile furnizorilor de servicii. Nu putem garanta actualitatea informatiilor la momentul la care accesezi harta. Serviciile si furnizorii sunt in permanenta dinamica astfel incat iti sugeram ca atunci cand selectezi un furnizor, sa il contactezi telefonic si sa explici pe larg situatia pentru care ai nevoie de ajutor profesionist.",
+      "question": "Cauti servicii pentru o situatie de urgenta?",
+      "subquestion": "Spre exemplu:  autovatamare, tentativa de suicid, violenta la scoala sau in familie, abuz sexual  etc. ",
+      "yes": "Da",
+      "no": "Nu",
+      "dont_know": "Nu stiu daca e urgent"
     }
   },
   "modals": {
