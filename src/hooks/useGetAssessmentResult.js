@@ -53,6 +53,7 @@ export function useGetAssessmentResult(queryObj, enabled = true) {
 
       return {
         summary: attributes.summary,
+        summary_ck: attributes.summary_ck,
         description: attributes.description,
         recommendations: attributes.recommendations,
         comparePrevious: attributes.comparePrevious,

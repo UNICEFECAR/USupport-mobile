@@ -85,6 +85,7 @@ export const Organizations = ({
     search: filters.search,
     district: filters.district,
     paymentMethod: filters.paymentMethod,
+    userInteraction: filters.userInteraction,
     specialisations: filters.specialisations,
   });
 

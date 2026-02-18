@@ -2,11 +2,10 @@ import React, { useState, useCallback, useEffect } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import Markdown from "react-native-markdown-display";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { appStyles } from "#styles";
-import { Block, Heading, AppText, Loading } from "#components";
+import { Block, Heading, AppText, Loading, CKRenderer } from "#components";
 import { useEventListener, useGetTheme } from "#hooks";
 import { localStorage, cmsSvc } from "#services";
 
@@ -77,16 +76,7 @@ export const PrivacyPolicy = ({
           style={[{ marginTop: 48 }, isModal && { marginTop: topInset + 60 }]}
         >
           <View style={styles.privacyContainer}>
-            {policiesData && (
-              <Markdown
-                style={{
-                  ...styles,
-                  ...(isHighContrast ? stylesHighContrast : {}),
-                }}
-              >
-                {policiesData}
-              </Markdown>
-            )}
+            {policiesData && <CKRenderer data={policiesData} />}
             {!policiesData && policiesLoading && (
               <View style={styles.loadingContainer}>
                 <Loading />
