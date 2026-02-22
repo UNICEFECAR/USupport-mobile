@@ -501,6 +501,12 @@
       "psychotherapist": "Psychotherapist",
       "no_match": "No providers matching your criteria",
       "free": "Free",
+      "coupon": "Coupon",
+      "tab_paid": "Paid",
+      "tab_coupon": "Coupon",
+      "tab_free": "Free",
+      "enter_coupon_to_see_providers": "Enter a coupon above to see providers",
+      "error_invalid_coupon": "Invalid coupon",
       "earliest_available_slot": "First available consultation:",
       "sunday": "Sun",
       "monday": "Mon",
@@ -511,7 +517,7 @@
       "saturday": "Sat",
       "heading": "",
       "subheading": "",
-      "button_label": "",
+      "button_label": "Filter",
       "button_coupon_label": "",
       "modal_coupon_heading": "",
       "modal_coupon_button_label": "",
@@ -522,7 +528,9 @@
       "coupon_paragraph": "",
       "coupon_paragraph_two": "",
       "max_price": "",
-      "providers_free_consultation_label": ""
+      "providers_free_consultation_label": "",
+      "coupon_note": "This time, we've entered a code for you for a free session! Schedule an appointment with one of our consultants and take the first step towards improving your well-being.",
+      "choose_provider": "Choose the provider you want to talk to in a video, audio or text consultation. It can sometimes take time to find a provider that is a good fit for your needs and your preferred approach."
     },
     "share-platform": {
       "button_label_share_text": "Share on",

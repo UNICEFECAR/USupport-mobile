@@ -503,6 +503,12 @@
       "psychotherapist": "Психотерапевт/ка",
       "no_match": "Немає консультантів, що відповідають твоїм критеріям",
       "free": "Безкоштовно",
+      "coupon": "Купон",
+      "tab_paid": "Платно",
+      "tab_coupon": "Купон",
+      "tab_free": "Безкоштовно",
+      "enter_coupon_to_see_providers": "Введіть купон вище, щоб побачити консультантів",
+      "error_invalid_coupon": "Недійсний купон",
       "earliest_available_slot": "Перша доступна консультація:",
       "sunday": "Нд",
       "monday": "Пн",
@@ -513,7 +519,7 @@
       "saturday": "Сб",
       "heading": "",
       "subheading": "",
-      "button_label": "",
+      "button_label": "Фільтр",
       "button_coupon_label": "",
       "modal_coupon_heading": "",
       "modal_coupon_button_label": "",
@@ -524,7 +530,9 @@
       "coupon_paragraph": "",
       "coupon_paragraph_two": "",
       "max_price": "",
-      "providers_free_consultation_label": ""
+      "providers_free_consultation_label": "",
+      "coupon_note": " Цього разу ми ввели за тебе код на безкоштовну сесію! Запишись на зустріч з одним із наших консультантів і зроби перший крок, щоб подбати про своє самопочуття.",
+      "choose_provider": "Вибери консультанта/ку, з яким ти хочеш поспілкуватися в рамах консультації за допомогою відео, аудіо або тексту. Пошук консультанта/ки, який добре відповідає твоїм потребам і бажаному підходу, іноді може зайняти кілька сеансів."
     },
     "share-platform": {
       "button_label_share_text": "Поділися на",

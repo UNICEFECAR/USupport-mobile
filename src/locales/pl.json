@@ -503,6 +503,12 @@
       "psychotherapist": "Psychoterapeuta/ka",
       "no_match": "Brak konsultantów spełniających Twoje kryteria",
       "free": "Wolny",
+      "coupon": "Kupon",
+      "tab_paid": "Płatne",
+      "tab_coupon": "Kupon",
+      "tab_free": "Bezpłatnie",
+      "enter_coupon_to_see_providers": "Wprowadź kupon powyżej, aby zobaczyć konsultantów",
+      "error_invalid_coupon": "Nieprawidłowy kupon",
       "earliest_available_slot": "Pierwsza dostępna konsultacja:",
       "sunday": "Niedz.",
       "monday": "Pon.",
@@ -513,7 +519,7 @@
       "saturday": "Sob.",
       "heading": "",
       "subheading": "",
-      "button_label": "",
+      "button_label": "Filtr",
       "button_coupon_label": "",
       "modal_coupon_heading": "",
       "modal_coupon_button_label": "",
@@ -524,7 +530,9 @@
       "coupon_paragraph": "",
       "coupon_paragraph_two": "",
       "max_price": "",
-      "providers_free_consultation_label": ""
+      "providers_free_consultation_label": "",
+      "coupon_note": "Tym razem wpisaliśmy za Ciebie kod na darmową sesję! Umów się z jednym z naszych konsultantów i zrób pierwszy krok, aby zadbać o swoje samopoczucie.",
+      "choose_provider": "Wybierz konsultanta/kę, z którym chcesz porozmawiać w ramach konsultacji wideo, audio lub tekstowej. Znalezienie konsultanta/ki, który/a będzie dobrze dopasowany/a do Twoich potrzeb i preferowanego podejścia, może czasami zająć trochę czasu."
     },
     "share-platform": {
       "button_label_share_text": "Udostępnij na",

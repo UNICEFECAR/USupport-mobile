@@ -503,6 +503,12 @@
       "psychotherapist": "Психотерапевт",
       "no_match": "Нет консультантов, соответствующих Вашим критериям",
       "free": "Свободно",
+      "coupon": "Купон",
+      "tab_paid": "Платно",
+      "tab_coupon": "Купон",
+      "tab_free": "Бесплатно",
+      "enter_coupon_to_see_providers": "Введите купон выше, чтобы увидеть консультантов",
+      "error_invalid_coupon": "Недействительный купон",
       "earliest_available_slot": "Первая доступная консультация:",
       "sunday": "Вс",
       "monday": "Пн",
@@ -513,7 +519,7 @@
       "saturday": "Сб",
       "heading": "",
       "subheading": "",
-      "button_label": "",
+      "button_label": "Фильтр",
       "button_coupon_label": "",
       "modal_coupon_heading": "",
       "modal_coupon_button_label": "",
@@ -524,7 +530,9 @@
       "coupon_paragraph": "",
       "coupon_paragraph_two": "",
       "max_price": "",
-      "providers_free_consultation_label": ""
+      "providers_free_consultation_label": "",
+      "coupon_note": "This time, we've entered a code for you for a free session! Schedule an appointment with one of our consultants and take the first step towards improving your well-being.",
+      "choose_provider": "Выберите консультанта, с которым хотите поговорить на аудио/видео консультации. Иногда может потребоваться время, чтобы найти консультанта, который хорошо соответствует Вашим потребностям и предпочитаемому Вами подходу."
     },
     "share-platform": {
       "button_label_share_text": "Поделиться на",

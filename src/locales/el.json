@@ -501,6 +501,12 @@
       "psychotherapist": "Ψυχοθεραπευτής",
       "no_match": "Δεν υπάρχουν πάροχοι με τα επιλεγμένα κριτήρια",
       "free": "Δωρεάν",
+      "coupon": "Κουπόνι",
+      "tab_paid": "Πληρωμένο",
+      "tab_coupon": "Κουπόνι",
+      "tab_free": "Δωρεάν",
+      "enter_coupon_to_see_providers": "Εισάγετε κουπόνι παραπάνω για να δείτε τους πάροχους",
+      "error_invalid_coupon": "Μη έγκυρο κουπόνι",
       "earliest_available_slot": "Πρώτη διαθέσιμη συνεδρία:",
       "sunday": "Κυρ",
       "monday": "Δευ",
@@ -511,7 +517,7 @@
       "saturday": "Σαβ",
       "heading": "",
       "subheading": "",
-      "button_label": "",
+      "button_label": "Φιλτράρισμα",
       "button_coupon_label": "",
       "modal_coupon_heading": "",
       "modal_coupon_button_label": "",
@@ -522,7 +528,9 @@
       "coupon_paragraph": "",
       "coupon_paragraph_two": "",
       "max_price": "",
-      "providers_free_consultation_label": ""
+      "providers_free_consultation_label": "",
+      "coupon_note": "Αυτή τη φορά, σας παρέχουμε έναν κωδικό για μία δωρεάν συνεδρία! Κλείστε ραντεβού με έναν από τους συνεργάτες μας και κάντε το πρώτο βήμα προς τη βελτίωση της ευεξίας σας.",
+      "choose_provider": "Επιλέξτε τον πάροχο με τον οποίο θέλετε να μιλήσετε σε συνεδρία βίντεο, ήχου ή κειμένου. Μερικές φορές μπορεί να χρειαστεί χρόνος για να βρείτε έναν πάροχο που να ανταποκρίνεται στις ανάγκες σας και στην προσέγγιση που προτιμάτε."
     },
     "share-platform": {
       "button_label_share_text": "Κοινοποίηση σε",

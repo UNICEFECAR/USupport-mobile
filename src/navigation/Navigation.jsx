@@ -15,7 +15,7 @@ import {
   View,
 } from "react-native";
 import { useQuery } from "@tanstack/react-query";
-import { NavigationContainer , useNavigation } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import uuid from "react-native-uuid";
@@ -104,13 +104,17 @@ export function Navigation({
     setIsPodcastsActive,
     setIsVideosActive,
     country,
+    setCountry,
+    setSelectedCountry,
   } = useContext(Context);
 
   const getClientDataEnabled = !!(
     (isTmpUser === false ? true : false) && token
   );
-  const clientDataQuery = useGetClientData(getClientDataEnabled);
-  const clientData = isTmpUser ? {} : clientDataQuery[0].data;
+  const [clientDataQuery, clientDataFromHook] = useGetClientData(
+    getClientDataEnabled
+  );
+  const clientData = isTmpUser ? {} : clientDataFromHook ?? clientDataQuery?.data ?? {};
 
   const timerId = useRef(false);
   const inConsultationRef = useRef(isInConsultation);
@@ -246,6 +250,11 @@ export function Navigation({
         localName: x["local_name"],
         podcastsActive: x["podcasts_active"],
         videosActive: x["videos_active"],
+        hasPayments: x.has_payments,
+        hasCoupons: x.has_coupons,
+        hasFreeConsultations: x.has_free_consultations,
+        defaultBillingType: x.default_billing_type,
+        defaultCouponCode: x.default_coupon_code,
       };
       const countryID = countryObject.countryID;
       const currencySymbol = countryObject.currencySymbol;
@@ -257,6 +266,8 @@ export function Navigation({
         setCurrencySymbol(currencySymbol);
         setIsPodcastsActive(countryObject.podcastsActive);
         setIsVideosActive(countryObject.videosActive);
+        setCountry(x.alpha2);
+        setSelectedCountry(countryObject);
       } else if (!localStorageCountry) {
         if (validCountry?.alpha2 === x.alpha2) {
           hasSetDefaultCountry = true;
@@ -273,6 +284,8 @@ export function Navigation({
           setCurrencySymbol(countryObject.currencySymbol);
           setIsPodcastsActive(countryObject.podcastsActive);
           setIsVideosActive(countryObject.videosActive);
+          setCountry(x.alpha2);
+          setSelectedCountry(countryObject);
         }
       }
 
@@ -294,6 +307,8 @@ export function Navigation({
       setIsPodcastsActive(kazakhstanCountryObject.podcastsActive);
       setIsVideosActive(kazakhstanCountryObject.videosActive);
       setCurrencySymbol(kazakhstanCountryObject.currencySymbol);
+      setCountry(kazakhstanCountry.value);
+      setSelectedCountry(kazakhstanCountryObject);
     }
 
     return await countries;

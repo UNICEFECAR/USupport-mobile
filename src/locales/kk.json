@@ -503,6 +503,12 @@
       "psychotherapist": "Психотерапевт",
       "no_match": "Талаптарыңызға сай келетін консультанттар жоқ",
       "free": "Бос",
+      "coupon": "Купон",
+      "tab_paid": "Ақылы",
+      "tab_coupon": "Купон",
+      "tab_free": "Тегін",
+      "enter_coupon_to_see_providers": "Консультанттарды көру үшін жоғарыда купонды енгізіңіз",
+      "error_invalid_coupon": "Жарамсыз купон",
       "earliest_available_slot": "Бірінші қолжетімді консультация:",
       "sunday": "Жс",
       "monday": "Дс",
@@ -513,7 +519,7 @@
       "saturday": "Сб",
       "heading": "",
       "subheading": "",
-      "button_label": "",
+      "button_label": "Сүзгі",
       "button_coupon_label": "",
       "modal_coupon_heading": "",
       "modal_coupon_button_label": "",
@@ -524,7 +530,9 @@
       "coupon_paragraph": "",
       "coupon_paragraph_two": "",
       "max_price": "",
-      "providers_free_consultation_label": ""
+      "providers_free_consultation_label": "",
+      "coupon_note": "This time, we've entered a code for you for a free session! Schedule an appointment with one of our consultants and take the first step towards improving your well-being.",
+      "choose_provider": "Аудио, бейне, немесе мәтіндік консультация арқылы сөйлескіңіз келетін консультантты таңдаңыз. Кейде Сіздің қажеттіліктеріңіз бен бағытыңызға сәйкес келетін консультантты табу үшін уақыт қажет болуы мүмкін."
     },
     "share-platform": {
       "button_label_share_text": "Бөлісу",

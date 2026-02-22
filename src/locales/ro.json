@@ -502,6 +502,12 @@
       "psychotherapist": "Psihoterapeut",
       "no_match": "Nu există furnizori care să corespundă criteriilor dvs.",
       "free": "Gratuit",
+      "coupon": "Cupon",
+      "tab_paid": "Plătit",
+      "tab_coupon": "Cupon",
+      "tab_free": "Gratuit",
+      "enter_coupon_to_see_providers": "Introduceți un cupon mai sus pentru a vedea furnizorii",
+      "error_invalid_coupon": "Cupon invalid",
       "earliest_available_slot": "Prima consultație disponibilă:",
       "sunday": "du",
       "monday": "lu",
@@ -512,7 +518,7 @@
       "saturday": "sâ",
       "heading": "",
       "subheading": "",
-      "button_label": "",
+      "button_label": "Filtru",
       "button_coupon_label": "",
       "modal_coupon_heading": "",
       "modal_coupon_button_label": "",
@@ -523,7 +529,9 @@
       "coupon_paragraph": "",
       "coupon_paragraph_two": "",
       "max_price": "",
-      "providers_free_consultation_label": ""
+      "providers_free_consultation_label": "",
+      "coupon_note": "Acestă dată, am introdus un cod pentru dvs. pentru o sesiune gratuită! Programăm o consultație cu unul dintre consultanții noștri și facem primul pas spre îmbunătățirea bunăstării dumneavoastră.",
+      "choose_provider": "Alegeți furnizorul cu care doriți să discutați în cadrul unei consultații video, audio sau text. Uneori poate fi nevoie de timp pentru a găsi un furnizor care se potrivește nevoilor dvs. și abordării preferate.."
     },
     "share-platform": {
       "button_label_share_text": "Partajați pe",
