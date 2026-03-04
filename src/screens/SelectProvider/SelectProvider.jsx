@@ -7,18 +7,10 @@ import React, {
   useRef,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-import {
-  AppText,
-  Screen,
-  Heading,
-  ButtonWithIcon,
-  AppButton,
-  TransparentModal,
-  Input,
-} from "#components";
+import { AppText, Screen, Heading, TransparentModal, Input } from "#components";
 
 import { SelectProvider as SelectProviderBlock } from "#blocks";
 
@@ -41,11 +33,6 @@ const fetchCountry = async () => {
   return currentCountry?.alpha2 === "KZ" ? true : false;
 };
 
-const POLAND_COUPON = {
-  couponValue: "UNICEF2025",
-  campaignId: "f035657b-daa7-417a-9784-959b042473e7",
-};
-
 /**
  * SelectProvider
  *
@@ -61,8 +48,7 @@ export const SelectProvider = ({ navigation }) => {
 
   const { activeCoupon, setActiveCoupon, country, selectedCountry } =
     useContext(Context);
-
-  const IS_PL = country === "PL";
+  const [headingHeight, setHeadingHeight] = useState(0);
 
   const { data: isKzCountry } = useQuery(["country-min-price"], fetchCountry);
 
@@ -274,10 +260,12 @@ export const SelectProvider = ({ navigation }) => {
     <Screen>
       <Heading
         heading={t("heading")}
-        // subheading={t("subheading")}
+        onLayout={(e) => {
+          setHeadingHeight(e.nativeEvent.layout.height);
+        }}
         handleGoBack={handleGoBack}
       />
-      <View style={{ marginTop: 80 }} />
+      <View style={{ marginTop: headingHeight + 8 }} />
 
       <SelectProviderBlock
         providers={providersData}
@@ -327,19 +315,3 @@ export const SelectProvider = ({ navigation }) => {
     </Screen>
   );
 };
-
-const styles = StyleSheet.create({
-  loadingContainer: {
-    minHeight: 250,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  buttonContainer: {
-    paddingTop: 16,
-    paddingBottom: 16,
-    flexDirection: "row",
-    alignItems: "flex-start",
-    justifyContent: "center",
-    paddingHorizontal: 8,
-  },
-});
