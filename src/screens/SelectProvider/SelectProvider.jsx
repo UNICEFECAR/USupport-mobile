@@ -281,6 +281,7 @@ export const SelectProvider = ({ navigation }) => {
         onRefresh={onRefresh}
         selectedBillingType={selectedBillingType}
         setSelectedBillingType={setSelectedBillingType}
+        handleFilterClick={handleFilterClick}
       />
       <TransparentModal
         isOpen={isCouponModalOpen}
