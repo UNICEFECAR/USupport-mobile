@@ -1,20 +1,30 @@
 import React from "react";
 import RenderHtml from "react-native-render-html";
+import Constants from "expo-constants";
 
 import { useGetTheme } from "#hooks";
-import appStyles from "../../../styles/appStyles";
+import { appStyles } from "#styles";
+
+// Inter loaded via @expo-google-fonts/inter in App.js; fallback to platform fonts
+const systemFonts = [
+  "Inter_400Regular",
+  "Inter_600SemiBold",
+  "Inter_700Bold",
+  ...(Constants.systemFonts ?? []),
+];
 
 export const CKRenderer = ({ data }) => {
   const { colors, isDarkMode } = useGetTheme();
   return (
     <RenderHtml
+      systemFonts={systemFonts}
       contentWidth={appStyles.screenWidth * 0.9}
       source={{
         html: `<html><body>${data}</body></html>`,
       }}
       baseStyle={{
         color: isDarkMode ? "#ffffff" : colors.text || "#000000",
-        fontFamily: "Nunito",
+        fontFamily: "Inter_400Regular",
       }}
       renderers={{
         tr: (props) => {
@@ -85,7 +95,7 @@ export const CKRenderer = ({ data }) => {
                   borderColor: colors.border || "#ccc",
                   padding: 8,
                   backgroundColor: cellBackgroundColor,
-                  fontFamily: "Nunito",
+                  fontFamily: "Inter_400Regular",
                 },
                 rest.style,
               ]}
@@ -97,7 +107,7 @@ export const CKRenderer = ({ data }) => {
         p: {
           marginTop: 0,
           marginBottom: 8,
-          fontFamily: "Nunito",
+          fontFamily: "Inter_400Regular",
         },
         img: {
           margin: 0,
@@ -109,7 +119,7 @@ export const CKRenderer = ({ data }) => {
           paddingRight: 8,
           paddingTop: 4,
           paddingBottom: 4,
-          fontFamily: "Nunito",
+          fontFamily: "Inter_400Regular",
         },
         ul: {
           marginTop: 0,
@@ -118,52 +128,52 @@ export const CKRenderer = ({ data }) => {
           paddingRight: 8,
           paddingTop: 4,
           paddingBottom: 4,
-          fontFamily: "Nunito",
+          fontFamily: "Inter_400Regular",
         },
         li: {
           marginTop: 4,
           marginBottom: 4,
           paddingLeft: 4,
-          fontFamily: "Nunito",
+          fontFamily: "Inter_400Regular",
         },
         span: {
-          fontFamily: "Nunito",
+          fontFamily: "Inter_400Regular",
         },
         div: {
-          fontFamily: "Nunito",
+          fontFamily: "Inter_400Regular",
         },
         strong: {
-          fontFamily: "Nunito",
+          fontFamily: "Inter_700Bold",
         },
         em: {
-          fontFamily: "Nunito",
+          fontFamily: "Inter_400Regular",
         },
         b: {
-          fontFamily: "Nunito",
+          fontFamily: "Inter_700Bold",
         },
         i: {
-          fontFamily: "Nunito",
+          fontFamily: "Inter_400Regular",
         },
         h1: {
-          fontFamily: "Nunito",
+          fontFamily: "Inter_700Bold",
         },
         h2: {
-          fontFamily: "Nunito",
+          fontFamily: "Inter_700Bold",
         },
         h3: {
-          fontFamily: "Nunito",
+          fontFamily: "Inter_700Bold",
         },
         h4: {
-          fontFamily: "Nunito",
+          fontFamily: "Inter_600SemiBold",
         },
         h5: {
-          fontFamily: "Nunito",
+          fontFamily: "Inter_600SemiBold",
         },
         h6: {
-          fontFamily: "Nunito",
+          fontFamily: "Inter_600SemiBold",
         },
         a: {
-          fontFamily: "Nunito",
+          fontFamily: "Inter_400Regular",
         },
         table: {
           borderWidth: 0.5,
@@ -186,11 +196,11 @@ export const CKRenderer = ({ data }) => {
           fontWeight: "bold",
           backgroundColor: isDarkMode ? "#333" : "#66768d",
           color: "#ffffff",
-          fontFamily: "Nunito",
+          fontFamily: "Inter_700Bold",
         },
         td: {
           padding: 8,
-          fontFamily: "Nunito",
+          fontFamily: "Inter_400Regular",
         },
       }}
     />

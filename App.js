@@ -4,6 +4,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { StyleSheet, View, Text } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
+import { useFonts } from "expo-font";
+import { Inter_400Regular, Inter_600SemiBold, Inter_700Bold } from "@expo-google-fonts/inter";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import FlashMessage from "react-native-flash-message";
 import { StripeProvider } from "@stripe/stripe-react-native";
@@ -66,6 +68,12 @@ class AppErrorBoundary extends React.Component {
 }
 
 function App() {
+  const [fontsLoaded] = useFonts({
+    Inter_400Regular,
+    Inter_600SemiBold,
+    Inter_700Bold,
+  });
+
   const [token, setToken] = useState();
   const [initialRouteName, setInitialRouteName] = useState("TabNavigation"); // Initial route name for the AppNavigation
   const [initialAuthRouteName, setInitialAuthRouteName] = useState("Welcome"); // Initial route name for the AuthNavigation
@@ -194,20 +202,21 @@ function App() {
     checkIsTmpUser();
   }, [token]);
 
-  // // Hide the splash screen when the fonts finish loading
+  // Hide the splash screen when the fonts finish loading
   const onLayoutRootView = useCallback(async () => {
-    // if (loaded) {
-    await SplashScreen.hideAsync();
-    // }
-  }, []);
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   // if (error) {
   //   return (
   //     <View style={styles.container}>{JSON.stringify(error, null, 2)}</View>
   //   );
-  // }
-  // if (!loaded) {
-  //   return null;
   // }
 
   const contextValues = {

@@ -304,7 +304,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   tabs: {
-    marginBottom: 8,
     marginLeft: 0,
   },
   couponSection: {
