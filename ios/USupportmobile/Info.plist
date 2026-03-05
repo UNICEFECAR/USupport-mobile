@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 	<dict>
+		<key>NSLocalNetworkUsageDescription</key>
+		<string>This app needs local network access to connect to the development server</string>
+		<key>NSBonjourServices</key>
+		<array>
+			<string>_http._tcp</string>
+		</array>
 		<key>CADisableMinimumFrameDurationOnPhone</key>
 		<true/>
 		<key>CFBundleDevelopmentRegion</key>
@@ -19,7 +25,7 @@
 		<key>CFBundlePackageType</key>
 		<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 		<key>CFBundleShortVersionString</key>
-		<string>1.0.15</string>
+		<string>1.0.25</string>
 		<key>CFBundleSignature</key>
 		<string>????</string>
 		<key>CFBundleVersion</key>

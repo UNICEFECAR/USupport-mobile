@@ -17,14 +17,35 @@ prepare_react_native_project!
 
 abstract_target 'USupportCommonPods' do
   use_expo_modules!
-  config = use_native_modules!
 
-  pod 'Firebase', :modular_headers => true
-  pod 'FirebaseCore', :modular_headers => true
+  # Link all React Native native modules (Stripe, gesture-handler, screens, etc.)
+  # Without this, only Expo modules are linked and you get TurboModuleRegistry.getEnforcing(...) could not be found.
+  if ENV['EXPO_USE_COMMUNITY_AUTOLINKING'] == '1'
+    config_command = ['node', '-e', "process.argv=['', '', 'config'];require('@react-native-community/cli').run()"]
+  else
+    config_command = [
+      'node', '--no-warnings', '--eval', "require('expo/bin/autolinking')",
+      'expo-modules-autolinking', 'react-native-config', '--json', '--platform', 'ios'
+    ]
+  end
+  config = use_native_modules!(config_command)
+
+  # Use Firebase 11.11.0 - RNFB uses FIROptions.trackingID/androidClientID/deepLinkURLScheme
+  # which were removed in Firebase iOS SDK 12
+  $FirebaseSDKVersion = '11.11.0'
+
+  # React Native Firebase (keep explicit for version pinning)
+  pod 'RNFBApp', :path => '../node_modules/@react-native-firebase/app'
+  pod 'RNFBAnalytics', :path => '../node_modules/@react-native-firebase/analytics'
+  pod 'RNFBCrashlytics', :path => '../node_modules/@react-native-firebase/crashlytics'
+  pod 'RNFBMessaging', :path => '../node_modules/@react-native-firebase/messaging'
+
+  pod 'Firebase', '11.11.0', :modular_headers => true
+  pod 'FirebaseCore', '11.11.0', :modular_headers => true
   pod 'FirebaseInstallations', :modular_headers => true
   pod 'GoogleDataTransport', :modular_headers => true
   pod 'nanopb', :modular_headers => true
-  pod 'FirebaseCoreExtension', :modular_headers => true
+  pod 'FirebaseCoreExtension', '11.11.0', :modular_headers => true
   pod 'GoogleUtilities', :modular_headers => true
 
   use_frameworks! :linkage => podfile_properties['ios.useFrameworks'].to_sym if podfile_properties['ios.useFrameworks']
@@ -33,7 +54,6 @@ abstract_target 'USupportCommonPods' do
   use_react_native!(
     :path => config[:reactNativePath],
     :hermes_enabled => podfile_properties['expo.jsEngine'] == nil || podfile_properties['expo.jsEngine'] == 'hermes',
-    # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/..",
     :privacy_file_aggregation_enabled => podfile_properties['apple.privacyManifestAggregationEnabled'] != 'false',
   )
@@ -50,7 +70,6 @@ abstract_target 'USupportCommonPods' do
       installer,
       # Set `mac_catalyst_enabled` to `true` in order to apply patches
       # necessary for Mac Catalyst builds
-      config[:reactNativePath],
       :mac_catalyst_enabled => false,
       :ccache_enabled => podfile_properties['apple.ccacheEnabled'] == 'true',
     )
@@ -58,15 +77,7 @@ abstract_target 'USupportCommonPods' do
     bitcode_strip_path = `xcrun -sdk iphoneos --find bitcode_strip`.strip
 
      # Actual binary paths
-    twilio_framework = 'Pods/TwilioVideo/TwilioVideo.xcframework/ios-arm64_armv7/TwilioVideo.framework/TwilioVideo'
     giphy_framework = 'Pods/Giphy/GiphySDK/GiphyUISDK.xcframework/ios-arm64/GiphyUISDK.framework/GiphyUISDK'
-
-    if File.exist?(twilio_framework)
-      puts "Stripping bitcode from TwilioVideo..."
-      system("#{bitcode_strip_path} #{twilio_framework} -r -o #{twilio_framework}")
-    else
-      puts "Twilio binary not found at: #{twilio_framework}"
-    end
 
     if File.exist?(giphy_framework)
       puts "Stripping bitcode from GiphyUISDK..."
