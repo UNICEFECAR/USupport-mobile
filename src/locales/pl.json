@@ -260,7 +260,7 @@
     "notifications": {
       "heading": "Powiadomienia",
       "mark_read": "Oznacz wszystkie jako przeczytane",
-      "subheading": "Tu możesz zobaczyć wszystkie powiadomienia jakie kiedykolwiek otrzymałeś/aś.",
+      "subheading": "Tutaj znajdziesz wszystkie powiadomienia otrzymane na swoim koncie.",
       "consultation_booking": "Twoja konsultacja z <0>{{providerName}}</0> została <0>umówiona</0> pomyślnie na <0>{{date}}</0> od <0>{{startHour}}</0> do <0>{{endHour}}</0>",
       "consultation_reschedule": "Udało Ci się <0>przełożyć</0> konsultację z <0>{{date}}</0> od <0>{{startHour}}</0> do <0>{{endHour}}</0> na <0>{{newDate}}</0> od <0>{{newStartHour}}</0> do <0>{{newEndHour}}</0>",
       "consultation_cancellation": "Udało Ci się <0>odwołać</0> Twoją konsultację z <0>{{providerName}} zaplanowaną </0> na <0>{{date}}</0> od <0>{{startHour}}</0> do <0>{{endHour}}</0>",
@@ -641,7 +641,7 @@
       "subheading": "",
       "heading_button_label": "",
       "emergency_button_label": "",
-      "ask_button_label": "",
+      "ask_button_label": "Zapytaj psychologa",
       "date_answered": "w dniu {{date}}"
     },
     "set-up-biometrics": {
@@ -753,7 +753,9 @@
       "personalization_modal_text": "To receive personalized organization recommendations tailored to your needs, please complete our quick baseline assessment first. This helps us understand your preferences and goals to provide the most relevant suggestions.",
       "personalization_modal_cta_label": "Complete assessment",
       "location_permission_denied": "Odmowa dostępu do lokalizacji",
-      "enable_location": "Włącz lokalizację"
+      "enable_location": "Włącz lokalizację",
+      "filter": "Filter",
+      "share": "Share"
     },
     "organization-overview": {
       "error-loading-data": "Wystąpił błąd podczas ładowania danych organizacji",
@@ -798,7 +800,47 @@
       "children_disabilities": "Dzieci z niepełnosprawnościami",
       "adults": "Dorośli",
       "adults_disabilities": "Dorośli z niepełnosprawnościami",
-      "check_organization": "Cześć, sprawdź tę organizację"
+      "check_organization": "Cześć, sprawdź tę organizację",
+      "error_loading_data": "An error occurred while loading the organization data",
+      "other_services_label": "Other services",
+      "sector_label": "District",
+      "payment_methods_label": "Payment methods",
+      "user_interactions_label": "Interaction modes",
+      "property_types_label": "Property type",
+      "offered_services_label": "Offered services",
+      "emergency_situations": "Emergency situations",
+      "pediatric_psychiatry": "Pediatric psychiatry",
+      "psychological_evaluation": "Psychological evaluation",
+      "psychological_counseling": "Psychological counseling",
+      "support_groups": "Support groups",
+      "social_assistance_and_counseling": "Social assistance and counseling",
+      "personal_development": "Personal development",
+      "vocational_counseling_and_career_guidance": "Vocational counseling and career guidance",
+      "occupational_therapy_ergotherapy": "Occupational therapy/Ergotherapy",
+      "physiotherapy_physical_recovery": "Physiotherapy/Physical recovery",
+      "autism_spectrum_disorder_therapies": "Autism spectrum disorder therapies",
+      "disability_assessment": "Disability assessment",
+      "pediatric_neurology": "Pediatric neurology",
+      "special_psychopedagogy": "Special psychopedagogy",
+      "neuropsychomotor_recovery": "Neuropsychomotor recovery",
+      "free_services": "Free services",
+      "paid_services": "Paid services",
+      "co_payment_services": "Co-payment services",
+      "cnas_reimbursed_services": "CNAS reimbursed services",
+      "public": "Public",
+      "private": "Private",
+      "ong": "NGO",
+      "public_private": "Public-private",
+      "aggression_violence_victim_or_aggressor": "Aggression/violence - victim or aggressor",
+      "learning_difficulties_special_educational_needs": "Learning difficulties/Special educational needs",
+      "behavioral_disorder": "Behavioral disorder",
+      "eating_disorder": "Eating disorder",
+      "suicide_self_harm": "Suicide/Self-harm",
+      "addiction": "Addiction",
+      "identity_issues": "Identity issues",
+      "illness_oncological_treatment_chronic_diseases": "Illness (oncological treatment, chronic diseases)",
+      "other_situations": "Other situations",
+      "copy_link_success": "Link copied to clipboard!"
     },
     "baseline-assesment": {
       "instructions": "Instrukcja: Myśląc o ostatnich dwóch tygodniach, wybierz odpowiedź, która najlepiej Cię opisuje.",
@@ -864,7 +906,8 @@
       "psychological": "Psychological",
       "biological": "Biological",
       "social": "Social",
-      "how_it_works": "How it works"
+      "how_it_works": "How it works",
+      "see_last_result": "Latest Results"
     },
     "baseline-assesment-result": {
       "assessment_completed": "Assessment completed",
@@ -904,10 +947,11 @@
       "dec_dec_inc": "Great progress! Psychological and biological decreased, though social increased.",
       "dec_dec_same": "Great progress! Psychological and biological decreased, while social stayed the same.",
       "dec_dec_dec": "Excellent progress! Psychological, biological, and social all decreased.",
-      "same_same_same": "Twoje wyniki są takie same jak w poprzedniej ocenie.",
       "answered_questions": "",
       "latest_result": "",
-      "organizations": "Polecane organizacje"
+      "same_same_same": "Twoje wyniki są takie same jak w poprzedniej ocenie.",
+      "organizations": "Polecane organizacje",
+      "summary_heading": "Recommendations generated based on the score obtained"
     }
   },
   "screens": {
@@ -1100,10 +1144,10 @@
     },
     "sos-center-screen": {
       "heading": "Nagły wypadek",
-      "subheading": "Pilnie potrzebujesz pomocy? Skontaktuj się z niektórymi z wymienionych ośrodków już teraz."
+      "subheading": "Pilnie potrzebujesz pomocy? Skontaktuj się z jednym z poniższych ośrodków już teraz."
     },
     "my-qa-screen": {
-      "heading": "Moje pytania i odpowiedzi",
+      "heading": "Zapytaj psychologa",
       "subheading": "To jest <0>ANONIMOWE</0>! Twoje pytania <0>NIE</0> są powiązane z Tobą. Odpowiedzi będą dostępne publicznie, aby każdy mógł zobaczyć, z jakimi zagadnieniami mierzą się inni.",
       "heading_button_label": "Zobacz, jak to działa",
       "emergency_button_label": "Pomoc w nagłych wypadkach",
@@ -1348,9 +1392,9 @@
     },
     "how-it-works-my-qa": {
       "heading": "Jak to działa",
-      "subheading_1": "Klient/ka wysyła anonimową prywatną wiadomość do uSupport w wybranym przez siebie języku, korzystając ze strony internetowej lub aplikacji.",
-      "subheading_2": "Zatwierdzony/a, dostępny/a konsultant/ka uSupport odpowiada odpowiednimi ścieżkami itp.",
-      "subheading_3": "Odpowiedź będzie widoczna dla wszystkich! Trafi do wspólnej przestrzeni z odpowiednimi #tagami, aby można było do niej wrócić w przyszłości."
+      "subheading_1": "Użytkownik wysyła anonimową, prywatną wiadomość do uSupport poprzez formularz, w wybranym przez siebie języku.",
+      "subheading_2": "Na Twoje pytanie odpowie psycholog/żka uSupport i udzieli pomocnych wskazówek.",
+      "subheading_3": "Odpowiedź będzie publiczna. Zostanie dodana do wspólnej bazy z #tagami, aby łatwo można było ją później znaleźć."
     },
     "delete-chat-history": {
       "heading": "Czy na pewno chcesz usunąć wszystkie dane czatu?",
@@ -1400,7 +1444,7 @@
     "tab-navigation": {
       "home": "Strona główna",
       "qaa": "Zapytaj psychologa",
-      "articles": "Treść",
+      "articles": "Wiedza",
       "mood": "Nastrój"
     }
   }
