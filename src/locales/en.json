@@ -501,6 +501,12 @@
       "psychotherapist": "Psychotherapist",
       "no_match": "No providers matching your criteria",
       "free": "Free",
+      "coupon": "Coupon",
+      "tab_paid": "Paid",
+      "tab_coupon": "Coupon",
+      "tab_free": "Free",
+      "enter_coupon_to_see_providers": "Enter a coupon above to see providers",
+      "error_invalid_coupon": "Invalid coupon",
       "earliest_available_slot": "First available consultation:",
       "sunday": "Sun",
       "monday": "Mon",
@@ -511,7 +517,7 @@
       "saturday": "Sat",
       "heading": "",
       "subheading": "",
-      "button_label": "",
+      "button_label": "Filter",
       "button_coupon_label": "",
       "modal_coupon_heading": "",
       "modal_coupon_button_label": "",
@@ -522,7 +528,9 @@
       "coupon_paragraph": "",
       "coupon_paragraph_two": "",
       "max_price": "",
-      "providers_free_consultation_label": ""
+      "providers_free_consultation_label": "",
+      "coupon_note": "This time, we've entered a code for you for a free session! Schedule an appointment with one of our consultants and take the first step towards improving your well-being.",
+      "choose_provider": "Choose the provider you want to talk to in a video, audio or text consultation. It can sometimes take time to find a provider that is a good fit for your needs and your preferred approach."
     },
     "share-platform": {
       "button_label_share_text": "Share on",
@@ -932,9 +940,11 @@
       "dec_dec_inc": "Great progress! Psychological and biological decreased, though social increased.",
       "dec_dec_same": "Great progress! Psychological and biological decreased, while social stayed the same.",
       "dec_dec_dec": "Excellent progress! Psychological, biological, and social all decreased.",
-      "same_same_same":"Your results are the same as the previous assessment.",
+      "same_same_same": "Your results are the same as the previous assessment.",
       "summary_heading": "Recommendations generated based on the score obtained",
-      "organizations": "Recommended organizations"
+      "organizations": "Recommended organizations",
+      "read_more": "Read more",
+      "view_more": "View more"
     }
   },
   "screens": {
@@ -1010,11 +1020,11 @@
       "cancel_confirmation_heading": "Are you sure you want to leave the consultation?",
       "cancel_confirmation_cta": "Leave consultation",
       "cancel_confirmation_secondary_cta": "Cancel",
-      "permissions_error_camera":"Cannot start video",
-      "permissions_error_camera_subheading":"Camera permission is denied. Please go to settings and enable camera permissions to continue",
-      "permissions_error_microphone":"Cannot start audio",
-      "permissions_error_microphone_subheading":"Microphone permission is denied. Please go to settings and enable microphone permissions to continue",
-      "open_settings":"Open settings"
+      "permissions_error_camera": "Cannot start video",
+      "permissions_error_camera_subheading": "Camera permission is denied. Please go to settings and enable camera permissions to continue",
+      "permissions_error_microphone": "Cannot start audio",
+      "permissions_error_microphone_subheading": "Microphone permission is denied. Please go to settings and enable microphone permissions to continue",
+      "open_settings": "Open settings"
     },
     "consultations-screen": {
       "heading": "Consultations",
@@ -1161,6 +1171,140 @@
     "organization-overview-screen": {
       "heading": "Organization overview",
       "subheading": "Detailed overview of the profile of the organization you selected"
+    },
+    "children-rights-screen": {
+      "back": "Back",
+      "continue": "Continue",
+      "submit": "Submit",
+      "view_content": "View more content",
+      "no_articles_found": "No articles found for this topic.",
+
+      "non_emergency_title": "Non-Emergency Situations",
+      "non_emergency_paragraph": "Any situation that does not currently endanger the life or safety of the child or adolescent.",
+      "non_emergency_question": "What type of situation are you seeking professional services for?",
+      "non_emergency_answer_1": "A new situation, for which no professional has been contacted before",
+      "non_emergency_answer_2": "A recurring situation, for which no professional has been contacted",
+      "non_emergency_answer_3": "A recurring situation, for which a professional has already been contacted",
+
+      "untitled_q1_question": "What type of specialized services are you looking for?",
+      "untitled_q1_answer_1": "Pediatric psychiatry",
+      "untitled_q1_answer_2": "Psychological assessment",
+      "untitled_q1_answer_3": "Psychological counseling",
+      "untitled_q1_answer_4": "Individual psychotherapy",
+
+      "untitled_q2_question": "In which district would you prefer the service provider to be located?",
+      "untitled_q3_question": "What type of service are you looking for?",
+      "untitled_q4_question": "What is your preferred payment method?",
+      "untitled_q5_question": "How would you prefer to work with the provider?",
+
+      "sector_1": "Sector 1",
+      "sector_2": "Sector 2",
+      "sector_3": "Sector 3",
+      "sector_4": "Sector 4",
+      "sector_5": "Sector 5",
+      "sector_6": "Sector 6",
+
+      "property_type_public": "Public",
+      "property_type_private": "Private",
+      "property_type_ngo": "NGO",
+      "property_type_partnership": "Public-private partnership",
+
+      "payment_free": "Free services",
+      "payment_paid": "Paid services",
+      "payment_copayment": "Co-payment services",
+      "payment_cnas": "Services covered by CNAS (National Health Insurance)",
+
+      "interaction_in_person": "In person",
+      "interaction_online": "Online",
+      "interaction_phone": "By phone",
+      "interaction_hybrid": "Hybrid (combined)",
+
+      "final_q1_question": "What services do you want the provider to offer?",
+      "final_q2_question": "In which district would you prefer the service provider to be located?",
+      "final_q3_question": "What type of service are you looking for?",
+      "final_q4_question": "What is your preferred payment method?",
+
+      "service_pediatric_psychiatry": "Pediatric psychiatry",
+      "service_psychological_assessment": "Psychological assessment",
+      "service_psychological_counseling": "Psychological counseling",
+      "service_individual_psychotherapy": "Individual psychotherapy",
+      "service_group_psychotherapy": "Group psychotherapy",
+      "service_support_groups": "Support groups",
+      "service_social_work": "Social work and counseling",
+      "service_personal_development": "Personal development",
+      "service_vocational_counseling": "Vocational counseling and career guidance",
+      "service_speech_therapy": "Speech therapy",
+      "service_occupational_therapy": "Occupational therapy/Ergotherapy",
+      "service_physiotherapy": "Kinetotherapy/Physiotherapy/Physical rehabilitation",
+      "service_asd_therapies": "Therapies for ASD (Autism Spectrum Disorder)",
+      "service_disability_assessment": "Disability assessment",
+      "service_pediatric_neurology": "Pediatric neurology",
+      "service_special_education": "Special education (psychopedagogy)",
+      "service_neuropsychomotor_rehab": "Neuropsychomotor rehabilitation",
+
+      "rights_intro_title": "The rights of children and adolescents to access mental health and psychosocial support services",
+      "rights_intro_paragraph": "This guide helps you discover what kind of support you can receive, if you need it, and who can assist you — at school, in the social care system, or in the healthcare system. You will learn what services are available for children and adolescents in Romania and how you can access them.",
+      "rights_intro_question": "What kind of services are you interested in?",
+      "rights_intro_answer_1": "Services provided in schools",
+      "rights_intro_answer_2": "Services provided in the social care system",
+      "rights_intro_answer_3": "Services provided in the health system",
+
+      "section_2_title": "🏫 Services provided in schools",
+      "section_2_question": "Would you like to know more about school-based services for:",
+      "section_2_answer_1": "All the students",
+      "section_2_answer_2": "Students receiving support levels I, II, III, or IV (Special Educational Needs)",
+      "section_2_answer_3": "Pregnant students and student parents",
+      "section_2_answer_4": "Students who are victims or perpetrators of violence in school",
+      "section_2_answer_5": "Students sanctioned following disciplinary incidents",
+
+      "section_3_title": "🎓 Services for all students",
+      "section_3_paragraph": "By law, all students benefit from psychological health monitoring through <0>counseling services connected to school activities</0>, ensuring their psychological well-being.\n\nStudents have the right to access <0>information, school counseling, career guidance, and psychological support</0> to help them develop and discover their own path.\n\nStudents with <0>special educational needs (SEN) or other difficulties</0> can receive additional, tailored support — for example, <0>special study or assessment conditions, or even home- or hospital-based schooling</0> if necessary.\n\nAll students are also entitled to <0>free medical, psychological, and speech therapy services</0> through school health offices or public medical facilities.\n\nHere you can find the steps to follow in order to access psychological support services as a student:\n\n",
+
+      "section_4_title": "🧒🏻 Services provided to students with support levels I, II, III, IV (Special Educational Needs – SEN)",
+      "section_4_paragraph": "Students with <0>special educational needs (SEN)</0> benefit from a <0>Personalized Educational Plan (PEP)</0>, developed by specialists from the County Center for Psycho-Pedagogical Assistance.\nThis plan is tailored to each student’s individual needs and may include <0>support for the family</0>, <0>psychological counseling</0>, <0>psycho-pedagogical assistance</0>, <0>learning support</0>, <0>specific therapies</0>, <0>physical therapy</0>, or other forms of personalized support.\n\n📘 Here you can find the steps to follow for obtaining the school and career guidance certificate, as well as information about the services available for children with SEN.",
+
+      "section_5_title": "👩‍🍼 Services for pregnant students and student parents",
+      "section_5_paragraph": "According to <0>Law no. 198 of July 4, 2023</0> on pre-university education (Article 76, paragraph 5), <0>pregnant students and student parents</0> are given <0>priority access</0> to a range of support measures aimed at <0>preventing school dropout</0>. These include:\n🗨️ <0>School counseling</0> (including support from a school mediator) and\n🧠 <0>Psychological counseling</0>.\n\n📘 At the moment, the law does <0>not yet have implementing regulations</0>. Until these are published, we recommend consulting the section dedicated to services available to all <0>students</0>, which you can find here:",
+
+      "section_6_title": "🛑 Services for students who are victims or perpetrators of violence in school",
+      "section_6_paragraph": "💔 Students who have experienced violence are entitled to <0>state-funded psychological and psychotherapeutic intervention services</0>, based on a <0>recommendation from the school counselor</0>.\nThese services are designed to help students recover emotionally, regain their sense of safety, and reintegrate confidently into school life. 🌱\n\n 📘 If you have been a victim of, witnessed, or been informed about an act of violence at school, you can find below the steps you need to follow",
+
+      "section_7_title": "Students disciplined after certain incidents",
+      "section_7_paragraph": "Students may be disciplined if they:\n\n - destroy or alter school documents or school property;\n\n - bring in materials that promote violence, hatred, discrimination, or harm someone's reputation;\n\n - block access to the school;\n\n - possess or use drugs, alcohol, cigarettes, ethnobotanical substances, or gamble on school grounds;\n\n - bring or use weapons, firecrackers, sprays, or other dangerous objects;\n\n - distribute political, religious, obscene, or pornographic materials;\n\n - insult, discriminate, or show physical or verbal aggression;\n\n - leave the school during class hours without permission;\n\n - bring unauthorized visitors without the school administration's approval;\n\n - promote racist messages or symbols.\n\nYou can find the types of sanctions here:",
+
+      "section_8_title": "🛡️ Services provided in the social care system",
+      "section_8_question": "You want to learn more about services provided to:",
+      "section_8_answer_1": "Minors subjected to violence by parents/caregivers or victims of domestic violence",
+      "section_8_answer_2": "Minors in day care centers for children, in families and/or children separated or at risk of separation from their parents",
+      "section_8_answer_3": "Minors in residential centers for children temporarily or permanently separated from their parents",
+      "section_8_answer_4": "Minors in emergency reception centers for abused, neglected or exploited children",
+      "section_8_answer_5": "Minors in social services with accommodation, organized as emergency centers, as well as night shelters for homeless children",
+
+      "section_9_title": "👨🏻‍👩🏻‍👧🏻‍👦🏻 Services offered to children who are victims of violence from parents or caregivers, or victims of domestic violence",
+      "section_9_paragraph": "If you want to learn more about the forms of protection provided by the social assistance and child protection services, read here:",
+
+      "section_10_title": "🏘️ Services offered to minors in social care centers",
+      "section_10_paragraph": "If you want to learn more about the services offered to minors in social assistance centers, read here:",
+
+      "section_11_title": "Services provided in the health system",
+      "section_11_question": "📚 You want to learn more about:",
+      "section_11_answer_1": "Services for children aged 0–18, regardless of whether they are enrolled in an educational institution or not",
+      "section_11_answer_2": "Underage patients with various conditions",
+      "section_11_answer_3": "Underage patients with mental disorders",
+
+      "section_12_title": "Services for children aged 0–18, regardless of whether they are enrolled in an educational institution or not",
+      "section_12_paragraph": "📘 If you want to learn more about the services offered to children aged 0–18, read here:",
+
+      "section_13_title": "Services for underage patients with various conditions",
+      "section_13_paragraph": "📘 If you want to learn more about the services provided to underage patients with various medical conditions, read here:",
+
+      "section_14_title": "Services for underage patients with mental disorders",
+      "section_14_paragraph": "📘 If you want to learn more about the services provided to underage patients with mental disorders , read here:",
+
+      "by": "by {{creator}}",
+      "min_read": "min read",
+      "read_more": "Read more",
+      "to_dashboard": "Go to dashboard"
     }
   },
   "backdrops": {
@@ -1333,6 +1477,22 @@
       "end_date": "End date",
       "end_date_before_start_error": "End date must be after start date",
       "confirm": "Confirm"
+    },
+    "user-guide": {
+      "heading": "Do you want to know more about:",
+      "emergency_services": "Emergency services",
+      "map": "Map of mental health and psycho-emotional support services available in Bucharest",
+      "rights": "The rights of children and adolescents to access mental health and psycho-emotional support services"
+    },
+    "emergency-situation": {
+      "heading": "Map of Mental Health and Psychosocial Support Services for Children and Adolescents in Bucharest",
+      "paragraph": "This interactive map presents mental health and psychosocial well-being services available for children and adolescents in Bucharest. We will try to guide you in order to offer the options that best match your needs.",
+      "paragraph_two": "<0>Disclaimer:</0> This map was created based on the descriptions found on the service providers’ websites. We cannot guarantee the accuracy of the information at the time you access the map. Services and providers are constantly changing, so we recommend that when you choose a provider, you contact them by phone and explain in detail the situation for which you need professional help.",
+      "question": "Are you looking for services for an emergency situation?",
+      "subquestion": "For example: self-harm, suicide attempt, school or family violence, sexual abuse, etc",
+      "yes": "Yes",
+      "no": "No",
+      "dont_know": "I don't know if it's urgent"
     }
   },
   "modals": {

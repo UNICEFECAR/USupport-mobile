@@ -12,7 +12,15 @@ import Share from "react-native-share";
 import { useTranslation } from "react-i18next";
 import Config from "react-native-config";
 
-import { Icon, Label, Block, AppText, Like, Loading } from "#components";
+import {
+  Icon,
+  Label,
+  Block,
+  AppText,
+  Like,
+  Loading,
+  CKRenderer,
+} from "#components";
 import { appStyles } from "#styles";
 
 import {
@@ -378,40 +386,44 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
           />
         </View>
 
-        <Markdown
-          style={{
-            ...styles,
-            heading3: {
-              fontSize: 20,
-              lineHeight: 24,
-              fontFamily: "Nunito-SemiBold",
-              color: colors.text,
-              marginTop: 20,
-              marginBottom: 8,
-            },
-            heading4: {
-              fontSize: 16,
-              lineHeight: 24,
-              fontFamily: "Nunito-SemiBold",
-              color: colors.text,
-              marginTop: 12,
-            },
-            paragraph: {
-              color: colors.textSecondary,
-              fontSize: 16,
-              fontFamily: "Nunito-Regular",
-              lineHeight: 24,
-            },
-            list_item: {
-              color: colors.textSecondary,
-              fontSize: 16,
-              fontFamily: "Nunito-Regular",
-              lineHeight: 24,
-            },
-          }}
-        >
-          {articleData.body}
-        </Markdown>
+        {articleData.bodyCK ? (
+          <CKRenderer data={articleData.bodyCK} />
+        ) : (
+          <Markdown
+            style={{
+              ...styles,
+              heading3: {
+                fontSize: 20,
+                lineHeight: 24,
+                fontFamily: "Nunito-SemiBold",
+                color: colors.text,
+                marginTop: 20,
+                marginBottom: 8,
+              },
+              heading4: {
+                fontSize: 16,
+                lineHeight: 24,
+                fontFamily: "Nunito-SemiBold",
+                color: colors.text,
+                marginTop: 12,
+              },
+              paragraph: {
+                color: colors.textSecondary,
+                fontSize: 16,
+                fontFamily: "Nunito-Regular",
+                lineHeight: 24,
+              },
+              list_item: {
+                color: colors.textSecondary,
+                fontSize: 16,
+                fontFamily: "Nunito-Regular",
+                lineHeight: 24,
+              },
+            }}
+          >
+            {articleData.body}
+          </Markdown>
+        )}
       </Block>
     </>
   );

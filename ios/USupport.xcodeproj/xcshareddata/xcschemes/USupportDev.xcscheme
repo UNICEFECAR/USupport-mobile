@@ -17,7 +17,7 @@
                      BlueprintIdentifier = "43001CCC29EEEAE800B32A2A"
                      BuildableName = "USupportDev.app"
                      BlueprintName = "USupportDev"
-                     ReferencedContainer = "container:uSupport.xcodeproj">
+                     ReferencedContainer = "container:USupport.xcodeproj">
                   </BuildableReference>
                </EnvironmentBuildable>
             </ActionContent>
@@ -35,7 +35,7 @@
                BlueprintIdentifier = "43001CCC29EEEAE800B32A2A"
                BuildableName = "USupportDev.app"
                BlueprintName = "USupportDev"
-               ReferencedContainer = "container:uSupport.xcodeproj">
+               ReferencedContainer = "container:USupport.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -73,7 +73,7 @@
             BlueprintIdentifier = "43001CCC29EEEAE800B32A2A"
             BuildableName = "USupportDev.app"
             BlueprintName = "USupportDev"
-            ReferencedContainer = "container:uSupport.xcodeproj">
+            ReferencedContainer = "container:USupport.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -90,7 +90,7 @@
             BlueprintIdentifier = "43001CCC29EEEAE800B32A2A"
             BuildableName = "USupportDev.app"
             BlueprintName = "USupportDev"
-            ReferencedContainer = "container:uSupport.xcodeproj">
+            ReferencedContainer = "container:USupport.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

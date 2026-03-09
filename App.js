@@ -2,8 +2,10 @@ globalThis.RNFB_SILENCE_MODULAR_DEPRECATION_WARNINGS = true;
 
 import React, { useCallback, useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { StyleSheet, View, Platform } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
+import { useFonts } from "expo-font";
+import { Inter_400Regular, Inter_600SemiBold, Inter_700Bold } from "@expo-google-fonts/inter";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import FlashMessage from "react-native-flash-message";
 import { StripeProvider } from "@stripe/stripe-react-native";
@@ -14,7 +16,7 @@ import "./firebase.js";
 
 import Config from "react-native-config";
 
-const { STRIPE_PUBLIC_KEY } = Config;
+const STRIPE_PUBLIC_KEY = Config.STRIPE_PUBLIC_KEY || "";
 
 import { Navigation } from "#navigation";
 import { localStorage, Context, userSvc } from "#services";
@@ -36,7 +38,42 @@ const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchInterval: FIVE_MINUTES } },
 });
 
+class AppErrorBoundary extends React.Component {
+  state = { error: null };
+
+  static getDerivedStateFromError(error) {
+    return { error };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    if (__DEV__) {
+      // eslint-disable-next-line no-console
+      console.error("AppErrorBoundary:", error, errorInfo);
+    }
+  }
+
+  render() {
+    if (this.state.error) {
+      return (
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorTitle}>Something went wrong</Text>
+          <Text style={styles.errorText}>
+            {this.state.error?.message ?? String(this.state.error)}
+          </Text>
+        </View>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 function App() {
+  const [fontsLoaded] = useFonts({
+    Inter_400Regular,
+    Inter_600SemiBold,
+    Inter_700Bold,
+  });
+
   const [token, setToken] = useState();
   const [initialRouteName, setInitialRouteName] = useState("TabNavigation"); // Initial route name for the AppNavigation
   const [initialAuthRouteName, setInitialAuthRouteName] = useState("Welcome"); // Initial route name for the AuthNavigation
@@ -53,6 +90,7 @@ function App() {
   const [hasAuthenticatedWithPin, setHasAuthenticatedWithPin] = useState(false);
   const [isConnected, setIsConnected] = useState(true);
   const [country, setCountry] = useState(null);
+  const [selectedCountry, setSelectedCountry] = useState(null); // full country object { value, label, countryID, ... }
   const [isPodcastsActive, setIsPodcastsActive] = useState(false);
   const [isVideosActive, setIsVideosActive] = useState(false);
 
@@ -164,20 +202,21 @@ function App() {
     checkIsTmpUser();
   }, [token]);
 
-  // // Hide the splash screen when the fonts finish loading
+  // Hide the splash screen when the fonts finish loading
   const onLayoutRootView = useCallback(async () => {
-    // if (loaded) {
-    await SplashScreen.hideAsync();
-    // }
-  }, []);
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   // if (error) {
   //   return (
   //     <View style={styles.container}>{JSON.stringify(error, null, 2)}</View>
   //   );
-  // }
-  // if (!loaded) {
-  //   return null;
   // }
 
   const contextValues = {
@@ -211,6 +250,8 @@ function App() {
     setHasAuthenticatedWithPin,
     country,
     setCountry,
+    selectedCountry,
+    setSelectedCountry,
     isPodcastsActive,
     setIsPodcastsActive,
     isVideosActive,
@@ -218,40 +259,42 @@ function App() {
   };
 
   return (
-    <GestureHandlerRootView style={styles.flex1}>
-      <StripeProvider publishableKey={STRIPE_PUBLIC_KEY}>
-        <Context.Provider value={contextValues}>
-          <QueryClientProvider client={queryClient}>
-            <SafeAreaProvider>
-              <View style={styles.flex1} onLayout={onLayoutRootView}>
-                <Navigation
-                  contextTheme={theme}
-                  setTheme={setTheme}
-                  isInConsultation={isInConsultation}
-                >
-                  <NoInternetModal theme={theme} isVisible={!isConnected} />
-                  <DropdownBackdrop
-                    onClose={() =>
-                      setDropdownOptions((options) => ({
-                        ...options,
-                        isOpen: false,
-                      }))
-                    }
-                    {...dropdownOptions}
-                  />
-                  <RequireRegistration
-                    handleContinue={handleRegisterRedirection}
-                    isOpen={isRegistrationModalOpan}
-                    onClose={handleRegistrationModalClose}
-                  />
-                </Navigation>
-              </View>
-            </SafeAreaProvider>
-            <FlashMessage position="top" />
-          </QueryClientProvider>
-        </Context.Provider>
-      </StripeProvider>
-    </GestureHandlerRootView>
+    <AppErrorBoundary>
+      <GestureHandlerRootView style={styles.flex1}>
+        <StripeProvider publishableKey={STRIPE_PUBLIC_KEY}>
+          <Context.Provider value={contextValues}>
+            <QueryClientProvider client={queryClient}>
+              <SafeAreaProvider>
+                <View style={styles.flex1} onLayout={onLayoutRootView}>
+                  <Navigation
+                    contextTheme={theme}
+                    setTheme={setTheme}
+                    isInConsultation={isInConsultation}
+                  >
+                    <NoInternetModal theme={theme} isVisible={!isConnected} />
+                    <DropdownBackdrop
+                      onClose={() =>
+                        setDropdownOptions((options) => ({
+                          ...options,
+                          isOpen: false,
+                        }))
+                      }
+                      {...dropdownOptions}
+                    />
+                    <RequireRegistration
+                      handleContinue={handleRegisterRedirection}
+                      isOpen={isRegistrationModalOpan}
+                      onClose={handleRegistrationModalClose}
+                    />
+                  </Navigation>
+                </View>
+              </SafeAreaProvider>
+              <FlashMessage position="top" />
+            </QueryClientProvider>
+          </Context.Provider>
+        </StripeProvider>
+      </GestureHandlerRootView>
+    </AppErrorBoundary>
   );
 }
 
@@ -263,4 +306,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   flex1: { flex: 1 },
+  errorContainer: {
+    flex: 1,
+    justifyContent: "center",
+    padding: 24,
+    backgroundColor: "#1a1a1a",
+  },
+  errorTitle: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "600",
+    marginBottom: 12,
+  },
+  errorText: {
+    color: "#f44",
+    fontSize: 14,
+  },
 });

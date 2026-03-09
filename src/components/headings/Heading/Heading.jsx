@@ -4,6 +4,7 @@ import { View, StyleSheet, TouchableOpacity } from "react-native";
 
 import { Icon } from "../../icons";
 import { AppText } from "../../texts";
+
 import { appStyles } from "#styles";
 import { useGetTheme } from "#hooks";
 
@@ -18,6 +19,7 @@ export const Heading = ({
   handleCloseIconPress,
   style,
   wrapperStyle,
+  onLayout,
 }) => {
   const { colors, isHighContrast } = useGetTheme();
 
@@ -30,6 +32,7 @@ export const Heading = ({
         },
         wrapperStyle,
       ]}
+      onLayout={onLayout}
     >
       <View style={[styles.container, style]}>
         {hasGoBackArrow && !hasCloseIcon && (

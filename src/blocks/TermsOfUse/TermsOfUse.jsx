@@ -2,9 +2,8 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { ScrollView, View, StyleSheet } from "react-native";
-import Markdown from "react-native-markdown-display";
 
-import { Block, Heading, Loading, AppText } from "#components";
+import { Block, Heading, Loading, AppText, CKRenderer } from "#components";
 
 import { appStyles } from "#styles";
 
@@ -64,16 +63,7 @@ export const TermsOfUse = ({ navigation }) => {
           handleGoBack={() => navigation.goBack()}
         />
         <View style={styles.termsOfUse}>
-          {termsOfUseData && (
-            <Markdown
-              style={{
-                ...styles,
-                ...(isHighContrast ? stylesHighContrast : {}),
-              }}
-            >
-              {termsOfUseData}
-            </Markdown>
-          )}
+          {termsOfUseData && <CKRenderer data={termsOfUseData} />}
           {!termsOfUseData && termsOfUseLoading && (
             <View style={styles.loadingContainer}>
               <Loading />

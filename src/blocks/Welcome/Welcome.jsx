@@ -16,10 +16,11 @@ export function Welcome({ navigation }) {
   const {
     setCurrencySymbol,
     setCountry,
+    setSelectedCountry: setSelectedCountryObject,
     setIsPodcastsActive,
     setIsVideosActive,
   } = useContext(Context);
-  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedCountry, setSelectedCountry] = useState(null); // alpha2 for dropdown
   const [selectedLanguage, setSelectedLanguage] = useState(null);
 
   useEffect(() => {
@@ -46,14 +47,18 @@ export function Welcome({ navigation }) {
         localName: x.local_name,
         podcastsActive: x.podcasts_active,
         videosActive: x.videos_active,
+        hasPayments: x.has_payments,
+        hasCoupons: x.has_coupons,
+        hasFreeConsultations: x.has_free_consultations,
+        defaultBillingType: x.default_billing_type,
+        defaultCouponCode: x.default_coupon_code,
       };
       if (localStorageCountry === x.alpha2) {
         if (!localStorageCountryID) {
           localStorage.setItem("country_id", x["country_id"]);
         }
-        console.log(countryObject);
-        setCurrencySymbol(x.currencySymbol);
-        setSelectedCountry(x.alpha2);
+        setCurrencySymbol(countryObject.currencySymbol);
+        setSelectedCountryObject(countryObject);
         setCountry(x.alpha2);
         setIsPodcastsActive(countryObject.podcastsActive);
         setIsVideosActive(countryObject.videosActive);
@@ -95,13 +100,15 @@ export function Welcome({ navigation }) {
   );
 
   const handleSelectCountry = async (option) => {
+    const countryObject = countriesQuery.data?.find((x) => x.value === option);
     await localStorage.setItem("country", option);
     setSelectedCountry(option);
+    setSelectedCountryObject(countryObject ?? null);
     setCountry(option);
   };
 
   const handleContinue = () => {
-    const country = selectedCountry;
+    const countryCode = selectedCountry;
     const language = selectedLanguage;
 
     const selectedCountryObject = countriesQuery.data.find(
@@ -111,11 +118,12 @@ export function Welcome({ navigation }) {
     const currencySymbol = selectedCountryObject.currencySymbol;
 
     setCurrencySymbol(currencySymbol);
-    setCountry(country);
+    setCountry(countryCode);
+    setSelectedCountryObject(selectedCountryObject);
     setIsPodcastsActive(selectedCountryObject.podcastsActive);
     setIsVideosActive(selectedCountryObject.videosActive);
 
-    localStorage.setItem("country", country);
+    localStorage.setItem("country", countryCode);
     localStorage.setItem("country_id", selectedCountryObject.countryID);
     localStorage.setItem("language", language);
     if (currencySymbol) {

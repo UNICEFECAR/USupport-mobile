@@ -59,6 +59,7 @@ export const Backdrop = ({
   customRender = false,
   hasKeyboardListener = false,
   handleCloseIconPress,
+  headerStyles,
   footerComponent,
   overlayStyles,
   handleShowKeyboard,
@@ -187,7 +188,7 @@ export const Backdrop = ({
                 style={styles.icon}
               />
             </TouchableOpacity>
-            <View style={styles.header}>
+            <View style={[styles.header,headerStyles]}>
               <AppText namedStyle="h3" style={styles.headingText}>
                 {heading}
               </AppText>

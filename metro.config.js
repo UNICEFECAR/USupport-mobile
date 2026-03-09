@@ -12,7 +12,7 @@ module.exports = (async () => {
     ...config, // Keep default configurations
     transformer: {
       ...config.transformer,
-      babelTransformerPath: require.resolve("react-native-svg-transformer"),
+      babelTransformerPath: require.resolve("react-native-svg-transformer/expo"),
       getTransformOptions: async () => ({
         transform: {
           experimentalImportSupport: false,

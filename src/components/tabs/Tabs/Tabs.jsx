@@ -22,7 +22,13 @@ const { width: screenWidth } = Dimensions.get("window");
  *
  * @return {jsx}
  */
-export const Tabs = ({ options, handleSelect, style, t = () => {} }) => {
+export const Tabs = ({
+  options,
+  handleSelect,
+  style,
+  tabsStyle,
+  t = () => {},
+}) => {
   const { colors, isDarkMode } = useGetTheme();
   const scrollViewRef = useRef(null);
   const tabRefs = useRef({});
@@ -210,7 +216,7 @@ export const Tabs = ({ options, handleSelect, style, t = () => {} }) => {
 
   return (
     <View style={[styles.tabsWrapper, style]}>
-      <View style={styles.tabs}>
+      <View style={[styles.tabs, tabsStyle]}>
         {showArrows && (
           <TouchableOpacity
             style={[

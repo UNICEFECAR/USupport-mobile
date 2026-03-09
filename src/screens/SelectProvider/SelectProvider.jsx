@@ -1,24 +1,22 @@
-import React, { useMemo, useContext, useState, useEffect } from "react";
+import React, {
+  useMemo,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+} from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-import {
-  AppText,
-  Screen,
-  Heading,
-  ButtonWithIcon,
-  AppButton,
-  TransparentModal,
-  Input,
-  Toggle,
-} from "#components";
+import { AppText, Screen, Heading, TransparentModal, Input } from "#components";
 
 import { SelectProvider as SelectProviderBlock } from "#blocks";
 
 import { FilterProviders } from "#backdrops";
 
-import { useGetProvidersData, useError, useAddCountryEvent } from "#hooks";
+import { useGetProvidersData, useError } from "#hooks";
 
 import {
   Context,
@@ -35,11 +33,6 @@ const fetchCountry = async () => {
   return currentCountry?.alpha2 === "KZ" ? true : false;
 };
 
-const POLAND_COUPON = {
-  couponValue: "UNICEF2025",
-  campaignId: "f035657b-daa7-417a-9784-959b042473e7",
-};
-
 /**
  * SelectProvider
  *
@@ -51,14 +44,84 @@ export const SelectProvider = ({ navigation }) => {
   const { t } = useTranslation("screens", {
     keyPrefix: "select-provider-screen",
   });
-  const addCountryEventMutation = useAddCountryEvent();
   const queryClient = useQueryClient();
 
-  const { activeCoupon, setActiveCoupon, country } = useContext(Context);
-
-  const IS_PL = country === "PL";
+  const { activeCoupon, setActiveCoupon, country, selectedCountry } =
+    useContext(Context);
+  const [headingHeight, setHeadingHeight] = useState(0);
 
   const { data: isKzCountry } = useQuery(["country-min-price"], fetchCountry);
+
+  // Determine the default billing type from selectedCountry (paid / coupon / free)
+  const getDefaultBillingType = useCallback(() => {
+    if (!selectedCountry) return null;
+    const {
+      hasPayments,
+      hasCoupons,
+      hasFreeConsultations,
+      defaultBillingType,
+    } = selectedCountry;
+    if (defaultBillingType) {
+      if (defaultBillingType === "paid" && hasPayments) return "paid";
+      if (defaultBillingType === "coupon" && hasCoupons) return "coupon";
+      if (defaultBillingType === "free" && hasFreeConsultations) return "free";
+    }
+    if (hasPayments) return "paid";
+    if (hasCoupons) return "coupon";
+    if (hasFreeConsultations) return "free";
+    return null;
+  }, [selectedCountry]);
+
+  const [selectedBillingType, setSelectedBillingType] = useState(null);
+
+  // Set default billing type when country is loaded (only once)
+  useEffect(() => {
+    if (!selectedCountry || selectedBillingType !== null) return;
+    const defaultType = getDefaultBillingType();
+    if (defaultType) setSelectedBillingType(defaultType);
+  }, [selectedCountry, getDefaultBillingType, selectedBillingType]);
+
+  const defaultCouponCode = selectedCountry?.defaultCouponCode;
+  const defaultCouponQuery = useQuery(
+    ["default-coupon", defaultCouponCode],
+    () =>
+      clientSvc
+        .checkIsCouponAvailable(defaultCouponCode)
+        .then((res) => res.data),
+    { enabled: !!defaultCouponCode }
+  );
+
+  // Skip re-applying default when user explicitly removed the coupon (e.g. switched to free then back to coupon).
+  const userRemovedCouponRef = useRef(false);
+
+  // On coupon tab with no coupon set yet: apply default from query. Skip if user explicitly removed the coupon.
+  useEffect(() => {
+    if (selectedBillingType !== "coupon") return;
+    if (userRemovedCouponRef.current) return;
+    const data = defaultCouponQuery.data;
+    if (!defaultCouponCode || !data?.campaign_id) return;
+    setActiveCoupon((current) => {
+      if (current) return current;
+      return { couponValue: defaultCouponCode, campaignId: data.campaign_id };
+    });
+  }, [
+    selectedBillingType,
+    defaultCouponCode,
+    defaultCouponQuery.data,
+    setActiveCoupon,
+  ]);
+
+  // When user leaves the coupon tab, clear activeCoupon in context so ProviderOverview and others see null.
+  // activeCoupon in context should only be set while on the coupon tab.
+  useEffect(() => {
+    if (selectedBillingType !== "coupon") {
+      setActiveCoupon(null);
+    }
+  }, [selectedBillingType, setActiveCoupon]);
+
+  // Use coupon only when on coupon tab; when on paid/free, pass null so providers query doesn't use it
+  const effectiveActiveCoupon =
+    selectedBillingType === "coupon" ? activeCoupon : null;
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isCouponModalOpen, setIsCouponModalOpen] = useState(false);
@@ -70,16 +133,20 @@ export const SelectProvider = ({ navigation }) => {
   const [showPrices, setShowPrices] = useState(true);
 
   useEffect(() => {
-    localStorage.getItem("country").then((country) => {
-      setShowCoupon(country !== "KZ");
-      setShowPrices(country !== "KZ" && country !== "PL");
-    });
-
-    if (IS_PL) {
-      setCouponValue(POLAND_COUPON.couponValue);
-      setActiveCoupon(POLAND_COUPON);
+    if (selectedCountry) {
+      setShowCoupon(selectedCountry.hasCoupons ?? country !== "KZ");
+      setShowPrices(
+        selectedCountry.hasPayments !== false &&
+          country !== "KZ" &&
+          country !== "PL"
+      );
+    } else {
+      localStorage.getItem("country").then((countryCode) => {
+        setShowCoupon(countryCode !== "KZ");
+        setShowPrices(countryCode !== "KZ" && countryCode !== "PL");
+      });
     }
-  }, []);
+  }, [selectedCountry, country]);
 
   const { data: languages } = useQuery(["languages"], async () => {
     const res = await languageSvc.getActiveLanguages();
@@ -126,7 +193,7 @@ export const SelectProvider = ({ navigation }) => {
     setIsFiltering(false);
   };
   const providersQuery = useGetProvidersData(
-    activeCoupon,
+    effectiveActiveCoupon,
     allFilters,
     onSuccess
   );
@@ -174,7 +241,7 @@ export const SelectProvider = ({ navigation }) => {
           campaignId: data.campaign_id,
         });
         closeCouponModal();
-        queryClient.invalidateQueries(["provider-data"]);
+        queryClient.invalidateQueries(["all-providers-data"]);
       }
     } catch (err) {
       const { message: errorMessage } = useError(err);
@@ -193,37 +260,28 @@ export const SelectProvider = ({ navigation }) => {
     <Screen>
       <Heading
         heading={t("heading")}
-        subheading={t("subheading")}
+        onLayout={(e) => {
+          setHeadingHeight(e.nativeEvent.layout.height);
+        }}
         handleGoBack={handleGoBack}
       />
-      <View style={{ marginTop: 160 }} />
+      <View style={{ marginTop: headingHeight + 8 }} />
 
       <SelectProviderBlock
         providers={providersData}
         navigation={navigation}
-        activeCoupon={activeCoupon}
+        activeCoupon={effectiveActiveCoupon}
+        setActiveCoupon={setActiveCoupon}
+        onCouponRemoved={() => {
+          userRemovedCouponRef.current = true;
+        }}
         providersQuery={providersQuery}
         isFiltering={isFiltering}
         setIsFiltering={setIsFiltering}
         onRefresh={onRefresh}
-        HeaderComponent={
-          <>
-            <FiltersBlock
-              handleSave={handleFilterSave}
-              t={t}
-              activeCoupon={activeCoupon}
-              removeCoupon={removeCoupon}
-              openCouponModal={openCouponModal}
-              allFilters={allFilters}
-              setAllFilters={setAllFilters}
-              handleFilterClick={handleFilterClick}
-              showCoupon={showCoupon}
-              showPrices={showPrices}
-              isToggleDisabled={isKzCountry}
-              IS_PL={IS_PL}
-            />
-          </>
-        }
+        selectedBillingType={selectedBillingType}
+        setSelectedBillingType={setSelectedBillingType}
+        handleFilterClick={handleFilterClick}
       />
       <TransparentModal
         isOpen={isCouponModalOpen}
@@ -258,102 +316,3 @@ export const SelectProvider = ({ navigation }) => {
     </Screen>
   );
 };
-
-const FiltersBlock = ({
-  handleSave,
-  activeCoupon,
-  removeCoupon,
-  openCouponModal,
-  allFilters,
-  setAllFilters,
-  handleFilterClick,
-  t,
-  showCoupon,
-  showPrices,
-  isToggleDisabled,
-  IS_PL,
-}) => {
-  const [data, setData] = useState({
-    maxPrice: "",
-    onlyFreeConsultation: false,
-  });
-
-  useEffect(() => {
-    setData({ ...allFilters });
-  }, [allFilters]);
-
-  const handleChange = (field, val) => {
-    const newData = { ...data };
-    newData[field] = val;
-    setAllFilters(newData);
-    handleSave(newData);
-  };
-
-  return (
-    <View style={{ paddingBottom: 20 }}>
-      <View style={styles.buttonContainer}>
-        {showCoupon && IS_PL && (
-          <AppButton
-            label={
-              activeCoupon ? t("remove_coupon_label") : t("button_coupon_label")
-            }
-            size="sm"
-            color="green"
-            onPress={activeCoupon ? removeCoupon : openCouponModal}
-          />
-        )}
-        <ButtonWithIcon
-          size="sm"
-          color="purple"
-          label={t("button_label")}
-          iconName="filter"
-          iconSize="sm"
-          onPress={handleFilterClick}
-        />
-      </View>
-      {showCoupon && (
-        <AppText style={{ paddingTop: 18 }} namedStyle="smallText">
-          {t("coupon_note")}
-        </AppText>
-      )}
-      <View style={[styles.buttonContainer]}>
-        {/* <Toggle
-          isToggled={allFilters.onlyFreeConsultation}
-          handleToggle={(val) => handleChange("onlyFreeConsultation", val)}
-          label={t("providers_free_consultation_label")}
-          wrapperStyles={{
-            alignItems: "flex-start",
-            flex: 1,
-          }}
-          labelStyle={{ marginBottom: 12 }}
-          disabled={isToggleDisabled}
-        /> */}
-        {/* {!allFilters.onlyFreeConsultation && showPrices && (
-          <Input
-            type="number"
-            label={t("max_price")}
-            placeholder={t("max_price")}
-            value={allFilters.maxPrice}
-            onChange={(e) => handleChange("maxPrice", e)}
-            style={{ marginLeft: 16, flex: 1 }}
-          />
-        )} */}
-      </View>
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  loadingContainer: {
-    minHeight: 250,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  buttonContainer: {
-    paddingTop: 16,
-    flexDirection: "row",
-    alignItems: "flex-start",
-    justifyContent: "space-between",
-    paddingHorizontal: 8,
-  },
-});

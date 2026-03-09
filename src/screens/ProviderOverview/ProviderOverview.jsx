@@ -30,7 +30,7 @@ export const ProviderOverview = ({ navigation, route }) => {
   const queryClient = useQueryClient();
   const { activeCoupon, setActiveCoupon } = useContext(Context);
   const { bottom: bottomInset } = useSafeAreaInsets();
-
+  console.log(activeCoupon, "activeCoupon");
   const addCountryEventMutation = useAddCountryEvent();
 
   const providerId = route.params.providerId;
