@@ -7,6 +7,10 @@ import {
   View,
   RefreshControl,
   ImageBackground,
+  KeyboardAvoidingView,
+  Platform,
+  Keyboard,
+  useWindowDimensions,
 } from "react-native";
 import { useTranslation } from "react-i18next";
 import Config from "react-native-config";
@@ -333,6 +337,10 @@ export const Dashboard = ({ navigation }) => {
     setIsArticlesModalOpen(false);
   };
 
+  const scrollViewRef = useRef(null);
+  const [moodTrackerLayout, setMoodTrackerLayout] = useState(null);
+  const { height: windowHeight } = useWindowDimensions();
+
   const [isBaselineAssesmentModalOpen, setIsBaselineAssesmentModalOpen] =
     useState(false);
   const openBaselineAssesmentModal = () => {
@@ -359,6 +367,20 @@ export const Dashboard = ({ navigation }) => {
   const openUserGuide = () => setIsUserGuideOpen(true);
   const closeUserGuide = () => setIsUserGuideOpen(false);
 
+  const handleMoodTrackerTextareaFocus = () => {
+    if (Platform.OS !== "android" || !moodTrackerLayout || !scrollViewRef.current) return;
+    const subscription = Keyboard.addListener("keyboardDidShow", (e) => {
+      subscription.remove();
+      const keyboardHeight = e.endCoordinates.height;
+      const visibleHeight = windowHeight - keyboardHeight;
+      const scrollY = Math.max(
+        0,
+        moodTrackerLayout.y + moodTrackerLayout.height - visibleHeight + 56
+      );
+      scrollViewRef.current?.scrollTo({ y: scrollY, animated: true });
+    });
+  };
+
   return (
     <Screen hasHeaderNavigation t={t} hasEmergencyButton={false}>
       {IS_RO && (
@@ -369,73 +391,87 @@ export const Dashboard = ({ navigation }) => {
           isTmpUser={isTmpUser}
         />
       )}
-      <ScrollView
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={() => onRefresh()}
-          />
-        }
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "position" : "height"}
+        style={styles.keyboardAvoid}
+        // keyboardVerticalOffset={120}
       >
-        <MascotHeadingBlock style={styles.mascotHeadingBlock}>
-          {clientData?.isLoading || isTmpUser === null ? (
-            <Loading />
-          ) : (
-            <HeadingBlockContent
-              openEmergencySituation={openEmergencySituation}
-              openUserGuide={openUserGuide}
-              isTmpUser={isTmpUser}
-              t={t}
-              clientName={clientName}
-              upcomingConsultations={upcomingConsultations}
+        <ScrollView
+          ref={scrollViewRef}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={() => onRefresh()}
+            />
+          }
+          keyboardShouldPersistTaps="handled"
+        >
+          <MascotHeadingBlock style={styles.mascotHeadingBlock}>
+            {clientData?.isLoading || isTmpUser === null ? (
+              <Loading />
+            ) : (
+              <HeadingBlockContent
+                openEmergencySituation={openEmergencySituation}
+                openUserGuide={openUserGuide}
+                isTmpUser={isTmpUser}
+                t={t}
+                clientName={clientName}
+                upcomingConsultations={upcomingConsultations}
+                openJoinConsultation={openJoinConsultation}
+                openEditConsultation={openEditConsultation}
+                handleScheduleConsultation={handleScheduleConsultation}
+                handleAcceptSuggestion={handleAcceptSuggestion}
+                handleRegistrationModalOpen={handleRegistrationModalOpen}
+                country={country}
+                isDarkMode={isDarkMode}
+                navigation={navigation}
+              />
+            )}
+          </MascotHeadingBlock>
+          <View
+            onLayout={(e) => setMoodTrackerLayout(e.nativeEvent.layout)}
+            collapsable={false}
+          >
+            <MoodTracker
+              navigation={navigation}
+              clientData={clientData}
+              openRequireDataAgreement={openRequireDataAgreement}
+              onTextareaFocus={handleMoodTrackerTextareaFocus}
+            />
+          </View>
+          {IS_RO && (
+            <BaselineAssessmentDashboard
+              navigation={navigation}
+              openBaselineAssesmentModal={openBaselineAssesmentModal}
+            />
+          )}
+          <ArticlesDashboard
+            navigation={navigation}
+            openArticlesModal={openArticlesModal}
+            handleSetCategories={handleSetCategories}
+            handleCategorySelect={handleCategorySelect}
+            selectCategory={selectedCategory}
+            allCategories={allCategories}
+          />
+          {!IS_RO && (
+            <ConsultationsDashboard
               openJoinConsultation={openJoinConsultation}
               openEditConsultation={openEditConsultation}
-              handleScheduleConsultation={handleScheduleConsultation}
               handleAcceptSuggestion={handleAcceptSuggestion}
+              handleSchedule={handleScheduleConsultation}
+              isTmpUser={isTmpUser}
               handleRegistrationModalOpen={handleRegistrationModalOpen}
-              country={country}
-              isDarkMode={isDarkMode}
+              upcomingConsultations={upcomingConsultations}
+              isLoading={
+                consultationsQuery.isLoading &&
+                consultationsQuery.fetchStatus !== "idle"
+              }
+              t={t}
               navigation={navigation}
             />
           )}
-        </MascotHeadingBlock>
-        <MoodTracker
-          navigation={navigation}
-          clientData={clientData}
-          openRequireDataAgreement={openRequireDataAgreement}
-        />
-        {IS_RO && (
-          <BaselineAssessmentDashboard
-            navigation={navigation}
-            openBaselineAssesmentModal={openBaselineAssesmentModal}
-          />
-        )}
-        <ArticlesDashboard
-          navigation={navigation}
-          openArticlesModal={openArticlesModal}
-          handleSetCategories={handleSetCategories}
-          handleCategorySelect={handleCategorySelect}
-          selectCategory={selectedCategory}
-          allCategories={allCategories}
-        />
-        {!IS_RO && (
-          <ConsultationsDashboard
-            openJoinConsultation={openJoinConsultation}
-            openEditConsultation={openEditConsultation}
-            handleAcceptSuggestion={handleAcceptSuggestion}
-            handleSchedule={handleScheduleConsultation}
-            isTmpUser={isTmpUser}
-            handleRegistrationModalOpen={handleRegistrationModalOpen}
-            upcomingConsultations={upcomingConsultations}
-            isLoading={
-              consultationsQuery.isLoading &&
-              consultationsQuery.fetchStatus !== "idle"
-            }
-            t={t}
-            navigation={navigation}
-          />
-        )}
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
       <ArticleCategories
         isOpen={isArticlesModalOpen}
         onClose={() => setIsArticlesModalOpen(false)}
@@ -629,6 +665,7 @@ const HeadingBlockContent = ({
 };
 
 const styles = StyleSheet.create({
+  keyboardAvoid: { flex: 1 },
   alignSelfStart: { alignSelf: "flex-start" },
   colorTextBlue: { color: appStyles.colorBlue_263238 },
   marginBottom85: { marginBottom: 85 },
