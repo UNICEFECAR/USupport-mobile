@@ -39,6 +39,7 @@ export const MoodTracker = ({
   navigation,
   clientData,
   openRequireDataAgreement,
+  onTextareaFocus,
 }) => {
   const { colors } = useGetTheme();
 
@@ -236,6 +237,7 @@ export const MoodTracker = ({
               placeholder={t("additional_comment_placeholder")}
               disabled={isMoodTrackCompleted}
               style={{ width: "100%" }}
+              onFocus={onTextareaFocus}
             />
             {showEmergency && (
               <View style={styles.emergencyContainer}>

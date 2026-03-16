@@ -13,9 +13,14 @@ import {
   useColorScheme,
   PanResponder,
   View,
+  Linking,
 } from "react-native";
 import { useQuery } from "@tanstack/react-query";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  useNavigation,
+  createNavigationContainerRef,
+} from "@react-navigation/native";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import uuid from "react-native-uuid";
@@ -24,6 +29,7 @@ import messaging from "@react-native-firebase/messaging";
 
 import { AppNavigation } from "./AppNavigation";
 import { AuthNavigation } from "./AuthNavigation";
+import { linkingConfig, getMainStackStateFromUrl } from "./linking";
 
 import { appColors } from "#styles";
 import { LocalAuthenticationScreen } from "#screens";
@@ -35,6 +41,23 @@ import {
 import { countrySvc, localStorage, userSvc, Context } from "#services";
 
 import { getCountryFromTimezone, FIVE_MINUTES } from "#utils";
+
+export const navigationRef = createNavigationContainerRef();
+
+function getInitialState() {
+  return (async () => {
+    try {
+      const url = await Linking.getInitialURL();
+      const token = await localStorage.getItem("token");
+      if (!token || !url) return undefined;
+      const mainState = getMainStackStateFromUrl(url);
+      if (!mainState) return undefined;
+      return mainState;
+    } catch {
+      return undefined;
+    }
+  })();
+}
 
 const kazakhstanCountry = {
   value: "KZ",
@@ -106,33 +129,38 @@ export function Navigation({
     country,
     setCountry,
     setSelectedCountry,
+    pendingDeepLink,
+    setPendingDeepLink,
   } = useContext(Context);
 
   const getClientDataEnabled = !!(
     (isTmpUser === false ? true : false) && token
   );
-  const [clientDataQuery, clientDataFromHook] = useGetClientData(
-    getClientDataEnabled
-  );
-  const clientData = isTmpUser ? {} : clientDataFromHook ?? clientDataQuery?.data ?? {};
+  const [clientDataQuery, clientDataFromHook] =
+    useGetClientData(getClientDataEnabled);
+  const clientData = isTmpUser
+    ? {}
+    : (clientDataFromHook ?? clientDataQuery?.data ?? {});
 
   const timerId = useRef(false);
   const inConsultationRef = useRef(isInConsultation);
+  const hasHandledInitialUrlRef = useRef(false);
 
   const logoutMutation = useLogout();
 
   useEffect(() => {
-    if (token) {
+    inConsultationRef.current = isInConsultation;
+    if (token && !isInConsultation) {
       resetInactivityTimeout();
     }
-    inConsultationRef.current = isInConsultation;
-  }, [isInConsultation, resetInactivityTimeout, token, inConsultationRef]);
+  }, [isInConsultation, resetInactivityTimeout, token]);
 
   useEffect(() => {
     if (isInConsultation && timerId.current) {
       clearTimeout(timerId.current);
+      timerId.current = null;
     }
-  }, [isInConsultation, timerId.current]);
+  }, [isInConsultation]);
 
   const panResponder = useRef(
     PanResponder.create({
@@ -144,7 +172,6 @@ export function Navigation({
 
   // After five minutes of inactivity, the user will be prompted to enter their PIN code or authenticate with biometrics
   const resetInactivityTimeout = useCallback(async () => {
-    // return
     const actualToken = await localStorage.getItem("token");
 
     if (!inConsultationRef.current && actualToken) {
@@ -152,6 +179,10 @@ export function Navigation({
         clearTimeout(timerId.current);
       }
       timerId.current = setTimeout(async () => {
+        if (inConsultationRef.current) {
+          // User entered a consultation after the timeout was scheduled; skip inactivity handling
+          return;
+        }
         const hasBiometrics = await localStorage.getItem("biometrics-enabled");
         const userPin = await localStorage.getItem("pin-code");
 
@@ -165,9 +196,10 @@ export function Navigation({
     } else {
       if (timerId.current) {
         clearTimeout(timerId.current);
+        timerId.current = null;
       }
     }
-  }, [token, isInConsultation]);
+  }, [token]);
 
   const hasClearedTimeout = useRef();
 
@@ -325,8 +357,111 @@ export function Navigation({
     retry: false,
   });
 
+  // Handle initial URL on cold start (extra safety for TestFlight / production builds)
+  useEffect(() => {
+    if (hasHandledInitialUrlRef.current) return;
+
+    (async () => {
+      try {
+        const initialUrl = await Linking.getInitialURL();
+        if (!initialUrl) return;
+
+        hasHandledInitialUrlRef.current = true;
+
+        if (!token) {
+          // Not authenticated: remember deep link and send user to auth flow
+          setPendingDeepLink(initialUrl);
+          try {
+            const localStorageCountry = await localStorage.getItem("country");
+            const hasCountry = country || localStorageCountry;
+            if (navigationRef.isReady()) {
+              navigationRef.navigate(hasCountry ? "Login" : "Welcome");
+            }
+          } catch {
+            if (navigationRef.isReady()) {
+              navigationRef.navigate("Welcome");
+            }
+          }
+          return;
+        }
+
+        // Authenticated: navigate to app screen directly
+        const mainState = getMainStackStateFromUrl(initialUrl);
+        if (mainState && navigationRef.isReady()) {
+          const route = mainState.routes[mainState.index];
+          navigationRef.navigate(route.name, route.params);
+        }
+      } catch {
+        // ignore
+      }
+    })();
+  }, [token, country, setPendingDeepLink]);
+
+  // After login: if we had a pending deep link, reset app stack to that screen
+  useEffect(() => {
+    if (
+      !token ||
+      !hasCheckedTmpUser ||
+      !pendingDeepLink ||
+      !navigationRef.isReady()
+    ) {
+      return;
+    }
+    const state = getMainStackStateFromUrl(pendingDeepLink);
+    if (state) {
+      const t = setTimeout(() => {
+        if (navigationRef.isReady()) {
+          navigationRef.reset(state);
+          setPendingDeepLink(null);
+        }
+      }, 200);
+      return () => clearTimeout(t);
+    }
+    setPendingDeepLink(null);
+  }, [token, hasCheckedTmpUser, pendingDeepLink, setPendingDeepLink]);
+
+  // Handle deep link when app is already open (foreground/background)
+  useEffect(() => {
+    const subscription = Linking.addEventListener("url", ({ url }) => {
+      if (!url) return;
+
+      // If the user is not authenticated yet, remember the deep link and
+      // navigate them into the appropriate auth screen first.
+      if (!token) {
+        setPendingDeepLink(url);
+        (async () => {
+          try {
+            const localStorageCountry = await localStorage.getItem("country");
+            const hasCountry = country || localStorageCountry;
+            if (navigationRef.isReady()) {
+              navigationRef.navigate(hasCountry ? "Login" : "Welcome");
+            }
+          } catch {
+            if (navigationRef.isReady()) {
+              navigationRef.navigate("Welcome");
+            }
+          }
+        })();
+        return;
+      }
+
+      // Authenticated: root is App stack, navigate to the screen directly
+      const mainState = getMainStackStateFromUrl(url);
+      if (mainState && navigationRef.isReady()) {
+        const route = mainState.routes[mainState.index];
+        navigationRef.navigate(route.name, route.params);
+      }
+    });
+    return () => subscription.remove();
+  }, [token, country, setPendingDeepLink]);
+
   return (
     <NavigationContainer
+      ref={navigationRef}
+      linking={{
+        ...linkingConfig,
+        getInitialState,
+      }}
       theme={
         contextTheme === "highContrast"
           ? highContrastTheme

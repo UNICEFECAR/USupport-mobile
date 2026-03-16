@@ -9,12 +9,13 @@ import {
 } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CheckBox, AppText } from "#components";
 
 import * as Keychain from "react-native-keychain";
 import * as LocalAuthentication from "expo-local-authentication";
 
 import {
+  CheckBox,
+  AppText,
   Block,
   Heading,
   Input,

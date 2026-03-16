@@ -39,14 +39,8 @@
     <meta-data android:name="android.app.role.COMMUNICATION" android:value="true"/>
     <service android:name="app.notifee.core.ForegroundService" android:foregroundServiceType="mediaPlayback|microphone" tools:replace="android:foregroundServiceType" />
 
-    <provider
-        android:name="androidx.core.content.FileProvider"
-        android:authorities="${applicationId}.provider"
-        android:grantUriPermissions="true"
-        android:exported="false">
-        <meta-data
-            android:name="android.support.FILE_PROVIDER_PATHS"
-            android:resource="@xml/filepaths" />
+    <provider android:name="androidx.core.content.FileProvider" android:authorities="${applicationId}.provider" android:grantUriPermissions="true" android:exported="false">
+      <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/filepaths" />
     </provider>
 
     <meta-data android:name="expo.modules.updates.ENABLED" android:value="true"/>
@@ -64,6 +58,32 @@
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="org.unicef.ecar.usupport"/>
       </intent-filter>
+      <!-- Custom scheme for deep links (usupport://...) -->
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:scheme="usupport"/>
+      </intent-filter>
+
+      <intent-filter android:autoVerify="true">
+        <action android:name="android.intent.action.VIEW"/>
+
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+
+        <data android:scheme="https" android:host="usupport.online" android:pathPrefix="/client"/>
+      </intent-filter>
+
+      <intent-filter android:autoVerify="true">
+        <action android:name="android.intent.action.VIEW"/>
+
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+
+        <data android:scheme="https" android:host="staging.usupport.online" android:pathPrefix="/client"/>
+      </intent-filter>
+
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" android:exported="false"/>
   </application>

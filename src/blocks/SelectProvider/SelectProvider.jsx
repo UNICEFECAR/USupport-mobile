@@ -30,6 +30,9 @@ export const SelectProvider = ({
   activeCoupon,
   setActiveCoupon,
   onCouponRemoved,
+  urlCoupon,
+  urlCouponErrorMessage,
+  onUrlCouponErrorDismiss,
   providersQuery,
   HeaderComponent,
   isFiltering,
@@ -44,17 +47,42 @@ export const SelectProvider = ({
   }).t;
   const { currencySymbol, selectedCountry } = useContext(Context);
 
+  // Coupon input state (urlCoupon from URL takes precedence for display when no active coupon yet)
   const [couponValue, setCouponValue] = useState(
-    () => activeCoupon?.couponValue ?? ""
+    () =>
+      activeCoupon?.couponValue ||
+      urlCoupon ||
+      selectedCountry?.defaultCouponCode ||
+      ""
   );
   const [couponError, setCouponError] = useState("");
   const [isLoadingCoupon, setIsLoadingCoupon] = useState(false);
+  const [userRemovedCoupon, setUserRemovedCoupon] = useState(false);
 
-  // Sync input from applied coupon only. When activeCoupon is null (e.g. after remove), keep input empty
-  // so we don't repopulate from defaultCouponCode and make the removed coupon reappear.
+  // Keep input in sync when active coupon, URL coupon, or country default changes
+  // (don't restore urlCoupon after user clicked Remove).
   useEffect(() => {
-    setCouponValue(activeCoupon?.couponValue ?? "");
-  }, [activeCoupon?.couponValue]);
+    if (activeCoupon) {
+      setUserRemovedCoupon(false);
+    }
+
+    const value =
+      activeCoupon?.couponValue ??
+      (userRemovedCoupon ? "" : urlCoupon) ??
+      selectedCountry?.defaultCouponCode ??
+      "";
+    setCouponValue(value);
+  }, [
+    activeCoupon?.couponValue,
+    urlCoupon,
+    selectedCountry?.defaultCouponCode,
+    userRemovedCoupon,
+  ]);
+
+  // Reset "user removed" when URL coupon changes (e.g. navigated to different link)
+  useEffect(() => {
+    setUserRemovedCoupon(false);
+  }, [urlCoupon]);
 
   const billingTabs = useMemo(() => {
     if (!selectedCountry) return [];
@@ -96,6 +124,7 @@ export const SelectProvider = ({
   const handleProviderClick = (providerId) => {
     navigation.push("ProviderOverview", {
       providerId,
+      billingType: selectedBillingType,
     });
   };
 
@@ -122,10 +151,12 @@ export const SelectProvider = ({
   };
 
   const handleRemoveCoupon = () => {
+    setUserRemovedCoupon(true);
     setActiveCoupon(null);
     setCouponValue("");
     setCouponError("");
     onCouponRemoved?.();
+    onUrlCouponErrorDismiss?.();
   };
 
   const isCouponTabSelected = selectedBillingType === "coupon";
@@ -148,8 +179,16 @@ export const SelectProvider = ({
         label={tScreen("modal_coupon_input_label")}
         placeholder={tScreen("modal_coupon_input_placeholder")}
         value={couponValue}
-        onChange={(value) => setCouponValue(value)}
-        errorMessage={activeCoupon ? null : couponError}
+        onChange={(value) => {
+          setCouponValue(value);
+          if (value === "" && urlCoupon) {
+            setUserRemovedCoupon(true);
+            onUrlCouponErrorDismiss?.();
+          }
+        }}
+        errorMessage={
+          activeCoupon ? null : urlCouponErrorMessage || couponError
+        }
         style={styles.couponInput}
         autoCapitalize="none"
       />

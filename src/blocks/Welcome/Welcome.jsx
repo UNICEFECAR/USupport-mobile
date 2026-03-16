@@ -111,9 +111,19 @@ export function Welcome({ navigation }) {
     const countryCode = selectedCountry;
     const language = selectedLanguage;
 
+    if (!countriesQuery.data) {
+      console.error("Countries data not loaded");
+      return;
+    }
+
     const selectedCountryObject = countriesQuery.data.find(
       (x) => x.value === selectedCountry
     );
+
+    if (!selectedCountryObject) {
+      console.error("Selected country not found in data");
+      return;
+    }
 
     const currencySymbol = selectedCountryObject.currencySymbol;
 
@@ -129,7 +139,8 @@ export function Welcome({ navigation }) {
     if (currencySymbol) {
       localStorage.setItem("currency_symbol", currencySymbol);
     }
-    localStorage.setItem("minAge", selectedCountryObject.minAge.toString());
+    const minAge = selectedCountryObject.minAge;
+    localStorage.setItem("minAge", minAge != null ? minAge.toString() : "0");
 
     navigation.push("RegisterPreview");
   };

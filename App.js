@@ -2,10 +2,8 @@ globalThis.RNFB_SILENCE_MODULAR_DEPRECATION_WARNINGS = true;
 
 import React, { useCallback, useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Linking } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
-import { useFonts } from "expo-font";
-import { Inter_400Regular, Inter_600SemiBold, Inter_700Bold } from "@expo-google-fonts/inter";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import FlashMessage from "react-native-flash-message";
 import { StripeProvider } from "@stripe/stripe-react-native";
@@ -22,7 +20,7 @@ import { Navigation } from "#navigation";
 import { localStorage, Context, userSvc } from "#services";
 import { NoInternetModal, RequireRegistration } from "#modals";
 import { DropdownBackdrop } from "#backdrops";
-import { FIVE_MINUTES } from "#utils";
+import { FIVE_MINUTES, isTokenExpired } from "#utils";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 Notifications.setNotificationHandler({
@@ -68,12 +66,6 @@ class AppErrorBoundary extends React.Component {
 }
 
 function App() {
-  const [fontsLoaded] = useFonts({
-    Inter_400Regular,
-    Inter_600SemiBold,
-    Inter_700Bold,
-  });
-
   const [token, setToken] = useState();
   const [initialRouteName, setInitialRouteName] = useState("TabNavigation"); // Initial route name for the AppNavigation
   const [initialAuthRouteName, setInitialAuthRouteName] = useState("Welcome"); // Initial route name for the AuthNavigation
@@ -93,6 +85,7 @@ function App() {
   const [selectedCountry, setSelectedCountry] = useState(null); // full country object { value, label, countryID, ... }
   const [isPodcastsActive, setIsPodcastsActive] = useState(false);
   const [isVideosActive, setIsVideosActive] = useState(false);
+  const [pendingDeepLink, setPendingDeepLink] = useState(null);
 
   const [dropdownOptions, setDropdownOptions] = useState({
     isOpen: false,
@@ -177,16 +170,36 @@ function App() {
     SplashScreen.preventAutoHideAsync();
     async function checkToken() {
       const token = await localStorage.getItem("token");
-      setToken(token);
-
       const pinCode = await localStorage.getItem("pin-code");
       setUserPin(pinCode);
 
+      // Treat expired or invalid token as no token (clear storage and stay logged out)
+      if (token && isTokenExpired(token)) {
+        await localStorage.removeItem("token");
+        await localStorage.removeItem("refresh-token");
+        await localStorage.removeItem("expires-in");
+        setToken(null);
+        return [null, pinCode];
+      }
+
+      setToken(token);
       return [token, pinCode];
     }
     checkToken().then((data) => {
       handleTokenCheck(data);
-      // SplashScreen.hideAsync();
+      const [tokenFromCheck] = data;
+      Linking.getInitialURL().then((url) => {
+        if (url && !tokenFromCheck) {
+          setPendingDeepLink(url);
+          // Decide which auth screen to show first:
+          // - Welcome: no country selected yet
+          // - Login: country already chosen
+          localStorage.getItem("country").then((storedCountry) => {
+            const hasCountry = !!storedCountry;
+            setInitialAuthRouteName(hasCountry ? "Login" : "Welcome");
+          });
+        }
+      });
     });
   }, []);
 
@@ -202,16 +215,10 @@ function App() {
     checkIsTmpUser();
   }, [token]);
 
-  // Hide the splash screen when the fonts finish loading
+  // Hide the splash screen once the root view is laid out
   const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
-
-  if (!fontsLoaded) {
-    return null;
-  }
+    await SplashScreen.hideAsync();
+  }, []);
 
   // if (error) {
   //   return (
@@ -256,6 +263,8 @@ function App() {
     setIsPodcastsActive,
     isVideosActive,
     setIsVideosActive,
+    pendingDeepLink,
+    setPendingDeepLink,
   };
 
   return (

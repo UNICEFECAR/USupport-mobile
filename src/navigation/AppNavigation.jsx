@@ -1,6 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { TabNavigation } from "./TabNavigation";
+import { getMainStackStateFromUrl } from "./linking";
 
 import {
   FAQ,
@@ -44,11 +45,18 @@ import { Context } from "#services";
 const Stack = createStackNavigator();
 
 export const AppNavigation = () => {
-  const { initialRouteName } = useContext(Context);
+  const { initialRouteName, pendingDeepLink } = useContext(Context);
+
+  const initialState = useMemo(() => {
+    if (!pendingDeepLink) return undefined;
+    return getMainStackStateFromUrl(pendingDeepLink);
+  }, [pendingDeepLink]);
+
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
       initialRouteName={initialRouteName}
+      initialState={initialState}
     >
       {/* <Stack.Screen name="JitsiMeeting" component={JitsiMeeting} /> */}
       <Stack.Screen

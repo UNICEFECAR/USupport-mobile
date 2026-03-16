@@ -26,7 +26,7 @@ export const ProviderOverview = ({ providerId }) => {
 
   const { data: provider, isLoading } = useGetProviderDataById(
     providerId,
-    activeCoupon?.campaignId
+    activeCoupon?.campaignId || null
   );
 
   const image = AMAZON_S3_BUCKET + "/" + (provider?.image || "default");

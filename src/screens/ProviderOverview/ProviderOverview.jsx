@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext, useMemo } from "react";
+import React, { useState, useRef, useContext, useMemo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, ScrollView, Platform } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
@@ -34,6 +34,18 @@ export const ProviderOverview = ({ navigation, route }) => {
   const addCountryEventMutation = useAddCountryEvent();
 
   const providerId = route.params.providerId;
+  const billingType = route.params.billingType || null;
+
+  // When coming from non-coupon tabs (paid / free), ignore any leftover coupon
+  // so scheduling behaves like web: coupon only applies when user used the coupon tab.
+  const effectiveActiveCoupon =
+    billingType === "coupon" ? activeCoupon : null;
+
+  useEffect(() => {
+    if (billingType !== "coupon" && activeCoupon) {
+      setActiveCoupon(null);
+    }
+  }, [billingType, activeCoupon, setActiveCoupon]);
 
   if (!providerId) navigation.navigate("SelectProvider");
 
@@ -96,7 +108,7 @@ export const ProviderOverview = ({ navigation, route }) => {
     openConfirmConsultationBackdrop();
     setBlockSlotError(null);
     queryClient.invalidateQueries({ queryKey: ["all-consultations"] });
-    if (activeCoupon) {
+    if (effectiveActiveCoupon) {
       setActiveCoupon(null);
     }
   };

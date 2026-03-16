@@ -33,18 +33,13 @@ const fetchCountry = async () => {
   return currentCountry?.alpha2 === "KZ" ? true : false;
 };
 
-/**
- * SelectProvider
- *
- * SelectProvider screen
- *
- * @returns {JSX.Element}
- */
-export const SelectProvider = ({ navigation }) => {
+export const SelectProvider = ({ navigation, route }) => {
   const { t } = useTranslation("screens", {
     keyPrefix: "select-provider-screen",
   });
   const queryClient = useQueryClient();
+
+  const urlCoupon = route?.params?.coupon?.trim?.() || null;
 
   const { activeCoupon, setActiveCoupon, country, selectedCountry } =
     useContext(Context);
@@ -52,7 +47,7 @@ export const SelectProvider = ({ navigation }) => {
 
   const { data: isKzCountry } = useQuery(["country-min-price"], fetchCountry);
 
-  // Determine the default billing type from selectedCountry (paid / coupon / free)
+  // Determine the default billing type based on country settings (or URL coupon)
   const getDefaultBillingType = useCallback(() => {
     if (!selectedCountry) return null;
     const {
@@ -61,16 +56,24 @@ export const SelectProvider = ({ navigation }) => {
       hasFreeConsultations,
       defaultBillingType,
     } = selectedCountry;
+
+    // If URL has a coupon param, show the coupon tab (so user sees the coupon form)
+    if (urlCoupon && hasCoupons) return "coupon";
+
+    // If defaultBillingType is set and the corresponding option is available, use it
     if (defaultBillingType) {
       if (defaultBillingType === "paid" && hasPayments) return "paid";
       if (defaultBillingType === "coupon" && hasCoupons) return "coupon";
       if (defaultBillingType === "free" && hasFreeConsultations) return "free";
     }
+
+    // Fallback to first available option
     if (hasPayments) return "paid";
     if (hasCoupons) return "coupon";
     if (hasFreeConsultations) return "free";
+
     return null;
-  }, [selectedCountry]);
+  }, [selectedCountry, urlCoupon]);
 
   const [selectedBillingType, setSelectedBillingType] = useState(null);
 
@@ -88,16 +91,102 @@ export const SelectProvider = ({ navigation }) => {
       clientSvc
         .checkIsCouponAvailable(defaultCouponCode)
         .then((res) => res.data),
-    { enabled: !!defaultCouponCode }
+    {
+      // Only use default coupon when there is no coupon in the URL
+      enabled: !!defaultCouponCode && !urlCoupon,
+    }
   );
 
-  // Skip re-applying default when user explicitly removed the coupon (e.g. switched to free then back to coupon).
+  // Skip re-applying URL/default when user explicitly removed the coupon (e.g. switched to free then back to coupon).
   const userRemovedCouponRef = useRef(false);
 
+  useEffect(() => {
+    userRemovedCouponRef.current = false;
+  }, [urlCoupon]);
+
+  // Validate URL coupon if present
+  const urlCouponQuery = useQuery(
+    ["url-coupon", urlCoupon],
+    () => clientSvc.checkIsCouponAvailable(urlCoupon).then((res) => res.data),
+    { enabled: !!urlCoupon, retry: false }
+  );
+
+  const safeUrlCouponError = urlCouponQuery.error ?? {
+    response: { data: { error: { message: null } } },
+  };
+  const urlCouponErrorData = useError(safeUrlCouponError);
+  const [urlCouponErrorDismissed, setUrlCouponErrorDismissed] =
+    useState(false);
+  const urlCouponErrorMessage =
+    !urlCouponErrorDismissed &&
+    urlCoupon &&
+    urlCouponQuery.isFetched &&
+    !urlCouponQuery.data?.campaign_id
+      ? urlCouponErrorData?.message || t("coupon_not_found_error")
+      : null;
+
+  useEffect(() => {
+    setUrlCouponErrorDismissed(false);
+  }, [urlCoupon]);
+
+  // On coupon tab: apply URL coupon if valid; if URL coupon invalid, clear activeCoupon so input shows URL coupon.
+  // Only use country default when there is no URL coupon and user hasn't explicitly removed coupon.
+  // If user explicitly removed the coupon (e.g. switched to free then back to coupon), do not re-apply URL or default.
+  useEffect(() => {
+    if (selectedBillingType !== "coupon") return;
+
+    setActiveCoupon((current) => {
+      // User explicitly removed coupon – keep removed state when switching back to coupon tab
+      if (userRemovedCouponRef.current) {
+        return current;
+      }
+
+      // URL coupon takes precedence
+      if (urlCoupon) {
+        if (urlCouponQuery.data?.campaign_id) {
+          return {
+            couponValue: urlCoupon,
+            campaignId: urlCouponQuery.data.campaign_id,
+          };
+        }
+        // URL coupon invalid – clear so input shows only urlCoupon
+        if (urlCouponQuery.isFetched) {
+          return null;
+        }
+        // Still validating URL coupon – keep current
+        return current;
+      }
+
+      // No URL coupon: apply country default if available
+      const data = defaultCouponQuery.data;
+      if (!defaultCouponCode || !data?.campaign_id) return current;
+
+      if (current) return current;
+      return {
+        couponValue: defaultCouponCode,
+        campaignId: data.campaign_id,
+      };
+    });
+  }, [
+    selectedBillingType,
+    defaultCouponCode,
+    defaultCouponQuery.data,
+    urlCoupon,
+    urlCouponQuery.data,
+    urlCouponQuery.isFetched,
+    setActiveCoupon,
+  ]);
+
+  // Use coupon only when on coupon tab; when on paid/free, pass null so providers query doesn't use it
+  const effectiveActiveCoupon =
+    selectedBillingType === "coupon" ? activeCoupon : null;
+
   // On coupon tab with no coupon set yet: apply default from query. Skip if user explicitly removed the coupon.
+  // (Kept for backwards compatibility when there is no URL coupon; logic above already handles this case.)
   useEffect(() => {
     if (selectedBillingType !== "coupon") return;
     if (userRemovedCouponRef.current) return;
+    if (urlCoupon) return;
     const data = defaultCouponQuery.data;
     if (!defaultCouponCode || !data?.campaign_id) return;
     setActiveCoupon((current) => {
@@ -108,20 +197,9 @@ export const SelectProvider = ({ navigation }) => {
     selectedBillingType,
     defaultCouponCode,
     defaultCouponQuery.data,
+    urlCoupon,
     setActiveCoupon,
   ]);
-
-  // When user leaves the coupon tab, clear activeCoupon in context so ProviderOverview and others see null.
-  // activeCoupon in context should only be set while on the coupon tab.
-  useEffect(() => {
-    if (selectedBillingType !== "coupon") {
-      setActiveCoupon(null);
-    }
-  }, [selectedBillingType, setActiveCoupon]);
-
-  // Use coupon only when on coupon tab; when on paid/free, pass null so providers query doesn't use it
-  const effectiveActiveCoupon =
-    selectedBillingType === "coupon" ? activeCoupon : null;
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isCouponModalOpen, setIsCouponModalOpen] = useState(false);
@@ -275,6 +353,9 @@ export const SelectProvider = ({ navigation }) => {
         onCouponRemoved={() => {
           userRemovedCouponRef.current = true;
         }}
+        urlCoupon={urlCoupon}
+        urlCouponErrorMessage={urlCouponErrorMessage}
+        onUrlCouponErrorDismiss={() => setUrlCouponErrorDismissed(true)}
         providersQuery={providersQuery}
         isFiltering={isFiltering}
         setIsFiltering={setIsFiltering}
