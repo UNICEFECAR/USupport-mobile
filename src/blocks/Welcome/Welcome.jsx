@@ -145,9 +145,12 @@ export function Welcome({ navigation }) {
     navigation.push("RegisterPreview");
   };
 
-  const imageUrl = isDarkMode
-    ? `${AMAZON_S3_BUCKET}/logo-vertical-dark`
-    : `${AMAZON_S3_BUCKET}/logo-vertical`;
+  const IS_RO = selectedCountry === "RO";
+  const imageUrl = IS_RO
+    ? `${AMAZON_S3_BUCKET}/logo-vertical-ro`
+    : isDarkMode
+      ? `${AMAZON_S3_BUCKET}/logo-vertical-dark`
+      : `${AMAZON_S3_BUCKET}/logo-vertical`;
 
   return (
     <ScrollView contentContainerStyle={styles.flexGrow}>
