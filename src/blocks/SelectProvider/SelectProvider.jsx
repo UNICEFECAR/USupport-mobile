@@ -40,6 +40,7 @@ export const SelectProvider = ({
   selectedBillingType,
   setSelectedBillingType,
   handleFilterClick,
+  hasActiveCampaign,
 }) => {
   const { t } = useTranslation("blocks", { keyPrefix: "select-provider" });
   const tScreen = useTranslation("screens", {
@@ -97,7 +98,7 @@ export const SelectProvider = ({
         isSelected: selectedBillingType === "paid",
       });
     }
-    if (hasCoupons) {
+    if (hasCoupons && hasActiveCampaign) {
       tabs.push({
         label: t("tab_coupon"),
         value: "coupon",
@@ -112,7 +113,7 @@ export const SelectProvider = ({
       });
     }
     return tabs;
-  }, [selectedCountry, selectedBillingType, t]);
+  }, [selectedCountry, selectedBillingType, t, hasActiveCampaign]);
 
   const handleTabSelect = (index) => {
     const selectedTab = billingTabs[index];
@@ -159,7 +160,8 @@ export const SelectProvider = ({
     onUrlCouponErrorDismiss?.();
   };
 
-  const isCouponTabSelected = selectedBillingType === "coupon";
+  const isCouponTabSelected =
+    selectedBillingType === "coupon" && !!hasActiveCampaign;
   const showProvidersList = !isCouponTabSelected || activeCoupon;
   const listData = showProvidersList
     ? isFiltering

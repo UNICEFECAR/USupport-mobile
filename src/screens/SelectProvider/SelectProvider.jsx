@@ -16,7 +16,7 @@ import { SelectProvider as SelectProviderBlock } from "#blocks";
 
 import { FilterProviders } from "#backdrops";
 
-import { useGetProvidersData, useError } from "#hooks";
+import { useGetProvidersData, useError, useCheckActiveCampaign } from "#hooks";
 
 import {
   Context,
@@ -44,8 +44,14 @@ export const SelectProvider = ({ navigation, route }) => {
   const { activeCoupon, setActiveCoupon, country, selectedCountry } =
     useContext(Context);
   const [headingHeight, setHeadingHeight] = useState(0);
+  const [selectedBillingType, setSelectedBillingType] = useState(null);
+  const hasReconciledCouponDefaultRef = useRef(false);
 
   const { data: isKzCountry } = useQuery(["country-min-price"], fetchCountry);
+  const couponsAvailableByCountry = !!selectedCountry?.hasCoupons;
+  const { data: hasActiveCampaign, isLoading: isActiveCampaignLoading } =
+    useCheckActiveCampaign(couponsAvailableByCountry);
+  const canUseCoupons = couponsAvailableByCountry && hasActiveCampaign;
 
   // Determine the default billing type based on country settings (or URL coupon)
   const getDefaultBillingType = useCallback(() => {
@@ -58,31 +64,76 @@ export const SelectProvider = ({ navigation, route }) => {
     } = selectedCountry;
 
     // If URL has a coupon param, show the coupon tab (so user sees the coupon form)
-    if (urlCoupon && hasCoupons) return "coupon";
+    if (urlCoupon && canUseCoupons) return "coupon";
 
     // If defaultBillingType is set and the corresponding option is available, use it
     if (defaultBillingType) {
       if (defaultBillingType === "paid" && hasPayments) return "paid";
-      if (defaultBillingType === "coupon" && hasCoupons) return "coupon";
+      if (defaultBillingType === "coupon" && canUseCoupons) return "coupon";
       if (defaultBillingType === "free" && hasFreeConsultations) return "free";
     }
 
     // Fallback to first available option
     if (hasPayments) return "paid";
-    if (hasCoupons) return "coupon";
+    if (canUseCoupons) return "coupon";
     if (hasFreeConsultations) return "free";
 
     return null;
-  }, [selectedCountry, urlCoupon]);
+  }, [selectedCountry, urlCoupon, hasActiveCampaign]);
 
-  const [selectedBillingType, setSelectedBillingType] = useState(null);
-
-  // Set default billing type when country is loaded (only once)
+  // Set default billing type when country is loaded (coupon tab when ?coupon= is in URL)
   useEffect(() => {
     if (!selectedCountry || selectedBillingType !== null) return;
+    if (selectedCountry.hasCoupons && isActiveCampaignLoading) return;
     const defaultType = getDefaultBillingType();
     if (defaultType) setSelectedBillingType(defaultType);
-  }, [selectedCountry, getDefaultBillingType, selectedBillingType]);
+  }, [
+    selectedCountry,
+    getDefaultBillingType,
+    selectedBillingType,
+    isActiveCampaignLoading,
+  ]);
+
+  useEffect(() => {
+    hasReconciledCouponDefaultRef.current = false;
+  }, [selectedCountry?.country_id, urlCoupon]);
+
+  useEffect(() => {
+    if (!selectedCountry || hasReconciledCouponDefaultRef.current) return;
+    if (!selectedCountry.hasCoupons || hasActiveCampaign !== true) return;
+    if (!selectedBillingType || selectedBillingType === "coupon") return;
+
+    const shouldPreferCoupon =
+      !!urlCoupon || selectedCountry.defaultBillingType === "coupon";
+
+    if (shouldPreferCoupon) {
+      setSelectedBillingType("coupon");
+    }
+
+    hasReconciledCouponDefaultRef.current = true;
+  }, [selectedCountry, hasActiveCampaign, selectedBillingType, urlCoupon]);
+
+  useEffect(() => {
+    if (selectedBillingType !== "coupon") {
+      setActiveCoupon(null);
+    }
+  }, [selectedBillingType, setActiveCoupon]);
+
+  useEffect(() => {
+    if (!selectedCountry || selectedBillingType !== "coupon") return;
+
+    if (!selectedCountry.hasCoupons || !hasActiveCampaign) {
+      const fallbackType = getDefaultBillingType();
+      if (fallbackType && fallbackType !== "coupon") {
+        setSelectedBillingType(fallbackType);
+      }
+    }
+  }, [
+    selectedCountry,
+    selectedBillingType,
+    hasActiveCampaign,
+    getDefaultBillingType,
+  ]);
 
   const defaultCouponCode = selectedCountry?.defaultCouponCode;
   const defaultCouponQuery = useQuery(
@@ -93,7 +144,7 @@ export const SelectProvider = ({ navigation, route }) => {
         .then((res) => res.data),
     {
       // Only use default coupon when there is no coupon in the URL
-      enabled: !!defaultCouponCode && !urlCoupon,
+      enabled: !!defaultCouponCode && !urlCoupon && canUseCoupons,
     }
   );
 
@@ -108,18 +159,18 @@ export const SelectProvider = ({ navigation, route }) => {
   const urlCouponQuery = useQuery(
     ["url-coupon", urlCoupon],
     () => clientSvc.checkIsCouponAvailable(urlCoupon).then((res) => res.data),
-    { enabled: !!urlCoupon, retry: false }
+    { enabled: !!urlCoupon && canUseCoupons, retry: false }
   );
 
   const safeUrlCouponError = urlCouponQuery.error ?? {
     response: { data: { error: { message: null } } },
   };
   const urlCouponErrorData = useError(safeUrlCouponError);
-  const [urlCouponErrorDismissed, setUrlCouponErrorDismissed] =
-    useState(false);
+  const [urlCouponErrorDismissed, setUrlCouponErrorDismissed] = useState(false);
   const urlCouponErrorMessage =
     !urlCouponErrorDismissed &&
     urlCoupon &&
+    canUseCoupons &&
     urlCouponQuery.isFetched &&
     !urlCouponQuery.data?.campaign_id
       ? urlCouponErrorData?.message || t("coupon_not_found_error")
@@ -363,6 +414,7 @@ export const SelectProvider = ({ navigation, route }) => {
         selectedBillingType={selectedBillingType}
         setSelectedBillingType={setSelectedBillingType}
         handleFilterClick={handleFilterClick}
+        hasActiveCampaign={canUseCoupons}
       />
       <TransparentModal
         isOpen={isCouponModalOpen}
