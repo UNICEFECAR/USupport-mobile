@@ -1,9 +1,12 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import {
   ScrollView,
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
+  Keyboard,
+  useWindowDimensions,
+  View,
 } from "react-native";
 import { useTranslation } from "react-i18next";
 
@@ -25,6 +28,9 @@ import { appStyles } from "#styles";
 export const MoodTracker = ({ navigation }) => {
   const { t } = useTranslation("screens", { keyPrefix: "mood-tracker-screen" });
   const { colors, isDarkMode } = useGetTheme();
+  const { height: windowHeight } = useWindowDimensions();
+  const scrollViewRef = useRef(null);
+  const [giveSuggestionLayout, setGiveSuggestionLayout] = useState(null);
   const { country, isTmpUser, handleRegistrationModalOpen } =
     useContext(Context);
   const IS_RO = country === "RO";
@@ -38,6 +44,30 @@ export const MoodTracker = ({ navigation }) => {
     }
   }, [isTmpUser]);
 
+  const handleGiveSuggestionFocus = () => {
+    if (
+      Platform.OS !== "android" ||
+      !giveSuggestionLayout ||
+      !scrollViewRef.current
+    ) {
+      return;
+    }
+
+    const subscription = Keyboard.addListener("keyboardDidShow", (e) => {
+      subscription.remove();
+      const keyboardHeight = e.endCoordinates.height;
+      const visibleHeight = windowHeight - keyboardHeight;
+      const scrollY = Math.max(
+        0,
+        giveSuggestionLayout.y +
+          giveSuggestionLayout.height -
+          visibleHeight +
+          56
+      );
+      scrollViewRef.current?.scrollTo({ y: scrollY, animated: true });
+    });
+  };
+
   return (
     <Screen hasEmergencyButton={false} hasHeaderNavigation t={t}>
       <MoodTrackReport
@@ -49,10 +79,10 @@ export const MoodTracker = ({ navigation }) => {
         onClose={() => setIsHowItWorksOpen(false)}
       />
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "position" : null}
+        behavior={Platform.OS === "ios" ? "position" : "height"}
         keyboardVerticalOffset={64}
       >
-        <ScrollView>
+        <ScrollView ref={scrollViewRef} keyboardShouldPersistTaps="handled">
           <MascotHeadingBlock style={styles.mascotHeadingBlock}>
             <AppText namedStyle="h3" style={styles.colorTextBlue}>
               {t("heading")}
@@ -96,7 +126,16 @@ export const MoodTracker = ({ navigation }) => {
               navigation={navigation}
             />
           ) : null}
-          <GiveSuggestion navigation={navigation} type="mood-tracker" />
+          <View
+            onLayout={(e) => setGiveSuggestionLayout(e.nativeEvent.layout)}
+            collapsable={false}
+          >
+            <GiveSuggestion
+              navigation={navigation}
+              type="mood-tracker"
+              onTextareaFocus={handleGiveSuggestionFocus}
+            />
+          </View>
         </ScrollView>
       </KeyboardAvoidingView>
     </Screen>

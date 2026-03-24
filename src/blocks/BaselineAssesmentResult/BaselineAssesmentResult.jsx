@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
-import RenderHtml from "react-native-render-html";
 
 import {
   Box,
@@ -18,6 +17,7 @@ import {
   CardMedia,
   Icon,
   AppButton,
+  CKRenderer,
 } from "#components";
 
 import { useGetTheme, useGetAssessmentResult } from "#hooks";

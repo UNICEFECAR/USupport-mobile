@@ -28,6 +28,7 @@ export const GiveSuggestion = ({
   type = "information-portal",
   navigation,
   style,
+  onTextareaFocus,
 }) => {
   const { t } = useTranslation("blocks", { keyPrefix: "give-suggestion" });
   const { isTmpUser, handleRegistrationModalOpen } = useContext(Context);
@@ -101,6 +102,7 @@ export const GiveSuggestion = ({
         errorMessage={errors.suggestion}
         style={styles.textArea}
         value={data.suggestion}
+        onFocus={onTextareaFocus}
       />
       <AppButton
         label={t("submit")}

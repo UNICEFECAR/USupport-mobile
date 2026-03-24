@@ -1,4 +1,10 @@
-import React, { useState, useCallback, useContext, useEffect } from "react";
+import React, {
+  useState,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+} from "react";
 import { useTranslation } from "react-i18next";
 import {
   View,
@@ -7,6 +13,8 @@ import {
   KeyboardAvoidingView,
   Platform,
   RefreshControl,
+  Keyboard,
+  useWindowDimensions,
 } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -34,6 +42,9 @@ export const InformationalPortal = ({ navigation }) => {
   });
   const queryClient = useQueryClient();
   const [refreshing, setRefreshing] = useState(false);
+  const scrollViewRef = useRef(null);
+  const [giveSuggestionLayout, setGiveSuggestionLayout] = useState(null);
+  const { height: windowHeight } = useWindowDimensions();
 
   const { isPodcastsActive, isVideosActive } = useContext(Context);
 
@@ -101,13 +112,38 @@ export const InformationalPortal = ({ navigation }) => {
     </View>
   );
 
+  const handleGiveSuggestionFocus = () => {
+    if (
+      Platform.OS !== "android" ||
+      !giveSuggestionLayout ||
+      !scrollViewRef.current
+    ) {
+      return;
+    }
+
+    const subscription = Keyboard.addListener("keyboardDidShow", (e) => {
+      subscription.remove();
+      const keyboardHeight = e.endCoordinates.height;
+      const visibleHeight = windowHeight - keyboardHeight;
+      const scrollY = Math.max(
+        0,
+        giveSuggestionLayout.y +
+          giveSuggestionLayout.height -
+          visibleHeight +
+          56
+      );
+      scrollViewRef.current?.scrollTo({ y: scrollY, animated: true });
+    });
+  };
+
   return (
     <Screen hasHeaderNavigation t={t} hasEmergencyButton={false}>
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "position" : null}
+        behavior={Platform.OS === "ios" ? "position" : "height"}
         keyboardVerticalOffset={64}
       >
         <ScrollView
+          ref={scrollViewRef}
           keyboardShouldPersistTaps="handled"
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -135,7 +171,16 @@ export const InformationalPortal = ({ navigation }) => {
             contentType={selectedContentType}
             onRefresh={onRefresh}
           />
-          <GiveSuggestion navigation={navigation} />
+          <View
+            onLayout={(e) => setGiveSuggestionLayout(e.nativeEvent.layout)}
+            collapsable={false}
+            // style={{ marginBottom: 200 }}
+          >
+            <GiveSuggestion
+              navigation={navigation}
+              onTextareaFocus={handleGiveSuggestionFocus}
+            />
+          </View>
         </ScrollView>
       </KeyboardAvoidingView>
     </Screen>

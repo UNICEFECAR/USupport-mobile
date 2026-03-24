@@ -7,6 +7,8 @@ import {
   Platform,
   KeyboardAvoidingView,
   View,
+  Keyboard,
+  useWindowDimensions,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useQueryClient } from "@tanstack/react-query";
@@ -52,8 +54,11 @@ export const Consultations = ({ navigation }) => {
     useContext(Context);
 
   const { bottom: bottomInset } = useSafeAreaInsets();
+  const { height: windowHeight } = useWindowDimensions();
   const addCountryEventMutation = useAddCountryEvent();
   const queryClient = useQueryClient();
+  const scrollViewRef = useRef(null);
+  const [giveSuggestionLayout, setGiveSuggestionLayout] = useState(null);
 
   const clientDataQuery = useGetClientData()[0];
   const clientData = clientDataQuery.data;
@@ -207,6 +212,27 @@ export const Consultations = ({ navigation }) => {
       : new Date(selectedSlot.current);
   }, [isWithCampaign, selectedSlot.current]);
 
+  const handleGiveSuggestionFocus = () => {
+    if (
+      Platform.OS !== "android" ||
+      !giveSuggestionLayout ||
+      !scrollViewRef.current
+    ) {
+      return;
+    }
+
+    const subscription = Keyboard.addListener("keyboardDidShow", (e) => {
+      subscription.remove();
+      const keyboardHeight = e.endCoordinates.height;
+      const visibleHeight = windowHeight - keyboardHeight;
+      const scrollY = Math.max(
+        0,
+        giveSuggestionLayout.y + giveSuggestionLayout.height - visibleHeight + 56
+      );
+      scrollViewRef.current?.scrollTo({ y: scrollY, animated: true });
+    });
+  };
+
   return (
     <Screen
       style={[
@@ -224,15 +250,17 @@ export const Consultations = ({ navigation }) => {
       t={t}
     >
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "position" : null}
+        behavior={Platform.OS === "ios" ? "position" : "height"}
       >
         <ScrollView
+          ref={scrollViewRef}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
               onRefresh={() => onRefresh()}
             />
           }
+          keyboardShouldPersistTaps="handled"
         >
           <ConsultationsBlock
             openJoinConsultation={openJoinConsultation}
@@ -241,7 +269,16 @@ export const Consultations = ({ navigation }) => {
             navigation={navigation}
             currencySymbol={currencySymbol}
           />
-          <GiveSuggestion navigation={navigation} type="consultations" />
+          <View
+            onLayout={(e) => setGiveSuggestionLayout(e.nativeEvent.layout)}
+            collapsable={false}
+          >
+            <GiveSuggestion
+              navigation={navigation}
+              type="consultations"
+              onTextareaFocus={handleGiveSuggestionFocus}
+            />
+          </View>
           <View style={{ marginBottom: 85 }} />
         </ScrollView>
       </KeyboardAvoidingView>
