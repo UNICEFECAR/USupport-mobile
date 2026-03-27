@@ -79,10 +79,12 @@ export const FilterOrganizations = ({
             selected={data.district}
             setSelected={(value) => handleChange("district", value)}
             placeholder={t("district_placeholder")}
-            options={metadata.districts.map((district) => ({
-              label: t(district.name),
-              value: district.districtId,
-            }))}
+            options={metadata.districts
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .map((district) => ({
+                label: t(district.name),
+                value: district.districtId,
+              }))}
           />
         )}
         {metadata?.paymentMethods && metadata.paymentMethods.length > 0 && (
