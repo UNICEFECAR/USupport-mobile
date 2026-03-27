@@ -6,7 +6,7 @@
       "no_messages": "Nici un mesaj găsit",
       "show_system_messages": "Afișați mesajele sistemului",
       "show_previous_consultations": "Afișarea consultațiilor anterioare",
-      "export_label": "Export",
+      "export_label": "Exporta",
       "chat_history": "Istoricul chat-ului în consultație cu",
       "client_joined": "Clientul a intrat la consultație",
       "client_left": "Clientul a părăsit consultația",
@@ -75,10 +75,10 @@
       "join_button_label": "Intrare",
       "join_button_label_tooltip": "Puteți intra la consultație cu 5 minute înainte de începere",
       "change_button_label": "Modificare",
-      "ordinal_st": "st",
-      "ordinal_nd": "nd",
-      "ordinal_rd": "rd",
-      "ordinal_th": "th",
+      "ordinal_st": "a",
+      "ordinal_nd": "a",
+      "ordinal_rd": "a",
+      "ordinal_th": "a",
       "january": "ianuarie",
       "february": "februarie",
       "march": "martie",
@@ -141,22 +141,22 @@
       "contact_reason_2": "Doresc mai multe informații despre serviciile oferite prin intermediul platformei",
       "contact_reason_3": "Sunt client și mă confrunt cu o problemă tehnică",
       "contact_reason_4": "Alte motive",
-      "contact_reason_1_pl": "Information about uSupport",
-      "contact_reason_2_pl": "Technical problem",
-      "contact_reason_3_pl": "Complaint",
-      "contact_reason_4_pl": "Something else",
+      "contact_reason_1_pl": "Informatii despre uSupport",
+      "contact_reason_2_pl": "Problema tehnica",
+      "contact_reason_3_pl": "Plangere",
+      "contact_reason_4_pl": "Altceva",
       "success": "Problema dvs. a fost raportată. Vă vom contacta în curând.",
-      "contact_form": "Contact form"
+      "contact_form": "Formular de contact"
     },
     "faq": {
       "heading": "ÎNTREBĂRI FRECVENTE",
       "subheading": "Aici găsiți răspunsuri la întrebările frecvente.",
       "no_results": "Nu s-au găsit rezultate.",
-      "search": "Search"
+      "search": "Cauta"
     },
     "forgot-password": {
       "error_email_message": "Vă rugăm, introduceți adresa dvs. de e-mail",
-      "input_email_label": "Email",
+      "input_email_label": "E-mail",
       "reset_password_button_label": "Resetare parolă",
       "register_redirect_button_label": "Nu am cont",
       "modal_heading": "Verificați e-mailul",
@@ -171,7 +171,7 @@
       "modal_title": "Propunere trimisă ",
       "modal_text": "Ne pare foarte rău că nu ați putut găsi ceea ce căutați. Vom încerca să răspundem sugestiei dvs. cât mai curând posibil. Vă mulțumim pentru feedback.",
       "modal_cta_label": "Citiți mai multe articole",
-      "send_success_text": "Your suggestion has been sent successfully"
+      "send_success_text": "Sugestia ta a fost trimisa cu succes"
     },
     "information-portal": {
       "heading_newest": "Cele mai noi articole",
@@ -298,7 +298,7 @@
       "no_payments_history_found": "Nu aveți încă nicio plată",
       "text_audio_video_consultation": "Consultație online",
       "download_success": "Fișier descărcat ",
-      "export_label": "Export",
+      "export_label": "Exporta",
       "heading": "Istoricul plăților",
       "subheading": "Aici puteți vedea istoricul complet al plăților dvs."
     },
@@ -342,28 +342,28 @@
       "panic_attack": "Atac de panică",
       "relationship": "Relații",
       "personal_development": "Dezvoltare personală",
-      "ptsd": "Post-Traumatic Stress Disorder (PTSD)",
-      "phobia": "Phobias",
-      "sexuality": "Sexuality and Intimate Relationship Issues",
-      "lgbtq": "LGBTQ+Concerns",
-      "goal": "Goal Setting and Personal Development",
-      "emotional_intelligence": "Emotional Intelligence and Regulation",
-      "productivity": "Productivity and time management",
-      "self_care": "Self-Care Practices",
-      "insomnia": "Insomnia and Sleep Issues",
-      "motivation": "Motivation and Self-Improvement",
-      "anger": "Anger Management",
-      "bullying": "Bullying and Peer Pressure",
-      "grief": "Grief and Loss",
-      "gender_identity": "Gender identity",
-      "family": "Family and Parental Conflict",
-      "low_mood": "Low Mood and Emotional Well-being",
-      "hiv": "HIV/AIDS",
-      "loneliness": "Loneliness and Social Isolation",
-      "toxic_relationships": "Toxic Relationships",
-      "love": "Love and Romantic Relationships",
-      "social_skills": "Social Skills and Friendship",
-      "body_image": "Body Image and Self-Esteem",
+      "ptsd": "Tulburare de stres posttraumatic (PTSD)",
+      "phobia": "Fobii",
+      "sexuality": "Sexualitate si probleme in relatiile intime",
+      "lgbtq": "Preocupari LGBTQ+",
+      "goal": "Stabilirea obiectivelor si dezvoltare personala",
+      "emotional_intelligence": "Inteligenta emotionala si reglare emotionala",
+      "productivity": "Productivitate si managementul timpului",
+      "self_care": "Practici de auto-ingrijire",
+      "insomnia": "Insomnie si probleme de somn",
+      "motivation": "Motivatie si auto-imbunatatire",
+      "anger": "Gestionarea furiei",
+      "bullying": "Bullying si presiunea grupului",
+      "grief": "Doliu si pierdere",
+      "gender_identity": "Identitate de gen",
+      "family": "Conflicte familiale si parentale",
+      "low_mood": "Dispozitie scazuta si bunastare emotionala",
+      "hiv": "HIV/SIDA",
+      "loneliness": "Singuratate si izolare sociala",
+      "toxic_relationships": "Relatii toxice",
+      "love": "Dragoste si relatii romantice",
+      "social_skills": "Abilitati sociale si prietenie",
+      "body_image": "Imagine corporala si stima de sine",
       "video_label": "Reprezentare video",
       "hour_consultation": "{{currencySymbol}} pentru o oră de consultanță",
       "heading": "Prezentare generală a furnizorului",
@@ -375,7 +375,7 @@
       "input_name_placeholder": "Introduceți prenumele dvs.",
       "input_surname_label": "Nume",
       "input_surname_placeholder": "Introduceți numele dvs.",
-      "dropdown_sex_label": "Sex *",
+      "dropdown_sex_label": "Gen *",
       "dropdown_year_label": "Anul nașterii *",
       "living_place_label": "Locul de reședință *",
       "button_continue_label": "Continuați",
@@ -383,8 +383,8 @@
       "sex_female": "Feminin",
       "sex_unspecified": "Nespecificat",
       "sex_none": "Prefer să nu spun",
-      "place_of_living_urban": "Urban",
-      "place_of_living_rural": "Rural",
+      "place_of_living_urban": "Mediu urban",
+      "place_of_living_rural": "Mediu rural",
       "sex_error": "Vă rugăm să introduceți sexul",
       "year_of_birth_error": "Vă rugăm să introduceți anul nașterii",
       "place_of_living_error": "Vă rugăm să introduceți locul de reședință",
@@ -421,11 +421,11 @@
       "prompt_title": "Salvați datele dvs. de identificare pentru o autentificare rapidă",
       "prompt_2_title": "Autentificați-vă pentru a vă salva datele de identificare",
       "cancel": "Anulare",
-      "click_to_copy": "Click to copy"
+      "click_to_copy": "Apasa pentru a copia"
     },
     "register-email": {
       "heading": "Înregistrare cu e-mail",
-      "email_label": "Email",
+      "email_label": "E-mail",
       "email_placeholder": "user@mail.com",
       "password_label": "Parolă",
       "password_placeholder": "Introduceți parola dvs.",
@@ -457,7 +457,8 @@
       "heading_2": "Despre asistență",
       "text_2": "uSupport este o platformă de sănătate mintală, psihosocială și bunăstare concepută pentru tineri și îngrijitorii acestora, unde confidențialitatea și siguranța sunt prioritare.",
       "heading_3": "Despre dvs.",
-      "text_3": "Fiți cea mai bună variantă a propriei persoanel! Sănătatea mintală contează."
+      "text_3": "Fiți cea mai bună variantă a propriei persoanel! Sănătatea mintală contează.",
+      "pl_text": "uSupport este o platforma de sanatate mintala si bunastare conceputa pentru tineri (16-24)."
     },
     "register-support": {
       "heading": "Aveți nevoie de asistență?",
@@ -558,14 +559,14 @@
       "nickname": "Pseudonim",
       "nickname_placeholder": "Introduceți pseudonimul",
       "nickname_error": "Pseudonimul este obligatoriu",
-      "email": "Email",
+      "email": "E-mail",
       "email_placeholder": "Introduceți adresa dvs. de e-mail",
       "name": "Prenume",
       "name_placeholder": "Introduceți prenumele dvs.",
       "surname": "Nume",
       "surname_placeholder": "Introduceți numele dvs.",
       "email_error": "Introduceți o adresă de e-mail validă",
-      "sex": "Sex",
+      "sex": "Gen",
       "year_of_birth": "Anul nașterii",
       "country": "Țara",
       "living_place": "Locul de reședință",
@@ -583,8 +584,8 @@
       "sex_female": "Feminin",
       "sex_unspecified": "Nespecificat",
       "sex_none": "Prefer să nu spun",
-      "place_of_living_urban": "Urban",
-      "place_of_living_rural": "Rural",
+      "place_of_living_urban": "Mediu urban",
+      "place_of_living_rural": "Mediu rural",
       "data_processing_modal_heading": "Sunteți sigur că doriți să anulați permisiunea de utilizare a datelor dvs. personale, conform <0>Politicii de confidențialitate</0>?",
       "data_processing_modal_text": "Nu veți mai putea programa alte consultații.",
       "data_processing_modal_confirm_button": "Anularea permisiunii",
@@ -620,7 +621,8 @@
       "language_button_label": "Schimbare limbă",
       "dark_mode_button_label": "Modul întunecat",
       "light_mode_button_label": "Mod luminos",
-      "user_guide": "Utilizarea platformei"
+      "user_guide": "Utilizarea platformei",
+      "high_contrast_mode": "Mod de contrast ridicat"
     },
     "welcome": {
       "heading": "Bine ați venit la",
@@ -674,7 +676,7 @@
       "hybrid_interaction": "Hibrid",
       "cash": "Numerar",
       "bank_transfer": "Transfer bancar",
-      "card": "Card",
+      "card": "Card bancar",
       "free": "Gratuit",
       "individual_psychotherapy": "Psihoterapie individuală",
       "group_psychotherapy": "Psihoterapie de grup",
@@ -692,12 +694,12 @@
       "child_psychiatry": "Psihiatrie pediatrică",
       "art_recreational_activities": "Activități recreative artistice (teatru, muzică, poezie, pictură, povești)",
       "sport_recreational_activities": "Activități recreative sportive (sporturi, jocuri, dans)",
-      "sector_1": "Sector 1",
-      "sector_2": "Sector 2",
-      "sector_3": "Sector 3",
-      "sector_4": "Sector 4",
-      "sector_5": "Sector 5",
-      "sector_6": "Sector 6",
+      "sector_1": "Sectorul 1",
+      "sector_2": "Sectorul 2",
+      "sector_3": "Sectorul 3",
+      "sector_4": "Sectorul 4",
+      "sector_5": "Sectorul 5",
+      "sector_6": "Sectorul 6",
       "children": "Copii",
       "children_disabilities": "Copii cu dizabilități",
       "adults": "Adulți",
@@ -774,7 +776,6 @@
       "work_with_label": "Lucrează cu",
       "offered_services_label": "Servicii oferite",
       "providers_label": "Furnizori",
-
       "violence_victim_helpline": "Linie de asistență pentru victimele violenței",
       "individual_psychotherapy": "Psihoterapie individuală",
       "social_information_counseling": "Informare și consiliere socială",
@@ -791,7 +792,6 @@
       "art_recreational_activities": "Activități recreative artistice (teatru, muzică, poezie, pictură, storytelling)",
       "addiction_helpline": "Linie de asistență pentru dependențe",
       "group_psychotherapy": "Psihoterapie de grup",
-
       "emergency_situations": "Situații de urgență",
       "pediatric_psychiatry": "Psihiatrie pediatrică",
       "psychological_evaluation": "Evaluare psihologică",
@@ -807,29 +807,24 @@
       "pediatric_neurology": "Neurologie pediatrică",
       "special_psychopedagogy": "Psihopedagogie specială",
       "neuropsychomotor_recovery": "Recuperare neuropsihomotorie",
-
       "in_person_interaction": "În persoană",
       "online_interaction": "Online",
       "phone_interaction": "Telefon",
       "hybrid_interaction": "Hibrid",
-
       "free_services": "Servicii gratuite",
       "paid_services": "Servicii plătite",
       "co_payment_services": "Servicii cu coplată",
       "cnas_reimbursed_services": "Servicii decontate de CNAS",
-
       "public": "Public",
       "private": "Privat",
       "ong": "ONG",
       "public_private": "Public-privat",
-
-      "sector_1": "Sector 1",
-      "sector_2": "Sector 2",
-      "sector_3": "Sector 3",
-      "sector_4": "Sector 4",
-      "sector_5": "Sector 5",
-      "sector_6": "Sector 6",
-
+      "sector_1": "Sectorul 1",
+      "sector_2": "Sectorul 2",
+      "sector_3": "Sectorul 3",
+      "sector_4": "Sectorul 4",
+      "sector_5": "Sectorul 5",
+      "sector_6": "Sectorul 6",
       "aggression_violence_victim_or_aggressor": "Agresiune/violență - victimă sau agresor",
       "learning_difficulties_special_educational_needs": "Dificultăți de învățare/Nevoi educaționale speciale",
       "behavioral_disorder": "Tulburări de comportament",
@@ -839,8 +834,8 @@
       "identity_issues": "Probleme de identitate",
       "illness_oncological_treatment_chronic_diseases": "Boală (tratament oncologic, boli cronice)",
       "other_situations": "Alte situații",
-
-      "copy_link_success": "Link copiat în clipboard!"
+      "copy_link_success": "Link copiat în clipboard!",
+      "description_label": ""
     },
     "baseline-assesment": {
       "instructions": "Instrucțiuni: Gândindu-vă la ultimele două săptămâni, alegeți opțiunea care vi se potrivește cel mai bine pentru afirmațiile de mai jos.",
@@ -910,14 +905,14 @@
       "see_last_result": "Rezultatele cele mai recente"
     },
     "baseline-assesment-result": {
-      "assessment_completed": "Assessment completed",
-      "loading_results": "Loading your results...",
-      "recommended_articles": "Recommended articles",
-      "recommended_videos": "Recommended videos",
-      "recommended_podcasts": "Recommended podcasts",
-      "read_more_button": "Read more",
-      "by": "by {{creator}}",
-      "min_read": "min read",
+      "assessment_completed": "Evaluare finalizata",
+      "loading_results": "Se incarca rezultatele tale...",
+      "recommended_articles": "Articole recomandate",
+      "recommended_videos": "Videoclipuri recomandate",
+      "recommended_podcasts": "Podcasturi recomandate",
+      "read_more_button": "Citeste mai mult",
+      "by": "de {{creator}}",
+      "min_read": "min de citit",
       "psychological": "Psihologic",
       "biological": "Biologic",
       "social": "Social",
@@ -966,17 +961,17 @@
       "download_success": "Articolul a fost descărcat"
     },
     "articles-screen": {
-      "heading_default": "All Articles",
-      "heading_newest": "Newest Articles",
-      "heading_most_read": "Most read Articles",
-      "subheading_default": "You can find all articles here",
-      "subheading_newest": "Here you can find newest articles",
-      "subheading_most_read": "Here you can find the most read articles from all categories"
+      "heading_default": "Toate articolele",
+      "heading_newest": "Cele mai noi articole",
+      "heading_most_read": "Cele mai citite articole",
+      "subheading_default": "Aici poti gasi toate articolele",
+      "subheading_newest": "Aici poti gasi cele mai noi articole",
+      "subheading_most_read": "Aici poti gasi cele mai citite articole din toate categoriile"
     },
     "change-passcode-screen": {
-      "heading": "Passcode",
-      "delete_subheading": "Delete your passcode in few steps",
-      "create_subheading": "Create your new passcode in few steps, to be more secured and safe"
+      "heading": "Cod de acces",
+      "delete_subheading": "Sterge codul tau de acces in cativa pasi",
+      "create_subheading": "Creeaza un nou cod de acces in cativa pasi, pentru mai multa securitate"
     },
     "checkout-page": {
       "heading": "Plata",
@@ -1052,10 +1047,10 @@
       "no_consultations": "În prezent nu aveți consultații programate",
       "emergency_button_label": "Ajutor de urgență",
       "accept_success": "Consultație acceptată",
-      "ordinal_st": "st",
-      "ordinal_nd": "nd",
-      "ordinal_rd": "rd",
-      "ordinal_th": "th",
+      "ordinal_st": "a",
+      "ordinal_nd": "a",
+      "ordinal_rd": "a",
+      "ordinal_th": "a",
       "january": "ianuarie",
       "february": "februarie",
       "march": "martie",
@@ -1093,7 +1088,8 @@
       "subheading": "Aici poți verifica urmărirea stării tale de spirit și progresul",
       "emergency_button_label": "Ajutor de urgență",
       "report": "Generează raport",
-      "how_it_works": "Cum funcționează"
+      "how_it_works": "Cum funcționează",
+      "how-it-works": "Cum functioneaza"
     },
     "notification-preferences-screen": {
       "heading": "Setări notificări",
@@ -1135,7 +1131,7 @@
       "coupon_paragraph_two": "Dacă ați primit un cod de cupon de la o campanie de social media sau de la un partener, vă rugăm să îl copiați și să îl lipiți mai jos. După ce trimiteți codul cuponului, veți vedea toți furnizorii care îl acceptă și disponibilitatea acestora. Un cupon poate acoperi una sau mai multe sesiuni. Platforma va indica dacă cuponul a expirat sau s-a folosit numărul maxim de sesiuni.",
       "max_price": "Preț maxim",
       "providers_free_consultation_label": "Doar consultație gratuită",
-      "coupon_note": "This time, we've entered a code for you for a free session! Schedule an appointment with one of our consultants and take the first step towards improving your well-being."
+      "coupon_note": "De data aceasta, am introdus pentru tine un cod pentru o sesiune gratuita! Programeaza o intalnire cu unul dintre consultantii nostri si fa primul pas catre imbunatatirea starii tale de bine."
     },
     "share-platform-screen": {
       "heading": "Distribuiți aplicația",
@@ -1153,22 +1149,22 @@
       "ask_button_label": "Întrebați anonim"
     },
     "videos-screen": {
-      "heading_default": "Videos",
-      "subheading_default": "Watch our videos to learn more about our services and how to use them.",
-      "heading_newest": "Newest Videos",
-      "subheading_newest": "Watch our newest videos.",
-      "heading_most_viewed": "Most Viewed Videos",
-      "subheading_most_viewed": "Watch our most viewed videos.",
-      "all": "All"
+      "heading_default": "Videoclipuri",
+      "subheading_default": "Urmareste videoclipurile noastre pentru a afla mai multe despre serviciile noastre si cum sa le folosesti.",
+      "heading_newest": "Cele mai noi videoclipuri",
+      "subheading_newest": "Urmareste cele mai noi videoclipuri.",
+      "heading_most_viewed": "Cele mai vizionate videoclipuri",
+      "subheading_most_viewed": "Urmareste cele mai vizionate videoclipuri.",
+      "all": "Toate"
     },
     "podcasts-screen": {
-      "heading_default": "Podcasts",
-      "subheading_default": "Listen to our podcasts to learn more about our services and how to use them.",
-      "heading_newest": "Newest Podcasts",
-      "subheading_newest": "Listen to our newest podcasts.",
-      "heading_most_viewed": "Most Viewed Podcasts",
-      "subheading_most_viewed": "Listen to our most viewed podcasts.",
-      "all": "All"
+      "heading_default": "Podcasturi",
+      "subheading_default": "Asculta podcasturile noastre pentru a afla mai multe despre serviciile noastre si cum sa le folosesti.",
+      "heading_newest": "Cele mai noi podcasturi",
+      "subheading_newest": "Asculta cele mai noi podcasturi.",
+      "heading_most_viewed": "Cele mai ascultate podcasturi",
+      "subheading_most_viewed": "Asculta cele mai ascultate podcasturi.",
+      "all": "Toate"
     },
     "organizations-screen": {
       "heading": "Organizații",
@@ -1196,12 +1192,12 @@
       "untitled_q3_question": "Ce tip de serviciu cauti?",
       "untitled_q4_question": "Care este modalitatea de plata pe care o preferi?",
       "untitled_q5_question": "Cum doresti sa lucrezi cu furnizorul respectiv?",
-      "sector_1": "Sector 1",
-      "sector_2": "Sector 2",
-      "sector_3": "Sector 3",
-      "sector_4": "Sector 4",
-      "sector_5": "Sector 5",
-      "sector_6": "Sector 6",
+      "sector_1": "Sectorul 1",
+      "sector_2": "Sectorul 2",
+      "sector_3": "Sectorul 3",
+      "sector_4": "Sectorul 4",
+      "sector_5": "Sectorul 5",
+      "sector_6": "Sectorul 6",
       "property_type_public": "public",
       "property_type_private": "privat",
       "property_type_ngo": "ONG",
@@ -1235,14 +1231,12 @@
       "service_pediatric_neurology": "Neurologie pediatrică",
       "service_special_education": "Psihopedagogie specială",
       "service_neuropsychomotor_rehab": "Recuperare neuropsihomotorie",
-
       "rights_intro_title": "Drepturile copiilor si adolescentilor de a accesa servicii de sanatate mintala si suport psiho-social",
       "rights_intro_paragraph": "Acest ghid te ajută să descoperi ce fel de ajutor poți primi, dacă ai nevoie, și cine te poate sprijini – la școală, în sistemul de asistență socială sau în cel de sănătate. Vei afla ce servicii există pentru copii și adolescenți în România și cum poți ajunge la ele.",
       "rights_intro_question": "Ce fel de servicii te intereseaza?",
       "rights_intro_answer_1": "Servicii oferite in scoala",
       "rights_intro_answer_2": "Servicii oferite in sistemul de asistenta sociala",
       "rights_intro_answer_3": "Servicii oferite in sistemul de sanatate",
-
       "section_2_title": "🏫 Servicii oferite în școli",
       "section_2_question": "Vrei sa stii mai multe despre servicii oferite:",
       "section_2_answer_1": "Tuturor elevilor",
@@ -1250,22 +1244,16 @@
       "section_2_answer_3": "Elevelor gravide şi elevilor părinţi",
       "section_2_answer_4": "Elevilor victime sau autori ai violentei in scoala",
       "section_2_answer_5": "Elevilor sanctionati in urma unor evenimente",
-
       "section_3_title": "🎓 Servicii pentru toți elevii",
       "section_3_paragraph": "Toţi elevii beneficiază prin lege de supravegherea stării de sănătate psihică, prin <0>servicii de consiliere psihologică conexe activităţii de învăţământ</0> pentru asigurarea integrității lor psihologice.\n\nElevii au dreptul la servicii de <0>informare, consiliere școlară, profesională și psihologică</0>, care îi pot ajuta să se dezvolte și să-și descopere drumul potrivit\n\nElevii cu <0>cerințe educaționale speciale (CES) sau alte dificultăți</0> pot primi sprijin suplimentar, adaptat nevoilor lor – de exemplu, <0>condiții speciale de studiu, evaluare sau chiar școlarizare la domiciliu ori în unități medicale</0>, dacă este nevoie.\n\nDe asemenea, toți elevii au dreptul la <0>asistență medicală, psihologică și logopedică gratuită</0>, prin cabinetele școlare sau prin unitățile medicale de stat.\n\n📘 Gasesti aici pasii ce trebuie urmati pentru a beneficia, ca elev, de servicii de sprijin psihologic: ",
-
       "section_4_title": "🧒🏻 Servicii oferite elevilor cu niveluri de sprijin I, II, III, IV (Nevoi Educaționale Speciale – NES)",
       "section_4_paragraph": "Elevii care au <0>cerințe educaționale speciale (CES)<0/> beneficiază de un <0>plan educațional personalizat (PEP)</0>, realizat de specialiștii din cadrul <0>centrului județean de asistență psihopedagogică</0>. Acest plan este adaptat nevoilor fiecărui elev și poate include <0>sprijin pentru familie, consiliere psihologică, asistență psihopedagogică, ajutor la învățare, terapii specifice, kinetoterapie</0> sau alte forme de <0>suport personalizat</0>.\n\nGăsești aici pașii ce trebuie urmați pentru obținerea certificatului de orientare școlară și profesională, precum și serviciile de care pot beneficia copiii cu CES.",
-
       "section_5_title": "👩‍🍼 Servicii pentru elevi însărcinate și părinți elevi",
       "section_5_paragraph": "Conform Legii nr. 198 din 4 iulie 2023 a învățământului preuniversitar, Art. 76, alin (5)  elevele gravide și elevii părinți beneficiază cu prioritate de o serie de facilități care vizează combaterea abandonului școlar, cum ar fi <0>💬 consiliere școlară (inclusiv cu sprijinul unui mediator școlar) și  🧠 consiliere psihologică</0>.\n\n📘 Legea nu are  inca norme metodologice de aplicare. Pana cand acestea vor fi publicate iti sugeram sa consulti sectiunea dedicata serviciilor disponbilie pentru toti elevii:  ",
-
       "section_6_title": "🛑 Servicii pentru elevi care sunt victime sau făptuitori de violență în școală",
       "section_6_paragraph": "💔 Elevii care au fost victima unei situații de violență  beneficiază de <0>servicii decontate de intervenție psihologică și psihoterapeutică, în baza unei recomandări de la consilierul școlar</0>. Aceste servicii sunt concepute pentru a ajuta elevii să isi revina emoțional, să își recapete sentimentul de siguranță și să se reintegreze cu încredere în viața școlară. 🌱\n\nAici poți găsi situațiile considerate violență în școală, precum și pașii ce trebuie urmați dacă ai fost victima, martorul sau dacă ți-a fost raportat un act de violență.",
-
       "section_7_title": "Elevi sancționați după anumite incidente",
       "section_7_paragraph": "Elevii pot fi sanctionati daca:\n\n - distrug sau modifica documente școlare ori bunuri ale școlii;\n\n - introduc materiale care promovează violența, ura, discriminarea sau afectează imaginea unei persoane;\n\n - blochează accesul în școală;\n\n - dețin sau să consumă droguri, alcool, țigări, substanțe etnobotanice sau joacă jocuri de noroc în incinta școlii;\n\n - aduc sau folosesc arme, petarde, sprayuri sau alte obiecte periculoase;\n\n - distribuie materiale politice, religioase, obscene sau pornografice;\n\n - jignesc, discriminează sau manifestă violență fizică ori verbală;\n\n - părăsesc școala în timpul programului fără permisiune;\n\n - aduc persoane străine fără acordul conducerii;\n\n - promovează mesaje sau simboluri rasiste\n\nGasesti aici tipul de sanctiuni:",
-
       "section_8_title": "🛡️ Servicii oferite în sistemul de asistență socială",
       "section_8_question": "Doriți să aflați mai multe despre serviciile oferite pentru:",
       "section_8_answer_1": "Minori supuși violenței de către părinți/îngrijitori sau victime ale violenței domestice",
@@ -1273,36 +1261,29 @@
       "section_8_answer_3": "Minori din centre rezidențiale pentru copii separați temporar sau permanent de părinți",
       "section_8_answer_4": "Minori din centre de primire de urgență pentru copii abuzați, neglijați sau exploatati",
       "section_8_answer_5": "Minori din servicii sociale cu cazare, organizate ca centre de urgență, precum și adăposturi de noapte pentru copii fără adăpost",
-
       "section_9_title": "👨🏻‍👩🏻‍👧🏻‍👦🏻 Servicii oferite minorilor supusi violenței de către părinți / persoane responsabile sau victimele violentei domestice",
       "section_9_paragraph": "📘 Daca vrei sa afli mai multe despre formele de protectie asigurate de directiile de asistenta sociala s protectia copilului, citeste aici",
-
       "section_10_title": "🏘️ Servicii oferite minorilor in centre de asistenta sociala",
       "section_10_paragraph": "📘 Daca vrei sa afli mai multe despre serviciile oferite minorilor in centrele de asistenta sociala, citeste aici",
-
       "section_11_title": "Servicii oferite în sistemul de sănătate",
       "section_11_question": "📚 Doriți să aflați mai multe despre:",
       "section_11_answer_1": "Servicii pentru copii cu vârsta între 0–18 ani, indiferent dacă sunt înscriși într-o instituție de învățământ sau nu",
       "section_11_answer_2": "Pacienți minori cu diverse afecțiuni",
       "section_11_answer_3": "Pacienți minori cu tulburări mintale",
-
       "section_12_title": "🩺 Servicii pentru copiii intre 0 – 18 ani, indiferent daca sunt inscrisi intr-o forma de invatamant sau nu ",
       "section_12_paragraph": "📘 Daca vrei sa afli mai multe despre serviciile oferite copiilor intre 0 – 18 ani , citeste aici",
-
       "section_13_title": "🩺 Servicii oferite minorilor pacienti cu diferite afectiuni ",
       "section_13_paragraph": "📘 Daca vrei sa afli mai multe despre serviciile oferite minorilor pacienti cu diferite afectiuni, citeste aici:",
-
       "section_14_title": "🩺 Servicii oferite minorilor cu tulburări psihice /",
       "section_14_paragraph": "📘 Daca vrei sa afli mai multe despre serviciile oferite minorilor pacienti  cu tulburări psihice , citeste aici:",
-
       "by": "de {{creator}}",
       "min_read": "min citire",
       "read_more": "Citește mai mult",
       "to_dashboard": "Mergi la tabloul de bord"
     },
     "organization-overview-screen": {
-      "heading": "Organization overview",
-      "subheading": "Detailed overview of the profile of the organization you selected"
+      "heading": "Prezentarea organizatiei",
+      "subheading": "Prezentare detaliata a profilului organizatiei selectate"
     }
   },
   "backdrops": {
@@ -1497,10 +1478,10 @@
     "mood-tracker-more-information": {
       "you_felt": "V-ați simțit",
       "comment_text": "și ați comentat",
-      "ordinal_st": "st",
-      "ordinal_nd": "nd",
-      "ordinal_rd": "rd",
-      "ordinal_th": "th"
+      "ordinal_st": "a",
+      "ordinal_nd": "a",
+      "ordinal_rd": "a",
+      "ordinal_th": "a"
     },
     "payment-information": {
       "heading": "Detalii comandă",
@@ -1544,15 +1525,15 @@
       "success": "Datele dvs. de chat au fost șterse."
     },
     "baseline-assesment-modal": {
-      "heading": "Baseline Assesment",
-      "paragraph_1": "The following questions will help you better understand how you are feeling and find out if you need help to feel better. The questions are about your mood, thoughts and feelings over the last two weeks. There are no right or wrong answers, just answers that represent you. It is important to answer as honestly as possible, so that we can understand what you are feeling and see how we can help you.",
-      "paragraph_2": "At the end, you will receive an answer that will show you how you are feeling and whether it would be important to talk to someone about what is happening to you. If necessary, we will tell you who you can go to for help – it could be a school counselor, a psychologist or another specialist.",
-      "paragraph_3": "Everything you answer here is confidential, no one asks for your name or other information that could indicate who you are. So you are safe, you can be open and honest. The questionnaire only takes a few minutes and can be a first step to feeling better.",
-      "paragraph_4": "Are you ready? Let's get started! 😊",
-      "privacy": "Privacy and security",
-      "consent": "To proceed, please consent to our <0>Privacy Policy</0>",
-      "cta_label": "I agree to complete the questionnaire.",
-      "secondary_cta_label": "I do not want to complete the questionnaire"
+      "heading": "Evaluare de baza",
+      "paragraph_1": "Urmatoarele intrebari te vor ajuta sa intelegi mai bine cum te simti si sa afli daca ai nevoie de ajutor pentru a te simti mai bine. Intrebarile sunt despre starea ta de spirit, gandurile si sentimentele din ultimele doua saptamani. Nu exista raspunsuri corecte sau gresite, ci doar raspunsuri care te reprezinta. Este important sa raspunzi cat mai sincer posibil, astfel incat sa intelegem ce simti si sa vedem cum te putem ajuta.",
+      "paragraph_2": "La final, vei primi un raspuns care iti va arata cum te simti si daca ar fi important sa vorbesti cu cineva despre ceea ce ti se intampla. Daca este necesar, iti vom spune la cine poti apela pentru ajutor - poate fi un consilier scolar, un psiholog sau alt specialist.",
+      "paragraph_3": "Tot ceea ce raspunzi aici este confidential, nimeni nu iti cere numele sau alte informatii care ar putea indica cine esti. Asadar esti in siguranta, poti fi deschis si sincer. Chestionarul dureaza doar cateva minute si poate fi un prim pas spre a te simti mai bine.",
+      "paragraph_4": "Esti gata? Sa incepem! 😊",
+      "privacy": "Confidentialitate si securitate",
+      "consent": "Pentru a continua, te rugam sa iti dai acordul pentru <0>Politica de confidentialitate</0>",
+      "cta_label": "Sunt de acord sa completez chestionarul.",
+      "secondary_cta_label": "Nu doresc sa completez chestionarul"
     },
     "delete-mood-tracker-history": {
       "heading": "Sunteți sigur că doriți să ștergeți toate datele din monitorizarea stării de spirit?",
@@ -1571,19 +1552,19 @@
     },
     "how-it-works-ba": {
       "heading": "Cum funcționează evaluarea inițială",
-      "subheading_1": "Before accessing your baseline assessment, please review and accept the Privacy Policy. You must accept it to continue.",
-      "subheading_2": "You can also start the assessment anytime from your dashboard.",
-      "subheading_3": "The assessment is divided into multiple questions with a progress bar, and you can save your progress and continue later.",
-      "subheading_4": "When you continue your assessment, you’ll see the start date and your saved progress, and you’ll pick up right where you left off.",
-      "subheading_5": "When you complete the assessment, you’ll see your psychological, biological, and social results. You can retake it later to compare changes in your well-being, and related content based on your results will appear below.",
-      "subheading_6": "Once completed, your results will appear in the dashboard, along with an option to retake the assessment anytime.",
-      "subheading_7": "Stat changes are shown with green or red arrows, comparing only your most recent results to the previous assessment."
+      "subheading_1": "Inainte de a accesa evaluarea de baza, te rugam sa citesti si sa accepti Politica de confidentialitate. Trebuie sa o accepti pentru a continua.",
+      "subheading_2": "De asemenea, poti incepe evaluarea oricand din panoul principal.",
+      "subheading_3": "Evaluarea este impartita in mai multe intrebari cu o bara de progres, iar progresul poate fi salvat pentru a continua mai tarziu.",
+      "subheading_4": "Cand continui evaluarea, vei vedea data de inceput si progresul salvat, iar apoi vei continua exact de unde ai ramas.",
+      "subheading_5": "Cand finalizezi evaluarea, vei vedea rezultatele tale psihologice, biologice si sociale. O poti relua mai tarziu pentru a compara schimbarile in starea ta de bine, iar continutul relevant bazat pe rezultate va aparea mai jos.",
+      "subheading_6": "Dupa finalizare, rezultatele tale vor aparea in panoul principal, impreuna cu optiunea de a relua evaluarea oricand.",
+      "subheading_7": "Modificarile indicatorilor sunt afisate cu sageti verzi sau rosii, comparand doar cele mai recente rezultate cu evaluarea anterioara."
     }
   },
   "navigation": {
     "tab-navigation": {
       "home": "Acasă",
-      "qaa": "Q&A",
+      "qaa": "Intrebari si raspunsuri",
       "articles": "Conținut",
       "mood": "Stare de spirit"
     }
