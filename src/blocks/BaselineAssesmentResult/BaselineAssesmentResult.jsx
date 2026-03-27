@@ -34,15 +34,16 @@ import appStyles from "../../styles/appStyles";
  * @return {jsx}
  */
 export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
-  const { t } = useTranslation("blocks", {
+  const { t, i18n } = useTranslation("blocks", {
     keyPrefix: "baseline-assesment-result",
   });
   const navigation = useNavigation();
   const { colors, isDarkMode } = useGetTheme();
+  const language = i18n.language;
 
   const { isFetching, data } = useGetAssessmentResult({
     ...result,
-    language: "en",
+    language: language,
   });
 
   const handleArticlePress = (articleData) => {
@@ -140,8 +141,6 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
       />
     );
   };
-
-  console.log(data?.summary_ck);
 
   return (
     <ScrollView
