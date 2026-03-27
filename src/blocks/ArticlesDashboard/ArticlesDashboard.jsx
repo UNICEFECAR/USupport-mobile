@@ -265,9 +265,10 @@ export const ArticlesDashboard = ({
   }, [allCategories, articleCategoryIdsToShow]);
 
   const handleCategoryOnPress = (index) => {
-    const categoriesCopy = [...allCategories];
-
     const clicked = categoriesToShow[index];
+    if (!clicked) return;
+
+    const categoriesCopy = [...allCategories];
     for (let i = 0; i < categoriesCopy.length; i++) {
       const cat = categoriesCopy[i];
       if (cat.id === clicked.id) {
