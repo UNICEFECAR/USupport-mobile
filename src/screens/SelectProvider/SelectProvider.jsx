@@ -45,7 +45,7 @@ export const SelectProvider = ({ navigation, route }) => {
     useContext(Context);
   const [headingHeight, setHeadingHeight] = useState(0);
   const [selectedBillingType, setSelectedBillingType] = useState(null);
-  const hasReconciledCouponDefaultRef = useRef(false);
+  const prevHasActiveCampaignRef = useRef(undefined);
 
   const { data: isKzCountry } = useQuery(["country-min-price"], fetchCountry);
   const couponsAvailableByCountry = !!selectedCountry?.hasCoupons;
@@ -95,22 +95,28 @@ export const SelectProvider = ({ navigation, route }) => {
   ]);
 
   useEffect(() => {
-    hasReconciledCouponDefaultRef.current = false;
+    prevHasActiveCampaignRef.current = undefined;
   }, [selectedCountry?.country_id, urlCoupon]);
 
+  // When campaign availability was false/unknown and becomes true, prefer coupon tab if URL/default says so.
+  // Do not override an explicit tab change once hasActiveCampaign is already true (e.g. user chose "free").
   useEffect(() => {
-    if (!selectedCountry || hasReconciledCouponDefaultRef.current) return;
+    const prev = prevHasActiveCampaignRef.current;
+    prevHasActiveCampaignRef.current = hasActiveCampaign;
+
+    if (!selectedCountry) return;
     if (!selectedCountry.hasCoupons || hasActiveCampaign !== true) return;
     if (!selectedBillingType || selectedBillingType === "coupon") return;
 
     const shouldPreferCoupon =
       !!urlCoupon || selectedCountry.defaultBillingType === "coupon";
 
-    if (shouldPreferCoupon) {
-      setSelectedBillingType("coupon");
-    }
+    if (!shouldPreferCoupon) return;
 
-    hasReconciledCouponDefaultRef.current = true;
+    const campaignJustBecameAvailable = prev !== true && hasActiveCampaign === true;
+    if (!campaignJustBecameAvailable) return;
+
+    setSelectedBillingType("coupon");
   }, [selectedCountry, hasActiveCampaign, selectedBillingType, urlCoupon]);
 
   useEffect(() => {
