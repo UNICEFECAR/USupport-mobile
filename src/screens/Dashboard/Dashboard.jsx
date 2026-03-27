@@ -368,7 +368,12 @@ export const Dashboard = ({ navigation }) => {
   const closeUserGuide = () => setIsUserGuideOpen(false);
 
   const handleMoodTrackerTextareaFocus = () => {
-    if (Platform.OS !== "android" || !moodTrackerLayout || !scrollViewRef.current) return;
+    if (
+      Platform.OS !== "android" ||
+      !moodTrackerLayout ||
+      !scrollViewRef.current
+    )
+      return;
     const subscription = Keyboard.addListener("keyboardDidShow", (e) => {
       subscription.remove();
       const keyboardHeight = e.endCoordinates.height;
@@ -470,6 +475,7 @@ export const Dashboard = ({ navigation }) => {
               navigation={navigation}
             />
           )}
+          <View style={{ height: 200 }} />
         </ScrollView>
       </KeyboardAvoidingView>
       <ArticleCategories
