@@ -914,7 +914,10 @@
       "same_same_same": "Ваши результаты такие же, как при предыдущей оценке.",
       "organizations": "Рекомендуемые организации",
       "read_more": "Читать больше",
-      "view_more": "Посмотреть больше"
+      "view_more": "Посмотреть больше",
+      "download_pdf": "Скачать результаты (PDF)",
+      "download_success": "PDF успешно загружен",
+      "download_pdf_footer": "Сгенерировано приложением USupport"
     }
   },
   "screens": {

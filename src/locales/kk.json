@@ -914,7 +914,10 @@
       "same_same_same": "Сіздің нәтижелеріңіз алдыңғы бағалаумен бірдей.",
       "organizations": "Ұсынылған ұйымдар",
       "read_more": "Ары қарай оқу",
-      "view_more": "Көбірек көру"
+      "view_more": "Көбірек көру",
+      "download_pdf": "Нәтижелерді жүктеп алу (PDF)",
+      "download_success": "PDF сәтті жүктеп алынды",
+      "download_pdf_footer": "USupport клиенттік қолданбасымен жасалды"
     }
   },
   "screens": {

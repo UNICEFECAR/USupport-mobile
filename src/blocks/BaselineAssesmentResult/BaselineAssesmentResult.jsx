@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
   ScrollView,
   FlatList,
   TouchableOpacity,
+  Platform,
+  Image,
 } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
+import Share from "react-native-share";
 
 import {
   Box,
@@ -22,7 +25,13 @@ import {
 
 import { useGetTheme, useGetAssessmentResult } from "#hooks";
 
-import { createArticleSlug } from "#utils";
+import {
+  createArticleSlug,
+  generateBaselineAssessmentResultPDF,
+  showToast,
+} from "#utils";
+
+import { logoVertical, logoVerticalDark } from "../../assets";
 
 import appStyles from "../../styles/appStyles";
 
@@ -40,6 +49,7 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
   const navigation = useNavigation();
   const { colors, isDarkMode } = useGetTheme();
   const language = i18n.language;
+  const [isPdfLoading, setIsPdfLoading] = useState(false);
 
   const { isFetching, data } = useGetAssessmentResult({
     ...result,
@@ -96,6 +106,91 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
       resultText = t(key);
     }
   }
+
+  const handleExportPDF = async () => {
+    try {
+      setIsPdfLoading(true);
+      const logoSource = isDarkMode ? logoVerticalDark : logoVertical;
+      const logoUri = Image.resolveAssetSource(logoSource)?.uri;
+      const file = await generateBaselineAssessmentResultPDF({
+        result: { ...result, comparePreviousText: resultText || "" },
+        assessmentData: data,
+        t,
+        logoUri,
+      });
+
+      if (file && (file.base64 || file.filePath)) {
+        if (Platform.OS === "android") {
+          showToast({
+            message: t("download_success", {
+              defaultValue: "PDF downloaded successfully",
+            }),
+            type: "success",
+          });
+        }
+
+        let url;
+        if (Platform.OS === "ios") {
+          if (file.filePath) {
+            url = file.filePath.startsWith("file://")
+              ? file.filePath
+              : `file://${file.filePath}`;
+          } else if (file.base64) {
+            url = `data:application/pdf;base64,${file.base64}`;
+          }
+        } else {
+          if (file.base64) {
+            url = `data:application/pdf;base64,${file.base64}`;
+          } else if (file.filePath) {
+            url = file.filePath.startsWith("file://")
+              ? file.filePath
+              : `file://${file.filePath}`;
+          }
+        }
+
+        const shareOptions = {
+          title: t("assessment_completed", {
+            defaultValue: "Assessment result",
+          }),
+          subject: t("assessment_completed", {
+            defaultValue: "Assessment result",
+          }),
+          url,
+          type: "application/pdf",
+          saveToFiles: Platform.OS === "ios",
+          failOnCancel: Platform.OS === "ios",
+        };
+
+        try {
+          await Share.open(shareOptions);
+          if (Platform.OS === "ios") {
+            showToast({
+              message: t("download_success", {
+                defaultValue: "PDF downloaded successfully",
+              }),
+              type: "success",
+            });
+          }
+        } catch (shareError) {
+          if (
+            shareError?.message &&
+            !shareError.message.includes("User did not share")
+          ) {
+            console.log("Share PDF error:", shareError);
+          }
+        }
+      } else {
+        console.error("PDF file path is missing");
+      }
+    } catch (error) {
+      console.error("Error exporting PDF:", error);
+      if (error?.message && error.message.includes("User did not share")) {
+        return;
+      }
+    } finally {
+      setIsPdfLoading(false);
+    }
+  };
 
   const renderContentGrid = (contentData, onPress, contentType) => {
     if (!contentData || contentData.length === 0) return null;
@@ -161,6 +256,17 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
           <View style={styles.statsContainer}>
             <ProgressBar progress={100} height="lg" showPercentage />
           </View>
+          <AppButton
+            label={t("download_pdf", {
+              defaultValue: "Download results (PDF)",
+            })}
+            onPress={handleExportPDF}
+            style={styles.downloadButton}
+            color="purple"
+            size="lg"
+            disabled={isPdfLoading || isFetching}
+            loading={isPdfLoading}
+          />
         </View>
 
         {result && (
@@ -293,6 +399,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 24,
     marginTop: 18,
+  },
+  downloadButton: {
+    marginTop: 18,
+    alignSelf: "center",
   },
   statsContainer: {
     width: "100%",

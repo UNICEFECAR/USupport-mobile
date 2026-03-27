@@ -946,7 +946,10 @@
       "summary_heading": "Recomandări generate în funcție de scorul obținut",
       "organizations": "Organizații recomandate",
       "read_more": "Citește mai mult",
-      "view_more": "Vezi mai mult"
+      "view_more": "Vezi mai mult",
+      "download_pdf": "Descarcă rezultatele (PDF)",
+      "download_success": "PDF descărcat cu succes",
+      "download_pdf_footer": "Generat de aplicația client USupport"
     }
   },
   "screens": {
