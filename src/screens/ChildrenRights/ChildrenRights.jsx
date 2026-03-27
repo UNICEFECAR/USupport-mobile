@@ -668,7 +668,9 @@ export const ChildrenRights = ({ route }) => {
     }
     // Note: propertyType is not used in Organizations filters, so we skip it
 
-    navigation.navigate("Organizations", params);
+    // Navigate within TabNavigation: the tab route is named "Consultations".
+    // In RO this tab renders the Organizations screen component.
+    navigation.navigate("TabNavigation", { screen: "Consultations", params });
   }, [
     currentScreenData,
     state.formData,

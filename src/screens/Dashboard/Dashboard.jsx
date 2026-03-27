@@ -354,7 +354,6 @@ export const Dashboard = ({ navigation }) => {
   const [isEmergencySituationOpen, setIsEmergencySituationOpen] =
     useState(false);
   const openEmergencySituation = () => {
-    console.log("openEmergencySituation");
     setIsEmergencySituationOpen(true);
     closeUserGuide();
   };
@@ -551,7 +550,6 @@ export const Dashboard = ({ navigation }) => {
         isOpen={isUserGuideOpen}
         onClose={closeUserGuide}
         handleOpenEmergencySituation={() => {
-          console.log("openEmergencySituation");
           openEmergencySituation();
         }}
       />
