@@ -1,0 +1,1244 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		027710DE42402B24DA53091B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = CA1278E7656DA22DE0A24BB2 /* PrivacyInfo.xcprivacy */; };
+		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
+		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		13B07FC01A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		201B13A6DAFC49359AF6D292 /* Nunito_700Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 40F7FAE054D24FE7BB9D3CCF /* Nunito_700Bold.ttf */; };
+		2F28C4CCF17740399E91B000 /* Nunito_400Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47838F837A0943FEB659201C /* Nunito_400Regular.ttf */; };
+		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
+		43001CCB29EEDDFF00B32A2A /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 43001CCA29EEDDFF00B32A2A /* Config.xcconfig */; };
+		43001CD129EEEAE800B32A2A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
+		43001CD229EEEAE800B32A2A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		43001CD629EEEAE800B32A2A /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
+		43001CD729EEEAE800B32A2A /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 43001CCA29EEDDFF00B32A2A /* Config.xcconfig */; };
+		43001CD829EEEAE800B32A2A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 43926DB829E5675A005505FD /* GoogleService-Info.plist */; };
+		43001CD929EEEAE800B32A2A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		43001CDA29EEEAE800B32A2A /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
+		43001CE429EEF1F000B32A2A /* USupportDev-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 43001CE329EEEAE800B32A2A /* USupportDev-Info.plist */; };
+		43926DB929E5675A005505FD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 43926DB829E5675A005505FD /* GoogleService-Info.plist */; };
+		43C1F6B52DD7DA4F00613CC3 /* Nunito_700Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43C1F6B22DD7DA4F00613CC3 /* Nunito_700Bold.ttf */; };
+		43C1F6B62DD7DA4F00613CC3 /* Nunito_300Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43C1F6AE2DD7DA4F00613CC3 /* Nunito_300Light.ttf */; };
+		43C1F6B72DD7DA4F00613CC3 /* Nunito_500Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43C1F6B02DD7DA4F00613CC3 /* Nunito_500Medium.ttf */; };
+		43C1F6B82DD7DA4F00613CC3 /* Nunito_800ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43C1F6B32DD7DA4F00613CC3 /* Nunito_800ExtraBold.ttf */; };
+		43C1F6B92DD7DA4F00613CC3 /* Nunito_600SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43C1F6B12DD7DA4F00613CC3 /* Nunito_600SemiBold.ttf */; };
+		43C1F6BA2DD7DA4F00613CC3 /* Nunito_400Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43C1F6AF2DD7DA4F00613CC3 /* Nunito_400Regular.ttf */; };
+		43C1F7732DD8E2BD00613CC3 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
+		6367CBD9FB5723EFB6C8B98D /* libPods-USupportCommonPods-USupportDev.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 88E9631D1E442397507AF705 /* libPods-USupportCommonPods-USupportDev.a */; };
+		7AEACF7E2A484DF79AF385B7 /* Nunito_800ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 24BDE77CA84248E68D4B140E /* Nunito_800ExtraBold.ttf */; };
+		7C216B4A016A4CA78A8ACE36 /* Nunito_600SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 455746177A1E497895FBC062 /* Nunito_600SemiBold.ttf */; };
+		9E4C0414961D07D30BA9C95B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = DDEF392E36C86269A03F286B /* PrivacyInfo.xcprivacy */; };
+		A5AEA1972B204497AD2510BE /* Nunito_500Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 77939916EDFD4D0B9B02C090 /* Nunito_500Medium.ttf */; };
+		A7E79006D27D2CD026496FAF /* libPods-USupportCommonPods-USupport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FACCAF018F9DBEEC026AA3A /* libPods-USupportCommonPods-USupport.a */; };
+		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
+		D6C1ECD32218422E99AB7F88 /* Nunito_300Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26481B7CB7C5486580BD605B /* Nunito_300Light.ttf */; };
+		D94544C8DDDF103EECAF8129 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB691EE1E6CB63EEA6AC9597 /* ExpoModulesProvider.swift */; };
+		E603E0317A23476CFA70DB54 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B63BF9056124B300FE4258 /* ExpoModulesProvider.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
+		0FACCAF018F9DBEEC026AA3A /* libPods-USupportCommonPods-USupport.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-USupportCommonPods-USupport.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* uSupport.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = uSupport.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = USupportmobile/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = USupportmobile/AppDelegate.mm; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = USupportmobile/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = USupportmobile/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = USupportmobile/main.m; sourceTree = "<group>"; };
+		15CA9C11B0013284BB58B11B /* Pods-USupport.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-USupport.debug.xcconfig"; path = "Target Support Files/Pods-USupport/Pods-USupport.debug.xcconfig"; sourceTree = "<group>"; };
+		169985E3B7369C892AB53E01 /* Pods-USupport.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-USupport.release.xcconfig"; path = "Target Support Files/Pods-USupport/Pods-USupport.release.xcconfig"; sourceTree = "<group>"; };
+		24BDE77CA84248E68D4B140E /* Nunito_800ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Nunito_800ExtraBold.ttf; path = ../src/assets/fonts/Nunito_800ExtraBold.ttf; sourceTree = "<group>"; };
+		26481B7CB7C5486580BD605B /* Nunito_300Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Nunito_300Light.ttf; path = ../src/assets/fonts/Nunito_300Light.ttf; sourceTree = "<group>"; };
+		2F234D054AEB4EB6AB1C466C /* Loading.json */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Loading.json; path = ../src/assets/Loading.json; sourceTree = "<group>"; };
+		3018F2AFBE4C29722688B394 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-USupport/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		40F7FAE054D24FE7BB9D3CCF /* Nunito_700Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Nunito_700Bold.ttf; path = ../src/assets/fonts/Nunito_700Bold.ttf; sourceTree = "<group>"; };
+		43001CCA29EEDDFF00B32A2A /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		43001CE229EEEAE800B32A2A /* USupportDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = USupportDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		43001CE329EEEAE800B32A2A /* USupportDev-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "USupportDev-Info.plist"; path = "/Users/georgipavlov/Desktop/projects/usupportme/USupport-mobile/ios/USupportDev-Info.plist"; sourceTree = "<absolute>"; };
+		43183A5729A36F5D00474D8D /* USupport.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = USupport.entitlements; path = USupportmobile/USupport.entitlements; sourceTree = "<group>"; };
+		43926DB829E5675A005505FD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		43C1F6AE2DD7DA4F00613CC3 /* Nunito_300Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Nunito_300Light.ttf; sourceTree = "<group>"; };
+		43C1F6AF2DD7DA4F00613CC3 /* Nunito_400Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Nunito_400Regular.ttf; sourceTree = "<group>"; };
+		43C1F6B02DD7DA4F00613CC3 /* Nunito_500Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Nunito_500Medium.ttf; sourceTree = "<group>"; };
+		43C1F6B12DD7DA4F00613CC3 /* Nunito_600SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Nunito_600SemiBold.ttf; sourceTree = "<group>"; };
+		43C1F6B22DD7DA4F00613CC3 /* Nunito_700Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Nunito_700Bold.ttf; sourceTree = "<group>"; };
+		43C1F6B32DD7DA4F00613CC3 /* Nunito_800ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Nunito_800ExtraBold.ttf; sourceTree = "<group>"; };
+		43C1F6F52DD8C29D00613CC3 /* Nunito_300Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Nunito_300Light.ttf; sourceTree = "<group>"; };
+		43C1F6F62DD8C29D00613CC3 /* Nunito_400Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Nunito_400Regular.ttf; sourceTree = "<group>"; };
+		43C1F6F72DD8C29D00613CC3 /* Nunito_500Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Nunito_500Medium.ttf; sourceTree = "<group>"; };
+		43C1F6F82DD8C29D00613CC3 /* Nunito_600SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Nunito_600SemiBold.ttf; sourceTree = "<group>"; };
+		43C1F6F92DD8C29D00613CC3 /* Nunito_700Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Nunito_700Bold.ttf; sourceTree = "<group>"; };
+		43C1F6FA2DD8C29D00613CC3 /* Nunito_800ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Nunito_800ExtraBold.ttf; sourceTree = "<group>"; };
+		43C1F6FC2DD8C29D00613CC3 /* article-placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "article-placeholder.png"; sourceTree = "<group>"; };
+		43C1F6FD2DD8C29D00613CC3 /* logo-vertical.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo-vertical.png"; sourceTree = "<group>"; };
+		43C1F6FE2DD8C29D00613CC3 /* logo-vertical-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo-vertical-dark.png"; sourceTree = "<group>"; };
+		43C1F6FF2DD8C29D00613CC3 /* mascot-calm-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mascot-calm-blue.png"; sourceTree = "<group>"; };
+		43C1F7002DD8C29D00613CC3 /* mascot-confused-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mascot-confused-blue.png"; sourceTree = "<group>"; };
+		43C1F7012DD8C29D00613CC3 /* mascot-happy-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mascot-happy-blue.png"; sourceTree = "<group>"; };
+		43C1F7022DD8C29D00613CC3 /* mascot-happy-orange.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mascot-happy-orange.png"; sourceTree = "<group>"; };
+		43C1F7032DD8C29D00613CC3 /* mascot-happy-purple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mascot-happy-purple.png"; sourceTree = "<group>"; };
+		43C1F7042DD8C29D00613CC3 /* radial-green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "radial-green.png"; sourceTree = "<group>"; };
+		43C1F7052DD8C29D00613CC3 /* specialist-placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "specialist-placeholder.png"; sourceTree = "<group>"; };
+		43C1F7062DD8C29D00613CC3 /* spiral-background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spiral-background.png"; sourceTree = "<group>"; };
+		43C1F7072DD8C29D00613CC3 /* spiral-background-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spiral-background-2.png"; sourceTree = "<group>"; };
+		43C1F7082DD8C29D00613CC3 /* welcome-radial.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome-radial.png"; sourceTree = "<group>"; };
+		43C1F7092DD8C29D00613CC3 /* welcome-spiral.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome-spiral.png"; sourceTree = "<group>"; };
+		43C1F70B2DD8C29D00613CC3 /* HowItWorks1Mobile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HowItWorks1Mobile.png; sourceTree = "<group>"; };
+		43C1F70C2DD8C29D00613CC3 /* HowItWorks2Mobile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HowItWorks2Mobile.png; sourceTree = "<group>"; };
+		43C1F70D2DD8C29D00613CC3 /* HowItWorks3Mobile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HowItWorks3Mobile.png; sourceTree = "<group>"; };
+		43C1F7432DD8CA4300613CC3 /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = index.js; path = ../src/assets/index.js; sourceTree = "<group>"; };
+		43C1F74A2DD8CA4400613CC3 /* Loading.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Loading.json; path = ../src/assets/Loading.json; sourceTree = "<group>"; };
+		43C724CD299D64110018940A /* USupportDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = USupportDebug.entitlements; path = USupportmobile/USupportDebug.entitlements; sourceTree = "<group>"; };
+		455746177A1E497895FBC062 /* Nunito_600SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Nunito_600SemiBold.ttf; path = ../src/assets/fonts/Nunito_600SemiBold.ttf; sourceTree = "<group>"; };
+		47838F837A0943FEB659201C /* Nunito_400Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Nunito_400Regular.ttf; path = ../src/assets/fonts/Nunito_400Regular.ttf; sourceTree = "<group>"; };
+		6689BC320FC3C48F81D9FBD2 /* Pods-USupportCommonPods-USupportDev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-USupportCommonPods-USupportDev.release.xcconfig"; path = "Target Support Files/Pods-USupportCommonPods-USupportDev/Pods-USupportCommonPods-USupportDev.release.xcconfig"; sourceTree = "<group>"; };
+		6C2E3173556A471DD304B334 /* Pods-USupportmobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-USupportmobile.debug.xcconfig"; path = "Target Support Files/Pods-USupportmobile/Pods-USupportmobile.debug.xcconfig"; sourceTree = "<group>"; };
+		77939916EDFD4D0B9B02C090 /* Nunito_500Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Nunito_500Medium.ttf; path = ../src/assets/fonts/Nunito_500Medium.ttf; sourceTree = "<group>"; };
+		7A4D352CD337FB3A3BF06240 /* Pods-USupportmobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-USupportmobile.release.xcconfig"; path = "Target Support Files/Pods-USupportmobile/Pods-USupportmobile.release.xcconfig"; sourceTree = "<group>"; };
+		80B6166C2F060DFA745E3DF4 /* Pods-USupportCommonPods-USupport.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-USupportCommonPods-USupport.debug.xcconfig"; path = "Target Support Files/Pods-USupportCommonPods-USupport/Pods-USupportCommonPods-USupport.debug.xcconfig"; sourceTree = "<group>"; };
+		834E034041F74CF2BD6FA370 /* index.js */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = index.js; path = ../src/assets/index.js; sourceTree = "<group>"; };
+		88E9631D1E442397507AF705 /* libPods-USupportCommonPods-USupportDev.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-USupportCommonPods-USupportDev.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		97B63BF9056124B300FE4258 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-USupportCommonPods-USupportDev/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		A2A1EED3DEE844A28BE0A0C5 /* Pods-USupportCommonPods-USupport.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-USupportCommonPods-USupport.release.xcconfig"; path = "Target Support Files/Pods-USupportCommonPods-USupport/Pods-USupportCommonPods-USupport.release.xcconfig"; sourceTree = "<group>"; };
+		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = USupportmobile/SplashScreen.storyboard; sourceTree = "<group>"; };
+		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
+		CA1278E7656DA22DE0A24BB2 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = USupportmobile/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		DDEF392E36C86269A03F286B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = USupportmobile/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		F2B54D9BC4BC3DA3393D77BA /* Pods-USupportCommonPods-USupportDev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-USupportCommonPods-USupportDev.debug.xcconfig"; path = "Target Support Files/Pods-USupportCommonPods-USupportDev/Pods-USupportCommonPods-USupportDev.debug.xcconfig"; sourceTree = "<group>"; };
+		FB691EE1E6CB63EEA6AC9597 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-USupportCommonPods-USupport/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		13B07F8C1A680F5B00A75B9A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A7E79006D27D2CD026496FAF /* libPods-USupportCommonPods-USupport.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		43001CD329EEEAE800B32A2A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6367CBD9FB5723EFB6C8B98D /* libPods-USupportCommonPods-USupportDev.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		13B07FAE1A68108700A75B9A /* USupport */ = {
+			isa = PBXGroup;
+			children = (
+				43183A5729A36F5D00474D8D /* USupport.entitlements */,
+				43C724CD299D64110018940A /* USupportDebug.entitlements */,
+				BB2F792B24A3F905000567C9 /* Supporting */,
+				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
+				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
+				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
+				13B07FB51A68108700A75B9A /* Images.xcassets */,
+				13B07FB61A68108700A75B9A /* Info.plist */,
+				13B07FB71A68108700A75B9A /* main.m */,
+				43C1F6B42DD7DA4F00613CC3 /* fonts */,
+				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
+				DDEF392E36C86269A03F286B /* PrivacyInfo.xcprivacy */,
+			);
+			name = USupport;
+			sourceTree = "<group>";
+		};
+		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
+				0FACCAF018F9DBEEC026AA3A /* libPods-USupportCommonPods-USupport.a */,
+				88E9631D1E442397507AF705 /* libPods-USupportCommonPods-USupportDev.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		43C1F6B42DD7DA4F00613CC3 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				43C1F6AE2DD7DA4F00613CC3 /* Nunito_300Light.ttf */,
+				43C1F6AF2DD7DA4F00613CC3 /* Nunito_400Regular.ttf */,
+				43C1F6B02DD7DA4F00613CC3 /* Nunito_500Medium.ttf */,
+				43C1F6B12DD7DA4F00613CC3 /* Nunito_600SemiBold.ttf */,
+				43C1F6B22DD7DA4F00613CC3 /* Nunito_700Bold.ttf */,
+				43C1F6B32DD7DA4F00613CC3 /* Nunito_800ExtraBold.ttf */,
+			);
+			path = fonts;
+			sourceTree = "<group>";
+		};
+		43C1F6FB2DD8C29D00613CC3 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				43C1F6F52DD8C29D00613CC3 /* Nunito_300Light.ttf */,
+				43C1F6F62DD8C29D00613CC3 /* Nunito_400Regular.ttf */,
+				43C1F6F72DD8C29D00613CC3 /* Nunito_500Medium.ttf */,
+				43C1F6F82DD8C29D00613CC3 /* Nunito_600SemiBold.ttf */,
+				43C1F6F92DD8C29D00613CC3 /* Nunito_700Bold.ttf */,
+				43C1F6FA2DD8C29D00613CC3 /* Nunito_800ExtraBold.ttf */,
+			);
+			path = fonts;
+			sourceTree = "<group>";
+		};
+		43C1F70A2DD8C29D00613CC3 /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				43C1F6FB2DD8C29D00613CC3 /* fonts */,
+				43C1F6FC2DD8C29D00613CC3 /* article-placeholder.png */,
+				43C1F6FD2DD8C29D00613CC3 /* logo-vertical.png */,
+				43C1F6FE2DD8C29D00613CC3 /* logo-vertical-dark.png */,
+				43C1F6FF2DD8C29D00613CC3 /* mascot-calm-blue.png */,
+				43C1F7002DD8C29D00613CC3 /* mascot-confused-blue.png */,
+				43C1F7012DD8C29D00613CC3 /* mascot-happy-blue.png */,
+				43C1F7022DD8C29D00613CC3 /* mascot-happy-orange.png */,
+				43C1F7032DD8C29D00613CC3 /* mascot-happy-purple.png */,
+				43C1F7042DD8C29D00613CC3 /* radial-green.png */,
+				43C1F7052DD8C29D00613CC3 /* specialist-placeholder.png */,
+				43C1F7062DD8C29D00613CC3 /* spiral-background.png */,
+				43C1F7072DD8C29D00613CC3 /* spiral-background-2.png */,
+				43C1F7082DD8C29D00613CC3 /* welcome-radial.png */,
+				43C1F7092DD8C29D00613CC3 /* welcome-spiral.png */,
+			);
+			path = assets;
+			sourceTree = "<group>";
+		};
+		43C1F70E2DD8C29D00613CC3 /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				43C1F70B2DD8C29D00613CC3 /* HowItWorks1Mobile.png */,
+				43C1F70C2DD8C29D00613CC3 /* HowItWorks2Mobile.png */,
+				43C1F70D2DD8C29D00613CC3 /* HowItWorks3Mobile.png */,
+			);
+			path = assets;
+			sourceTree = "<group>";
+		};
+		43C1F70F2DD8C29D00613CC3 /* HowItWorksMyQA */ = {
+			isa = PBXGroup;
+			children = (
+				43C1F70E2DD8C29D00613CC3 /* assets */,
+			);
+			path = HowItWorksMyQA;
+			sourceTree = "<group>";
+		};
+		43C1F7102DD8C29D00613CC3 /* modals */ = {
+			isa = PBXGroup;
+			children = (
+				43C1F70F2DD8C29D00613CC3 /* HowItWorksMyQA */,
+			);
+			path = modals;
+			sourceTree = "<group>";
+		};
+		43C1F7112DD8C29D00613CC3 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				43C1F70A2DD8C29D00613CC3 /* assets */,
+				43C1F7102DD8C29D00613CC3 /* modals */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		43C1F7122DD8C29D00613CC3 /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				43C1F7112DD8C29D00613CC3 /* src */,
+			);
+			path = assets;
+			sourceTree = "<group>";
+		};
+		58C6C3B2788D4B84860CF691 /* USupport */ = {
+			isa = PBXGroup;
+			children = (
+				3018F2AFBE4C29722688B394 /* ExpoModulesProvider.swift */,
+				FB691EE1E6CB63EEA6AC9597 /* ExpoModulesProvider.swift */,
+			);
+			name = USupport;
+			sourceTree = "<group>";
+		};
+		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+		83CBB9F61A601CBA00E9B192 = {
+			isa = PBXGroup;
+			children = (
+				43C1F7432DD8CA4300613CC3 /* index.js */,
+				43C1F74A2DD8CA4400613CC3 /* Loading.json */,
+				43C1F7122DD8C29D00613CC3 /* assets */,
+				43001CCA29EEDDFF00B32A2A /* Config.xcconfig */,
+				43926DB829E5675A005505FD /* GoogleService-Info.plist */,
+				13B07FAE1A68108700A75B9A /* USupport */,
+				832341AE1AAA6A7D00B99B32 /* Libraries */,
+				83CBBA001A601CBA00E9B192 /* Products */,
+				2D16E6871FA4F8E400B85C8A /* Frameworks */,
+				D65327D7A22EEC0BE12398D9 /* Pods */,
+				D7E4C46ADA2E9064B798F356 /* ExpoModulesProviders */,
+				43001CE329EEEAE800B32A2A /* USupportDev-Info.plist */,
+				CA1278E7656DA22DE0A24BB2 /* PrivacyInfo.xcprivacy */,
+				D2DFD51CC42F49378C4401E4 /* Resources */,
+			);
+			indentWidth = 2;
+			sourceTree = "<group>";
+			tabWidth = 2;
+			usesTabs = 0;
+		};
+		83CBBA001A601CBA00E9B192 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				13B07F961A680F5B00A75B9A /* uSupport.app */,
+				43001CE229EEEAE800B32A2A /* USupportDev.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BB2F792B24A3F905000567C9 /* Supporting */ = {
+			isa = PBXGroup;
+			children = (
+				BB2F792C24A3F905000567C9 /* Expo.plist */,
+			);
+			name = Supporting;
+			path = USupportmobile/Supporting;
+			sourceTree = "<group>";
+		};
+		D2DFD51CC42F49378C4401E4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				26481B7CB7C5486580BD605B /* Nunito_300Light.ttf */,
+				47838F837A0943FEB659201C /* Nunito_400Regular.ttf */,
+				77939916EDFD4D0B9B02C090 /* Nunito_500Medium.ttf */,
+				455746177A1E497895FBC062 /* Nunito_600SemiBold.ttf */,
+				40F7FAE054D24FE7BB9D3CCF /* Nunito_700Bold.ttf */,
+				24BDE77CA84248E68D4B140E /* Nunito_800ExtraBold.ttf */,
+				2F234D054AEB4EB6AB1C466C /* Loading.json */,
+				834E034041F74CF2BD6FA370 /* index.js */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		D65327D7A22EEC0BE12398D9 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				6C2E3173556A471DD304B334 /* Pods-USupportmobile.debug.xcconfig */,
+				7A4D352CD337FB3A3BF06240 /* Pods-USupportmobile.release.xcconfig */,
+				15CA9C11B0013284BB58B11B /* Pods-USupport.debug.xcconfig */,
+				169985E3B7369C892AB53E01 /* Pods-USupport.release.xcconfig */,
+				80B6166C2F060DFA745E3DF4 /* Pods-USupportCommonPods-USupport.debug.xcconfig */,
+				A2A1EED3DEE844A28BE0A0C5 /* Pods-USupportCommonPods-USupport.release.xcconfig */,
+				F2B54D9BC4BC3DA3393D77BA /* Pods-USupportCommonPods-USupportDev.debug.xcconfig */,
+				6689BC320FC3C48F81D9FBD2 /* Pods-USupportCommonPods-USupportDev.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		D7E4C46ADA2E9064B798F356 /* ExpoModulesProviders */ = {
+			isa = PBXGroup;
+			children = (
+				58C6C3B2788D4B84860CF691 /* USupport */,
+				E070E091A3FB7EA2C38B0157 /* USupportDev */,
+			);
+			name = ExpoModulesProviders;
+			sourceTree = "<group>";
+		};
+		E070E091A3FB7EA2C38B0157 /* USupportDev */ = {
+			isa = PBXGroup;
+			children = (
+				97B63BF9056124B300FE4258 /* ExpoModulesProvider.swift */,
+			);
+			name = USupportDev;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		13B07F861A680F5B00A75B9A /* USupport */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "USupport" */;
+			buildPhases = (
+				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
+				FD10A7F022414F080027D42C /* Start Packager */,
+				BF75F8391B390A10D467AB04 /* [Expo] Configure project */,
+				13B07F871A680F5B00A75B9A /* Sources */,
+				13B07F8C1A680F5B00A75B9A /* Frameworks */,
+				13B07F8E1A680F5B00A75B9A /* Resources */,
+				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
+				AE03F64FA59564BD85A401CD /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = USupport;
+			productName = USupportmobile;
+			productReference = 13B07F961A680F5B00A75B9A /* uSupport.app */;
+			productType = "com.apple.product-type.application";
+		};
+		43001CCC29EEEAE800B32A2A /* USupportDev */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 43001CDF29EEEAE800B32A2A /* Build configuration list for PBXNativeTarget "USupportDev" */;
+			buildPhases = (
+				43001CCD29EEEAE800B32A2A /* [CP] Check Pods Manifest.lock */,
+				43001CCE29EEEAE800B32A2A /* Start Packager */,
+				D8E3404B6E6C899C40B55CCA /* [Expo] Configure project */,
+				43001CCF29EEEAE800B32A2A /* Sources */,
+				43001CD329EEEAE800B32A2A /* Frameworks */,
+				43001CD529EEEAE800B32A2A /* Resources */,
+				43001CDB29EEEAE800B32A2A /* Bundle React Native code and images */,
+				43001CDC29EEEAE800B32A2A /* [CP] Copy Pods Resources */,
+				43001CDD29EEEAE800B32A2A /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = USupportDev;
+			productName = USupportmobile;
+			productReference = 43001CE229EEEAE800B32A2A /* USupportDev.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		83CBB9F71A601CBA00E9B192 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1130;
+				TargetAttributes = {
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = K288UMKCNF;
+						LastSwiftMigration = 1250;
+						ProvisioningStyle = Manual;
+					};
+					43001CCC29EEEAE800B32A2A = {
+						DevelopmentTeam = K288UMKCNF;
+						ProvisioningStyle = Manual;
+					};
+				};
+			};
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "uSupport" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 83CBB9F61A601CBA00E9B192;
+			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				13B07F861A680F5B00A75B9A /* USupport */,
+				43001CCC29EEEAE800B32A2A /* USupportDev */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		13B07F8E1A680F5B00A75B9A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				43C1F7732DD8E2BD00613CC3 /* main.jsbundle in Resources */,
+				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
+				43001CCB29EEDDFF00B32A2A /* Config.xcconfig in Resources */,
+				43926DB929E5675A005505FD /* GoogleService-Info.plist in Resources */,
+				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
+				9E4C0414961D07D30BA9C95B /* PrivacyInfo.xcprivacy in Resources */,
+				D6C1ECD32218422E99AB7F88 /* Nunito_300Light.ttf in Resources */,
+				2F28C4CCF17740399E91B000 /* Nunito_400Regular.ttf in Resources */,
+				A5AEA1972B204497AD2510BE /* Nunito_500Medium.ttf in Resources */,
+				7C216B4A016A4CA78A8ACE36 /* Nunito_600SemiBold.ttf in Resources */,
+				201B13A6DAFC49359AF6D292 /* Nunito_700Bold.ttf in Resources */,
+				7AEACF7E2A484DF79AF385B7 /* Nunito_800ExtraBold.ttf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		43001CD529EEEAE800B32A2A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				43001CD629EEEAE800B32A2A /* Expo.plist in Resources */,
+				43001CD729EEEAE800B32A2A /* Config.xcconfig in Resources */,
+				43001CD829EEEAE800B32A2A /* GoogleService-Info.plist in Resources */,
+				43001CD929EEEAE800B32A2A /* Images.xcassets in Resources */,
+				43C1F6B52DD7DA4F00613CC3 /* Nunito_700Bold.ttf in Resources */,
+				43C1F6B62DD7DA4F00613CC3 /* Nunito_300Light.ttf in Resources */,
+				43C1F6B72DD7DA4F00613CC3 /* Nunito_500Medium.ttf in Resources */,
+				43C1F6B82DD7DA4F00613CC3 /* Nunito_800ExtraBold.ttf in Resources */,
+				43C1F6B92DD7DA4F00613CC3 /* Nunito_600SemiBold.ttf in Resources */,
+				43C1F6BA2DD7DA4F00613CC3 /* Nunito_400Regular.ttf in Resources */,
+				43001CE429EEF1F000B32A2A /* USupportDev-Info.plist in Resources */,
+				43001CDA29EEEAE800B32A2A /* SplashScreen.storyboard in Resources */,
+				027710DE42402B24DA53091B /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native code and images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ -f \"$PODS_ROOT/../.xcode.env\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env\"\nfi\nif [[ -f \"$PODS_ROOT/../.xcode.env.local\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.local\"\nfi\n\n# The project root by default is one level up from the ios directory\nexport PROJECT_ROOT=\"$PROJECT_DIR\"/..\n\nif [[ \"$CONFIGURATION\" = *Debug* ]]; then\n  export SKIP_BUNDLING=1\nfi\nif [[ -z \"$ENTRY_FILE\" ]]; then\n  # Set the entry JS file using the bundler's entry resolution.\n  export ENTRY_FILE=\"$(\"$NODE_BINARY\" -e \"require('expo/scripts/resolveAppEntry')\" $PROJECT_ROOT ios relative | tail -n 1)\"\nfi\n\n`\"$NODE_BINARY\" --print \"require('path').dirname(require.resolve('react-native/package.json')) + '/scripts/react-native-xcode.sh'\"`\n\nexport PATH=\"$HOME/.nvm/versions/node/v23.7.0/bin:$PATH\"\n";
+		};
+		08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-USupportCommonPods-USupport-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		43001CCD29EEEAE800B32A2A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-USupportCommonPods-USupportDev-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		43001CCE29EEEAE800B32A2A /* Start Packager */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Start Packager";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ -f \"$PODS_ROOT/../.xcode.env\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env\"\nfi\nif [[ -f \"$PODS_ROOT/../.xcode.env.local\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.local\"\nfi\n\nexport RCT_METRO_PORT=\"${RCT_METRO_PORT:=8081}\"\necho \"export RCT_METRO_PORT=${RCT_METRO_PORT}\" > `$NODE_BINARY --print \"require('path').dirname(require.resolve('react-native/package.json')) + '/scripts/.packager.env'\"`\nif [ -z \"${RCT_NO_LAUNCH_PACKAGER+xxx}\" ] ; then\n  if nc -w 5 -z localhost ${RCT_METRO_PORT} ; then\n    if ! curl -s \"http://localhost:${RCT_METRO_PORT}/status\" | grep -q \"packager-status:running\" ; then\n      echo \"Port ${RCT_METRO_PORT} already in use, packager is either not running or not running correctly\"\n      exit 2\n    fi\n  else\n    open `$NODE_BINARY --print \"require('path').dirname(require.resolve('react-native/package.json')) + '/scripts/launchPackager.command'\"` || echo \"Can't start packager automatically\"\n  fi\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		43001CDB29EEEAE800B32A2A /* Bundle React Native code and images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native code and images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ -f \"$PODS_ROOT/../.xcode.env\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env\"\nfi\nif [[ -f \"$PODS_ROOT/../.xcode.env.local\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.local\"\nfi\n\n# The project root by default is one level up from the ios directory\nexport PROJECT_ROOT=\"$PROJECT_DIR\"/..\n\nif [[ \"$CONFIGURATION\" = *Debug* ]]; then\n  export SKIP_BUNDLING=1\nfi\nif [[ -z \"$ENTRY_FILE\" ]]; then\n  # Set the entry JS file using the bundler's entry resolution.\n  export ENTRY_FILE=\"$(\"$NODE_BINARY\" -e \"require('expo/scripts/resolveAppEntry')\" $PROJECT_ROOT ios relative | tail -n 1)\"\nfi\n\n`\"$NODE_BINARY\" --print \"require('path').dirname(require.resolve('react-native/package.json')) + '/scripts/react-native-xcode.sh'\"`\n\n";
+		};
+		43001CDC29EEEAE800B32A2A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-USupportCommonPods-USupportDev/Pods-USupportCommonPods-USupportDev-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/AppAuth/AppAuthCore_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/EXApplication/ExpoApplication_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/EXConstants.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/ExpoConstants_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/EXNotifications/ExpoNotifications_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoDevice/ExpoDevice_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoFileSystem/ExpoFileSystem_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoLocalization/ExpoLocalization_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCore/FirebaseCore_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCoreExtension/FirebaseCoreExtension_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCoreInternal/FirebaseCoreInternal_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCrashlytics/FirebaseCrashlytics_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseInstallations/FirebaseInstallations_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseMessaging/FirebaseMessaging_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/GTMAppAuth/GTMAppAuth_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/GTMSessionFetcher/GTMSessionFetcher_Core_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/GoogleDataTransport/GoogleDataTransport_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/GoogleSignIn/GoogleSignIn.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/GoogleUtilities/GoogleUtilities_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/PromisesObjC/FBLPromises_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/PromisesSwift/Promises_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/RCT-Folly/RCT-Folly_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/RNCAsyncStorage/RNCAsyncStorage_resources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/RNDeviceInfo/RNDeviceInfoPrivacyInfo.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/RNPermissions/RNPermissionsPrivacyInfo.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/RNSVG/RNSVGFilters.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/React-Core_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-cxxreact/React-cxxreact_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/Stripe/StripeBundle.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/StripeCore/StripeCoreBundle.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/StripeFinancialConnections/StripeFinancialConnectionsBundle.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/StripePaymentSheet/StripePaymentSheetBundle.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/StripePayments/StripePaymentsBundle.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/StripePayments/Stripe3DS2.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/StripePaymentsUI/StripePaymentsUIBundle.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/StripeUICore/StripeUICoreBundle.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/boost/boost_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/glog/glog_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/lottie-ios/LottiePrivacyInfo.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/lottie-react-native/Lottie_React_Native_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/nanopb/nanopb_Privacy.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AppAuthCore_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoApplication_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EXConstants.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoConstants_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoNotifications_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoDevice_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoFileSystem_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoLocalization_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseCore_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseCoreExtension_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseCoreInternal_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseCrashlytics_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseInstallations_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseMessaging_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GTMAppAuth_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GTMSessionFetcher_Core_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleDataTransport_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleUtilities_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FBLPromises_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Promises_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RCT-Folly_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RNCAsyncStorage_resources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RNDeviceInfoPrivacyInfo.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RNPermissionsPrivacyInfo.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RNSVGFilters.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-Core_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-cxxreact_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/StripeBundle.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/StripeCoreBundle.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/StripeFinancialConnectionsBundle.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/StripePaymentSheetBundle.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/StripePaymentsBundle.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Stripe3DS2.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/StripePaymentsUIBundle.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/StripeUICoreBundle.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/boost_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/glog_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/LottiePrivacyInfo.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Lottie_React_Native_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/nanopb_Privacy.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-USupportCommonPods-USupportDev/Pods-USupportCommonPods-USupportDev-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		43001CDD29EEEAE800B32A2A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-USupportCommonPods-USupportDev/Pods-USupportCommonPods-USupportDev-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Giphy/GiphyUISDK.framework/GiphyUISDK",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/JitsiWebRTC/WebRTC.framework/WebRTC",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GiphyUISDK.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WebRTC.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-USupportCommonPods-USupportDev/Pods-USupportCommonPods-USupportDev-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-USupportCommonPods-USupport/Pods-USupportCommonPods-USupport-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/AppAuth/AppAuthCore_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/EXApplication/ExpoApplication_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/EXConstants.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/ExpoConstants_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/EXNotifications/ExpoNotifications_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoDevice/ExpoDevice_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoFileSystem/ExpoFileSystem_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoLocalization/ExpoLocalization_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCore/FirebaseCore_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCoreExtension/FirebaseCoreExtension_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCoreInternal/FirebaseCoreInternal_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCrashlytics/FirebaseCrashlytics_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseInstallations/FirebaseInstallations_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseMessaging/FirebaseMessaging_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/GTMAppAuth/GTMAppAuth_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/GTMSessionFetcher/GTMSessionFetcher_Core_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/GoogleDataTransport/GoogleDataTransport_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/GoogleSignIn/GoogleSignIn.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/GoogleUtilities/GoogleUtilities_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/PromisesObjC/FBLPromises_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/PromisesSwift/Promises_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/RCT-Folly/RCT-Folly_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/RNCAsyncStorage/RNCAsyncStorage_resources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/RNDeviceInfo/RNDeviceInfoPrivacyInfo.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/RNPermissions/RNPermissionsPrivacyInfo.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/RNSVG/RNSVGFilters.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/React-Core_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-cxxreact/React-cxxreact_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/Stripe/StripeBundle.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/StripeCore/StripeCoreBundle.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/StripeFinancialConnections/StripeFinancialConnectionsBundle.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/StripePaymentSheet/StripePaymentSheetBundle.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/StripePayments/StripePaymentsBundle.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/StripePayments/Stripe3DS2.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/StripePaymentsUI/StripePaymentsUIBundle.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/StripeUICore/StripeUICoreBundle.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/boost/boost_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/glog/glog_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/lottie-ios/LottiePrivacyInfo.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/lottie-react-native/Lottie_React_Native_Privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/nanopb/nanopb_Privacy.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AppAuthCore_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoApplication_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EXConstants.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoConstants_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoNotifications_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoDevice_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoFileSystem_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoLocalization_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseCore_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseCoreExtension_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseCoreInternal_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseCrashlytics_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseInstallations_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseMessaging_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GTMAppAuth_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GTMSessionFetcher_Core_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleDataTransport_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleUtilities_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FBLPromises_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Promises_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RCT-Folly_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RNCAsyncStorage_resources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RNDeviceInfoPrivacyInfo.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RNPermissionsPrivacyInfo.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RNSVGFilters.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-Core_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-cxxreact_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/StripeBundle.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/StripeCoreBundle.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/StripeFinancialConnectionsBundle.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/StripePaymentSheetBundle.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/StripePaymentsBundle.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Stripe3DS2.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/StripePaymentsUIBundle.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/StripeUICoreBundle.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/boost_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/glog_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/LottiePrivacyInfo.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Lottie_React_Native_Privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/nanopb_Privacy.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-USupportCommonPods-USupport/Pods-USupportCommonPods-USupport-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AE03F64FA59564BD85A401CD /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-USupportCommonPods-USupport/Pods-USupportCommonPods-USupport-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Giphy/GiphyUISDK.framework/GiphyUISDK",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/JitsiWebRTC/WebRTC.framework/WebRTC",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GiphyUISDK.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WebRTC.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-USupportCommonPods-USupport/Pods-USupportCommonPods-USupport-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BF75F8391B390A10D467AB04 /* [Expo] Configure project */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "[Expo] Configure project";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-USupportCommonPods-USupport/expo-configure-project.sh\"\n";
+		};
+		D8E3404B6E6C899C40B55CCA /* [Expo] Configure project */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "[Expo] Configure project";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-USupportCommonPods-USupportDev/expo-configure-project.sh\"\n";
+		};
+		FD10A7F022414F080027D42C /* Start Packager */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Start Packager";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ -f \"$PODS_ROOT/../.xcode.env\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env\"\nfi\nif [[ -f \"$PODS_ROOT/../.xcode.env.local\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.local\"\nfi\n\nexport RCT_METRO_PORT=\"${RCT_METRO_PORT:=8081}\"\necho \"export RCT_METRO_PORT=${RCT_METRO_PORT}\" > `$NODE_BINARY --print \"require('path').dirname(require.resolve('react-native/package.json')) + '/scripts/.packager.env'\"`\nif [ -z \"${RCT_NO_LAUNCH_PACKAGER+xxx}\" ] ; then\n  if nc -w 5 -z localhost ${RCT_METRO_PORT} ; then\n    if ! curl -s \"http://localhost:${RCT_METRO_PORT}/status\" | grep -q \"packager-status:running\" ; then\n      echo \"Port ${RCT_METRO_PORT} already in use, packager is either not running or not running correctly\"\n      exit 2\n    fi\n  else\n    open `$NODE_BINARY --print \"require('path').dirname(require.resolve('react-native/package.json')) + '/scripts/launchPackager.command'\"` || echo \"Can't start packager automatically\"\n  fi\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		13B07F871A680F5B00A75B9A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
+				13B07FC01A68108700A75B9A /* main.m in Sources */,
+				D94544C8DDDF103EECAF8129 /* ExpoModulesProvider.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		43001CCF29EEEAE800B32A2A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				43001CD129EEEAE800B32A2A /* AppDelegate.mm in Sources */,
+				43001CD229EEEAE800B32A2A /* main.m in Sources */,
+				E603E0317A23476CFA70DB54 /* ExpoModulesProvider.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		13B07F941A680F5B00A75B9A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 80B6166C2F060DFA745E3DF4 /* Pods-USupportCommonPods-USupport.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = USupportmobile/USupportmobileDebug.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = K288UMKCNF;
+				ENABLE_BITCODE = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"FB_SONARKIT_ENABLED=1",
+				);
+				INFOPLIST_FILE = USupportmobile/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = USupport;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 2;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
+				PRODUCT_BUNDLE_IDENTIFIER = org.unicef.ecar.usupport;
+				PRODUCT_NAME = uSupport;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = uSupport_Development_25/26;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		13B07F951A680F5B00A75B9A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A2A1EED3DEE844A28BE0A0C5 /* Pods-USupportCommonPods-USupport.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = USupportmobile/USupportmobile.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = K288UMKCNF;
+				INFOPLIST_FILE = USupportmobile/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = USupport;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 2;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
+				PRODUCT_BUNDLE_IDENTIFIER = org.unicef.ecar.usupport;
+				PRODUCT_NAME = uSupport;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = uSupport_Development_25/26;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		43001CE029EEEAE800B32A2A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F2B54D9BC4BC3DA3393D77BA /* Pods-USupportCommonPods-USupportDev.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = USupportmobile/USupportmobileDebug.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = K288UMKCNF;
+				ENABLE_BITCODE = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"FB_SONARKIT_ENABLED=1",
+				);
+				INFOPLIST_FILE = "USupportDev-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = USupportDev;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
+				PRODUCT_BUNDLE_IDENTIFIER = org.unicef.ecar.usupport;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = uSupport_Production;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		43001CE129EEEAE800B32A2A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6689BC320FC3C48F81D9FBD2 /* Pods-USupportCommonPods-USupportDev.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = USupportmobile/USupportmobile.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = K288UMKCNF;
+				INFOPLIST_FILE = "USupportDev-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = USupportDev;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
+				PRODUCT_BUNDLE_IDENTIFIER = org.unicef.ecar.usupport;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = uSupport_Production;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		83CBBA201A601CBA00E9B192 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 43001CCA29EEDDFF00B32A2A /* Config.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CC = "";
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CXX = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					_LIBCPP_ENABLE_CXX17_REMOVED_UNARY_BINARY_FUNCTION,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD = "";
+				LDPLUSPLUS = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					/usr/lib/swift,
+					"$(inherited)",
+				);
+				LIBRARY_SEARCH_PATHS = "$(SDKROOT)/usr/lib/swift\"$(inherited)\"";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "$(inherited)";
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				USE_HERMES = true;
+			};
+			name = Debug;
+		};
+		83CBBA211A601CBA00E9B192 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 43001CCA29EEDDFF00B32A2A /* Config.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CC = "";
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				CXX = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					_LIBCPP_ENABLE_CXX17_REMOVED_UNARY_BINARY_FUNCTION,
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD = "";
+				LDPLUSPLUS = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					/usr/lib/swift,
+					"$(inherited)",
+				);
+				LIBRARY_SEARCH_PATHS = "$(SDKROOT)/usr/lib/swift\"$(inherited)\"";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "$(inherited)";
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
+				SDKROOT = iphoneos;
+				USE_HERMES = true;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "USupport" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				13B07F941A680F5B00A75B9A /* Debug */,
+				13B07F951A680F5B00A75B9A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		43001CDF29EEEAE800B32A2A /* Build configuration list for PBXNativeTarget "USupportDev" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				43001CE029EEEAE800B32A2A /* Debug */,
+				43001CE129EEEAE800B32A2A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "uSupport" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				83CBBA201A601CBA00E9B192 /* Debug */,
+				83CBBA211A601CBA00E9B192 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 83CBB9F71A601CBA00E9B192 /* Project object */;
+}

@@ -40,9 +40,12 @@ ios/GoogleService-Info.plist
 extract-translations.py
 jsonToCsv.js
 ios/tmp.xcconfig
+ios/main.jsbundle
+ios/main.jsbundle.map
 .env.production
 ios/assets/
 .cursorrules
 *.md
 *.mdc
 android/app/release/baselineProfiles/
+android/app/release/output-metadata.json

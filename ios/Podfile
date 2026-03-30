@@ -74,6 +74,53 @@ abstract_target 'USupportCommonPods' do
       :ccache_enabled => podfile_properties['apple.ccacheEnabled'] == 'true',
     )
 
+    # fmt 11.x + Apple Clang 16+: consteval in basic_format_string fails to compile.
+    # base.h always #defines FMT_USE_CONSTEVAL after -D; wrap auto-detect in #ifndef FMT_USE_CONSTEVAL.
+    fmt_base = File.join(installer.sandbox.root, 'fmt/include/fmt/base.h')
+    if File.exist?(fmt_base)
+      File.chmod(0o644, fmt_base)
+      contents = File.read(fmt_base)
+      unless contents.include?('[USupport] FMT_USE_CONSTEVAL wrap')
+        contents.sub!(
+          "// Detect consteval, C++20 constexpr extensions and std::is_constant_evaluated.\n" \
+          "#if !defined(__cpp_lib_is_constant_evaluated)",
+          "// Detect consteval, C++20 constexpr extensions and std::is_constant_evaluated.\n" \
+          "// [USupport] FMT_USE_CONSTEVAL wrap for Apple Clang 16+ (see Podfile)\n" \
+          "#ifndef FMT_USE_CONSTEVAL\n" \
+          "#if !defined(__cpp_lib_is_constant_evaluated)"
+        )
+        contents.sub!(
+          "#elif FMT_GCC_VERSION >= 1002 || FMT_CLANG_VERSION >= 1101\n" \
+          "#  define FMT_USE_CONSTEVAL 1\n" \
+          "#else\n" \
+          "#  define FMT_USE_CONSTEVAL 0\n" \
+          "#endif\n" \
+          "#if FMT_USE_CONSTEVAL\n" \
+          "#  define FMT_CONSTEVAL consteval",
+          "#elif FMT_GCC_VERSION >= 1002 || FMT_CLANG_VERSION >= 1101\n" \
+          "#  define FMT_USE_CONSTEVAL 1\n" \
+          "#else\n" \
+          "#  define FMT_USE_CONSTEVAL 0\n" \
+          "#endif\n" \
+          "#endif\n" \
+          "#if FMT_USE_CONSTEVAL\n" \
+          "#  define FMT_CONSTEVAL consteval"
+        )
+        File.write(fmt_base, contents)
+      end
+    end
+
+    installer.pods_project.targets.each do |target|
+      next unless target.name == 'fmt'
+      target.build_configurations.each do |config|
+        defs = config.build_settings['GCC_PREPROCESSOR_DEFINITIONS']
+        defs = [defs] if defs.is_a?(String)
+        defs = defs ? defs.dup : ['$(inherited)']
+        defs << 'FMT_USE_CONSTEVAL=0' unless defs.any? { |d| d.to_s.include?('FMT_USE_CONSTEVAL') }
+        config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] = defs
+      end
+    end
+
     bitcode_strip_path = `xcrun -sdk iphoneos --find bitcode_strip`.strip
 
      # Actual binary paths
