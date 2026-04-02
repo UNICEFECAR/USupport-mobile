@@ -74,6 +74,7 @@ export const ArticleInformation = ({ navigation, route }) => {
       articleIdToFetch,
       i18n.language
     );
+    console.log(data);
 
     const finalData = destructureArticleData(data);
     return finalData;
@@ -81,7 +82,7 @@ export const ArticleInformation = ({ navigation, route }) => {
 
   const {
     data: articleData,
-    isFetching: isFetchingArticleData,
+    isLoading: isFetchingArticleData,
     error,
   } = useQuery(["article", i18n.language, id], getArticleData, {
     enabled: !!id,

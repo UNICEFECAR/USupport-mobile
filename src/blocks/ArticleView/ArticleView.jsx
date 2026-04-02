@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
@@ -13,8 +13,10 @@ import { useTranslation } from "react-i18next";
 import Config from "react-native-config";
 
 import {
+  AudioPlayer,
   Icon,
   Label,
+  Box,
   Block,
   AppText,
   Like,
@@ -42,7 +44,9 @@ const { AMAZON_S3_BUCKET } = Config;
  * @return {jsx}
  */
 export const ArticleView = ({ articleData, isTmpUser }) => {
-  const { t } = useTranslation("screens", { keyPrefix: "article-information" });
+  const { t } = useTranslation("screens", {
+    keyPrefix: "article-information",
+  });
   const { colors } = useGetTheme();
   const queryClient = useQueryClient();
 
@@ -220,6 +224,7 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
     }
   };
   const [isPdfLoading, setIsPdfLoading] = useState(false);
+
   const handleExportPDF = async () => {
     try {
       setIsPdfLoading(true);
@@ -351,23 +356,40 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
           <AppText namedStyle="smallText">
             {[articleData.readingTime, t("min_read")].join(" ")}
           </AppText>
-          <View style={styles.actionButtons}>
-            <TouchableOpacity
-              style={styles.actionButton}
-              onPress={handleExportPDF}
-              disabled={isPdfLoading}
-            >
-              {isPdfLoading ? (
-                <Loading style={styles.loading} />
-              ) : (
-                <Icon name="download" size="sm" color={colors.text} />
-              )}
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.actionButton} onPress={handleShare}>
-              <Icon name="share" size="sm" color={colors.text} />
-            </TouchableOpacity>
-          </View>
         </View>
+
+        <Box style={styles.actionBox}>
+          <Like
+            size={30}
+            handleClick={handleAddRating}
+            likes={contentRating?.likes || 0}
+            isLiked={contentRating?.isLikedByUser || false}
+            dislikes={contentRating?.dislikes || 0}
+            isDisliked={contentRating?.isDislikedByUser || false}
+            answerId={articleData.id}
+          />
+          <View style={styles.verticalSeparator} />
+          <TouchableOpacity style={styles.actionButton} onPress={handleShare}>
+            <Icon name="share" size="sm" color={colors.text} />
+          </TouchableOpacity>
+          <View style={styles.verticalSeparator} />
+          <TouchableOpacity
+            style={styles.actionButton}
+            onPress={handleExportPDF}
+          >
+            {isPdfLoading ? (
+              <Loading style={styles.loading} />
+            ) : (
+              <Icon name="download" size="sm" color={colors.text} />
+            )}
+          </TouchableOpacity>
+        </Box>
+        {articleData?.ttsUrl ? (
+          <AudioPlayer
+            sourceUrl={articleData.ttsUrl}
+            style={styles.audioPlayer}
+          />
+        ) : null}
         <View style={styles.rowStart}>
           <View style={styles.labelsContainer}>
             {articleData.labels.map((label, index) => {
@@ -376,14 +398,6 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
               );
             })}
           </View>
-          <Like
-            handleClick={handleAddRating}
-            likes={contentRating?.likes || 0}
-            isLiked={contentRating?.isLikedByUser || false}
-            dislikes={contentRating?.dislikes || 0}
-            isDisliked={contentRating?.isDislikedByUser || false}
-            answerId={articleData.id}
-          />
         </View>
 
         {articleData.bodyCK ? (
@@ -434,7 +448,7 @@ const styles = StyleSheet.create({
     borderColor: appStyles.colorBlue_3d527b,
     borderRadius: 10,
     borderWidth: 1,
-    marginLeft: 16,
+    // marginLeft: 16,
     paddingHorizontal: 10,
     paddingVertical: 4,
   },
@@ -473,5 +487,20 @@ const styles = StyleSheet.create({
     width: "70%",
   },
   loading: { height: 16, width: 16 },
+  audioPlayer: { marginTop: 8, marginBottom: 8 },
   rowStart: { alignItems: "flex-start", flexDirection: "row" },
+  actionBox: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 8,
+    padding: 5,
+    justifyContent: "space-evenly",
+    ...appStyles.shadow2,
+  },
+  verticalSeparator: {
+    width: 1,
+    height: "80%",
+    backgroundColor: appStyles.colorGray_a6b4b8,
+    marginHorizontal: 16,
+  },
 });
