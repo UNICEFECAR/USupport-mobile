@@ -6,7 +6,7 @@ import Config from "react-native-config";
 
 import {
   AppText,
-  AppButton,
+  NewButton,
   Block,
   Dropdown,
   TransparentModal,
