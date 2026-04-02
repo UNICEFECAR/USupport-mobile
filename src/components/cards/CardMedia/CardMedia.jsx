@@ -4,13 +4,17 @@ import {
   Image,
   Pressable,
   TouchableOpacity,
+  UIManager,
+  Platform,
 } from "react-native";
 import Config from "react-native-config";
 
 import { AppText } from "../../texts/AppText/AppText";
-import { AppButton } from "../../buttons/AppButton/AppButton";
 import { Icon } from "../../icons/Icon";
 import { Like } from "../../icons/Like";
+import LinearGradient from "../../LinearGradient";
+import { NewButton } from "../../buttons";
+import { Label } from "../../labels";
 
 import { appStyles } from "#styles";
 
@@ -32,6 +36,8 @@ export const CardMedia = ({
   readingTime,
   description,
   categoryName,
+  labels = [],
+  showLabels = true,
   likes,
   dislikes,
   isLikedByUser,
@@ -44,11 +50,31 @@ export const CardMedia = ({
   isRead = false,
 }) => {
   const { colors, isHighContrast } = useGetTheme();
+  const isLightTheme = colors.background === appStyles.colorWhite_ff;
+  const canRenderExpoBlur = (() => {
+    try {
+      // expo-blur requires a native view manager registered as `ExpoBlurView`.
+      // If the dev client hasn't been rebuilt with expo-blur, this will be missing.
+      return !!UIManager.getViewManagerConfig?.("ExpoBlurView");
+    } catch (e) {
+      return false;
+    }
+  })();
+
+  const shouldRenderBlur =
+    !isHighContrast && Platform.OS !== "web" && canRenderExpoBlur;
+  const BlurViewComponent = shouldRenderBlur
+    ? // eslint-disable-next-line global-require
+      require("expo-blur").BlurView
+    : null;
 
   const grayTextColor = isHighContrast
     ? colors.textSecondary
     : appStyles.colorGray_66768d;
-  const linkTextColor = isHighContrast ? colors.text : "#6989a4";
+  const metaTextColor = colors.cardMediaMetaText || grayTextColor;
+  const linkTextColor = isHighContrast
+    ? colors.text
+    : appStyles.colorBlue_6989a4;
 
   const showPlayButton =
     (contentType === "videos" || contentType === "podcasts") && handlePlay;
@@ -60,153 +86,248 @@ export const CardMedia = ({
     }
   };
 
+  const cardContainerStyle = [
+    styles.cardMediaOuter,
+    isLightTheme
+      ? appStyles.cardMediaShadowLight
+      : appStyles.cardMediaShadowDark,
+
+    style,
+  ];
+
   return (
-    <Pressable
-      onPress={onPress}
-      style={[
-        appStyles.shadow2,
-        styles.cardMedia,
-        {
-          backgroundColor: colors.cardMedia,
-          opacity: isRead ? 0.75 : 1,
-        },
-        style,
-      ]}
-    >
-      <View style={styles.imageContainer}>
-        <Image
-          source={
-            image
-              ? { uri: image }
-              : {
-                  uri: `${AMAZON_S3_BUCKET}/article-placeholder`,
-                }
-          }
-          style={styles.image}
-        />
-
-        {showPlayButton && (
-          <TouchableOpacity
-            style={styles.playButtonOverlay}
-            onPress={handlePlayPress}
-            activeOpacity={0.8}
-          >
-            <View style={styles.playButton}>
-              <Icon name={"play"} size="lg" color="white" />
-            </View>
-          </TouchableOpacity>
-        )}
-      </View>
-
-      <View
-        style={[
-          styles.categoryContainer,
-          isHighContrast && styles.categoryContainerHC,
-        ]}
-      >
-        <AppText
-          namedStyle="smallText"
-          style={[styles.categoryText, { color: grayTextColor }]}
-        >
-          {categoryName}
-        </AppText>
-      </View>
-
+    <Pressable onPress={onPress} style={cardContainerStyle}>
       {isRead && (
         <View style={styles.readContainer}>
-          <AppText namedStyle="smallText" style={styles.readText}>
+          <AppText namedStyle="text" style={styles.readText}>
             {t("read")}
           </AppText>
         </View>
       )}
 
-      <View style={styles.textContainer}>
-        <View style={styles.headingContainer}>
-          <AppText namedStyle="h3" style={styles.titleText}>
-            {title}
-          </AppText>
-          {contentType !== "articles" && (
-            <Like
-              likes={likes}
-              isLiked={isLikedByUser}
-              dislikes={dislikes}
-              isDisliked={isDislikedByUser}
+      <View
+        style={[
+          styles.cardMediaSurface,
+          {
+            backgroundColor: isLightTheme
+              ? shouldRenderBlur
+                ? "transparent"
+                : colors.cardMedia
+              : "transparent",
+            borderColor: colors.cardMediaBorder || "transparent",
+          },
+        ]}
+      >
+        {shouldRenderBlur && BlurViewComponent && (
+          <>
+            <BlurViewComponent
+              style={styles.blurSurface}
+              intensity={70}
+              tint="default"
+              blurReductionFactor={2}
+              pointerEvents="none"
             />
+            <View
+              style={[
+                styles.blurTintOverlay,
+                { backgroundColor: colors.cardMedia },
+              ]}
+              pointerEvents="none"
+            />
+          </>
+        )}
+        {!isLightTheme && (
+          <>
+            <LinearGradient
+              gradient={{
+                degrees: 145,
+                locations: [0, 1],
+                // Without real `backdrop-filter` blur we lower the alpha
+                // so the content behind the card still reads through.
+                colors: [
+                  // Match web `glass_panel_background` (client-ui CardMedia)
+                  "rgba(30, 46, 86, 0.82)",
+                  "rgba(19, 32, 65, 0.78)",
+                ],
+              }}
+              style={styles.gradientSurface}
+            />
+            <View style={styles.insetHighlight} />
+          </>
+        )}
+
+        <View style={styles.imageContainer}>
+          <Image
+            source={
+              image
+                ? { uri: image }
+                : {
+                    uri: `${AMAZON_S3_BUCKET}/article-placeholder`,
+                  }
+            }
+            style={styles.image}
+          />
+
+          {showPlayButton && (
+            <TouchableOpacity
+              style={styles.playButtonOverlay}
+              onPress={handlePlayPress}
+              activeOpacity={0.8}
+            >
+              <View style={styles.playButton}>
+                <Icon name={"play"} size="lg" color="white" />
+              </View>
+            </TouchableOpacity>
           )}
         </View>
 
-        {creator && (
-          <View style={styles.creatorAndLikeContainer}>
-            <View style={styles.creatorContainer}>
+        {!!categoryName && (
+          <View
+            style={[
+              styles.categoryContainer,
+              {
+                backgroundColor: colors.cardMediaCategoryBg,
+                borderColor: colors.cardMediaCategoryBorder,
+              },
+            ]}
+          >
+            <AppText
+              namedStyle="smallText"
+              isSemibold
+              style={[
+                styles.categoryText,
+                { color: colors.cardMediaCategoryText },
+              ]}
+            >
+              {categoryName}
+            </AppText>
+          </View>
+        )}
+
+        <View style={styles.textContainer}>
+          {showLabels && labels?.length > 0 && (
+            <View style={styles.labelsContainer}>
+              {labels.map((label, index) => (
+                <Label
+                  key={label.id ?? index}
+                  text={label.name}
+                  paletteIndex={index}
+                  style={styles.labelChip}
+                />
+              ))}
+            </View>
+          )}
+
+          <View style={styles.headingContainer}>
+            <AppText namedStyle="h3" style={styles.titleText}>
+              {title}
+            </AppText>
+          </View>
+
+          {creator && (
+            <View style={styles.creatorAndReadingTimeRow}>
               <AppText
-                namedStyle="smallText"
-                style={[styles.creatorText, { color: grayTextColor }]}
+                namedStyle="text"
+                numberOfLines={1}
+                style={[styles.creatorText, { color: metaTextColor }]}
               >
                 {t("by", { creator })}
               </AppText>
+
               {readingTime && (
                 <View style={styles.readingTime}>
                   <Icon
                     size="sm"
                     name="time"
-                    color={grayTextColor}
+                    color={metaTextColor}
                     style={styles.icon}
                   />
                   <AppText
-                    namedStyle="smallText"
-                    style={[styles.readingTimeText, { color: grayTextColor }]}
+                    namedStyle="text"
+                    numberOfLines={1}
+                    style={[styles.readingTimeText, { color: metaTextColor }]}
                   >
                     {readingTime} {t("min_read")}
                   </AppText>
                 </View>
               )}
             </View>
-            <View style={styles.likeContainer}>
-              <Like
-                likes={likes}
-                isLiked={isLikedByUser}
-                dislikes={dislikes}
-                isDisliked={isDislikedByUser}
-              />
-            </View>
+          )}
+          <View style={styles.descriptionContainer}>
+            <AppText
+              namedStyle="text"
+              id="description"
+              numberOfLines={2}
+              style={[styles.descriptionText, { color: colors.text }]}
+            >
+              {description}
+            </AppText>
           </View>
-        )}
-        <View style={styles.descriptionContainer}>
-          <AppText
-            namedStyle="smallText"
-            id="description"
-            numberOfLines={2}
-            style={[styles.descriptionText, { color: grayTextColor }]}
+
+          <View
+            style={[
+              styles.bottomContainer,
+              { borderTopColor: colors.cardMediaSeparator },
+            ]}
           >
-            {description}
-          </AppText>
+            <NewButton
+              label={t(
+                contentType === "articles" ? "read_more_button" : "view_more"
+              )}
+              onPress={onPress}
+              style={styles.readMoreButton}
+            />
+
+            <Like
+              likes={likes}
+              isLiked={isLikedByUser}
+              dislikes={dislikes}
+              isDisliked={isDislikedByUser}
+            />
+          </View>
         </View>
-        <AppButton
-          type="ghost"
-          label={t(contentType === "articles" ? "read_more" : "view_more")}
-          size="sm"
-          style={styles.readMoreButton}
-          textStyle={[styles.readMoreButtonText, { color: linkTextColor }]}
-          onPress={onPress}
-        />
       </View>
     </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
-  cardMedia: {
+  cardMediaOuter: {
     width: "96%",
     maxWidth: 420,
+    alignSelf: "center",
+    position: "relative",
     borderRadius: 24,
-    backgroundColor: appStyles.colorWhite_ff,
-    ...appStyles.shadow2,
+    overflow: "visible",
+  },
+  cardMediaSurface: {
+    borderRadius: 24,
     borderWidth: 1,
     borderColor: "transparent",
-    alignSelf: "center",
+    overflow: "hidden",
+    position: "relative",
+  },
+  blurSurface: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  blurTintOverlay: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  gradientSurface: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  insetHighlight: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 1,
+
+    zIndex: 2,
   },
   imageContainer: {
     position: "relative",
+    zIndex: 3,
   },
   image: {
     width: "100%",
@@ -242,82 +363,99 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   categoryContainer: {
-    backgroundColor: appStyles.colorWhite_ff,
-    paddingHorizontal: 12,
-    paddingVertical: 2,
-    borderRadius: 4,
     position: "absolute",
-    top: 16,
-    left: 16,
-    height: 22,
+    top: 20,
+    left: 24,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "transparent",
     justifyContent: "center",
     alignItems: "center",
-    zIndex: 2,
-  },
-  categoryContainerHC: {
-    backgroundColor: appStyles.colorBlack_1e,
+    zIndex: 4,
+    elevation: 4,
   },
   textContainer: {
     padding: 16,
+    flex: 1,
+  },
+  labelsContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    overflow: "hidden",
+    marginBottom: 8,
+  },
+  labelChip: {
+    marginRight: 8,
+    marginBottom: 8,
   },
   descriptionContainer: {
     marginTop: 8,
+    marginBottom: 8,
   },
-  creatorContainer: {
-    flexDirection: "column",
-    alignItems: "flex-start",
+  creatorAndReadingTimeRow: {
+    flexDirection: "row",
+    alignItems: "center",
     marginTop: 8,
-    flex: 1,
+    minWidth: 0,
+  },
+  bottomContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 4,
+    paddingTop: 12,
+    borderTopWidth: 2,
   },
   readMoreButton: {
-    paddingLeft: 0,
-    alignItems: "flex-start",
-    flex: 1,
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+    alignSelf: "flex-start",
   },
   icon: {
     marginRight: 5,
   },
   readMoreButtonText: {
-    color: "#6989a4",
+    color: appStyles.colorBlue_6989a4,
     fontWeight: appStyles.fontSemiBold,
+    textDecorationLine: "underline",
   },
   categoryText: {
-    fontFamily: appStyles.fontBold,
-    color: "#66768d",
+    // Better vertical centering across iOS + Android (custom fonts can sit low)
+    includeFontPadding: false,
+    textAlignVertical: "center",
+    fontSize: 12,
+    lineHeight: 18,
   },
   creatorText: {
     color: "#66768d",
+    flexShrink: 1,
+    minWidth: 0,
   },
   readingTimeText: {
     color: "#66768d",
+    flexShrink: 0,
   },
   descriptionText: {
     color: "#66768d",
   },
-  likeContainer: {
-    justifyContent: "flex-start",
-  },
-  creatorAndLikeContainer: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    justifyContent: "space-between",
-    width: "100%",
-  },
   readingTime: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 5,
+    marginLeft: 8,
+    minWidth: 0,
   },
   readContainer: {
     position: "absolute",
-    top: 0,
-    right: 0,
+    top: -13,
+    right: 16,
     backgroundColor: appStyles.colorGreen_7ec680,
-    paddingHorizontal: 16,
-    paddingVertical: 4,
-    borderBottomLeftRadius: 10,
-    borderTopRightRadius: 24,
-    zIndex: 2,
+    paddingHorizontal: 12,
+    paddingVertical: 2,
+    borderRadius: 12,
+    textAlign: "center",
+    zIndex: 3,
   },
   readText: {
     fontFamily: appStyles.fontBold,

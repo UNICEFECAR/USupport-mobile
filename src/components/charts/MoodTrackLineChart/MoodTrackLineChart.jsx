@@ -22,7 +22,7 @@ export const MoodTrackLineChart = ({
   const getMoodValue = (mood) => {
     switch (mood) {
       case "happy":
-        return 3.9;
+        return 3.88;
       case "good":
         return 3;
       case "sad":
@@ -30,7 +30,7 @@ export const MoodTrackLineChart = ({
       case "depressed":
         return 1;
       case "worried":
-        return 0.1;
+        return 0.12;
       default:
         return 0;
     }
@@ -51,8 +51,8 @@ export const MoodTrackLineChart = ({
     datasets: [
       {
         data: data.map((mood) => getMoodValue(mood.mood)),
-        color: () => appStyles.colorPrimary_20809e,
-        strokeWidth: 1,
+        color: () => "#684DFD",
+        strokeWidth: 3,
       },
       { data: [4], withDots: false },
       { data: [0], withDots: false },
@@ -62,11 +62,16 @@ export const MoodTrackLineChart = ({
   const chartConfig = {
     backgroundGradientFrom: colors.background,
     backgroundGradientTo: colors.background,
-    color: () => appStyles.colorGray_a6b4b8,
+    color: () => "#E1E7ED",
     propsForDots: {
-      r: "8",
-      strokeWidth: "2",
-      stroke: appStyles.colorPrimary_20809e,
+      r: "6",
+      strokeWidth: "1",
+      stroke: "#C1EAEA",
+    },
+    propsForBackgroundLines: {
+      strokeDasharray: "4 4",
+      stroke: "#E1E7ED",
+      strokeWidth: 1,
     },
   };
 
@@ -78,36 +83,40 @@ export const MoodTrackLineChart = ({
       chartConfig={chartConfig}
       widthDots={false}
       getDotColor={(dataPoint, dataPointIndex) => {
-        const index = dataPointIndex;
-        const currentEntry = data[index];
-
-        if (index === selectedItemIndex) {
-          return appStyles.colorGreen_54cfd9;
-        } else {
-          return appStyles.colorGreen_c1eaea;
-        }
+        return "#684DFD";
       }}
       getDotProps={(dataPoint, dataPointIndex) => {
         const index = dataPointIndex;
         const currentEntry = data[index];
 
-        if (currentEntry?.isCritical) {
+        if (index === selectedItemIndex) {
           return {
             r: "8",
-            strokeWidth: "3",
-            stroke: appStyles.colorRed_eb5757, // Red border for critical entries
+            strokeWidth: "2",
+            stroke: currentEntry?.isCritical ? "#FF0000" : "#C1EAEA",
+          };
+        }
+
+        if (currentEntry?.isCritical) {
+          return {
+            r: "6",
+            strokeWidth: "2",
+            stroke: "#FF0000",
           };
         }
 
         return {
-          r: "8",
-          strokeWidth: "2",
-          stroke: appStyles.colorPrimary_20809e,
+          r: "6",
+          strokeWidth: "1",
+          stroke: "#C1EAEA",
         };
       }}
+      bezier
       withShadow={false}
-      withVerticalLines={false}
+      withVerticalLines={true}
+      withHorizontalLines={true}
       withHorizontalLabels={false}
+      segments={4}
       fromZero={true}
       onDataPointClick={(value) => {
         handleSelectItem(value.index);

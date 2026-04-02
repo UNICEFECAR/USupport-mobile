@@ -23,6 +23,7 @@ import {
   Error,
   AppButton,
   Icon,
+  NewButton,
 } from "#components";
 
 import { getCountryFromTimezone } from "#utils";
@@ -268,7 +269,7 @@ export const Login = ({ navigation }) => {
             onPress={() => handleForgotPassowrd()}
           />
           {errors.submit ? <Error message={errors.submit} /> : null}
-          <AppButton
+          <NewButton
             label={t("login_label")}
             size="lg"
             onPress={handleLogin}
@@ -277,10 +278,11 @@ export const Login = ({ navigation }) => {
             isSubmit
             style={styles.loginButton}
           />
-          <AppButton
+          <NewButton
             type="ghost"
             label={t("register_button_label")}
             onPress={() => handleRegisterRedirect()}
+            style={styles.registerButton}
           />
         </ScrollView>
       </Block>
@@ -312,5 +314,8 @@ const styles = StyleSheet.create({
     marginLeft: 18,
     marginBottom: 10,
     marginTop: 4,
+  },
+  registerButton: {
+    marginTop: 20,
   },
 });

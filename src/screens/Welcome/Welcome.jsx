@@ -10,7 +10,7 @@ export const Welcome = ({ navigation }) => {
   return (
     <Screen
       hasEmergencyButton={false}
-      hasSpiralBackground={false}
+      backgroundImage={false}
       outsideComponent={
         <>
           <Image

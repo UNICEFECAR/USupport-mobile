@@ -5,12 +5,12 @@ import { useTranslation } from "react-i18next";
 import {
   AppText,
   Block,
-  Emoticon,
   Icon,
   Loading,
   MoodTrackLineChart,
   MoodTrackDetails,
   CardMedia,
+  TransparentModal,
 } from "#components";
 import {
   useGetMoodTrackEntries,
@@ -35,21 +35,19 @@ export const MoodTrackHistory = ({ navigation }) => {
   const IS_RO = country === "RO";
 
   const [pageNum, setPageNum] = useState(0);
-  const limit = `pageNum_${pageNum}_limitToLoad_5`;
-
   const [loadedPages, setLoadedPages] = useState([]);
+  const limitToLoad = 6;
+  const limit = `pageNum_${pageNum}_limitToLoad_${limitToLoad}`;
   const [moodTrackerData, setMoodTrackerData] = useState({});
   const [selectedItemId, setSelectedItemId] = React.useState(null);
   const [lastMood, setLastMood] = useState(null);
-
-  const limitToLoad = 5;
 
   const onSuccess = (data) => {
     const { curEntries, prevEntries, hasMore } = data;
 
     let dataCopy = { ...moodTrackerData };
 
-    if (!dataCopy[limit] || pageNum === 0) {
+    if (!dataCopy[limit]) {
       dataCopy[limit] = {
         entries: curEntries,
         hasMore: prevEntries.length > 0,
@@ -84,18 +82,22 @@ export const MoodTrackHistory = ({ navigation }) => {
     return !loadedPages.includes(pageNum);
   }, [loadedPages, pageNum]);
 
-  useGetMoodTrackEntries(pageNum, onSuccess, enabled);
+  useGetMoodTrackEntries(limitToLoad, pageNum, onSuccess, enabled);
   const emoticons = [
-    { name: "happy", label: "Perfect", value: 4 },
-    { name: "good", label: "Happy", value: 3 },
-    { name: "sad", label: "Sad", value: 2 },
-    { name: "depressed", label: "Depressed", value: 1 },
-    { name: "worried", label: "Worried", value: 0 },
+    { name: "happy", label: "Happy", value: 4, emoji: "😍" },
+    { name: "good", label: "Good", value: 3, emoji: "😀" },
+    { name: "sad", label: "Sad", value: 2, emoji: "😔" },
+    { name: "depressed", label: "Depressed", value: 1, emoji: "☹️" },
+    { name: "worried", label: "Worried", value: 0, emoji: "😣" },
   ];
 
   const renderEmoticons = () => {
     return emoticons.map((emoticon, index) => {
-      return <Emoticon name={emoticon.name} key={index} size="xs" />;
+      return (
+        <View style={styles.emoticonItem} key={index}>
+          <AppText style={styles.emojiText}>{emoticon.emoji}</AppText>
+        </View>
+      );
     });
   };
 
@@ -110,10 +112,16 @@ export const MoodTrackHistory = ({ navigation }) => {
           ? mood.time.getMonth() + 1
           : `0${mood.time.getMonth() + 1}`
       }`;
+      const hourText = `${mood.time.getHours()}:${
+        mood.time.getMinutes() > 9
+          ? mood.time.getMinutes()
+          : `0${mood.time.getMinutes()}`
+      }`;
 
       return (
-        <View key={index}>
+        <View style={styles.dateItem} key={index}>
           <AppText namedStyle="small-text">{dateText}</AppText>
+          <AppText namedStyle="small-text">{hourText}</AppText>
         </View>
       );
     });
@@ -155,6 +163,7 @@ export const MoodTrackHistory = ({ navigation }) => {
           <View onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
             <View style={styles.chartContainer}>
               <View style={styles.emoticonsContainer}>
+                {renderEmoticons()}
                 <View
                   style={[
                     styles.loadPreviusContainer,
@@ -168,13 +177,19 @@ export const MoodTrackHistory = ({ navigation }) => {
                         : {}
                     }
                     disabled={!moodTrackerData[limit].hasMore}
+                    style={{ marginTop: 39.8 }}
                   >
                     <Icon name="arrow-chevron-back" size="sm" color="#20809E" />
                   </TouchableOpacity>
                 </View>
-                {renderEmoticons()}
               </View>
               <View style={styles.lineChartContainer}>
+                <MoodTrackLineChart
+                  data={moodTrackerData[limit]?.entries || []}
+                  handleSelectItem={handleMoodClick}
+                  selectedItemId={selectedItemId}
+                  hidePointsAtIndex={[1, 2, 3, 4, 5]}
+                />
                 <View style={styles.datesContainer}>
                   {renderDates()}
                   <View
@@ -196,31 +211,51 @@ export const MoodTrackHistory = ({ navigation }) => {
                     </TouchableOpacity>
                   </View>
                 </View>
-                <MoodTrackLineChart
-                  data={moodTrackerData[limit]?.entries || []}
-                  handleSelectItem={handleMoodClick}
-                  selectedItemId={selectedItemId}
-                  hidePointsAtIndex={[1, 2, 3, 4, 5]}
-                />
               </View>
             </View>
           </View>
-          {moodTrackerData[limit]?.entries.find(
-            (x) => x.mood_tracker_id === selectedItemId
-          ) ? (
-            <MoodTrackDetails
-              mood={moodTrackerData[limit]?.entries.find(
-                (x) => x.mood_tracker_id === selectedItemId
-              )}
-              handleClose={() => setSelectedItemId(null)}
-              t={t}
-            />
-          ) : null}
+          {(() => {
+            const selectedMood = moodTrackerData[limit]?.entries.find(
+              (x) => x.mood_tracker_id === selectedItemId
+            );
+
+            if (!selectedMood) return null;
+
+            const dateText = `${
+              selectedMood.time.getDate() > 9
+                ? selectedMood.time.getDate()
+                : `0${selectedMood.time.getDate()}`
+            }.${
+              selectedMood.time.getMonth() + 1 > 9
+                ? selectedMood.time.getMonth() + 1
+                : `0${selectedMood.time.getMonth() + 1}`
+            }`;
+            const hourText = `${selectedMood.time.getHours()}:${
+              selectedMood.time.getMinutes() > 9
+                ? selectedMood.time.getMinutes()
+                : `0${selectedMood.time.getMinutes()}`
+            }`;
+
+            return (
+              <TransparentModal
+                isOpen={!!selectedMood}
+                handleClose={() => setSelectedItemId(null)}
+                heading={`${dateText} ${hourText}`}
+                hasCloseIcon={true}
+              >
+                <MoodTrackDetails
+                  mood={selectedMood}
+                  handleClose={() => setSelectedItemId(null)}
+                  t={t}
+                />
+              </TransparentModal>
+            );
+          })()}
         </>
       )}
-      {IS_RO && lastMood && (
+      {IS_RO && (
         <React.Fragment>
-          {moodTrackerRecommendations?.hasRecommendations && (
+          {lastMood && (
             <View style={{ paddingTop: 18 }}>
               <AppText namedStyle="h3">{t("recommendations")}</AppText>
             </View>
@@ -230,13 +265,13 @@ export const MoodTrackHistory = ({ navigation }) => {
             <View style={[styles.loadingContainer, { height: 100 }]}>
               <Loading />
             </View>
-          ) : !moodTrackerRecommendations?.hasRecommendations ? (
+          ) : moodTrackerRecommendations?.hasRecommendations ? null : (
             <View style={{ paddingTop: 16 }}>
               <AppText style={{ textAlign: "center" }} namedStyle="h4">
                 {t("no_recommendations")}
               </AppText>
             </View>
-          ) : null}
+          )}
 
           {moodTrackerRecommendations?.articles?.length > 0 && (
             <View style={{ paddingTop: 16 }}>
@@ -357,6 +392,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 20,
   },
+  dateItem: {
+    alignItems: "center",
+  },
   datesContainer: {
     alignItems: "center",
     flexDirection: "row",
@@ -365,10 +403,18 @@ const styles = StyleSheet.create({
   disabled: {
     opacity: 0.4,
   },
+  emoticonItem: {
+    alignItems: "center",
+    justifyContent: "center",
+    minHeight: 40,
+  },
   emoticonsContainer: {
     flexDirection: "column",
     height: 240,
     justifyContent: "space-between",
+  },
+  emojiText: {
+    fontSize: 22,
   },
   icon: { marginRight: 16 },
   lineChartContainer: {

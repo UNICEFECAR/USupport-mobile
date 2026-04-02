@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { Icon } from "../../icons/Icon";
-import { AppText } from "../../texts/AppText/AppText";
+import { NewButton } from "../../buttons";
 
 import { appStyles } from "#styles";
 
@@ -30,47 +30,52 @@ export const ProfilePicturePreview = ({
 
   return (
     <View style={[styles.container, style]}>
-      <TouchableOpacity
-        onPress={handleDeleteClick}
-        style={styles.iconContainer}
-      >
-        <Icon name="circle-actions-close-purple" size="md" />
-      </TouchableOpacity>
-      <Image source={imageSrc} style={styles.image} />
-      <AppText onPress={handleChangeClick} style={styles.text}>
-        {changePhotoText}
-      </AppText>
+      <View>
+        <TouchableOpacity
+          onPress={handleDeleteClick}
+          style={styles.iconContainer}
+        >
+          <Icon name="circle-actions-close-purple" size="md" />
+        </TouchableOpacity>
+        <Image source={imageSrc} style={styles.image} />
+      </View>
+      <NewButton
+        type="ghost"
+        label={changePhotoText}
+        onPress={handleChangeClick}
+        style={styles.changePhotoButton}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    width: 80,
     position: "relative",
+    flexDirection: "row",
+    // width: "100%",
+    alignItems: "center",
+    justifyContent: "flex-start",
   },
 
   iconContainer: {
     position: "absolute",
-    top: 0,
-    right: 0,
+    top: -6,
+    right: -5,
     zIndex: 2,
+    borderRadius: 50,
   },
 
   image: {
-    width: 80,
-    height: 80,
-    borderRadius: 50,
+    width: 60,
+    height: 60,
+    borderRadius: 12,
     objectFit: "cover",
   },
 
-  text: {
-    color: appStyles.colorSecondary_9749fa,
-    fontFamily: "Nunito-SemiBold",
-    marginTop: 4,
-    alignSelf: "center",
-    textAlign: "center",
-    width: 100,
+  changePhotoButton: {
+    marginLeft: 12,
+    minWidth: "auto",
   },
 });
 

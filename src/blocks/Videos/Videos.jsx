@@ -33,7 +33,15 @@ import { localStorage, adminSvc, cmsSvc, Context } from "#services";
  *
  * @returns {JSX.Element}
  */
-export const Videos = ({ navigation, showSearch, showCategories, sort }) => {
+export const Videos = ({
+  navigation,
+  showSearch,
+  showCategories,
+  sort,
+  initialSearchValue = "",
+  externalSearchValue,
+  topPadding = 94,
+}) => {
   const { t, i18n } = useTranslation("blocks", { keyPrefix: "videos" });
   const { isTmpUser } = useContext(Context);
 
@@ -151,8 +159,18 @@ export const Videos = ({ navigation, showSearch, showCategories, sort }) => {
   };
 
   //--------------------- Search Input ----------------------//
-  const [searchValue, setSearchValue] = useState("");
-  const debouncedSearchValue = useDebounce(searchValue, 500);
+  const [searchValue, setSearchValue] = useState(initialSearchValue || "");
+  const internalDebouncedSearchValue = useDebounce(searchValue, 500);
+
+  const debouncedSearchValue =
+    externalSearchValue !== undefined
+      ? externalSearchValue
+      : internalDebouncedSearchValue;
+  const hasSearch = !!debouncedSearchValue?.trim();
+
+  useEffect(() => {
+    setSearchValue(initialSearchValue || "");
+  }, [initialSearchValue]);
 
   const handleInputChange = (value) => {
     setSearchValue(value);
@@ -248,7 +266,7 @@ export const Videos = ({ navigation, showSearch, showCategories, sort }) => {
   let areCategoriesReady = categoriesQuery?.data?.length > 1;
 
   return (
-    <Block style={styles.videosBlock}>
+    <Block style={[styles.videosBlock, { paddingTop: topPadding }]}>
       <ScrollView>
         {showSearch && areCategoriesReady && (
           <View style={styles.searchContainer}>
@@ -257,6 +275,7 @@ export const Videos = ({ navigation, showSearch, showCategories, sort }) => {
         )}
 
         {showCategories &&
+          !hasSearch &&
           areCategoriesReady &&
           categories &&
           categories.length > 2 && (

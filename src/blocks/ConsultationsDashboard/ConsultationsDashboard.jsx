@@ -1,20 +1,14 @@
 import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import YoutubePlayer from "react-native-youtube-iframe";
 
-import {
-  Block,
-  AppText,
-  AppButton,
-  Loading,
-  CustomCarousel,
-  ConsultationBig,
-} from "#components";
+import { Block, AppText, NewButton, Loading, Consultation } from "#components";
 import { appStyles } from "#styles";
 
-import { useGetTheme } from "#hooks";
+import { useGetTheme, useRejectConsultation } from "#hooks";
 import { Context } from "#services";
+import { showToast } from "#utils";
 
 /**
  * ConsultationsDashboard
@@ -33,12 +27,15 @@ export const ConsultationsDashboard = ({
   navigation,
   handleRegistrationModalOpen,
   isTmpUser,
+  currencySymbol = "",
 }) => {
   const { isDarkMode } = useGetTheme();
   const { t, i18n } = useTranslation("blocks", {
     keyPrefix: "consultations-dashboard",
   });
-  const width = appStyles.screenWidth * 0.96;
+  const { t: tConsultation } = useTranslation("blocks", {
+    keyPrefix: "consultations",
+  });
   const VIDEO_HEIGHT = (appStyles.screenWidth * 9) / 16;
 
   const { country } = useContext(Context);
@@ -64,19 +61,47 @@ export const ConsultationsDashboard = ({
     }
   };
 
-  const renderCarouselItems = ({ item, index }) => {
-    return (
-      <ConsultationBig
-        consultation={item}
-        handleJoin={openJoinConsultation}
-        handleChange={openEditConsultation}
-        handleAcceptSuggestion={handleAcceptSuggestion}
-        handleSchedule={handleSchedule}
-        t={t}
-        key={index}
-      />
-    );
+  const onRejectConsultationSuccess = () => {
+    showToast({ message: tConsultation("reject_consultation_success") });
   };
+  const onRejectConsultationError = (error) => {
+    showToast({ message: error, type: "error" });
+  };
+  const rejectConsultationMutation = useRejectConsultation(
+    onRejectConsultationSuccess,
+    onRejectConsultationError
+  );
+  const handleRejectConsultation = (consultationId) => {
+    rejectConsultationMutation.mutate(consultationId);
+  };
+
+  const handleOpenDetails = (consultation) => {
+    navigation.navigate("ActivityHistory", {
+      providerId: consultation.providerId,
+      consultation,
+    });
+  };
+
+  const renderConsultation = (consultation, index) => (
+    <View
+      style={styles.consultationItem}
+      key={consultation.consultationId ?? index}
+    >
+      <Consultation
+        consultation={consultation}
+        t={tConsultation}
+        handleOpenEdit={openEditConsultation}
+        handleOpenDetails={handleOpenDetails}
+        handleJoinClick={openJoinConsultation}
+        handleAcceptConsultation={handleAcceptSuggestion}
+        handleRejectConsultation={handleRejectConsultation}
+        currencySymbol={currencySymbol}
+        overview={false}
+        suggested={consultation.status === "suggested"}
+        hasPriceBadge
+      />
+    </View>
+  );
 
   return (
     <Block style={styles.block}>
@@ -99,34 +124,32 @@ export const ConsultationsDashboard = ({
         <View style={styles.loadingContainer}>
           <Loading size="lg" />
         </View>
-      ) : !upcomingConsultations || upcomingConsultations.length === 0 ? (
-        <View style={styles.buttonContainer}>
-          <AppButton
-            label={t("schedule_consultation_label")}
-            type={isDarkMode ? "primary" : "secondary"}
-            size="lg"
-            onPress={handleScheduleConsultation}
-          />
-        </View>
       ) : (
-        <View style={styles.carouselContainer}>
-          {upcomingConsultations.length > 1 ? (
-            <CustomCarousel
-              data={upcomingConsultations}
-              renderItem={renderCarouselItems}
-              width={width}
-            />
-          ) : (
-            <ConsultationBig
-              consultation={upcomingConsultations[0]}
-              handleJoin={openJoinConsultation}
-              handleChange={openEditConsultation}
-              handleAcceptSuggestion={handleAcceptSuggestion}
-              handleSchedule={handleSchedule}
-              t={t}
-            />
+        <>
+          {upcomingConsultations && upcomingConsultations.length > 0 && (
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.scrollViewContent}
+              style={styles.scrollView}
+            >
+              {upcomingConsultations
+                .slice(0, 3)
+                .map((consultation, index) =>
+                  renderConsultation(consultation, index)
+                )}
+            </ScrollView>
           )}
-        </View>
+          <View style={styles.buttonContainer}>
+            <NewButton
+              label={t("schedule_consultation_label")}
+              size="lg"
+              iconName="calendar"
+              isFullWidth
+              onPress={handleScheduleConsultation}
+            />
+          </View>
+        </>
       )}
     </Block>
   );
@@ -134,7 +157,6 @@ export const ConsultationsDashboard = ({
 
 const styles = StyleSheet.create({
   block: {
-    paddingBottom: 100,
     paddingTop: 40,
   },
   buttonContainer: {
@@ -143,7 +165,17 @@ const styles = StyleSheet.create({
     marginTop: 20,
     paddingBottom: 16,
   },
-  carouselContainer: { marginTop: 20 },
+  consultationItem: {
+    paddingTop: 10,
+    paddingHorizontal: 6,
+    width: appStyles.screenWidth * 0.85,
+  },
+  scrollView: {
+    marginTop: 20,
+  },
+  scrollViewContent: {
+    paddingRight: 16,
+  },
   heading: {
     alignItems: "center",
     flexDirection: "row",

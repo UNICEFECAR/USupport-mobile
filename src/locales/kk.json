@@ -50,7 +50,8 @@
       "min_read": "минут оқуға",
       "by": "Дайындаушы {{creator}}",
       "number_of_more_options": "тағы {{count}}",
-      "read": "Оқу"
+      "read": "Оқу",
+      "show_more": "Көбірек көру"
     },
     "change-passcode": {
       "enter_passcode": "Ағымдағы кіру кодын енгізіңіз",
@@ -216,6 +217,8 @@
       "sad": "Көңілсіз",
       "depressed": "Депрессия",
       "worried": "Беймаза",
+      "history": "Тарих",
+      "welcome-heading": "Welcome",
       "heading": "Бүгін жағдайыңыз қалай?",
       "mood_tracker": "Көңіл-күй трекері",
       "additional_comment_placeholder": "Сізді осылай сезінуге не себеп болды?",

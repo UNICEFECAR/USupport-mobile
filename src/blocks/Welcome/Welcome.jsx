@@ -1,24 +1,34 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Image, ScrollView, StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Config from "react-native-config";
 
-import { AppText, AppButton, Block, Dropdown } from "#components";
-import { languageSvc, countrySvc, localStorage, Context } from "#services";
+import { AppText, Block, Dropdown, NewButton } from "#components";
+import {
+  languageSvc,
+  countrySvc,
+  localStorage,
+  Context,
+  userSvc,
+} from "#services";
 import { useGetTheme } from "#hooks";
 
 const { AMAZON_S3_BUCKET } = Config;
 
 export function Welcome({ navigation }) {
+  const queryClient = useQueryClient();
+
   const { isDarkMode } = useGetTheme();
   const { t, i18n } = useTranslation("blocks", { keyPrefix: "welcome" });
+
   const {
     setCurrencySymbol,
     setCountry,
     setSelectedCountry: setSelectedCountryObject,
     setIsPodcastsActive,
     setIsVideosActive,
+    setToken,
   } = useContext(Context);
   const [selectedCountry, setSelectedCountry] = useState(null); // alpha2 for dropdown
   const [selectedLanguage, setSelectedLanguage] = useState(null);
@@ -107,8 +117,8 @@ export function Welcome({ navigation }) {
     setCountry(option);
   };
 
-  const handleContinue = () => {
-    const countryCode = selectedCountry;
+  const handleContinue = ({ navigateTo }) => {
+    const country = selectedCountry;
     const language = selectedLanguage;
 
     if (!countriesQuery.data) {
@@ -128,12 +138,12 @@ export function Welcome({ navigation }) {
     const currencySymbol = selectedCountryObject.currencySymbol;
 
     setCurrencySymbol(currencySymbol);
-    setCountry(countryCode);
+    setCountry(country);
     setSelectedCountryObject(selectedCountryObject);
     setIsPodcastsActive(selectedCountryObject.podcastsActive);
     setIsVideosActive(selectedCountryObject.videosActive);
 
-    localStorage.setItem("country", countryCode);
+    localStorage.setItem("country", country);
     localStorage.setItem("country_id", selectedCountryObject.countryID);
     localStorage.setItem("language", language);
     if (currencySymbol) {
@@ -142,7 +152,36 @@ export function Welcome({ navigation }) {
     const minAge = selectedCountryObject.minAge;
     localStorage.setItem("minAge", minAge != null ? minAge.toString() : "0");
 
-    navigation.push("RegisterPreview");
+    navigation.push(navigateTo);
+  };
+
+  const tmpLogin = async () => {
+    const res = await userSvc.tmpLogin();
+    return res.data;
+  };
+
+  const tmpLoginMutation = useMutation(tmpLogin, {
+    onSuccess: async (data) => {
+      const { token, expiresIn, refreshToken } = data.token;
+      await localStorage.setItem("token", token);
+      localStorage.setItem("expires-in", expiresIn);
+      localStorage.setItem("refresh-token", refreshToken);
+
+      queryClient.setQueryData(
+        ["client-data"],
+        userSvc.transformUserData(data)
+      );
+
+      setToken(token);
+    },
+    onError: (error) => {
+      const { message: errorMessage } = useError(error);
+      setErrror(errorMessage);
+    },
+  });
+
+  const handleContinueAsGuest = () => {
+    tmpLoginMutation.mutate();
   };
 
   const IS_RO = selectedCountry === "RO";
@@ -202,11 +241,33 @@ export function Welcome({ navigation }) {
           />
         </View>
         <View style={styles.buttonContainer}>
-          <AppButton
-            label={t("button")}
-            size="lg"
+          <View style={styles.buttonWrapper}>
+            <NewButton
+              label={t("register_with_email")}
+              disabled={!selectedCountry || !selectedLanguage}
+              onPress={() => handleContinue({ navigateTo: "RegisterEmail" })}
+              style={styles.button}
+            />
+            <NewButton
+              label={t("register_anonymously")}
+              type="outline"
+              disabled={!selectedCountry || !selectedLanguage}
+              onPress={() =>
+                handleContinue({ navigateTo: "RegisterAnonymous" })
+              }
+              style={styles.button}
+            />
+          </View>
+          <NewButton
+            label={t("continue_as_guest")}
+            type="ghost-purple"
             disabled={!selectedCountry || !selectedLanguage}
-            onPress={handleContinue}
+            onPress={handleContinueAsGuest}
+            style={{
+              marginTop: 10,
+              marginInline: "auto",
+            }}
+            isFullWidth
           />
         </View>
       </Block>
@@ -233,6 +294,18 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     flexDirection: "column",
     alignItems: "center",
+  },
+  buttonWrapper: {
+    flex: 1,
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 10,
+  },
+  button: {
+    width: "50%",
   },
   flexGrow: { flexGrow: 1 },
 });

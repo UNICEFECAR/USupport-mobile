@@ -23,11 +23,12 @@
       "provider_microphone_on": "The provider has turned on the microphone"
     },
     "articles": {
-      "heading": "Information portal",
       "no_results": "No results found",
       "could_not_load_content": "There are no results for the current selected country and language.",
       "all": "All",
       "read_more": "Click to read more",
+      "read_more_button": "Read more",
+      "view_more": "View more",
       "min_read": "min read",
       "by": "By {{creator}}",
       "number_of_more_options": "{{count}} more",
@@ -50,7 +51,9 @@
       "min_read": "min read",
       "by": "By {{creator}}",
       "number_of_more_options": "{{count}} more",
-      "read": "Read"
+      "read": "Read",
+      "read_more_button": "Read more",
+      "show_more": "Show more"
     },
     "change-passcode": {
       "enter_passcode": "Enter current passcode",
@@ -90,7 +93,9 @@
       "september": "September",
       "october": "October",
       "november": "November",
-      "december": "December"
+      "december": "December",
+      "join": "Join",
+      "edit": "Edit"
     },
     "consultations": {
       "heading": "Consultations",
@@ -216,6 +221,8 @@
       "sad": "Sad",
       "depressed": "Depressed",
       "worried": "Worried",
+      "history": "History",
+      "welcome-heading": "Welcome",
       "heading": "How are you feeling today?",
       "mood_tracker": "Mood Tracker",
       "how_it_works": "How it works",
@@ -628,7 +635,10 @@
       "language": "Language",
       "placeholder": "Select",
       "button": "Continue",
-      "poland_description": "uSupport is a mental health and well-being platform designed for youth (16–24)."
+      "poland_description": "uSupport is a mental health and well-being platform designed for youth (16–24).",
+      "register_with_email": "Register with email",
+      "register_anonymously": "Register anonymously",
+      "continue_as_guest": "Continue as guest"
     },
     "my-qa": {
       "search_input_placeholder": "Search",
@@ -659,6 +669,9 @@
     },
     "videos": {
       "read_more_button": "View more",
+      "read": "Read",
+      "min_read": "min read",
+      "by": "By {{creator}}",
       "all": "All",
       "could_not_load_content": "Could not load content.",
       "no_results": "No results found",
@@ -1047,6 +1060,7 @@
       "live_label": "Now",
       "no_consultations": "Currently you do not have upcoming consultations",
       "emergency_button_label": "Emergency help",
+      "welcome_back": "Welcome back",
       "accept_success": "Consultation accepted successfully",
       "ordinal_st": "st",
       "ordinal_nd": "nd",
@@ -1076,7 +1090,12 @@
       "emergency_button_label": "Emergency help",
       "articles": "Articles",
       "videos": "Videos",
-      "podcasts": "Podcasts"
+      "podcasts": "Podcasts",
+      "search": "Search",
+      "most_read_heading": "Most read",
+      "read_more": "Read more",
+      "min_read": "min read",
+      "by": "By {{creator}}"
     },
     "local-authentication-screen": {
       "enter_pin": "Enter your PIN Code",

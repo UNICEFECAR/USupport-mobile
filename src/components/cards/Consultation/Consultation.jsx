@@ -5,8 +5,7 @@ import Config from "react-native-config";
 import { Avatar } from "../../avatars/Avatar/Avatar";
 import { AppText } from "../../texts/AppText/AppText";
 import { appStyles } from "#styles";
-import { Icon } from "../../icons/Icon";
-import { AppButton } from "../../buttons/AppButton/AppButton";
+import { NewButton } from "../../buttons/NewButton/NewButton";
 import {
   showToast,
   getDayOfTheWeek,
@@ -124,109 +123,81 @@ export const Consultation = ({
           { ...appStyles.shadow2 },
         ]}
       >
+        {/* {hasPriceBadge && (
+          <View
+            style={[
+              styles.priceBadge,
+              (consultation.campaignId || !price) && styles.priceBadgeFreeColor,
+            ]}
+          >
+            {sponsorImage ? (
+              <Image
+                style={styles.sponsorImage}
+                resizeMode="contain"
+                source={{
+                  uri:
+                    AMAZON_S3_BUCKET +
+                    "/" +
+                    (sponsorImage || "default-sponsor"),
+                }}
+              />
+            ) : null}
+            <AppText
+              namedStyle="smallText"
+              style={[
+                styles.textPurple,
+                (consultation.campaignId || !price) &&
+                  styles.priceBadgeFreeText,
+                isDarkMode && { color: appStyles.colorWhite_ff },
+                sponsorImage && { marginLeft: 30 },
+              ]}
+            >
+              {price && !consultation.campaignId
+                ? `${price}${currencySymbol}`
+                : t("free")}
+            </AppText>
+          </View>
+        )} */}
         <View style={styles.content}>
           <View>
             <Avatar image={{ uri: imageUrl }} size="md" />
           </View>
           <View style={styles.textContainer}>
-            <View style={styles.nameContainer}>
-              <AppText
-                style={[
-                  styles.text,
-                  { color: colors.text },
-                  buttonAction === "join" && styles.textPurple,
-                ]}
-              >
-                {name}
-              </AppText>
-              {hasPriceBadge && (
-                <View
-                  style={[
-                    styles.priceBadge,
-                    (consultation.campaignId || !price) &&
-                      styles.priceBadgeFreeColor,
-                    { flexDirection: "row" },
-                  ]}
-                >
-                  {sponsorImage ? (
-                    <Image
-                      style={styles.sponsorImage}
-                      resizeMode="contain"
-                      source={{
-                        uri:
-                          AMAZON_S3_BUCKET +
-                          "/" +
-                          (sponsorImage || "default-sponsor"),
-                      }}
-                    />
-                  ) : null}
-                  <AppText
-                    namedStyle="smallText"
-                    style={[
-                      styles.textPurple,
-                      (consultation.campaignId || !price) &&
-                        styles.priceBadgeFreeText,
-                      isDarkMode && { color: appStyles.colorWhite_ff },
-                      sponsorImage && { marginLeft: 30 },
-                    ]}
-                  >
-                    {price && !consultation.campaignId
-                      ? `${price}${currencySymbol}`
-                      : t("free")}
-                  </AppText>
-                </View>
-              )}
-            </View>
-            <View style={styles.dateContainer}>
-              <Icon
-                name="calendar"
-                size="sm"
-                color={
-                  buttonAction === "join"
-                    ? appStyles.colorSecondary_9749fa
-                    : appStyles.colorGray_66768d
-                }
-                style={styles.calendarIcon}
-              />
-              <View>
-                <AppText namedStyle="smallText">
-                  {dateText}
-                  {", "}
-                  {timeText}
-                </AppText>
-              </View>
-            </View>
+            <AppText style={[styles.dateText, { color: colors.text }]}>
+              {dateText}
+            </AppText>
+            <AppText style={[styles.timeText, { color: colors.text }]}>
+              {buttonAction === "join" ? t("active") : timeText}
+            </AppText>
+            <AppText style={styles.nameText}>{name}</AppText>
           </View>
         </View>
         {!overview && !suggested && buttonAction === "join" && (
-          <View
-            style={[
-              styles.buttonContainer,
-              { flexDirection: "row", justifyContent: "center" },
-            ]}
-          >
-            <AppText style={styles.textPurple}>{t("active")}</AppText>
-            <AppButton
-              onPress={() => handleJoin()}
+          <View style={styles.buttonContainer}>
+            {/* <AppText style={styles.textPurple}>{t("active")}</AppText> */}
+            <NewButton
+              onPress={handleJoin}
               label={buttonLabel}
-              color={"purple"}
-              size="sm"
-              style={styles.joinButton}
+              type="solid"
+              isFullWidth
             />
           </View>
         )}
         {!overview && suggested && renderIn === "client" && (
           <View style={styles.requestContainer}>
-            <AppButton
+            <NewButton
               onPress={handleAcceptConsultationPress}
               label={t("accept")}
+              type="solid"
               size="sm"
+              style={{ width: "49%" }}
             />
-            <AppButton
+            <NewButton
               onPress={handleRejectConsultationPress}
               label={t("reject")}
-              type="secondary"
+              type="outline"
               size="sm"
+              style={{ width: "49%" }}
             />
           </View>
         )}
@@ -240,32 +211,28 @@ export const Consultation = ({
                   type: "info",
                 })
               }
+              style={{ width: "49%" }}
             >
-              <AppButton
-                size="sm"
-                onClick={() => {}}
-                label={t("join")}
-                color={"purple"}
-                disabled
-              />
+              <NewButton size="sm" label={t("join")} disabled />
             </Pressable>
-            <AppButton
+            <NewButton
+              size="sm"
               onPress={handleEdit}
               label={buttonLabel}
-              type="secondary"
-              // style={{ flexShrink: 1, maxWidth: "40%" }}
+              type="outline"
+              style={{ width: "49%" }}
             />
           </View>
         )}
 
         {!overview && !suggested && buttonAction === "cancel" && (
           <View style={styles.buttonContainer}>
-            <AppButton
+            <NewButton
               onPress={handleCancel}
               label={buttonLabel}
+              type="outline"
               size="sm"
-              type="secondary"
-              style={styles.oneButton}
+              isFullWidth
             />
           </View>
         )}
@@ -273,12 +240,12 @@ export const Consultation = ({
         {!overview && !suggested && buttonAction === "details" && (
           <View style={styles.buttonContainer}>
             {renderIn === "client" && status === "finished" ? (
-              <AppButton
+              <NewButton
                 onPress={handleSeeDetails}
                 label={buttonLabel}
+                type="outline"
                 size="sm"
-                type="secondary"
-                style={styles.oneButton}
+                isFullWidth
               />
             ) : (
               <AppText namedStyle="smallText">
@@ -303,7 +270,6 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     width: "100%",
   },
-  calendarIcon: { marginRight: 6 },
   consultation: {
     alignItems: "center",
     backgroundColor: appStyles.colorWhite_ff,
@@ -311,46 +277,51 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     borderWidth: 1,
     maxWidth: 420,
-    padding: 16,
+    padding: 12,
     textAlign: "left",
     width: "100%",
   },
   content: {
     flexDirection: "row",
     width: "100%",
+    alignItems: "center",
   },
-  dateContainer: { alignItems: "center", flexDirection: "row" },
+  dateText: {
+    fontFamily: appStyles.fontBold,
+    fontSize: 14,
+  },
   editButtonsContainer: {
     alignItems: "center",
     flexDirection: "row",
     gap: 10,
     justifyContent: "center",
-    // flexWrap: "wrap",
     marginTop: 10,
     width: "100%",
   },
-  joinButton: { marginLeft: "auto", marginRight: "auto" },
-  nameContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+  nameText: {
+    fontFamily: appStyles.fontRegular,
+    fontSize: 14,
+    color: appStyles.colorBlue_6989a4,
   },
-  oneButton: { minWidth: 120 },
   priceBadge: {
     alignItems: "center",
     backgroundColor: appStyles.colorPurple_dac3f6,
     borderRadius: 16,
-    display: "flex",
+    flexDirection: "row",
     justifyContent: "center",
-    marginLeft: 3,
     maxHeight: 30,
     paddingHorizontal: 8,
     paddingVertical: 4,
+    position: "absolute",
+    top: 10,
+    right: 10,
+    zIndex: 1,
   },
   priceBadgeFreeColor: {
-    backgroundColor: "rgba(32, 128, 158, 0.3)",
+    backgroundColor: appStyles.colorSecondary_9749fa,
   },
   priceBadgeFreeText: {
-    color: appStyles.colorPrimary_20809e,
+    color: appStyles.colorWhite_ff,
   },
   requestContainer: {
     flexDirection: "row",
@@ -366,15 +337,17 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: 25,
   },
-
-  text: {
-    color: appStyles.colorBlue_3d527b,
-    flex: 1,
-    fontFamily: appStyles.fontBold,
+  textContainer: {
+    flexShrink: 1,
+    flexGrow: 1,
+    paddingLeft: 16,
   },
-  textContainer: { flexGrow: 1, paddingLeft: 16 },
   textPurple: {
     color: appStyles.colorSecondary_9749fa,
+  },
+  timeText: {
+    fontFamily: appStyles.fontRegular,
+    fontSize: 14,
   },
   touchableOpacity: { alignItems: "center", width: "100%" },
 });

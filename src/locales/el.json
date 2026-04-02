@@ -49,7 +49,9 @@
       "read_more": "Πατήστε για να διαβάσετε περισσότερα",
       "min_read": "λεπτά ανάγνωσης",
       "by": "Από {{creator}}",
-      "number_of_more_options": "{{count}} περισσότερσ"
+      "number_of_more_options": "{{count}} περισσότερσ",
+      "read": "Διαβάστε",
+      "show_more": "Δείτε περισσότερα"
     },
     "change-passcode": {
       "enter_passcode": "Εισαγάγετε τον τρέχοντα κωδικό πρόσβασης",
@@ -215,6 +217,8 @@
       "sad": "Λυπημένος/η",
       "depressed": "Χάλια",
       "worried": "Αγχωμένος/η",
+      "history": "Ιστορικό",
+      "welcome-heading": "Welcome",
       "heading": "Πώς νιώθετε σήμερα;",
       "mood_tracker": "Καταγραφή διάθεσης",
       "additional_comment_placeholder": "Τι σας έκανε να νιώσετε έτσι;",

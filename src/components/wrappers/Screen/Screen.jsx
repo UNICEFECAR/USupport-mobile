@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -6,12 +6,14 @@ import {
   View,
   StatusBar,
   Image,
+  useWindowDimensions,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { ButtonOnlyIcon } from "../../buttons";
-import spiralBackground from "../../../assets/spiral_background.png";
+import pageMobileHero from "../../../assets/page-mobile-hero.png";
+import pageTabletHero from "../../../assets/page-tablet-hero.png";
 import { HeaderNavigation } from "../../headings";
 import {
   useCheckHasUnreadNotifications,
@@ -29,7 +31,7 @@ export function Screen({
   backgroundColor,
   outsideComponent,
   hasEmergencyButton = true,
-  hasSpiralBackground = true,
+  backgroundImage,
   hasHeaderNavigation = false,
   t,
 }) {
@@ -37,10 +39,17 @@ export function Screen({
   const { isTmpUser, token, handleRegistrationModalOpen, hasCheckedTmpUser } =
     useContext(Context);
   const navigation = useNavigation();
+  const { width } = useWindowDimensions();
 
   const [hasUnreadNotifications, setHasUnreadNotifications] = useState();
 
   const { top: topInset, bottom: bottomInset } = useSafeAreaInsets();
+  // Match web `Page` behavior: the hero/background image is only shown in light mode.
+  const showBackgroundImage = backgroundImage !== false && !isDarkMode;
+  const backgroundImageSource = useMemo(() => {
+    if (width >= 768) return pageTabletHero;
+    return pageMobileHero;
+  }, [width]);
 
   const onCheckHasUnreadNotificationsSuccess = (data) => {
     setHasUnreadNotifications(data);
@@ -98,11 +107,11 @@ export function Screen({
         )}
       </View>
 
-      {hasSpiralBackground && (
+      {showBackgroundImage && (
         <Image
-          source={spiralBackground}
-          style={styles.spiralImage}
-          resizeMode="stretch"
+          source={backgroundImageSource}
+          style={styles.backgroundImage}
+          resizeMode="cover"
         />
       )}
 
@@ -154,5 +163,12 @@ const styles = StyleSheet.create({
     zIndex: 998,
     elevation: 998,
   },
-  spiralImage: { width: "100%", position: "absolute", bottom: 0, zIndex: -1 },
+  backgroundImage: {
+    width: "100%",
+    height: "100%",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    zIndex: -1,
+  },
 });

@@ -2,8 +2,8 @@ import React from "react";
 import { StyleSheet, View, TouchableOpacity, PixelRatio } from "react-native";
 
 import { Avatar } from "../../avatars";
-import { ButtonWithIcon, ButtonOnlyIcon } from "../../buttons/";
 import { Icon } from "../../icons";
+import { AppText } from "../../texts";
 
 import { useGetClientData, useGetTheme } from "#hooks";
 
@@ -44,12 +44,13 @@ export const HeaderNavigation = ({
         />
       </TouchableOpacity>
       {/* {fontScale < 1.8 ? ( */}
-      <ButtonWithIcon
+      {/* <ButtonWithIcon
         iconName="phone-emergency"
         label={t("emergency_button_label")}
         color="red"
         onPress={() => navigation.navigate("SOSCenter")}
-      />
+      /> */}
+      <AppText>{t("welcome_back")}</AppText>
       {/* ) : (
         <ButtonOnlyIcon
           iconName="phone-emergency"

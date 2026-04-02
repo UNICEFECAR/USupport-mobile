@@ -1,29 +1,16 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  useContext,
-  useMemo,
-} from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { StyleSheet, View } from "react-native";
 
-import {
-  Block,
-  AppText,
-  Tabs,
-  Loading,
-  CardMedia,
-  TabsUnderlined,
-} from "#components";
+import { AppText, NewButton, Loading, CardMedia } from "#components";
 
 import { appStyles } from "#styles";
 
 import { localStorage, cmsSvc, adminSvc, Context } from "#services";
 
 import {
-  useEventListener,
+  useGetTheme,
   useGetUserContentEngagements,
   useRecommendedArticles,
 } from "#hooks";
@@ -34,6 +21,7 @@ import {
   getLikesAndDislikesForContent,
 } from "#utils";
 import { Error } from "../../components/errors";
+import LinearGradient from "../../components/LinearGradient";
 
 const PL_LANGUAGE_AGE_GROUP_IDS = {
   pl: 13,
@@ -49,16 +37,15 @@ const PL_LANGUAGE_AGE_GROUP_IDS = {
  */
 export const ArticlesDashboard = ({
   navigation,
-  openArticlesModal,
   handleSetCategories,
   handleCategorySelect,
-  selectCategory,
   allCategories,
 }) => {
   const { t, i18n } = useTranslation("blocks", {
     keyPrefix: "articles-dashboard",
   });
 
+  const { isDarkMode, isHighContrast } = useGetTheme();
   const { isTmpUser } = useContext(Context);
   const [country, setCountry] = useState();
 
@@ -157,18 +144,6 @@ export const ArticlesDashboard = ({
 
     setAgeGroups(ageGroupsCopy);
   };
-
-  //--------------------- Country Change Event Listener ----------------------//
-  const [currentCountry, setCurrentCountry] = useState(
-    localStorage.getItem("country")
-  );
-
-  const handler = useCallback(() => {
-    setCurrentCountry(localStorage.getItem("country"));
-  }, []);
-
-  // Add event listener
-  useEventListener("countryChanged", handler);
 
   //--------------------- Categories ----------------------//
   const getCategories = async () => {
@@ -395,117 +370,139 @@ export const ArticlesDashboard = ({
       ? navigation.push("Articles", { sort: "createdAt" })
       : navigation.push("Articles", { sort: "read_count" });
 
+  const gradient = useMemo(() => {
+    if (isDarkMode || isHighContrast) {
+      return {
+        degrees: 180,
+        locations: [0, 100],
+        colors: ["#193246", "#101b26"],
+      };
+    }
+    return {
+      degrees: 180,
+      locations: [0, 100],
+      colors: ["#e6e1f5", "#dcd5f2"],
+    };
+  }, [isDarkMode, isHighContrast]);
+
   return (
     <>
-      <Block
-        style={styles.headingBlock}
-        heading={t("heading")}
-        btnLabel={t("view_all")}
-        btnOnPress={() => handleRedirect("read_count")}
-      />
-      {ageGroupsQuery?.isLoading && (
-        <View style={styles.container}>
-          <Loading />
-        </View>
-      )}
-      {allCategories?.length > 1 && (
-        <>
-          {ageGroupsQuery?.data?.length > 0 && ageGroups && showAgeGroups ? (
-            <TabsUnderlined
-              options={ageGroups}
-              handleSelect={handleAgeGroupOnPress}
-              style={styles.tabsUnderlined}
-            />
-          ) : null}
-
-          {allCategories?.length > 1 && (
-            <Tabs
-              options={categoriesToShow}
-              handleSelect={handleCategoryOnPress}
-              style={styles.tabs}
-              t={t}
-              handleModalOpen={openArticlesModal}
-            />
-          )}
+      <LinearGradient gradient={gradient} style={styles.gradientBackground}>
+        <View style={styles.content}>
+          <AppText namedStyle="h3" style={styles.heading}>
+            {t("heading")}
+          </AppText>
 
           {showLoading && (
-            <View style={styles.container}>
+            <View style={styles.loadingContainer}>
               <Loading />
             </View>
           )}
 
-          <Block>
-            <View style={styles.articlesContainer}>
-              {!showLoading &&
-                transformedArticles?.length > 0 &&
-                allCategories.length > 1 &&
-                transformedArticles?.map((article, index) => {
-                  const articleData = article.attributes
-                    ? destructureArticleData(article)
-                    : article;
-                  const { isLikedByUser, isDislikedByUser } =
-                    checkIsLikedAndDisliked(
-                      contentEngagements,
-                      article.id,
-                      "article"
-                    );
-                  return (
-                    <CardMedia
-                      isRead={readArticleIds.includes(article.id)}
-                      style={styles.cardMedia}
-                      title={articleData.title}
-                      image={
-                        articleData.imageMedium ||
-                        articleData.imageThumbnail ||
-                        articleData.imageSmall
-                      }
-                      description={articleData.description}
-                      labels={articleData.labels}
-                      creator={articleData.creator}
-                      readingTime={articleData.readingTime}
-                      categoryName={articleData.categoryName}
-                      likes={articlesLikes.get(article.id) || 0}
-                      dislikes={articlesDislikes.get(article.id) || 0}
-                      isLikedByUser={isLikedByUser}
-                      isDislikedByUser={isDislikedByUser}
-                      onPress={() => {
-                        navigation.push("ArticleInformation", {
-                          articleId: article.id,
-                        });
-                      }}
-                      t={t}
-                      key={index}
-                    />
+          <View style={styles.articlesContainer}>
+            {!showLoading &&
+              transformedArticles?.length > 0 &&
+              transformedArticles?.map((article, index) => {
+                const articleData = article.attributes
+                  ? destructureArticleData(article)
+                  : article;
+                const { isLikedByUser, isDislikedByUser } =
+                  checkIsLikedAndDisliked(
+                    contentEngagements,
+                    article.id,
+                    "article"
                   );
-                })}
+
+                return (
+                  <CardMedia
+                    isRead={readArticleIds.includes(article.id)}
+                    style={styles.cardMedia}
+                    title={articleData.title}
+                    image={
+                      articleData.imageMedium ||
+                      articleData.imageThumbnail ||
+                      articleData.imageSmall
+                    }
+                    description={articleData.description}
+                    labels={articleData.labels}
+                    creator={articleData.creator}
+                    readingTime={articleData.readingTime}
+                    categoryName={articleData.categoryName}
+                    likes={articlesLikes.get(article.id) || 0}
+                    dislikes={articlesDislikes.get(article.id) || 0}
+                    isLikedByUser={isLikedByUser}
+                    isDislikedByUser={isDislikedByUser}
+                    onPress={() => {
+                      navigation.push("ArticleInformation", {
+                        articleId: article.id,
+                      });
+                    }}
+                    t={t}
+                    key={index}
+                  />
+                );
+              })}
+          </View>
+
+          {error && (
+            <View style={styles.loadingContainer}>
+              <Error message={t("heading_no_results")} />
             </View>
-            {error && (
-              <View style={styles.container}>
-                <Error message={t("heading_no_results")} />
+          )}
+
+          {(isReady || isNewestArticlesFetched) &&
+            transformedArticles?.length === 0 && (
+              <View style={styles.loadingContainer}>
+                <AppText namedStyle="h3">{t("heading_no_results")}</AppText>
               </View>
             )}
-            {(isReady || isNewestArticlesFetched) &&
-              transformedArticles?.length === 0 && (
-                <View style={styles.container}>
-                  <AppText namedStyle="h3">{t("heading_no_results")}</AppText>
-                </View>
-              )}
-          </Block>
-        </>
-      )}
+
+          <View
+            style={[
+              styles.showMoreContainer,
+              country === "RO" && { paddingBottom: 100 },
+            ]}
+          >
+            <NewButton
+              size="lg"
+              label={t("show_more")}
+              onPress={() => handleRedirect("read_count")}
+              style={styles.showMoreButton}
+            />
+          </View>
+        </View>
+      </LinearGradient>
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  articlesContainer: { alignItems: "center" },
-  cardMedia: { marginTop: 24 },
-  container: {
-    alignItems: "center",
-    height: 250,
-    justifyContent: "center",
+  gradientBackground: {
+    paddingBottom: 42,
   },
-  headingBlock: { paddingTop: 40 },
-  tabs: { marginTop: 24, zIndex: 2 },
-  tabsUnderlined: { marginTop: 12 },
+  content: {
+    paddingTop: 40,
+    paddingHorizontal: 16,
+  },
+  heading: {
+    marginBottom: 16,
+  },
+  articlesContainer: {
+    alignItems: "center",
+  },
+  cardMedia: {
+    marginTop: 16,
+  },
+  loadingContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    height: 250,
+  },
+  showMoreContainer: {
+    alignItems: "center",
+  },
+  showMoreButton: {
+    marginTop: 32,
+    alignSelf: "center",
+  },
 });

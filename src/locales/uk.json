@@ -50,7 +50,8 @@
       "min_read": "хв. читання",
       "by": "Від {{creator}}",
       "number_of_more_options": "ще {{count}}",
-      "read": "Читати"
+      "read": "Читати",
+      "show_more": "Показати більше"
     },
     "change-passcode": {
       "enter_passcode": "Введи дійсний пароль",
@@ -216,6 +217,8 @@
       "sad": "Засмученим/ою",
       "depressed": "Пригніченим/ою",
       "worried": "Схвильованим/ою",
+      "history": "Історія",
+      "welcome-heading": "Welcome",
       "heading": "Монітор настрою",
       "mood_tracker": "Монітор настрою",
       "additional_comment_placeholder": "Що є причиною того, що ти себе так почуваєш?",

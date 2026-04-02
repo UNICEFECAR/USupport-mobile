@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 
 import { AppText } from "../../texts";
-import { Icon, Emoticon } from "../../icons";
+import { Icon } from "../../icons";
 import { appStyles } from "#styles";
 import { useGetTheme } from "#hooks";
 
@@ -14,6 +14,14 @@ import { useGetTheme } from "#hooks";
  *
  * @return {jsx}
  */
+const moodEmojiMap = {
+  happy: "😍",
+  good: "😀",
+  sad: "😔",
+  depressed: "☹️",
+  worried: "😣",
+};
+
 export const MoodTrackDetails = ({ mood, handleClose, t = { t } }) => {
   const { colors, isHighContrast } = useGetTheme();
   const dateText = `${
@@ -30,19 +38,8 @@ export const MoodTrackDetails = ({ mood, handleClose, t = { t } }) => {
   }`;
 
   return (
-    <View
-      style={[
-        styles.moodTrackDetails,
-        { backgroundColor: colors.card },
-        { ...appStyles.shadow2 },
-      ]}
-    >
-      <TouchableOpacity onPress={() => handleClose()} style={styles.closeIcon}>
-        <Icon name="close-x" size="sm" color={appStyles.colorBlack_37} />
-      </TouchableOpacity>
-      <AppText namedStyle="h3">
-        {dateText}, {timeText}
-      </AppText>
+    <View style={styles.moodTrackDetails}>
+      <AppText namedStyle="h3">{timeText}</AppText>
       <View style={styles.subheadingContainer}>
         <AppText
           numberOfLines={1}
@@ -51,7 +48,7 @@ export const MoodTrackDetails = ({ mood, handleClose, t = { t } }) => {
         >
           {t("you_felt")}
         </AppText>
-        <Emoticon name={mood.mood} size="sm" style={styles.emoticon} />
+        <AppText style={styles.emoji}>{moodEmojiMap[mood.mood]}</AppText>
         <AppText
           numberOfLines={1}
           style={{ color: colors.textSecondary }}
@@ -88,7 +85,8 @@ const styles = StyleSheet.create({
     color: appStyles.colorRed_eb5757,
     marginTop: 12,
   },
-  emoticon: {
+  emoji: {
+    fontSize: 22,
     marginHorizontal: 6,
   },
   moodTrackDetails: {

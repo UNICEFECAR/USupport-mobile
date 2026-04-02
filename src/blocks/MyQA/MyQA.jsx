@@ -1,10 +1,10 @@
-import React, { useCallback, useState, useMemo, useEffect } from "react";
+import React, { useCallback, useMemo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Platform, StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import {
+  NewButton,
   Icon,
   Block,
-  InputSearch,
   Tabs,
   Answer,
   AppText,
@@ -37,10 +37,12 @@ export const MyQA = ({
   selectedLanguage,
   setSelectedLanguage,
   setShouldFetchQuestions,
+  searchValue = "",
+  howItWorksLabel,
+  onHowItWorksPress,
+  onGoBack,
 }) => {
   const { t, i18n } = useTranslation("blocks", { keyPrefix: "my-qa" });
-
-  const [searchValue, setSearchValue] = useState("");
   const selectedTab = tabs.find((x) => x.isSelected)?.value;
 
   const { data: languages } = useGetLanguages();
@@ -169,15 +171,24 @@ export const MyQA = ({
 
   return (
     <>
+      {!!howItWorksLabel && !!onHowItWorksPress && !!onGoBack && (
+        <View style={styles.headerRow}>
+          <TouchableOpacity
+            onPress={onGoBack}
+            hitSlop={8}
+            style={styles.goBackButton}
+          >
+            <Icon name="arrow-chevron-back" size="md" color="#20809E" />
+          </TouchableOpacity>
+          <NewButton
+            label={howItWorksLabel}
+            size="lg"
+            onPress={onHowItWorksPress}
+          />
+        </View>
+      )}
       <Block style={styles.block}>
         <View style={styles.headingContainer}>
-          <InputSearch
-            placeholder={t("search_input_placeholder")}
-            style={styles.inputSearch}
-            value={searchValue}
-            onChange={(value) => setSearchValue(value)}
-          />
-
           <TouchableOpacity
             onPress={handleFilterTags}
             style={styles.filterButton}
@@ -227,17 +238,15 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     display: "flex",
     justifyContent: "center",
-    maxWidth: "15%",
     padding: 10,
   },
   headingContainer: {
     alignItems: "center",
     flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 32,
+    justifyContent: "flex-end",
+    marginTop: 16,
     width: "100%",
   },
-  inputSearch: { maxWidth: "85%" },
   loadingContainer: {
     alignItems: "center",
     marginTop: 24,
@@ -246,5 +255,17 @@ const styles = StyleSheet.create({
   renderBlock: {
     alignItems: "center",
     flexDirection: "column",
+  },
+  headerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 16,
+    marginTop: 8,
+    marginBottom: 8,
+  },
+  goBackButton: {
+    paddingVertical: 8,
+    paddingRight: 16,
   },
 });

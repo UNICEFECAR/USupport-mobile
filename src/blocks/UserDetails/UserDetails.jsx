@@ -18,8 +18,10 @@ import {
   Input,
   Loading,
   ProfilePicturePreview,
-  Toggle,
+  CheckBox,
   TransparentModal,
+  ButtonOnlyIcon,
+  NewButton,
 } from "#components";
 
 import { appStyles } from "#styles";
@@ -293,7 +295,7 @@ export const UserDetails = ({
     <Block style={styles.block}>
       <Heading heading={t("heading")} handleGoBack={handleGoBack} />
       <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerStyle={{ flexGrow: 1, paddingTop: 64 }}
         showsVerticalScrollIndicator={false}
       >
         {clientDataQuery.isLoading ? (
@@ -331,13 +333,30 @@ export const UserDetails = ({
           </View>
         ) : (
           <>
-            <ProfilePicturePreview
-              image={clientData.image}
-              handleDeleteClick={openDeletePictureBackdrop}
-              handleChangeClick={openSelectAvatarBackdrop}
-              changePhotoText={t("change_photo")}
-              style={styles.profilePicturePreview}
-            />
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <ProfilePicturePreview
+                image={clientData.image}
+                handleDeleteClick={openDeletePictureBackdrop}
+                handleChangeClick={openSelectAvatarBackdrop}
+                changePhotoText={t("change_photo")}
+                style={styles.profilePicturePreview}
+              />
+              <ButtonOnlyIcon
+                iconName="exit"
+                iconSize="md"
+                size="lg"
+                iconColor={"#6989A4"}
+                onPress={logoutMutation.mutate}
+                color="transparent"
+              />
+            </View>
             {clientData.accessToken ? (
               <AccessToken
                 accessToken={clientData.accessToken}
@@ -419,35 +438,17 @@ export const UserDetails = ({
               />
             </View>
 
-            {errors.submit ? <Error message={errors.submit} /> : null}
-
-            <View style={styles.buttonContainer}>
-              <AppButton
-                label={t("button_text")}
-                size="lg"
-                onPress={handleSave}
-                disabled={isSaveDisabled}
-                loading={userDataMutation.isLoading}
-              />
-
-              <AppButton
-                type="secondary"
-                label={t("button_secondary_text")}
-                size="lg"
-                disabled={!canSaveChanges}
-                onPress={handleDiscard}
-                style={styles.button}
-              />
-            </View>
-
             <View style={styles.privacyPolicyContainer}>
-              <AppText
-                style={[styles.privacyPolicyText, { color: colors.text }]}
-              >
-                {t("privacy")}
-              </AppText>
-
-              <View style={styles.toggleContainer}>
+              <View style={styles.checkBoxContainer}>
+                <CheckBox
+                  isChecked={dataProcessing}
+                  setIsChecked={handleToggleClick}
+                  style={styles.checkBox}
+                />
+                {/* <Toggle
+                  isToggled={dataProcessing ? true : false}
+                  handleToggle={handleToggleClick}
+                /> */}
                 <AppText
                   namedStyle="text"
                   style={{ color: colors.textSecondary }}
@@ -468,65 +469,61 @@ export const UserDetails = ({
                     {t("consent")}
                   </Trans>
                 </AppText>
-                <Toggle
-                  isToggled={dataProcessing ? true : false}
-                  handleToggle={handleToggleClick}
-                />
               </View>
             </View>
 
-            <View>
-              <AppButton
+            {errors.submit ? <Error message={errors.submit} /> : null}
+
+            <View style={styles.buttonContainer}>
+              <NewButton
+                label={t("button_text")}
+                size="lg"
+                onPress={handleSave}
+                disabled={isSaveDisabled}
+                loading={userDataMutation.isLoading}
+                style={styles.saveAndDiscardButtons}
+              />
+
+              <NewButton
+                type="outline"
+                label={t("button_secondary_text")}
+                size="lg"
+                disabled={!canSaveChanges}
+                onPress={handleDiscard}
+                style={styles.saveAndDiscardButtons}
+              />
+            </View>
+
+            <View style={styles.ghostButtonsContainer}>
+              <NewButton
                 type="ghost"
                 label={t("change_password")}
                 onPress={openChangePasswordBackdrop}
                 size="lg"
                 style={styles.textButton}
               />
-              <ButtonWithIcon
-                iconName="exit"
-                iconSize="md"
-                size="lg"
-                iconColor={appStyles.colorPrimary_20809e}
-                label={t("logout")}
-                type="ghost"
-                onPress={logoutMutation.mutate}
-                style={styles.textButton}
-              />
-              <ButtonWithIcon
-                iconName={"circle-actions-close"}
-                iconSize={"md"}
-                size="lg"
-                iconColor={"#eb5757"}
-                color={"red"}
+              <NewButton
                 label={t("delete_account")}
                 type={"ghost"}
                 onPress={openDeleteAccountBackdrop}
                 style={styles.textButton}
+                size="lg"
               />
               {!IS_RO && (
-                <ButtonWithIcon
-                  iconName={"circle-actions-close"}
-                  iconSize={"md"}
-                  size="lg"
-                  iconColor={"#eb5757"}
-                  color={"red"}
+                <NewButton
                   label={t("delete_chat")}
                   type={"ghost"}
                   onPress={openDeleteChatHistoryBackdrop}
                   style={styles.textButton}
+                  size="lg"
                 />
               )}
-              <ButtonWithIcon
-                iconName={"circle-actions-close"}
-                iconSize={"md"}
-                size="lg"
-                iconColor={"#eb5757"}
-                color={"red"}
+              <NewButton
                 label={t("delete_mood_tracker")}
                 type={"ghost"}
                 onPress={openDeleteMoodTrackerHistoryBackdrop}
                 style={[styles.textButton, styles.marginBottom20]}
+                size="lg"
               />
             </View>
           </>
@@ -581,11 +578,17 @@ const styles = StyleSheet.create({
     width: "93%",
   },
   block: { flex: 1 },
-  button: { marginTop: 16 },
   buttonContainer: {
+    flexDirection: "row",
+    gap: 8,
     alignItems: "center",
     paddingBottom: 20,
     paddingTop: 32,
+  },
+  checkBox: { marginTop: 4 },
+  ghostButtonsContainer: {
+    gap: 8,
+    alignItems: "flex-start",
   },
   input: { marginTop: 24 },
   inputsContainer: {
@@ -603,17 +606,18 @@ const styles = StyleSheet.create({
     fontFamily: "Nunito-SemiBold",
     fontSize: 18,
   },
-  profilePicturePreview: { alignSelf: "center", marginTop: 84 },
   textButton: {
     justifyContent: "flex-start",
-    marginTop: 20,
   },
-  toggleContainer: {
-    alignItems: "center",
+  checkBoxContainer: {
+    alignItems: "flex-start",
     flexDirection: "row",
     justifyContent: "space-between",
     paddingBottom: 32,
     paddingTop: 4,
+  },
+  saveAndDiscardButtons: {
+    width: "49%",
   },
   zIndex3: { zIndex: 3 },
   zIndex4: { zIndex: 4 },

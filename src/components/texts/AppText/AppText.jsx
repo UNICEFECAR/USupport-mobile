@@ -22,10 +22,8 @@ export const AppText = ({
         styles.text,
         styles[namedStyle],
         {
-          color:
-            namedStyle === "h1" || namedStyle === "h2" || namedStyle === "h3"
-              ? colors.text
-              : colors.textSecondary,
+          // All text uses main text color to match web version
+          color: colors.text,
         },
         black && { color: colors.textTertiary },
         isBold && styles.bold,
@@ -45,7 +43,7 @@ const styles = StyleSheet.create({
   text: {
     flexWrap: "wrap",
     flexShrink: 1,
-    color: appStyles.colorGray_66768d,
+    // Color is set dynamically via theme, removed hardcoded color
     fontSize: 16,
     fontFamily: "Nunito-Regular",
     lineHeight: 24,

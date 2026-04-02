@@ -26,7 +26,7 @@ import {
   Input,
   InputPassword,
   TermsAgreement,
-  AppButton,
+  NewButton,
   Error,
 } from "#components";
 
@@ -337,19 +337,17 @@ export const RegisterEmail = ({ navigation }) => {
               textOne={t("age_terms_agreement_text", { age: minAge })}
             />
             <Error style={styles.error} message={errors.submit || ""} />
-            <AppButton
+            <NewButton
               size="lg"
               label={t("register_button")}
               onPress={handleOtpRequest}
-              type="primary"
-              color="green"
               disabled={!canContinue}
               loading={requestEmailOTPMutation.isLoading}
               style={styles.registerButton}
             />
-            <AppButton
+            <NewButton
               label={t("login_button_label")}
-              type="ghost"
+              type="ghost-purple"
               onPress={handleLoginRedirect}
             />
           </ScrollView>

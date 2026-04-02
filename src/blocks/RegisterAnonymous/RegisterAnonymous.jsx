@@ -18,6 +18,7 @@ import Joi from "joi";
 
 import {
   AppButton,
+  NewButton,
   AppText,
   Block,
   Heading,
@@ -359,7 +360,7 @@ export const RegisterAnonymous = ({ navigation }) => {
                 textOne={t("age_terms_agreement_text", { age: minAge })}
               />
             </View>
-            <AppButton
+            <NewButton
               disabled={!canContinue}
               label={t("register_button_label")}
               style={styles.button}
@@ -367,11 +368,12 @@ export const RegisterAnonymous = ({ navigation }) => {
               onPress={handleRegisterButtonClick}
               loading={registerMutation.isLoading}
             />
-            <AppButton
+            <NewButton
               label={t("login_button_label")}
               size="lg"
-              type="ghost"
+              type="ghost-purple"
               onPress={handleLoginRedirect}
+              style={{ marginTop: 8 }}
             />
           </ScrollView>
         </KeyboardAvoidingView>

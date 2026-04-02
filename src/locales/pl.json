@@ -50,7 +50,8 @@
       "min_read": "min czytania",
       "by": "Przez {{creator}}",
       "number_of_more_options": "jeszcze {{count}}",
-      "read": "Czytać"
+      "read": "Czytać",
+      "show_more": "Zobacz więcej"
     },
     "change-passcode": {
       "enter_passcode": "Wprowadź aktualny kod dostępu",
@@ -216,6 +217,8 @@
       "sad": "Smutny/a",
       "depressed": "Przygnębiony/a",
       "worried": "Zmartwiony/a",
+      "history": "Historia",
+      "welcome-heading": "Welcome",
       "heading": "Monitor nastroju",
       "mood_tracker": "Monitor nastroju",
       "additional_comment_placeholder": "Co sprawiło, że tak się poczułeś/aś?",

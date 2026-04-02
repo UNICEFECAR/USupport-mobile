@@ -50,7 +50,8 @@
       "min_read": "минут на прочтение",
       "by": "От {{creator}}",
       "number_of_more_options": "еще {{count}}",
-      "read": "Читать"
+      "read": "Читать",
+      "show_more": "Показать больше"
     },
     "change-passcode": {
       "enter_passcode": "Введите текущий код доступа",
@@ -216,6 +217,8 @@
       "sad": "Грустно",
       "depressed": "Депрессивно",
       "worried": "Тревожно",
+      "history": "История",
+      "welcome-heading": "Welcome",
       "heading": "Как Вы себя чувствуете сегодня?",
       "mood_tracker": "Трекер настроения",
       "additional_comment_placeholder": "Что заставило Вас так себя чувствовать?",
@@ -1046,7 +1049,9 @@
       "emergency_button_label": "Экстренная помощь",
       "articles": "Статьи",
       "videos": "Видео",
-      "podcasts": "Подкасты"
+      "podcasts": "Подкасты",
+      "search": "Поиск",
+      "most_read_heading": "Самое читаемое"
     },
     "local-authentication-screen": {
       "enter_pin": "Введите свой PIN код",

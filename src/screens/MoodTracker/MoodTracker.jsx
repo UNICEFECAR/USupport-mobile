@@ -6,12 +6,11 @@ import {
   Platform,
   Keyboard,
   useWindowDimensions,
-  View,
 } from "react-native";
 import { useTranslation } from "react-i18next";
 
 import { AppText, Screen, ButtonWithIcon, AppButton } from "#components";
-import { GiveSuggestion, MascotHeadingBlock, MoodTrackHistory } from "#blocks";
+import { InformationPortalHero, MoodTrackHistory } from "#blocks";
 import { HowItWorksMoodTrack } from "#modals";
 import { Context } from "#services";
 import { MoodTrackReport } from "#backdrops";
@@ -126,16 +125,7 @@ export const MoodTracker = ({ navigation }) => {
               navigation={navigation}
             />
           ) : null}
-          <View
-            onLayout={(e) => setGiveSuggestionLayout(e.nativeEvent.layout)}
-            collapsable={false}
-          >
-            <GiveSuggestion
-              navigation={navigation}
-              type="mood-tracker"
-              onTextareaFocus={handleGiveSuggestionFocus}
-            />
-          </View>
+          {/* <GiveSuggestion navigation={navigation} type="mood-tracker" /> */}
         </ScrollView>
       </KeyboardAvoidingView>
     </Screen>
@@ -144,6 +134,14 @@ export const MoodTracker = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   colorTextBlue: { color: appStyles.colorBlue_263238 },
+  headingContainer: {
+    alignItems: "center",
+    paddingHorizontal: 16,
+    paddingTop: 20,
+  },
   marginTop16: { marginTop: 16 },
-  mascotHeadingBlock: { paddingTop: 65 },
+  scrollView: {
+    paddingTop: 30,
+    paddingBottom: 100,
+  },
 });

@@ -17,6 +17,7 @@ export const ButtonOnlyIcon = ({
   iconSize = "xl",
   color = "purple",
   style,
+  iconColor = appStyles.colorWhite_ff,
   ...props
 }) => {
   return (
@@ -26,13 +27,17 @@ export const ButtonOnlyIcon = ({
           appStyles.shadow1,
           styles.btn,
           pressed && styles.pressed,
-          color === "red" ? styles.red : styles.purple,
+          color === "red"
+            ? styles.red
+            : color === "transparent"
+              ? styles.transparent
+              : styles.purple,
           style,
         ];
       }}
       {...props}
     >
-      <Icon name={iconName} size={iconSize} color={appStyles.colorWhite_ff} />
+      <Icon name={iconName} size={iconSize} color={iconColor} />
     </Pressable>
   );
 };
@@ -52,6 +57,9 @@ const styles = StyleSheet.create({
   },
   red: {
     backgroundColor: appStyles.colorRed_eb5757,
+  },
+  transparent: {
+    backgroundColor: "transparent",
   },
 });
 

@@ -50,6 +50,9 @@ export const Articles = ({
   showSearch = true,
   showCategories = true,
   openArticlesModal,
+  initialSearchValue = "",
+  externalSearchValue,
+  topSpacing = 100,
 }) => {
   const { i18n, t } = useTranslation("blocks", { keyPrefix: "articles" });
   const { isTmpUser } = useContext(Context);
@@ -197,8 +200,18 @@ export const Articles = ({
     setSelectedCategory(selectedCategoryFromFiltered);
   };
   //--------------------- Search Input ----------------------//
-  const [searchValue, setSearchValue] = useState("");
-  const debouncedSearchValue = useDebounce(searchValue, 500);
+  const [searchValue, setSearchValue] = useState(initialSearchValue || "");
+  const internalDebouncedSearchValue = useDebounce(searchValue, 500);
+
+  const debouncedSearchValue =
+    externalSearchValue !== undefined
+      ? externalSearchValue
+      : internalDebouncedSearchValue;
+  const hasSearch = !!debouncedSearchValue?.trim();
+
+  useEffect(() => {
+    setSearchValue(initialSearchValue || "");
+  }, [initialSearchValue]);
 
   const handleInputChange = (value) => {
     setSearchValue(value);
@@ -282,7 +295,7 @@ export const Articles = ({
       limit: 6,
       contains: debouncedSearchValue,
       ageGroupId,
-      categoryId,
+      ...(!hasSearch && { categoryId }),
       // sortBy: sort ? sort : "createdAt",
       // sortOrder: sort ? "desc" : "desc",
       locale: usersLanguage,
@@ -356,7 +369,7 @@ export const Articles = ({
       limit: 6,
       contains: searchValue,
       ageGroupId: ageGroupId,
-      categoryId,
+      ...(!hasSearch && { categoryId }),
       locale: usersLanguage,
       sortBy: sort,
       sortOrder: sort ? "desc" : null,
@@ -477,7 +490,7 @@ export const Articles = ({
 
   return (
     <>
-      <Block style={styles.blockWithMargin}>
+      <Block style={[styles.blockWithMargin, { marginTop: topSpacing }]}>
         {showAgeGroups &&
         categoriesQuery?.data?.length > 1 &&
         ageGroupsQuery?.data?.length > 0 &&
@@ -498,6 +511,7 @@ export const Articles = ({
       </Block>
 
       {showCategories &&
+      !hasSearch &&
       areCategoriesAndAgeGroupsReady &&
       categoriesToShow &&
       categoriesToShow.length > 2 ? (
@@ -577,7 +591,6 @@ const styles = StyleSheet.create({
   flashListWrapperWithPadding: {
     height: "100%",
     paddingBottom: 200,
-    paddingHorizontal: 16,
     width: appStyles.screenWidth,
   },
   loadingContainer: {

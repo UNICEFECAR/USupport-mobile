@@ -410,7 +410,7 @@ export const Dashboard = ({ navigation }) => {
           }
           keyboardShouldPersistTaps="handled"
         >
-          <MascotHeadingBlock style={styles.mascotHeadingBlock}>
+          {/* <MascotHeadingBlock style={styles.mascotHeadingBlock}>
             {clientData?.isLoading || isTmpUser === null ? (
               <Loading />
             ) : (
@@ -431,7 +431,7 @@ export const Dashboard = ({ navigation }) => {
                 navigation={navigation}
               />
             )}
-          </MascotHeadingBlock>
+          </MascotHeadingBlock> */}
           <View
             onLayout={(e) => setMoodTrackerLayout(e.nativeEvent.layout)}
             collapsable={false}
@@ -672,6 +672,7 @@ const styles = StyleSheet.create({
   keyboardAvoid: { flex: 1 },
   alignSelfStart: { alignSelf: "flex-start" },
   colorTextBlue: { color: appStyles.colorBlue_263238 },
+  scrollView: { paddingTop: 40 },
   marginBottom85: { marginBottom: 85 },
   marginTop16: { marginTop: 16 },
   mascotHeadingBlock: { paddingTop: 70 },

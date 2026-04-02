@@ -50,7 +50,8 @@
       "min_read": "րոպե կարդալու համար",
       "by": "{{creator}}-ի կողմից",
       "number_of_more_options": "{{count}} ավելին",
-      "read": "Կարդալ"
+      "read": "Կարդալ",
+      "show_more": "Տեսանել ավելին"
     },
     "change-passcode": {
       "enter_passcode": "Մուտքագրեք ներկայիս մուտքի կոդը",
@@ -216,6 +217,8 @@
       "sad": "Տխուր եմ",
       "depressed": "Ընկճված եմ",
       "worried": "Մտահոգ եմ",
+      "history": "Պատմություն",
+      "welcome-heading": "Welcome",
       "heading": "Տրամադրության ստուգիչ",
       "mood_tracker": "Տրամադրության ստուգիչ",
       "how_it_works": "Ինչպես է գործում",

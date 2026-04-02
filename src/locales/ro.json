@@ -50,7 +50,8 @@
       "min_read": "durata lecturii",
       "by": "De către {{creator}}",
       "number_of_more_options": "încă {{count}}",
-      "read": "Citire"
+      "read": "Citire",
+      "show_more": "Vedeți mai multe"
     },
     "change-passcode": {
       "enter_passcode": "Introduceți codul de acces actual",
@@ -216,6 +217,8 @@
       "sad": "Trist",
       "depressed": "Deprimat",
       "worried": "Îngrijorat",
+      "history": "Istoric",
+      "welcome-heading": "Welcome",
       "heading": "Urmărirea stării de spirit",
       "mood_tracker": "Urmărirea stării de spirit",
       "how_it_works": "Cum funcționează",

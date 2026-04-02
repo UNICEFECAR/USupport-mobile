@@ -13,8 +13,6 @@ import { Error } from "../../errors/Error";
 import { useDropdownOptions, useGetTheme } from "#hooks";
 import { Loading } from "../../loaders";
 
-const DROPDOWN_HEADING_HEIGHT = 48;
-
 export const Dropdown = ({
   label,
   heading,
@@ -37,7 +35,7 @@ export const Dropdown = ({
     dropdownId: currentDropdownId,
     setDropdownOptions,
   } = useDropdownOptions();
-  const { colors, isDarkMode } = useGetTheme();
+  const { colors, isDarkMode, isHighContrast } = useGetTheme();
   const { i18n } = useTranslation();
   const lang = i18n.language;
 
@@ -66,6 +64,23 @@ export const Dropdown = ({
   };
   const isOpen = dropdownIsOpen && dropdownId === currentDropdownId;
 
+  const getLabelColor = () => {
+    if (isHighContrast) return appStyles.colorHighContrast_ffff00;
+    if (isDarkMode) return appStyles.colorPrimary_20809e;
+    return appStyles.colorBlue_3d527b;
+  };
+
+  const getPlaceholderColor = () => {
+    if (isHighContrast) return appStyles.colorHighContrast_ffff00;
+    return appStyles.colorGray_a6b4b8;
+  };
+
+  const getBorderColor = () => {
+    if (errorMessage) return appStyles.colorRed_eb5757;
+    if (isOpen && !disabled) return appStyles.colorSecondary_9749fa;
+    return colors.inputBorder || appStyles.colorGray_cdd8e1;
+  };
+
   // Update dropdown options when selectedValues change for multi-select
   useEffect(() => {
     if (isOpen && multiSelect) {
@@ -92,7 +107,6 @@ export const Dropdown = ({
 
   const arrowRotation = useSharedValue(180);
   const arrowIconStyles = useAnimatedStyle(() => ({
-    paddingRight: 15,
     transform: [{ rotateX: `${arrowRotation.value}deg` }],
   }));
 
@@ -157,11 +171,11 @@ export const Dropdown = ({
   };
 
   return (
-    <View style={[styles.dropdown, style]}>
+    <View style={[styles.dropdown, disabled && styles.disabled, style]}>
       {label && (
         <AppText
           namedStyle="text"
-          style={[styles.label, { color: colors.text }]}
+          style={[styles.label, { color: getLabelColor() }]}
         >
           {label}
         </AppText>
@@ -171,9 +185,10 @@ export const Dropdown = ({
         <View
           style={[
             styles.container,
-            { backgroundColor: colors.input },
-            isOpen && styles.containerOpen,
-            errorMessage && styles.containerError,
+            {
+              backgroundColor: colors.input,
+              borderColor: getBorderColor(),
+            },
             appStyles.shadow1,
           ]}
         >
@@ -191,9 +206,9 @@ export const Dropdown = ({
               style={[
                 styles.selectedOption,
                 {
-                  color: !isDarkMode
-                    ? appStyles.colorGray_92989b
-                    : appStyles.colorGray_ea,
+                  color: selected
+                    ? colors.inputText || colors.textTertiary
+                    : getPlaceholderColor(),
                 },
               ]}
             >
@@ -219,10 +234,12 @@ export const Dropdown = ({
 
 const styles = StyleSheet.create({
   dropdown: {
-    width: "96%",
-    maxWidth: 420,
-    position: "relative",
-    ...appStyles.shadow2,
+    width: "100%",
+    textAlign: "left",
+  },
+
+  disabled: {
+    opacity: 0.6,
   },
 
   dropdownOpen: {
@@ -230,37 +247,26 @@ const styles = StyleSheet.create({
   },
 
   label: {
-    color: appStyles.colorBlue_3d527b,
-    fontFamily: appStyles.fontSemiBold,
+    fontFamily: appStyles.fontMedium,
+    marginBottom: 4,
   },
 
   container: {
-    alignItems: "center",
-    alignSelf: "center",
-    borderColor: "transparent",
-    borderRadius: 53,
-    borderWidth: 1,
-    elevation: 5,
     flexDirection: "row",
-    height: DROPDOWN_HEADING_HEIGHT,
+    alignItems: "center",
     justifyContent: "space-between",
-    marginTop: 4,
+    borderRadius: 12,
+    borderWidth: 1,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
     position: "relative",
-    width: "97%",
-    zIndex: 2,
-  },
-
-  containerError: {
-    borderColor: appStyles.colorRed_eb5757,
-  },
-
-  containerOpen: {
-    borderColor: appStyles.colorSecondary_9749fa,
   },
 
   selectedOption: {
-    fontSize: 14,
-    paddingLeft: 16,
+    flex: 1,
+    fontSize: 16,
+    fontFamily: appStyles.fontRegular,
+    textAlignVertical: "center",
   },
 
   dropdownOption: {
