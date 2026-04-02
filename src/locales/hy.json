@@ -633,7 +633,13 @@
       "language": "Լեզուն",
       "placeholder": "Ընտրել",
       "button": "Շարունակել",
-      "poland_description": "uSupport-ը մտավոր առողջության և բարեկեցության հարթակ է, որը նախատեսված է երիտասարդների համար (16-24 տարեկան)"
+      "poland_description": "uSupport-ը մտավոր առողջության և բարեկեցության հարթակ է, որը նախատեսված է երիտասարդների համար (16-24 տարեկան)",
+      "ro_password_modal_heading": "Պահանջվում է գաղտնաբառ",
+      "ro_password_modal_text": "Շարունակելու համար մուտքագրեք գաղտնաբառը։",
+      "ro_password_modal_cta": "Շարունակել",
+      "ro_password_modal_input_label": "Գաղտնաբառ",
+      "ro_password_modal_input_placeholder": "Մուտքագրեք գաղտնաբառը",
+      "ro_password_modal_error": "Սխալ գաղտնաբառ"
     },
     "my-qa": {
       "search_input_placeholder": "Որոնել",

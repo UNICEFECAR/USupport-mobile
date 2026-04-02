@@ -2026,7 +2026,7 @@ const IconLocation = ({ color = "#000000" }) => {
   );
 };
 
-const IconPlay = ({ color = "#ffffff" }) => {
+const IconPlay = ({ color = "#ffffff", fill = "rgba(0, 0, 0, 0.7)" }) => {
   return (
     <Svg
       id="icon-play"
@@ -2038,7 +2038,7 @@ const IconPlay = ({ color = "#ffffff" }) => {
         cx="32"
         cy="32"
         r="30"
-        fill="rgba(0, 0, 0, 0.7)"
+        fill={fill}
         stroke="rgba(255, 255, 255, 0.3)"
         stroke-width="2"
       />
@@ -2124,6 +2124,70 @@ const IconPhone = ({ color }) => {
     </Svg>
   );
 };
+
+const IconSeekBack = ({ size = 48, color = "#5FA8B8" }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Defs>
+      <LinearGradient id="grad" x1="0" y1="0" x2="1" y2="0">
+        <Stop offset="0%" stopColor="#7FC6C9" />
+        <Stop offset="100%" stopColor="#5FA8B8" />
+      </LinearGradient>
+    </Defs>
+
+    {/* Mirror of forward */}
+    <Path d="M11 6L5 12L11 18V6Z" fill="url(#grad)" />
+    <Path d="M19 6L13 12L19 18V6Z" fill="url(#grad)" />
+  </Svg>
+);
+
+const IconSeekForward = ({ size = 48 }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Defs>
+      <LinearGradient id="grad" x1="0" y1="0" x2="1" y2="0">
+        <Stop offset="0%" stopColor="#7FC6C9" />
+        <Stop offset="100%" stopColor="#5FA8B8" />
+      </LinearGradient>
+    </Defs>
+
+    <Path d="M13 6L19 12L13 18V6Z" fill="url(#grad)" />
+    <Path d="M5 6L11 12L5 18V6Z" fill="url(#grad)" />
+  </Svg>
+);
+
+const IconPause = ({ size = 48 }) => (
+  <Svg width={size} height={size} viewBox="0 0 64 64">
+    <Defs>
+      <LinearGradient id="pauseGradient" x1="0" y1="0" x2="1" y2="1">
+        <Stop offset="0%" stopColor="#EAF7FA" />
+        <Stop offset="100%" stopColor="#BFE3EA" />
+      </LinearGradient>
+    </Defs>
+
+    {/* Background */}
+    <Circle cx="32" cy="32" r="32" fill="url(#pauseGradient)" />
+
+    {/* Pause bars */}
+    <Rect x="22" y="18" width="6" height="28" rx="3" fill="#4F93A6" />
+    <Rect x="36" y="18" width="6" height="28" rx="3" fill="#4F93A6" />
+  </Svg>
+);
+
+const IconPlayGradient = ({ size = 48 }) => (
+  <Svg width={size} height={size} viewBox="0 0 64 64">
+    <Defs>
+      <LinearGradient id="playGradient" x1="0" y1="0" x2="1" y2="1">
+        <Stop offset="0%" stopColor="#D9EEF2" />
+        <Stop offset="100%" stopColor="#AFCFD6" />
+      </LinearGradient>
+    </Defs>
+
+    {/* Background */}
+    <Circle cx="32" cy="32" r="32" fill="url(#playGradient)" />
+
+    {/* Play triangle */}
+    <Path d="M26 20L46 32L26 44V20Z" fill="#4F93A6" />
+  </Svg>
+);
 
 export {
   IconFilter,
@@ -2235,4 +2299,8 @@ export {
   IconSave,
   IconAccessibility,
   IconMap,
+  IconSeekBack,
+  IconSeekForward,
+  IconPause,
+  IconPlayGradient,
 };

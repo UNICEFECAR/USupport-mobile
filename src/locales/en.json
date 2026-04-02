@@ -638,7 +638,13 @@
       "poland_description": "uSupport is a mental health and well-being platform designed for youth (16–24).",
       "register_with_email": "Register with email",
       "register_anonymously": "Register anonymously",
-      "continue_as_guest": "Continue as guest"
+      "continue_as_guest": "Continue as guest",
+      "ro_password_modal_heading": "Password required",
+      "ro_password_modal_text": "Enter password to continue.",
+      "ro_password_modal_cta": "Continue",
+      "ro_password_modal_input_label": "Password",
+      "ro_password_modal_input_placeholder": "Enter password",
+      "ro_password_modal_error": "Invalid password"
     },
     "my-qa": {
       "search_input_placeholder": "Search",

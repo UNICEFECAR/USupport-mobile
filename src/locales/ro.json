@@ -633,7 +633,13 @@
       "language": "Limba",
       "placeholder": "Selectați",
       "button": "Continuați",
-      "poland_description": "uSupport este o platformă pentru sănătate mintală și bunăstare, concepută pentru tineri (16–24)."
+      "poland_description": "uSupport este o platformă pentru sănătate mintală și bunăstare, concepută pentru tineri (16–24).",
+      "ro_password_modal_heading": "Parolă necesară",
+      "ro_password_modal_text": "Introduceți parola pentru a continua.",
+      "ro_password_modal_cta": "Continuați",
+      "ro_password_modal_input_label": "Parolă",
+      "ro_password_modal_input_placeholder": "Introduceți parola",
+      "ro_password_modal_error": "Parolă invalidă"
     },
     "my-qa": {
       "search_input_placeholder": "Căutare",

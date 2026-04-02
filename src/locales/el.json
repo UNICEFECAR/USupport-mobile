@@ -632,7 +632,13 @@
       "language": "Γλώσσα",
       "placeholder": "Επιλογή",
       "button": "Συνέχεια",
-      "poland_description": "Το uSupport είναι μια πλατφόρμα ψυχικής υγείας και ευεξίας που έχει σχεδιαστεί για νέους (16-24 ετών)."
+      "poland_description": "Το uSupport είναι μια πλατφόρμα ψυχικής υγείας και ευεξίας που έχει σχεδιαστεί για νέους (16-24 ετών).",
+      "ro_password_modal_heading": "Απαιτείται κωδικός",
+      "ro_password_modal_text": "Εισαγάγετε τον κωδικό για να συνεχίσετε.",
+      "ro_password_modal_cta": "Συνέχεια",
+      "ro_password_modal_input_label": "Κωδικός",
+      "ro_password_modal_input_placeholder": "Εισαγάγετε τον κωδικό",
+      "ro_password_modal_error": "Μη έγκυρος κωδικός"
     },
     "my-qa": {
       "search_input_placeholder": "Αναζήτηση",

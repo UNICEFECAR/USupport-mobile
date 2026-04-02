@@ -633,7 +633,13 @@
       "language": "Тіл",
       "placeholder": "Таңдау",
       "button": "Жалғастыру",
-      "poland_description": "uSupport жастарға (16-24 жас) арналған психикалық денсаулық пен әл-ауқат платформасы."
+      "poland_description": "uSupport жастарға (16-24 жас) арналған психикалық денсаулық пен әл-ауқат платформасы.",
+      "ro_password_modal_heading": "Құпиясөз қажет",
+      "ro_password_modal_text": "Жалғастыру үшін құпиясөзді енгізіңіз.",
+      "ro_password_modal_cta": "Жалғастыру",
+      "ro_password_modal_input_label": "Құпиясөз",
+      "ro_password_modal_input_placeholder": "Құпиясөзді енгізіңіз",
+      "ro_password_modal_error": "Құпиясөз қате"
     },
     "my-qa": {
       "search_input_placeholder": "Іздеу",

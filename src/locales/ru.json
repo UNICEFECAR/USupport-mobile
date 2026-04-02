@@ -633,7 +633,13 @@
       "language": "Язык",
       "placeholder": "Выбрать",
       "button": "Продолжить",
-      "poland_description": "uSupport — это платформа психического здоровья и благополучия, предназначенная для молодежи (16-24 года)."
+      "poland_description": "uSupport — это платформа психического здоровья и благополучия, предназначенная для молодежи (16-24 года).",
+      "ro_password_modal_heading": "Требуется пароль",
+      "ro_password_modal_text": "Введите пароль, чтобы продолжить.",
+      "ro_password_modal_cta": "Продолжить",
+      "ro_password_modal_input_label": "Пароль",
+      "ro_password_modal_input_placeholder": "Введите пароль",
+      "ro_password_modal_error": "Неверный пароль"
     },
     "my-qa": {
       "search_input_placeholder": "Поиск",

@@ -433,6 +433,16 @@ async function getOrganizationSpecializations() {
   return response;
 }
 
+async function synthesizeTTS(payload) {
+  const response = await http.post(`${API_ENDPOINT}/tts/synthesize/`, payload, {
+    responseType: "arraybuffer",
+    headers: {
+      Accept: "audio/mpeg",
+    },
+  });
+  return response;
+}
+
 const exportedFunctions = {
   addMoodTrack,
   getClientData,
@@ -477,6 +487,7 @@ const exportedFunctions = {
   generateMoodTrackReport,
   getOrganizationSpecializations,
   getHasCompletedMoodTrackerEver,
+  synthesizeTTS,
 };
 
 export default exportedFunctions;
