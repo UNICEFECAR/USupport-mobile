@@ -321,6 +321,13 @@ async function getContentEngagementsById({ ids, contentType }) {
   return response;
 }
 
+async function validatePlatformPassword(value) {
+  const response = await http.post(`${API_ENDPOINT}/validate-platform-password`, {
+    platformPassword: value,
+  });
+  return response;
+}
+
 const exportedFunctions = {
   changePassword,
   generateClientAccesToken,
@@ -353,6 +360,7 @@ const exportedFunctions = {
   removeContentEngagement,
   getUserContentEngagements,
   getContentEngagementsById,
+  validatePlatformPassword,
 };
 
 export default exportedFunctions;

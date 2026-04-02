@@ -630,7 +630,13 @@
       "language": "Мова",
       "placeholder": "Вибрати",
       "button": "Продовжити",
-      "poland_description": "uSupport — це платформа психічного здоров’я та добробуту, призначена для молодих людей (16–24)"
+      "poland_description": "uSupport — це платформа психічного здоров’я та добробуту, призначена для молодих людей (16–24)",
+      "ro_password_modal_heading": "Потрібен пароль",
+      "ro_password_modal_text": "Введіть пароль, щоб продовжити.",
+      "ro_password_modal_cta": "Продовжити",
+      "ro_password_modal_input_label": "Пароль",
+      "ro_password_modal_input_placeholder": "Введіть пароль",
+      "ro_password_modal_error": "Невірний пароль"
     },
     "my-qa": {
       "search_input_placeholder": "Пошук",

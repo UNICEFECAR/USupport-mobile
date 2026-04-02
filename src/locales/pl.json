@@ -630,7 +630,13 @@
       "language": "Język",
       "placeholder": "Wybrać",
       "button": "Kontynuuj",
-      "poland_description": "uSupport to platforma zdrowia psychicznego i dobrego samopoczucia przeznaczona dla młodych osób (16-24)"
+      "poland_description": "uSupport to platforma zdrowia psychicznego i dobrego samopoczucia przeznaczona dla młodych osób (16-24)",
+      "ro_password_modal_heading": "Wymagane hasło",
+      "ro_password_modal_text": "Wprowadź hasło, aby kontynuować.",
+      "ro_password_modal_cta": "Kontynuuj",
+      "ro_password_modal_input_label": "Hasło",
+      "ro_password_modal_input_placeholder": "Wprowadź hasło",
+      "ro_password_modal_error": "Nieprawidłowe hasło"
     },
     "my-qa": {
       "search_input_placeholder": "Wyszukiwanie",

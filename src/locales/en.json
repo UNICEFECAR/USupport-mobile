@@ -628,7 +628,13 @@
       "language": "Language",
       "placeholder": "Select",
       "button": "Continue",
-      "poland_description": "uSupport is a mental health and well-being platform designed for youth (16–24)."
+      "poland_description": "uSupport is a mental health and well-being platform designed for youth (16–24).",
+      "ro_password_modal_heading": "Password required",
+      "ro_password_modal_text": "Enter password to continue.",
+      "ro_password_modal_cta": "Continue",
+      "ro_password_modal_input_label": "Password",
+      "ro_password_modal_input_placeholder": "Enter password",
+      "ro_password_modal_error": "Invalid password"
     },
     "my-qa": {
       "search_input_placeholder": "Search",

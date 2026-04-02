@@ -1,18 +1,32 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Image, ScrollView, StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Config from "react-native-config";
 
-import { AppText, AppButton, Block, Dropdown } from "#components";
-import { languageSvc, countrySvc, localStorage, Context } from "#services";
-import { useGetTheme } from "#hooks";
+import {
+  AppText,
+  AppButton,
+  Block,
+  Dropdown,
+  TransparentModal,
+  Input,
+} from "#components";
+import {
+  languageSvc,
+  countrySvc,
+  localStorage,
+  Context,
+  userSvc,
+} from "#services";
+import { useError, useGetTheme } from "#hooks";
 
 const { AMAZON_S3_BUCKET } = Config;
 
 export function Welcome({ navigation }) {
   const { isDarkMode } = useGetTheme();
   const { t, i18n } = useTranslation("blocks", { keyPrefix: "welcome" });
+  const queryClient = useQueryClient();
   const {
     setCurrencySymbol,
     setCountry,
@@ -22,6 +36,9 @@ export function Welcome({ navigation }) {
   } = useContext(Context);
   const [selectedCountry, setSelectedCountry] = useState(null); // alpha2 for dropdown
   const [selectedLanguage, setSelectedLanguage] = useState(null);
+  const [isRoPasswordModalOpen, setIsRoPasswordModalOpen] = useState(false);
+  const [roPassword, setRoPassword] = useState("");
+  const [roPasswordError, setRoPasswordError] = useState("");
 
   useEffect(() => {
     localStorage.getItem("country").then((country) => {
@@ -107,7 +124,7 @@ export function Welcome({ navigation }) {
     setCountry(option);
   };
 
-  const handleContinue = () => {
+  const continueToRegisterPreview = () => {
     const countryCode = selectedCountry;
     const language = selectedLanguage;
 
@@ -143,6 +160,48 @@ export function Welcome({ navigation }) {
     localStorage.setItem("minAge", minAge != null ? minAge.toString() : "0");
 
     navigation.push("RegisterPreview");
+  };
+
+  const handleCloseRoPasswordModal = () => {
+    setIsRoPasswordModalOpen(false);
+    setRoPassword("");
+    setRoPasswordError("");
+  };
+
+  const validatePlatformPasswordMutation = useMutation(
+    async (value) => {
+      return await userSvc.validatePlatformPassword(value);
+    },
+    {
+      onError: (error) => {
+        const { message: errorMessage } = useError(error);
+        setRoPasswordError(errorMessage);
+      },
+      onSuccess: () => {
+        queryClient.setQueryData(["hasPassedValidation"], true);
+        handleCloseRoPasswordModal();
+        continueToRegisterPreview();
+      },
+    }
+  );
+
+  const handleSubmitRoPassword = () => {
+    const trimmedPassword = roPassword.trim();
+    if (!trimmedPassword) {
+      setRoPasswordError(t("ro_password_modal_error"));
+      return;
+    }
+    validatePlatformPasswordMutation.mutate(trimmedPassword);
+  };
+
+  const handleContinue = () => {
+    if (selectedCountry === "RO") {
+      setRoPasswordError("");
+      setIsRoPasswordModalOpen(true);
+      return;
+    }
+
+    continueToRegisterPreview();
   };
 
   const IS_RO = selectedCountry === "RO";
@@ -209,6 +268,30 @@ export function Welcome({ navigation }) {
             onPress={handleContinue}
           />
         </View>
+        <TransparentModal
+          isOpen={isRoPasswordModalOpen}
+          handleClose={handleCloseRoPasswordModal}
+          heading={t("ro_password_modal_heading")}
+          text={t("ro_password_modal_text")}
+          ctaLabel={t("ro_password_modal_cta")}
+          ctaHandleClick={handleSubmitRoPassword}
+          isCtaLoading={validatePlatformPasswordMutation.isLoading}
+          errorMessage={roPasswordError}
+        >
+          <Input
+            label={t("ro_password_modal_input_label")}
+            placeholder={t("ro_password_modal_input_placeholder")}
+            value={roPassword}
+            isPassword={true}
+            onChange={(value) => {
+              setRoPassword(value);
+              if (roPasswordError) {
+                setRoPasswordError("");
+              }
+            }}
+            style={styles.passwordInput}
+          />
+        </TransparentModal>
       </Block>
     </ScrollView>
   );
@@ -233,6 +316,10 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     flexDirection: "column",
     alignItems: "center",
+  },
+  passwordInput: {
+    marginTop: 12,
+    marginBottom: 20,
   },
   flexGrow: { flexGrow: 1 },
 });
