@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
 
   //Text styling:
   btnText: {
-    fontFamily: "Nunito-Bold",
+    fontFamily: appStyles.fontBold,
     fontSize: 12,
     color: appStyles.colorWhite_ff,
     lineHeight: 22,
@@ -259,7 +259,7 @@ const styles = StyleSheet.create({
 
   btnTextLg: {
     fontSize: 16,
-    fontFamily: "Nunito-SemiBold",
+    fontFamily: appStyles.fontSemiBold,
   },
 
   btnTextSecondary: {
@@ -279,7 +279,7 @@ const styles = StyleSheet.create({
   },
 
   btnTextPressed: {
-    fontFamily: "Nunito-ExtraBold",
+    fontFamily: appStyles.fontExtraBold,
   },
 
   greenPressedText: {

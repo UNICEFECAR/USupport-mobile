@@ -71,6 +71,11 @@
       "heading": "Οι συνεδρίες μου",
       "view_all": "Προβολή όλων",
       "schedule_consultation_label": "Προγραμματίστε μια συνεδρία",
+      "heading_need_support": "Χρειάζεστε υποστήριξη;",
+      "explore_resources_label": "Εξερευνήστε πόρους",
+      "dummy_provider_1": "Δρ. Παπαδόπουλος",
+      "dummy_provider_2": "Δρ. Νικολάου",
+      "dummy_provider_3": "Δρ. Γεωργίου",
       "live_text": "Τώρα",
       "accept_button_label": "Αποδοχή συνεδρίας",
       "join_button_label": "Είσοδος",
@@ -221,6 +226,7 @@
       "welcome-heading": "Welcome",
       "heading": "Πώς νιώθετε σήμερα;",
       "mood_tracker": "Καταγραφή διάθεσης",
+      "additional_comment_label": "Τι σας έκανε να νιώσετε έτσι;",
       "additional_comment_placeholder": "Τι σας έκανε να νιώσετε έτσι;",
       "submit_mood_track": "Υποβολή",
       "add_mood_tracker_success": "Η διάθεσή σας για σήμερα προστέθηκε με επιτυχία",
@@ -233,6 +239,18 @@
       "check_out": "Αποσύνδεση"
     },
     "mood-track-history": {
+      "month_1": "Ιαν",
+      "month_2": "Φεβ",
+      "month_3": "Μαρ",
+      "month_4": "Απρ",
+      "month_5": "Μαΐ",
+      "month_6": "Ιουν",
+      "month_7": "Ιουλ",
+      "month_8": "Αυγ",
+      "month_9": "Σεπ",
+      "month_10": "Οκτ",
+      "month_11": "Νοε",
+      "month_12": "Δεκ",
       "saturday": "Σαβ",
       "happy": "Χαρούμενος/η",
       "good": "Καλά",
@@ -258,10 +276,15 @@
       "appointment": "Ειδοποιήσεις για ραντεβού",
       "minutes_before": "λεπτά προηγουμένως",
       "heading": "",
-      "subheading": ""
+      "subheading": "",
+      "success": "Οι ρυθμίσεις αποθηκεύτηκαν με επιτυχία"
     },
     "notifications": {
       "heading": "Ειδοποιήσεις",
+      "panel_heading": "Ειδοποιήσεις",
+      "tab_all": "Όλα",
+      "tab_new": "Νέα",
+      "tab_read": "Αναγνωσμένα",
       "mark_read": "Επισήμανση όλων ως αναγνωσμένων",
       "subheading": "Εδώ μπορείτε να βρείτε όλες τις ειδοποιήσεις που έχετε λάβει στον λογαριασμό σας.",
       "consultation_booking": "Η συνεδρία σας με τον/την <0>{{providerName}}</0> έχει προγραμματιστεί με επιτυχία για <0>{{date}}</0> από <0>{{startHour}}</0> έως <0>{{endHour}}</0>",
@@ -627,12 +650,17 @@
       "high_contrast_mode": "Λειτουργία υψηλής αντίθεσης"
     },
     "welcome": {
-      "heading": "Καλωσορίσατε στο",
+      "heading": "Welcome to Client Portal",
       "country": "Χώρα",
       "language": "Γλώσσα",
       "placeholder": "Επιλογή",
       "button": "Συνέχεια",
       "poland_description": "Το uSupport είναι μια πλατφόρμα ψυχικής υγείας και ευεξίας που έχει σχεδιαστεί για νέους (16-24 ετών).",
+      "register_email": "Εγγραφή μέσω email",
+      "register_anonymously": "Ανώνυμη εγγραφή",
+      "continue_as_guest": "Συνέχεια χωρίς εγγραφή",
+      "already_have_account": "Έχετε ήδη λογαριασμό;",
+      "log_in": "Σύνδεση",
       "ro_password_modal_heading": "Απαιτείται κωδικός",
       "ro_password_modal_text": "Εισαγάγετε τον κωδικό για να συνεχίσετε.",
       "ro_password_modal_cta": "Συνέχεια",
@@ -864,7 +892,12 @@
     },
     "baseline-assessment-dashboard": {
       "heading": "Η αρχική σας αξιολόγηση",
+      "heading_completed": "Your Latest Assessment",
       "no_assessment_text": "Δεν έχετε ακόμη ολοκληρώσει την αρχική αξιολόγηση. Ολοκληρώστε την για να λάβετε εξατομικευμένες πληροφορίες σχετικά με την ψυχική σας υγεία.",
+      "no_assessment_description": "Take a quick assessment to understand your mental health better and get personalized recommendations.",
+      "explore_heading": "Find Support Near You",
+      "explore_card_description": "After completing the baseline assessment, we will help you find the most relevant support near you.",
+      "explore_button_label": "Explore Organizations",
       "start_new_assessment": "Έναρξη αξιολόγησης",
       "completed": "Ολοκληρωμένες",
       "in_progress": "Σε εξέλιξη",
@@ -876,7 +909,9 @@
       "latest_result": "Τα πιο πρόσφατα αποτελέσματα",
       "psychological": "Ψυχολογικές",
       "biological": "Βιολογικές",
-      "social": "Κοινωνικές"
+      "social": "Κοινωνικές",
+      "how_it_works": "Πώς λειτουργεί",
+      "see_last_result": "Προβολή αποτελεσμάτων"
     },
     "baseline-assesment-result": {
       "assessment_completed": "Η αξιολόγηση ολοκληρώθηκε",
@@ -926,6 +961,9 @@
     }
   },
   "screens": {
+    "screen": {
+      "go_back": "Επιστροφή"
+    },
     "article-information": {
       "heading": "Περισσότερα άρθρα",
       "no_results": "Δεν υπάρχουν παρόμοια άρθρα για την επιλεγμένη γλώσσα.",

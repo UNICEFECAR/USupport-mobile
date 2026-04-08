@@ -35,6 +35,7 @@ export const ProviderOverview = ({ navigation, route }) => {
 
   const providerId = route.params.providerId;
   const billingType = route.params.billingType || null;
+  const didAutoOpenSchedule = useRef(false);
 
   // When coming from non-coupon tabs (paid / free), ignore any leftover coupon
   // so scheduling behaves like web: coupon only applies when user used the coupon tab.
@@ -76,6 +77,14 @@ export const ProviderOverview = ({ navigation, route }) => {
   };
   const openConfirmConsultationBackdrop = () => setIsConfirmBackdropOpen(true);
   const openRequireDataAgreement = () => setIsRequireDataAgreementOpen(true);
+
+  useEffect(() => {
+    if (didAutoOpenSchedule.current) return;
+    if (route?.params?.openSchedule) {
+      didAutoOpenSchedule.current = true;
+      openScheduleBackdrop();
+    }
+  }, [route?.params?.openSchedule]);
 
   // Close modals
   const closeConfirmConsultationBackdrop = () =>

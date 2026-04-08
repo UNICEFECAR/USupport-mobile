@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
   },
   headerTextContainer: { marginLeft: 16 },
   providerName: {
-    fontFamily: "Nunito-SemiBold",
+    fontFamily: appStyles.fontSemiBold,
     maxWidth: "90%",
   },
   avatar: { width: 66, height: 66 },
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
   },
 
   headingText: {
-    fontFamily: "Nunito-Bold",
+    fontFamily: appStyles.fontBold,
     color: appStyles.colorBlue_3d527b,
   },
 });

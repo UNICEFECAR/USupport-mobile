@@ -24,8 +24,6 @@ import { useError, useGetTheme } from "#hooks";
 const { AMAZON_S3_BUCKET } = Config;
 
 export function Welcome({ navigation }) {
-  const queryClient = useQueryClient();
-
   const { isDarkMode } = useGetTheme();
   const { t, i18n } = useTranslation("blocks", { keyPrefix: "welcome" });
   const queryClient = useQueryClient();

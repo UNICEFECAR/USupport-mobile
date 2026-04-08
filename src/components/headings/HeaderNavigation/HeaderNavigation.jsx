@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, TouchableOpacity, PixelRatio } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 
 import { Avatar } from "../../avatars";
 import { Icon } from "../../icons";
@@ -19,9 +19,11 @@ export const HeaderNavigation = ({
   hasUnreadNotifications,
   isTmpUser,
   handleRegistrationModalOpen,
+  onPressNotifications,
+  onPressProfile,
+  onHeaderLayout,
 }) => {
   const { isDarkMode } = useGetTheme();
-  const fontScale = PixelRatio.getFontScale();
 
   const getClientDataEnabled = isTmpUser === false ? true : false;
   const clientDataQuery = useGetClientData(getClientDataEnabled);
@@ -29,6 +31,7 @@ export const HeaderNavigation = ({
 
   return (
     <View
+      onLayout={(e) => onHeaderLayout?.(e.nativeEvent.layout.height)}
       style={[
         styles.container,
         isDarkMode && { backgroundColor: appStyles.colorBlack_12 },
@@ -36,7 +39,19 @@ export const HeaderNavigation = ({
         style,
       ]}
     >
-      <TouchableOpacity onPress={() => navigation.push("UserProfile")}>
+      <TouchableOpacity
+        onPress={() => {
+          if (isTmpUser) {
+            handleRegistrationModalOpen();
+            return;
+          }
+          if (onPressProfile) {
+            onPressProfile();
+          } else {
+            navigation.push("UserProfile");
+          }
+        }}
+      >
         <Avatar
           image={{
             uri: `${AMAZON_S3_BUCKET}/${clientData?.image || "default"}`,
@@ -50,7 +65,7 @@ export const HeaderNavigation = ({
         color="red"
         onPress={() => navigation.navigate("SOSCenter")}
       /> */}
-      <AppText>{t("welcome_back")}</AppText>
+      <AppText>{t("heading")}</AppText>
       {/* ) : (
         <ButtonOnlyIcon
           iconName="phone-emergency"
@@ -65,7 +80,11 @@ export const HeaderNavigation = ({
             handleRegistrationModalOpen();
             return;
           }
-          navigation.push("Notifications");
+          if (onPressNotifications) {
+            onPressNotifications();
+          } else {
+            navigation.push("Notifications");
+          }
         }}
       >
         <Icon

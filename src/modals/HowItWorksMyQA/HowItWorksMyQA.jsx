@@ -1,13 +1,48 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View, Image } from "react-native";
-import Config from "react-native-config";
 
 import { TransparentModal, CustomCarousel, AppText } from "#components";
 
 import { appStyles } from "#styles";
 
-const { AMAZON_S3_BUCKET } = Config;
+const SLIDE_IMAGES_BY_LANG = {
+  en: [
+    require("./assets/how-it-works-1-en-mobile.png"),
+    require("./assets/how-it-works-2-en-mobile.png"),
+    require("./assets/how-it-works-3-en-mobile.png"),
+  ],
+  pl: [
+    require("./assets/how-it-works-1-pl-mobile.png"),
+    require("./assets/how-it-works-2-pl-mobile.png"),
+    require("./assets/how-it-works-3-pl-mobile.png"),
+  ],
+  kk: [
+    require("./assets/how-it-works-1-kz-mobile.png"),
+    require("./assets/how-it-works-2-kz-mobile.png"),
+    require("./assets/how-it-works-3-kz-mobile.png"),
+  ],
+  kz: [
+    require("./assets/how-it-works-1-kz-mobile.png"),
+    require("./assets/how-it-works-2-kz-mobile.png"),
+    require("./assets/how-it-works-3-kz-mobile.png"),
+  ],
+  uk: [
+    require("./assets/how-it-works-1-uk-mobile.png"),
+    require("./assets/how-it-works-2-uk-mobile.png"),
+    require("./assets/how-it-works-3-uk-mobile.png"),
+  ],
+  ua: [
+    require("./assets/how-it-works-1-uk-mobile.png"),
+    require("./assets/how-it-works-2-uk-mobile.png"),
+    require("./assets/how-it-works-3-uk-mobile.png"),
+  ],
+  ru: [
+    require("./assets/how-it-works-1-ru-mobile.png"),
+    require("./assets/how-it-works-2-ru-mobile.png"),
+    require("./assets/how-it-works-3-ru-mobile.png"),
+  ],
+};
 
 /**
  * HowItWorksMyQA
@@ -21,34 +56,28 @@ export const HowItWorksMyQA = ({ isOpen, onClose }) => {
     keyPrefix: "how-it-works-my-qa",
   });
   const width = appStyles.screenWidth * 0.96;
+  const lang = i18n.language || "en";
+  const images = SLIDE_IMAGES_BY_LANG[lang] || SLIDE_IMAGES_BY_LANG.en;
 
   const slides = [
     {
-      image: `${AMAZON_S3_BUCKET}/how-it-works-${i18n.language}-1`,
+      image: images[0],
       text: t("subheading_1"),
     },
     {
-      image: `${AMAZON_S3_BUCKET}/how-it-works-${i18n.language}-2`,
+      image: images[1],
       text: t("subheading_2"),
     },
     {
-      image: `${AMAZON_S3_BUCKET}/how-it-works-${i18n.language}-3`,
+      image: images[2],
       text: t("subheading_3"),
     },
   ];
 
-  console.log(slides);
-
   const renderSlide = ({ item, index }) => (
     <View key={index} style={styles.slide}>
       <AppText namedStyle="text">{item.text}</AppText>
-      <Image
-        source={{
-          uri: item.image,
-        }}
-        style={styles.image}
-        resizeMode="contain"
-      />
+      <Image source={item.image} style={styles.image} resizeMode="contain" />
     </View>
   );
 

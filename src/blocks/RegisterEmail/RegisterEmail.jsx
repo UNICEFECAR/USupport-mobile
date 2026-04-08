@@ -34,7 +34,7 @@ import { validateProperty, validate } from "#utils";
 import { userSvc, localStorage, Context } from "#services";
 import { useError } from "#hooks";
 
-export const RegisterEmail = ({ navigation }) => {
+export const RegisterEmail = ({ navigation, onGoBack, onGoToLogin, inBackdrop }) => {
   const { setInitialRouteName, setToken } = useContext(Context);
   const { t } = useTranslation("blocks", { keyPrefix: "register-email" });
   const queryClient = useQueryClient();
@@ -174,7 +174,8 @@ export const RegisterEmail = ({ navigation }) => {
   const register = async (code) => {
     const countryID = await localStorage.getItem("country_id");
     if (!countryID) {
-      navigation.navigate("Welcome");
+      if (onGoBack) return onGoBack();
+      navigation?.navigate?.("Welcome");
       return;
     }
     // Send data to server
@@ -238,7 +239,8 @@ export const RegisterEmail = ({ navigation }) => {
   };
 
   const handleLoginRedirect = () => {
-    navigation.navigate("Login");
+    if (onGoToLogin) return onGoToLogin();
+    navigation?.navigate?.("Login");
   };
 
   const handleOtpRequest = async () => {
@@ -259,6 +261,81 @@ export const RegisterEmail = ({ navigation }) => {
     data.email &&
     data.nickname;
 
+  const content = (
+    <>
+      <Input
+        label={t("email_label")}
+        style={styles.input}
+        placeholder="user@mail.com"
+        value={data.email}
+        onChange={(value) => handleChange("email", value)}
+        onBlur={() => handleBlur("email")}
+        errorMessage={errors.email}
+        autoCapitalize="none"
+      />
+      <Input
+        label={t("nickname_label")}
+        style={styles.input}
+        placeholder={t("nickname_placeholder")}
+        value={data.nickname}
+        onChange={(value) => handleChange("nickname", value)}
+        onBlur={() => handleBlur("nickname")}
+        errorMessage={errors.nickname}
+      />
+      <InputPassword
+        style={styles.input}
+        label={t("password_label")}
+        value={data.password}
+        placeholder={t("password_placeholder")}
+        onChange={(value) => handleChange("password", value)}
+        onBlur={() => handleBlur("password")}
+        errorMessage={errors.password}
+        autoCapitalize="none"
+      />
+      <InputPassword
+        style={styles.input}
+        label={t("confirm_password_label")}
+        value={data.confirmPassword}
+        placeholder={t("password_placeholder")}
+        onChange={(value) => handleChange("confirmPassword", value)}
+        onBlur={() => handleBlur("confirmPassword")}
+        errorMessage={errors.confirmPassword}
+        autoCapitalize="none"
+      />
+      <TermsAgreement
+        isChecked={data.isPrivacyAndTermsSelected}
+        setIsChecked={() =>
+          handleChange("isPrivacyAndTermsSelected", !data.isPrivacyAndTermsSelected)
+        }
+        navigation={navigation}
+        textOne={t("terms_agreement_text_1")}
+        textTwo={t("terms_agreement_text_2")}
+        textThree={t("terms_agreement_text_3")}
+        textFour={t("terms_agreement_text_4")}
+        style={{ marginBottom: 12 }}
+      />
+      <TermsAgreement
+        isChecked={data.isAgeTermsSelected}
+        setIsChecked={() => handleChange("isAgeTermsSelected", !data.isAgeTermsSelected)}
+        textOne={t("age_terms_agreement_text", { age: minAge })}
+      />
+      <Error style={styles.error} message={errors.submit || ""} />
+      <NewButton
+        size="lg"
+        label={t("register_button")}
+        onPress={handleOtpRequest}
+        disabled={!canContinue}
+        loading={requestEmailOTPMutation.isLoading}
+        style={styles.registerButton}
+      />
+      <NewButton
+        label={t("login_button_label")}
+        type="ghost-purple"
+        onPress={handleLoginRedirect}
+      />
+    </>
+  );
+
   return (
     <>
       <KeyboardAvoidingView
@@ -266,91 +343,26 @@ export const RegisterEmail = ({ navigation }) => {
         behavior={Platform.OS === "ios" ? "padding" : null}
       >
         <Block style={styles.flexGrow}>
-          <Heading
-            heading={t("heading")}
-            handleGoBack={() => navigation.goBack()}
-          />
-          <ScrollView
-            contentContainerStyle={[styles.scrollContent, { marginTop: 84 }]}
-            keyboardShouldPersistTaps="handled"
-            showsVerticalScrollIndicator={false}
-          >
-            <Input
-              label={t("email_label")}
-              style={styles.input}
-              placeholder="user@mail.com"
-              value={data.email}
-              onChange={(value) => handleChange("email", value)}
-              onBlur={() => handleBlur("email")}
-              errorMessage={errors.email}
-              autoCapitalize="none"
+          {inBackdrop ? null : (
+            <Heading
+              heading={t("heading")}
+              handleGoBack={() => {
+                if (onGoBack) return onGoBack();
+                navigation?.goBack?.();
+              }}
             />
-            <Input
-              label={t("nickname_label")}
-              style={styles.input}
-              placeholder={t("nickname_placeholder")}
-              value={data.nickname}
-              onChange={(value) => handleChange("nickname", value)}
-              onBlur={() => handleBlur("nickname")}
-              errorMessage={errors.nickname}
-            />
-            <InputPassword
-              style={styles.input}
-              label={t("password_label")}
-              value={data.password}
-              placeholder={t("password_placeholder")}
-              onChange={(value) => handleChange("password", value)}
-              onBlur={() => handleBlur("password")}
-              errorMessage={errors.password}
-              autoCapitalize="none"
-            />
-            <InputPassword
-              style={styles.input}
-              label={t("confirm_password_label")}
-              value={data.confirmPassword}
-              placeholder={t("password_placeholder")}
-              onChange={(value) => handleChange("confirmPassword", value)}
-              onBlur={() => handleBlur("confirmPassword")}
-              errorMessage={errors.confirmPassword}
-              autoCapitalize="none"
-            />
-            <TermsAgreement
-              isChecked={data.isPrivacyAndTermsSelected}
-              setIsChecked={() =>
-                handleChange(
-                  "isPrivacyAndTermsSelected",
-                  !data.isPrivacyAndTermsSelected
-                )
-              }
-              navigation={navigation}
-              textOne={t("terms_agreement_text_1")}
-              textTwo={t("terms_agreement_text_2")}
-              textThree={t("terms_agreement_text_3")}
-              textFour={t("terms_agreement_text_4")}
-              style={{ marginBottom: 12 }}
-            />
-            <TermsAgreement
-              isChecked={data.isAgeTermsSelected}
-              setIsChecked={() =>
-                handleChange("isAgeTermsSelected", !data.isAgeTermsSelected)
-              }
-              textOne={t("age_terms_agreement_text", { age: minAge })}
-            />
-            <Error style={styles.error} message={errors.submit || ""} />
-            <NewButton
-              size="lg"
-              label={t("register_button")}
-              onPress={handleOtpRequest}
-              disabled={!canContinue}
-              loading={requestEmailOTPMutation.isLoading}
-              style={styles.registerButton}
-            />
-            <NewButton
-              label={t("login_button_label")}
-              type="ghost-purple"
-              onPress={handleLoginRedirect}
-            />
-          </ScrollView>
+          )}
+          {inBackdrop ? (
+            content
+          ) : (
+            <ScrollView
+              contentContainerStyle={[styles.scrollContent, { marginTop: 84 }]}
+              keyboardShouldPersistTaps="handled"
+              showsVerticalScrollIndicator={false}
+            >
+              {content}
+            </ScrollView>
+          )}
         </Block>
       </KeyboardAvoidingView>
       <CodeVerification

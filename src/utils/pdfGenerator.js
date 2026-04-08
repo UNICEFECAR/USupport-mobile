@@ -17,7 +17,7 @@ export const generatePDF = async ({ articleData, t }) => {
           <style>
             * { print-color-adjust:exact !important; }
             body {
-              font-family: 'Nunito', sans-serif;
+              font-family: 'Inter', sans-serif;
               color: #333;
             }
             .header {
@@ -214,7 +214,7 @@ export const generateBaselineAssessmentResultPDF = async ({
           <style>
             * { print-color-adjust:exact !important; }
             body {
-              font-family: 'Nunito', sans-serif;
+              font-family: 'Inter', sans-serif;
               color: #333;
               padding: 16px;
             }

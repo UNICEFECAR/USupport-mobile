@@ -24,6 +24,7 @@ export const NewButton = ({
   onClick,
   onPress,
   iconName,
+  iconColor,
   isFullWidth = false,
   style,
   ...props
@@ -40,12 +41,6 @@ export const NewButton = ({
     colors: ["#a597d9", "#9f90dc", "#775ff3", "#684dfd"],
   };
 
-  const gradientHover = {
-    degrees: 135.77,
-    locations: [9.72, 16.15, 65.14, 90.04],
-    colors: ["#9585c5", "#8f7fc8", "#6b52d9", "#5c42e9"],
-  };
-
   const gradientActive = {
     degrees: 135.77,
     locations: [9.72, 16.15, 65.14, 90.04],
@@ -57,8 +52,6 @@ export const NewButton = ({
   };
   const getTextColor = (pressed = false) => {
     if (disabled || loading) {
-      // Outline, ghost, and text types use transparent/light backgrounds -
-      // white text would be invisible on light themes. Use theme-aware color.
       if (
         type === "outline" ||
         type === "ghost" ||
@@ -72,27 +65,30 @@ export const NewButton = ({
 
     switch (type) {
       case "outline":
-        // Web: normal #6989a4, hover #5a7a94, active #4b6b84
-        // In RN: pressed = active state (darker)
+        // Web new-button.scss: theme text main; active #4b6b84 (light) / #e7f1f7 (dark)
         if (isHighContrast) {
-          return "#ffff00"; // Yellow for high contrast
+          return "#ffff00";
         }
-        return pressed ? "#4b6b84" : "#6989a4";
+        if (isDarkMode) {
+          return pressed ? "#e7f1f7" : colors.text;
+        }
+        return pressed ? "#4b6b84" : colors.text;
       case "white":
         return "#0e202f";
       case "ghost":
         if (isHighContrast) {
-          return "#ffff00"; // Yellow for high contrast
+          return "#ffff00";
         }
         return pressed ? "#4b6b84" : "#6989a4";
       case "ghost-purple":
         if (isHighContrast) {
-          return "#ffff00"; // Yellow for high contrast
+          return "#ffff00";
         }
         return pressed ? "#4a2fd7" : "#6A4FFB";
       case "text":
+        // Web: #6989a4; hover #5a7a94; active #4b6b84
         if (isHighContrast) {
-          return "#ffff00"; // Yellow for high contrast
+          return "#ffff00";
         }
         return pressed ? "#4b6b84" : "#6989a4";
       default:
@@ -102,7 +98,7 @@ export const NewButton = ({
 
   const getBackgroundColor = (pressed = false) => {
     if (disabled || loading) {
-      return null; // Will use opacity instead
+      return null;
     }
 
     switch (type) {
@@ -115,9 +111,11 @@ export const NewButton = ({
         }
         return isDarkMode ? "#8c90eb" : "#6a4ffb";
       case "outline":
-        // Web: normal transparent, hover rgba(205, 216, 225, 0.1), active rgba(205, 216, 225, 0.2)
+        // Web: active rgba(104,77,253,0.08) light; dark active rgba(193,215,224,0.12)
         if (pressed) {
-          return "rgba(205, 216, 225, 0.2)";
+          return isDarkMode
+            ? "rgba(193, 215, 224, 0.12)"
+            : "rgba(104, 77, 253, 0.08)";
         }
         return "transparent";
       case "white":
@@ -131,19 +129,29 @@ export const NewButton = ({
     }
   };
 
-  const getBorderColor = () => {
-    if (disabled || loading) return "#cdd8e1";
+  const getBorderColor = (pressed = false) => {
+    if (disabled || loading) {
+      return isDarkMode ? "#c1d7e0" : "#cdd8e1";
+    }
 
     switch (type) {
       case "outline":
-        return "#cdd8e1";
+        // Web: hover/active use #684dfd; dark uses #c1d7e0
+        if (isDarkMode) {
+          return pressed ? "#c1d7e0" : "#c1d7e0";
+        }
+        return pressed ? "#684dfd" : "#cdd8e1";
       default:
         return "transparent";
     }
   };
 
   const getFontWeight = (pressed = false) => {
-    if (type === "text" || type === "ghost" || type === "ghost-purple") {
+    if (type === "text") {
+      if (pressed) return appStyles.fontSemiBold;
+      return appStyles.fontMedium;
+    }
+    if (type === "ghost" || type === "ghost-purple") {
       if (pressed) return appStyles.fontSemiBold;
       return appStyles.fontMedium;
     }
@@ -153,13 +161,21 @@ export const NewButton = ({
   const buttonContent = (pressed = false) => {
     const textColor = getTextColor(pressed);
     const fontWeight = getFontWeight(pressed);
+    // Web: iconColor || "#ffffff"; for non-gradient types icon should follow label contrast
+    const resolvedIconColor =
+      iconColor ||
+      (type === "gradient" || type === "solid"
+        ? "#ffffff"
+        : type === "white"
+          ? "#0e202f"
+          : textColor);
     return (
       <View style={styles.contentContainer}>
         {iconName && (
           <Icon
             name={iconName}
             size="sm"
-            color={textColor}
+            color={resolvedIconColor}
             style={styles.icon}
           />
         )}
@@ -200,17 +216,18 @@ export const NewButton = ({
 
   if (type === "gradient") {
     const getPadding = () => {
+      // Matches client-ui new-button.scss (html 62.5% → 1rem = 10px)
       switch (size) {
         case "xs":
           return { paddingVertical: 2, paddingHorizontal: 11 };
         case "sm":
           return { paddingVertical: 4, paddingHorizontal: 16 };
         case "md":
-          return { paddingVertical: 7, paddingHorizontal: 16 };
+          return { paddingVertical: 6, paddingHorizontal: 16 };
         case "lg":
-          return { paddingVertical: 13, paddingHorizontal: 24 };
+          return { paddingVertical: 12, paddingHorizontal: 20 };
         default:
-          return { paddingVertical: 7, paddingHorizontal: 16 };
+          return { paddingVertical: 6, paddingHorizontal: 16 };
       }
     };
 
@@ -255,7 +272,7 @@ export const NewButton = ({
         isFullWidth && styles.buttonFullWidth,
         type !== "gradient" && {
           backgroundColor: getBackgroundColor(pressed),
-          borderColor: getBorderColor(),
+          borderColor: getBorderColor(pressed),
           borderWidth: type === "outline" ? 1 : 0,
         },
         (type === "ghost" || type === "ghost-purple") && styles.buttonGhost,
@@ -277,7 +294,7 @@ export const NewButton = ({
 const styles = StyleSheet.create({
   button: {
     borderRadius: 8,
-    fontSize: 12,
+    fontSize: 16,
     lineHeight: 22,
     color: appStyles.colorWhite_ff,
     textAlign: "center",
@@ -288,27 +305,27 @@ const styles = StyleSheet.create({
   },
 
   button_xs: {
-    // minWidth: 89,
+    minWidth: 89,
     paddingVertical: 2,
     paddingHorizontal: 11,
   },
 
   button_sm: {
-    // minWidth: 148,
+    minWidth: 148,
     paddingVertical: 4,
     paddingHorizontal: 16,
   },
 
   button_md: {
-    // minWidth: 168,
-    paddingVertical: 7,
+    minWidth: 168,
+    paddingVertical: 6,
     paddingHorizontal: 16,
   },
 
   button_lg: {
     borderRadius: 12,
-    paddingVertical: 13,
-    paddingHorizontal: 24,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
   },
 
   buttonFullWidth: {
@@ -356,27 +373,31 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    fontSize: 12,
+    fontSize: 16,
     lineHeight: 22,
     fontFamily: appStyles.fontMedium,
     textAlign: "center",
   },
 
   text_xs: {
-    fontSize: 12,
+    fontSize: 16,
+    lineHeight: 22,
   },
 
   text_sm: {
-    fontSize: 12,
+    fontSize: 16,
+    lineHeight: 22,
   },
 
   text_md: {
-    fontSize: 14,
+    fontSize: 16,
+    lineHeight: 22,
   },
 
   text_lg: {
-    fontSize: 16,
-    fontFamily: appStyles.fontSemiBold,
+    fontSize: 18,
+    lineHeight: 22,
+    fontFamily: appStyles.fontMedium,
   },
 
   textUnderline: {
@@ -441,6 +462,11 @@ NewButton.propTypes = {
    * Icon name
    */
   iconName: PropTypes.string,
+
+  /**
+   * Icon color (web default for gradient/solid: #ffffff)
+   */
+  iconColor: PropTypes.string,
 
   /**
    * Full width button

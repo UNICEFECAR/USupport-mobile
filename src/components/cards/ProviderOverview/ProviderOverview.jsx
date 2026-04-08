@@ -5,6 +5,7 @@ import Config from "react-native-config";
 import { Avatar } from "../../avatars/Avatar/Avatar";
 import { Icon } from "../../icons/Icon";
 import { AppText } from "../../texts/AppText/AppText";
+import { NewButton } from "../../buttons/NewButton/NewButton";
 import { getDayOfTheWeek, getDateView } from "#utils";
 import { appStyles } from "#styles";
 import { useGetTheme } from "#hooks";
@@ -26,6 +27,10 @@ export const ProviderOverview = ({
   price,
   earliestAvailableSlot,
   onPress,
+  handleViewProfile,
+  handleBookSession,
+  viewProfileLabel = "View profile",
+  bookSessionLabel = "Book session",
   t,
   currencySymbol,
   specializations,
@@ -38,163 +43,206 @@ export const ProviderOverview = ({
 
   const imageURI = AMAZON_S3_BUCKET + "/" + image;
 
-  const startDate = new Date(earliestAvailableSlot);
-  const endDate = new Date(
-    new Date(earliestAvailableSlot).setHours(
-      new Date(earliestAvailableSlot).getHours() + 1
-    )
-  );
-  const dayOfWeek = t(getDayOfTheWeek(startDate));
-  const dateText = `${dayOfWeek} ${getDateView(startDate).slice(0, 5)}`;
+  const earliestSlot = earliestAvailableSlot
+    ? new Date(earliestAvailableSlot)
+    : null;
+  const dayOfWeek = earliestSlot && t ? t(getDayOfTheWeek(earliestSlot)) : "";
+  const dateText =
+    earliestSlot && dayOfWeek
+      ? `${dayOfWeek} ${getDateView(earliestSlot).slice(0, 5)}`
+      : "";
 
-  const startHour = startDate.getHours();
-  const endHour = endDate.getHours();
-  const timeText = startDate
-    ? `${startHour < 10 ? `0${startHour}` : startHour}:00 - ${
-        endHour < 10 ? `0${endHour}` : endHour
-      }:00`
-    : "";
+  const startHour = earliestSlot?.getHours();
+  const endHour = startHour != null ? startHour + 1 : null;
+  const timeText =
+    startHour != null && endHour != null
+      ? `${startHour < 10 ? `0${startHour}` : startHour}:00 - ${
+          endHour < 10 ? `0${endHour}` : endHour
+        }:00`
+      : "";
+
+  const resolvedViewProfile = handleViewProfile || onPress;
+  const showActions = !!resolvedViewProfile || !!handleBookSession;
 
   return (
-    <Pressable onPress={onPress} style={[styles.touchableOpacity, style]}>
+    <View style={[styles.container, style]}>
       <View
         style={[
           styles.providerOverview,
           { backgroundColor: colors.card },
           { ...appStyles.shadow2 },
         ]}
-        classes={["provider-overview"].join(" ")}
       >
-        <Avatar image={{ uri: imageURI }} size="md" />
-        <View style={styles.content}>
-          <View style={styles.textContent}>
-            <View style={styles.textContent}>
-              <View style={styles.nameContainer}>
-                <AppText style={styles.nameText}>{displayName}</AppText>
+        <Pressable
+          disabled={!resolvedViewProfile}
+          onPress={resolvedViewProfile}
+          style={styles.top}
+        >
+          <Avatar image={{ uri: imageURI }} size="md" />
+          <View style={styles.topTextContainer}>
+            <View style={styles.nameRow}>
+              <AppText style={[styles.nameText, { color: colors.text }]}>
+                {displayName}
+              </AppText>
+              {!price && (
                 <View
-                  style={[
-                    styles.priceBadge,
-                    !price && styles.priceBadgeFreeColor,
-                  ]}
+                  style={[styles.freeBadge, isDarkMode && styles.freeBadgeDark]}
                 >
                   <AppText
                     namedStyle="smallText"
                     style={[
-                      styles.priceBadgeText,
-                      !price && styles.priceBadgeFreeText,
-                      !price && isDarkMode && { color: colors.text },
+                      styles.freeBadgeText,
+                      isDarkMode && { color: colors.text },
                     ]}
                   >
-                    {price > 0 ? `${price}${currencySymbol}` : freeLabel}
+                    {freeLabel}
                   </AppText>
                 </View>
-              </View>
+              )}
             </View>
+            {!!specializations?.length && (
+              <AppText
+                namedStyle="smallText"
+                style={{ paddingTop: 4, color: colors.textSecondary }}
+              >
+                {specializations.join(", ")}
+              </AppText>
+            )}
+          </View>
+        </Pressable>
+
+        {!!earliestAvailableSlot && (
+          <View style={[styles.bottom, { borderTopColor: colors.inputBorder }]}>
             <AppText
               namedStyle="smallText"
-              style={{ paddingBottom: 6, color: colors.text }}
+              style={{ color: colors.textSecondary, paddingBottom: 8 }}
             >
-              {specializations?.join(", ")}
+              {t ? t("earliest_available_slot") : "Earliest available slot"}
             </AppText>
-            <AppText
-              namedStyle="smallText"
-              style={[styles.typesText, { color: colors.textSecondary }]}
-            >
-              {t("earliest_available_slot")}
-            </AppText>
-            <View style={styles.dateContainer}>
+            <View style={styles.earliestRow}>
               <Icon
                 name="calendar"
                 size="sm"
                 color={appStyles.colorGray_66768d}
-                style={styles.calendarIcon}
               />
-              <View>
-                <AppText
-                  style={{ color: colors.text }}
-                  isBold
-                  namedStyle="smallText"
-                >
-                  {dateText}
-                </AppText>
-                <AppText
-                  style={{ color: colors.text }}
-                  isBold
-                  namedStyle="smallText"
-                >
-                  {timeText}
-                </AppText>
-              </View>
+              <AppText
+                isBold
+                namedStyle="smallText"
+                style={[styles.earliestBold, { color: colors.text }]}
+              >
+                {dateText}
+              </AppText>
+            </View>
+            <View style={styles.earliestRow}>
+              <Icon name="time" size="sm" color={appStyles.colorGray_66768d} />
+              <AppText
+                isBold
+                namedStyle="smallText"
+                style={[styles.earliestBold, { color: colors.text }]}
+              >
+                {timeText}
+              </AppText>
             </View>
           </View>
-          <View>
-            <Icon
-              name="arrow-chevron-forward"
-              color={appStyles.colorPrimary_20809e}
-            />
+        )}
+
+        {showActions && (
+          <View
+            style={[styles.actions, { borderTopColor: colors.inputBorder }]}
+          >
+            <View style={styles.actionsRow}>
+              {!!resolvedViewProfile && (
+                <NewButton
+                  label={viewProfileLabel}
+                  type="outline"
+                  size="md"
+                  onPress={resolvedViewProfile}
+                  style={styles.actionHalf}
+                />
+              )}
+              {!!handleBookSession && (
+                <NewButton
+                  label={bookSessionLabel}
+                  size="md"
+                  onPress={handleBookSession}
+                  style={styles.actionHalf}
+                />
+              )}
+            </View>
           </View>
-        </View>
+        )}
       </View>
-    </Pressable>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  touchableOpacity: { width: "100%", alignItems: "center" },
+  container: { width: "100%", alignItems: "center" },
   providerOverview: {
     display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 8,
+    paddingVertical: 12,
     paddingHorizontal: 16,
     textAlign: "left",
     width: "96%",
     maxWidth: 420,
     borderRadius: 16,
   },
-  content: {
-    alignItems: "center",
+  top: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    marginLeft: 16,
-    maxWidth: "71%",
-  },
-  textContent: {
-    paddingRight: 10,
-    width: "100%",
-  },
-  nameContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    flexGrow: 1,
-  },
-  priceBadge: {
-    flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: appStyles.colorPurple_dac3f6,
+  },
+  topTextContainer: {
+    flex: 1,
+    paddingLeft: 12,
+  },
+  nameRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    gap: 10,
+  },
+  nameText: {
+    fontFamily: appStyles.fontBold,
+    flex: 1,
+  },
+  freeBadge: {
+    backgroundColor: "rgba(104, 77, 253, 0.12)",
     paddingVertical: 4,
-    paddingHorizontal: 8,
-    borderRadius: 16,
+    paddingHorizontal: 10,
+    borderRadius: 999,
     alignSelf: "flex-start",
   },
-  priceBadgeFreeColor: {
-    backgroundColor: "rgba(32, 128, 158, 0.3)",
+  freeBadgeDark: {
+    backgroundColor: "rgba(193, 215, 224, 0.12)",
   },
-  priceBadgeFreeText: {
-    color: appStyles.colorPrimary_20809e,
-  },
-  priceBadgeText: {
+  freeBadgeText: {
     color: appStyles.colorSecondary_9749fa,
   },
-  dateContainer: { flexDirection: "row", alignItems: "center" },
-  nameText: {
-    color: appStyles.colorPrimary_20809e,
-    wordBreak: "break-word",
-    fontFamily: "Nunito-Bold",
+  bottom: {
+    marginTop: 12,
+    paddingTop: 12,
+    borderTopWidth: 1,
   },
-  typesText: {
-    wordBreak: "break-word",
+  earliestRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    paddingVertical: 2,
   },
-  calendarIcon: { marginRight: 8 },
+  earliestBold: {
+    flex: 1,
+  },
+  actions: {
+    marginTop: 12,
+    paddingTop: 12,
+    borderTopWidth: 1,
+  },
+  actionsRow: {
+    flexDirection: "row",
+    gap: 12,
+  },
+  actionHalf: {
+    flex: 1,
+    minWidth: 0,
+  },
 });

@@ -1,10 +1,15 @@
 import React, { useState, useMemo, useContext } from "react";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  useWindowDimensions,
+} from "react-native";
 import { useTranslation } from "react-i18next";
 
 import {
   AppText,
-  Block,
+  Emoticon,
   Icon,
   Loading,
   MoodTrackLineChart,
@@ -26,13 +31,23 @@ import { Context } from "#services";
  *
  * @return {JSX.Element}
  */
-export const MoodTrackHistory = ({ navigation }) => {
+export const MoodTrackHistory = ({ navigation, header }) => {
+  const { width: windowWidth } = useWindowDimensions();
   const { t, i18n } = useTranslation("blocks", {
     keyPrefix: "mood-track-history",
   });
   const language = i18n.language;
   const { country } = useContext(Context);
   const IS_RO = country === "RO";
+
+  const chartWidth = useMemo(() => {
+    const blockHorizontalPadding = 32;
+    const emoticonRail = 56;
+    return Math.max(
+      160,
+      Math.floor(windowWidth - blockHorizontalPadding - emoticonRail)
+    );
+  }, [windowWidth]);
 
   const [pageNum, setPageNum] = useState(0);
   const [loadedPages, setLoadedPages] = useState([]);
@@ -83,19 +98,13 @@ export const MoodTrackHistory = ({ navigation }) => {
   }, [loadedPages, pageNum]);
 
   useGetMoodTrackEntries(limitToLoad, pageNum, onSuccess, enabled);
-  const emoticons = [
-    { name: "happy", label: "Happy", value: 4, emoji: "😍" },
-    { name: "good", label: "Good", value: 3, emoji: "😀" },
-    { name: "sad", label: "Sad", value: 2, emoji: "😔" },
-    { name: "depressed", label: "Depressed", value: 1, emoji: "☹️" },
-    { name: "worried", label: "Worried", value: 0, emoji: "😣" },
-  ];
+  const emoticons = ["happy", "good", "sad", "depressed", "worried"];
 
   const renderEmoticons = () => {
-    return emoticons.map((emoticon, index) => {
+    return emoticons.map((name, index) => {
       return (
         <View style={styles.emoticonItem} key={index}>
-          <AppText style={styles.emojiText}>{emoticon.emoji}</AppText>
+          <Emoticon name={name} size="sm" style={styles.emoticon} />
         </View>
       );
     });
@@ -107,11 +116,7 @@ export const MoodTrackHistory = ({ navigation }) => {
         mood.time.getDate() > 9
           ? mood.time.getDate()
           : `0${mood.time.getDate()}`
-      }.${
-        mood.time.getMonth() + 1 > 9
-          ? mood.time.getMonth() + 1
-          : `0${mood.time.getMonth() + 1}`
-      }`;
+      } ${t(`month_${mood.time.getMonth() + 1}`)}`;
       const hourText = `${mood.time.getHours()}:${
         mood.time.getMinutes() > 9
           ? mood.time.getMinutes()
@@ -149,7 +154,8 @@ export const MoodTrackHistory = ({ navigation }) => {
   const { onTouchStart, onTouchEnd } = useSwipe(onSwipeLeft, onSwipeRight, 30);
 
   return (
-    <Block style={styles.block}>
+    <View style={styles.block}>
+      {header}
       {!moodTrackerData[limit] ? (
         <View style={styles.loadingContainer}>
           <Loading />
@@ -177,9 +183,8 @@ export const MoodTrackHistory = ({ navigation }) => {
                         : {}
                     }
                     disabled={!moodTrackerData[limit].hasMore}
-                    style={{ marginTop: 39.8 }}
                   >
-                    <Icon name="arrow-chevron-back" size="sm" color="#20809E" />
+                    <Icon name="arrow-chevron-back" size="md" color="#20809E" />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -188,10 +193,12 @@ export const MoodTrackHistory = ({ navigation }) => {
                   data={moodTrackerData[limit]?.entries || []}
                   handleSelectItem={handleMoodClick}
                   selectedItemId={selectedItemId}
-                  hidePointsAtIndex={[1, 2, 3, 4, 5]}
+                  width={chartWidth}
+                  paddingLeft={0}
+                  paddingRight={0}
                 />
                 <View style={styles.datesContainer}>
-                  {renderDates()}
+                  <View style={styles.datesRow}>{renderDates()}</View>
                   <View
                     style={[
                       styles.loadNextContainer,
@@ -204,7 +211,7 @@ export const MoodTrackHistory = ({ navigation }) => {
                     >
                       <Icon
                         name="arrow-chevron-forward"
-                        size="sm"
+                        size="md"
                         color="#20809E"
                         style={styles.icon}
                       />
@@ -225,11 +232,7 @@ export const MoodTrackHistory = ({ navigation }) => {
               selectedMood.time.getDate() > 9
                 ? selectedMood.time.getDate()
                 : `0${selectedMood.time.getDate()}`
-            }.${
-              selectedMood.time.getMonth() + 1 > 9
-                ? selectedMood.time.getMonth() + 1
-                : `0${selectedMood.time.getMonth() + 1}`
-            }`;
+            } ${t(`month_${selectedMood.time.getMonth() + 1}`)}`;
             const hourText = `${selectedMood.time.getHours()}:${
               selectedMood.time.getMinutes() > 9
                 ? selectedMood.time.getMinutes()
@@ -380,17 +383,19 @@ export const MoodTrackHistory = ({ navigation }) => {
           )}
         </React.Fragment>
       )}
-    </Block>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   block: {
-    paddingBottom: 40,
+    paddingHorizontal: 16,
+    paddingBottom: 32,
   },
   chartContainer: {
     flexDirection: "row",
-    marginTop: 20,
+    marginTop: 16,
+    width: "100%",
   },
   dateItem: {
     alignItems: "center",
@@ -398,10 +403,21 @@ const styles = StyleSheet.create({
   datesContainer: {
     alignItems: "center",
     flexDirection: "row",
+    justifyContent: "flex-start",
+    position: "relative",
+    marginLeft: -12,
+  },
+  datesRow: {
+    flex: 1,
+    flexDirection: "row",
     justifyContent: "space-between",
+    paddingRight: 40,
   },
   disabled: {
-    opacity: 0.4,
+    opacity: 0.5,
+  },
+  emoticon: {
+    transform: [{ scale: 0.73 }],
   },
   emoticonItem: {
     alignItems: "center",
@@ -412,23 +428,25 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     height: 240,
     justifyContent: "space-between",
+    marginRight: 8,
   },
-  emojiText: {
-    fontSize: 22,
-  },
-  icon: { marginRight: 16 },
+  icon: { marginRight: 8 },
   lineChartContainer: {
+    flex: 1,
     flexDirection: "column",
+    minWidth: 0,
   },
   loadNextContainer: {
     height: 40,
     justifyContent: "center",
+    alignItems: "flex-end",
+    marginBottom: 12,
   },
   loadPreviusContainer: {
     alignItems: "center",
     height: 40,
     justifyContent: "center",
-    width: 15,
+    width: 40,
   },
   loadingContainer: {
     alignItems: "center",

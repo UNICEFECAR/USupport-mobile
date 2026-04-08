@@ -8,7 +8,6 @@ import { PrivacyPolicy } from "../PrivacyPolicy";
 
 import {
   AccessToken,
-  AppButton,
   AppText,
   Block,
   ButtonWithIcon,
@@ -295,7 +294,7 @@ export const UserDetails = ({
     <Block style={styles.block}>
       <Heading heading={t("heading")} handleGoBack={handleGoBack} />
       <ScrollView
-        contentContainerStyle={{ flexGrow: 1, paddingTop: 64 }}
+        contentContainerStyle={{ flexGrow: 1, paddingTop: 6 }}
         showsVerticalScrollIndicator={false}
       >
         {clientDataQuery.isLoading ? (
@@ -449,10 +448,7 @@ export const UserDetails = ({
                   isToggled={dataProcessing ? true : false}
                   handleToggle={handleToggleClick}
                 /> */}
-                <AppText
-                  namedStyle="text"
-                  style={{ color: colors.textSecondary }}
-                >
+                <AppText namedStyle="text">
                   <Trans
                     components={[
                       <AppText
@@ -603,7 +599,7 @@ const styles = StyleSheet.create({
   },
   privacyPolicyText: {
     color: appStyles.colorBlue_3d527b,
-    fontFamily: "Nunito-SemiBold",
+    fontFamily: appStyles.fontSemiBold,
     fontSize: 18,
   },
   textButton: {

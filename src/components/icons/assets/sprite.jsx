@@ -1463,6 +1463,158 @@ const EmoticonWorriedLg = ({}) => {
   );
 };
 
+const EmoticonHistorySm = ({}) => {
+  return (
+    <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+      <Circle cx="24" cy="24" r="24" fill="#F4B183" />
+      <Path
+        d="M3.61 23.9142C3.61 12.6987 12.7016 3.60811 23.9159 3.60811C35.1303 3.60811 44.2212 12.6987 44.2212 23.9142C44.2212 35.128 35.1303 44.2188 23.9159 44.2188C12.7016 44.2188 3.61 35.128 3.61 23.9142Z"
+        fill="white"
+      />
+      <Circle
+        cx="24"
+        cy="24"
+        r="8"
+        stroke="#1E3C4A"
+        strokeWidth="2"
+        fill="none"
+      />
+      <Path
+        d="M24 19V24L27 26"
+        stroke="#1E3C4A"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M20 14H16V18"
+        stroke="#1E3C4A"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M16 18C17.5 15.5 20.5 14 24 14C29 14 33 18 33 23"
+        stroke="#1E3C4A"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </Svg>
+  );
+};
+
+const EmoticonHistoryLg = ({}) => {
+  return (
+    <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+      <Circle cx="32" cy="32" r="32" fill="#F4B183" />
+      <Path
+        d="M6 32.0009C6 17.64 17.6406 6 32.0001 6C46.3596 6 58 17.64 58 32.0009C58 46.3597 46.3596 58 32.0001 58C17.6406 58 6 46.3597 6 32.0009Z"
+        fill="white"
+      />
+      <Circle
+        cx="32"
+        cy="32"
+        r="11"
+        stroke="#1E3C4A"
+        strokeWidth="2.5"
+        fill="none"
+      />
+      <Path
+        d="M32 25V32L36 35"
+        stroke="#1E3C4A"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M26 19H20V25"
+        stroke="#1E3C4A"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M20 25C22 21 26 19 32 19C39 19 44 24 44 31"
+        stroke="#1E3C4A"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
+    </Svg>
+  );
+};
+
+const EmoticonInsightSm = ({}) => {
+  return (
+    <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+      <Defs>
+        <LinearGradient
+          id="moodInsightGradSm"
+          x1="0"
+          y1="0"
+          x2="48"
+          y2="48"
+        >
+          <Stop offset="0%" stopColor="#2F80ED" />
+          <Stop offset="100%" stopColor="#56CCF2" />
+        </LinearGradient>
+      </Defs>
+      <Circle cx="24" cy="24" r="24" fill="url(#moodInsightGradSm)" />
+      <Circle cx="24" cy="24" r="20" fill="white" />
+      <Circle cx="18.5" cy="21" r="1.8" fill="#1E3C4A" />
+      <Circle cx="29.5" cy="21" r="1.8" fill="#1E3C4A" />
+      <Path
+        d="M16 28C17.8 31.5 20.8 33 24 33C27.2 33 30.2 31.5 32 28"
+        stroke="#1E3C4A"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+      <Circle
+        cx="35"
+        cy="14"
+        r="7"
+        fill="white"
+        stroke="url(#moodInsightGradSm)"
+        strokeWidth="1.8"
+      />
+      <Rect x="34.3" y="13" width="1.4" height="4.5" rx="0.7" fill="#2F80ED" />
+      <Circle cx="35" cy="11.5" r="1" fill="#2F80ED" />
+    </Svg>
+  );
+};
+
+const EmoticonInsightLg = ({}) => {
+  return (
+    <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+      <Defs>
+        <LinearGradient id="moodInsightGradLg" x1="0" y1="0" x2="64" y2="64">
+          <Stop offset="0%" stopColor="#2F80ED" />
+          <Stop offset="100%" stopColor="#56CCF2" />
+        </LinearGradient>
+      </Defs>
+      <Circle cx="32" cy="32" r="32" fill="url(#moodInsightGradLg)" />
+      <Circle cx="32" cy="32" r="26" fill="white" />
+      <Path
+        d="M22 38C24 42 28 44 32 44C36 44 40 42 42 38"
+        stroke="#1E3C4A"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
+      <Circle cx="25" cy="28" r="2.5" fill="#1E3C4A" />
+      <Circle cx="39" cy="28" r="2.5" fill="#1E3C4A" />
+      <Circle
+        cx="46"
+        cy="18"
+        r="9"
+        fill="white"
+        stroke="url(#moodInsightGradLg)"
+        strokeWidth="2.5"
+      />
+      <Rect x="45" y="16" width="2" height="6" rx="1" fill="#2F80ED" />
+      <Circle cx="46" cy="13.5" r="1.3" fill="#2F80ED" />
+    </Svg>
+  );
+};
+
 const IconPaymentHistory = ({ color = appStyles.colorGray_a6b4b8 }) => {
   return (
     <Svg viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2275,6 +2427,10 @@ export {
   EmoticonDepressedLg,
   EmoticonWorriedSm,
   EmoticonWorriedLg,
+  EmoticonHistorySm,
+  EmoticonHistoryLg,
+  EmoticonInsightSm,
+  EmoticonInsightLg,
   IconPaymentHistory,
   FaceId,
   IconLike,

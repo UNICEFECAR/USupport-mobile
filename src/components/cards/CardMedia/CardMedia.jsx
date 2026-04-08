@@ -271,9 +271,7 @@ export const CardMedia = ({
             ]}
           >
             <NewButton
-              label={t(
-                contentType === "articles" ? "read_more_button" : "view_more"
-              )}
+              label={t(contentType === "articles" ? "read_more" : "view_more")}
               onPress={onPress}
               style={styles.readMoreButton}
             />

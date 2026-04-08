@@ -71,6 +71,11 @@
       "heading": "Мои консультации",
       "view_all": "Посмотреть все",
       "schedule_consultation_label": "Запланировать консультацию",
+      "heading_need_support": "Нужна поддержка?",
+      "explore_resources_label": "Изучить ресурсы",
+      "dummy_provider_1": "Др. Иванова",
+      "dummy_provider_2": "Др. Петрова",
+      "dummy_provider_3": "Др. Смирнова",
       "live_text": "Сейчас",
       "accept_button_label": "Принять консультацию",
       "join_button_label": "Присоединиться",
@@ -221,6 +226,7 @@
       "welcome-heading": "Welcome",
       "heading": "Как Вы себя чувствуете сегодня?",
       "mood_tracker": "Трекер настроения",
+      "additional_comment_label": "Что заставило Вас так себя чувствовать?",
       "additional_comment_placeholder": "Что заставило Вас так себя чувствовать?",
       "submit_mood_track": "Отправить",
       "add_mood_tracker_success": "Ваше настроение было успешно добавлено ",
@@ -233,6 +239,18 @@
       "check_out": "Посмотреть"
     },
     "mood-track-history": {
+      "month_1": "Янв",
+      "month_2": "Фев",
+      "month_3": "Мар",
+      "month_4": "Апр",
+      "month_5": "Май",
+      "month_6": "Июн",
+      "month_7": "Июл",
+      "month_8": "Авг",
+      "month_9": "Сен",
+      "month_10": "Окт",
+      "month_11": "Ноя",
+      "month_12": "Дек",
       "saturday": "Сб",
       "happy": "Отлично",
       "good": "Хорошо",
@@ -258,10 +276,15 @@
       "appointment": "Уведомления о встречах",
       "minutes_before": "минут до",
       "heading": "",
-      "subheading": ""
+      "subheading": "",
+      "success": "Настройки уведомлений успешно сохранены"
     },
     "notifications": {
       "heading": "Уведомления",
+      "panel_heading": "Уведомления",
+      "tab_all": "Все",
+      "tab_new": "Новые",
+      "tab_read": "Прочитанные",
       "mark_read": "Отметить все как прочитанное",
       "subheading": "Здесь Вы можете найти все уведомления, которые когда-либо получали в своем аккаунте.",
       "consultation_booking": "Ваша консультация с <0>{{providerName}}</0> была успешно <0>запланирована</0> на <0>{{date}}</0> с <0>{{startHour}}</0> до <0>{{endHour}}</0>",
@@ -628,12 +651,17 @@
       "high_contrast_mode": "Режим высокого контраста"
     },
     "welcome": {
-      "heading": "Добро пожаловать в",
+      "heading": "Welcome to Client Portal",
       "country": "Страна",
       "language": "Язык",
       "placeholder": "Выбрать",
       "button": "Продолжить",
       "poland_description": "uSupport — это платформа психического здоровья и благополучия, предназначенная для молодежи (16-24 года).",
+      "register_email": "Зарегистрироваться с помощью электронной почты",
+      "register_anonymously": "Зарегистрироваться без электронной почты",
+      "continue_as_guest": "Продолжить без регистрации",
+      "already_have_account": "Уже есть аккаунт?",
+      "log_in": "Войти",
       "ro_password_modal_heading": "Требуется пароль",
       "ro_password_modal_text": "Введите пароль, чтобы продолжить.",
       "ro_password_modal_cta": "Продолжить",
@@ -649,7 +677,7 @@
       "most_popular": "Самые популярные",
       "newest": "Новые",
       "your_questions": "Ваш вопрос",
-      "answer_by": "Ответ от:",
+      "answer_by": "Ответил:",
       "schedule_consultation": "Запланировать консультацию",
       "today": "Сегодня",
       "no_questions_found": "Вопросы не найдены",
@@ -867,9 +895,14 @@
       "save": "Сохранить"
     },
     "baseline-assessment-dashboard": {
-      "heading": "Ваш базовый опрос",
-      "no_assessment_text": "Вы ещё не прошли базовый опрос. Пройдите его, чтобы получить персонализированные рекомендации о вашем психическом здоровье.",
-      "start_new_assessment": "Начать опрос",
+      "heading": "Ваша базовая оценка",
+      "heading_completed": "Your Latest Assessment",
+      "no_assessment_text": "Вы еще не завершили базовую оценку. Завершите ее, чтобы получить персонализированные рекомендации о вашем психическом здоровье.",
+      "no_assessment_description": "Take a quick assessment to understand your mental health better and get personalized recommendations.",
+      "explore_heading": "Find Support Near You",
+      "explore_card_description": "After completing the baseline assessment, we will help you find the most relevant support near you.",
+      "explore_button_label": "Исследовать карту",
+      "start_new_assessment": "Начать оценку",
       "completed": "Завершено",
       "in_progress": "В процессе",
       "continue": "Продолжить",
@@ -877,10 +910,12 @@
       "view_detailed_results": "Посмотреть подробные результаты",
       "started_at": "Начато {{date}}",
       "answered_questions": "Отвечено на вопросы: {{current}}/27",
-      "latest_result": "Latest Result",
-      "psychological": "Psychological",
-      "biological": "Biological",
-      "social": "Social"
+      "latest_result": "Последние результаты",
+      "psychological": "Психологические",
+      "biological": "Биологические",
+      "social": "Социальные",
+      "how_it_works": "Как это работает",
+      "see_last_result": "Базовая оценка результатов"
     },
     "baseline-assesment-result": {
       "assessment_completed": "Assessment completed",
@@ -930,6 +965,9 @@
     }
   },
   "screens": {
+    "screen": {
+      "go_back": "Назад"
+    },
     "article-information": {
       "heading": "Больше статей",
       "no_results": "На выбранном языке нет похожих статей.",

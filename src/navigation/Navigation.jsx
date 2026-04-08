@@ -28,11 +28,11 @@ import uuid from "react-native-uuid";
 import messaging from "@react-native-firebase/messaging";
 
 import { AppNavigation } from "./AppNavigation";
-import { AuthNavigation } from "./AuthNavigation";
 import { linkingConfig, getMainStackStateFromUrl } from "./linking";
 
 import { appColors } from "#styles";
 import { LocalAuthenticationScreen } from "#screens";
+import { AuthModalManager } from "../components/auth/AuthModalManager";
 import {
   useAddPushNotificationToken,
   useGetClientData,
@@ -371,17 +371,6 @@ export function Navigation({
         if (!token) {
           // Not authenticated: remember deep link and send user to auth flow
           setPendingDeepLink(initialUrl);
-          try {
-            const localStorageCountry = await localStorage.getItem("country");
-            const hasCountry = country || localStorageCountry;
-            if (navigationRef.isReady()) {
-              navigationRef.navigate(hasCountry ? "Login" : "Welcome");
-            }
-          } catch {
-            if (navigationRef.isReady()) {
-              navigationRef.navigate("Welcome");
-            }
-          }
           return;
         }
 
@@ -429,19 +418,6 @@ export function Navigation({
       // navigate them into the appropriate auth screen first.
       if (!token) {
         setPendingDeepLink(url);
-        (async () => {
-          try {
-            const localStorageCountry = await localStorage.getItem("country");
-            const hasCountry = country || localStorageCountry;
-            if (navigationRef.isReady()) {
-              navigationRef.navigate(hasCountry ? "Login" : "Welcome");
-            }
-          } catch {
-            if (navigationRef.isReady()) {
-              navigationRef.navigate("Welcome");
-            }
-          }
-        })();
         return;
       }
 
@@ -483,9 +459,8 @@ export function Navigation({
             />
             <AppNavigation />
           </>
-        ) : (
-          <AuthNavigation />
-        )}
+        ) : null}
+        <AuthModalManager />
         {children}
       </View>
     </NavigationContainer>

@@ -71,6 +71,11 @@
       "heading": "Consultațiile mele",
       "view_all": "Vedeți toate",
       "schedule_consultation_label": "Programați o consultație",
+      "heading_need_support": "Ai nevoie de sprijin?",
+      "explore_resources_label": "Explorați resursele",
+      "dummy_provider_1": "Dr. Popescu",
+      "dummy_provider_2": "Dr. Ionescu",
+      "dummy_provider_3": "Dr. Popa",
       "live_text": "Acum",
       "accept_button_label": "Acceptați consultația",
       "join_button_label": "Intrare",
@@ -222,6 +227,7 @@
       "heading": "Urmărirea stării de spirit",
       "mood_tracker": "Urmărirea stării de spirit",
       "how_it_works": "Cum funcționează",
+      "additional_comment_label": "Ce v-a făcut să vă simțiți așa?",
       "additional_comment_placeholder": "Ce v-a făcut să vă simțiți așa?",
       "submit_mood_track": "Trimiteți",
       "add_mood_tracker_success": "Starea dvs. de spirit zilnică a fost adăugată",
@@ -233,6 +239,18 @@
       "check_out": "Vezi detalii"
     },
     "mood-track-history": {
+      "month_1": "Ian",
+      "month_2": "Feb",
+      "month_3": "Mar",
+      "month_4": "Apr",
+      "month_5": "Mai",
+      "month_6": "Iun",
+      "month_7": "Iul",
+      "month_8": "Aug",
+      "month_9": "Sep",
+      "month_10": "Oct",
+      "month_11": "Nov",
+      "month_12": "Dec",
       "saturday": "sâ",
       "happy": "Fericit",
       "good": "Bine",
@@ -258,10 +276,15 @@
       "appointment": "Notificări programare",
       "minutes_before": "minute înainte",
       "heading": "Setări notificări",
-      "subheading": "Aici puteți gestiona ce tip de notificare doriți să primiți sau nu."
+      "subheading": "Aici puteți gestiona ce tip de notificare doriți să primiți sau nu.",
+      "success": "Setări salvate"
     },
     "notifications": {
       "heading": "Notificări",
+      "panel_heading": "Notificări",
+      "tab_all": "Toate",
+      "tab_new": "Noi",
+      "tab_read": "Citite",
       "mark_read": "Marcați toate ca citite",
       "subheading": "Aici găsiți toate notificările pe care le-ați primit vreodată",
       "consultation_booking": "Consultația dvs. cu <0>{{providerName}}</0> a fost <0>programată</0> pentru <0>{{{date}}</0> de la <0>{{{startHour}}</0> la <0>{{{endHour}}</0>",
@@ -628,12 +651,17 @@
       "high_contrast_mode": "Mod de contrast ridicat"
     },
     "welcome": {
-      "heading": "Bine ați venit la",
+      "heading": "Welcome to Client Portal",
       "country": "Țara",
       "language": "Limba",
       "placeholder": "Selectați",
       "button": "Continuați",
       "poland_description": "uSupport este o platformă pentru sănătate mintală și bunăstare, concepută pentru tineri (16–24).",
+      "register_email": "Înregistrare cu e-mail",
+      "register_anonymously": "Înregistrare anonimă",
+      "continue_as_guest": "Continuați fără înregistrare",
+      "already_have_account": "Aveți deja un cont?",
+      "log_in": "Autentificare",
       "ro_password_modal_heading": "Parolă necesară",
       "ro_password_modal_text": "Introduceți parola pentru a continua.",
       "ro_password_modal_cta": "Continuați",
@@ -649,7 +677,7 @@
       "most_popular": "Cele mai populare",
       "newest": "Cel mai nou",
       "your_questions": "Întrebările dvs.",
-      "answer_by": "Răspundeți prin:",
+      "answer_by": "Răspuns de către:",
       "schedule_consultation": "Programare consultație",
       "today": "Astăzi",
       "no_questions_found": "Nu s-au găsit întrebări",
@@ -897,7 +925,12 @@
     },
     "baseline-assessment-dashboard": {
       "heading": "Evaluarea dvs. de bază",
+      "heading_completed": "Ultima dvs. evaluare",
       "no_assessment_text": "Nu ați completat încă o evaluare de bază. Completați una pentru a primi recomandări personalizate despre sănătatea dvs. mintală.",
+      "no_assessment_description": "Faceți o evaluare rapidă pentru a vă înțelege mai bine sănătatea mintală și a primi recomandări personalizate.",
+      "explore_heading": "Găsiți sprijin în apropierea dvs.",
+      "explore_card_description": "Găsiți organizații și resurse de sănătate mintală în zona dvs.",
+      "explore_button_label": "Explorați organizațiile",
       "start_new_assessment": "Începe evaluarea",
       "completed": "Finalizat",
       "in_progress": "În curs",
@@ -911,7 +944,7 @@
       "biological": "Biologic",
       "social": "Social",
       "how_it_works": "Cum funcționează",
-      "see_last_result": "Rezultatele cele mai recente"
+      "see_last_result": "Vizualizați rezultatele"
     },
     "baseline-assesment-result": {
       "assessment_completed": "Evaluare finalizata",
@@ -962,6 +995,9 @@
     }
   },
   "screens": {
+    "screen": {
+      "go_back": "Înapoi"
+    },
     "article-information": {
       "heading": "Mai multe articole",
       "no_results": "Nu există articole similare pentru limba selectată. ",

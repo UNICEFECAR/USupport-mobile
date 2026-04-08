@@ -22,6 +22,15 @@ import { NoInternetModal, RequireRegistration } from "#modals";
 import { DropdownBackdrop } from "#backdrops";
 import { FIVE_MINUTES, isTokenExpired } from "#utils";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import {
+  useFonts,
+  Inter_300Light,
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_700Bold,
+  Inter_800ExtraBold,
+} from "@expo-google-fonts/inter";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -66,6 +75,15 @@ class AppErrorBoundary extends React.Component {
 }
 
 function App() {
+  const [fontsLoaded, fontError] = useFonts({
+    Inter_300Light,
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+    Inter_700Bold,
+    Inter_800ExtraBold,
+  });
+
   const [token, setToken] = useState();
   const [initialRouteName, setInitialRouteName] = useState("TabNavigation"); // Initial route name for the AppNavigation
   const [initialAuthRouteName, setInitialAuthRouteName] = useState("Welcome"); // Initial route name for the AuthNavigation
@@ -215,16 +233,28 @@ function App() {
     checkIsTmpUser();
   }, [token]);
 
-  // Hide the splash screen once the root view is laid out
+  // Hide splash once Inter is ready (or failed — fall back to system fonts)
+  useEffect(() => {
+    if (fontsLoaded || fontError) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded, fontError]);
+
   const onLayoutRootView = useCallback(async () => {
-    await SplashScreen.hideAsync();
-  }, []);
+    if (fontsLoaded || fontError) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded, fontError]);
 
   // if (error) {
   //   return (
   //     <View style={styles.container}>{JSON.stringify(error, null, 2)}</View>
   //   );
   // }
+
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
 
   const contextValues = {
     token,

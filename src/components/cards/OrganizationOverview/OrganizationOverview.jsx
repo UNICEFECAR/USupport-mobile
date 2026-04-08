@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
   nameText: {
     color: appStyles.colorPrimary_20809e,
     wordBreak: "break-word",
-    fontFamily: "Nunito-Bold",
+    fontFamily: appStyles.fontBold,
     flex: 1,
   },
   paymentBadge: {

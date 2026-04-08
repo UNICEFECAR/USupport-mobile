@@ -71,6 +71,11 @@
       "heading": "Moje konsultacje",
       "view_all": "Wyświetl wszystkie",
       "schedule_consultation_label": "Zaplanuj konsultację",
+      "heading_need_support": "Potrzebujesz wsparcia?",
+      "explore_resources_label": "Poznaj zasoby",
+      "dummy_provider_1": "Dr Kowalski",
+      "dummy_provider_2": "Dr Nowak",
+      "dummy_provider_3": "Dr Wiśniewski",
       "live_text": "Teraz",
       "accept_button_label": "Zaakceptuj konsultację",
       "join_button_label": "Dołącz",
@@ -221,6 +226,7 @@
       "welcome-heading": "Welcome",
       "heading": "Monitor nastroju",
       "mood_tracker": "Monitor nastroju",
+      "additional_comment_label": "Co sprawiło, że tak się poczułeś/aś?",
       "additional_comment_placeholder": "Co sprawiło, że tak się poczułeś/aś?",
       "submit_mood_track": "Prześlij",
       "add_mood_tracker_success": "Twój codzienny nastrój został pomyślnie dodany",
@@ -233,6 +239,18 @@
       "check_out": "Zobacz"
     },
     "mood-track-history": {
+      "month_1": "Sty",
+      "month_2": "Lut",
+      "month_3": "Mar",
+      "month_4": "Kwi",
+      "month_5": "Maj",
+      "month_6": "Cze",
+      "month_7": "Lip",
+      "month_8": "Sie",
+      "month_9": "Wrz",
+      "month_10": "Paź",
+      "month_11": "Lis",
+      "month_12": "Gru",
       "saturday": "Sob.",
       "happy": "Szczęśliwy/a",
       "good": "Zadowolony/a",
@@ -258,10 +276,15 @@
       "appointment": "Powiadomienia o spotkaniach",
       "minutes_before": "minut przed",
       "heading": "",
-      "subheading": ""
+      "subheading": "",
+      "success": "Ustawienia powiadomień zostały pomyślnie zapisane"
     },
     "notifications": {
       "heading": "Powiadomienia",
+      "panel_heading": "Powiadomienia",
+      "tab_all": "Wszystkie",
+      "tab_new": "Nowe",
+      "tab_read": "Przeczytane",
       "mark_read": "Oznacz wszystkie jako przeczytane",
       "subheading": "Tutaj znajdziesz wszystkie powiadomienia otrzymane na swoim koncie.",
       "consultation_booking": "Twoja konsultacja z <0>{{providerName}}</0> została <0>umówiona</0> pomyślnie na <0>{{date}}</0> od <0>{{startHour}}</0> do <0>{{endHour}}</0>",
@@ -628,12 +651,17 @@
       "high_contrast_mode": "Tryb wysokiego kontrastu"
     },
     "welcome": {
-      "heading": "Witamy w",
+      "heading": "Welcome to Client Portal",
       "country": "Kraj",
       "language": "Język",
       "placeholder": "Wybrać",
       "button": "Kontynuuj",
       "poland_description": "uSupport to platforma zdrowia psychicznego i dobrego samopoczucia przeznaczona dla młodych osób (16-24)",
+      "register_email": "Zarejestruj się za pomocą adresu e-mail",
+      "register_anonymously": "Rejestracja anonimowa",
+      "continue_as_guest": "Kontynuuj bez rejestracji",
+      "already_have_account": "Masz już konto?",
+      "log_in": "Zaloguj się",
       "ro_password_modal_heading": "Wymagane hasło",
       "ro_password_modal_text": "Wprowadź hasło, aby kontynuować.",
       "ro_password_modal_cta": "Kontynuuj",
@@ -649,7 +677,7 @@
       "most_popular": "Najpopularniejsze",
       "newest": "Najnowsze",
       "your_questions": "Twoje pytanie",
-      "answer_by": "Odpowiedź od:",
+      "answer_by": "Odpowiedź udzielona przez:",
       "schedule_consultation": "Zaplanuj konsultację",
       "today": "Dzisiaj",
       "no_questions_found": "Nie znaleziono żadnych pytań",
@@ -910,7 +938,12 @@
     },
     "baseline-assessment-dashboard": {
       "heading": "Twój podstawowy egzamin",
+      "heading_completed": "Your Latest Assessment",
       "no_assessment_text": "Nie przeszedłeś jeszcze podstawowego egzaminu. Przejdź go, aby otrzymać personalizowane rekomendacje dotyczące Twojego zdrowia psychicznego.",
+      "no_assessment_description": "Take a quick assessment to understand your mental health better and get personalized recommendations.",
+      "explore_heading": "Find Support Near You",
+      "explore_card_description": "After completing the baseline assessment, we will help you find the most relevant support near you.",
+      "explore_button_label": "Odkryj mapę",
       "start_new_assessment": "Rozpocznij egzamin",
       "completed": "Zakończone",
       "in_progress": "W toku",
@@ -924,7 +957,7 @@
       "biological": "Biological",
       "social": "Social",
       "how_it_works": "How it works",
-      "see_last_result": "Latest Results"
+      "see_last_result": "Ostatnie wyniki"
     },
     "baseline-assesment-result": {
       "assessment_completed": "Assessment completed",
@@ -977,6 +1010,9 @@
     }
   },
   "screens": {
+    "screen": {
+      "go_back": "Wróć"
+    },
     "article-information": {
       "heading": "Więcej artykułów",
       "no_results": "Brak podobnych artykułów dla aktualnie wybranego języka. ",

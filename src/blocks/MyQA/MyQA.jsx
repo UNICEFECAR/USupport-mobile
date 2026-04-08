@@ -11,7 +11,7 @@ import {
   Loading,
   Dropdown,
 } from "#components";
-import { useGetLanguages } from "#hooks";
+import { useGetTheme, useGetLanguages } from "#hooks";
 import { localStorage } from "#services";
 import appStyles from "../../styles/appStyles";
 
@@ -43,6 +43,7 @@ export const MyQA = ({
   onGoBack,
 }) => {
   const { t, i18n } = useTranslation("blocks", { keyPrefix: "my-qa" });
+  const { isHighContrast } = useGetTheme();
   const selectedTab = tabs.find((x) => x.isSelected)?.value;
 
   const { data: languages } = useGetLanguages();
@@ -175,20 +176,27 @@ export const MyQA = ({
         <View style={styles.headerRow}>
           <TouchableOpacity
             onPress={onGoBack}
-            hitSlop={8}
-            style={styles.goBackButton}
+            style={styles.goBackRow}
+            hitSlop={appStyles.hitSlop}
           >
-            <Icon name="arrow-chevron-back" size="md" color="#20809E" />
+            <Icon
+              style={styles.goBackIcon}
+              name="arrow-chevron-back"
+              color={isHighContrast ? "#fff" : appStyles.colorPrimary_20809e}
+            />
+            <AppText namedStyle="text" isBold style={styles.goBackText}>
+              {t("go_back")}
+            </AppText>
           </TouchableOpacity>
+        </View>
+      )}
+      <Block style={styles.block}>
+        <View style={styles.headingContainer}>
           <NewButton
             label={howItWorksLabel}
             size="lg"
             onPress={onHowItWorksPress}
           />
-        </View>
-      )}
-      <Block style={styles.block}>
-        <View style={styles.headingContainer}>
           <TouchableOpacity
             onPress={handleFilterTags}
             style={styles.filterButton}
@@ -240,11 +248,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 10,
   },
+  goBackRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 16,
+    alignSelf: "flex-start",
+  },
   headingContainer: {
     alignItems: "center",
     flexDirection: "row",
-    justifyContent: "flex-end",
-    marginTop: 16,
+    justifyContent: "space-between",
     width: "100%",
   },
   loadingContainer: {
@@ -261,8 +274,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 16,
-    marginTop: 8,
-    marginBottom: 8,
+    marginTop: 16,
   },
   goBackButton: {
     paddingVertical: 8,

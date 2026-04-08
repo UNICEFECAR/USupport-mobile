@@ -2,9 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { Icon } from "../../icons/Icon";
-import { NewButton } from "../../buttons";
-
-import { appStyles } from "#styles";
+import { AppText } from "../../texts/AppText/AppText";
 
 import Config from "react-native-config";
 const { AMAZON_S3_BUCKET } = Config;
@@ -39,12 +37,9 @@ export const ProfilePicturePreview = ({
         </TouchableOpacity>
         <Image source={imageSrc} style={styles.image} />
       </View>
-      <NewButton
-        type="ghost"
-        label={changePhotoText}
-        onPress={handleChangeClick}
-        style={styles.changePhotoButton}
-      />
+      <TouchableOpacity onPress={handleChangeClick}>
+        <AppText style={styles.changePhotoText}>{changePhotoText}</AppText>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -73,9 +68,10 @@ const styles = StyleSheet.create({
     objectFit: "cover",
   },
 
-  changePhotoButton: {
+  changePhotoText: {
     marginLeft: 12,
     minWidth: "auto",
+    textDecorationLine: "underline",
   },
 });
 

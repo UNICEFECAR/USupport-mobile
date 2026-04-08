@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { LineChart } from "react-native-chart-kit";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import { appStyles } from "#styles";
-import { useGetTheme } from "#hooks";
+
+const PLOT_HEIGHT = 220;
+const DEFAULT_X_LABELS_HEIGHT_RATIO = 0.75;
+const svgHeight = Math.ceil(PLOT_HEIGHT / DEFAULT_X_LABELS_HEIGHT_RATIO);
 
 /**
  * MoodTrackLineChart
@@ -16,8 +19,14 @@ export const MoodTrackLineChart = ({
   data,
   selectedItemId,
   handleSelectItem,
+  width: widthProp,
+  paddingLeft = 0,
+  paddingRight = 0,
 }) => {
-  const { colors } = useGetTheme();
+  const chartWidth =
+    typeof widthProp === "number"
+      ? widthProp
+      : appStyles.screenWidth * 0.85;
 
   const getMoodValue = (mood) => {
     switch (mood) {
@@ -60,8 +69,11 @@ export const MoodTrackLineChart = ({
   };
 
   const chartConfig = {
-    backgroundGradientFrom: colors.background,
-    backgroundGradientTo: colors.background,
+    // Match client-ui feel: no solid white chart backdrop
+    backgroundGradientFrom: appStyles.colorTransparent,
+    backgroundGradientTo: appStyles.colorTransparent,
+    backgroundGradientFromOpacity: 0,
+    backgroundGradientToOpacity: 0,
     color: () => "#E1E7ED",
     propsForDots: {
       r: "6",
@@ -76,28 +88,34 @@ export const MoodTrackLineChart = ({
   };
 
   return (
+    <View style={styles.chartClip}>
     <LineChart
       data={lineData}
-      width={appStyles.screenWidth * 0.85}
-      height={220}
+      width={chartWidth}
+      height={svgHeight}
       chartConfig={chartConfig}
+      paddingLeft={paddingLeft}
+      paddingRight={paddingRight}
       widthDots={false}
+      withVerticalLabels={false}
       getDotColor={(dataPoint, dataPointIndex) => {
         return "#684DFD";
       }}
       getDotProps={(dataPoint, dataPointIndex) => {
         const index = dataPointIndex;
         const currentEntry = data[index];
+        const isCritical =
+          currentEntry?.is_critical === true || currentEntry?.isCritical === true;
 
         if (index === selectedItemIndex) {
           return {
             r: "8",
             strokeWidth: "2",
-            stroke: currentEntry?.isCritical ? "#FF0000" : "#C1EAEA",
+            stroke: isCritical ? "#FF0000" : "#C1EAEA",
           };
         }
 
-        if (currentEntry?.isCritical) {
+        if (isCritical) {
           return {
             r: "6",
             strokeWidth: "2",
@@ -121,13 +139,23 @@ export const MoodTrackLineChart = ({
       onDataPointClick={(value) => {
         handleSelectItem(value.index);
       }}
-      style={styles.paddingRight20}
+      style={styles.chartSvg}
     />
+    </View>
   );
 };
 
 export const styles = StyleSheet.create({
-  paddingRight20: {
-    paddingRight: 20,
+  chartSvg: {
+    alignSelf: "flex-start",
+    margin: 0,
+    paddingTop: 0,
+    paddingRight: 0,
+    paddingBottom: 0,
+  },
+  chartClip: {
+    alignSelf: "flex-start",
+    height: PLOT_HEIGHT,
+    overflow: "hidden",
   },
 });

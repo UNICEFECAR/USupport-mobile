@@ -466,6 +466,7 @@ export const ArticlesDashboard = ({
             <NewButton
               size="lg"
               label={t("show_more")}
+              isFullWidth
               onPress={() => handleRedirect("read_count")}
               style={styles.showMoreButton}
             />
@@ -478,7 +479,7 @@ export const ArticlesDashboard = ({
 
 const styles = StyleSheet.create({
   gradientBackground: {
-    paddingBottom: 42,
+    paddingBottom: 120,
   },
   content: {
     paddingTop: 40,

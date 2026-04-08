@@ -71,6 +71,11 @@
       "heading": "Мої консультації",
       "view_all": "Переглянути усі",
       "schedule_consultation_label": "Запланувати консультацію",
+      "heading_need_support": "Потрібна підтримка?",
+      "explore_resources_label": "Переглянути ресурси",
+      "dummy_provider_1": "Др. Шевченко",
+      "dummy_provider_2": "Др. Коваленко",
+      "dummy_provider_3": "Др. Мельник",
       "live_text": "Зараз",
       "accept_button_label": "Погодитись на консультацію",
       "join_button_label": "Приєднатись",
@@ -221,6 +226,7 @@
       "welcome-heading": "Welcome",
       "heading": "Монітор настрою",
       "mood_tracker": "Монітор настрою",
+      "additional_comment_label": "Що є причиною того, що ти себе так почуваєш?",
       "additional_comment_placeholder": "Що є причиною того, що ти себе так почуваєш?",
       "submit_mood_track": "Надішли",
       "add_mood_tracker_success": "Щоденний настрій додано",
@@ -233,6 +239,18 @@
       "check_out": "Переглянути"
     },
     "mood-track-history": {
+      "month_1": "Січ",
+      "month_2": "Лют",
+      "month_3": "Бер",
+      "month_4": "Кві",
+      "month_5": "Тра",
+      "month_6": "Чер",
+      "month_7": "Лип",
+      "month_8": "Сер",
+      "month_9": "Вер",
+      "month_10": "Жов",
+      "month_11": "Лис",
+      "month_12": "Гру",
       "saturday": "Сб",
       "happy": "Щасливим/ою",
       "good": "Задоволеним/ою",
@@ -258,10 +276,15 @@
       "appointment": "Сповіщення про зустрічі",
       "minutes_before": "хвилин до",
       "heading": "",
-      "subheading": ""
+      "subheading": "",
+      "success": "Налаштування сповіщень збережено"
     },
     "notifications": {
       "heading": "Повідомлення",
+      "panel_heading": "Повідомлення",
+      "tab_all": "Усі",
+      "tab_new": "Нові",
+      "tab_read": "Прочитані",
       "mark_read": "Познач все як прочитане",
       "subheading": "Тут ти знайдеш всі повідомлення, які надійшли на твій акаунт.",
       "consultation_booking": "Консультацію з {{providerName}} заплановано на {{date}} з {{startHour}} до {{endHour}}",
@@ -628,12 +651,17 @@
       "high_contrast_mode": "Режим високого контраста"
     },
     "welcome": {
-      "heading": "Вітаємо в",
+      "heading": "Welcome to Client Portal",
       "country": "Країна",
       "language": "Мова",
       "placeholder": "Вибрати",
       "button": "Продовжити",
       "poland_description": "uSupport — це платформа психічного здоров’я та добробуту, призначена для молодих людей (16–24)",
+      "register_email": "Зареєструватися за допомогою електронної пошти",
+      "register_anonymously": "Анонімна реєстрація",
+      "continue_as_guest": "Продовжити без реєстрації",
+      "already_have_account": "Вже маєте обліковий запис?",
+      "log_in": "Увійти",
       "ro_password_modal_heading": "Потрібен пароль",
       "ro_password_modal_text": "Введіть пароль, щоб продовжити.",
       "ro_password_modal_cta": "Продовжити",
@@ -910,7 +938,12 @@
     },
     "baseline-assessment-dashboard": {
       "heading": "Ваш базовий оцінювання",
+      "heading_completed": "Your Latest Assessment",
       "no_assessment_text": "Ви ще не пройшли базовий оцінювання. Пройдіть його, щоб отримати персоналізовані рекомендації щодо вашого психологічного здоров'я.",
+      "no_assessment_description": "Take a quick assessment to understand your mental health better and get personalized recommendations.",
+      "explore_heading": "Find Support Near You",
+      "explore_card_description": "After completing the baseline assessment, we will help you find the most relevant support near you.",
+      "explore_button_label": "Дослідити карту",
       "start_new_assessment": "Почати оцінювання",
       "completed": "Завершено",
       "in_progress": "В процесі",
@@ -924,7 +957,7 @@
       "biological": "Біологічний",
       "social": "Соціальний",
       "how_it_works": "Як це працює",
-      "see_last_result": "Останній результат"
+      "see_last_result": "Останні результати"
     },
     "baseline-assesment-result": {
       "assessment_completed": "Оцінювання завершено",
@@ -977,6 +1010,9 @@
     }
   },
   "screens": {
+    "screen": {
+      "go_back": "Назад"
+    },
     "article-information": {
       "heading": "Більше статей",
       "no_results": "Для вибраної мови немає схожих статей.",

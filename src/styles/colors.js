@@ -17,9 +17,16 @@ const light = {
   cardMediaCategoryBorder: appStyles.colorCardMediaCategoryBorder_rgba,
   cardMediaCategoryText: appStyles.colorCardMediaCategoryText_234567,
   cardMediaGradient: ["rgba(225, 233, 252, 0.9)", "rgba(205, 218, 248, 0.8)"],
+  // Tabs (match client-ui glass_need_box_background for selected state)
+  tabSelectedGradient: [
+    "rgba(255, 255, 255, 0.5)",
+    "rgba(237, 245, 255, 0.34)",
+  ],
   cardMediaGradientBorder: "rgba(224, 233, 255, 0.72)",
   cardMediaSeparator: appStyles.colorGray_ea,
   cardMediaMetaText: appStyles.colorOrangeArticleCreator_ba7446,
+  // TabsUnderlined selected underline (client: color_6a4ffb_8c90eb)
+  tabUnderlinedBorder: "#6a4ffb",
 };
 
 const dark = {
@@ -38,9 +45,11 @@ const dark = {
   cardMediaCategoryBorder: appStyles.colorCardMediaCategoryBorder_rgba,
   cardMediaCategoryText: appStyles.colorCardMediaCategoryText_234567,
   cardMediaGradient: ["rgba(30, 46, 86, 0.82)", "rgba(19, 32, 65, 0.78)"],
+  tabSelectedGradient: ["rgba(38, 58, 105, 0.86)", "rgba(23, 39, 79, 0.82)"],
   cardMediaGradientBorder: "rgba(137, 157, 209, 0.3)",
   cardMediaSeparator: appStyles.colorGray_344054,
   cardMediaMetaText: appStyles.colorOrangeArticleCreator_ba7446,
+  tabUnderlinedBorder: "#8c90eb",
 };
 
 const highContrast = {
@@ -59,9 +68,11 @@ const highContrast = {
   cardMediaCategoryBorder: appStyles.colorCardMediaCategoryBorder_rgba,
   cardMediaCategoryText: appStyles.colorCardMediaCategoryText_234567,
   cardMediaGradient: ["rgba(30, 46, 86, 0.82)", "rgba(19, 32, 65, 0.78)"],
+  tabSelectedGradient: ["rgba(38, 58, 105, 0.86)", "rgba(23, 39, 79, 0.82)"],
   cardMediaGradientBorder: "rgba(137, 157, 209, 0.3)",
   cardMediaSeparator: appStyles.colorGray_344054,
   cardMediaMetaText: appStyles.colorOrangeArticleCreatorHC_ffc18c,
+  tabUnderlinedBorder: appStyles.colorHighContrast_ffff00,
 };
 
 export default { light, dark, highContrast };

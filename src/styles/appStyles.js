@@ -8,13 +8,13 @@ export default {
 
   platform: Platform.OS,
 
-  //Fonts
-  fontLight: "Nunito_300Light",
-  fontRegular: "Nunito_400Regular",
-  fontMedium: "Nunito_500Medium",
-  fontSemiBold: "Nunito_600SemiBold",
-  fontBold: "Nunito_700Bold",
-  fontExtraBold: "Nunito_800ExtraBold",
+  // Inter via @expo-google-fonts/inter (loaded in App.js with useFonts).
+  fontLight: "Inter_300Light",
+  fontRegular: "Inter_400Regular",
+  fontMedium: "Inter_500Medium",
+  fontSemiBold: "Inter_600SemiBold",
+  fontBold: "Inter_700Bold",
+  fontExtraBold: "Inter_800ExtraBold",
 
   // Colors
   colorPrimary_20809e: "#20809e",

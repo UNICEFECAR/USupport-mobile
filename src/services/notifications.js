@@ -7,10 +7,13 @@ const API_ENDPOINT = `${API_URL_ENDPOINT}/v1/notifications`;
 /**
  *
  * @param {Number} pageNumber
+ * @param {string} [type] all | new | read
  * @returns
  */
-async function getNotifications(pageNumber = 1) {
-  const response = await http.get(`${API_ENDPOINT}/user?pageNo=${pageNumber}`);
+async function getNotifications(pageNumber = 1, type = "all") {
+  const response = await http.get(
+    `${API_ENDPOINT}/user?pageNo=${pageNumber}&type=${type}`
+  );
   return response;
 }
 

@@ -7,15 +7,18 @@ import React, {
   useRef,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { View } from "react-native";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { AppText, Screen, Heading, TransparentModal, Input } from "#components";
-
+import {
+  AppText,
+  Screen,
+  Heading,
+  TransparentModal,
+  Input,
+  Block,
+} from "#components";
 import { SelectProvider as SelectProviderBlock } from "#blocks";
-
 import { FilterProviders } from "#backdrops";
-
 import { useGetProvidersData, useError, useCheckActiveCampaign } from "#hooks";
 
 import {
@@ -113,7 +116,8 @@ export const SelectProvider = ({ navigation, route }) => {
 
     if (!shouldPreferCoupon) return;
 
-    const campaignJustBecameAvailable = prev !== true && hasActiveCampaign === true;
+    const campaignJustBecameAvailable =
+      prev !== true && hasActiveCampaign === true;
     if (!campaignJustBecameAvailable) return;
 
     setSelectedBillingType("coupon");
@@ -393,14 +397,15 @@ export const SelectProvider = ({ navigation, route }) => {
 
   return (
     <Screen>
-      <Heading
-        heading={t("heading")}
-        onLayout={(e) => {
-          setHeadingHeight(e.nativeEvent.layout.height);
-        }}
-        handleGoBack={handleGoBack}
-      />
-      <View style={{ marginTop: headingHeight + 8 }} />
+      <Block>
+        <Heading
+          heading={t("heading")}
+          onLayout={(e) => {
+            setHeadingHeight(e.nativeEvent.layout.height);
+          }}
+          handleGoBack={handleGoBack}
+        />
+      </Block>
 
       <SelectProviderBlock
         providers={providersData}

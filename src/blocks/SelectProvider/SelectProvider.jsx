@@ -10,7 +10,7 @@ import {
   Tabs,
   Input,
   AppButton,
-  ButtonWithIcon,
+  NewButton,
 } from "#components";
 
 import { Context, clientSvc } from "#services";
@@ -129,6 +129,14 @@ export const SelectProvider = ({
     });
   };
 
+  const handleBookSessionClick = (providerId) => {
+    navigation.push("ProviderOverview", {
+      providerId,
+      billingType: selectedBillingType,
+      openSchedule: true,
+    });
+  };
+
   const handleSubmitCoupon = async () => {
     setIsLoadingCoupon(true);
     setCouponError("");
@@ -229,6 +237,10 @@ export const SelectProvider = ({
       image={provider.image}
       name={provider.name}
       onPress={() => handleProviderClick(provider.providerDetailId)}
+      handleViewProfile={() => handleProviderClick(provider.providerDetailId)}
+      handleBookSession={() =>
+        handleBookSessionClick(provider.providerDetailId)
+      }
       patronym={provider.patronym}
       price={
         selectedBillingType === "free"
@@ -258,16 +270,19 @@ export const SelectProvider = ({
         />
       )}
       {isCouponTabSelected && renderCouponInput()}
-      <AppText style={{ paddingLeft: 10 }}>{t("choose_provider")}</AppText>
-      <ButtonWithIcon
-        size="sm"
-        color="purple"
-        label={t("button_label")}
-        iconName="filter"
-        iconSize="sm"
-        onPress={handleFilterClick}
-        style={styles.filterButton}
-      />
+      <View style={styles.headingRow}>
+        <AppText namedStyle="text" style={styles.chooseProviderText}>
+          {t("choose_provider")}
+        </AppText>
+        <NewButton
+          label={t("button_label")}
+          iconName="filter"
+          iconColor="#ffffff"
+          size="sm"
+          onPress={handleFilterClick}
+          style={styles.filterButton}
+        />
+      </View>
     </>
   );
 
@@ -335,6 +350,16 @@ const styles = StyleSheet.create({
   listContent: {
     paddingBottom: 200,
   },
+  headingRow: {
+    paddingHorizontal: 10,
+    paddingTop: 12,
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: 12,
+  },
+  chooseProviderText: {
+    flex: 1,
+  },
   loadingContainer: {
     alignItems: "center",
     paddingVertical: 24,
@@ -370,9 +395,6 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   filterButton: {
-    marginLeft: "auto",
-    marginBottom: 24,
-    marginTop: 18,
-    marginRight: 12,
+    minWidth: 0,
   },
 });

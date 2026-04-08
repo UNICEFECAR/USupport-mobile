@@ -46,6 +46,7 @@ export const RadioButtonSelectorGroup = ({
       {label && (
         <AppText
           namedStyle="text"
+          isSemibold
           style={[styles.text, { color: colors.text }]}
         >
           {label}
@@ -62,7 +63,6 @@ const styles = StyleSheet.create({
   text: {
     color: appStyles.colorBlue_3d527b,
     marginBottom: 4,
-    fontFamily: "Nunito-SemiBold",
   },
 
   radioButtonSelector: {

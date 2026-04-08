@@ -16,7 +16,7 @@ export const MascotHeadingBlock = ({ image, children, style }) => {
         <Image
           source={
             image || {
-              uri: `${AMAZON_S3_BUCKET}/mascot-happy-purple`,
+              uri: `${AMAZON_S3_BUCKET}/mascot-happy-purple-full`,
             }
           }
           style={styles.image}

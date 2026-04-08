@@ -1,12 +1,20 @@
 import React from "react";
 import Config from "react-native-config";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  UIManager,
+  Platform,
+} from "react-native";
 
 import { AppText } from "../../texts";
 import { Icon, Like } from "../../icons";
 import { Label } from "../../labels";
 import { Avatar } from "../../avatars";
 import { Line } from "../../separators";
+import LinearGradient from "../../LinearGradient";
+import { NewButton } from "../../buttons";
 
 import { isDateToday } from "#utils";
 
@@ -33,10 +41,28 @@ export const Answer = ({
   t,
 }) => {
   const { colors, isHighContrast } = useGetTheme();
+  const isLightTheme = colors.background === appStyles.colorWhite_ff;
   const providerInfo = question.providerData;
   const isAskedByCurrentClient = question.isAskedByCurrentClient;
 
   const imageUrl = AMAZON_S3_BUCKET + "/" + (providerInfo.image || "default");
+
+  const canRenderExpoBlur = (() => {
+    try {
+      // expo-blur requires a native view manager registered as `ExpoBlurView`.
+      // If the dev client hasn't been rebuilt with expo-blur, this will be missing.
+      return !!UIManager.getViewManagerConfig?.("ExpoBlurView");
+    } catch (e) {
+      return false;
+    }
+  })();
+
+  const shouldRenderBlur =
+    !isHighContrast && Platform.OS !== "web" && canRenderExpoBlur;
+  const BlurViewComponent = shouldRenderBlur
+    ? // eslint-disable-next-line global-require
+      require("expo-blur").BlurView
+    : null;
 
   const getDateText = (dateString) => {
     const date = new Date(dateString);
@@ -52,229 +78,296 @@ export const Answer = ({
     }
   };
 
-  const renderHeadingAndLabels = () => {
-    return (
-      <View style={styles.width100}>
-        <View style={styles.headingAndLabelsContainer}>
-          <AppText
-            namedStyle="h3"
-            style={styles.questionAnswerTitle}
-            numberOfLines={2}
-          >
-            {question.answerTitle}
-          </AppText>
-        </View>
-        <View style={styles.answeredByContainer}>
-          <TouchableWithoutFeedback
-            onPress={() => handleProviderClick(providerInfo.providerId)}
-          >
-            <Avatar
-              image={imageUrl && { uri: imageUrl }}
-              size="xs"
-              style={styles.avatar}
+  return (
+    <View
+      style={[
+        styles.answerOuter,
+        isLightTheme
+          ? appStyles.cardMediaShadowLight
+          : appStyles.cardMediaShadowDark,
+        style,
+      ]}
+    >
+      <View
+        style={[
+          styles.answerSurface,
+          {
+            backgroundColor: isLightTheme
+              ? shouldRenderBlur
+                ? "transparent"
+                : colors.cardMedia
+              : "transparent",
+            borderColor: colors.cardMediaBorder || "transparent",
+          },
+        ]}
+      >
+        {shouldRenderBlur && BlurViewComponent && (
+          <>
+            <BlurViewComponent
+              style={styles.blurSurface}
+              intensity={70}
+              tint="default"
+              blurReductionFactor={2}
+              pointerEvents="none"
             />
-          </TouchableWithoutFeedback>
+            <View
+              style={[
+                styles.blurTintOverlay,
+                { backgroundColor: colors.cardMedia },
+              ]}
+              pointerEvents="none"
+            />
+          </>
+        )}
+
+        {!isLightTheme && (
+          <>
+            <LinearGradient
+              gradient={{
+                degrees: 145,
+                locations: [0, 1],
+                colors: colors.cardMediaGradient || [
+                  "rgba(30, 46, 86, 0.82)",
+                  "rgba(19, 32, 65, 0.78)",
+                ],
+              }}
+              style={styles.gradientSurface}
+            />
+            <View style={styles.insetHighlight} />
+          </>
+        )}
+        {/* Match client-ui Answer card order */}
+        <View style={styles.dateContainer}>
+          <Icon name="calendar" color={isHighContrast ? "#ffff00" : "#92989B"} />
           <AppText
             namedStyle="text"
-            onPress={() => handleProviderClick(providerInfo.providerId)}
+            style={[
+              styles.dateContainerText,
+              isHighContrast && styles.colorHighContrast,
+            ]}
           >
-            {providerInfo.name} {providerInfo.surname}{" "}
-            {t("date_answered", {
-              date: getDateText(question.answerCreatedAt),
-            })}
+            {getDateText(question.questionCreatedAt)}
           </AppText>
-          <View style={styles.scheduleContainer}>
-            <TouchableOpacity onPress={() => handleSchedulePress(question)}>
-              <View>
-                <Icon
-                  name="calendar"
-                  color={
-                    isHighContrast ? "#ffff00" : appStyles.colorPrimary_20809e
-                  }
-                />
-              </View>
-            </TouchableOpacity>
-          </View>
         </View>
-      </View>
-    );
-  };
 
-  return (
-    <View style={[styles.answer, { backgroundColor: colors.card }, style]}>
-      {!isAskedByCurrentClient ? (
-        <>
-          <View style={styles.headingContainer}>
-            {isAskedByCurrentClient ? (
-              <View>
-                <View style={styles.dateContainer}>
+        {!!question?.tags?.length && (
+          <View style={styles.labelsContainer}>
+            {question.tags.map((label, index) => (
+              <Label
+                text={label}
+                key={index}
+                paletteIndex={index}
+                style={styles.labelChip}
+              />
+            ))}
+          </View>
+        )}
+
+        {!!question.answerTitle ? (
+          <>
+            <AppText namedStyle="h3" style={styles.title} numberOfLines={2}>
+              {question.answerTitle}
+            </AppText>
+
+            <AppText
+              namedStyle="text"
+              numberOfLines={2}
+              style={styles.answerText}
+            >
+              {question.answerText}
+            </AppText>
+
+            <View style={styles.readMoreRow}>
+              <NewButton
+                type="text"
+                label={t("read_more")}
+                onPress={() => handleReadMore(question)}
+                style={styles.readMoreButton}
+              />
+            </View>
+
+            <View style={styles.authorRow}>
+              <AppText namedStyle="text" style={styles.authorPrefix}>
+                {t("answer_by")}
+              </AppText>
+              <TouchableWithoutFeedback
+                onPress={() => handleProviderClick(providerInfo?.providerId)}
+              >
+                <Avatar
+                  image={imageUrl && { uri: imageUrl }}
+                  size="xs"
+                  style={styles.avatar}
+                />
+              </TouchableWithoutFeedback>
+              <AppText
+                namedStyle="text"
+                onPress={() => handleProviderClick(providerInfo?.providerId)}
+                style={styles.authorName}
+                numberOfLines={1}
+              >
+                {providerInfo?.name} {providerInfo?.surname}
+              </AppText>
+              <AppText namedStyle="text" style={styles.answeredDate}>
+                {t("date_answered", {
+                  date: getDateText(question.answerCreatedAt),
+                })}
+              </AppText>
+            </View>
+
+            <View style={styles.bottomRow}>
+              <TouchableOpacity onPress={() => handleSchedulePress(question)}>
+                <View style={styles.scheduleButton}>
                   <Icon
                     name="calendar"
-                    color={isHighContrast ? "#ffff00" : "#92989B"}
+                    color={isHighContrast ? "#ffff00" : "#8A4BF3"}
                   />
                   <AppText
                     namedStyle="text"
-                    style={[styles.text, isHighContrast && colorHighContrast]}
+                    style={[
+                      styles.scheduleText,
+                      isHighContrast && styles.colorHighContrast,
+                    ]}
                   >
-                    {getDateText(question.questionCreatedAt)}
+                    {t("schedule_consultation")}
                   </AppText>
                 </View>
-                <AppText
-                  style={styles.marginTop_0_8}
-                  namedStyle="text"
-                  numberOfLines={2}
-                >
-                  {question.question}
-                </AppText>
-              </View>
-            ) : (
-              renderHeadingAndLabels()
-            )}
-          </View>
-        </>
-      ) : (
-        <>
-          <View style={styles.dateContainer}>
-            <Icon
-              name="calendar"
-              color={isHighContrast ? "#ffff00" : "#92989B"}
-            />
-            <AppText
-              namedStyle="text"
-              style={[
-                styles.dateContainerText,
-                isHighContrast && styles.colorHighContrast,
-              ]}
-            >
-              {getDateText(question.questionCreatedAt)}
-            </AppText>
-          </View>
-          <AppText style={styles.marginTop_0_8} numberOfLines={2}>
-            {question.question}
-          </AppText>
-        </>
-      )}
-      <Line style={styles.marginTop_0_8} />
-      {question.answerTitle && isAskedByCurrentClient ? (
-        <View style={{ flexDirection: "row" }}>{renderHeadingAndLabels()}</View>
-      ) : null}
-      {question.answerTitle ? (
-        <>
-          <AppText
-            namedStyle="text"
-            numberOfLines={2}
-            style={isAskedByCurrentClient && styles.marginTop_0_8}
-          >
-            {question.answerText}
-          </AppText>
-          <View style={styles.likeContainer}>
-            <TouchableOpacity onPress={() => handleReadMore(question)}>
-              <View style={styles.readMoreContainer}>
-                <AppText
-                  style={[
-                    styles.readMoreText,
-                    isHighContrast && styles.readtMoreTextHC,
-                  ]}
-                >
-                  {t("read_more")}
-                </AppText>
-              </View>
-            </TouchableOpacity>
-            <Like
-              handleClick={handleLike}
-              likes={question.likes}
-              dislikes={question.dislikes}
-              answerId={question.answerId}
-              isLiked={question.isLiked}
-              isDisliked={question.isDisliked}
-            />
-          </View>
+              </TouchableOpacity>
 
-          <View style={styles.labelsContainer}>
-            {question.tags &&
-              question.tags.map((label, index) => {
-                return (
-                  <Label text={`#${label}`} key={index} style={styles.label} />
-                );
-              })}
-          </View>
-        </>
-      ) : null}
+              <Like
+                handleClick={handleLike}
+                likes={question.likes}
+                dislikes={question.dislikes}
+                answerId={question.answerId}
+                isLiked={question.isLiked}
+                isDisliked={question.isDisliked}
+              />
+            </View>
+          </>
+        ) : (
+          <>
+            <AppText
+              style={styles.marginTop_0_8}
+              namedStyle="text"
+              numberOfLines={2}
+            >
+              {question.question}
+            </AppText>
+            <Line style={styles.marginTop_0_8} />
+            <View style={styles.readMoreRow}>
+              <NewButton
+                type="text"
+                label={t("read_more")}
+                onPress={() => handleReadMore(question)}
+                style={styles.readMoreButton}
+              />
+            </View>
+          </>
+        )}
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  answer: {
+  answerOuter: {
+    width: "96%",
     maxWidth: 420,
-    paddingHorizontal: 16,
-    paddingVertical: 20,
-    width: "100%",
-    ...appStyles.shadow2,
     alignSelf: "center",
-    borderColor: "transparent",
+    position: "relative",
+    borderRadius: 24,
+    overflow: "visible",
+  },
+  answerSurface: {
     borderRadius: 24,
     borderWidth: 1,
+    borderColor: "transparent",
+    overflow: "hidden",
+    position: "relative",
+    paddingHorizontal: 16,
+    paddingVertical: 20,
   },
-  scheduleContainer: {
-    marginLeft: "auto",
+  blurSurface: {
+    ...StyleSheet.absoluteFillObject,
   },
-  answeredByContainer: { flexDirection: "row", marginTop: 10 },
+  blurTintOverlay: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  gradientSurface: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  insetHighlight: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 1,
+    zIndex: 2,
+  },
   avatar: { marginHorizontal: 4 },
-  bottomContainer: { flexDirection: "column" },
   dateContainer: { alignItems: "center", flexDirection: "row" },
   dateContainerText: { color: appStyles.colorGray_92989b, marginLeft: 4 },
-  headingAndLabelsContainer: {
+  title: {
+    marginTop: 12,
+    marginBottom: 12,
     textAlign: "left",
-    width: "100%",
-    paddingTop: 2,
+    fontFamily: appStyles.fontSemiBold,
+    color: appStyles.colorGray_344054,
   },
-  headingContainer: {
-    alignItems: "flex-start",
-    flexDirection: "row",
+  answerText: {
+    textAlign: "left",
   },
-  label: {
-    marginTop: 5,
-    borderWidth: 0,
-    paddingHorizontal: 5,
+  labelChip: {
+    marginRight: 8,
+    marginBottom: 8,
   },
   labelsContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
+    marginTop: 12,
   },
   marginTop_0_8: {
     marginTop: 8,
   },
-  questionAnswerTitle: {
-    width: "100%",
-  },
-  readMoreContainer: {
+  readMoreRow: {
+    marginTop: 12,
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingTop: 12,
   },
-  readMoreText: {
-    color: appStyles.colorPrimary_20809e,
-    fontFamily: appStyles.fontBold,
+  readMoreButton: {
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+    alignSelf: "flex-start",
   },
-  readtMoreTextHC: {
-    color: "#fff",
-    textDecorationColor: "#fff",
-    textDecorationLine: "underline",
-  },
-  scheduleButton: { flexDirection: "row", marginTop: 20 },
-  scheduleButtonText: {
-    color: appStyles.colorPrimary_20809e,
-    fontFamily: appStyles.fontBold,
-    marginLeft: 14,
-  },
-  text: { color: appStyles.colorGray_92989b, marginLeft: 4 },
-  width100: { width: "100%" },
-  likeContainer: {
-    display: "flex",
+  authorRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
+    marginTop: 12,
+    flexWrap: "wrap",
+  },
+  authorPrefix: {
+    marginRight: 6,
+  },
+  authorName: {
+    marginLeft: 4,
+  },
+  answeredDate: {
+    marginLeft: 6,
+    color: appStyles.colorGray_92989b,
+  },
+  bottomRow: {
+    marginTop: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  scheduleButton: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  scheduleText: {
+    marginLeft: 8,
+    color: "#8A4BF3",
+    fontFamily: appStyles.fontBold,
   },
   colorHighContrast: { color: "#ffff00" },
 });

@@ -12,7 +12,7 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { Screen, AppButton } from "#components";
+import { Screen, NewButton } from "#components";
 import {
   MyQA as MyQABlock,
   GiveSuggestion,
@@ -258,8 +258,20 @@ export const MyQA = ({ navigation }) => {
     });
   };
 
+  const scrollContentBottomPadding =
+    bottomInset + (Platform.OS === "ios" ? 130 : 140);
+
   return (
-    <Screen hasEmergencyButton={false} hasHeaderNavigation t={t}>
+    <Screen
+      hasEmergencyButton={false}
+      hasHeaderNavigation
+      t={t}
+      style={
+        !isKeyboardShown
+          ? { paddingBottom: Platform.OS === "ios" ? 50 : 100 + bottomInset }
+          : undefined
+      }
+    >
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "position" : null}
         keyboardVerticalOffset={64}
@@ -268,6 +280,7 @@ export const MyQA = ({ navigation }) => {
           ref={scrollViewRef}
           keyboardShouldPersistTaps="handled"
           style={styles.scrollView}
+          contentContainerStyle={{ paddingBottom: scrollContentBottomPadding }}
         >
           <InformationPortalHero
             navigation={navigation}
@@ -297,7 +310,7 @@ export const MyQA = ({ navigation }) => {
             setSelectedLanguage={setSelectedLanguage}
             setShouldFetchQuestions={setShouldFetchQuestions}
           />
-          <View
+          {/* <View
             onLayout={(e) => setGiveSuggestionLayout(e.nativeEvent.layout)}
             collapsable={false}
           >
@@ -307,7 +320,7 @@ export const MyQA = ({ navigation }) => {
               type="my-qa"
               onTextareaFocus={handleGiveSuggestionFocus}
             />
-          </View>
+          </View> */}
         </ScrollView>
       </KeyboardAvoidingView>
       {isHowItWorksOpen ? (
@@ -352,15 +365,19 @@ export const MyQA = ({ navigation }) => {
         />
       )}
       {!isKeyboardShown && (
-        <AppButton
-          label={t("ask_button_label")}
-          size="lg"
+        <View
           style={{
             bottom: Platform.OS === "ios" ? 70 : bottomInset + 120,
             ...styles.askButton,
           }}
-          onPress={handleAskQuestion}
-        />
+        >
+          <NewButton
+            label={t("ask_button_label")}
+            size="lg"
+            isFullWidth
+            onPress={handleAskQuestion}
+          />
+        </View>
       )}
     </Screen>
   );
@@ -370,6 +387,8 @@ const styles = StyleSheet.create({
   askButton: {
     alignSelf: "center",
     position: "absolute",
+    width: "100%",
+    paddingHorizontal: 16,
   },
   scrollView: { paddingTop: 30 },
   marginBottom80: { marginBottom: 200 },

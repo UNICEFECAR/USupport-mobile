@@ -296,7 +296,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   organizationName: {
-    fontFamily: "Nunito-SemiBold",
+    fontFamily: appStyles.fontSemiBold,
     maxWidth: "90%",
   },
   marginTop4: {
@@ -320,7 +320,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   headingText: {
-    fontFamily: "Nunito-Bold",
+    fontFamily: appStyles.fontBold,
     color: appStyles.colorBlue_3d527b,
     marginBottom: 8,
   },

@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
   },
   moreVideosContainer: {
     marginTop: 32,
-    paddingHorizontal: 16,
+    paddingHorizontal: 0,
   },
   moreVideosHeading: {
     marginBottom: 16,

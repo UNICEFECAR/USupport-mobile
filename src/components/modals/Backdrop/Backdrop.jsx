@@ -9,6 +9,7 @@ import {
   Platform,
   Keyboard,
 } from "react-native";
+import { BlurView } from "expo-blur";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, {
   useAnimatedStyle,
@@ -18,7 +19,7 @@ import Animated, {
 
 import { AppText } from "../../texts";
 import { Icon } from "../../icons";
-import { AppButton } from "../../buttons";
+import { NewButton } from "../../buttons";
 import { Loading } from "../../loaders/";
 import { Error } from "../../errors/";
 import { appStyles } from "#styles";
@@ -35,7 +36,15 @@ import { useGetTheme } from "#hooks";
 export const Backdrop = ({
   isOpen,
   onClose,
+  disableOverlayClose = false,
+  overlayVariant = "default",
   style,
+  topHeaderComponent,
+  topHeaderStyles,
+  hasGoBackArrow = false,
+  handleGoBack,
+  hasHeader = true,
+  hasCloseIcon = true,
   heading,
   text,
   ctaLabel,
@@ -148,11 +157,39 @@ export const Backdrop = ({
     handleCloseIconPress();
   };
 
-  const Overlay = () => (
-    <TouchableWithoutFeedback onPress={handleCloseBackdrop}>
+  const toNewButtonType = (type) => {
+    switch (type) {
+      case "primary":
+        return "gradient";
+      case "secondary":
+        return "outline";
+      default:
+        return type;
+    }
+  };
+
+  const overlayContent =
+    overlayVariant === "auth" ? (
+      <>
+        <BlurView
+          intensity={18}
+          tint="dark"
+          style={[StyleSheet.absoluteFill, styles.authOverlay]}
+        />
+        <View style={[styles.overlay, styles.authOverlay, overlayStyles]} />
+      </>
+    ) : (
       <View style={[styles.overlay, overlayStyles]} />
-    </TouchableWithoutFeedback>
-  );
+    );
+
+  const Overlay = () =>
+    disableOverlayClose ? (
+      overlayContent
+    ) : (
+      <TouchableWithoutFeedback onPress={handleCloseBackdrop}>
+        {overlayContent}
+      </TouchableWithoutFeedback>
+    );
   return (
     <>
       {isOverlayShown ? <Overlay /> : null}
@@ -171,35 +208,68 @@ export const Backdrop = ({
         {customRender ? (
           children
         ) : (
-          <View>
-            <TouchableOpacity
-              hitSlop={appStyles.hitSlop}
-              style={{
-                zIndex: 999,
-              }}
-              onPress={
-                handleCloseIconPress ? handleCustomClose : handleCloseBackdrop
-              }
-            >
-              <Icon
-                name="close-x"
-                size="md"
-                color={appStyles.colorPrimary_20809e}
-                style={styles.icon}
-              />
-            </TouchableOpacity>
-            <View style={[styles.header,headerStyles]}>
-              <AppText namedStyle="h3" style={styles.headingText}>
-                {heading}
-              </AppText>
-            </View>
-            {text ? (
-              <View>
-                <AppText style={styles.subheading}>{text}</AppText>
+          <>
+            {topHeaderComponent ? (
+              <View style={[styles.topHeader, topHeaderStyles]}>
+                {topHeaderComponent}
               </View>
-            ) : (
-              <View style={{ height: 10 }} />
-            )}
+            ) : null}
+
+            {hasGoBackArrow ? (
+              <TouchableOpacity
+                onPress={handleGoBack}
+                hitSlop={appStyles.hitSlop}
+                style={styles.goBackRow}
+              >
+                <Icon
+                  name="arrow-chevron-back"
+                  size="md"
+                  color={appStyles.colorPrimary_20809e}
+                  style={styles.goBackIcon}
+                />
+              </TouchableOpacity>
+            ) : null}
+
+            {hasHeader ? (
+              <View>
+                {hasCloseIcon ? (
+                  <TouchableOpacity
+                    hitSlop={appStyles.hitSlop}
+                    style={{
+                      zIndex: 999,
+                    }}
+                    onPress={
+                      handleCloseIconPress
+                        ? handleCustomClose
+                        : handleCloseBackdrop
+                    }
+                  >
+                    <Icon
+                      name="close-x"
+                      size="md"
+                      color={appStyles.colorPrimary_20809e}
+                      style={styles.icon}
+                    />
+                  </TouchableOpacity>
+                ) : null}
+
+                {heading ? (
+                  <View style={[styles.header, headerStyles]}>
+                    <AppText namedStyle="h3" style={styles.headingText}>
+                      {heading}
+                    </AppText>
+                  </View>
+                ) : null}
+
+                {text ? (
+                  <View>
+                    <AppText style={styles.subheading}>{text}</AppText>
+                  </View>
+                ) : heading ? (
+                  <View style={{ height: 10 }} />
+                ) : null}
+              </View>
+            ) : null}
 
             <ScrollView
               contentContainerStyle={[
@@ -215,13 +285,14 @@ export const Backdrop = ({
             >
               {children}
             </ScrollView>
-          </View>
+          </>
         )}
         {hasButtons ? (
           <View
             style={[
               styles.buttonContainer,
               { backgroundColor: colors.background },
+              overlayVariant === "auth" ? styles.buttonContainerAuth : null,
               {
                 bottom: 0,
                 paddingBottom:
@@ -244,13 +315,14 @@ export const Backdrop = ({
               isCtaDisabled && showLoadingIfDisabled ? (
                 <Loading />
               ) : (
-                <AppButton
+                <NewButton
                   label={ctaLabel}
                   disabled={isCtaDisabled || isCtaLoading}
                   loading={isCtaLoading}
                   onPress={handleClick}
-                  color={ctaColor}
+                  type={toNewButtonType("primary")}
                   size="lg"
+                  isFullWidth
                   style={ctaStyle}
                 />
               )
@@ -261,14 +333,14 @@ export const Backdrop = ({
                   <Loading />
                 </View>
               ) : (
-                <AppButton
+                <NewButton
                   label={secondaryCtaLabel}
                   onPress={secondaryCtaHandleClick}
                   disabled={isSecondaryCtaDisabled || isSecondaryCtaLoading}
                   loading={isSecondaryCtaLoading}
                   size="lg"
-                  type={secondaryCtaType}
-                  color={secondaryCtaColor}
+                  type={toNewButtonType(secondaryCtaType)}
+                  isFullWidth
                   style={[styles.secondButton, secondaryCtaStyle]}
                 />
               )
@@ -290,6 +362,9 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
+  },
+  authOverlay: {
+    backgroundColor: "rgba(18, 18, 24, 0.55)",
   },
   backdrop: {
     borderTopLeftRadius: 32,
@@ -330,12 +405,27 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     paddingTop: 32,
   },
+  topHeader: {
+    width: "100%",
+  },
+  goBackRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 16,
+    alignSelf: "flex-start",
+  },
+  goBackIcon: {
+    marginRight: 8,
+  },
   buttonContainer: {
     alignItems: "center",
     justifyContent: "flex-end",
     position: "absolute",
     width: "100%",
     alignSelf: "center",
+  },
+  buttonContainerAuth: {
+    paddingHorizontal: 16,
   },
   secondButton: {
     marginTop: 16,
@@ -357,6 +447,47 @@ Backdrop.propTypes = {
    * Function to be called when the backdrop/modal is closed
    */
   onClose: PropTypes.func.isRequired,
+
+  /**
+   * If true, tapping the dimmed overlay won't close the backdrop.
+   */
+  disableOverlayClose: PropTypes.bool,
+
+  /**
+   * Controls overlay look. "auth" matches client-ui auth overlay.
+   */
+  overlayVariant: PropTypes.oneOf(["default", "auth"]),
+
+  /**
+   * Optional component to render as a full-width header above the modal content.
+   * Mirrors client-ui Backdrop's `topHeaderComponent`.
+   */
+  topHeaderComponent: PropTypes.node,
+
+  /**
+   * Optional styles for the top header wrapper.
+   */
+  topHeaderStyles: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+
+  /**
+   * Whether to show a go-back arrow row.
+   */
+  hasGoBackArrow: PropTypes.bool,
+
+  /**
+   * Handler for the go-back action when `hasGoBackArrow` is true.
+   */
+  handleGoBack: PropTypes.func,
+
+  /**
+   * Whether to render the standard header area (close icon + heading/text).
+   */
+  hasHeader: PropTypes.bool,
+
+  /**
+   * Whether to show the close icon (when `hasHeader` is true).
+   */
+  hasCloseIcon: PropTypes.bool,
 
   /**
    * Additional styles for the component

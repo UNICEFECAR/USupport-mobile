@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import {
   StyleSheet,
   KeyboardAvoidingView,
@@ -21,7 +21,6 @@ import {
   Input,
   InputPassword,
   Error,
-  AppButton,
   Icon,
   NewButton,
 } from "#components";
@@ -37,7 +36,14 @@ import { useError } from "#hooks";
  *
  * @return {jsx}
  */
-export const Login = ({ navigation }) => {
+export const Login = ({
+  navigation,
+  onGoBack,
+  onGoToForgotPassword,
+  onGoToRegister,
+  inBackdrop,
+  onCtaConfigChange,
+}) => {
   const { t } = useTranslation("blocks", { keyPrefix: "login" });
   const queryClient = useQueryClient();
 
@@ -194,15 +200,35 @@ export const Login = ({ navigation }) => {
     loginMutation.mutate();
   };
 
+  useEffect(() => {
+    if (!onCtaConfigChange) return;
+    onCtaConfigChange({
+      ctaHandleClick: handleLogin,
+      isCtaDisabled: !data.email || !data.password || isLoginDisabled,
+      isCtaLoading: loginMutation.isLoading,
+      errorMessage: errors.submit,
+    });
+  }, [
+    onCtaConfigChange,
+    data.email,
+    data.password,
+    isLoginDisabled,
+    loginMutation.isLoading,
+    errors.submit,
+  ]);
+
   const handleForgotPassowrd = () => {
-    navigation.navigate("ForgotPassword");
+    if (onGoToForgotPassword) return onGoToForgotPassword();
+    navigation?.navigate?.("ForgotPassword");
   };
 
   const handleRegisterRedirect = () => {
-    navigation.navigate("RegisterPreview");
+    if (onGoToRegister) return onGoToRegister();
+    navigation?.navigate?.("RegisterPreview");
   };
 
   const handleGoBack = () => {
+    if (onGoBack) return onGoBack();
     if (navigation.canGoBack()) {
       navigation.goBack();
     } else {
@@ -210,65 +236,51 @@ export const Login = ({ navigation }) => {
     }
   };
 
-  return (
-    <KeyboardAvoidingView
-      style={styles.keyboardAvoidingView}
-      behavior={Platform.OS === "ios" ? "padding" : null}
-    >
-      <Heading heading={t("heading")} handleGoBack={handleGoBack} />
-      <Block style={[styles.flexGrow, { marginTop: 84 }]}>
-        <ScrollView
-          contentContainerStyle={styles.flexGrow}
-          keyboardShouldPersistTaps="handled"
+  const content = (
+    <>
+      {hasCredentials && !!biometryType ? (
+        <View style={{ width: "100%", height: 20, marginBottom: 30 }}>
+          <TouchableOpacity onPress={getCredentials}>
+            <Icon color="#20809e" style={{ alignSelf: "center" }} name="face-id" />
+          </TouchableOpacity>
+        </View>
+      ) : null}
+      <Input
+        label={t("email_label")}
+        onChange={(value) => handleChange("email", value)}
+        placeholder={t("email_placeholder")}
+        value={data.email}
+        autoCapitalize="none"
+        style={styles.input}
+      />
+      <InputPassword
+        label={t("password_label")}
+        onChange={(value) => handleChange("password", value)}
+        placeholder={t("password_placeholder")}
+        value={data.password}
+        style={styles.inputPassword}
+        autoCapitalize="none"
+      />
+      <View style={styles.checkboxContainer}>
+        <CheckBox
+          isChecked={shouldSaveCredentials}
+          setIsChecked={() => setShouldSaveCredentials(!shouldSaveCredentials)}
+        />
+        <AppText
+          onPress={() => setShouldSaveCredentials(!shouldSaveCredentials)}
+          namedStyle="text"
         >
-          {hasCredentials && !!biometryType ? (
-            <View style={{ width: "100%", height: 20, marginBottom: 30 }}>
-              <TouchableOpacity onPress={getCredentials}>
-                <Icon
-                  color="#20809e"
-                  style={{ alignSelf: "center" }}
-                  name="face-id"
-                />
-              </TouchableOpacity>
-            </View>
-          ) : null}
-          <Input
-            label={t("email_label")}
-            onChange={(value) => handleChange("email", value)}
-            placeholder={t("email_placeholder")}
-            value={data.email}
-            autoCapitalize="none"
-            style={styles.input}
-          />
-          <InputPassword
-            label={t("password_label")}
-            onChange={(value) => handleChange("password", value)}
-            placeholder={t("password_placeholder")}
-            value={data.password}
-            style={styles.inputPassword}
-            autoCapitalize="none"
-          />
-          <View style={styles.checkboxContainer}>
-            <CheckBox
-              isChecked={shouldSaveCredentials}
-              setIsChecked={() =>
-                setShouldSaveCredentials(!shouldSaveCredentials)
-              }
-            />
-            <AppText
-              onPress={() => setShouldSaveCredentials(!shouldSaveCredentials)}
-              namedStyle="text"
-            >
-              {t("save_credentials")}
-            </AppText>
-          </View>
-          <AppButton
-            type="ghost"
-            color="purple"
-            label={t("forgot_password_label")}
-            onPress={() => handleForgotPassowrd()}
-          />
-          {errors.submit ? <Error message={errors.submit} /> : null}
+          {t("save_credentials")}
+        </AppText>
+      </View>
+      <NewButton
+        type="ghost-purple"
+        label={t("forgot_password_label")}
+        onPress={handleForgotPassowrd}
+      />
+      {errors.submit ? <Error message={errors.submit} /> : null}
+      {inBackdrop ? null : (
+        <>
           <NewButton
             label={t("login_label")}
             size="lg"
@@ -284,6 +296,31 @@ export const Login = ({ navigation }) => {
             onPress={() => handleRegisterRedirect()}
             style={styles.registerButton}
           />
+        </>
+      )}
+    </>
+  );
+
+  if (inBackdrop) {
+    return (
+      <KeyboardAvoidingView
+        style={styles.keyboardAvoidingView}
+        behavior={Platform.OS === "ios" ? "padding" : null}
+      >
+        <Block style={styles.flexGrow}>{content}</Block>
+      </KeyboardAvoidingView>
+    );
+  }
+
+  return (
+    <KeyboardAvoidingView
+      style={styles.keyboardAvoidingView}
+      behavior={Platform.OS === "ios" ? "padding" : null}
+    >
+      <Heading heading={t("heading")} handleGoBack={handleGoBack} />
+      <Block style={[styles.flexGrow, { marginTop: 84 }]}>
+        <ScrollView contentContainerStyle={styles.flexGrow} keyboardShouldPersistTaps="handled">
+          {content}
         </ScrollView>
       </Block>
     </KeyboardAvoidingView>

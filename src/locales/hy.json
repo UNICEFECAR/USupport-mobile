@@ -71,6 +71,11 @@
       "heading": "Իմ խորհրդատվությունները",
       "view_all": "Դիտել բոլորը",
       "schedule_consultation_label": "Պլանավորել խորհրդատվություն",
+      "heading_need_support": "Օգնության կարիք ունե՞ք",
+      "explore_resources_label": "Ուսումնասիրեք ռեսուրսները",
+      "dummy_provider_1": "Dr. Smith",
+      "dummy_provider_2": "Dr. Johnson",
+      "dummy_provider_3": "Dr. Williams",
       "live_text": "Հիմա",
       "accept_button_label": "Ընդունել խորհրդատվությունը",
       "join_button_label": "Միանալ",
@@ -222,6 +227,7 @@
       "heading": "Տրամադրության ստուգիչ",
       "mood_tracker": "Տրամադրության ստուգիչ",
       "how_it_works": "Ինչպես է գործում",
+      "additional_comment_label": "Ի՞նչն ստիպեց այդպես զգալ ձեզ։",
       "additional_comment_placeholder": "Ի՞նչն ստիպեց այդպես զգալ ձեզ։",
       "submit_mood_track": "Ուղարկել",
       "add_mood_tracker_success": "Ձեր օրվա տրամադրությունը բարեհաջող ավելացվել է",
@@ -233,6 +239,18 @@
       "check_out": "Դիտել"
     },
     "mood-track-history": {
+      "month_1": "Հնվ",
+      "month_2": "Փետ",
+      "month_3": "Մար",
+      "month_4": "Ապր",
+      "month_5": "Մայ",
+      "month_6": "Հուն",
+      "month_7": "Հուլ",
+      "month_8": "Օգս",
+      "month_9": "Սեպ",
+      "month_10": "Հոկ",
+      "month_11": "Նոյ",
+      "month_12": "Դեկ",
       "saturday": "Շաբ․",
       "happy": "Ուրախ եմ",
       "good": "Լավ եմ",
@@ -258,10 +276,15 @@
       "appointment": "Պայմանավորվածության ծանուցումներ",
       "minutes_before": "րոպե առաջ",
       "heading": "Ծանուցումների կարգավորումներ",
-      "subheading": "Այստեղ կարող եք կարգավորել, թե ինչպիսի ծանուցումներ եք ցանկանում ստանալ, ինչպիսիք՝ ոչ"
+      "subheading": "Այստեղ կարող եք կարգավորել, թե ինչպիսի ծանուցումներ եք ցանկանում ստանալ, ինչպիսիք՝ ոչ",
+      "success": "Կարգավորումները բարեհաջող պահպանված են"
     },
     "notifications": {
       "heading": "Ծանուցումներ",
+      "panel_heading": "Ծանուցումներ",
+      "tab_all": "Բոլորը",
+      "tab_new": "Նոր",
+      "tab_read": "Ընթերցված",
       "mark_read": "Բոլորը նշել որպես ընթերցված",
       "subheading": "Այստեղ կարող եք տեսնել բոլոր ծանուցումները, որ երբևէ ստացել եք ձեր օգտահաշվին։",
       "consultation_booking": "<0>-ի հետ{{providerName}}</0>պլանավորվել<0>է</0> բարեհաջող՝ <0>{{date}}</0>-ից <0>{{startHour}}</0> մինչև <0>{{endHour}}</0>",
@@ -628,12 +651,17 @@
       "user_guide": "Հարթակից օգտվելու մասին"
     },
     "welcome": {
-      "heading": "Բարի գալուստ",
+      "heading": "Welcome to Client Portal",
       "country": "Երկիրը",
       "language": "Լեզուն",
       "placeholder": "Ընտրել",
       "button": "Շարունակել",
       "poland_description": "uSupport-ը մտավոր առողջության և բարեկեցության հարթակ է, որը նախատեսված է երիտասարդների համար (16-24 տարեկան)",
+      "register_email": "Գրանցվել էլեկտրոնային փոստով",
+      "register_anonymously": "Գրանցվել առանց էլեկտրոնային փոստի",
+      "continue_as_guest": "Շարունակել առանց գրանցման",
+      "already_have_account": "Արդեն ունե՞ք հաշիվ",
+      "log_in": "Մուտք գործել",
       "ro_password_modal_heading": "Պահանջվում է գաղտնաբառ",
       "ro_password_modal_text": "Շարունակելու համար մուտքագրեք գաղտնաբառը։",
       "ro_password_modal_cta": "Շարունակել",
@@ -897,7 +925,12 @@
     },
     "baseline-assessment-dashboard": {
       "heading": "Ձեր բազային գնահատումը",
+      "heading_completed": "Your Latest Assessment",
       "no_assessment_text": "Դուք դեռ չեք ավարտել բազային գնահատումը։ Ավարտեք մեկը՝ ձեր հոգեկան առողջության մասին անհատականացված պատկերացումներ ստանալու համար։",
+      "no_assessment_description": "Take a quick assessment to understand your mental health better and get personalized recommendations.",
+      "explore_heading": "Find Support Near You",
+      "explore_card_description": "After completing the baseline assessment, we will help you find the most relevant support near you.",
+      "explore_button_label": "Explore Organizations",
       "start_new_assessment": "Սկսել գնահատումը",
       "completed": "Ավարտված",
       "in_progress": "Ընթացքի մեջ",
@@ -962,6 +995,9 @@
     }
   },
   "screens": {
+    "screen": {
+      "go_back": "Վերադառնալ"
+    },
     "article-information": {
       "heading": "Լրացուցիչ հոդվածներ",
       "no_results": "Ընտրված լեզվով նույնանման հոդվածներ չեն գտնվել։",

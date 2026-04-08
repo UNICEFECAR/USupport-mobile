@@ -57,7 +57,7 @@ export const Rating = ({
   return (
     <View style={[style]}>
       {label ? (
-        <AppText style={[styles.label, { color: colors.text }]}>
+        <AppText isSemibold style={[styles.label, { color: colors.text }]}>
           {label}
         </AppText>
       ) : null}
@@ -90,7 +90,6 @@ const styles = StyleSheet.create({
   label: {
     // color: appStyles.colorBlue_3d527b,
     marginBottom: 4,
-    fontFamily: "Nunito-SemiBold",
   },
   starsContainer: {
     display: "flex",

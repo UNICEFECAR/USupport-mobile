@@ -71,6 +71,11 @@
       "heading": "Менің консультацияларым",
       "view_all": "Барлығын көріп шығу",
       "schedule_consultation_label": "Консультацияны жоспарлау",
+      "heading_need_support": "Қолдау керек пе?",
+      "explore_resources_label": "Ресурстарды қарау",
+      "dummy_provider_1": "Др. Нурланов",
+      "dummy_provider_2": "Др. Серсенов",
+      "dummy_provider_3": "Др. Жумабеков",
       "live_text": "Қазір",
       "accept_button_label": "Консультацияны қабылдау",
       "join_button_label": "Қосылу",
@@ -221,6 +226,7 @@
       "welcome-heading": "Welcome",
       "heading": "Бүгін жағдайыңыз қалай?",
       "mood_tracker": "Көңіл-күй трекері",
+      "additional_comment_label": "Сізді осылай сезінуге не себеп болды?",
       "additional_comment_placeholder": "Сізді осылай сезінуге не себеп болды?",
       "submit_mood_track": "Жіберу",
       "add_mood_tracker_success": "Сіздің көңіл-күйіңіз сәтті қосылды",
@@ -233,6 +239,18 @@
       "check_out": "Қарап шығу"
     },
     "mood-track-history": {
+      "month_1": "Қаң",
+      "month_2": "Ақп",
+      "month_3": "Нау",
+      "month_4": "Сәу",
+      "month_5": "Мам",
+      "month_6": "Мау",
+      "month_7": "Шіл",
+      "month_8": "Там",
+      "month_9": "Қыр",
+      "month_10": "Қаз",
+      "month_11": "Қар",
+      "month_12": "Жел",
       "saturday": "Сб",
       "happy": "Керемет",
       "good": "Жақсы",
@@ -258,10 +276,15 @@
       "appointment": "Кездесулер хабарландырулар",
       "minutes_before": "минут дейін",
       "heading": "",
-      "subheading": ""
+      "subheading": "",
+      "success": "Хабарландыру баптаулары сәтті сақталды"
     },
     "notifications": {
       "heading": "Хабарлама",
+      "panel_heading": "Хабарлама",
+      "tab_all": "Барлығы",
+      "tab_new": "Жаңа",
+      "tab_read": "Оқылған",
       "mark_read": "Барлығын оқылған деп белгілеу",
       "subheading": "Мұнда Сіз аккаунтыңызда алған барлық хабарландыруларды таба аласыз.",
       "consultation_booking": "<0>{{providerName}}</0> консультантімен консультацияңыз <0>{{date}}</0> <0>{{startHour}}</0> бастап <0>{{endHour}}</0> дейін сәтті жоспарланған.",
@@ -628,12 +651,17 @@
       "high_contrast_mode": "Биік контраст режимі"
     },
     "welcome": {
-      "heading": "Қош келдіңіз, бұл - ",
+      "heading": "Welcome to Client Portal",
       "country": "Ел",
       "language": "Тіл",
       "placeholder": "Таңдау",
       "button": "Жалғастыру",
       "poland_description": "uSupport жастарға (16-24 жас) арналған психикалық денсаулық пен әл-ауқат платформасы.",
+      "register_email": "Электронды пошта арқылы тіркеліңіз",
+      "register_anonymously": "Электрондық поштасыз тіркелу",
+      "continue_as_guest": "Тіркеусіз жалғастыру",
+      "already_have_account": "Есептік жазбаңыз бар ма?",
+      "log_in": "Кіру",
       "ro_password_modal_heading": "Құпиясөз қажет",
       "ro_password_modal_text": "Жалғастыру үшін құпиясөзді енгізіңіз.",
       "ro_password_modal_cta": "Жалғастыру",
@@ -649,7 +677,7 @@
       "most_popular": "Ең танымал",
       "newest": "Жаңа",
       "your_questions": "Сіздің сұрағыңыз",
-      "answer_by": "Жауап беруші:",
+      "answer_by": "Жауап берді:",
       "schedule_consultation": "Консультацияны жоспарлау",
       "today": "Бүгін",
       "no_questions_found": "Бірде-бір сұрақ табылмады",
@@ -868,7 +896,12 @@
     },
     "baseline-assessment-dashboard": {
       "heading": "Бағалау",
+      "heading_completed": "Your Latest Assessment",
       "no_assessment_text": "Бағалауды өтпегенсіз. Психологиялық денсаулығыңыз туралы персоналдизацияланған талдаулар алу үшін бағалауды өтіңіз.",
+      "no_assessment_description": "Take a quick assessment to understand your mental health better and get personalized recommendations.",
+      "explore_heading": "Find Support Near You",
+      "explore_card_description": "After completing the baseline assessment, we will help you find the most relevant support near you.",
+      "explore_button_label": "Картаны зерттеу",
       "start_new_assessment": "Бағалауды бастау",
       "completed": "Аяқталды",
       "in_progress": "Жүріп жатыр",
@@ -880,7 +913,9 @@
       "latest_result": "Latest Result",
       "psychological": "Psychological",
       "biological": "Biological",
-      "social": "Social"
+      "social": "Social",
+      "how_it_works": "How it works",
+      "see_last_result": "View Results"
     },
     "baseline-assesment-result": {
       "assessment_completed": "Assessment completed",
@@ -930,6 +965,9 @@
     }
   },
   "screens": {
+    "screen": {
+      "go_back": "Артқа"
+    },
     "article-information": {
       "heading": "Көбірек мақалалар",
       "no_results": "Таңдалған тілде ұқсас мақалалар жоқ.",

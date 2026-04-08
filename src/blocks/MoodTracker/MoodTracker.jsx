@@ -6,18 +6,11 @@ import React, {
   useMemo,
 } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Image,
-  useWindowDimensions,
-} from "react-native";
+import { StyleSheet, View, TouchableOpacity, Image } from "react-native";
 import { useTranslation } from "react-i18next";
 
 import {
   AppText,
-  AppButton,
   Block,
   Emoticon,
   Toggle,
@@ -33,8 +26,7 @@ import { showToast } from "#utils";
 import { appStyles } from "#styles";
 import { localStorage, Context } from "#services";
 import { HowItWorksMoodTrack } from "#modals";
-import { mascotHappyPurple } from "#assets";
-import LinearGradient from "../../components/LinearGradient";
+import { mascotHappyPurpleFull } from "#assets";
 
 /**
  * MoodTracker
@@ -49,9 +41,7 @@ export const MoodTracker = ({
   openRequireDataAgreement,
   onTextareaFocus,
 }) => {
-  const { colors } = useGetTheme();
-  const { width: windowWidth } = useWindowDimensions();
-  const isMobileLayout = windowWidth < 768;
+  const { colors, isDarkMode, isHighContrast } = useGetTheme();
 
   const { t, i18n } = useTranslation("blocks", { keyPrefix: "mood-tracker" });
   const { country, isTmpUser, handleRegistrationModalOpen } =
@@ -111,6 +101,11 @@ export const MoodTracker = ({
     [colors.textTertiary]
   );
 
+  const selectedLabelColor = useMemo(() => {
+    if (isDarkMode || isHighContrast) return colors.textTertiary;
+    return appStyles.colorSecondary_9749fa;
+  }, [colors.textTertiary, isDarkMode, isHighContrast]);
+
   const hasSelectedMoodtracker = useCallback(() => {
     return emoticons.some((emoticon) => emoticon.isSelected);
   }, [emoticons]);
@@ -134,10 +129,12 @@ export const MoodTracker = ({
     showToast({ message: error, type: "error" });
   };
 
-  const renderEmoticons = () => {
+  const renderEmoticons = ({ isModal = false } = {}) => {
     return emoticons.map((emoticon, index) => {
       const isAnySelected = emoticons.some((x) => x.isSelected);
       const isNotSelected = isAnySelected && !emoticon.isSelected;
+      const labelSelectedInModal =
+        isModal && emoticon.isSelected && !isDarkMode && !isHighContrast;
 
       return (
         <TouchableOpacity
@@ -145,22 +142,14 @@ export const MoodTracker = ({
           key={index}
           style={[
             styles.tileTouchable,
+            isModal && styles.tileTouchableModal,
             isNotSelected && styles.tileNotSelected,
           ]}
         >
-          <LinearGradient
-            gradient={appStyles.gradientSecondary3}
-            style={[
-              styles.emoticonBubble,
-              appStyles.shadow2,
-              emoticon.isSelected && styles.emoticonBubbleSelected,
-            ]}
-          >
-            <Emoticon
-              name={`${emoticon.value}`}
-              size={emoticon.isSelected ? "lg" : "sm"}
-            />
-          </LinearGradient>
+          <Emoticon
+            name={`${emoticon.value}`}
+            size={emoticon.isSelected ? "lg" : "sm"}
+          />
           <AppText
             numberOfLines={2}
             namedStyle="smallText"
@@ -241,7 +230,7 @@ export const MoodTracker = ({
         onClose={() => setIsHowItWorksMoodTrackOpen(false)}
       />
       <Block style={styles.block}>
-        <View style={[styles.topRow, isMobileLayout && styles.topRowMobile]}>
+        <View style={styles.topRow}>
           <View style={styles.headingContainer}>
             <AppText namedStyle="h2" style={styles.welcomeHeading}>
               {t("welcome-heading")}
@@ -256,10 +245,6 @@ export const MoodTracker = ({
               {t("heading")}
             </AppText>
           </View>
-
-          {!isMobileLayout ? (
-            <Image source={mascotHappyPurple} style={styles.mascot} />
-          ) : null}
         </View>
 
         <View style={styles.rating}>
@@ -268,12 +253,14 @@ export const MoodTracker = ({
             onPress={handleMoreTilePress}
             style={styles.tileTouchable}
           >
-            <View style={[styles.moreTile, appStyles.shadow1]}>
-              <Emoticon
-                name={hasCompletedMoodTrackerEver ? "happy" : "good"}
-                size="sm"
-              />
-            </View>
+            <Emoticon
+              name={
+                hasCompletedMoodTrackerEver
+                  ? "emoticon-history"
+                  : "emoticon-insight"
+              }
+              size="sm"
+            />
             <AppText
               numberOfLines={2}
               namedStyle="smallText"
@@ -284,11 +271,9 @@ export const MoodTracker = ({
           </TouchableOpacity>
         </View>
 
-        {isMobileLayout ? (
-          <View style={styles.mascotRowMobile}>
-            <Image source={mascotHappyPurple} style={styles.mascotMobile} />
-          </View>
-        ) : null}
+        <View style={styles.mascotRow}>
+          <Image source={mascotHappyPurpleFull} style={styles.mascot} />
+        </View>
       </Block>
 
       <TransparentModal
@@ -302,29 +287,34 @@ export const MoodTracker = ({
         }
         isCtaLoading={addMoodTrackMutation.isLoading}
       >
-        <View style={styles.modalEmoticonsRow}>{renderEmoticons()}</View>
-        {hasSelectedMoodtracker() ? (
-          <View style={styles.modalContent}>
-            <Textarea
-              value={comment}
-              onChange={(value) => setComment(value)}
-              placeholder={t("additional_comment_placeholder")}
-              style={{ width: "100%" }}
-              onFocus={onTextareaFocus}
-            />
-            {showEmergency && (
-              <View style={styles.emergencyContainer}>
-                <AppText namedStyle="text" style={styles.emergencyLabel}>
-                  {t("emergency_label")}
-                </AppText>
-                <Toggle
-                  isToggled={isEmergency}
-                  handleToggle={(checked) => setIsEmergency(checked)}
-                />
-              </View>
-            )}
+        <View style={styles.modalBody}>
+          <View style={styles.modalEmoticonsRow}>
+            {renderEmoticons({ isModal: true })}
           </View>
-        ) : null}
+          {hasSelectedMoodtracker() ? (
+            <View style={styles.modalAdditionalComment}>
+              <Textarea
+                value={comment}
+                onChange={(value) => setComment(value)}
+                label={t("additional_comment_label")}
+                placeholder={t("additional_comment_placeholder")}
+                style={styles.modalTextarea}
+                onFocus={onTextareaFocus}
+              />
+              {showEmergency && (
+                <View style={styles.emergencyContainer}>
+                  <AppText namedStyle="text" style={styles.emergencyLabel}>
+                    {t("emergency_label")}
+                  </AppText>
+                  <Toggle
+                    isToggled={isEmergency}
+                    handleToggle={(checked) => setIsEmergency(checked)}
+                  />
+                </View>
+              )}
+            </View>
+          ) : null}
+        </View>
       </TransparentModal>
     </React.Fragment>
   );
@@ -336,28 +326,24 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    width: "97%",
-    marginTop: 16,
-    marginHorizontal: "auto",
+    width: "100%",
+    paddingTop: 16,
+    gap: 16,
   },
   emergencyLabel: {
+    flex: 1,
     marginRight: 12,
+    textAlign: "left",
   },
   topRow: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    justifyContent: "space-between",
-    marginBottom: 6,
-  },
-  topRowMobile: {
     flexDirection: "column",
     alignItems: "flex-start",
+    marginBottom: 6,
   },
-  headingContainer: { flex: 1, paddingRight: 12 },
+  headingContainer: { width: "100%" },
   welcomeHeading: { flexWrap: "wrap" },
   welcomeHeadingName: { color: appStyles.colorSecondary_9749fa },
   subheading: { marginTop: 8, color: appStyles.colorGray_66768d },
-  mascot: { width: 92, height: 92, resizeMode: "contain" },
   rating: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -370,6 +356,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     marginBottom: 16,
+  },
+  /** Five equal columns, centered — matches web .mood-tracker__rating-box__rating--modal */
+  tileTouchableModal: {
+    width: "20%",
+    maxWidth: "20%",
+    marginBottom: 12,
   },
   tileNotSelected: { opacity: 0.5 },
   emoticonBubble: {
@@ -389,29 +381,32 @@ const styles = StyleSheet.create({
     marginTop: 6,
     paddingHorizontal: 2,
   },
-  moreTile: {
-    width: 62,
-    height: 62,
-    borderRadius: 999,
-    backgroundColor: appStyles.colorWhite_ff,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  mascotRowMobile: {
+  mascotRow: {
     width: "100%",
     alignItems: "flex-end",
     paddingTop: 4,
   },
-  mascotMobile: { width: 110, height: 110, resizeMode: "contain" },
+  mascot: { width: 160, height: 160, resizeMode: "contain" },
+  modalBody: {
+    width: "100%",
+    alignItems: "center",
+    paddingVertical: 16,
+  },
   modalEmoticonsRow: {
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "space-between",
-    paddingBottom: 8,
-    paddingTop: 8,
+    justifyContent: "center",
+    alignItems: "flex-start",
+    width: "100%",
   },
-  modalContent: {
-    paddingTop: 16,
-    alignItems: "center",
+  /** Matches web .mood-tracker__modal__content__additional-comment */
+  modalAdditionalComment: {
+    width: "100%",
+    marginTop: 16,
+    alignSelf: "stretch",
+  },
+  modalTextarea: {
+    width: "100%",
+    alignSelf: "stretch",
   },
 });

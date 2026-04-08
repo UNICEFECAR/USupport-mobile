@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import Joi from "joi";
 import { StyleSheet, View } from "react-native";
 
-import { Block, Error, Input, AppButton, TransparentModal } from "#components";
+import { Block, Error, Input, NewButton, TransparentModal } from "#components";
 
 import { userSvc } from "#services";
 
@@ -18,7 +18,7 @@ import { useError } from "#hooks";
  *
  * @return {jsx}
  */
-export const ForgotPassword = ({ navigation }) => {
+export const ForgotPassword = ({ navigation, onDone, inBackdrop }) => {
   const { t } = useTranslation("blocks", { keyPrefix: "forgot-password" });
 
   const [data, setData] = useState({ email: "" });
@@ -52,11 +52,12 @@ export const ForgotPassword = ({ navigation }) => {
   const canContinue = data.email === "";
   const closeModal = () => {
     setIsModalOpen(false);
-    navigation.navigate("Login");
+    if (onDone) return onDone();
+    navigation?.navigate?.("Login");
   };
 
   return (
-    <Block style={{ marginTop: 100 }}>
+    <Block style={{ marginTop: inBackdrop ? 0 : 100 }}>
       <View style={styles.contentContainer}>
         <Input
           label={t("input_email_label")}
@@ -68,7 +69,7 @@ export const ForgotPassword = ({ navigation }) => {
           style={styles.input}
         />
         {errors.submit ? <Error message={errors.submit} /> : null}
-        <AppButton
+        <NewButton
           label={t("reset_password_button_label")}
           size="lg"
           onPress={handleResetPassword}

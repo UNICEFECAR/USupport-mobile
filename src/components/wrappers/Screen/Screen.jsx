@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useMemo, useState, useCallback } from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -15,6 +15,10 @@ import { ButtonOnlyIcon } from "../../buttons";
 import pageMobileHero from "../../../assets/page-mobile-hero.png";
 import pageTabletHero from "../../../assets/page-tablet-hero.png";
 import { HeaderNavigation } from "../../headings";
+import { JoinConsultation } from "#backdrops";
+import { RequireDataAgreement } from "#modals";
+import { NotificationsDropdownPanel } from "../NotificationsDropdownPanel";
+import { ProfileMenuPanel } from "../ProfileMenuPanel";
 import {
   useCheckHasUnreadNotifications,
   useGetTheme,
@@ -42,6 +46,32 @@ export function Screen({
   const { width } = useWindowDimensions();
 
   const [hasUnreadNotifications, setHasUnreadNotifications] = useState();
+
+  const [isNotificationsPanelOpen, setIsNotificationsPanelOpen] =
+    useState(false);
+  const [isProfilePanelOpen, setIsProfilePanelOpen] = useState(false);
+  const [headerNavLayoutHeight, setHeaderNavLayoutHeight] = useState(96);
+  const [selectedConsultation, setSelectedConsultation] = useState();
+  const [isJoinConsultationOpen, setIsJoinConsultationOpen] = useState(false);
+  const [isRequireDataAgreementOpen, setIsRequireDataAgreementOpen] =
+    useState(false);
+
+  const openJoinConsultation = useCallback((consultation) => {
+    setSelectedConsultation(consultation);
+    setIsJoinConsultationOpen(true);
+  }, []);
+  const closeJoinConsultation = useCallback(
+    () => setIsJoinConsultationOpen(false),
+    []
+  );
+  const openRequireDataAgreement = useCallback(
+    () => setIsRequireDataAgreementOpen(true),
+    []
+  );
+  const closeRequireDataAgreement = useCallback(
+    () => setIsRequireDataAgreementOpen(false),
+    []
+  );
 
   const { top: topInset, bottom: bottomInset } = useSafeAreaInsets();
   // Match web `Page` behavior: the hero/background image is only shown in light mode.
@@ -131,7 +161,43 @@ export function Screen({
           hasUnreadNotifications={hasUnreadNotifications}
           isTmpUser={isTmpUser}
           handleRegistrationModalOpen={handleRegistrationModalOpen}
+          onPressNotifications={() => {
+            setIsProfilePanelOpen(false);
+            setIsNotificationsPanelOpen(true);
+          }}
+          onPressProfile={() => {
+            setIsNotificationsPanelOpen(false);
+            setIsProfilePanelOpen(true);
+          }}
+          onHeaderLayout={setHeaderNavLayoutHeight}
         />
+      ) : null}
+      {hasHeaderNavigation ? (
+        <>
+          <NotificationsDropdownPanel
+            isOpen={isNotificationsPanelOpen}
+            onClose={() => setIsNotificationsPanelOpen(false)}
+            navigation={navigation}
+            panelTop={headerNavLayoutHeight}
+            openJoinConsultation={openJoinConsultation}
+            openRequireDataAgreement={openRequireDataAgreement}
+          />
+          <ProfileMenuPanel
+            isOpen={isProfilePanelOpen}
+            onClose={() => setIsProfilePanelOpen(false)}
+            navigation={navigation}
+            panelTop={headerNavLayoutHeight}
+          />
+          <JoinConsultation
+            isOpen={isJoinConsultationOpen}
+            onClose={closeJoinConsultation}
+            consultation={selectedConsultation}
+          />
+          <RequireDataAgreement
+            isOpen={isRequireDataAgreementOpen}
+            onClose={closeRequireDataAgreement}
+          />
+        </>
       ) : null}
       {outsideComponent}
     </SafeAreaView>

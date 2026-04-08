@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useTranslation } from "react-i18next";
 
-import { Block, Heading, Dropdown, Textarea, AppButton } from "#components";
+import { Block, Heading, Dropdown, Textarea, NewButton } from "#components";
 
 import { useSendIssueEmail, useGetClientData } from "#hooks";
 
@@ -149,16 +149,16 @@ export const ContactUs = ({ navigation }) => {
       style={styles.flexGrow}
       behavior={Platform.OS === "ios" ? "padding" : null}
     >
-      <Heading
-        heading={t("heading")}
-        subheading={t("subheading")}
-        handleGoBack={handleGoBack}
-      />
       <ScrollView
-        contentContainerStyle={[styles.flexGrow, { marginTop: 84 }]}
+        contentContainerStyle={styles.flexGrow}
         keyboardShouldPersistTaps="never"
       >
         <Block style={styles.block}>
+          <Heading
+            heading={t("heading")}
+            subheading={t("subheading")}
+            handleGoBack={handleGoBack}
+          />
           <Dropdown
             label={t("issue")}
             style={styles.dropdown}
@@ -178,7 +178,7 @@ export const ContactUs = ({ navigation }) => {
             placeholder={t("message_placeholder")}
           />
           <View style={{ flex: 1, justifyContent: "flex-end" }}>
-            <AppButton
+            <NewButton
               size="lg"
               label={t("button")}
               style={styles.button}
@@ -194,7 +194,7 @@ export const ContactUs = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  block: { alignItems: "center", flex: 1, flexGrow: 1 },
+  block: { flex: 1, flexGrow: 1 },
   flexGrow: { flexGrow: 1 },
   dropdown: { marginTop: 32, zIndex: 3 },
   textarea: { marginTop: 22 },

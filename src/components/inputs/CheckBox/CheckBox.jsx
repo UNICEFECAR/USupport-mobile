@@ -37,7 +37,7 @@ export const CheckBox = ({
           style,
         ]}
       >
-        <View style={[styles.checkbox, isChecked && styles.checked, ,]}>
+        <View style={[styles.checkbox, isChecked && styles.checked]}>
           {isChecked && (
             <Icon
               name="checkbox-check"
@@ -49,6 +49,7 @@ export const CheckBox = ({
         {label && (
           <AppText
             namedStyle="text"
+            isSemibold={isChecked}
             style={[
               isChecked && styles.textChecked,
               isChecked && { color: colors.text },
@@ -92,7 +93,6 @@ const styles = StyleSheet.create({
 
   textChecked: {
     color: appStyles.colorBlue_3d527b,
-    fontFamily: "Nunito-SemiBold",
   },
 });
 

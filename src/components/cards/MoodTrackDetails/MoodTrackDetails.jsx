@@ -1,11 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet } from "react-native";
 
 import { AppText } from "../../texts";
-import { Icon } from "../../icons";
 import { appStyles } from "#styles";
 import { useGetTheme } from "#hooks";
+import { Emoticon } from "../../icons";
 
 /**
  * MoodTrackDetails
@@ -14,15 +14,7 @@ import { useGetTheme } from "#hooks";
  *
  * @return {jsx}
  */
-const moodEmojiMap = {
-  happy: "😍",
-  good: "😀",
-  sad: "😔",
-  depressed: "☹️",
-  worried: "😣",
-};
-
-export const MoodTrackDetails = ({ mood, handleClose, t = { t } }) => {
+export const MoodTrackDetails = ({ mood, t }) => {
   const { colors, isHighContrast } = useGetTheme();
   const dateText = `${
     mood.time.getDate() > 9 ? mood.time.getDate() : `0${mood.time.getDate()}`
@@ -31,15 +23,9 @@ export const MoodTrackDetails = ({ mood, handleClose, t = { t } }) => {
       ? mood.time.getMonth() + 1
       : `0${mood.time.getMonth() + 1}`
   }.${mood.time.getFullYear()}`;
-  const timeText = `${mood.time.getHours()}:${
-    mood.time.getMinutes() > 9
-      ? mood.time.getMinutes()
-      : `0${mood.time.getMinutes()}`
-  }`;
 
   return (
     <View style={styles.moodTrackDetails}>
-      <AppText namedStyle="h3">{timeText}</AppText>
       <View style={styles.subheadingContainer}>
         <AppText
           numberOfLines={1}
@@ -48,7 +34,7 @@ export const MoodTrackDetails = ({ mood, handleClose, t = { t } }) => {
         >
           {t("you_felt")}
         </AppText>
-        <AppText style={styles.emoji}>{moodEmojiMap[mood.mood]}</AppText>
+        <Emoticon name={mood.mood} size="xs" style={styles.emoticon} />
         <AppText
           numberOfLines={1}
           style={{ color: colors.textSecondary }}
@@ -70,24 +56,18 @@ export const MoodTrackDetails = ({ mood, handleClose, t = { t } }) => {
 };
 
 const styles = StyleSheet.create({
-  closeIcon: {
-    position: "absolute",
-    right: 20,
-    top: 20,
-  },
   commentText: {
     alignSelf: "flex-start",
     color: appStyles.colorPrimary_20809e,
-    marginTop: 12,
+    marginTop: 16,
   },
   criticalText: {
     alignSelf: "flex-start",
     color: appStyles.colorRed_eb5757,
-    marginTop: 12,
+    marginTop: 16,
   },
-  emoji: {
-    fontSize: 22,
-    marginHorizontal: 6,
+  emoticon: {
+    marginHorizontal: 4,
   },
   moodTrackDetails: {
     alignItems: "center",
@@ -99,16 +79,11 @@ const styles = StyleSheet.create({
   subheadingContainer: {
     alignItems: "center",
     flexDirection: "row",
-    marginTop: 12,
+    marginTop: 16,
     width: "100%",
   },
   commentTextHC: {
     color: "#fff",
-  },
-  closeIcon: {
-    position: "absolute",
-    right: 20,
-    top: 20,
   },
 });
 
@@ -119,7 +94,7 @@ MoodTrackDetails.propTypes = {
   mood: PropTypes.object.isRequired,
 
   /*
-   * Function to close the details
+   * Translation function
    */
-  handleClose: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
 };

@@ -46,7 +46,6 @@ export const DeleteChatHistory = ({ isOpen, onClose }) => {
       isOpen={isOpen}
       handleClose={onClose}
       ctaLabel={t("confirm")}
-      ctaColor="red"
       ctaHandleClick={handleConfirm}
       secondaryCtaLabel={t("cancel")}
       secondaryCtaType="primary"

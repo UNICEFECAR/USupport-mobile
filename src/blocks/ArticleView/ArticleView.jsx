@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -16,13 +16,12 @@ import {
   AudioPlayer,
   Icon,
   Label,
-  Box,
-  Block,
   AppText,
   Like,
   Loading,
   CKRenderer,
 } from "#components";
+import LinearGradient from "../../components/LinearGradient";
 import { appStyles } from "#styles";
 
 import {
@@ -39,7 +38,7 @@ const { AMAZON_S3_BUCKET } = Config;
 /**
  * ArticleView
  *
- * ArticleView block
+ * Layout and styling aligned with client-ui article-view.scss (glass card, meta, actions, image order).
  *
  * @return {jsx}
  */
@@ -47,8 +46,10 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
   const { t } = useTranslation("screens", {
     keyPrefix: "article-information",
   });
-  const { colors } = useGetTheme();
+  const { colors, isHighContrast, isDarkMode } = useGetTheme();
   const queryClient = useQueryClient();
+
+  const isLightTheme = colors.background === appStyles.colorWhite_ff;
 
   const [contentRating, setContentRating] = React.useState({
     likes: articleData.likes || 0,
@@ -56,6 +57,51 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
     isLikedByUser: articleData.contentRating?.isLikedByUser || false,
     isDislikedByUser: articleData.contentRating?.isDislikedByUser || false,
   });
+
+  // Match ConsultationsDashboard / BaselineAssessmentDashboard liquid glass
+  const glassGradient = useMemo(
+    () => ({
+      degrees: 145,
+      locations: [0, 100],
+      colors:
+        isLightTheme && !isHighContrast
+          ? ["rgba(255, 255, 255, 0.99)", "rgba(245, 248, 255, 0.85)"]
+          : colors.cardMediaGradient,
+    }),
+    [isLightTheme, isHighContrast, colors.cardMediaGradient]
+  );
+
+  const metaAccentColor = isHighContrast
+    ? appStyles.colorOrangeArticleCreatorHC_ffc18c
+    : colors.cardMediaMetaText;
+
+  const timeIconColor = isHighContrast
+    ? appStyles.colorHighContrast_ffff00
+    : colors.text;
+
+  const actionIconColor = isLightTheme && !isHighContrast
+    ? appStyles.colorGray_66768d
+    : appStyles.colorWhite_ff;
+
+  const categoryBadgeStyle = useMemo(() => {
+    if (isDarkMode && !isHighContrast) {
+      return {
+        backgroundColor: appStyles.colorGray_66768d,
+        borderColor: "transparent",
+      };
+    }
+    return {
+      backgroundColor: appStyles.colorBlue_20809E_0_3,
+      borderColor: "transparent",
+    };
+  }, [isDarkMode, isHighContrast]);
+
+  const categoryTextColor = useMemo(() => {
+    if (isDarkMode && !isHighContrast) {
+      return appStyles.color_blue_c1d7e0;
+    }
+    return appStyles.colorBlue_3d527b;
+  }, [isDarkMode, isHighContrast]);
 
   const onMutate = (data) => {
     const prevData = JSON.parse(JSON.stringify(contentRating));
@@ -151,7 +197,6 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
   const addContentEngagementMutation = useAddContentEngagement();
   const removeContentEngagementMutation = useRemoveContentEngagement();
 
-  // Track view when article is loaded using useQuery
   useQuery(
     ["article-view-tracking", articleData.id],
     async () => {
@@ -173,15 +218,12 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
     const isRemovingReaction =
       action === "remove-like" || action === "remove-dislike";
 
-    // Track engagement
     if (isRemovingReaction) {
-      // Remove like/dislike from engagement tracking
       removeContentEngagementMutation({
         contentId: articleData.id,
         contentType: "article",
       });
     } else {
-      // Add like/dislike to engagement tracking
       addContentEngagementMutation({
         contentId: articleData.id,
         contentType: "article",
@@ -189,7 +231,6 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
       });
     }
 
-    // Update rating in the rating system
     addContentRatingMutation({
       contentId: articleData.id,
       positive: action === "like" ? true : isRemovingReaction ? null : false,
@@ -208,7 +249,6 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
         title: articleData.title,
         message: `${t("check_article")}\n\n${url}`,
       });
-      // If Share.open resolves without throwing, the share was successful
       showToast({ message: t("share_success"), type: "success" });
       if (!isTmpUser) {
         addContentEngagementMutation({
@@ -223,6 +263,7 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
       }
     }
   };
+
   const [isPdfLoading, setIsPdfLoading] = useState(false);
 
   const handleExportPDF = async () => {
@@ -233,17 +274,13 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
         t,
       });
 
-      console.log("PDF file object:", file);
-
       if (file && (file.base64 || file.filePath)) {
-        // Android: consider PDF generated => downloaded; show toast now.
         if (Platform.OS === "android") {
           showToast({
             message: t("download_success"),
             type: "success",
           });
         }
-        // Prefer file path on iOS, base64 on Android if available
         let url;
         if (Platform.OS === "ios") {
           if (file.filePath) {
@@ -268,13 +305,10 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
           url,
           type: "application/pdf",
           saveToFiles: Platform.OS === "ios",
-          // iOS: detect cancel as an error so we can avoid showing the toast
-          // Android: do not fail on cancel to avoid false negatives
           failOnCancel: Platform.OS === "ios",
         };
         try {
           await Share.open(shareOptions);
-          // iOS: show toast only after user completes a share/save action
           if (Platform.OS === "ios") {
             showToast({
               message: t("download_success"),
@@ -289,10 +323,7 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
             console.log("Share PDF error:", shareError);
           }
         }
-      } else {
-        console.error("PDF file path is missing");
       }
-      // Track download engagement
       if (!isTmpUser) {
         addContentEngagementMutation({
           contentId: articleData.id,
@@ -316,191 +347,277 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
     articleData.imageThumbnail ||
     articleData.imageSmall;
 
+  const markdownStyles = useMemo(
+    () => ({
+      heading3: {
+        fontSize: 20,
+        lineHeight: 24,
+        fontFamily: appStyles.fontSemiBold,
+        color: colors.text,
+        marginTop: 20,
+        marginBottom: 8,
+      },
+      heading4: {
+        fontSize: 16,
+        lineHeight: 24,
+        fontFamily: appStyles.fontSemiBold,
+        color: colors.text,
+        marginTop: 12,
+      },
+      paragraph: {
+        color: colors.textSecondary,
+        fontSize: 16,
+        fontFamily: appStyles.fontRegular,
+        lineHeight: 28,
+      },
+      list_item: {
+        color: colors.textSecondary,
+        fontSize: 16,
+        fontFamily: appStyles.fontRegular,
+        lineHeight: 28,
+      },
+    }),
+    [colors.text, colors.textSecondary]
+  );
+
+  const renderGlassCard = (children) => (
+    <LinearGradient
+      gradient={glassGradient}
+      style={[
+        styles.glassCard,
+        isLightTheme && !isHighContrast
+          ? styles.liquidGlassShadowLight
+          : appStyles.cardMediaShadowDark,
+        { borderColor: colors.cardMediaGradientBorder },
+      ]}
+    >
+      {children}
+    </LinearGradient>
+  );
+
+  const creator = articleData.creator;
+
   return (
-    <>
-      <View style={styles.imageContainer}>
-        <Image
-          source={
-            articleImageUri
-              ? { uri: articleImageUri }
-              : { uri: `${AMAZON_S3_BUCKET}/article-placeholder` }
-          }
-          style={styles.image}
-        />
-      </View>
-
-      <Block style={styles.block}>
-        <AppText namedStyle="h3" style={styles.articleTitleText}>
-          {articleData.title}
-        </AppText>
-
-        <View style={styles.categoryContainer}>
-          <AppText
-            namedStyle="smallText"
-            style={[styles.categoryText, { color: colors.text }]}
-          >
-            {articleData.categoryName}
+    <View style={styles.screen}>
+      {renderGlassCard(
+        <>
+          <AppText namedStyle="h2" style={styles.title}>
+            {articleData.title}
           </AppText>
-        </View>
 
-        <View style={styles.creatorContainer}>
-          <AppText namedStyle="smallText">
-            {t("by", { creator: articleData.creator })}
-          </AppText>
-          <Icon
-            size="sm"
-            name="time"
-            color={appStyles.colorGray_66768d}
-            style={styles.iconTime}
-          />
-          <AppText namedStyle="smallText">
-            {[articleData.readingTime, t("min_read")].join(" ")}
-          </AppText>
-        </View>
-
-        <Box style={styles.actionBox}>
-          <Like
-            size={30}
-            handleClick={handleAddRating}
-            likes={contentRating?.likes || 0}
-            isLiked={contentRating?.isLikedByUser || false}
-            dislikes={contentRating?.dislikes || 0}
-            isDisliked={contentRating?.isDislikedByUser || false}
-            answerId={articleData.id}
-          />
-          <View style={styles.verticalSeparator} />
-          <TouchableOpacity style={styles.actionButton} onPress={handleShare}>
-            <Icon name="share" size="sm" color={colors.text} />
-          </TouchableOpacity>
-          <View style={styles.verticalSeparator} />
-          <TouchableOpacity
-            style={styles.actionButton}
-            onPress={handleExportPDF}
-          >
-            {isPdfLoading ? (
-              <Loading style={styles.loading} />
-            ) : (
-              <Icon name="download" size="sm" color={colors.text} />
-            )}
-          </TouchableOpacity>
-        </Box>
-        {articleData?.ttsUrl ? (
-          <AudioPlayer
-            sourceUrl={articleData.ttsUrl}
-            style={styles.audioPlayer}
-          />
-        ) : null}
-        <View style={styles.rowStart}>
-          <View style={styles.labelsContainer}>
-            {articleData.labels.map((label, index) => {
-              return (
-                <Label style={styles.label} text={label.name} key={index} />
-              );
-            })}
+          <View style={styles.metaRow}>
+            {articleData.categoryName ? (
+              <View style={[styles.categoryBadge, categoryBadgeStyle]}>
+                <AppText
+                  namedStyle="smallText"
+                  style={[styles.categoryBadgeText, { color: categoryTextColor }]}
+                >
+                  {articleData.categoryName}
+                </AppText>
+              </View>
+            ) : null}
+            {creator ? (
+              <AppText
+                namedStyle="smallText"
+                style={[styles.creatorText, { color: metaAccentColor }]}
+                numberOfLines={1}
+              >
+                {t("by", { creator })}
+              </AppText>
+            ) : null}
+            {creator ? <View style={[styles.metaDot, { backgroundColor: metaAccentColor }]} /> : null}
+            <Icon name="time" size="sm" color={timeIconColor} />
+            <AppText namedStyle="smallText" style={{ color: metaAccentColor }}>
+              {articleData.readingTime} {t("min_read")}
+            </AppText>
           </View>
-        </View>
 
-        {articleData.bodyCK ? (
-          <CKRenderer data={articleData.bodyCK} />
-        ) : (
-          <Markdown
-            style={{
-              ...styles,
-              heading3: {
-                fontSize: 20,
-                lineHeight: 24,
-                fontFamily: "Nunito-SemiBold",
-                color: colors.text,
-                marginTop: 20,
-                marginBottom: 8,
-              },
-              heading4: {
-                fontSize: 16,
-                lineHeight: 24,
-                fontFamily: "Nunito-SemiBold",
-                color: colors.text,
-                marginTop: 12,
-              },
-              paragraph: {
-                color: colors.textSecondary,
-                fontSize: 16,
-                fontFamily: "Nunito-Regular",
-                lineHeight: 24,
-              },
-              list_item: {
-                color: colors.textSecondary,
-                fontSize: 16,
-                fontFamily: "Nunito-Regular",
-                lineHeight: 24,
-              },
-            }}
-          >
-            {articleData.body}
-          </Markdown>
-        )}
-      </Block>
-    </>
+          {articleData.labels?.length > 0 ? (
+            <View style={styles.labelsRow}>
+              {articleData.labels.map((label, index) => (
+                <Label style={styles.label} text={label.name} key={index} />
+              ))}
+            </View>
+          ) : null}
+
+          <View
+            style={[
+              styles.separator,
+              { backgroundColor: colors.cardMediaSeparator },
+            ]}
+          />
+
+          <View style={styles.actionsRow}>
+            <View style={styles.actionsLeft}>
+              <Like
+                size={30}
+                handleClick={handleAddRating}
+                likes={contentRating?.likes || 0}
+                isLiked={contentRating?.isLikedByUser || false}
+                dislikes={contentRating?.dislikes || 0}
+                isDisliked={contentRating?.isDislikedByUser || false}
+                answerId={articleData.id}
+              />
+            </View>
+            <View style={styles.actionsRight}>
+              <TouchableOpacity
+                style={styles.actionIconBtn}
+                onPress={handleExportPDF}
+                accessibilityRole="button"
+              >
+                {isPdfLoading ? (
+                  <Loading style={styles.loadingIcon} />
+                ) : (
+                  <Icon name="download" size="sm" color={actionIconColor} />
+                )}
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.actionIconBtn}
+                onPress={handleShare}
+                accessibilityRole="button"
+              >
+                <Icon name="share" size="sm" color={actionIconColor} />
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View
+            style={[
+              styles.separator,
+              { backgroundColor: colors.cardMediaSeparator },
+            ]}
+          />
+
+          <Image
+            source={
+              articleImageUri
+                ? { uri: articleImageUri }
+                : { uri: `${AMAZON_S3_BUCKET}/article-placeholder` }
+            }
+            style={styles.heroImage}
+            resizeMode="cover"
+          />
+
+          {articleData?.ttsUrl ? (
+            <AudioPlayer
+              sourceUrl={articleData.ttsUrl}
+              style={styles.audioPlayer}
+            />
+          ) : null}
+
+          <View style={styles.body}>
+            {articleData.bodyCK ? (
+              <CKRenderer data={articleData.bodyCK} />
+            ) : (
+              <Markdown style={markdownStyles}>{articleData.body}</Markdown>
+            )}
+          </View>
+        </>
+      )}
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  actionButton: {
-    borderColor: appStyles.colorBlue_3d527b,
-    borderRadius: 10,
+  screen: {
+    marginTop: 8,
+    paddingHorizontal: 16,
+    paddingBottom: 40,
+  },
+  glassCard: {
+    borderRadius: 16,
     borderWidth: 1,
-    // marginLeft: 16,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
+    overflow: "hidden",
+    padding: 16,
   },
-  actionButtons: {
-    flexDirection: "row",
-    marginLeft: "auto",
-    marginRight: 16,
+  liquidGlassShadowLight: {
+    shadowColor: "rgb(95, 108, 145)",
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.14,
+    shadowRadius: 16,
+    elevation: 4,
   },
-  block: { paddingBottom: 40, paddingTop: 16 },
-  categoryContainer: {
-    alignSelf: "flex-start",
-    backgroundColor: appStyles.colorBlue_20809E_0_3,
-    borderRadius: 25,
-    justifyContent: "center",
-    marginTop: 12,
-    paddingHorizontal: 12,
-    paddingVertical: 2,
+  title: {
+    marginBottom: 16,
   },
-  categoryText: {
-    color: appStyles.colorBlue_3d527b,
-    fontFamily: appStyles.fontBold,
-  },
-  creatorContainer: {
+  metaRow: {
     alignItems: "center",
-    flexDirection: "row",
-    marginVertical: 8,
-  },
-  iconTime: { marginLeft: 16, marginRight: 5 },
-  image: { flex: 1 },
-  imageContainer: { height: 264, position: "relative", width: "100%" },
-  label: { marginBottom: 8, marginRight: 8, paddingVertical: 0 },
-  labelsContainer: {
-    display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
-    width: "70%",
+    gap: 8,
+    marginBottom: 12,
   },
-  loading: { height: 16, width: 16 },
-  audioPlayer: { marginTop: 8, marginBottom: 8 },
-  rowStart: { alignItems: "flex-start", flexDirection: "row" },
-  actionBox: {
-    flexDirection: "row",
+  categoryBadge: {
     alignItems: "center",
-    marginTop: 8,
-    padding: 5,
-    justifyContent: "space-evenly",
-    ...appStyles.shadow2,
+    borderRadius: 25,
+    height: 24,
+    justifyContent: "center",
+    paddingHorizontal: 12,
   },
-  verticalSeparator: {
-    width: 1,
-    height: "80%",
-    backgroundColor: appStyles.colorGray_a6b4b8,
-    marginHorizontal: 16,
+  categoryBadgeText: {
+    fontFamily: appStyles.fontBold,
+  },
+  creatorText: {
+    flexShrink: 1,
+    maxWidth: "60%",
+  },
+  metaDot: {
+    borderRadius: 2,
+    height: 3,
+    width: 3,
+  },
+  labelsRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+    marginBottom: 16,
+  },
+  label: {
+    marginBottom: 0,
+    marginRight: 0,
+    paddingVertical: 0,
+  },
+  separator: {
+    height: 1,
+    width: "100%",
+  },
+  actionsRow: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 8,
+  },
+  actionsLeft: {
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  actionsRight: {
+    alignItems: "center",
+    flexDirection: "row",
+    gap: 8,
+  },
+  actionIconBtn: {
+    alignItems: "center",
+    borderRadius: 21,
+    height: 42,
+    justifyContent: "center",
+    width: 42,
+  },
+  loadingIcon: { height: 16, width: 16 },
+  heroImage: {
+    aspectRatio: 16 / 9,
+    borderRadius: 12,
+    marginTop: 20,
+    maxHeight: 400,
+    width: "100%",
+  },
+  audioPlayer: {
+    marginBottom: 8,
+    marginTop: 16,
+  },
+  body: {
+    overflow: "hidden",
+    paddingBottom: 16,
+    paddingTop: 32,
   },
 });

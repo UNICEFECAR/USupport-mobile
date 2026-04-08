@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import {
   View,
   StyleSheet,
@@ -9,6 +9,7 @@ import {
 
 import { AppText } from "../../texts/AppText/AppText";
 import { Icon } from "../../icons"; // Assuming you have an Icon component
+import LinearGradient from "../../LinearGradient";
 
 import { appStyles } from "#styles";
 import { useGetTheme } from "#hooks";
@@ -29,7 +30,25 @@ export const Tabs = ({
   tabsStyle,
   t = () => {},
 }) => {
-  const { colors, isDarkMode } = useGetTheme();
+  const { colors, isDarkMode, isHighContrast } = useGetTheme();
+  const isLightTheme = colors.background === appStyles.colorWhite_ff;
+
+  const tabGradients = useMemo(
+    () => ({
+      default: {
+        degrees: 145,
+        locations: [0, 100],
+        colors: colors.cardMediaGradient,
+      },
+      // Light: 150deg, dark: 145deg — matches client-ui glass_need_box
+      selected: {
+        degrees: isDarkMode ? 145 : 150,
+        locations: [0, 100],
+        colors: colors.tabSelectedGradient,
+      },
+    }),
+    [colors.cardMediaGradient, colors.tabSelectedGradient, isDarkMode]
+  );
   const scrollViewRef = useRef(null);
   const tabRefs = useRef({});
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -177,39 +196,50 @@ export const Tabs = ({
       return null;
     }
 
-    return options.map((option, index) => (
-      <TouchableOpacity
-        onPress={option.isInactive ? undefined : () => handleOnSelect(index)}
-        key={index}
-        disabled={option.isInactive}
-        activeOpacity={0.7}
-      >
-        <View
-          ref={(ref) => {
-            if (ref) {
-              tabRefs.current[index] = ref;
-            }
-          }}
-          style={[
-            styles.tab,
-            {
-              backgroundColor: !isDarkMode
-                ? appStyles.colorGreen_f4f7fe
-                : appStyles.colorBlack_1e,
-            },
-            option.isSelected && styles.tabSelected,
-            option.isSelected && {
-              backgroundColor: colors.background,
-            },
-            option.isInactive && styles.tabInactive,
-          ]}
+    return options.map((option, index) => {
+      const isSelected = option.isSelected;
+      const labelColor = isSelected ? colors.text : colors.inputText;
+
+      return (
+        <TouchableOpacity
+          onPress={option.isInactive ? undefined : () => handleOnSelect(index)}
+          key={index}
+          disabled={option.isInactive}
+          activeOpacity={0.7}
         >
-          <AppText black numberOfLines={1} ellipsizeMode="tail">
-            {option.label}
-          </AppText>
-        </View>
-      </TouchableOpacity>
-    ));
+          <View
+            ref={(ref) => {
+              if (ref) {
+                tabRefs.current[index] = ref;
+              }
+            }}
+            collapsable={false}
+          >
+            <LinearGradient
+              gradient={
+                isSelected ? tabGradients.selected : tabGradients.default
+              }
+              style={[
+                styles.tab,
+                isLightTheme && !isHighContrast
+                  ? appStyles.cardMediaShadowLight
+                  : appStyles.cardMediaShadowDark,
+                { borderColor: colors.cardMediaGradientBorder },
+                option.isInactive && styles.tabInactive,
+              ]}
+            >
+              <AppText
+                numberOfLines={1}
+                ellipsizeMode="tail"
+                style={{ color: labelColor }}
+              >
+                {option.label}
+              </AppText>
+            </LinearGradient>
+          </View>
+        </TouchableOpacity>
+      );
+    });
   };
 
   const showArrows = contentWidth > scrollViewWidth;
@@ -228,11 +258,7 @@ export const Tabs = ({
             disabled={!canScrollLeft}
             activeOpacity={0.7}
           >
-            <Icon
-              name="arrow-chevron-back"
-              size="md"
-              color={appStyles.colorBlack_1e}
-            />
+            <Icon name="arrow-chevron-back" size="md" color={colors.text} />
           </TouchableOpacity>
         )}
 
@@ -261,11 +287,7 @@ export const Tabs = ({
             disabled={!canScrollRight}
             activeOpacity={0.7}
           >
-            <Icon
-              name="arrow-chevron-forward"
-              size="md"
-              color={appStyles.colorBlack_1e}
-            />
+            <Icon name="arrow-chevron-forward" size="md" color={colors.text} />
           </TouchableOpacity>
         )}
       </View>
@@ -296,17 +318,15 @@ const styles = StyleSheet.create({
   tab: {
     paddingVertical: 4,
     paddingHorizontal: 24,
-    borderRadius: 40,
+    // 1.2rem — matches client-ui Tabs ($border_radius_1_2)
+    borderRadius: 12,
     marginHorizontal: 4,
-    borderWidth: 1,
-    borderColor: "transparent",
+    borderWidth: 1.5,
     minWidth: 60,
     maxWidth: 260,
     alignItems: "center",
     justifyContent: "center",
-  },
-  tabSelected: {
-    borderColor: appStyles.colorSecondary_9749fa,
+    overflow: "hidden",
   },
   tabInactive: {
     opacity: 0.2,

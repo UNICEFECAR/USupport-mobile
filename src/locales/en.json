@@ -26,7 +26,7 @@
       "no_results": "No results found",
       "could_not_load_content": "There are no results for the current selected country and language.",
       "all": "All",
-      "read_more": "Click to read more",
+      "read_more": "Read more",
       "read_more_button": "Read more",
       "view_more": "View more",
       "min_read": "min read",
@@ -73,6 +73,11 @@
       "heading": "My Consultations",
       "view_all": "View all",
       "schedule_consultation_label": "Schedule a consultation",
+      "heading_need_support": "Need support?",
+      "explore_resources_label": "Explore resources",
+      "dummy_provider_1": "Dr. Smith",
+      "dummy_provider_2": "Dr. Johnson",
+      "dummy_provider_3": "Dr. Williams",
       "live_text": "Now",
       "accept_button_label": "Accept consultation",
       "join_button_label": "Join",
@@ -226,6 +231,7 @@
       "heading": "How are you feeling today?",
       "mood_tracker": "Mood Tracker",
       "how_it_works": "How it works",
+      "additional_comment_label": "What made you feel this way?",
       "additional_comment_placeholder": "What made you feel this way?",
       "submit_mood_track": "Submit",
       "add_mood_tracker_success": "Your daily mood was added successfully",
@@ -235,6 +241,18 @@
       "check_out": "Check out"
     },
     "mood-track-history": {
+      "month_1": "Jan",
+      "month_2": "Feb",
+      "month_3": "Mar",
+      "month_4": "Apr",
+      "month_5": "May",
+      "month_6": "Jun",
+      "month_7": "Jul",
+      "month_8": "Aug",
+      "month_9": "Sep",
+      "month_10": "Oct",
+      "month_11": "Nov",
+      "month_12": "Dec",
       "saturday": "Sat",
       "happy": "Happy",
       "good": "Good",
@@ -259,11 +277,16 @@
       "email": "Email notifications",
       "appointment": "Appointment notifications",
       "minutes_before": "minutes before",
-      "heading": "",
-      "subheading": ""
+      "heading": "Notification settings",
+      "subheading": "Here you can manage what type of notification you want to receive or not.",
+      "success": "Settings saved successfully"
     },
     "notifications": {
       "heading": "Notifications",
+      "panel_heading": "Notifications",
+      "tab_all": "All",
+      "tab_new": "New",
+      "tab_read": "Read",
       "mark_read": "Mark all as read",
       "subheading": "Here you can find all the notifications you ever received in your account.",
       "consultation_booking": "Your consultation with <0>{{providerName}}</0> was <0>scheduled</0> successfully for <0>{{date}}</0> from <0>{{startHour}}</0> to <0>{{endHour}}</0>",
@@ -287,13 +310,13 @@
       "consultation_remind_start_48_hours_before": "Your consultation with provider <0>{{providerName}}</0> starts in 48 hours"
     },
     "passcode": {
+      "heading": "Passcode and biometrics",
+      "subheading": "Here you can set up your passcode and biometrics or change them",
       "change_passcode": "Change Passcode",
       "passcode": "Passcode",
       "biometrics": "Biometrics",
       "create_passcode": "Create Passcode",
-      "delete_passcode": "Delete Passcode",
-      "heading": "",
-      "subheading": ""
+      "delete_passcode": "Delete Passcode"
     },
     "payment-history": {
       "service": "Service",
@@ -314,8 +337,8 @@
       "button_label": "Send the rating",
       "rating_success": "Rating sent successfully",
       "rating_error": "An unexpected error occured. Please try again.",
-      "heading": "",
-      "subheading": ""
+      "heading": "Want to rate us?",
+      "subheading": "We’ll be counting stars. Let’s stay honest. Tell us how you feel about this platform. Rate us and leave us your comment."
     },
     "privacy-policy": {
       "heading": "Privacy Policy",
@@ -630,15 +653,18 @@
       "user_guide": "Platform usage"
     },
     "welcome": {
-      "heading": "Welcome to",
+      "heading": "Welcome to Client Portal",
       "country": "Country",
       "language": "Language",
       "placeholder": "Select",
       "button": "Continue",
       "poland_description": "uSupport is a mental health and well-being platform designed for youth (16–24).",
       "register_with_email": "Register with email",
+      "register_email": "Register with email",
       "register_anonymously": "Register anonymously",
-      "continue_as_guest": "Continue as guest",
+      "continue_as_guest": "Continue without registration",
+      "already_have_account": "Already have an account?",
+      "log_in": "Log in",
       "ro_password_modal_heading": "Password required",
       "ro_password_modal_text": "Enter password to continue.",
       "ro_password_modal_cta": "Continue",
@@ -654,7 +680,7 @@
       "most_popular": "Most Popular",
       "newest": "Newest",
       "your_questions": "Your Questions",
-      "answer_by": "Answer by:",
+      "answer_by": "Answered by:",
       "schedule_consultation": "Schedule consultation",
       "today": "Today",
       "no_questions_found": "No questions found",
@@ -664,7 +690,8 @@
       "heading_button_label": "",
       "emergency_button_label": "",
       "ask_button_label": "",
-      "date_answered": "on {{date}}"
+      "date_answered": "on {{date}}",
+      "go_back": "Go back"
     },
     "set-up-biometrics": {
       "heading": "Set up passcode and biometrics",
@@ -905,7 +932,12 @@
     },
     "baseline-assessment-dashboard": {
       "heading": "Your Baseline Assessment",
+      "heading_completed": "Your Latest Assessment",
       "no_assessment_text": "You haven't completed a baseline assessment yet. Complete one to get personalized insights about your mental health.",
+      "no_assessment_description": "Take a quick assessment to understand your mental health better and get personalized recommendations.",
+      "explore_heading": "Find Support Near You",
+      "explore_card_description": "After completing the baseline assessment, we will help you find the most relevant support near you.",
+      "explore_button_label": "Explore Organizations",
       "start_new_assessment": "Start Assessment",
       "completed": "Completed",
       "in_progress": "In Progress",
@@ -919,7 +951,7 @@
       "biological": "Biological",
       "social": "Social",
       "how_it_works": "How it works",
-      "see_last_result": "Latest Results"
+      "see_last_result": "View Results"
     },
     "baseline-assesment-result": {
       "assessment_completed": "Assessment completed",
@@ -970,6 +1002,9 @@
     }
   },
   "screens": {
+    "screen": {
+      "go_back": "Go back"
+    },
     "article-information": {
       "heading": "More Articles",
       "no_results": "There are no similar articles for the current selected language. ",
@@ -978,7 +1013,8 @@
       "by": "By {{creator}}",
       "check_article": "Hello, check this article",
       "share_success": "Article shared successfully",
-      "download_success": "Article downloaded successfully"
+      "download_success": "Article downloaded successfully",
+      "go_back": "Go back"
     },
     "articles-screen": {
       "heading_default": "All Articles",
@@ -1054,6 +1090,7 @@
       "emergency_button_label": "Emergency help"
     },
     "dashboard": {
+      "heading": "",
       "welcome": "Welcome back {{clientName}}!",
       "no_registration_heading": "You are using the app without registration",
       "no_registration_subheading": "To use all the features of the app you need to have an anonymous or regular account.",
@@ -1066,7 +1103,6 @@
       "live_label": "Now",
       "no_consultations": "Currently you do not have upcoming consultations",
       "emergency_button_label": "Emergency help",
-      "welcome_back": "Welcome back",
       "accept_success": "Consultation accepted successfully",
       "ordinal_st": "st",
       "ordinal_nd": "nd",

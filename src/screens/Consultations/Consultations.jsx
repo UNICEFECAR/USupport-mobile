@@ -13,7 +13,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useQueryClient } from "@tanstack/react-query";
 
-import { Screen, AppButton } from "#components";
+import { Screen, NewButton } from "#components";
 import { Consultations as ConsultationsBlock, GiveSuggestion } from "#blocks";
 
 import {
@@ -227,7 +227,10 @@ export const Consultations = ({ navigation }) => {
       const visibleHeight = windowHeight - keyboardHeight;
       const scrollY = Math.max(
         0,
-        giveSuggestionLayout.y + giveSuggestionLayout.height - visibleHeight + 56
+        giveSuggestionLayout.y +
+          giveSuggestionLayout.height -
+          visibleHeight +
+          56
       );
       scrollViewRef.current?.scrollTo({ y: scrollY, animated: true });
     });
@@ -269,7 +272,7 @@ export const Consultations = ({ navigation }) => {
             navigation={navigation}
             currencySymbol={currencySymbol}
           />
-          <View
+          {/* <View
             onLayout={(e) => setGiveSuggestionLayout(e.nativeEvent.layout)}
             collapsable={false}
           >
@@ -278,7 +281,7 @@ export const Consultations = ({ navigation }) => {
               type="consultations"
               onTextareaFocus={handleGiveSuggestionFocus}
             />
-          </View>
+          </View> */}
           <View style={{ marginBottom: 85 }} />
         </ScrollView>
       </KeyboardAvoidingView>
@@ -340,26 +343,30 @@ export const Consultations = ({ navigation }) => {
       />
 
       {!isKeyboardShown && (
-        <AppButton
-          label={t("button_label")}
-          size="lg"
-          style={[
-            styles.button,
-            {
-              bottom: Platform.OS === "ios" ? 70 : 115 + bottomInset,
-            },
-          ]}
-          onPress={handleScheduleConsultationClick}
-        />
+        <View
+          style={{
+            bottom: Platform.OS === "ios" ? 70 : bottomInset + 120,
+            ...styles.askButton,
+          }}
+        >
+          <NewButton
+            label={t("button_label")}
+            size="lg"
+            isFullWidth
+            onPress={handleScheduleConsultationClick}
+          />
+        </View>
       )}
     </Screen>
   );
 };
 
 const styles = StyleSheet.create({
-  button: {
+  askButton: {
     alignSelf: "center",
     position: "absolute",
+    width: "100%",
+    paddingHorizontal: 16,
   },
   screen: {
     paddingTop: 48,
