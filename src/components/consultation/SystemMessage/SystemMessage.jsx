@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Platform } from "react-native";
 
 import { AppText } from "../../texts";
 import { Icon } from "../../icons";
 import { appStyles } from "#styles";
+import { useGetTheme } from "#hooks";
 import { getTimeAsString, getDateView } from "#utils";
 
 export const SystemMessage = ({
@@ -14,40 +15,88 @@ export const SystemMessage = ({
   style,
   showDate,
 }) => {
+  const { isDarkMode } = useGetTheme();
+  const iconColor = isDarkMode ? "#C4B5FD" : "#7C3AED";
+
+  const surfaceStyle = isDarkMode
+    ? {
+        backgroundColor: "rgba(76, 61, 102, 0.55)",
+        borderColor: "rgba(139, 92, 246, 0.25)",
+      }
+    : {
+        backgroundColor: "rgba(245, 243, 255, 0.9)",
+        borderColor: "rgba(196, 181, 253, 0.4)",
+      };
+
+  const shadowStyle = isDarkMode
+    ? {
+        shadowColor: "#000000",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.25,
+        shadowRadius: 12,
+        elevation: 4,
+      }
+    : {
+        shadowColor: "rgba(124, 58, 237, 0.12)",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.35,
+        shadowRadius: 12,
+        elevation: 3,
+      };
+
+  const titleColor = isDarkMode
+    ? "rgba(237, 233, 254, 0.92)"
+    : "rgba(107, 79, 163, 0.95)";
+
+  const timeColor = isDarkMode
+    ? "rgba(196, 181, 253, 0.75)"
+    : "rgba(107, 79, 163, 0.7)";
+
   return (
     <React.Fragment>
-      <View style={[styles.container, style]}>
-        <View style={{ width: "10%" }}>
-          <Icon
-            name={iconName}
-            size="md"
-            color={appStyles.colorPrimary_20809e}
-          />
+      {showDate ? <DateContainer date={date} /> : null}
+      <View style={[styles.pill, surfaceStyle, shadowStyle, style]}>
+        <View style={styles.iconWrap}>
+          <Icon name={iconName} size="sm" color={iconColor} />
         </View>
-        <AppText namedStyle="smallText" style={styles.title}>
-          {title}
-        </AppText>
-        <View style={styles.timeTextContainer}>
+        <View style={styles.textCol}>
           <AppText
-            style={{
-              alignSelf: "flex-end",
-              paddingLeft: 16,
-            }}
-            namedStyle="smallText"
+            style={[styles.title, { color: titleColor }]}
+            numberOfLines={6}
           >
-            {getTimeAsString(date)}
+            {title}
           </AppText>
         </View>
+        {date ? (
+          <AppText style={[styles.time, { color: timeColor }]}>
+            {getTimeAsString(date)}
+          </AppText>
+        ) : null}
       </View>
-      {showDate ? <DateContainer date={date} /> : null}
     </React.Fragment>
   );
 };
 
 export const DateContainer = ({ date }) => {
+  const { isDarkMode } = useGetTheme();
+
+  const surfaceStyle = isDarkMode
+    ? {
+        backgroundColor: "rgba(76, 61, 102, 0.5)",
+        borderColor: "rgba(139, 92, 246, 0.25)",
+      }
+    : {
+        backgroundColor: "rgba(245, 243, 255, 0.85)",
+        borderColor: "rgba(196, 181, 253, 0.35)",
+      };
+
+  const textColor = isDarkMode
+    ? "rgba(196, 181, 253, 0.8)"
+    : "rgba(107, 79, 163, 0.8)";
+
   return (
-    <View style={styles.dateContainer}>
-      <AppText isBold namedStyle="smallText">
+    <View style={[styles.datePill, surfaceStyle]}>
+      <AppText isBold namedStyle="smallText" style={{ color: textColor }}>
         {getDateView(date)}
       </AppText>
     </View>
@@ -55,65 +104,75 @@ export const DateContainer = ({ date }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  pill: {
+    flexDirection: "row",
     alignItems: "center",
     alignSelf: "center",
-    borderColor: appStyles.colorPrimary_20809e,
-    borderRadius: 24,
+    maxWidth: "92%",
+    width: "auto",
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 9999,
     borderWidth: 1,
-    flexDirection: "row",
+    gap: 8,
+    marginTop: 8,
     marginBottom: 12,
-    maxWidth: 280,
-    paddingHorizontal: 18,
-    paddingVertical: 12,
-    textAlign: "left",
-    width: "85%",
+    ...Platform.select({
+      ios: {
+        borderCurve: "continuous",
+      },
+      default: {},
+    }),
+  },
+  iconWrap: {
+    justifyContent: "center",
+    alignItems: "center",
+    flexShrink: 0,
+  },
+  textCol: {
+    flex: 1,
+    flexShrink: 1,
+    minWidth: 0,
   },
   title: {
-    color: appStyles.colorPrimary_20809e,
-    fontFamily: appStyles.fontBold,
-    width: 250,
-    marginLeft: 16,
+    fontSize: 12.5,
+    lineHeight: 18,
+    fontFamily: appStyles.fontSemiBold,
+    margin: 0,
   },
-  timeTextContainer: {
-    display: "flex",
-    justifyContent: "flex-end",
-    alignItems: "flex-end",
-    marginTop: "auto",
+  time: {
+    fontSize: 11,
+    lineHeight: 14,
+    flexShrink: 0,
+    fontFamily: appStyles.fontRegular,
+    margin: 0,
   },
-  textContainer: { marginLeft: 16 },
-  dateContainer: {
-    paddingHorizontal: 18,
-    paddingVertical: 12,
-    backgroundColor: appStyles.colorGreen_f4f7fe,
-    marginLeft: 0,
-    marginRight: 0,
-    width: "auto",
+  datePill: {
+    paddingVertical: 6,
+    paddingHorizontal: 16,
+    borderRadius: 12,
     alignSelf: "center",
-    borderRadius: 16,
-    marginBottom: 12,
+    marginVertical: 16,
+    maxWidth: "92%",
+    borderWidth: 1,
+    ...Platform.select({
+      ios: {
+        borderCurve: "continuous",
+      },
+      default: {},
+    }),
   },
 });
 
 SystemMessage.propTypes = {
-  /**
-   * Icon name
-   * @default "consultation"
-   */
   iconName: PropTypes.string,
-
-  /**
-   * Title
-   */
   title: PropTypes.string,
-
-  /**
-   * Date of the message
-   */
   date: PropTypes.instanceOf(Date),
-
-  /**
-   * Style
-   */
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  showDate: PropTypes.bool,
+};
+
+SystemMessage.defaultProps = {
+  iconName: "consultation",
+  showDate: false,
 };
