@@ -7,6 +7,8 @@
       "show_system_messages": "Переглянь системні повідомлення",
       "show_previous_consultations": "Переглянь попередні консультації",
       "export_label": "Експорт",
+      "download_success": "PDF успішно завантажено",
+      "exported_at": "Експортовано: {{time}}",
       "chat_history": "Історія чату з",
       "client_joined": "Клієнт/ка долучився/лася до консультації",
       "client_left": "Клієнт/ка залишив/ла консультацію",
@@ -28,6 +30,8 @@
       "could_not_load_content": "Для обраної країни й мови немає результатів.",
       "all": "Усі",
       "read_more": "Читати далі",
+      "read_more_button": "Читати далі",
+      "view_more": "Переглянути більше",
       "min_read": "хв читання",
       "by": "Від {{creator}}",
       "number_of_more_options": "ще {{count}}",
@@ -51,6 +55,7 @@
       "by": "Від {{creator}}",
       "number_of_more_options": "ще {{count}}",
       "read": "Читати",
+      "read_more_button": "Читати далі",
       "show_more": "Показати більше"
     },
     "change-passcode": {
@@ -96,6 +101,8 @@
       "october": "Жовтень",
       "november": "Листопад",
       "december": "Грудень",
+      "join": "Приєднатися",
+      "edit": "Редагувати",
       "join_button_label_tooltip": "Ви можете приєднатися до консультації за 5 хвилин до початку"
     },
     "consultations": {
@@ -651,13 +658,14 @@
       "high_contrast_mode": "Режим високого контраста"
     },
     "welcome": {
-      "heading": "Welcome to Client Portal",
+      "heading": "Ласкаво просимо до клієнтського порталу",
       "country": "Країна",
       "language": "Мова",
       "placeholder": "Вибрати",
       "button": "Продовжити",
       "poland_description": "uSupport — це платформа психічного здоров’я та добробуту, призначена для молодих людей (16–24)",
       "register_email": "Зареєструватися за допомогою електронної пошти",
+      "register_with_email": "Зареєструватися електронною поштою",
       "register_anonymously": "Анонімна реєстрація",
       "continue_as_guest": "Продовжити без реєстрації",
       "already_have_account": "Вже маєте обліковий запис?",
@@ -686,7 +694,8 @@
       "subheading": "",
       "heading_button_label": "",
       "emergency_button_label": "",
-      "ask_button_label": "Zapytaj psychologa",
+      "ask_button_label": "Поставити анонімне запитання",
+      "go_back": "Назад",
       "date_answered": "від {{date}}"
     },
     "set-up-biometrics": {
@@ -697,6 +706,9 @@
       "btn_skip": "Поки що пропустити"
     },
     "videos": {
+      "by": "Від {{creator}}",
+      "min_read": "хв читання",
+      "read": "Читати",
       "read_more_button": "Переглянути більше",
       "all": "Усі",
       "could_not_load_content": "Не вдалося завантажити вміст.",
@@ -1021,7 +1033,8 @@
       "by": "Від {{creator}}",
       "check_article": "Привіт, переглянь цю статтю",
       "share_success": "Статтю успішно поділено",
-      "download_success": "Статтю успішно завантажено"
+      "download_success": "Статтю успішно завантажено",
+      "go_back": "Назад"
     },
     "articles-screen": {
       "heading_default": "Всі статті",
@@ -1097,6 +1110,7 @@
       "emergency_button_label": "Невідкладна допомога"
     },
     "dashboard": {
+      "heading": "",
       "welcome": "З поверненням, {{clientName}}!",
       "no_registration_heading": "Ти використовуєш додаток без реєстрації",
       "no_registration_subheading": "Щоб користуватися всіма функціями додатку, потрібно мати анонімний або звичайний обліковий запис.",
@@ -1134,6 +1148,11 @@
     },
     "informational-portal-screen": {
       "heading": "Знання",
+      "by": "Від {{creator}}",
+      "min_read": "хв читання",
+      "most_read_heading": "Найчитаніші",
+      "read_more": "Читати далі",
+      "search": "Пошук",
       "subheading": "Тут можна ознайомитися зі всім, що потрібно для покращення психічного здоров'я",
       "emergency_button_label": "Невідкладна допомога",
       "articles": "Статті",
@@ -1151,7 +1170,7 @@
       "subheading": "Тут можна відстежувати свій настрій і прогрес ",
       "emergency_button_label": "Невідкладна допомога",
       "report": "Згенерувати звіт",
-      "how-it-works": "How it works",
+      "how-it-works": "Як це працює",
       "how_it_works": "Як це працює"
     },
     "notification-preferences-screen": {

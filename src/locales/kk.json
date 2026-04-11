@@ -7,6 +7,8 @@
       "show_system_messages": "Жүйелік хабарламаларды көрсету",
       "show_previous_consultations": "Алдыңғы кеңестерді көрсетіңіз",
       "export_label": "Экспорт",
+      "download_success": "PDF сәтті жүктеп алынды",
+      "exported_at": "Экспортталған уақыты: {{time}}",
       "chat_history": "Чат тарихы - консультант: ",
       "client_joined": "Клиент консультацияға қосылды",
       "client_left": "Клиент консультациядан шығып кетті",
@@ -28,6 +30,8 @@
       "could_not_load_content": "Таңдалған ел мен тіл үшін ештеңе табылмады.",
       "all": "Барлығы",
       "read_more": "Ары қарай оқу",
+      "read_more_button": "Ары қарай оқу",
+      "view_more": "Көбірек көру",
       "min_read": "минут оқуға",
       "by": "Дайындаушы {{creator}}",
       "number_of_more_options": "тағы {{count}}",
@@ -51,6 +55,7 @@
       "by": "Дайындаушы {{creator}}",
       "number_of_more_options": "тағы {{count}}",
       "read": "Оқу",
+      "read_more_button": "Ары қарай оқу",
       "show_more": "Көбірек көру"
     },
     "change-passcode": {
@@ -96,6 +101,8 @@
       "october": "қазан",
       "november": "қараша",
       "december": "желтоқсан",
+      "join": "Қосылу",
+      "edit": "Өңдеу",
       "join_button_label_tooltip": "Сіз консультацияға басталғанға дейін 5 минут бұрын қосыла аласыз"
     },
     "consultations": {
@@ -651,13 +658,14 @@
       "high_contrast_mode": "Биік контраст режимі"
     },
     "welcome": {
-      "heading": "Welcome to Client Portal",
+      "heading": "Клиент порталына қош келдіңіз",
       "country": "Ел",
       "language": "Тіл",
       "placeholder": "Таңдау",
       "button": "Жалғастыру",
       "poland_description": "uSupport жастарға (16-24 жас) арналған психикалық денсаулық пен әл-ауқат платформасы.",
       "register_email": "Электронды пошта арқылы тіркеліңіз",
+      "register_with_email": "Электрондық пошта арқылы тіркелу",
       "register_anonymously": "Электрондық поштасыз тіркелу",
       "continue_as_guest": "Тіркеусіз жалғастыру",
       "already_have_account": "Есептік жазбаңыз бар ма?",
@@ -681,12 +689,13 @@
       "schedule_consultation": "Консультацияны жоспарлау",
       "today": "Бүгін",
       "no_questions_found": "Бірде-бір сұрақ табылмады",
-      "language_placeholder": "Select language",
+      "language_placeholder": "Тілді таңдаңыз",
       "heading": "",
       "subheading": "",
       "heading_button_label": "",
       "emergency_button_label": "",
       "ask_button_label": "",
+      "go_back": "Артқа",
       "date_answered": "{{date}} күні"
     },
     "set-up-biometrics": {
@@ -697,6 +706,9 @@
       "btn_skip": "Қазіргі уақытта өткізіп жіберу"
     },
     "videos": {
+      "by": "{{creator}} дайындаған",
+      "min_read": "мин оқу",
+      "read": "Оқу",
       "read_more_button": "Көбірек көру",
       "all": "Барлығы",
       "could_not_load_content": "Мазмұнды жүктеу мүмкін болмады.",
@@ -798,7 +810,9 @@
       "personalization_modal_text": "Сіздің қажеттіліктеріңізге сәйкес дараланған ұйымдастырушылық ұсыныстарды алу үшін, алдымен біздің жылдам базалық бағалауды толтырыңыз. Бұл бізге сіздің қалауларыңыз бен мақсаттарыңызды түсінуге көмектеседі және ең маңызды ұсыныстарды ұсынады.",
       "personalization_modal_cta_label": "Бағалауды толтыру",
       "location_permission_denied": "Орналасқан жерге рұқсат берілмеді",
-      "enable_location": "Орналасқан жерді қосу"
+      "enable_location": "Орналасқан жерді қосу",
+      "filter": "Сүзгі",
+      "share": "Бөлісу"
     },
     "organization-overview": {
       "error-loading-data": "Ұйым туралы деректерді жүктеу кезінде қате орын алды",
@@ -843,6 +857,46 @@
       "children_disabilities": "Мүгедектігі бар балалар",
       "adults": "Ересектер",
       "adults_disabilities": "Мүгедектігі бар ересектер",
+      "error_loading_data": "Ұйым туралы деректерді жүктеу кезінде қате орын алды",
+      "other_services_label": "Басқа қызметтер",
+      "sector_label": "Аудан",
+      "payment_methods_label": "Төлем әдістері",
+      "user_interactions_label": "Өзара әрекеттесу түрлері",
+      "property_types_label": "Меншік түрі",
+      "offered_services_label": "Ұсынылатын қызметтер",
+      "emergency_situations": "Шұғыл жағдайлар",
+      "pediatric_psychiatry": "Балалар психиатриясы",
+      "psychological_evaluation": "Психологиялық бағалау",
+      "psychological_counseling": "Психологиялық кеңес беру",
+      "support_groups": "Қолдау топтары",
+      "social_assistance_and_counseling": "Әлеуметтік көмек және кеңес беру",
+      "personal_development": "Жеке даму",
+      "vocational_counseling_and_career_guidance": "Кәсіби бағдарлау және мансап кеңесі",
+      "occupational_therapy_ergotherapy": "Еңбек терапиясы/эрготерапия",
+      "physiotherapy_physical_recovery": "Физиотерапия/дене қалпына келтіру",
+      "autism_spectrum_disorder_therapies": "Аутизм спектрінің бұзылыстарына арналған терапиялар",
+      "disability_assessment": "Мүгедектікті бағалау",
+      "pediatric_neurology": "Балалар неврологиясы",
+      "special_psychopedagogy": "Арнайы психопедагогика",
+      "neuropsychomotor_recovery": "Нейропсихомоторлық қалпына келтіру",
+      "free_services": "Тегін қызметтер",
+      "paid_services": "Ақылы қызметтер",
+      "co_payment_services": "Қосымша төлемді қызметтер",
+      "cnas_reimbursed_services": "CNAS өтеген қызметтер",
+      "public": "Мемлекеттік",
+      "private": "Жеке",
+      "ong": "МҚО",
+      "public_private": "Мемлекеттік-жеке",
+      "aggression_violence_victim_or_aggressor": "Агрессия/зорлық — құрбан немесе әрекет етуші",
+      "learning_difficulties_special_educational_needs": "Оқу қиындықтары/арнайы білім беру қажеттіліктері",
+      "behavioral_disorder": "Мінез-құлық бұзылысы",
+      "eating_disorder": "Тамақтану бұзылысы",
+      "suicide_self_harm": "Өз-өзіне қол жұмсау/өзіне зиян",
+      "addiction": "Тәуелділік",
+      "identity_issues": "Болмыс мәселелері",
+      "illness_oncological_treatment_chronic_diseases": "Ауру (онкологиялық ем, созылмалы аурулар)",
+      "other_situations": "Басқа жағдайлар",
+      "copy_link_success": "Сілтеме алмасу буферіне көшірілді!",
       "check_organization": "Құқықтың бірінші құқығын қолдау ұйымы"
     },
     "baseline-assesment": {
@@ -956,6 +1010,7 @@
       "dec_dec_same": "Great progress! Psychological and biological decreased, while social stayed the same.",
       "dec_dec_dec": "Excellent progress! Psychological, biological, and social all decreased.",
       "same_same_same": "Сіздің нәтижелеріңіз алдыңғы бағалаумен бірдей.",
+      "summary_heading": "Алынған балл негізінде жасалған ұсыныстар",
       "organizations": "Ұсынылған ұйымдар",
       "read_more": "Ары қарай оқу",
       "view_more": "Көбірек көру",
@@ -976,7 +1031,8 @@
       "by": "Дайындаушы {{creator}}",
       "check_article": "Сәлем, осы мақаланы тексеріңіз",
       "share_success": "Мақала сәтті бөлісілді",
-      "download_success": "Мақала сәтті жүктеп алынды"
+      "download_success": "Мақала сәтті жүктеп алынды",
+      "go_back": "Артқа"
     },
     "articles-screen": {
       "heading_default": "Барлық мақалалар",
@@ -1052,8 +1108,9 @@
       "emergency_button_label": "Шұғыл көмек"
     },
     "dashboard": {
+      "heading": "",
       "welcome": "Қайта оралуыңызбен, {{clientName}}!",
-      "no_registration_heading": "Вы используете приложение без регистрации",
+      "no_registration_heading": "Сіз қосымшаны тіркеусіз пайдаланып жатырсыз",
       "no_registration_subheading": "Қосымшаның барлық функцияларын пайдалану үшін Сізге анонимді немесе кәдімгі аккаунт қажет.",
       "create_account_button": "Аккаунт ашу",
       "next_consultation": "Келесі консультация:",
@@ -1089,6 +1146,11 @@
     },
     "informational-portal-screen": {
       "heading": "Ақпараттық портал",
+      "by": "{{creator}} дайындаған",
+      "min_read": "мин оқу",
+      "most_read_heading": "Ең көп оқылғандар",
+      "read_more": "Ары қарай оқу",
+      "search": "Іздеу",
       "subheading": "Мұнда Сіз психикалық денсаулығыңызды жақсарту үшін қажеттінің бәрін біле аласыз",
       "emergency_button_label": "Шұғыл көмек",
       "articles": "Мақалалар",
@@ -1106,7 +1168,7 @@
       "subheading": "Мұнда Сіз көңіл-күйіңізді және жетістіктеріңізді тексере аласыз",
       "emergency_button_label": "Шұғыл көмек",
       "report": "Жіберу",
-      "how-it-works": "How it works",
+      "how-it-works": "Қалай жұмыс істейді",
       "how_it_works": "Қалай жұмыс істейді"
     },
     "notification-preferences-screen": {
@@ -1466,14 +1528,30 @@
       "categories": "Санаттар"
     },
     "mood-track-report": {
-      "heading": "Your mood tracking report",
-      "subheading": "Export your mood tracking history as a CSV file for the selected period. Weekly reports will be sent to your email address.",
-      "export_button": "Export report",
-      "cancel_button": "Cancel",
-      "start_date": "Start date",
-      "end_date": "End date",
-      "end_date_before_start_error": "End date must be after start date",
-      "confirm": "Confirm"
+      "heading": "Көңіл-күйді бақылау есебі",
+      "subheading": "Таңдалған кезең үшін көңіл-күй тарихыңызды CSV файлы ретінде экспорттаңыз. Апталық есептер электрондық поштаңызға жіберіледі.",
+      "export_button": "Есепті экспорттау",
+      "cancel_button": "Болдырмау",
+      "start_date": "Басталу күні",
+      "end_date": "Аяқталу күні",
+      "end_date_before_start_error": "Аяқталу күні басталу күнінен кейін болуы керек",
+      "confirm": "Растау"
+    },
+    "user-guide": {
+      "heading": "Көбірек білгіңіз келе ме:",
+      "emergency_services": "Шұғыл қызметтер",
+      "map": "Бухарестте қолжетімді психикалық денсаулық пен психоэмоционалдық қолдау қызметтерінің картасы",
+      "rights": "Балалар мен жасөспірімдердің психикалық денсаулық пен психоэмоционалдық қолдау қызметтеріне қол жеткізу құқықтары"
+    },
+    "emergency-situation": {
+      "heading": "Бухаресттегі балалар мен жасөспірімдер үшін психикалық денсаулық пен психосоциалдық қолдау қызметтерінің картасы",
+      "paragraph": "Бұл интерактивті карта Бухаресттегі балалар мен жасөспірімдер үшін қолжетімді психикалық денсаулық пен психосоциалдық әл-ауқат қызметтерін көрсетеді. Сіздің қажеттіліктеріңізге ең сәйкес нұсқаларды ұсыну үшін бағыт береміз.",
+      "paragraph_two": "<0>Жауапкершіліктен бас тарту:</0> Карта провайдерлердің веб-сайтындағы сипаттамалар негізінде жасалған. Картаға кірген сәтте ақпараттың дәлдігін кепілдей алмаймыз. Қызметтер мен провайдерлер үнемі өзгереді; провайдерді таңдаған соң олармен телефон арқылы хабарласып, кәсіби көмек қажет жағдайды толық сипаттауды ұсынамыз.",
+      "question": "Сіз шұғыл жағдай үшін қызмет іздеп жүрсіз бе?",
+      "subquestion": "Мысалы: өзіне зиян, суицид әрекеті, мектеп немесе отбасылық зорлық, сексуалды зорлық-зомбылық т.б.",
+      "yes": "Иә",
+      "no": "Жоқ",
+      "dont_know": "Бұл шұғыл екенін білмеймін"
     }
   },
   "modals": {
@@ -1551,6 +1629,16 @@
       "subheading_3": "Диаграммада сіздің жазылған көңіл күйлеріңіз күн мен уақыт бойынша көрсетіледі, бұл эмоционалды үрдістерді көруге мүмкіндік береді. Оның төменгі бөлігінде сіздің соңғы көңіл күй жазбаңызға сәйкес келетін ұсынылған мазмұн көрсетіледі — бұл қолдау мен түсінік береді.",
       "subheading_4": "Белгілі бір оқиғаны басу арқылы сол сәтке жазылған барлық түсініктемелер мен жазбаларды көре аласыз, бұл сіздің көңіл күйіңізге не әсер еткенін тереңірек түсінуге мүмкіндік береді.",
       "subheading_5": "Сіз кез келген таңдалған күн аралығына есеп жасай аласыз және оны CSV файлы ретінде экспорттай аласыз — бұл сіздің көңіл күй деректеріңізді қарап шығуды немесе қажет болған жағдайда бөлісуді жеңілдетеді."
+    },
+    "how-it-works-ba": {
+      "heading": "Базалық бағалау қалай жұмыс істейді",
+      "subheading_1": "Базалық бағалауға кіру алдында Құпиялылық саясатын оқып, қабылдаңыз. Жалғастыру үшін оны қабылдауыңыз керек.",
+      "subheading_2": "Бағалауды бақылау тақтасынан кез келген уақытта бастай аласыз.",
+      "subheading_3": "Бағалау бірнеше сұрақтарға бөлінген, прогресс жолағы бар; прогресті сақтап, кейін жалғастыра аласыз.",
+      "subheading_4": "Жалғастырғанда басталу күнін және сақталған прогресті көресіз және тоқтаған жерден бастайсыз.",
+      "subheading_5": "Аяқтағанда психологиялық, биологиялық және әлеуметтік нәтижелерді көресіз. Әл-ауқат өзгерістерін салыстыру үшін кейін қайта тапсыра аласыз; нәтижелеріңізге сәйкес мазмұн төменде көрінеді.",
+      "subheading_6": "Аяқтағаннан кейін нәтижелер бақылау тақтасында көрінеді; бағалауды кез келген уақытта қайта тапсыру мүмкіндігі бар.",
+      "subheading_7": "Статистика өзгерістері жасыл немесе қызыл көрсеткіштермен көрсетіледі — тек ең соңғы нәтижелерді алдыңғы бағалаумен салыстырады."
     }
   },
   "navigation": {

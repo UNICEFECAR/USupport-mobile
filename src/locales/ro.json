@@ -7,6 +7,8 @@
       "show_system_messages": "Afișați mesajele sistemului",
       "show_previous_consultations": "Afișarea consultațiilor anterioare",
       "export_label": "Exporta",
+      "download_success": "PDF descărcat cu succes",
+      "exported_at": "Exportat la: {{time}}",
       "chat_history": "Istoricul chat-ului în consultație cu",
       "client_joined": "Clientul a intrat la consultație",
       "client_left": "Clientul a părăsit consultația",
@@ -28,6 +30,8 @@
       "could_not_load_content": "Nu există rezultate pentru țara și limba selectate",
       "all": "Toate",
       "read_more": "Citiți mai mult",
+      "read_more_button": "Citiți mai mult",
+      "view_more": "Vezi mai mult",
       "min_read": "durata lecturii",
       "by": "De către {{creator}}",
       "number_of_more_options": "încă {{count}}",
@@ -51,6 +55,7 @@
       "by": "De către {{creator}}",
       "number_of_more_options": "încă {{count}}",
       "read": "Citire",
+      "read_more_button": "Citiți mai mult",
       "show_more": "Vedeți mai multe"
     },
     "change-passcode": {
@@ -96,7 +101,9 @@
       "september": "septembrie",
       "october": "octombrie",
       "november": "noiembrie",
-      "december": "Decembrie"
+      "december": "Decembrie",
+      "join": "Intră",
+      "edit": "Modifică"
     },
     "consultations": {
       "heading": "Consultații",
@@ -651,13 +658,14 @@
       "high_contrast_mode": "Mod de contrast ridicat"
     },
     "welcome": {
-      "heading": "Welcome to Client Portal",
+      "heading": "Bun venit în portalul clientului",
       "country": "Țara",
       "language": "Limba",
       "placeholder": "Selectați",
       "button": "Continuați",
       "poland_description": "uSupport este o platformă pentru sănătate mintală și bunăstare, concepută pentru tineri (16–24).",
       "register_email": "Înregistrare cu e-mail",
+      "register_with_email": "Înregistrare cu e-mail",
       "register_anonymously": "Înregistrare anonimă",
       "continue_as_guest": "Continuați fără înregistrare",
       "already_have_account": "Aveți deja un cont?",
@@ -687,6 +695,7 @@
       "heading_button_label": "",
       "emergency_button_label": "",
       "ask_button_label": "",
+      "go_back": "Înapoi",
       "date_answered": "pe {{date}}"
     },
     "set-up-biometrics": {
@@ -697,6 +706,9 @@
       "btn_skip": "Omite acum"
     },
     "videos": {
+      "by": "De către {{creator}}",
+      "min_read": "min citire",
+      "read": "Citește",
       "read_more_button": "Vezi mai mult",
       "all": "Toate",
       "could_not_load_content": "Conținutul nu a putut fi încărcat.",
@@ -1006,7 +1018,8 @@
       "by": "De către {{creator}}",
       "check_article": "Bună ziua, citiți acest articol",
       "share_success": "Articolul a fost distribuit",
-      "download_success": "Articolul a fost descărcat"
+      "download_success": "Articolul a fost descărcat",
+      "go_back": "Înapoi"
     },
     "articles-screen": {
       "heading_default": "Toate articolele",
@@ -1082,6 +1095,7 @@
       "emergency_button_label": "Ajutor de urgență"
     },
     "dashboard": {
+      "heading": "",
       "welcome": "Bine ați revenit {{clientName}}!",
       "no_registration_heading": "Utilizați aplicația fără înregistrare",
       "no_registration_subheading": "Pentru a utiliza toate funcțiile aplicației, trebuie să aveți un cont anonim sau obișnuit..",
@@ -1119,6 +1133,11 @@
     },
     "informational-portal-screen": {
       "heading": "Portal de informații",
+      "by": "De către {{creator}}",
+      "min_read": "min citire",
+      "most_read_heading": "Cele mai citite",
+      "read_more": "Citiți mai mult",
+      "search": "Căutare",
       "subheading": "Aici puteți explora tot ceea ce aveți nevoie pentru a vă îmbunătăți sănătatea mintală",
       "emergency_button_label": "Ajutor de urgență",
       "articles": "Articole",
