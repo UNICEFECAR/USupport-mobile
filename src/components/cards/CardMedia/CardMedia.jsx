@@ -72,6 +72,9 @@ export const CardMedia = ({
     ? colors.textSecondary
     : appStyles.colorGray_66768d;
   const metaTextColor = colors.cardMediaMetaText || grayTextColor;
+  const timeIconColor = isHighContrast
+    ? metaTextColor
+    : appStyles.colorTextMain_0e202f;
   const linkTextColor = isHighContrast
     ? colors.text
     : appStyles.colorBlue_6989a4;
@@ -182,22 +185,11 @@ export const CardMedia = ({
         </View>
 
         {!!categoryName && (
-          <View
-            style={[
-              styles.categoryContainer,
-              {
-                backgroundColor: colors.cardMediaCategoryBg,
-                borderColor: colors.cardMediaCategoryBorder,
-              },
-            ]}
-          >
+          <View style={styles.categoryContainer}>
             <AppText
               namedStyle="smallText"
               isSemibold
-              style={[
-                styles.categoryText,
-                { color: colors.cardMediaCategoryText },
-              ]}
+              style={styles.categoryText}
             >
               {categoryName}
             </AppText>
@@ -213,6 +205,8 @@ export const CardMedia = ({
                   text={label.name}
                   paletteIndex={index}
                   style={styles.labelChip}
+                  textStyle={styles.labelChipText}
+                  textProps={{ numberOfLines: 1, ellipsizeMode: "tail" }}
                 />
               ))}
             </View>
@@ -239,7 +233,7 @@ export const CardMedia = ({
                   <Icon
                     size="sm"
                     name="time"
-                    color={metaTextColor}
+                    color={timeIconColor}
                     style={styles.icon}
                   />
                   <AppText
@@ -368,7 +362,9 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "transparent",
+    // Match client-ui `.card-media__category`
+    backgroundColor: "rgba(209, 231, 250, 0.95)",
+    borderColor: "rgba(60, 109, 159, 0.45)",
     justifyContent: "center",
     alignItems: "center",
     zIndex: 4,
@@ -387,6 +383,18 @@ const styles = StyleSheet.create({
   labelChip: {
     marginRight: 8,
     marginBottom: 8,
+    borderRadius: 4,
+    paddingVertical: 0,
+    paddingHorizontal: 16,
+    maxHeight: 20,
+    minHeight: 20,
+    justifyContent: "center",
+  },
+  labelChipText: {
+    // Match web CardMedia label chips (tight vertical rhythm)
+    includeFontPadding: false,
+    textAlignVertical: "center",
+    lineHeight: 20,
   },
   descriptionContainer: {
     marginTop: 8,
@@ -423,8 +431,10 @@ const styles = StyleSheet.create({
     // Better vertical centering across iOS + Android (custom fonts can sit low)
     includeFontPadding: false,
     textAlignVertical: "center",
-    fontSize: 12,
-    lineHeight: 18,
+    // Match client-ui `.card-media__category__text`
+    color: "#234567",
+    fontSize: 14,
+    lineHeight: 14,
   },
   creatorText: {
     color: "#66768d",
@@ -446,17 +456,17 @@ const styles = StyleSheet.create({
   },
   readContainer: {
     position: "absolute",
-    top: -13,
+    top: -18,
     right: 16,
     backgroundColor: appStyles.colorGreen_7ec680,
-    paddingHorizontal: 12,
-    paddingVertical: 2,
+    paddingHorizontal: 16,
+    paddingVertical: 6,
     borderRadius: 12,
     textAlign: "center",
     zIndex: 3,
   },
   readText: {
-    fontFamily: appStyles.fontBold,
+    fontFamily: appStyles.fontSemiBold,
     color: appStyles.colorWhite_ff,
   },
 });
