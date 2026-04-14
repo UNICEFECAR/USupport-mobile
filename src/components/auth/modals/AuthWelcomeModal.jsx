@@ -39,8 +39,8 @@ export function AuthWelcomeModal({
     setIsVideosActive,
   } = useContext(Context);
 
-  const [selectedCountry, setSelectedCountryCode] = useState(null); // alpha2
-  const [selectedLanguage, setSelectedLanguage] = useState(null); // alpha2
+  const [selectedCountry, setSelectedCountryCode] = useState(null);
+  const [selectedLanguage, setSelectedLanguage] = useState(null);
 
   const [isRoPasswordModalOpen, setIsRoPasswordModalOpen] = useState(false);
   const [roPassword, setRoPassword] = useState("");
@@ -276,7 +276,9 @@ export function AuthWelcomeModal({
             style={[styles.loginText, !canProceed && styles.loginTextDisabled]}
           >
             {t("already_have_account")}{" "}
-            <AppText style={styles.loginLink}>{t("log_in")}</AppText>
+            <AppText style={styles.loginLink} isBold>
+              {t("log_in")}
+            </AppText>
           </AppText>
           <TouchableOpacity
             onPress={!canProceed ? undefined : () => handleAction("login")}
@@ -336,7 +338,7 @@ const styles = StyleSheet.create({
     alignItems: "stretch",
     marginTop: "auto",
     gap: 16,
-    paddingBottom: 20,
+    marginBottom: -32,
   },
   buttonsRow: {
     width: "100%",
@@ -347,10 +349,10 @@ const styles = StyleSheet.create({
   rowButton: { width: "47%" },
   loginRow: {
     width: "100%",
-    paddingBottom: 16,
     borderBottomWidth: 1,
     borderBottomColor: "#e0e0e0",
     position: "relative",
+    paddingBottom: 16,
   },
   loginText: {
     fontSize: 18,
@@ -360,7 +362,6 @@ const styles = StyleSheet.create({
   loginTextDisabled: { opacity: 0.45 },
   loginLink: {
     color: "#9749fa",
-    textDecorationLine: "underline",
   },
   passwordInput: { marginTop: 12, marginBottom: 20 },
 });
