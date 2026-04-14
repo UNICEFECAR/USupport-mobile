@@ -18,6 +18,7 @@ export const Label = ({
   style,
   textStyle,
   paletteIndex,
+  textProps,
 }) => {
   const { isHighContrast } = useGetTheme();
   const PALETTES = [
@@ -58,6 +59,7 @@ export const Label = ({
         <AppText
           namedStyle="smallText"
           style={[styles.text, textColorStyle, textStyle]}
+          {...(textProps || {})}
         >
           {text}
         </AppText>
