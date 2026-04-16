@@ -419,6 +419,14 @@ async function getPodcastLocales(id) {
   return data;
 }
 
+async function addPodcastShareCount(id) {
+  return http.put(`${podcastsEndpoint}/addShareCount/${id}`);
+}
+
+async function addVideoShareCount(id) {
+  return http.put(`${videosEndpoint}/addShareCount/${id}`);
+}
+
 async function getRecommendedArticlesForCategory(payload) {
   const { data } = await http.put(
     `${articlesEndpoint}/recommended/category`,
@@ -543,6 +551,8 @@ export default {
   getPodcasts,
   getPodcastById,
   getPodcastLocales,
+  addPodcastShareCount,
+  addVideoShareCount,
   getRecommendedArticlesForCategory,
   getAssessmentResult,
   getMoodTrackerRecommendations,

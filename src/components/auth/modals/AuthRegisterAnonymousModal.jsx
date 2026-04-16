@@ -12,7 +12,7 @@ import Joi from "joi";
 import {
   AppText,
   CheckBox,
-  Dropdown,
+  Backdrop,
   Icon,
   Input,
   InputPassword,
@@ -25,13 +25,13 @@ import {
 import { userSvc, localStorage, Context } from "#services";
 import { validate, validateProperty, showToast } from "#utils";
 import { useGetTheme, useError } from "#hooks";
+import { appStyles } from "#styles";
 
 import { AuthenticationModalsLogo } from "../AuthenticationModalsLogo";
 import { getAuthBackdropProps } from "../authBackdropProps";
-import { Backdrop } from "#components";
 
 export function AuthRegisterAnonymousModal({ onGoBack, onGoToLogin }) {
-  const { colors } = useGetTheme();
+  const { colors, isDarkMode } = useGetTheme();
   const { t } = useTranslation("blocks", { keyPrefix: "register-anonymous" });
 
   const { setToken, setInitialRouteName, setIsAnonymousRegister } =
@@ -84,11 +84,8 @@ export function AuthRegisterAnonymousModal({ onGoBack, onGoToLogin }) {
     }
   };
 
-  const { data: userAccessToken, isLoading: userAccessTokenIsLoading } = useQuery(
-    ["access-token"],
-    fetchUserAccessToken,
-    { cacheTime: 0 }
-  );
+  const { data: userAccessToken, isLoading: userAccessTokenIsLoading } =
+    useQuery(["access-token"], fetchUserAccessToken, { cacheTime: 0 });
 
   const register = async () => {
     const countryID = await localStorage.getItem("country_id");
@@ -155,14 +152,20 @@ export function AuthRegisterAnonymousModal({ onGoBack, onGoToLogin }) {
   });
 
   const handleChange = (field, value) => {
-    if (field === "confirmPassword" && value.length >= 8 && data.password !== value) {
+    if (
+      field === "confirmPassword" &&
+      value.length >= 8 &&
+      data.password !== value
+    ) {
       setErrors({ confirmPassword: t("password_match_error") });
     }
     if (
       (field === "password" &&
         data.confirmPassword.length >= 8 &&
         value === data.confirmPassword) ||
-      (field === "confirmPassword" && value.length >= 8 && data.password === value)
+      (field === "confirmPassword" &&
+        value.length >= 8 &&
+        data.password === value)
     ) {
       setErrors({ confirmPassword: "" });
     }
@@ -226,34 +229,59 @@ export function AuthRegisterAnonymousModal({ onGoBack, onGoToLogin }) {
         topHeaderComponent={<AuthenticationModalsLogo onBackPress={onGoBack} />}
         ctaLabel={t("register_button_label")}
         ctaHandleClick={handleRegisterButtonClick}
-        isCtaDisabled={!canContinue || userAccessTokenIsLoading || !userAccessToken}
+        isCtaDisabled={
+          !canContinue || userAccessTokenIsLoading || !userAccessToken
+        }
         isCtaLoading={registerMutation.isLoading}
         secondaryCtaLabel={t("login_button_label")}
         secondaryCtaHandleClick={onGoToLogin}
         secondaryCtaType="ghost"
         errorMessage={errors.submit}
       >
-        <View>
-          <AppText isSemibold style={{ color: colors.textSecondary }}>
-            {t("access_code")}
-          </AppText>
-          {userAccessToken ? (
-            <View style={styles.copyCodeContainer}>
-              <AppText namedStyle="h3">{userAccessToken}</AppText>
-              <TouchableOpacity onPress={copyToClipboard}>
-                <Icon style={styles.copyIcon} name="copy" />
-              </TouchableOpacity>
-            </View>
-          ) : (
-            <View style={{ alignSelf: "center", marginVertical: 20 }}>
-              <Loading />
-            </View>
-          )}
-        </View>
+        <View
+          style={[
+            styles.accessTokenCard,
+            {
+              backgroundColor: isDarkMode ? colors.card : "#EDF0F9",
+              borderColor: isDarkMode
+                ? "rgba(137, 157, 209, 0.3)"
+                : "transparent",
+            },
+          ]}
+        >
+          <View style={styles.accessTokenHeader}>
+            <Icon
+              style={styles.accessTokenHeaderIcon}
+              name="warning"
+              color={appStyles.colorRed_eb5757}
+            />
+            <AppText namedStyle="smallText">{t("paragraph_1")}</AppText>
+          </View>
 
-        <View style={styles.warningContainer}>
-          <Icon style={styles.warningIcon} name="warning" />
-          <AppText namedStyle="smallText" style={{ color: colors.textSecondary }}>
+          <View style={styles.accessTokenRow}>
+            {userAccessToken ? (
+              <>
+                <AppText namedStyle="h3" style={styles.accessTokenValue}>
+                  {userAccessToken}
+                </AppText>
+                <TouchableOpacity
+                  onPress={copyToClipboard}
+                  hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+                  accessibilityRole="button"
+                  accessibilityLabel={t("copy_success")}
+                  style={{ marginLeft: 16 }}
+                >
+                  <Icon name="copy" color={colors.primary} />
+                </TouchableOpacity>
+              </>
+            ) : (
+              <View style={styles.accessTokenLoading}>
+                <Loading />
+              </View>
+            )}
+          </View>
+
+          <AppText namedStyle="smallText" style={styles.accessTokenHelpText}>
             {t("copy_text")}
           </AppText>
         </View>
@@ -301,7 +329,7 @@ export function AuthRegisterAnonymousModal({ onGoBack, onGoToLogin }) {
             textTwo={t("terms_agreement_text_2")}
             textThree={t("terms_agreement_text_3")}
             textFour={t("terms_agreement_text_4")}
-            style={{ marginBottom: 12 }}
+            style={{ marginBottom: 8 }}
           />
           <TermsAgreement
             isChecked={data.isAgeTermsSelected}
@@ -355,7 +383,11 @@ function SaveAccessCodeConfirmation({
   };
 
   return (
-    <TransparentModal heading={t("modal_heading")} isOpen={isOpen} handleClose={handleClose}>
+    <TransparentModal
+      heading={t("modal_heading")}
+      isOpen={isOpen}
+      handleClose={handleClose}
+    >
       {userAccessToken ? (
         <View style={styles.copyCodeContainer}>
           <AppText namedStyle="h3">{userAccessToken}</AppText>
@@ -394,6 +426,34 @@ function SaveAccessCodeConfirmation({
 }
 
 const styles = StyleSheet.create({
+  accessTokenCard: {
+    padding: 16,
+    borderRadius: 24,
+    borderWidth: 1,
+  },
+  accessTokenHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  accessTokenHeaderIcon: {
+    marginRight: 8,
+  },
+  accessTokenRow: {
+    flexDirection: "row",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 8,
+  },
+  accessTokenValue: {
+    textAlign: "center",
+  },
+  accessTokenLoading: {
+    paddingVertical: 20,
+  },
+  accessTokenHelpText: {
+    marginTop: 8,
+  },
   copyCodeContainer: {
     flexDirection: "row",
     alignSelf: "center",
@@ -415,7 +475,7 @@ const styles = StyleSheet.create({
     marginTop: 24,
     alignSelf: "center",
   },
-  termsAgreement: { width: "95%", alignSelf: "center", paddingTop: 24 },
+  termsAgreement: { width: "95%", alignSelf: "center", paddingTop: 16 },
   checkboxContainer: {
     display: "flex",
     justifyContent: "center",
@@ -423,4 +483,3 @@ const styles = StyleSheet.create({
     marginTop: 18,
   },
 });
-

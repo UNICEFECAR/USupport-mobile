@@ -1,16 +1,17 @@
 import React, { useContext } from "react";
-import { StyleSheet, View, ScrollView } from "react-native";
+import { StyleSheet, View, ScrollView, TouchableOpacity } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
-import { Heading, Screen, AppText, Loading, CardMedia } from "#components";
+import { Screen, AppText, Loading, CardMedia, Icon } from "#components";
 import { PodcastView } from "#blocks";
 import {
   destructurePodcastData,
   getLikesAndDislikesForContent,
   isLikedOrDislikedByUser,
 } from "#utils";
-import { useGetUserContentEngagements } from "#hooks";
+import { useGetUserContentEngagements, useGetTheme } from "#hooks";
+import { appStyles } from "#styles";
 import { userSvc, cmsSvc, adminSvc, clientSvc, Context } from "#services";
 
 /**
@@ -25,6 +26,8 @@ export const PodcastInformation = ({ navigation, route }) => {
   const { i18n, t } = useTranslation("blocks", {
     keyPrefix: "information-portal",
   });
+  const { t: tScreen } = useTranslation("screens", { keyPrefix: "screen" });
+  const { isHighContrast } = useGetTheme();
   const { isTmpUser } = useContext(Context);
 
   const getPodcastsIds = async () => {
@@ -161,11 +164,23 @@ export const PodcastInformation = ({ navigation, route }) => {
 
   return (
     <Screen>
-      <ScrollView style={styles.container}>
-        <Heading
-          heading={podcastData?.title}
-          handleGoBack={() => navigation.goBack()}
-        />
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+        <View style={styles.headerRow}>
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={styles.goBackRow}
+            hitSlop={appStyles.hitSlop}
+          >
+            <Icon
+              style={styles.goBackIcon}
+              name="arrow-chevron-back"
+              color={isHighContrast ? "#fff" : appStyles.colorPrimary_20809e}
+            />
+            <AppText namedStyle="text" isBold style={styles.goBackText}>
+              {tScreen("go_back")}
+            </AppText>
+          </TouchableOpacity>
+        </View>
 
         {podcastData && !isLoading ? (
           <PodcastView
@@ -238,6 +253,24 @@ export const PodcastInformation = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  headerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 16,
+    marginTop: 16,
+  },
+  goBackRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "flex-start",
+  },
+  goBackIcon: {
+    marginRight: 8,
+  },
+  goBackText: {
+    textTransform: "none",
   },
   loadingContainer: {
     flex: 1,

@@ -44,10 +44,13 @@ import { destructureArticleData, getLikesAndDislikesForContent } from "#utils";
  *
  * @returns {JSX.Element}
  */
-export const InformationalPortal = ({ navigation }) => {
+export const InformationalPortal = ({ navigation, route }) => {
   const { isDarkMode } = useGetTheme();
   const { t } = useTranslation("screens", {
     keyPrefix: "informational-portal-screen",
+  });
+  const { t: tArticlesScreen } = useTranslation("screens", {
+    keyPrefix: "articles-screen",
   });
   const queryClient = useQueryClient();
   const [refreshing, setRefreshing] = useState(false);
@@ -59,27 +62,43 @@ export const InformationalPortal = ({ navigation }) => {
   const [searchValue, setSearchValue] = useState("");
   const debouncedSearchValue = useDebounce(searchValue, 500);
 
-  // Content type tabs
+  // Content type tabs — same order as client-ui InformationPortal: articles, videos, podcasts
   const [contentTabs, setContentTabs] = useState([
     { label: "articles", value: "articles", isSelected: true },
   ]);
 
   useEffect(() => {
-    let tabs = [...contentTabs];
-    if (isPodcastsActive) {
-      const podcastsTab = tabs.find((tab) => tab.value === "podcasts");
-      if (!podcastsTab) {
-        tabs.push({ label: "podcasts", value: "podcasts", isSelected: false });
-      }
-    }
+    const requestedTab = route?.params?.tab;
+    const tabs = [{ label: "articles", value: "articles", isSelected: false }];
     if (isVideosActive) {
-      const videosTab = tabs.find((tab) => tab.value === "videos");
-      if (!videosTab) {
-        tabs.push({ label: "videos", value: "videos", isSelected: false });
-      }
+      tabs.push({ label: "videos", value: "videos", isSelected: false });
     }
+    if (isPodcastsActive) {
+      tabs.push({ label: "podcasts", value: "podcasts", isSelected: false });
+    }
+
+    let selected = "articles";
+    if (
+      requestedTab === "videos" &&
+      isVideosActive &&
+      tabs.some((x) => x.value === "videos")
+    ) {
+      selected = "videos";
+    } else if (
+      requestedTab === "podcasts" &&
+      isPodcastsActive &&
+      tabs.some((x) => x.value === "podcasts")
+    ) {
+      selected = "podcasts";
+    } else if (requestedTab === "articles") {
+      selected = "articles";
+    }
+
+    tabs.forEach((tab) => {
+      tab.isSelected = tab.value === selected;
+    });
     setContentTabs(tabs);
-  }, [isPodcastsActive, isVideosActive]);
+  }, [isPodcastsActive, isVideosActive, route?.params?.tab]);
 
   const handleTabSelect = (index) => {
     const tabsCopy = [...contentTabs];
@@ -88,6 +107,10 @@ export const InformationalPortal = ({ navigation }) => {
     });
     setContentTabs(tabsCopy);
     setSearchValue("");
+    const nextTab = tabsCopy[index]?.value;
+    if (nextTab && navigation?.setParams) {
+      navigation.setParams({ tab: nextTab });
+    }
   };
 
   const selectedContentType =
@@ -202,7 +225,7 @@ export const InformationalPortal = ({ navigation }) => {
             placeholder={t("search")}
           />
 
-          <View style={styles.headingBlock}>{heading}</View>
+          {/* <View style={styles.headingBlock}>{heading}</View> */}
 
           {contentTabs.length > 1 && (
             <View style={styles.tabsContainer}>
@@ -226,8 +249,10 @@ export const InformationalPortal = ({ navigation }) => {
                     </View>
                   ) : mostReadArticleQuery.data ? (
                     <>
-                      <AppText namedStyle="h3" style={styles.mostReadHeading}>
-                        {t("most_read_heading", { defaultValue: "Most read" })}
+                      <AppText namedStyle="h2" style={styles.mostReadHeading}>
+                        {tArticlesScreen("heading_most_read", {
+                          defaultValue: "Most read Articles",
+                        })}
                       </AppText>
                       <View style={styles.mostReadCardContainer}>
                         <CardMedia
@@ -272,7 +297,6 @@ export const InformationalPortal = ({ navigation }) => {
 
           {selectedContentType === "videos" && (
             <VideosBlock
-              navigation={navigation}
               showSearch={false}
               showCategories={true}
               externalSearchValue={debouncedSearchValue}
@@ -324,6 +348,8 @@ const styles = StyleSheet.create({
   },
   mostReadHeading: {
     marginBottom: 16,
+    textAlign: "center",
+    width: "100%",
   },
   mostReadCardContainer: {
     alignItems: "center",

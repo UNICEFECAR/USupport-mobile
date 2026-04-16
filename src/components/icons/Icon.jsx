@@ -96,6 +96,7 @@ import {
   IconCurrentLocation,
   IconGoogleMaps,
   IconWaze,
+  IconOrganization,
   IconLocation,
   IconPlay,
   IconSave,
@@ -403,6 +404,9 @@ export const Icon = ({ name, size = "md", color, style, fill }) => {
       break;
     case "map":
       icon = <IconMap color={color} />;
+      break;
+    case "organization":
+      icon = <IconOrganization color={color} />;
       break;
     case "seek-back":
       icon = <IconSeekBack color={color} />;

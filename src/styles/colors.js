@@ -9,6 +9,8 @@ const light = {
   navigation: appStyles.colorWhite_ff,
   input: appStyles.colorWhite_ff,
   inputText: appStyles.colorBlue_6989a4,
+  // Matches web token `color_input_placeholder` (client-ui/website SCSS themes)
+  inputPlaceholder: appStyles.colorGray_66768d,
   inputBorder: appStyles.colorGray_cdd8e1,
   // CardMedia (match web CardMedia light theme)
   cardMedia: appStyles.colorCardMediaSurfaceLight_rgba,
@@ -30,7 +32,8 @@ const light = {
 };
 
 const dark = {
-  background: appStyles.colorBlack_242127,
+  // Match client-ui Page dark gradient base (page.scss): linear-gradient(135deg, #0f1728 ...)
+  background: "#0f1728",
   text: appStyles.colorTextMain_ededed, // Matches web: #ededed
   textSecondary: appStyles.colorGray_a6b4b8,
   textTertiary: appStyles.colorWhite_ff,
@@ -38,6 +41,8 @@ const dark = {
   navigation: appStyles.colorBlack_1d,
   input: appStyles.colorBlack_31,
   inputText: appStyles.color_blue_c1d7e0,
+  // Matches web token `color_input_placeholder` (dark)
+  inputPlaceholder: appStyles.color_blue_c1d7e0,
   inputBorder: appStyles.colorGray_cdd8e1,
   cardMedia: appStyles.colorBlack_1e,
   cardMediaBorder: "rgba(137, 157, 209, 0.3)",
@@ -61,6 +66,8 @@ const highContrast = {
   navigation: appStyles.colorBlack_1d,
   input: appStyles.colorBlack_31,
   inputText: appStyles.colorHighContrast_ffff00,
+  // Matches web token `color_input_placeholder` (highContrast)
+  inputPlaceholder: appStyles.colorHighContrast_ffff00,
   inputBorder: appStyles.colorGray_cdd8e1,
   cardMedia: appStyles.colorBlack_1e,
   cardMediaBorder: "rgba(137, 157, 209, 0.3)",

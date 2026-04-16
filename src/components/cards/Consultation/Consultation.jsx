@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { Avatar } from "../../avatars/Avatar/Avatar";
 import { AppText } from "../../texts/AppText/AppText";
 import { Icon } from "../../icons/Icon";
+import LinearGradient from "../../LinearGradient";
 import { appStyles } from "#styles";
 import { NewButton } from "../../buttons/NewButton/NewButton";
 import {
@@ -217,12 +218,22 @@ export const Consultation = ({
       <View
         style={[
           styles.consultation,
-          { backgroundColor: colors.card },
+          { backgroundColor: isDarkMode ? "transparent" : colors.card },
           style,
           buttonAction === "join" && styles.borderColorPurple,
           { ...appStyles.shadow2 },
         ]}
       >
+        {isDarkMode && (
+          <LinearGradient
+            gradient={{
+              degrees: 145,
+              locations: [0, 1],
+              colors: colors.cardMediaGradient || [colors.card, colors.card],
+            }}
+            style={styles.darkBackground}
+          />
+        )}
         <View style={styles.content}>
           <Avatar image={{ uri: imageUrl }} size="sm" />
           <View style={styles.textContainer}>
@@ -364,14 +375,14 @@ export const Consultation = ({
                     label={t("accept")}
                     type="gradient"
                     size={buttonSize}
-                    style={styles.actionHalf}
+                    style={[styles.actionHalf, styles.actionHalfButton]}
                   />
                   <NewButton
                     onPress={handleRejectConsultationPress}
                     label={t("reject")}
                     type="outline"
                     size={buttonSize}
-                    style={styles.actionHalf}
+                    style={[styles.actionHalf, styles.actionHalfButton]}
                   />
                 </View>
               )}
@@ -392,6 +403,7 @@ export const Consultation = ({
                       label={t("join")}
                       type="gradient"
                       disabled
+                      style={styles.actionHalfButton}
                     />
                   </Pressable>
                   <NewButton
@@ -399,7 +411,7 @@ export const Consultation = ({
                     onPress={handleEdit}
                     label={buttonLabel}
                     type="outline"
-                    style={styles.actionHalf}
+                    style={[styles.actionHalf, styles.actionHalfButton]}
                   />
                 </View>
               )}
@@ -437,7 +449,14 @@ export const Consultation = ({
 const styles = StyleSheet.create({
   actionHalf: {
     flex: 1,
-    minWidth: "48%",
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: "48%",
+    minWidth: 0,
+  },
+  actionHalfButton: {
+    width: "100%",
+    minWidth: 0,
   },
   actions: {
     borderTopWidth: 1,
@@ -448,6 +467,7 @@ const styles = StyleSheet.create({
   },
   actionsRow: {
     flexDirection: "row",
+    flexWrap: "wrap",
     gap: 10,
     justifyContent: "space-between",
     width: "100%",
@@ -472,6 +492,10 @@ const styles = StyleSheet.create({
     padding: 16,
     textAlign: "left",
     width: "100%",
+  },
+  darkBackground: {
+    ...StyleSheet.absoluteFillObject,
+    borderRadius: 16,
   },
   content: {
     alignItems: "flex-start",

@@ -1,9 +1,16 @@
-import React, { useState, useRef, useEffect } from "react";
-import { StyleSheet, View, Dimensions } from "react-native";
+import React, { useMemo, useState } from "react";
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
 import { WebView } from "react-native-webview";
+import Share from "react-native-share";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { Block, AppText, Label, Like } from "#components";
+import { AppText, Icon, Label, Like } from "#components";
+import LinearGradient from "../../components/LinearGradient";
 import { cmsSvc } from "#services";
 import {
   useAddContentRating,
@@ -12,23 +19,26 @@ import {
   useRemoveContentEngagement,
 } from "#hooks";
 import { appStyles } from "#styles";
+import { constructShareUrl, showToast } from "#utils";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
-const PLAYER_HEIGHT = (SCREEN_WIDTH * 9) / 16; // 16:9 aspect ratio
+/** Spotify compact embed height (matches client-ui iframe). */
+const SPOTIFY_EMBED_HEIGHT = 232;
 
 /**
  * PodcastView
  *
- * Podcast view block component
+ * Layout and styling aligned with client-ui podcast-view (glass card, title + share,
+ * creator + category pill, labels + likes, player, description).
  *
  * @returns {JSX.Element}
  */
 export const PodcastView = ({ podcastData, t, isTmpUser }) => {
-  const { colors } = useGetTheme();
-  const [isPlaying, setIsPlaying] = useState(false);
-  const webViewRef = useRef(null);
+  const { colors, isHighContrast, isDarkMode } = useGetTheme();
   const queryClient = useQueryClient();
+  const creator = podcastData.creator ? podcastData.creator : null;
 
+  const [isShared, setIsShared] = useState(false);
   const [contentRating, setContentRating] = useState({
     likes: podcastData.likes,
     dislikes: podcastData.dislikes,
@@ -36,10 +46,52 @@ export const PodcastView = ({ podcastData, t, isTmpUser }) => {
     isDislikedByUser: podcastData.contentRating?.isDislikedByUser || false,
   });
 
+  const isLightTheme = colors.background === appStyles.colorWhite_ff;
+
+  const glassGradient = useMemo(
+    () => ({
+      degrees: 145,
+      locations: [0, 100],
+      colors:
+        isLightTheme && !isHighContrast
+          ? ["rgba(255, 255, 255, 0.99)", "rgba(245, 248, 255, 0.85)"]
+          : colors.cardMediaGradient,
+    }),
+    [isLightTheme, isHighContrast, colors.cardMediaGradient]
+  );
+
+  const metaAccentColor = isHighContrast
+    ? appStyles.colorOrangeArticleCreatorHC_ffc18c
+    : colors.cardMediaMetaText;
+
+  const actionIconColor =
+    isLightTheme && !isHighContrast
+      ? appStyles.colorGray_66768d
+      : appStyles.colorWhite_ff;
+
+  const categoryBadgeStyle = useMemo(() => {
+    if (isDarkMode && !isHighContrast) {
+      return {
+        backgroundColor: appStyles.colorGray_66768d,
+        borderColor: "transparent",
+      };
+    }
+    return {
+      backgroundColor: appStyles.colorBlue_20809E_0_3,
+      borderColor: "transparent",
+    };
+  }, [isDarkMode, isHighContrast]);
+
+  const categoryTextColor = useMemo(() => {
+    if (isDarkMode && !isHighContrast) {
+      return appStyles.color_blue_c1d7e0;
+    }
+    return appStyles.colorBlue_3d527b;
+  }, [isDarkMode, isHighContrast]);
+
   const addContentEngagementMutation = useAddContentEngagement();
   const removeContentEngagementMutation = useRemoveContentEngagement();
 
-  // Track view when podcast is loaded using useQuery
   useQuery(
     ["podcast-view-tracking", podcastData.id],
     async () => {
@@ -57,7 +109,6 @@ export const PodcastView = ({ podcastData, t, isTmpUser }) => {
     }
   );
 
-  // Like/Dislike functionality
   const onMutate = (data) => {
     const prevData = JSON.parse(JSON.stringify(contentRating));
 
@@ -135,7 +186,7 @@ export const PodcastView = ({ podcastData, t, isTmpUser }) => {
 
   const onError = (error, rollback) => {
     rollback();
-    console.log(error);
+    showToast({ message: error, type: "error" });
   };
 
   const onSuccess = () => {
@@ -156,13 +207,11 @@ export const PodcastView = ({ podcastData, t, isTmpUser }) => {
       action === "remove-like" || action === "remove-dislike";
 
     if (isRemovingReaction) {
-      // Remove like/dislike from engagement tracking
       removeContentEngagementMutation({
         contentId: podcastData.id,
         contentType: "podcast",
       });
     } else {
-      // Add like/dislike to engagement tracking
       addContentEngagementMutation({
         contentId: podcastData.id,
         contentType: "podcast",
@@ -178,155 +227,247 @@ export const PodcastView = ({ podcastData, t, isTmpUser }) => {
     });
   };
 
-  // Detect message from WebView
-  const onWebViewMessage = (event) => {
+  const handleShare = async () => {
     try {
-      const message = JSON.parse(event.nativeEvent.data);
-      if (message.type === "playStateChanged") {
-        setIsPlaying(message.isPlaying);
+      const url = await constructShareUrl({
+        contentType: "podcast",
+        id: podcastData.id,
+        name: podcastData.title,
+      });
+      await Share.open({
+        title: podcastData.title,
+        message: `${t("check_podcast")}\n\n${url}`,
+      });
+      showToast({ message: t("share_success"), type: "success" });
+      if (!isShared) {
+        cmsSvc.addPodcastShareCount(podcastData.id).then(() => {
+          setIsShared(true);
+        });
+        if (!isTmpUser) {
+          addContentEngagementMutation({
+            contentId: podcastData.id,
+            contentType: "podcast",
+            action: "share",
+          });
+        }
       }
     } catch (error) {
-      console.log("Error parsing WebView message:", error);
+      if (error?.message && !error.message.includes("User did not share")) {
+        console.log("Share error:", error);
+      }
     }
   };
 
-  // Inject JavaScript to get player status
-  const INJECTED_JAVASCRIPT = `
-    window.addEventListener('message', function(e) {
-      if (e.data.type === 'player_status_update') {
-        window.ReactNativeWebView.postMessage(JSON.stringify({
-          type: 'playStateChanged',
-          isPlaying: e.data.playing
-        }));
-      }
-    });
-    true;
-  `;
-
-  const renderPodcastPlayer = () => {
-    const embedUrl = `https://open.spotify.com/embed/${podcastData.spotifyId}`;
-    return (
-      <WebView
-        ref={webViewRef}
-        source={{ uri: embedUrl }}
-        style={styles.webView}
-        allowsInlineMediaPlayback={true}
-        mediaPlaybackRequiresUserAction={false}
-        javaScriptEnabled={true}
-        injectedJavaScript={INJECTED_JAVASCRIPT}
-        onMessage={onWebViewMessage}
-      />
-    );
-  };
+  const embedUrl = `https://open.spotify.com/embed/${podcastData.spotifyId}`;
 
   return (
-    <Block style={styles.podcastViewBlock}>
-      <View style={styles.categoryContainer}>
-        <AppText
-          namedStyle="smallText"
-          style={[styles.categoryText, { color: colors.text }]}
-        >
-          {podcastData.categoryName}
-        </AppText>
-      </View>
+    <View style={styles.screen}>
+      <LinearGradient
+        gradient={glassGradient}
+        style={[
+          styles.glassCard,
+          isLightTheme && !isHighContrast
+            ? styles.liquidGlassShadowLight
+            : appStyles.cardMediaShadowDark,
+          { borderColor: colors.cardMediaGradientBorder },
+        ]}
+      >
+        <View style={styles.titleRow}>
+          <AppText namedStyle="h2" style={styles.title}>
+            {podcastData.title}
+          </AppText>
+          <TouchableOpacity
+            style={styles.actionIconBtn}
+            onPress={handleShare}
+            accessibilityRole="button"
+          >
+            <Icon name="share" size="sm" color={actionIconColor} />
+          </TouchableOpacity>
+        </View>
 
-      <View style={styles.playerContainer}>{renderPodcastPlayer()}</View>
+        <View style={styles.detailsRow}>
+          {creator ? (
+            <AppText
+              namedStyle="smallText"
+              style={[styles.creatorText, { color: metaAccentColor }]}
+              numberOfLines={1}
+            >
+              {t("by", { creator })}
+            </AppText>
+          ) : null}
+          {podcastData.categoryName ? (
+            <View
+              style={[
+                styles.categoryBadge,
+                categoryBadgeStyle,
+                !creator && styles.categoryBadgeFirst,
+              ]}
+            >
+              <AppText
+                namedStyle="smallText"
+                style={[styles.categoryBadgeText, { color: categoryTextColor }]}
+              >
+                {podcastData.categoryName}
+              </AppText>
+            </View>
+          ) : null}
+        </View>
 
-      <View>
-        {podcastData.description && (
-          <AppText style={styles.description}>
+        <View style={styles.labelsLikeRow}>
+          <View style={styles.labelsWrap}>
+            {podcastData.labels?.map((label, index) => (
+              <Label style={styles.label} text={label.name} key={index} />
+            ))}
+          </View>
+          <View style={styles.likeWrap}>
+            <Like
+              size={30}
+              handleClick={handleAddRating}
+              likes={contentRating?.likes || 0}
+              isLiked={contentRating?.isLikedByUser || false}
+              dislikes={contentRating?.dislikes || 0}
+              isDisliked={contentRating?.isDislikedByUser || false}
+              answerId={podcastData.id}
+            />
+          </View>
+        </View>
+
+        <View style={styles.playerOuter}>
+          <View style={styles.playerContainer}>
+            <WebView
+              source={{ uri: embedUrl }}
+              style={styles.webView}
+              allowsInlineMediaPlayback
+              mediaPlaybackRequiresUserAction={false}
+              javaScriptEnabled
+            />
+          </View>
+        </View>
+
+        {podcastData.description ? (
+          <AppText
+            namedStyle="text"
+            style={[styles.description, { color: colors.textSecondary }]}
+          >
             {podcastData.description}
           </AppText>
-        )}
-
-        {podcastData.creator && (
-          <AppText style={styles.creator}>{podcastData.creator}</AppText>
-        )}
-
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <View style={styles.labelsContainer}>
-            {podcastData.labels &&
-              podcastData.labels.length > 0 &&
-              podcastData.labels.map((label, index) => (
-                <Label style={styles.label} text={label.name} key={index} />
-              ))}
-          </View>
-          <Like
-            handleClick={handleAddRating}
-            likes={contentRating?.likes || 0}
-            isLiked={contentRating?.isLikedByUser || false}
-            dislikes={contentRating?.dislikes || 0}
-            isDisliked={contentRating?.isDislikedByUser || false}
-            answerId={podcastData.id}
-          />
-        </View>
-      </View>
-    </Block>
+        ) : null}
+      </LinearGradient>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  podcastViewBlock: {
-    flex: 1,
-    paddingTop: 94,
+  screen: {
+    marginTop: 8,
+    paddingHorizontal: 16,
+    paddingBottom: 8,
+    maxWidth: SCREEN_WIDTH,
   },
-  playerContainer: {
-    width: "100%",
-    height: PLAYER_HEIGHT,
-    backgroundColor: appStyles.colorGray_ea,
-    borderRadius: 8,
-    marginBottom: 16,
+  glassCard: {
+    borderRadius: 16,
+    borderWidth: 1,
     overflow: "hidden",
+    padding: 16,
   },
-  webView: {
+  liquidGlassShadowLight: {
+    shadowColor: "rgb(95, 108, 145)",
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.14,
+    shadowRadius: 16,
+    elevation: 4,
+  },
+  titleRow: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 16,
     width: "100%",
-    height: "100%",
-  },
-  playButton: {
-    marginRight: 16,
   },
   title: {
-    marginBottom: 12,
+    flex: 1,
+    marginRight: 12,
+    textAlign: "left",
   },
-  description: {
-    marginBottom: 16,
+  actionIconBtn: {
+    alignItems: "center",
+    borderRadius: 21,
+    height: 42,
+    justifyContent: "center",
+    width: 42,
   },
-  creator: {
-    color: appStyles.colorGray_92,
-    marginBottom: 16,
-  },
-  labelsContainer: {
+  detailsRow: {
+    alignItems: "center",
     flexDirection: "row",
     flexWrap: "wrap",
-    width: "70%",
+    marginBottom: 16,
+    width: "100%",
+  },
+  creatorText: {
+    flexShrink: 1,
+    marginRight: 8,
+    maxWidth: "55%",
+  },
+  categoryBadge: {
+    alignItems: "center",
+    borderRadius: 25,
+    height: 24,
+    justifyContent: "center",
+    marginLeft: 16,
+    paddingHorizontal: 12,
+  },
+  categoryBadgeFirst: {
+    marginLeft: 0,
+  },
+  categoryBadgeText: {
+    fontFamily: appStyles.fontBold,
+  },
+  labelsLikeRow: {
+    alignItems: "flex-start",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 16,
+    paddingTop: 8,
+    width: "100%",
+  },
+  labelsWrap: {
+    flex: 1,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+    marginRight: 8,
+    maxWidth: "72%",
   },
   label: {
-    marginRight: 8,
-    marginBottom: 8,
-    paddingVertical: 1,
+    marginBottom: 4,
+    marginRight: 0,
+    marginTop: 4,
+    paddingVertical: 0,
   },
-  categoryContainer: {
-    marginBottom: 5,
-    backgroundColor: appStyles.colorBlue_20809E_0_3,
-    paddingHorizontal: 12,
-    paddingVertical: 2,
-    borderRadius: 25,
+  likeWrap: {
+    alignItems: "flex-end",
     justifyContent: "center",
-    width: "auto",
-    alignSelf: "flex-start",
+    minWidth: 120,
   },
-  categoryText: {
-    fontFamily: appStyles.fontBold,
-    color: appStyles.colorBlue_3d527b,
+  playerOuter: {
+    marginBottom: 24,
+    marginTop: 8,
+    width: "100%",
   },
-  errorText: {
-    color: appStyles.colorDanger,
-    textAlign: "center",
-    marginTop: 16,
+  playerContainer: {
+    backgroundColor: appStyles.colorGray_ea,
+    borderRadius: 8,
+    height: SPOTIFY_EMBED_HEIGHT,
+    overflow: "hidden",
+    width: "100%",
+  },
+  webView: {
+    flex: 1,
+    height: SPOTIFY_EMBED_HEIGHT,
+    width: "100%",
+  },
+  description: {
+    textAlign: "left",
+    width: "100%",
   },
 });

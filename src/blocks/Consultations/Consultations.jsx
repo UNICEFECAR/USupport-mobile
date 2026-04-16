@@ -1,14 +1,47 @@
-import { useState, useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
-import { AppText, Block, Consultation, TabsUnderlined } from "#components";
+import { AppText, Consultation, NewButton } from "#components";
 import { ONE_HOUR, showToast } from "#utils";
 import {
   useGetAllConsultations,
   useAcceptConsultation,
   useRejectConsultation,
+  useGetTheme,
 } from "#hooks";
+import { appStyles } from "#styles";
+
+/**
+ * Get upcoming consultations (not yet finished)
+ */
+const getUpcomingConsultations = (consultations, currentDateTs) => {
+  return consultations
+    ?.filter((consultation) => {
+      const endTime = consultation.timestamp + ONE_HOUR;
+      return (
+        consultation.timestamp >= currentDateTs ||
+        (currentDateTs >= consultation.timestamp && currentDateTs <= endTime)
+      );
+    })
+    .sort((a, b) => a.timestamp - b.timestamp);
+};
+
+/**
+ * Get past consultations (finished)
+ */
+const getPastConsultations = (consultations, currentDateTs) => {
+  return consultations
+    ?.filter((consultation) => {
+      const endTime = consultation.timestamp + ONE_HOUR;
+      return (
+        endTime < currentDateTs &&
+        (consultation.status === "finished" ||
+          consultation.status === "scheduled")
+      );
+    })
+    .sort((a, b) => b.timestamp - a.timestamp);
+};
 
 /**
  * Consultations
@@ -23,19 +56,11 @@ export const Consultations = ({
   isTmpUser,
   navigation,
   currencySymbol,
+  onScheduleConsultationClick,
 }) => {
   const { t, i18n } = useTranslation("blocks", { keyPrefix: "consultations" });
-
-  const [tabsOptions, setTabsOptions] = useState([
-    { label: "upcoming_tab_label", value: "upcoming", isSelected: true },
-    {
-      label: "past_tab_label",
-      value: "past",
-      isSelected: false,
-    },
-  ]);
-
-  const [filter, setFilter] = useState("upcoming");
+  const { colors, isDarkMode } = useGetTheme();
+  const hasAutoTriggeredRef = useRef(false);
 
   const daysOfWeekTranslations = {
     monday: t("monday"),
@@ -48,20 +73,6 @@ export const Consultations = ({
   };
 
   const consultationsQuery = useGetAllConsultations(!isTmpUser);
-  const handleTabClick = (index) => {
-    const optionsCopy = [...tabsOptions];
-
-    for (let i = 0; i < optionsCopy.length; i++) {
-      if (i === index) {
-        optionsCopy[i].isSelected = true;
-      } else {
-        optionsCopy[i].isSelected = false;
-      }
-    }
-
-    setTabsOptions(optionsCopy);
-    setFilter(optionsCopy[index].value);
-  };
 
   const handleOpenEdit = (consultation) => {
     openEditConsultation(consultation);
@@ -111,51 +122,9 @@ export const Consultations = ({
     rejectConsultationMutation.mutate(consultationId);
   };
 
-  const filterConsultations = useCallback(() => {
-    const currentDateTs = new Date().getTime();
-
-    return consultationsQuery.data
-      ?.filter((consultation) => {
-        const endTime = consultation.timestamp + ONE_HOUR;
-        if (filter === "upcoming") {
-          return (
-            consultation.timestamp >= currentDateTs ||
-            (currentDateTs >= consultation.timestamp &&
-              currentDateTs <= endTime)
-          );
-        } else {
-          return (
-            endTime < currentDateTs &&
-            (consultation.status === "finished" ||
-              consultation.status === "scheduled")
-          );
-        }
-      })
-      .sort((a, b) => {
-        if (filter === "upcoming") {
-          return a.timestamp - b.timestamp;
-        } else {
-          return b.timestamp - a.timestamp;
-        }
-      });
-  }, [consultationsQuery.data, filter]);
-
-  const renderAllConsultations = useMemo(() => {
-    if (isTmpUser) return <AppText>{t("registration_needed")}</AppText>;
-    const filteredConsultations = filterConsultations();
-
-    if (!filteredConsultations || filteredConsultations?.length === 0)
-      return (
-        <AppText>
-          {t(
-            filter === "upcoming"
-              ? "no_upcoming_consultations"
-              : "no_past_consultations"
-          )}
-        </AppText>
-      );
-    return filteredConsultations?.map((consultation, index) => {
-      return (
+  const renderList = useCallback(
+    (list) => {
+      return list.map((consultation, index) => (
         <Consultation
           renderIn="client"
           handleOpenEdit={handleOpenEdit}
@@ -164,42 +133,202 @@ export const Consultations = ({
           daysOfWeekTranslations={daysOfWeekTranslations}
           consultation={consultation}
           overview={false}
-          suggested={consultation.status === "suggested" ? true : false}
+          suggested={consultation.status === "suggested"}
           handleAcceptConsultation={acceptConsultation}
           handleRejectConsultation={rejectConsultation}
           currencySymbol={currencySymbol}
-          key={consultation.consultationId}
+          key={consultation.consultationId || index}
           t={t}
           style={styles.consultation}
           sponsorImage={consultation.sponsorImage}
         />
+      ));
+    },
+    [
+      acceptConsultation,
+      currencySymbol,
+      daysOfWeekTranslations,
+      handleOpenDetails,
+      openJoinConsultation,
+      rejectConsultation,
+      t,
+    ]
+  );
+
+  const renderAllConsultations = useMemo(() => {
+    if (isTmpUser) return <AppText>{t("registration_needed")}</AppText>;
+
+    const nowTs = new Date().getTime();
+    const consultations = consultationsQuery.data || [];
+    const upcoming = getUpcomingConsultations(consultations, nowTs) || [];
+    const past = getPastConsultations(consultations, nowTs) || [];
+    const hasUpcoming = upcoming.length > 0;
+    const hasPast = past.length > 0;
+
+    if (
+      onScheduleConsultationClick &&
+      !consultationsQuery.isLoading &&
+      consultationsQuery.data &&
+      !hasUpcoming &&
+      !hasPast &&
+      !hasAutoTriggeredRef.current
+    ) {
+      hasAutoTriggeredRef.current = true;
+      onScheduleConsultationClick();
+    }
+
+    if (!hasUpcoming && !hasPast) {
+      return (
+        <View style={styles.empty}>
+          {onScheduleConsultationClick ? (
+            <NewButton
+              label={t("schedule_button_label")}
+              iconName="calendar"
+              iconColor="#ffffff"
+              size="lg"
+              isFullWidth
+              onPress={onScheduleConsultationClick}
+            />
+          ) : null}
+        </View>
       );
-    });
-  }, [consultationsQuery.data, filter, i18n.language]);
+    }
+
+    return (
+      <View>
+        {!!onScheduleConsultationClick && (
+          <NewButton
+            label={t("schedule_button_label")}
+            iconName="calendar"
+            iconColor="#ffffff"
+            size="lg"
+            onPress={onScheduleConsultationClick}
+            isFullWidth
+            style={styles.headingButton}
+          />
+        )}
+        {hasUpcoming && (
+          <View style={styles.section}>
+            <View
+              style={[
+                styles.sectionHeading,
+                styles.sectionHeadingBorder,
+                {
+                  borderBottomColor: isDarkMode
+                    ? "#344054"
+                    : appStyles.colorGray_cdd8e1,
+                },
+              ]}
+            >
+              <AppText namedStyle="h3" style={{ color: colors.text }}>
+                {t("upcoming_tab_label")}
+              </AppText>
+            </View>
+            <View style={styles.list}>{renderList(upcoming)}</View>
+          </View>
+        )}
+
+        {hasPast && (
+          <View style={[styles.section, hasUpcoming && styles.sectionAfter]}>
+            <View
+              style={[
+                styles.sectionHeading,
+                styles.sectionHeadingBorder,
+                {
+                  borderBottomColor: isDarkMode
+                    ? "#344054"
+                    : appStyles.colorGray_cdd8e1,
+                },
+              ]}
+            >
+              <AppText namedStyle="h3" style={{ color: colors.text }}>
+                {t("past_tab_label")}
+              </AppText>
+              {!hasUpcoming && !!onScheduleConsultationClick && (
+                <NewButton
+                  label={t("schedule_button_label")}
+                  iconName="calendar"
+                  iconColor="#ffffff"
+                  size="md"
+                  onPress={onScheduleConsultationClick}
+                  isFullWidth
+                  style={styles.headingButton}
+                />
+              )}
+            </View>
+            <View style={styles.list}>{renderList(past)}</View>
+          </View>
+        )}
+      </View>
+    );
+  }, [
+    colors.text,
+    consultationsQuery.data,
+    consultationsQuery.isLoading,
+    i18n.language,
+    isTmpUser,
+    isDarkMode,
+    onScheduleConsultationClick,
+    renderList,
+    t,
+  ]);
 
   return (
-    <Block style={styles.block}>
-      <AppText namedStyle="h2" style={styles.text}>
-        {t("heading")}
-      </AppText>
-      <TabsUnderlined
-        options={tabsOptions.map((x) => ({
-          ...x,
-          label: t(x.label),
-        }))}
-        handleSelect={handleTabClick}
-        style={styles.tabs}
-      />
-      <View style={styles.consultationsContainer}>
+    <View style={styles.root}>
+      <View
+        style={[
+          styles.glassBox,
+          {
+            backgroundColor: isDarkMode
+              ? colors.card
+              : "rgba(255,255,255,0.78)",
+            borderColor: isDarkMode
+              ? colors.border || "rgba(255,255,255,0.12)"
+              : "rgba(224, 233, 255, 0.70)",
+          },
+        ]}
+      >
         {renderAllConsultations}
       </View>
-    </Block>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  consultationsContainer: { alignItems: "center", paddingBottom: 90 },
-  consultation: { marginBottom: 16 },
-  tabs: { marginBottom: 32 },
-  text: { marginVertical: 20, textAlign: "center", alignSelf: "center" },
+  consultation: { marginBottom: 24, width: "100%" },
+  empty: {
+    paddingVertical: 24,
+  },
+  headingButton: {
+    width: "100%",
+    marginBottom: 16,
+  },
+  glassBox: {
+    borderRadius: 24,
+    borderWidth: 1,
+    padding: 20,
+    ...appStyles.shadow2,
+  },
+  list: {
+    alignItems: "stretch",
+  },
+  root: {
+    paddingHorizontal: 16,
+    paddingTop: 24,
+    paddingBottom: 64,
+  },
+  section: {},
+  sectionAfter: {
+    marginTop: 32,
+  },
+  sectionHeading: {
+    flexDirection: "column",
+    alignItems: "stretch",
+    gap: 12,
+    paddingBottom: 12,
+    marginBottom: 12,
+  },
+  sectionHeadingBorder: {
+    borderBottomWidth: 1,
+  },
 });

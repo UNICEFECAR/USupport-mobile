@@ -1,5 +1,16 @@
-import React, { useState, useEffect, useCallback, useContext } from "react";
-import { StyleSheet, View, ScrollView } from "react-native";
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useContext,
+  useMemo,
+} from "react";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 
@@ -11,6 +22,7 @@ import {
   InputSearch,
   Tabs,
 } from "#components";
+import { PodcastModal } from "#backdrops";
 
 import {
   destructurePodcastData,
@@ -29,7 +41,9 @@ import { localStorage, adminSvc, cmsSvc, Context } from "#services";
 /**
  * Podcasts
  *
- * Podcasts block
+ * Behaviour aligned with client-ui Podcasts: featured newest podcast, category tabs
+ * filtered to categories that have podcasts, paginated list (6 per page), card opens
+ * detail screen, play opens PodcastModal.
  *
  * @returns {JSX.Element}
  */
@@ -44,9 +58,15 @@ export const Podcasts = ({
 }) => {
   const { t, i18n } = useTranslation("blocks", { keyPrefix: "videos" });
   const { isTmpUser } = useContext(Context);
+
   const [usersLanguage, setUsersLanguage] = useState(i18n.language);
   const [podcastsLikes, setPodcastsLikes] = useState(new Map());
   const [podcastsDislikes, setPodcastsDislikes] = useState(new Map());
+  const [podcastToPlay, setPodcastToPlay] = useState(null);
+
+  const [podcasts, setPodcasts] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
 
   useEffect(() => {
     if (i18n.language !== usersLanguage) {
@@ -56,7 +76,6 @@ export const Podcasts = ({
 
   const { data: contentEngagements } = useGetUserContentEngagements(!isTmpUser);
 
-  //--------------------- Country Change Event Listener ----------------------//
   const [currentCountry, setCurrentCountry] = useState();
   useEffect(() => {
     localStorage.getItem("country").then((country) => {
@@ -70,17 +89,13 @@ export const Podcasts = ({
       .then((country) => setCurrentCountry(country || "KZ"));
   }, []);
 
-  // Add event listener
   useEventListener("countryChanged", handler);
 
-  //--------------------- Categories ----------------------//
   const [categories, setCategories] = useState();
   const [selectedCategory, setSelectedCategory] = useState();
 
-  //--------------------- Podcasts ----------------------//
   const getPodcastsIds = async () => {
-    const podcastIds = await adminSvc.getPodcasts();
-    return podcastIds;
+    return await adminSvc.getPodcasts();
   };
 
   const podcastIdsQuery = useQuery(
@@ -90,33 +105,11 @@ export const Podcasts = ({
 
   const getCategories = async () => {
     try {
-      // First get category IDs that have podcasts
-      const categoryIdsWithPodcasts = await cmsSvc.getPodcastCategoryIds(
-        usersLanguage,
-        podcastIdsQuery.data
-      );
-
-      // If no categories have podcasts, return empty array with "all" option
-      if (!categoryIdsWithPodcasts || categoryIdsWithPodcasts.length === 0) {
-        const categoriesData = [
-          { label: t("all"), value: "all", isSelected: true },
-        ];
-        setSelectedCategory(categoriesData[0]);
-        return categoriesData;
-      }
-
-      // Get all categories
       const res = await cmsSvc.getCategories(usersLanguage);
-
-      // Filter categories to only include those that have podcasts
-      const filteredCategories = res.data.filter((category) =>
-        categoryIdsWithPodcasts.includes(category.id)
-      );
-
-      let categoriesData = [
+      const categoriesData = [
         { label: t("all"), value: "all", isSelected: true },
       ];
-      filteredCategories.map((category) =>
+      res.data.forEach((category) =>
         categoriesData.push({
           label: category.attributes.name,
           value: category.attributes.name,
@@ -124,7 +117,6 @@ export const Podcasts = ({
           isSelected: false,
         })
       );
-
       setSelectedCategory(categoriesData[0]);
       return categoriesData;
     } catch (err) {
@@ -134,10 +126,9 @@ export const Podcasts = ({
   };
 
   const categoriesQuery = useQuery(
-    ["podcasts-categories", usersLanguage, podcastIdsQuery.data],
+    ["podcasts-categories", usersLanguage],
     getCategories,
     {
-      enabled: !!podcastIdsQuery.data && podcastIdsQuery.data.length > 0,
       refetchOnWindowFocus: false,
       onSuccess: (data) => {
         setCategories([...data]);
@@ -145,21 +136,40 @@ export const Podcasts = ({
     }
   );
 
-  const handleCategoryOnPress = (index) => {
-    const categoriesCopy = [...categories];
+  const { data: podcastCategoryIdsToShow } = useQuery(
+    ["podcasts-category-ids", usersLanguage, podcastIdsQuery.data],
+    () =>
+      cmsSvc.getPodcastCategoryIds(
+        usersLanguage,
+        podcastIdsQuery.data?.length > 0 ? podcastIdsQuery.data : undefined
+      ),
+    {
+      enabled: !!podcastIdsQuery.data?.length,
+    }
+  );
 
+  const categoriesToShow = useMemo(() => {
+    if (!categories || !podcastCategoryIdsToShow) return [];
+    return categories.filter(
+      (category) =>
+        podcastCategoryIdsToShow.includes(category.id) ||
+        category.value === "all"
+    );
+  }, [categories, podcastCategoryIdsToShow]);
+
+  const handleCategoryOnPress = (index) => {
+    const selectedCategoryFromFiltered = categoriesToShow[index];
+    if (!selectedCategoryFromFiltered) return;
+
+    const categoriesCopy = [...categories];
     for (let i = 0; i < categoriesCopy.length; i++) {
-      if (i === index) {
-        categoriesCopy[i].isSelected = true;
-        setSelectedCategory(categoriesCopy[i]);
-      } else {
-        categoriesCopy[i].isSelected = false;
-      }
+      categoriesCopy[i].isSelected =
+        categoriesCopy[i].id === selectedCategoryFromFiltered.id;
     }
     setCategories(categoriesCopy);
+    setSelectedCategory(selectedCategoryFromFiltered);
   };
 
-  //--------------------- Search Input ----------------------//
   const [searchValue, setSearchValue] = useState(initialSearchValue || "");
   const internalDebouncedSearchValue = useDebounce(searchValue, 500);
 
@@ -167,7 +177,6 @@ export const Podcasts = ({
     externalSearchValue !== undefined
       ? externalSearchValue
       : internalDebouncedSearchValue;
-  const hasSearch = !!debouncedSearchValue?.trim();
 
   useEffect(() => {
     setSearchValue(initialSearchValue || "");
@@ -177,67 +186,119 @@ export const Podcasts = ({
     setSearchValue(value);
   };
 
-  //--------------------- Podcasts ----------------------//
-  const getPodcastsData = async () => {
+  const getNewestPodcast = async () => {
+    const { data } = await cmsSvc.getPodcasts({
+      limit: 1,
+      sortBy: "createdAt",
+      sortOrder: "desc",
+      locale: usersLanguage,
+      populate: true,
+      ids: podcastIdsQuery.data,
+    });
+    if (!data?.data?.[0]) return null;
+    return destructurePodcastData(data.data[0]);
+  };
+
+  const { data: newestPodcast, isLoading: isNewestPodcastLoading } = useQuery(
+    ["newestPodcast", usersLanguage, podcastIdsQuery.data],
+    getNewestPodcast,
+    {
+      enabled: !podcastIdsQuery.isLoading && podcastIdsQuery.data?.length > 0,
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  const getPodcastsPage = async (startFrom) => {
     let categoryId = "";
     if (selectedCategory && selectedCategory.value !== "all") {
       categoryId = selectedCategory.id;
     }
 
-    let { data } = await cmsSvc.getPodcasts({
-      limit: 50, // Get all podcasts instead of paginating
+    const { data } = await cmsSvc.getPodcasts({
+      startFrom,
+      limit: 6,
       contains: debouncedSearchValue,
       categoryId,
-      sortBy: sort,
-      sortOrder: sort ? "desc" : null,
+      sortBy: sort || undefined,
+      sortOrder: sort ? "desc" : undefined,
       locale: usersLanguage,
       populate: true,
       ids: podcastIdsQuery.data,
     });
 
-    // Destructure podcast data with async handling
-    const podcasts = data.data || [];
-    const destructuredPodcasts = await Promise.all(
-      podcasts.map((podcast) => destructurePodcastData(podcast))
+    const podcastsData = data.data || [];
+    const total = data.meta?.pagination?.total || podcastsData.length;
+    const processed = await Promise.all(
+      podcastsData.map((p) => destructurePodcastData(p))
     );
-    return destructuredPodcasts;
+    return { podcastsData: processed, total };
   };
 
   const {
-    data: podcasts,
     isLoading: isPodcastsLoading,
     isFetching: isPodcastsFetching,
     isFetched: isPodcastsFetched,
-    fetchStatus: podcastsFetchStatus,
+    data: firstPageResult,
   } = useQuery(
     [
       "podcasts",
       debouncedSearchValue,
-      selectedCategory,
+      selectedCategory?.id,
+      selectedCategory?.value,
       podcastIdsQuery.data,
       usersLanguage,
       sort,
     ],
-    getPodcastsData,
+    () => getPodcastsPage(0),
     {
       enabled:
         !podcastIdsQuery.isLoading &&
         !categoriesQuery.isLoading &&
         categoriesQuery.data?.length > 0 &&
         podcastIdsQuery.data?.length > 0 &&
-        selectedCategory !== null,
+        selectedCategory != null &&
+        categoriesToShow?.length > 0,
       refetchOnWindowFocus: false,
     }
   );
 
   useEffect(() => {
+    if (!firstPageResult) return;
+    setPodcasts(firstPageResult.podcastsData);
+    setHasMore(firstPageResult.podcastsData.length < firstPageResult.total);
+  }, [firstPageResult]);
+
+  const getMorePodcasts = async () => {
+    if (loadingMore || !hasMore) return;
+    setLoadingMore(true);
+    try {
+      const { podcastsData, total } = await getPodcastsPage(podcasts.length);
+      setPodcasts((prev) => {
+        const next = [...prev, ...podcastsData];
+        setHasMore(next.length < total);
+        return next;
+      });
+    } finally {
+      setLoadingMore(false);
+    }
+  };
+
+  const openPodcastModal = (spotifyId, title) => {
+    if (!spotifyId) return;
+    setPodcastToPlay({ spotifyId, title });
+  };
+
+  useEffect(() => {
     async function getPodcastsRatings() {
-      const podcastIds = podcasts.reduce((acc, podcast) => {
-        if (
-          !podcastsLikes.has(podcast.id) &&
-          !podcastsDislikes.has(podcast.id)
-        ) {
-          acc.push(podcast.id);
+      const allItems = [...(podcasts || [])];
+      if (newestPodcast && !allItems.find((p) => p.id === newestPodcast.id)) {
+        allItems.push(newestPodcast);
+      }
+
+      const podcastIds = allItems.reduce((acc, podcast) => {
+        const id = podcast.id;
+        if (!podcastsLikes.has(id) && !podcastsDislikes.has(id)) {
+          acc.push(id);
         }
         return acc;
       }, []);
@@ -249,63 +310,140 @@ export const Podcasts = ({
         "podcast"
       );
 
-      setPodcastsLikes((prevLikes) => {
-        return new Map([...prevLikes, ...likes]);
-      });
-      setPodcastsDislikes((prevDislikes) => {
-        return new Map([...prevDislikes, ...dislikes]);
-      });
+      setPodcastsLikes((prev) => new Map([...prev, ...likes]));
+      setPodcastsDislikes((prev) => new Map([...prev, ...dislikes]));
     }
 
-    getPodcastsRatings();
-  }, [podcasts, usersLanguage]);
+    if (podcasts?.length || newestPodcast) {
+      getPodcastsRatings();
+    }
+  }, [podcasts, newestPodcast, usersLanguage]);
 
-  let areCategoriesReady = categoriesQuery?.data?.length > 1;
+  const areCategoriesReady = categoriesToShow?.length > 1;
+
+  const hasPodcastsDifferentThanNewest =
+    selectedCategory?.value !== "all"
+      ? true
+      : newestPodcast &&
+        podcasts?.length > 0 &&
+        podcasts.some((p) => p.id !== newestPodcast?.id);
+
+  const showCategoriesBlock =
+    showCategories && areCategoriesReady && hasPodcastsDifferentThanNewest;
+
+  const newestPodcastData = newestPodcast
+    ? {
+        ...newestPodcast,
+        likes: podcastsLikes.get(newestPodcast.id) || 0,
+        dislikes: podcastsDislikes.get(newestPodcast.id) || 0,
+      }
+    : null;
+
+  const goToPodcast = (podcastData) => {
+    navigation.push("PodcastInformation", {
+      podcastId: podcastData.id,
+    });
+  };
 
   return (
-    <Block style={[styles.podcastsBlock, { paddingTop: topPadding }]}>
-      <ScrollView>
+    <>
+      <PodcastModal
+        isVisible={!!podcastToPlay}
+        onClose={() => setPodcastToPlay(null)}
+        spotifyId={podcastToPlay?.spotifyId}
+        title={podcastToPlay?.title}
+        t={t}
+      />
+
+      <Block style={[styles.podcastsBlock, { paddingTop: topPadding }]}>
         {showSearch && areCategoriesReady && (
           <View style={styles.searchContainer}>
             <InputSearch onChangeText={handleInputChange} value={searchValue} />
           </View>
         )}
 
-        {showCategories &&
-          !hasSearch &&
-          areCategoriesReady &&
-          categories &&
-          categories.length > 2 && (
-            <View style={styles.categoriesContainer}>
-              <Tabs
-                options={categories}
-                handleSelect={handleCategoryOnPress}
+        {(isNewestPodcastLoading || newestPodcastData) && (
+          <View style={styles.featuredSection}>
+            {isNewestPodcastLoading ? (
+              <View style={styles.featuredLoading}>
+                <Loading />
+              </View>
+            ) : newestPodcastData ? (
+              <CardMedia
+                contentType="podcasts"
+                title={newestPodcastData.title}
+                image={
+                  newestPodcastData.imageMedium || newestPodcastData.imageSmall
+                }
+                description={newestPodcastData.description}
+                labels={newestPodcastData.labels}
+                categoryName={newestPodcastData.categoryName}
+                creator={newestPodcastData.creator}
+                likes={newestPodcastData.likes}
+                dislikes={newestPodcastData.dislikes}
+                isLikedByUser={
+                  isLikedOrDislikedByUser({
+                    contentType: "podcast",
+                    contentData: newestPodcastData,
+                    userEngagements: contentEngagements,
+                  }).isLiked
+                }
+                isDislikedByUser={
+                  isLikedOrDislikedByUser({
+                    contentType: "podcast",
+                    contentData: newestPodcastData,
+                    userEngagements: contentEngagements,
+                  }).isDisliked
+                }
                 t={t}
+                onPress={() => goToPodcast(newestPodcastData)}
+                handlePlay={() =>
+                  openPodcastModal(
+                    newestPodcastData.spotifyId,
+                    newestPodcastData.title
+                  )
+                }
+                style={styles.podcastCard}
               />
-            </View>
-          )}
-        <View
-          style={{
-            paddingHorizontal: 16,
-          }}
-        >
-          {podcasts?.length > 0 &&
-            areCategoriesReady &&
-            !isPodcastsLoading &&
-            !isPodcastsFetching && (
+            ) : null}
+          </View>
+        )}
+
+        {showCategoriesBlock && (
+          <View style={styles.categoriesContainer}>
+            <Tabs
+              options={categoriesToShow}
+              handleSelect={handleCategoryOnPress}
+              t={t}
+            />
+          </View>
+        )}
+
+        {hasPodcastsDifferentThanNewest && (
+          <View style={styles.listSection}>
+            {isPodcastsFetching && podcasts?.length > 0 && (
+              <View style={styles.listOverlay}>
+                <Loading />
+              </View>
+            )}
+
+            {podcasts?.length > 0 && !isPodcastsLoading && (
               <View style={styles.podcastsContainer}>
-                {podcasts?.map((podcast, index) => {
+                {podcasts.map((podcast, index) => {
                   const { isLiked, isDisliked } = isLikedOrDislikedByUser({
                     contentType: "podcast",
                     contentData: podcast,
                     userEngagements: contentEngagements,
                   });
-                  const podcastData = podcast; // Already destructured in getPodcastsData
+                  const podcastData = podcast;
+
                   return (
                     <CardMedia
-                      key={index}
+                      key={podcastData.id ?? index}
                       title={podcastData.title}
-                      image={podcastData.imageMedium || podcastData.imageSmall}
+                      image={
+                        podcastData.imageMedium || podcastData.imageSmall
+                      }
                       description={podcastData.description}
                       labels={podcastData.labels}
                       categoryName={podcastData.categoryName}
@@ -316,45 +454,69 @@ export const Podcasts = ({
                       isDislikedByUser={isDisliked}
                       contentType="podcasts"
                       t={t}
-                      onPress={() => {
-                        navigation.push("PodcastInformation", {
-                          podcastId: podcastData.id,
-                        });
-                      }}
+                      onPress={() => goToPodcast(podcastData)}
+                      handlePlay={() =>
+                        openPodcastModal(
+                          podcastData.spotifyId,
+                          podcastData.title
+                        )
+                      }
                       style={styles.podcastCard}
                     />
                   );
                 })}
+
+                {hasMore && (
+                  <TouchableOpacity
+                    style={styles.loadMoreBtn}
+                    onPress={getMorePodcasts}
+                    disabled={loadingMore}
+                    accessibilityRole="button"
+                  >
+                    {loadingMore ? (
+                      <ActivityIndicator />
+                    ) : (
+                      <AppText namedStyle="text" isSemibold>
+                        {t("view_more")}
+                      </AppText>
+                    )}
+                  </TouchableOpacity>
+                )}
               </View>
             )}
 
-          {!podcasts?.length &&
-            !isPodcastsLoading &&
-            !isPodcastsFetching &&
-            categoriesQuery?.data?.length > 0 && (
-              <View style={styles.noResultsContainer}>
-                <AppText>{t("no_results")}</AppText>
-              </View>
-            )}
+            {!podcasts?.length &&
+              !isPodcastsLoading &&
+              !isPodcastsFetching &&
+              isPodcastsFetched && (
+                <View style={styles.noResultsContainer}>
+                  <AppText>{t("no_results")}</AppText>
+                </View>
+              )}
+          </View>
+        )}
 
-          {(isPodcastsFetching ||
-            podcastIdsQuery.isLoading ||
-            podcastIdsQuery.isFetching) && (
-            <View style={styles.loadingContainer}>
-              <Loading style={styles.loading} />
+        {(isPodcastsFetching ||
+          podcastIdsQuery.isLoading ||
+          podcastIdsQuery.isFetching) &&
+        !podcasts?.length &&
+        !newestPodcastData ? (
+          <View style={styles.loadingContainer}>
+            <Loading style={styles.loading} />
+          </View>
+        ) : null}
+
+        {podcastIdsQuery.isFetched &&
+          isPodcastsFetched &&
+          !podcasts?.length &&
+          !newestPodcast &&
+          !isPodcastsFetching && (
+            <View style={styles.noResultsContainer}>
+              <AppText namedStyle="h3">{t("could_not_load_content")}</AppText>
             </View>
           )}
-
-          {podcastIdsQuery.isFetched &&
-            (isPodcastsFetched || podcastsFetchStatus === "idle") &&
-            !podcasts && (
-              <View style={styles.noResultsContainer}>
-                <AppText namedStyle="h3">{t("could_not_load_content")}</AppText>
-              </View>
-            )}
-        </View>
-      </ScrollView>
-    </Block>
+      </Block>
+    </>
   );
 };
 
@@ -362,18 +524,41 @@ const styles = StyleSheet.create({
   podcastsBlock: {
     flex: 1,
     paddingTop: 94,
-    paddingHorizontal: 0,
+    paddingHorizontal: 16,
   },
   searchContainer: {
     marginBottom: 24,
   },
+  featuredSection: {
+    marginBottom: 16,
+  },
+  featuredLoading: {
+    minHeight: 220,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   categoriesContainer: {
     marginBottom: 24,
+  },
+  listSection: {
+    position: "relative",
+    minHeight: 120,
+  },
+  listOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 2,
   },
   podcastsContainer: {
     alignItems: "center",
   },
   podcastCard: {
+    marginBottom: 24,
+  },
+  loadMoreBtn: {
+    paddingVertical: 16,
+    paddingHorizontal: 24,
     marginBottom: 24,
   },
   noResultsContainer: {

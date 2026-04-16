@@ -58,6 +58,8 @@ export default {
 
   colorPurple_dac3f6: "#dac3f6",
   colorPurple_c39af9: "#c39af9",
+  // Match client-ui token `color_6a4ffb_8c90eb` (light): #6a4ffb
+  colorPurple: "#6a4ffb",
 
   colorBlue_2a54bc: "#2a54bc",
   colorBlue_3d527b: "#3d527b",
@@ -81,9 +83,8 @@ export default {
 
   colorHighContrast_ffff00: "#ffff00",
 
-  // Text colors matching web version
-  colorTextMain_0e202f: "#0e202f", // Light theme text color
-  colorTextMain_ededed: "#ededed", // Dark theme text color
+  colorTextMain_0e202f: "#0e202f",
+  colorTextMain_ededed: "#ededed",
 
   // Gradients
   gradientPrimary: {

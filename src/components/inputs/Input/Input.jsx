@@ -34,17 +34,6 @@ export const Input = ({
   const { colors, isDarkMode, isHighContrast } = useGetTheme();
   const [isFocused, setIsFocused] = useState(false);
 
-  const getLabelColor = () => {
-    if (isHighContrast) return appStyles.colorHighContrast_ffff00;
-    if (isDarkMode) return appStyles.colorPrimary_20809e;
-    return appStyles.colorBlue_3d527b;
-  };
-
-  const getPlaceholderColor = () => {
-    if (isHighContrast) return appStyles.colorHighContrast_ffff00;
-    return appStyles.colorGray_a6b4b8;
-  };
-
   const getBorderColor = () => {
     if (errorMessage) return appStyles.colorRed_eb5757;
     if (isFocused && !disabled) return appStyles.colorSecondary_9749fa;
@@ -54,10 +43,7 @@ export const Input = ({
   return (
     <View style={[styles.inputContainer, disabled && styles.disabled, style]}>
       {label && (
-        <AppText
-          namedStyle="text"
-          style={[styles.label, { color: getLabelColor() }]}
-        >
+        <AppText namedStyle="text" style={styles.label}>
           {label}
         </AppText>
       )}
@@ -88,7 +74,6 @@ export const Input = ({
           editable={!disabled}
           selectTextOnFocus={!disabled}
           secureTextEntry={isPassword}
-          placeholderTextColor={getPlaceholderColor()}
           autoCorrect={false}
           autoComplete="email"
           spellCheck={false}

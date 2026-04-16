@@ -24,7 +24,6 @@ export const ButtonOnlyIcon = ({
     <Pressable
       style={({ pressed }) => {
         return [
-          appStyles.shadow1,
           styles.btn,
           pressed && styles.pressed,
           color === "red"
@@ -32,6 +31,9 @@ export const ButtonOnlyIcon = ({
             : color === "transparent"
               ? styles.transparent
               : styles.purple,
+          color === "red" ? styles.redShadow : appStyles.shadow1,
+          styles.fabBase,
+          pressed && styles.fabPressed,
           style,
         ];
       }}
@@ -49,6 +51,12 @@ const styles = StyleSheet.create({
     backgroundColor: appStyles.colorSecondary_9749fa,
     borderRadius: 100,
   },
+  fabBase: {
+    opacity: 0.9,
+  },
+  fabPressed: {
+    opacity: 1,
+  },
   pressed: {
     backgroundColor: appStyles.colorSecondaryPressed_6c16d9,
   },
@@ -57,6 +65,13 @@ const styles = StyleSheet.create({
   },
   red: {
     backgroundColor: appStyles.colorRed_eb5757,
+  },
+  redShadow: {
+    shadowColor: appStyles.colorRed_eb5757,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.4,
+    shadowRadius: 12,
+    elevation: 10,
   },
   transparent: {
     backgroundColor: "transparent",

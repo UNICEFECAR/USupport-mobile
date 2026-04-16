@@ -232,32 +232,46 @@ export const Backdrop = ({
 
             {hasHeader ? (
               <View>
-                {hasCloseIcon ? (
-                  <TouchableOpacity
-                    hitSlop={appStyles.hitSlop}
-                    style={{
-                      zIndex: 999,
-                    }}
-                    onPress={
-                      handleCloseIconPress
-                        ? handleCustomClose
-                        : handleCloseBackdrop
-                    }
+                {heading || hasCloseIcon ? (
+                  <View
+                    style={[
+                      styles.headerRow,
+                      !hasCloseIcon ? styles.headerRowNoClose : null,
+                      headerStyles,
+                    ]}
                   >
-                    <Icon
-                      name="close-x"
-                      size="md"
-                      color={appStyles.colorPrimary_20809e}
-                      style={styles.icon}
-                    />
-                  </TouchableOpacity>
-                ) : null}
+                    <View style={styles.headerLeftContainer} />
 
-                {heading ? (
-                  <View style={[styles.header, headerStyles]}>
-                    <AppText namedStyle="h3" style={styles.headingText}>
-                      {heading}
-                    </AppText>
+                    {heading ? (
+                      <View style={styles.headerTextContainer}>
+                        <AppText
+                          namedStyle="h3"
+                          style={[styles.headingText, { color: colors.text }]}
+                        >
+                          {heading}
+                        </AppText>
+                      </View>
+                    ) : null}
+
+                    {hasCloseIcon ? (
+                      <TouchableOpacity
+                        hitSlop={appStyles.hitSlop}
+                        style={styles.headerIconContainer}
+                        onPress={
+                          handleCloseIconPress
+                            ? handleCustomClose
+                            : handleCloseBackdrop
+                        }
+                      >
+                        <Icon
+                          name="close-x"
+                          size="md"
+                          color={colors.primary || appStyles.colorPrimary_20809e}
+                        />
+                      </TouchableOpacity>
+                    ) : (
+                      <View style={styles.headerIconContainer} />
+                    )}
                   </View>
                 ) : null}
 
@@ -276,7 +290,7 @@ export const Backdrop = ({
                 styles.scrollView,
                 {
                   paddingBottom: hasButtons
-                    ? buttonsContainerHeight * 2
+                    ? buttonsContainerHeight + 20
                     : 32 + bottomInset,
                 },
                 scrollViewStyle,
@@ -381,25 +395,38 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     zIndex: 99,
   },
-  header: {
+  headerRow: {
     width: "100%",
-    paddingLeft: 30,
-    paddingRight: 30,
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    marginTop: 4,
+  },
+  headerRowNoClose: {
+    justifyContent: "center",
+  },
+  headerLeftContainer: {
+    width: 24,
+    height: 24,
+  },
+  headerTextContainer: {
+    flex: 1,
+    paddingHorizontal: 8,
+    alignItems: "center",
   },
   headingText: {
-    alignSelf: "center",
     fontFamily: appStyles.fontSemiBold,
-    // marginRight: "-10%",
+    textAlign: "center",
   },
   subheading: {
     marginTop: 24,
     width: "100%",
   },
-  icon: {
-    position: "absolute",
-    right: 10,
-    top: 0,
-    zIndex: 999,
+  headerIconContainer: {
+    width: 24,
+    height: 24,
+    alignItems: "flex-end",
+    justifyContent: "flex-start",
   },
   scrollView: {
     flexGrow: 1,
@@ -423,12 +450,13 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "100%",
     alignSelf: "center",
+    paddingBottom: 16,
   },
   buttonContainerAuth: {
     paddingHorizontal: 16,
   },
   secondButton: {
-    marginTop: 16,
+    marginVertical: 16,
   },
   secondButtonLoadingContainer: {
     minHeight: 100,

@@ -55,7 +55,7 @@ export const Rating = ({
   }
 
   return (
-    <View style={[style]}>
+    <View style={style}>
       {label ? (
         <AppText isSemibold style={[styles.label, { color: colors.text }]}>
           {label}
@@ -63,10 +63,9 @@ export const Rating = ({
       ) : null}
       <View style={styles.starsContainer}>
         {stars.map((star, index) => {
+          // Match client-ui Rating star colors.
           const starColor =
-            star === "star"
-              ? appStyles.colorGray_66768d
-              : appStyles.colorSecondary_9749fa;
+            star === "star" ? appStyles.colorBlue_6989a4 : "#B6E800";
           return (
             <TouchableOpacity
               onPress={() => onStarPress(index)}
@@ -88,15 +87,11 @@ export const Rating = ({
 
 const styles = StyleSheet.create({
   label: {
-    // color: appStyles.colorBlue_3d527b,
     marginBottom: 4,
   },
   starsContainer: {
     display: "flex",
     flexDirection: "row",
-    width: "100%",
-    height: 40,
-    alignItems: "center",
   },
   star: {
     marginLeft: 10,

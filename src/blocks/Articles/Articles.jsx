@@ -498,6 +498,7 @@ export const Articles = ({
           <TabsUnderlined
             options={ageGroups}
             handleSelect={handleAgeGroupOnPress}
+            style={styles.ageGroupsTabs}
           />
         ) : null}
 
@@ -577,26 +578,36 @@ export const Articles = ({
 
 const styles = StyleSheet.create({
   articlesBlock: {
-    alignItems: "center",
+    width: "100%",
     paddingBottom: 50,
   },
   articlesNoResultsContainer: { padding: 100, textAlign: "center" },
-  blockWithMargin: { marginTop: 100 },
+  blockWithMargin: {
+    marginTop: 100,
+    paddingHorizontal: 16,
+    width: "100%",
+    alignItems: "flex-start",
+  },
+  ageGroupsTabs: {
+    justifyContent: "flex-start",
+  },
   cardMedia: { alignSelf: "center", marginTop: 24 },
   flashListWrapper: {
     height: "100%",
-    paddingHorizontal: 16,
-    width: appStyles.screenWidth,
+    // `Block` already applies horizontal padding (16).
+    // Using screenWidth here makes the list overflow its padded parent,
+    // which visually shifts content to the right on some devices.
+    width: "100%",
   },
   flashListWrapperWithPadding: {
     height: "100%",
     paddingBottom: 200,
-    width: appStyles.screenWidth,
+    width: "100%",
   },
   loadingContainer: {
     alignItems: "center",
     paddingTop: 60,
   },
   searchInput: { alignSelf: "center", marginTop: 12 },
-  tabs: { marginTop: 24, zIndex: 2 },
+  tabs: { marginTop: 24, zIndex: 2, alignSelf: "flex-start" },
 });

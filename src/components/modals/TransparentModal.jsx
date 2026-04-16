@@ -60,6 +60,9 @@ export function TransparentModal({
   const hasFooter = !!(ctaLabel || secondaryCtaLabel);
   const showErrorInFooter = hasFooter && !!errorMessage;
   const showErrorInBody = !hasFooter && !!errorMessage;
+  const hasGhostSecondaryCta =
+    !!secondaryCtaLabel &&
+    getSecondaryNewButtonType(secondaryCtaType) === "ghost";
 
   /** Horizontal inset from safeAreaView padding (matches web margin on overlay). */
   const cardWidth = Math.min(MODAL_MAX_WIDTH, windowWidth - 32);

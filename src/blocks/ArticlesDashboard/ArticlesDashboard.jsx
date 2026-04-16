@@ -365,10 +365,8 @@ export const ArticlesDashboard = ({
 
   const showLoading = isTmpUser ? newestArticlesLoading : isArticlesLoading;
 
-  const handleRedirect = (sort) =>
-    sort === "createdAt"
-      ? navigation.push("Articles", { sort: "createdAt" })
-      : navigation.push("Articles", { sort: "read_count" });
+  const handleRedirect = () =>
+    navigation.navigate("TabNavigation", { screen: "InformationalPortal" });
 
   const gradient = useMemo(() => {
     if (isDarkMode || isHighContrast) {

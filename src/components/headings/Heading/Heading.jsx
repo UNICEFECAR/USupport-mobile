@@ -91,7 +91,6 @@ const styles = StyleSheet.create({
   wrapper: {
     top: 0,
     zIndex: 3,
-    width: appStyles.screenWidth,
     paddingTop: 32,
     paddingBottom: 16,
   },

@@ -233,6 +233,7 @@ export function AuthLoginModal({
         <AppText
           onPress={onGoToForgotPassword}
           namedStyle="text"
+          isSemibold
           style={styles.forgotPassword}
         >
           {t("forgot_password_label")}
@@ -260,14 +261,18 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     flexDirection: "row",
     alignItems: "center",
-    marginLeft: 18,
+    marginLeft: 0,
     marginBottom: 10,
     marginTop: 4,
   },
   forgotPassword: {
-    marginTop: 8,
-    color: "#5A2E8A",
+    color: "#9749FA",
     alignSelf: "flex-start",
-    marginLeft: 18,
+    marginLeft: 0,
+    paddingLeft: 0,
+    paddingTop: 0,
+    marginTop: 0,
+    fontSize: 12,
+    lineHeight: 22,
   },
 });

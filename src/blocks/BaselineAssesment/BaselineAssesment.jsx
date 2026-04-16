@@ -5,10 +5,9 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import {
   ProgressBar,
-  AppButton,
   AppText,
   RadioButtonSelector,
-  ButtonWithIcon,
+  NewButton,
   Block,
   Icon,
 } from "#components";
@@ -32,7 +31,8 @@ export const BaselineAssesment = ({
   const { t } = useTranslation("blocks", {
     keyPrefix: "baseline-assesment",
   });
-  const { colors, isDarkMode } = useGetTheme();
+  const { t: tScreen } = useTranslation("screens", { keyPrefix: "screen" });
+  const { colors, isDarkMode, isHighContrast } = useGetTheme();
   const queryClient = useQueryClient();
   const [hasSetInitially, setHasSetInitially] = useState(false);
 
@@ -283,9 +283,17 @@ export const BaselineAssesment = ({
     navigation.navigate("Dashboard");
   };
 
+  const handleGoBack = () => {
+    if (navigation?.canGoBack?.()) {
+      navigation.goBack();
+      return;
+    }
+    handleRedirectToDashboard();
+  };
+
   return (
     <ScrollView
-      style={[styles.container, { backgroundColor: colors.background }]}
+      style={styles.container}
       contentContainerStyle={styles.contentContainer}
     >
       <Block>
@@ -295,17 +303,20 @@ export const BaselineAssesment = ({
             <>
               <View style={styles.progressContainer}>
                 <TouchableOpacity
-                  onPress={handleRedirectToDashboard}
-                  hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                  onPress={handleGoBack}
+                  style={styles.goBackRow}
+                  hitSlop={appStyles.hitSlop}
                 >
                   <Icon
-                    style={{
-                      marginLeft: "auto",
-                      marginTop: 16,
-                    }}
-                    name="close-x"
-                    color={appStyles.colorPrimary_20809e}
+                    style={styles.goBackIcon}
+                    name="arrow-chevron-back"
+                    color={
+                      isHighContrast ? "#fff" : appStyles.colorPrimary_20809e
+                    }
                   />
+                  <AppText namedStyle="text" isBold style={styles.goBackText}>
+                    {tScreen("go_back")}
+                  </AppText>
                 </TouchableOpacity>
                 <AppText namedStyle="h3" style={styles.instructionsTitle}>
                   {t("instructions")}
@@ -358,21 +369,23 @@ export const BaselineAssesment = ({
               {/* Navigation */}
               <View style={styles.navigation}>
                 <View style={styles.navigationButtons}>
-                  <AppButton
+                  <NewButton
                     disabled={state.currentQuestionIndex === 0}
                     label={t("back")}
-                    type="secondary"
+                    type="outline"
                     size="lg"
                     onPress={handleBack}
                     style={styles.navButton}
                   />
                 </View>
-                <ButtonWithIcon
+                <NewButton
                   label={t("save")}
+                  size="lg"
                   onPress={handleRedirectToDashboard}
                   variant="secondary"
                   iconName="save"
-                  style={{ width: "50%", alignSelf: "center", marginTop: 16 }}
+                  isFullWidth
+                  style={{ alignSelf: "center", marginTop: 16 }}
                 />
               </View>
             </>
@@ -397,18 +410,15 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flexGrow: 1,
-    // paddingVertical: 12,
   },
   grid: {
     alignItems: "center",
     justifyContent: "center",
-    maxWidth: 640, // 64rem equivalent
+    maxWidth: 640,
     alignSelf: "center",
-    // paddingHorizontal: 16,
     width: "100%",
   },
 
-  // Intro section
   intro: {
     alignItems: "center",
     marginBottom: 32,
@@ -420,7 +430,7 @@ const styles = StyleSheet.create({
   },
   description: {
     marginBottom: 24,
-    maxWidth: 480, // 48rem equivalent
+    maxWidth: 480,
     textAlign: "center",
     lineHeight: 24,
   },
@@ -438,52 +448,63 @@ const styles = StyleSheet.create({
     maxWidth: 480,
   },
 
-  // Progress section
   progressContainer: {
-    marginBottom: 24,
+    marginBottom: 16,
     width: "100%",
-    maxWidth: 720, // 90rem equivalent
+    maxWidth: 720,
+  },
+  goBackRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 12,
+    marginBottom: 12,
+    alignSelf: "flex-start",
+  },
+  goBackIcon: {
+    marginRight: 8,
+  },
+  goBackText: {
+    textTransform: "none",
   },
   instructionsTitle: {
     textAlign: "center",
-    marginBottom: 16,
-    marginTop: 16,
+    marginBottom: 12,
+    marginTop: 12,
   },
   progressInfo: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginVertical: 12,
+    marginVertical: 8,
   },
   progressText: {
     textAlign: "center",
   },
   progressBar: {
-    marginBottom: 16,
+    marginBottom: 12,
   },
 
-  // Question section
   questionContainer: {
-    marginBottom: 20,
+    marginBottom: 12,
     width: "100%",
   },
   questionContent: {
-    maxWidth: 480, // 48rem equivalent
+    maxWidth: 480,
+    width: "97%",
     alignSelf: "center",
   },
   questionText: {
-    marginBottom: 16,
-    lineHeight: 28,
+    marginBottom: 12,
+    lineHeight: 26,
     textAlign: "left",
   },
 
-  // Rating section
   ratingContainer: {
-    marginBottom: 32,
+    marginBottom: 20,
     width: "100%",
   },
   ratingScale: {
-    gap: 16,
+    gap: 12,
     width: "100%",
     alignSelf: "center",
   },
@@ -493,17 +514,16 @@ const styles = StyleSheet.create({
   },
   radioButton: {
     width: "100%",
-    // minHeight: 60,
   },
   radioButtonSelected: {
     borderWidth: 1,
-    borderColor: "#9749fa", // colorSecondary_9749fa
+    borderColor: "#9749fa",
   },
 
   // Navigation section
   navigation: {
     width: "100%",
-    paddingBottom: 50,
+    paddingBottom: 32,
   },
   navigationButtons: {
     flexDirection: "row",

@@ -21,10 +21,7 @@ export const AppText = ({
       style={[
         styles.text,
         styles[namedStyle],
-        {
-          // All text uses main text color to match web version
-          color: colors.text,
-        },
+        { color: colors?.text ?? appStyles.colorTextMain_0e202f },
         black && { color: colors.textTertiary },
         isBold && styles.bold,
         isSemibold && styles.semibold,

@@ -16,7 +16,7 @@ import { AppText, Icon } from "#components";
 
 import { useProfileMenu } from "#blocks";
 
-import { useGetTheme } from "#hooks";
+import { useGetTheme, useLogout } from "#hooks";
 import { appStyles } from "#styles";
 
 const { AMAZON_S3_BUCKET } = Config;
@@ -27,6 +27,7 @@ const USER_GUIDE_URL =
 export function ProfileMenuPanel({ isOpen, onClose, navigation, panelTop }) {
   const { colors, isDarkMode, isHighContrast } = useGetTheme();
   const { bottom: bottomInset } = useSafeAreaInsets();
+  const logoutMutation = useLogout();
 
   const {
     t,
@@ -100,29 +101,50 @@ export function ProfileMenuPanel({ isOpen, onClose, navigation, panelTop }) {
               <AppText style={[styles.groupHeading, { color: colors.text }]}>
                 {t("first_group_heading")}
               </AppText>
-              <TouchableOpacity
-                style={styles.row}
-                onPress={() => onNavigate("UserDetails")}
-                activeOpacity={0.7}
-              >
-                <Image
-                  source={{
-                    uri: `${AMAZON_S3_BUCKET}/${clientData?.image || "default"}`,
-                  }}
-                  style={[styles.avatar, styles.avatarSpacing]}
-                />
-                <AppText style={[styles.rowLabel, { color: colors.text }]}>
-                  {displayName || t("guest")}
-                </AppText>
-                <Icon
-                  name="arrow-chevron-forward"
-                  color={
-                    isDarkMode
-                      ? appStyles.colorWhite_ff
-                      : appStyles.colorGray_a6b4b8
-                  }
-                />
-              </TouchableOpacity>
+              <View style={styles.profileRow}>
+                <View style={styles.profileRowLeft}>
+                  <Image
+                    source={{
+                      uri: `${AMAZON_S3_BUCKET}/${clientData?.image || "default"}`,
+                    }}
+                    style={styles.avatar}
+                  />
+                  <View style={styles.profileText}>
+                    <AppText style={[styles.profileName, { color: colors.text }]}>
+                      {displayName || t("guest")}
+                    </AppText>
+                    <TouchableOpacity
+                      onPress={() => runAndClose(() => handleRedirect("UserDetails"))}
+                      activeOpacity={0.7}
+                      accessibilityRole="button"
+                      accessibilityLabel={t("edit_profile")}
+                    >
+                      <AppText style={styles.editProfileLink}>
+                        {t("edit_profile")}
+                      </AppText>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+                {!isTmpUser ? (
+                  <TouchableOpacity
+                    onPress={() => runAndClose(() => logoutMutation.mutate())}
+                    hitSlop={12}
+                    accessibilityRole="button"
+                    accessibilityLabel={t("logout")}
+                    activeOpacity={0.7}
+                    style={styles.logoutIconButton}
+                  >
+                    <Icon
+                      name="exit"
+                      color={
+                        isDarkMode || isHighContrast
+                          ? appStyles.colorWhite_ff
+                          : appStyles.colorBlue_263238
+                      }
+                    />
+                  </TouchableOpacity>
+                ) : null}
+              </View>
 
               <MenuRow
                 iconName="mood"
@@ -322,13 +344,41 @@ const styles = StyleSheet.create({
   rowLabel: {
     flex: 1,
   },
+  profileRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 14,
+    paddingHorizontal: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: "rgba(0,0,0,0.08)",
+  },
+  profileRowLeft: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    minWidth: 0,
+  },
+  profileText: {
+    flex: 1,
+    marginLeft: 12,
+    minWidth: 0,
+  },
+  profileName: {
+    fontFamily: appStyles.fontBold,
+  },
+  editProfileLink: {
+    marginTop: 2,
+    fontSize: 14,
+    fontFamily: appStyles.fontMedium,
+    color: appStyles.colorSecondary_9749fa,
+  },
+  logoutIconButton: {
+    marginLeft: 12,
+  },
   avatar: {
     width: 40,
     height: 40,
     borderRadius: 20,
-  },
-  avatarSpacing: {
-    marginRight: 12,
   },
   leadingIcon: {
     marginRight: 12,

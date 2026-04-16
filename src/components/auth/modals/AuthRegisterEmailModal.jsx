@@ -1,4 +1,11 @@
-import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Platform, StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -8,7 +15,13 @@ import "fast-text-encoding";
 import Joi from "joi";
 
 import { CodeVerification } from "#backdrops";
-import { Backdrop, Error, Input, InputPassword, TermsAgreement } from "#components";
+import {
+  Backdrop,
+  Error,
+  Input,
+  InputPassword,
+  TermsAgreement,
+} from "#components";
 import { validate, validateProperty } from "#utils";
 import { Context, localStorage, userSvc } from "#services";
 import { useError } from "#hooks";
@@ -51,7 +64,8 @@ export function AuthRegisterEmailModal({ onGoBack, onGoToLogin }) {
   const [showTimer, setShowTimer] = useState(false);
   const [canRequestNewOTP, setCanRequestNewOTP] = useState(false);
   const [seconds, setSeconds] = useState(60);
-  const [shouldShowCodeVerification, setShouldShowCodeVerification] = useState(false);
+  const [shouldShowCodeVerification, setShouldShowCodeVerification] =
+    useState(false);
   const [minAge, setMinAge] = useState(10);
 
   useEffect(() => {
@@ -88,7 +102,11 @@ export function AuthRegisterEmailModal({ onGoBack, onGoToLogin }) {
   }, [data]);
 
   const handleChange = (field, value) => {
-    if (field === "confirmPassword" && value.length >= 8 && data.password !== value) {
+    if (
+      field === "confirmPassword" &&
+      value.length >= 8 &&
+      data.password !== value
+    ) {
       setErrors({ confirmPassword: t("password_match_error") });
     }
     if (
@@ -106,7 +124,10 @@ export function AuthRegisterEmailModal({ onGoBack, onGoToLogin }) {
   };
 
   const handleBlur = (field) => {
-    if ((field === "password" && data.confirmPassword.length >= 8) || field === "confirmPassword") {
+    if (
+      (field === "password" && data.confirmPassword.length >= 8) ||
+      field === "confirmPassword"
+    ) {
       if (data.password !== data.confirmPassword) {
         setErrors({ confirmPassword: t("password_match_error") });
         return;
@@ -172,7 +193,8 @@ export function AuthRegisterEmailModal({ onGoBack, onGoToLogin }) {
         data.email,
         data.password,
         {
-          accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET_OR_DEVICE_PASSCODE,
+          accessControl:
+            Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET_OR_DEVICE_PASSCODE,
           authenticationPrompt: {
             title: "Authenticate to save your credentials",
             subtitle: "Save your credentials in keychain for quick login",
@@ -191,7 +213,10 @@ export function AuthRegisterEmailModal({ onGoBack, onGoToLogin }) {
       await localStorage.setItem("refresh-token", refreshToken);
       await localStorage.setItem("token", token);
 
-      queryClient.setQueryData(["client-data"], userSvc.transformUserData(userData));
+      queryClient.setQueryData(
+        ["client-data"],
+        userSvc.transformUserData(userData)
+      );
       setToken(token);
     },
     onError: (error) => {
@@ -335,4 +360,3 @@ const styles = StyleSheet.create({
     marginRight: "auto",
   },
 });
-

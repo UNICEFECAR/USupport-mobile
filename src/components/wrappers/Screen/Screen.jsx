@@ -39,7 +39,7 @@ export function Screen({
   hasHeaderNavigation = false,
   t,
 }) {
-  const { colors, isDarkMode } = useGetTheme();
+  const { colors, isDarkMode, isHighContrast } = useGetTheme();
   const { isTmpUser, token, handleRegistrationModalOpen, hasCheckedTmpUser } =
     useContext(Context);
   const navigation = useNavigation();
@@ -133,6 +133,11 @@ export function Screen({
             ]}
             onPress={() => handleSosCenterClick()}
             color="red"
+            iconColor={
+              isHighContrast
+                ? appStyles.colorRed_ed5657
+                : appStyles.colorWhite_ff
+            }
           />
         )}
       </View>

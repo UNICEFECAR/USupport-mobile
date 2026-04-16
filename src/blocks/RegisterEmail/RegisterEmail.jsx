@@ -34,7 +34,12 @@ import { validateProperty, validate } from "#utils";
 import { userSvc, localStorage, Context } from "#services";
 import { useError } from "#hooks";
 
-export const RegisterEmail = ({ navigation, onGoBack, onGoToLogin, inBackdrop }) => {
+export const RegisterEmail = ({
+  navigation,
+  onGoBack,
+  onGoToLogin,
+  inBackdrop,
+}) => {
   const { setInitialRouteName, setToken } = useContext(Context);
   const { t } = useTranslation("blocks", { keyPrefix: "register-email" });
   const queryClient = useQueryClient();
@@ -305,7 +310,10 @@ export const RegisterEmail = ({ navigation, onGoBack, onGoToLogin, inBackdrop })
       <TermsAgreement
         isChecked={data.isPrivacyAndTermsSelected}
         setIsChecked={() =>
-          handleChange("isPrivacyAndTermsSelected", !data.isPrivacyAndTermsSelected)
+          handleChange(
+            "isPrivacyAndTermsSelected",
+            !data.isPrivacyAndTermsSelected
+          )
         }
         navigation={navigation}
         textOne={t("terms_agreement_text_1")}
@@ -316,7 +324,9 @@ export const RegisterEmail = ({ navigation, onGoBack, onGoToLogin, inBackdrop })
       />
       <TermsAgreement
         isChecked={data.isAgeTermsSelected}
-        setIsChecked={() => handleChange("isAgeTermsSelected", !data.isAgeTermsSelected)}
+        setIsChecked={() =>
+          handleChange("isAgeTermsSelected", !data.isAgeTermsSelected)
+        }
         textOne={t("age_terms_agreement_text", { age: minAge })}
       />
       <Error style={styles.error} message={errors.submit || ""} />
@@ -394,7 +404,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   scrollContent: {
-    paddingBottom: 150,
+    // paddingBottom: 150,
   },
   error: { marginTop: 12, marginLeft: "auto", marginRight: "auto" },
 });

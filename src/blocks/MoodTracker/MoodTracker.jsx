@@ -4,9 +4,18 @@ import React, {
   useContext,
   useEffect,
   useMemo,
+  useRef,
 } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { StyleSheet, View, TouchableOpacity, Image } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Image,
+  Animated,
+  Easing,
+  AccessibilityInfo,
+} from "react-native";
 import { useTranslation } from "react-i18next";
 
 import {
@@ -50,6 +59,10 @@ export const MoodTracker = ({
 
   const IS_RO = country === "RO";
 
+  const [isReduceMotionEnabled, setIsReduceMotionEnabled] = useState(false);
+  const attentionTranslateY = useRef(new Animated.Value(0)).current;
+  const attentionScale = useRef(new Animated.Value(1)).current;
+
   const emoticonsInitialState = [
     { value: "happy", label: t("happy"), isSelected: false },
     { value: "good", label: t("good"), isSelected: false },
@@ -78,6 +91,101 @@ export const MoodTracker = ({
   }, []);
 
   useEffect(() => {
+    let isMounted = true;
+
+    AccessibilityInfo.isReduceMotionEnabled()
+      .then((enabled) => {
+        if (!isMounted) return;
+        setIsReduceMotionEnabled(Boolean(enabled));
+      })
+      .catch(() => {});
+
+    const subscription = AccessibilityInfo.addEventListener(
+      "reduceMotionChanged",
+      (enabled) => {
+        setIsReduceMotionEnabled(Boolean(enabled));
+      }
+    );
+
+    return () => {
+      isMounted = false;
+      if (subscription?.remove) subscription.remove();
+      else if (AccessibilityInfo.removeEventListener) {
+        AccessibilityInfo.removeEventListener(
+          "reduceMotionChanged",
+          setIsReduceMotionEnabled
+        );
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isReduceMotionEnabled) {
+      attentionTranslateY.stopAnimation();
+      attentionScale.stopAnimation();
+      attentionTranslateY.setValue(0);
+      attentionScale.setValue(1);
+      return;
+    }
+
+    const animation = Animated.loop(
+      Animated.sequence([
+        Animated.parallel([
+          Animated.timing(attentionTranslateY, {
+            toValue: -7,
+            duration: 360, // 12% of 3000ms
+            easing: Easing.out(Easing.cubic),
+            useNativeDriver: true,
+          }),
+          Animated.timing(attentionScale, {
+            toValue: 1.06,
+            duration: 360,
+            easing: Easing.out(Easing.cubic),
+            useNativeDriver: true,
+          }),
+        ]),
+        Animated.parallel([
+          Animated.timing(attentionTranslateY, {
+            toValue: 2,
+            duration: 240, // 20% - 12%
+            easing: Easing.out(Easing.cubic),
+            useNativeDriver: true,
+          }),
+          Animated.timing(attentionScale, {
+            toValue: 1.02,
+            duration: 240,
+            easing: Easing.out(Easing.cubic),
+            useNativeDriver: true,
+          }),
+        ]),
+        Animated.parallel([
+          Animated.timing(attentionTranslateY, {
+            toValue: 0,
+            duration: 180,
+            easing: Easing.out(Easing.cubic),
+            useNativeDriver: true,
+          }),
+          Animated.timing(attentionScale, {
+            toValue: 1,
+            duration: 180,
+            easing: Easing.out(Easing.cubic),
+            useNativeDriver: true,
+          }),
+        ]),
+        Animated.delay(2220),
+      ])
+    );
+
+    animation.start();
+    return () => animation.stop();
+  }, [
+    attentionScale,
+    attentionTranslateY,
+    isReduceMotionEnabled,
+    hasCompletedMoodTrackerEver,
+  ]);
+
+  useEffect(() => {
     const emoticonsCopy = [...emoticonsInitialState];
     emoticonsCopy.forEach((emoticon, i) => {
       emoticonsCopy[i].label = t(emoticon.value);
@@ -99,6 +207,16 @@ export const MoodTracker = ({
   const textDynamicStyle = useMemo(
     () => ({ textAlign: "center", color: colors.textTertiary }),
     [colors.textTertiary]
+  );
+
+  const subheadingDynamicStyle = useMemo(
+    () => ({
+      color: colors.text,
+      fontFamily: appStyles.fontLight, // match web font-weight: 300
+      fontSize: 32, // match web h2 on < $screen-lg
+      lineHeight: 38,
+    }),
+    [colors.text]
   );
 
   const selectedLabelColor = useMemo(() => {
@@ -232,16 +350,19 @@ export const MoodTracker = ({
       <Block style={styles.block}>
         <View style={styles.topRow}>
           <View style={styles.headingContainer}>
-            <AppText namedStyle="h2" style={styles.welcomeHeading}>
+            <AppText namedStyle="h1" style={styles.welcomeHeading}>
               {t("welcome-heading")}
+              {clientName ? ", " : null}
               {clientName ? (
-                <AppText namedStyle="h2" style={styles.welcomeHeadingName}>
-                  {" "}
+                <AppText namedStyle="h1" style={styles.welcomeHeadingName}>
                   {clientName}
                 </AppText>
               ) : null}
             </AppText>
-            <AppText namedStyle="text" style={styles.subheading}>
+            <AppText
+              namedStyle="text"
+              style={[styles.subheading, subheadingDynamicStyle]}
+            >
               {t("heading")}
             </AppText>
           </View>
@@ -253,14 +374,26 @@ export const MoodTracker = ({
             onPress={handleMoreTilePress}
             style={styles.tileTouchable}
           >
-            <Emoticon
-              name={
-                hasCompletedMoodTrackerEver
-                  ? "emoticon-history"
-                  : "emoticon-insight"
-              }
-              size="sm"
-            />
+            <Animated.View
+              style={[
+                styles.emoticonBubble,
+                !isReduceMotionEnabled && {
+                  transform: [
+                    { translateY: attentionTranslateY },
+                    { scale: attentionScale },
+                  ],
+                },
+              ]}
+            >
+              <Emoticon
+                name={
+                  hasCompletedMoodTrackerEver
+                    ? "emoticon-history"
+                    : "emoticon-insight"
+                }
+                size="sm"
+              />
+            </Animated.View>
             <AppText
               numberOfLines={2}
               namedStyle="smallText"
@@ -342,8 +475,8 @@ const styles = StyleSheet.create({
   },
   headingContainer: { width: "100%" },
   welcomeHeading: { flexWrap: "wrap" },
-  welcomeHeadingName: { color: appStyles.colorSecondary_9749fa },
-  subheading: { marginTop: 8, color: appStyles.colorGray_66768d },
+  welcomeHeadingName: { color: appStyles.colorPurple },
+  subheading: { marginTop: 8 },
   rating: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -365,14 +498,9 @@ const styles = StyleSheet.create({
   },
   tileNotSelected: { opacity: 0.5 },
   emoticonBubble: {
-    width: 62,
-    height: 62,
-    borderRadius: 999,
     alignItems: "center",
     justifyContent: "center",
     overflow: "hidden",
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.62)",
   },
   emoticonBubbleSelected: {
     transform: [{ scale: 1.02 }],

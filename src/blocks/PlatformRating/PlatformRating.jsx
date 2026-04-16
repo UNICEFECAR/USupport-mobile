@@ -96,7 +96,7 @@ export const PlatformRating = ({ navigation }) => {
               flex: 1,
               justifyContent: "flex-end",
               width: "100%",
-              paddingBottom: 40,
+              paddingBottom: 90,
             }}
           >
             <NewButton

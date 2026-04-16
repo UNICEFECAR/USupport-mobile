@@ -357,7 +357,6 @@ const styles = StyleSheet.create({
   loginText: {
     fontSize: 18,
     textAlign: "center",
-    color: "#373737",
   },
   loginTextDisabled: { opacity: 0.45 },
   loginLink: {
