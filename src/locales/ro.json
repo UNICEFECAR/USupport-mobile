@@ -247,7 +247,8 @@
       "emergency_label": "Ajutor de urgență",
       "recommendations": "Recomandări",
       "recommendations_text": "Vrei să vezi graficul stării tale și conținutul recomandat?",
-      "check_out": "Vezi detalii"
+      "check_out": "Vezi detalii",
+      "user_guide": "Utilizarea platformei"
     },
     "mood-track-history": {
       "month_1": "Ian",

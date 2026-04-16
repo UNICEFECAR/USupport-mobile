@@ -28,14 +28,14 @@ export const ProviderDetails = ({
 
   const isLightTheme = colors.background === appStyles.colorWhite_ff;
 
-  // Match client-ui ProviderOverview "softer" liquid glass
+  // Match ArticleView liquid glass background
   const glassGradient = useMemo(
     () => ({
       degrees: 145,
       locations: [0, 100],
       colors:
         isLightTheme && !isHighContrast
-          ? ["rgba(255, 255, 255, 0.44)", "rgba(235, 243, 255, 0.3)"]
+          ? ["rgba(255, 255, 255, 0.99)", "rgba(245, 248, 255, 0.85)"]
           : colors.cardMediaGradient,
     }),
     [isLightTheme, isHighContrast, colors.cardMediaGradient]
@@ -73,7 +73,9 @@ export const ProviderDetails = ({
       if (typeof provider.languages?.[0] === "object") {
         return provider.languages
           .map((x) => {
-            return x.name === "English" ? x.name : `${x.name} (${x.local_name})`;
+            return x.name === "English"
+              ? x.name
+              : `${x.name} (${x.local_name})`;
           })
           ?.join(", ");
       }
@@ -105,7 +107,8 @@ export const ProviderDetails = ({
     ? `${provider.name} ${provider.patronym} ${provider.surname}`
     : `${provider?.name} ${provider?.surname}`;
 
-  const dividerColor = colors.cardMediaSeparator || (isDarkMode ? "#344054" : "#eaecf0");
+  const dividerColor =
+    colors.cardMediaSeparator || (isDarkMode ? "#344054" : "#eaecf0");
   const iconColor = isHighContrast
     ? colors.text
     : colors.textSecondary || appStyles.colorGray_66768d;
@@ -138,12 +141,7 @@ export const ProviderDetails = ({
         isLightTheme && !isHighContrast
           ? styles.liquidGlassShadowLight
           : appStyles.cardMediaShadowDark,
-        {
-          borderColor:
-            isLightTheme && !isHighContrast
-              ? "rgba(224, 233, 255, 0.72)"
-              : colors.cardMediaGradientBorder,
-        },
+        { borderColor: colors.cardMediaGradientBorder },
       ]}
     >
       <View style={styles.header}>
@@ -199,7 +197,10 @@ export const ProviderDetails = ({
         ) : null}
 
         {provider?.totalConsultations > 0 ? (
-          <Section iconName="consultation" title={t("done_consultations_label")}>
+          <Section
+            iconName="consultation"
+            title={t("done_consultations_label")}
+          >
             <AppText style={[styles.sectionText, { color: colors.text }]}>
               {provider.totalConsultations} {t("consultations")}
             </AppText>

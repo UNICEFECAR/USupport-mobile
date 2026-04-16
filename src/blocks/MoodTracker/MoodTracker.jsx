@@ -22,6 +22,7 @@ import {
   AppText,
   Block,
   Emoticon,
+  Icon,
   Toggle,
   Textarea,
   TransparentModal,
@@ -48,6 +49,7 @@ export const MoodTracker = ({
   navigation,
   clientData,
   openRequireDataAgreement,
+  openUserGuide,
   onTextareaFocus,
 }) => {
   const { colors, isDarkMode, isHighContrast } = useGetTheme();
@@ -330,6 +332,21 @@ export const MoodTracker = ({
     setIsHowItWorksMoodTrackOpen(true);
   };
 
+  const renderUserGuideButton = () => {
+    if (!IS_RO || typeof openUserGuide !== "function") return null;
+
+    return (
+      <TouchableOpacity
+        onPress={openUserGuide}
+        accessibilityRole="button"
+        accessibilityLabel={t("user_guide")}
+        style={[styles.userGuideButton, styles.userGuideButtonCompact]}
+      >
+        <Icon name="read-book" color="#fff" size="sm" />
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <React.Fragment>
       <TransparentModal
@@ -366,6 +383,7 @@ export const MoodTracker = ({
               {t("heading")}
             </AppText>
           </View>
+          {renderUserGuideButton()}
         </View>
 
         <View style={styles.rating}>
@@ -469,11 +487,12 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   topRow: {
-    flexDirection: "column",
+    flexDirection: "row",
     alignItems: "flex-start",
+    justifyContent: "space-between",
     marginBottom: 6,
   },
-  headingContainer: { width: "100%" },
+  headingContainer: { flex: 1 },
   welcomeHeading: { flexWrap: "wrap" },
   welcomeHeadingName: { color: appStyles.colorPurple },
   subheading: { marginTop: 8 },
@@ -536,5 +555,17 @@ const styles = StyleSheet.create({
   modalTextarea: {
     width: "100%",
     alignSelf: "stretch",
+  },
+  userGuideButton: {
+    backgroundColor: appStyles.colorPurple,
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: 12,
+    marginTop: 16,
+  },
+  userGuideButtonCompact: {
+    width: 45,
+    height: 45,
+    borderRadius: 25,
   },
 });

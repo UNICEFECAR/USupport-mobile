@@ -245,7 +245,8 @@
       "emergency_label": "Does this relate to a life event or critical situation?",
       "recommendations": "Recommendations",
       "recommendations_text": "Do you want to check out your mood graph and see recommended content?",
-      "check_out": "Check out"
+      "check_out": "Check out",
+      "user_guide": "Platform usage"
     },
     "mood-track-history": {
       "month_1": "Jan",

@@ -43,6 +43,7 @@ export const BaselineAssesment = ({
     baselineAssessmentId: null,
     isNewAssessment: false,
     finalResult: null,
+    assessmentDate: null,
   });
 
   const { data: questions } = useGetBaselineAssessmentQuestions();
@@ -66,6 +67,13 @@ export const BaselineAssesment = ({
         currentStep:
           selectedAssessment.status === "completed" ? "completed" : "questions",
         finalResult: selectedAssessment.finalResult,
+        assessmentDate:
+          selectedAssessment.startedAt ??
+          selectedAssessment.createdAt ??
+          selectedAssessment.created_at ??
+          selectedAssessment.updatedAt ??
+          selectedAssessment.updated_at ??
+          null,
       }));
       setHasSetInitially(true);
     }
@@ -103,6 +111,11 @@ export const BaselineAssesment = ({
           currentStep: "questions",
           baselineAssessmentId: assessmentData.baselineAssessmentId,
           isNewAssessment: true,
+          assessmentDate:
+            assessmentData.startedAt ??
+            assessmentData.createdAt ??
+            assessmentData.created_at ??
+            new Date().toISOString(),
         }));
         setHasStartedAssessment?.(true);
       },
@@ -164,6 +177,13 @@ export const BaselineAssesment = ({
                 // Assessment completed
                 updatedState.currentStep = "completed";
                 updatedState.finalResult = data.finalResult;
+                updatedState.assessmentDate =
+                  prev.assessmentDate ??
+                  data.finalResult?.assessmentDate ??
+                  data.finalResult?.assessment_date ??
+                  data.finalResult?.createdAt ??
+                  data.finalResult?.created_at ??
+                  new Date().toISOString();
               }
               return updatedState;
             });
@@ -398,6 +418,7 @@ export const BaselineAssesment = ({
         <BaselineAssesmentResult
           redirectToDashboard={handleRedirectToDashboard}
           result={state.finalResult}
+          assessmentDate={state.assessmentDate}
         />
       )}
     </ScrollView>

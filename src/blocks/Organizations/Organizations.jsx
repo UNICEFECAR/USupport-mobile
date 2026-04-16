@@ -21,9 +21,10 @@ import {
   Avatar,
   Icon,
   TransparentModal,
+  NewButton,
+  LinearGradient,
+  ButtonWithIcon,
 } from "#components";
-import LinearGradient from "../../components/LinearGradient";
-import { NewButton } from "../../components/buttons/NewButton/NewButton";
 import {
   useGetAllOrganizations,
   useGetClientData,
@@ -313,7 +314,12 @@ export const Organizations = ({
                 isLightTheme && !isHighContrast
                   ? styles.liquidGlassShadowLight
                   : appStyles.cardMediaShadowDark,
-                { borderColor: colors.cardMediaGradientBorder },
+                {
+                  borderColor:
+                    isLightTheme && !isHighContrast
+                      ? "rgba(224, 233, 255, 0.72)"
+                      : colors.cardMediaGradientBorder,
+                },
               ]}
             >
               <View style={styles.searchContainer}>
@@ -585,7 +591,7 @@ const OrganizationBackdrop = ({ organization, onClose, t, navigation }) => {
           {/* <TouchableOpacity style={styles.actionButton} onPress={handleShare}>
             <Icon name="share" size="sm" color={colors.text} />
           </TouchableOpacity> */}
-          <AppButton
+          <NewButton
             onPress={handleViewDetails}
             label={t("view_organization_details")}
           />
@@ -634,7 +640,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   glassCard: {
-    borderRadius: 16,
+    borderRadius: 24,
     borderWidth: 1,
     overflow: "hidden",
     padding: 16,

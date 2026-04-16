@@ -6,7 +6,6 @@ import {
   ScrollView,
   View,
   RefreshControl,
-  ImageBackground,
   KeyboardAvoidingView,
   Platform,
   Keyboard,
@@ -409,6 +408,7 @@ export const Dashboard = ({ navigation }) => {
               navigation={navigation}
               clientData={clientData}
               openRequireDataAgreement={openRequireDataAgreement}
+              openUserGuide={openUserGuide}
               onTextareaFocus={handleMoodTrackerTextareaFocus}
             />
           </View>

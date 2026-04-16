@@ -1,15 +1,16 @@
 import { useTranslation } from "react-i18next";
 import { useCallback, useMemo } from "react";
 import { View, StyleSheet, Linking, TouchableOpacity } from "react-native";
+import * as Clipboard from "expo-clipboard";
 
-import { Block, Loading, AppText, Avatar, Icon } from "#components";
+import { Block, Loading, AppText, Icon } from "#components";
 import { useGetOrganizationById, useGetTheme } from "#hooks";
 import { appStyles } from "#styles";
-import { constructShareUrl } from "#utils";
-import Share from "react-native-share";
+import { constructShareUrl, showToast } from "#utils";
+import LinearGradient from "../../components/LinearGradient";
 
 export const OrganizationOverview = ({ organizationId }) => {
-  const { t, i18n } = useTranslation("blocks", {
+  const { t } = useTranslation("blocks", {
     keyPrefix: "organization-overview",
   });
 
@@ -22,7 +23,7 @@ export const OrganizationOverview = ({ organizationId }) => {
   return (
     <Block>
       {isError ? (
-        <AppText namedStyle="h3">{t("error-loading-data")}</AppText>
+        <AppText namedStyle="h3">{t("error_loading_data")}</AppText>
       ) : isLoading ? (
         <View style={styles.loadingContainer}>
           <Loading size="lg" />
@@ -35,8 +36,23 @@ export const OrganizationOverview = ({ organizationId }) => {
 };
 
 const OrganizationDetails = ({ organization, t }) => {
-  const { colors } = useGetTheme();
+  const { colors, isHighContrast, isDarkMode } = useGetTheme();
   const { i18n } = useTranslation();
+
+  const isLightTheme = colors.background === appStyles.colorWhite_ff;
+
+  // Match ArticleView liquid glass background
+  const glassGradient = useMemo(
+    () => ({
+      degrees: 145,
+      locations: [0, 100],
+      colors:
+        isLightTheme && !isHighContrast
+          ? ["rgba(255, 255, 255, 0.99)", "rgba(245, 248, 255, 0.85)"]
+          : colors.cardMediaGradient,
+    }),
+    [isLightTheme, isHighContrast, colors.cardMediaGradient]
+  );
 
   const description = useMemo(() => {
     const language = i18n.language?.toLowerCase();
@@ -112,162 +128,179 @@ const OrganizationDetails = ({ organization, t }) => {
     }
   }, [organization.email]);
 
-  const handleShare = async () => {
+  const handleCopyLink = useCallback(async () => {
     const url = await constructShareUrl({
       contentType: "organization",
       id: organization.organizationId,
     });
-    Share.open({
-      title: organization.name,
-      message: `${t("check_organization")}\n\n${url}`,
-    });
-  };
+    await Clipboard.setStringAsync(url);
+    showToast({ message: t("copy_link_success") });
+  }, [organization.organizationId, t]);
 
   if (!organization) {
     return null;
   }
 
   return (
-    <View style={[styles.container, { paddingBottom: 250 }]}>
-      {/* Header Section */}
-      <View style={styles.header}>
-        {/* <Avatar
-          image={organization.image ? { uri: organization.image } : null}
-          style={styles.avatar}
-        /> */}
-        <View style={styles.headerTextContainer}>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <AppText
-              namedStyle="h3"
-              style={[styles.organizationName, { color: colors.text }]}
-            >
-              {organization.name}
-            </AppText>
-            <TouchableOpacity style={styles.actionButton} onPress={handleShare}>
-              <Icon name="share" size="sm" color={colors.text} />
-            </TouchableOpacity>
+    <View style={[styles.screen, { paddingBottom: 250 }]}>
+      <LinearGradient
+        gradient={glassGradient}
+        style={[
+          styles.glassCard,
+          isLightTheme && !isHighContrast
+            ? styles.liquidGlassShadowLight
+            : appStyles.cardMediaShadowDark,
+          { borderColor: colors.cardMediaGradientBorder },
+        ]}
+      >
+        <View style={styles.headerRow}>
+          <View style={styles.headerLeft}>
+            <View style={styles.nameRow}>
+              <AppText
+                namedStyle="h3"
+                style={[styles.organizationName, { color: colors.text }]}
+              >
+                {organization.name}
+              </AppText>
+              <TouchableOpacity
+                accessibilityRole="button"
+                onPress={handleCopyLink}
+                style={[
+                  styles.shareButton,
+                  { borderColor: colors.primary || appStyles.colorBlue_3d527b },
+                ]}
+              >
+                <Icon name="share" size="sm" color={colors.text} />
+              </TouchableOpacity>
+            </View>
+
+            {organization.phone && (
+              <View style={styles.informationWithIcon}>
+                <Icon name="call" size="md" color={styles.iconMuted.color} />
+                <AppText
+                  style={styles.informationText}
+                  onPress={handlePhonePress}
+                >
+                  {organization.phone}
+                </AppText>
+              </View>
+            )}
+
+            {organization.email && (
+              <View style={styles.informationWithIcon}>
+                <Icon
+                  name="mail-admin"
+                  size="md"
+                  color={styles.iconMuted.color}
+                />
+                <AppText
+                  style={styles.informationText}
+                  onPress={handleEmailPress}
+                >
+                  {organization.email}
+                </AppText>
+              </View>
+            )}
+
+            {organization.websiteUrl && (
+              <View style={styles.informationWithIcon}>
+                <Icon name="globe" size="md" color={styles.iconMuted.color} />
+                <AppText
+                  style={styles.informationText}
+                  onPress={handleWebsitePress}
+                >
+                  {organization.websiteUrl}
+                </AppText>
+              </View>
+            )}
           </View>
         </View>
-      </View>
 
-      {/* Contact Information */}
-      {organization.phone && (
-        <View style={styles.contactItem}>
-          <Icon name="call" size="md" color="#66768D" />
-          <AppText
-            style={[styles.contactText, styles.linkText]}
-            onPress={handlePhonePress}
-          >
-            {organization.phone}
-          </AppText>
-        </View>
-      )}
+        <View style={styles.detailsGrid}>
+          <View style={styles.detailsColumn}>
+            {organization.address && (
+              <InfoItem
+                label={t("address_label")}
+                value={organization.address}
+                labelColor={colors.text}
+              />
+            )}
 
-      {organization.email && (
-        <View style={styles.contactItem}>
-          <Icon name="mail-admin" size="md" color="#66768D" />
-          <AppText
-            style={[styles.contactText, styles.linkText]}
-            onPress={handleEmailPress}
-          >
-            {organization.email}
-          </AppText>
-        </View>
-      )}
+            {organization.district?.name && (
+              <InfoItem
+                label={t("sector_label")}
+                value={t(organization.district.name)}
+                labelColor={colors.text}
+              />
+            )}
 
-      {organization.websiteUrl && (
-        <View style={styles.contactItem}>
-          <Icon name="globe" size="md" color="#66768D" />
-          <AppText
-            style={[styles.contactText, styles.linkText]}
-            onPress={handleWebsitePress}
-          >
-            {organization.websiteUrl}
-          </AppText>
-        </View>
-      )}
+            {renderPaymentMethods() && (
+              <InfoItem
+                label={t("payment_methods_label")}
+                value={renderPaymentMethods()}
+                labelColor={colors.text}
+              />
+            )}
 
-      {/* Information Sections */}
-      {organization.address && (
-        <View style={styles.infoSection}>
-          <AppText style={[styles.headingText, { color: colors.text }]}>
-            {t("address_label")}
-          </AppText>
-          <AppText style={styles.infoText}>{organization.address}</AppText>
-        </View>
-      )}
+            {renderUserInteractions() && (
+              <InfoItem
+                label={t("user_interactions_label")}
+                value={renderUserInteractions()}
+                labelColor={colors.text}
+              />
+            )}
 
-      {organization.district?.name && (
-        <View style={styles.infoSection}>
-          <AppText style={[styles.headingText, { color: colors.text }]}>
-            {t("district_label")}
-          </AppText>
-          <AppText style={styles.infoText}>
-            {t(organization.district.name)}
-          </AppText>
-        </View>
-      )}
+            {renderPropertyTypes() && (
+              <InfoItem
+                label={t("property_types_label")}
+                value={renderPropertyTypes()}
+                labelColor={colors.text}
+              />
+            )}
 
-      {/* Updated: Handle multiple payment methods */}
-      {renderPaymentMethods() && (
-        <View style={styles.infoSection}>
-          <AppText style={[styles.headingText, { color: colors.text }]}>
-            {t("payment_methods_label")}
-          </AppText>
-          <AppText style={styles.infoText}>{renderPaymentMethods()}</AppText>
-        </View>
-      )}
+            {renderSpecialisations() && (
+              <InfoItem
+                label={t("offered_services_label")}
+                value={renderSpecialisations()}
+                labelColor={colors.text}
+              />
+            )}
 
-      {/* Updated: Handle multiple user interactions */}
-      {renderUserInteractions() && (
-        <View style={styles.infoSection}>
-          <AppText style={[styles.headingText, { color: colors.text }]}>
-            {t("user_interactions_label")}
-          </AppText>
-          <AppText style={styles.infoText}>{renderUserInteractions()}</AppText>
-        </View>
-      )}
+            {organization.providers?.length > 0 && (
+              <InfoItem
+                label={t("providers_label")}
+                value={organization.providers
+                  .map((provider) => `${provider.name} ${provider.surname}`)
+                  .join(", ")}
+                labelColor={colors.text}
+              />
+            )}
+          </View>
 
-      {/* Added: Property types section */}
-      {renderPropertyTypes() && (
-        <View style={styles.infoSection}>
-          <AppText style={[styles.headingText, { color: colors.text }]}>
-            {t("property_types_label")}
-          </AppText>
-          <AppText style={styles.infoText}>{renderPropertyTypes()}</AppText>
+          <View style={styles.detailsColumn}>
+            {description && (
+              <InfoItem
+                label={t("other_services_label")}
+                value={description}
+                labelColor={colors.text}
+              />
+            )}
+          </View>
         </View>
-      )}
+      </LinearGradient>
+    </View>
+  );
+};
 
-      {organization.specialisations?.length > 0 && (
-        <View style={styles.infoSection}>
-          <AppText style={[styles.headingText, { color: colors.text }]}>
-            {t("specialisations_label")}
-          </AppText>
-          <AppText style={styles.infoText}>{renderSpecialisations()}</AppText>
-        </View>
-      )}
+const InfoItem = ({ label, value, labelColor }) => {
+  if (!value) return null;
 
-      {organization.providers?.length > 0 && (
-        <View style={styles.infoSection}>
-          <AppText style={[styles.headingText, { color: colors.text }]}>
-            {t("providers_label")}
-          </AppText>
-          <AppText style={styles.infoText}>
-            {organization.providers
-              .map((provider) => `${provider.name} ${provider.surname}`)
-              .join(", ")}
-          </AppText>
-        </View>
-      )}
-
-      {description && (
-        <View style={styles.infoSection}>
-          <AppText style={[styles.headingText, { color: colors.text }]}>
-            {t("description_label")}
-          </AppText>
-          <AppText style={styles.infoText}>{description}</AppText>
-        </View>
-      )}
+  return (
+    <View style={styles.infoSection}>
+      <AppText style={[styles.headingText, { color: labelColor }]}>
+        {label}
+      </AppText>
+      <AppText style={styles.infoText}>{value}</AppText>
     </View>
   );
 };
@@ -277,44 +310,60 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  container: {
-    flexGrow: 1,
+  screen: {
+    marginTop: 8,
+    paddingBottom: 40,
+  },
+  glassCard: {
+    borderRadius: 24,
+    borderWidth: 1,
+    overflow: "hidden",
     padding: 16,
-  },
-  header: {
-    flexDirection: "row",
-    marginTop: 24,
     width: "100%",
-    marginBottom: 20,
   },
-  avatar: {
-    width: 66,
-    height: 66,
+  liquidGlassShadowLight: {
+    shadowColor: "rgb(95, 108, 145)",
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.14,
+    shadowRadius: 16,
+    elevation: 4,
   },
-  headerTextContainer: {
-    marginLeft: 0,
+  headerRow: {
+    width: "100%",
+    marginBottom: 16,
+  },
+  headerLeft: {
     flex: 1,
+  },
+  nameRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 12,
   },
   organizationName: {
     fontFamily: appStyles.fontSemiBold,
-    maxWidth: "90%",
-  },
-  marginTop4: {
-    marginTop: 4,
-  },
-  contactItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 16,
-    paddingHorizontal: 4,
-  },
-  contactText: {
-    marginLeft: 12,
     flex: 1,
   },
-  linkText: {
-    textDecorationLine: "underline",
-    color: "#007AFF", // iOS blue color for links
+  informationWithIcon: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 12,
+  },
+  iconMuted: {
+    color: "#66768D",
+  },
+  informationText: {
+    marginLeft: 10,
+    flex: 1,
+  },
+  detailsGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+  detailsColumn: {
+    flexGrow: 1,
+    flexBasis: 0,
+    minWidth: 280,
   },
   infoSection: {
     marginTop: 16,
@@ -328,10 +377,9 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     marginBottom: 4,
   },
-  actionButton: {
-    marginLeft: 16,
+  shareButton: {
+    marginLeft: 12,
     borderWidth: 1,
-    borderColor: appStyles.colorBlue_3d527b,
     borderRadius: 10,
     paddingHorizontal: 10,
     paddingVertical: 4,

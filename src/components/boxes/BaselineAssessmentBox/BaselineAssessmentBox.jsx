@@ -38,43 +38,46 @@ export const BaselineAssesmentBox = ({
   };
 
   return (
-    <LinearGradient
-      gradient={glassGradient}
+    <View
       style={[
-        styles.box,
+        styles.boxOuter,
         isLightTheme && !isHighContrast
           ? styles.liquidGlassShadowLight
           : appStyles.cardMediaShadowDark,
-        { borderColor: colors.cardMediaGradientBorder },
       ]}
     >
-      <View style={styles.iconRow}>
-        <View style={styles.iconCircle}>
-          <Icon name="document" size="lg" color="#6a4ffb" />
-        </View>
-      </View>
       <View style={styles.statusWrap}>
         <StatusBadge
           label={t(status)}
           status={status === "completed" ? "active" : "in-progress"}
         />
       </View>
-      <View style={styles.content}>
-        <ProgressBar progress={progress} showPercentage />
-        <AppText
-          namedStyle="smallText"
-          style={[styles.meta, { color: colors.textSecondary }]}
-        >
-          {`${t("started_at", { date: getDateView(startedAt) })} · ${currentPosition}/27`}
-        </AppText>
-        <NewButton
-          label={status === "in_progress" ? t("continue") : t("view")}
-          onPress={handleViewAssessment}
-          size="lg"
-          isFullWidth
-        />
-      </View>
-    </LinearGradient>
+      <LinearGradient
+        gradient={glassGradient}
+        style={[
+          styles.boxInner,
+          { borderColor: colors.cardMediaGradientBorder },
+        ]}
+      >
+        <View style={styles.iconRow}>
+          <View style={styles.iconCircle}>
+            <Icon name="document" size="lg" color="#6a4ffb" />
+          </View>
+        </View>
+        <View style={styles.content}>
+          <ProgressBar progress={progress} showPercentage />
+          <AppText style={styles.meta}>
+            {`${t("started_at", { date: getDateView(startedAt) })} · ${currentPosition}/27`}
+          </AppText>
+          <NewButton
+            label={status === "in_progress" ? t("continue") : t("view")}
+            onPress={handleViewAssessment}
+            size="lg"
+            isFullWidth
+          />
+        </View>
+      </LinearGradient>
+    </View>
   );
 };
 
@@ -86,14 +89,19 @@ const styles = StyleSheet.create({
     shadowRadius: 16,
     elevation: 4,
   },
-  box: {
+  boxOuter: {
+    alignItems: "center",
+    marginTop: 12,
+    overflow: "visible",
+    position: "relative",
+    width: "100%",
+  },
+  boxInner: {
     alignItems: "center",
     borderRadius: 16,
     borderWidth: 1,
-    marginTop: 12,
     overflow: "hidden",
-    padding: 16,
-    position: "relative",
+    padding: 20,
     width: "100%",
   },
   iconRow: {
@@ -112,7 +120,7 @@ const styles = StyleSheet.create({
   statusWrap: {
     position: "absolute",
     right: 16,
-    top: 12,
+    top: -20,
     zIndex: 2,
   },
   content: {

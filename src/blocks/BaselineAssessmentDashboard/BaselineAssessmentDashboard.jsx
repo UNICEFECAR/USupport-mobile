@@ -99,10 +99,7 @@ export const BaselineAssessmentDashboard = ({
           <View style={styles.iconCircle}>
             <Icon name="document" size="lg" color="#6a4ffb" />
           </View>
-          <AppText
-            namedStyle="smallText"
-            style={[styles.descriptionCenter, { color: colors.textSecondary }]}
-          >
+          <AppText namedStyle="smallText" style={styles.descriptionCenter}>
             {t("no_assessment_description")}
           </AppText>
           <NewButton
@@ -126,10 +123,7 @@ export const BaselineAssessmentDashboard = ({
         >
           <View style={styles.resultsRow}>
             <View style={styles.resultsItem}>
-              <AppText
-                namedStyle="smallText"
-                style={[styles.resultsLabel, { color: colors.textSecondary }]}
-              >
+              <AppText style={styles.resultsLabel}>
                 {t("psychological")}
               </AppText>
               <AppText namedStyle="h4" style={styles.resultsValue}>
@@ -137,23 +131,13 @@ export const BaselineAssessmentDashboard = ({
               </AppText>
             </View>
             <View style={styles.resultsItem}>
-              <AppText
-                namedStyle="smallText"
-                style={[styles.resultsLabel, { color: colors.textSecondary }]}
-              >
-                {t("social")}
-              </AppText>
+              <AppText style={styles.resultsLabel}>{t("social")}</AppText>
               <AppText namedStyle="h4" style={styles.resultsValue}>
                 {latestAssessment.finalResult.socialScore}
               </AppText>
             </View>
             <View style={styles.resultsItem}>
-              <AppText
-                namedStyle="smallText"
-                style={[styles.resultsLabel, { color: colors.textSecondary }]}
-              >
-                {t("biological")}
-              </AppText>
+              <AppText style={styles.resultsLabel}>{t("biological")}</AppText>
               <AppText namedStyle="h4" style={styles.resultsValue}>
                 {latestAssessment.finalResult.biologicalScore}
               </AppText>
@@ -242,10 +226,7 @@ export const BaselineAssessmentDashboard = ({
                 </View>
                 <AppText
                   namedStyle="smallText"
-                  style={[
-                    styles.exploreDescription,
-                    { color: colors.textSecondary },
-                  ]}
+                  style={[styles.exploreDescription, ,]}
                 >
                   {t("explore_card_description")}
                 </AppText>

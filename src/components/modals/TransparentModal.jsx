@@ -314,14 +314,14 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
   },
   footerButtonsRow: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 20,
+    flexDirection: "column",
+    gap: 12,
     width: "100%",
+    alignItems: "stretch",
   },
   footerButton: {
-    flex: 1,
-    minWidth: 0,
+    width: "100%",
+    alignSelf: "stretch",
   },
 });
 

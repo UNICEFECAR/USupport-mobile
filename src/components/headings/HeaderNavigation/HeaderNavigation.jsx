@@ -1,9 +1,14 @@
 import React from "react";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  useWindowDimensions,
+} from "react-native";
 
 import { Avatar } from "../../avatars";
 import { Icon } from "../../icons";
-import { AppText } from "../../texts";
+import { ButtonOnlyIcon, ButtonWithIcon } from "../../buttons";
 
 import { useGetClientData, useGetTheme } from "#hooks";
 
@@ -24,6 +29,7 @@ export const HeaderNavigation = ({
   onHeaderLayout,
 }) => {
   const { isDarkMode } = useGetTheme();
+  const { fontScale } = useWindowDimensions();
 
   const getClientDataEnabled = isTmpUser === false ? true : false;
   const clientDataQuery = useGetClientData(getClientDataEnabled);
@@ -58,22 +64,21 @@ export const HeaderNavigation = ({
           }}
         />
       </TouchableOpacity>
-      {/* {fontScale < 1.8 ? ( */}
-      {/* <ButtonWithIcon
-        iconName="phone-emergency"
-        label={t("emergency_button_label")}
-        color="red"
-        onPress={() => navigation.navigate("SOSCenter")}
-      /> */}
-      <AppText>{t("heading")}</AppText>
-      {/* ) : (
+      {fontScale < 1.8 ? (
+        <ButtonWithIcon
+          iconName="phone-emergency"
+          label={t("emergency_button_label")}
+          color="red"
+          onPress={() => navigation.navigate("SOSCenter")}
+        />
+      ) : (
         <ButtonOnlyIcon
           iconName="phone-emergency"
           iconSize="md"
           color="red"
           onPress={() => navigation.navigate("SOSCenter")}
         />
-      )} */}
+      )}
       <TouchableOpacity
         onPress={() => {
           if (isTmpUser) {

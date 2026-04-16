@@ -244,17 +244,6 @@ export const Consultations = ({
               <AppText namedStyle="h3" style={{ color: colors.text }}>
                 {t("past_tab_label")}
               </AppText>
-              {!hasUpcoming && !!onScheduleConsultationClick && (
-                <NewButton
-                  label={t("schedule_button_label")}
-                  iconName="calendar"
-                  iconColor="#ffffff"
-                  size="md"
-                  onPress={onScheduleConsultationClick}
-                  isFullWidth
-                  style={styles.headingButton}
-                />
-              )}
             </View>
             <View style={styles.list}>{renderList(past)}</View>
           </View>
