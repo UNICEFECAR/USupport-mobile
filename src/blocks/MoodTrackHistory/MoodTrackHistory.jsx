@@ -16,6 +16,7 @@ import {
   MoodTrackDetails,
   CardMedia,
   TransparentModal,
+  NotFoundCard,
 } from "#components";
 import {
   useGetMoodTrackEntries,
@@ -31,7 +32,7 @@ import { Context } from "#services";
  *
  * @return {JSX.Element}
  */
-export const MoodTrackHistory = ({ navigation, header }) => {
+export const MoodTrackHistory = ({ navigation, header, onHowItWorksPress }) => {
   const { width: windowWidth } = useWindowDimensions();
   const { t, i18n } = useTranslation("blocks", {
     keyPrefix: "mood-track-history",
@@ -162,7 +163,17 @@ export const MoodTrackHistory = ({ navigation, header }) => {
         </View>
       ) : moodTrackerData[limit].entries.length === 0 ? (
         <View style={styles.loadingContainer}>
-          <AppText>{t("no_result")}</AppText>
+          <NotFoundCard
+            mode="illustrated"
+            headingText={t("no_result")}
+            descriptionLine1={t("no_result_line1")}
+            descriptionLine2={t("no_result_line2")}
+            primaryLabel={t("no_result_primary")}
+            secondaryLabel={t("no_result_secondary")}
+            onPrimaryClick={() => navigation.goBack()}
+            onSecondaryClick={onHowItWorksPress}
+            style={{ width: "100%" }}
+          />
         </View>
       ) : (
         <>
@@ -450,8 +461,9 @@ const styles = StyleSheet.create({
   },
   loadingContainer: {
     alignItems: "center",
-    height: 200,
     justifyContent: "center",
     width: "100%",
+    paddingVertical: 16,
+    minHeight: 200,
   },
 });

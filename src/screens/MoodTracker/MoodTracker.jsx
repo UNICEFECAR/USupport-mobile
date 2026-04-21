@@ -115,7 +115,11 @@ export const MoodTracker = ({ navigation }) => {
           {isTmpUser ? (
             <View style={styles.tmpUserHeadingWrap}>{headingSection}</View>
           ) : (
-            <MoodTrackHistory header={headingSection} navigation={navigation} />
+            <MoodTrackHistory
+              header={headingSection}
+              navigation={navigation}
+              onHowItWorksPress={() => setIsHowItWorksOpen(true)}
+            />
           )}
           {/* <GiveSuggestion navigation={navigation} type="mood-tracker" /> */}
         </ScrollView>
@@ -133,7 +137,6 @@ const styles = StyleSheet.create({
   },
   headingContainer: {
     paddingTop: 38,
-    paddingBottom: 16,
   },
   headingButtons: {
     marginTop: 16,

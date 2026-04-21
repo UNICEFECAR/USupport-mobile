@@ -10,6 +10,7 @@ import {
   AppText,
   Loading,
   Dropdown,
+  NotFoundCard,
 } from "#components";
 import { useGetTheme, useGetLanguages } from "#hooks";
 import { localStorage } from "#services";
@@ -141,9 +142,12 @@ export const MyQA = ({
 
     if (!filteredQuestions.length) {
       return (
-        <AppText style={styles.noQuestionsText}>
-          {t("no_questions_found")}
-        </AppText>
+        <NotFoundCard
+          mode="illustrated"
+          headingText={t("no_questions_found")}
+          descriptionLine1={t("try_changing_filters") || ""}
+          style={styles.notFound}
+        />
       );
     }
 
@@ -264,7 +268,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 24,
   },
-  noQuestionsText: { alignSelf: "center", marginTop: 20 },
+  notFound: { marginTop: 20 },
   renderBlock: {
     alignItems: "center",
     flexDirection: "column",
