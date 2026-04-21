@@ -5,6 +5,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Dimensions,
+  Platform,
 } from "react-native";
 
 import { AppText } from "../../texts/AppText/AppText";
@@ -40,14 +41,22 @@ export const Tabs = ({
         locations: [0, 100],
         colors: colors.cardMediaGradient,
       },
-      // Light: 150deg, dark: 145deg — matches client-ui glass_need_box
       selected: {
         degrees: isDarkMode ? 145 : 150,
         locations: [0, 100],
-        colors: colors.tabSelectedGradient,
+        colors:
+          Platform.OS === "android" && isLightTheme && !isHighContrast
+            ? ["#ffffff", "#edf5ff"]
+            : colors.tabSelectedGradient,
       },
     }),
-    [colors.cardMediaGradient, colors.tabSelectedGradient, isDarkMode]
+    [
+      colors.cardMediaGradient,
+      colors.tabSelectedGradient,
+      isDarkMode,
+      isHighContrast,
+      isLightTheme,
+    ]
   );
   const scrollViewRef = useRef(null);
   const tabRefs = useRef({});
@@ -318,7 +327,6 @@ const styles = StyleSheet.create({
   tab: {
     paddingVertical: 4,
     paddingHorizontal: 24,
-    // 1.2rem — matches client-ui Tabs ($border_radius_1_2)
     borderRadius: 12,
     marginHorizontal: 4,
     borderWidth: 1.5,
