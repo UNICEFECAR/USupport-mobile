@@ -13,6 +13,7 @@ import {
   AppText,
   CheckBox,
   Backdrop,
+  Error,
   Icon,
   Input,
   InputPassword,
@@ -227,16 +228,6 @@ export function AuthRegisterAnonymousModal({ onGoBack, onGoToLogin }) {
       <Backdrop
         {...getAuthBackdropProps()}
         topHeaderComponent={<AuthenticationModalsLogo onBackPress={onGoBack} />}
-        ctaLabel={t("register_button_label")}
-        ctaHandleClick={handleRegisterButtonClick}
-        isCtaDisabled={
-          !canContinue || userAccessTokenIsLoading || !userAccessToken
-        }
-        isCtaLoading={registerMutation.isLoading}
-        secondaryCtaLabel={t("login_button_label")}
-        secondaryCtaHandleClick={onGoToLogin}
-        secondaryCtaType="ghost"
-        errorMessage={errors.submit}
       >
         <View
           style={[
@@ -339,6 +330,32 @@ export function AuthRegisterAnonymousModal({ onGoBack, onGoToLogin }) {
             textOne={t("age_terms_agreement_text", { age: minAge })}
           />
         </View>
+
+        <View style={styles.actions}>
+          {errors.submit ? (
+            <Error style={styles.inlineError} message={errors.submit} />
+          ) : null}
+          <NewButton
+            size="lg"
+            label={t("register_button_label")}
+            onPress={handleRegisterButtonClick}
+            disabled={
+              !canContinue || userAccessTokenIsLoading || !userAccessToken
+            }
+            loading={registerMutation.isLoading}
+            isFullWidth
+            type="gradient"
+            style={styles.registerButton}
+          />
+        </View>
+        <NewButton
+          label={t("login_button_label")}
+          onPress={onGoToLogin}
+          isFullWidth
+          size="lg"
+          type="ghost"
+          style={styles.loginCta}
+        />
       </Backdrop>
 
       <SaveAccessCodeConfirmation
@@ -476,6 +493,22 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   termsAgreement: { width: "95%", alignSelf: "center", paddingTop: 16 },
+  actions: {
+    width: "95%",
+    alignSelf: "center",
+    marginTop: 12,
+  },
+  inlineError: {
+    marginBottom: 6,
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
+  registerButton: {
+    marginTop: 8,
+  },
+  loginCta: {
+    marginTop: 16,
+  },
   checkboxContainer: {
     display: "flex",
     justifyContent: "center",
