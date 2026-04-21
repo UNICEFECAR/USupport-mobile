@@ -217,7 +217,10 @@ export const Answer = ({
             </View>
 
             <View style={styles.bottomRow}>
-              <TouchableOpacity onPress={() => handleSchedulePress(question)}>
+              <TouchableOpacity
+                onPress={() => handleSchedulePress(question)}
+                style={styles.scheduleTouchable}
+              >
                 <View style={styles.scheduleButton}>
                   <Icon
                     name="calendar"
@@ -235,14 +238,16 @@ export const Answer = ({
                 </View>
               </TouchableOpacity>
 
-              <Like
-                handleClick={handleLike}
-                likes={question.likes}
-                dislikes={question.dislikes}
-                answerId={question.answerId}
-                isLiked={question.isLiked}
-                isDisliked={question.isDisliked}
-              />
+              <View style={styles.likeContainer}>
+                <Like
+                  handleClick={handleLike}
+                  likes={question.likes}
+                  dislikes={question.dislikes}
+                  answerId={question.answerId}
+                  isLiked={question.isLiked}
+                  isDisliked={question.isDisliked}
+                />
+              </View>
             </View>
           </>
         ) : (
@@ -313,7 +318,6 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     textAlign: "left",
     fontFamily: appStyles.fontSemiBold,
-    color: appStyles.colorGray_344054,
   },
   answerText: {
     textAlign: "left",
@@ -361,11 +365,19 @@ const styles = StyleSheet.create({
     marginTop: 12,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
+    flexWrap: "wrap",
+  },
+  scheduleTouchable: {
+    flexShrink: 1,
   },
   scheduleButton: {
     flexDirection: "row",
     alignItems: "center",
+  },
+  likeContainer: {
+    marginLeft: "auto",
+    flexShrink: 0,
   },
   scheduleText: {
     marginLeft: 8,
