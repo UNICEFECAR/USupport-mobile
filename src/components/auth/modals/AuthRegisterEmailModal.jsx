@@ -35,6 +35,27 @@ export function AuthRegisterEmailModal({ onGoBack, onGoToLogin }) {
   const { t } = useTranslation("blocks", { keyPrefix: "register-email" });
   const queryClient = useQueryClient();
 
+  const saveEmailCredentialsBestEffort = async ({ email, password }) => {
+    try {
+      await Keychain.setInternetCredentials(
+        "https://usupport.online",
+        email,
+        password,
+        {
+          accessControl:
+            Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET_OR_DEVICE_PASSCODE,
+          authenticationPrompt: {
+            title: "Authenticate to save your credentials",
+            subtitle: "Save your credentials in keychain for quick login",
+            cancel: "Cancel",
+          },
+        }
+      );
+    } catch (e) {
+      // User cancellation / OS policy should not break registration.
+    }
+  };
+
   const schema = useMemo(() => {
     return Joi.object({
       password: Joi.string()
@@ -189,23 +210,6 @@ export function AuthRegisterEmailModal({ onGoBack, onGoToLogin }) {
 
   const registerMutation = useMutation(register, {
     onSuccess: async (response) => {
-      await Keychain.setInternetCredentials(
-        "https://usupport.online",
-        data.email,
-        data.password,
-        {
-          accessControl:
-            Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET_OR_DEVICE_PASSCODE,
-          authenticationPrompt: {
-            title: "Authenticate to save your credentials",
-            subtitle: "Save your credentials in keychain for quick login",
-            cancel: "Cancel",
-          },
-        }
-      )
-        .then((res) => console.log("Result: ", res))
-        .catch(console.log);
-
       setInitialRouteName("RegisterAboutYou");
       const { user: userData, token: tokenData } = response.data;
       const { token, expiresIn, refreshToken } = tokenData;
@@ -219,6 +223,13 @@ export function AuthRegisterEmailModal({ onGoBack, onGoToLogin }) {
         userSvc.transformUserData(userData)
       );
       setToken(token);
+
+      // Save credentials in secure storage best-effort.
+      // Cancelling biometric/auth prompt must NOT break registration.
+      await saveEmailCredentialsBestEffort({
+        email: data.email,
+        password: data.password,
+      });
     },
     onError: (error) => {
       const { message: errorMessage } = useError(error);

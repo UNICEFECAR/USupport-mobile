@@ -38,6 +38,40 @@ export function AuthRegisterAnonymousModal({ onGoBack, onGoToLogin }) {
   const { setToken, setInitialRouteName, setIsAnonymousRegister } =
     useContext(Context);
 
+  const saveAnonymousCredentialsBestEffort = async ({
+    generatedAccessToken,
+    password,
+  }) => {
+    try {
+      let iosSuccess = false;
+
+      if (Platform.OS === "ios") {
+        const res = await LocalAuthentication.authenticateAsync({
+          promptMessage: t("prompt_2_title"),
+        });
+        iosSuccess = Boolean(res?.success);
+      }
+
+      if (Platform.OS === "android" || iosSuccess) {
+        await Keychain.setInternetCredentials(
+          "https://usupport.online",
+          generatedAccessToken,
+          password,
+          {
+            accessControl:
+              Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET_OR_DEVICE_PASSCODE,
+            authenticationPrompt: {
+              title: t("prompt_2_title"),
+              cancel: t("cancel"),
+            },
+          }
+        );
+      }
+    } catch (e) {
+      // User cancellation / OS policy should not break registration.
+    }
+  };
+
   const schema = useMemo(() => {
     return Joi.object({
       password: Joi.string()
@@ -107,31 +141,7 @@ export function AuthRegisterAnonymousModal({ onGoBack, onGoToLogin }) {
 
   const registerMutation = useMutation(register, {
     onSuccess: async (response) => {
-      let iosSuccess = false;
       const generatedAccessToken = String(userAccessToken).trim();
-
-      if (Platform.OS === "ios") {
-        await LocalAuthentication.authenticateAsync({
-          promptMessage: t("prompt_2_title"),
-        }).then((res) => {
-          iosSuccess = res.success;
-        });
-      }
-      if (Platform.OS === "android" || iosSuccess) {
-        await Keychain.setInternetCredentials(
-          "https://usupport.online",
-          generatedAccessToken,
-          data.password,
-          {
-            accessControl:
-              Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET_OR_DEVICE_PASSCODE,
-            authenticationPrompt: {
-              title: t("prompt_2_title"),
-              cancel: t("cancel"),
-            },
-          }
-        ).then((res) => console.log("Result: ", res));
-      }
 
       setIsAnonymousRegister(true);
       setInitialRouteName("RegisterAboutYou");
@@ -144,7 +154,12 @@ export function AuthRegisterAnonymousModal({ onGoBack, onGoToLogin }) {
         localStorage.setItem("refresh-token", refreshToken),
       ]);
 
-      setTimeout(() => setToken(token), 1);
+      setToken(token);
+
+      await saveAnonymousCredentialsBestEffort({
+        generatedAccessToken,
+        password: data.password,
+      });
     },
     onError: (error) => {
       const { message: errorMessage } = useError(error);
