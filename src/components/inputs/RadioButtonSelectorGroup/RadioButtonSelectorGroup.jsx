@@ -58,7 +58,7 @@ export const RadioButtonSelectorGroup = ({
 };
 
 const styles = StyleSheet.create({
-  container: { width: "96%" },
+  container: { width: "100%" },
 
   text: {
     color: appStyles.colorBlue_3d527b,
