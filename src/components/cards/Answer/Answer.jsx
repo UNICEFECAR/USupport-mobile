@@ -74,7 +74,7 @@ export const Answer = ({
         date.getMonth() + 1 > 9
           ? date.getMonth() + 1
           : `0${date.getMonth() + 1}`
-      }`;
+      }.${date.getFullYear()}`;
     }
   };
 
@@ -138,7 +138,10 @@ export const Answer = ({
         )}
         {/* Match client-ui Answer card order */}
         <View style={styles.dateContainer}>
-          <Icon name="calendar" color={isHighContrast ? "#ffff00" : "#92989B"} />
+          <Icon
+            name="calendar"
+            color={isHighContrast ? "#ffff00" : "#92989B"}
+          />
           <AppText
             namedStyle="text"
             style={[
@@ -156,8 +159,8 @@ export const Answer = ({
               <Label
                 text={label}
                 key={index}
-                paletteIndex={index}
                 style={styles.labelChip}
+                paletteIndex={index}
               />
             ))}
           </View>
@@ -179,7 +182,6 @@ export const Answer = ({
 
             <View style={styles.readMoreRow}>
               <NewButton
-                type="text"
                 label={t("read_more")}
                 onPress={() => handleReadMore(question)}
                 style={styles.readMoreButton}
@@ -319,6 +321,8 @@ const styles = StyleSheet.create({
   labelChip: {
     marginRight: 8,
     marginBottom: 8,
+    borderRadius: 4,
+    paddingVertical: 2,
   },
   labelsContainer: {
     flexDirection: "row",
@@ -352,7 +356,6 @@ const styles = StyleSheet.create({
   },
   answeredDate: {
     marginLeft: 6,
-    color: appStyles.colorGray_92989b,
   },
   bottomRow: {
     marginTop: 12,
@@ -366,7 +369,6 @@ const styles = StyleSheet.create({
   },
   scheduleText: {
     marginLeft: 8,
-    color: "#8A4BF3",
     fontFamily: appStyles.fontBold,
   },
   colorHighContrast: { color: "#ffff00" },

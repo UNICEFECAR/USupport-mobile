@@ -13,11 +13,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { Screen, NewButton } from "#components";
-import {
-  MyQA as MyQABlock,
-  GiveSuggestion,
-  InformationPortalHero,
-} from "#blocks";
+import { MyQA as MyQABlock, InformationPortalHero } from "#blocks";
 import { HowItWorksMyQA } from "#modals";
 import {
   CreateQuestion,
