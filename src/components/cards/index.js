@@ -11,3 +11,4 @@ export * from "./MoodTrackDetails";
 export * from "./Answer";
 export * from "./OrganizationOverview/OrganizationOverview";
 export * from "./StatusBadge";
+export * from "./NotFoundCard";
