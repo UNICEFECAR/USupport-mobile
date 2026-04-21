@@ -20,6 +20,7 @@ import {
   Error,
   Input,
   InputPassword,
+  NewButton,
   TermsAgreement,
 } from "#components";
 import { validate, validateProperty } from "#utils";
@@ -257,14 +258,6 @@ export function AuthRegisterEmailModal({ onGoBack, onGoToLogin }) {
       <Backdrop
         {...getAuthBackdropProps()}
         topHeaderComponent={<AuthenticationModalsLogo onBackPress={onGoBack} />}
-        ctaLabel={t("register_button")}
-        ctaHandleClick={handleOtpRequest}
-        isCtaDisabled={!canContinue}
-        isCtaLoading={requestEmailOTPMutation.isLoading}
-        secondaryCtaLabel={t("login_button_label")}
-        secondaryCtaHandleClick={onGoToLogin}
-        secondaryCtaType="ghost"
-        errorMessage={errors.submit}
       >
         <View style={styles.content}>
           <Input
@@ -327,7 +320,29 @@ export function AuthRegisterEmailModal({ onGoBack, onGoToLogin }) {
             }
             textOne={t("age_terms_agreement_text", { age: minAge })}
           />
-          <Error style={styles.inlineError} message={errors.submit || ""} />
+          <View style={styles.actions}>
+            {errors.submit ? (
+              <Error style={styles.inlineError} message={errors.submit} />
+            ) : null}
+            <NewButton
+              size="lg"
+              label={t("register_button")}
+              onPress={handleOtpRequest}
+              disabled={!canContinue}
+              loading={requestEmailOTPMutation.isLoading}
+              isFullWidth
+              type="gradient"
+              style={styles.registerButton}
+            />
+          </View>
+          <NewButton
+            label={t("login_button_label")}
+            onPress={onGoToLogin}
+            isFullWidth
+            size="lg"
+            type="ghost"
+            style={styles.loginCta}
+          />
         </View>
       </Backdrop>
 
@@ -355,8 +370,17 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   inlineError: {
-    marginTop: 12,
+    marginBottom: 6,
     marginLeft: "auto",
     marginRight: "auto",
+  },
+  actions: {
+    marginTop: 12,
+  },
+  registerButton: {
+    marginTop: 8,
+  },
+  loginCta: {
+    marginTop: 16,
   },
 });
