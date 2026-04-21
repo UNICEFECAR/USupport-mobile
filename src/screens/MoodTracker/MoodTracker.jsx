@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useTranslation } from "react-i18next";
 
-import { Screen, NewButton, Heading } from "#components";
+import { Screen, NewButton, Heading, Block } from "#components";
 import { MoodTrackHistory } from "#blocks";
 import { HowItWorksMoodTrack } from "#modals";
 import { Context } from "#services";
@@ -66,7 +66,7 @@ export const MoodTracker = ({ navigation }) => {
   };
 
   const headingSection = (
-    <View style={styles.headingContainer}>
+    <Block style={styles.headingContainer}>
       <Heading
         heading={t("heading")}
         subheading={t("subheading")}
@@ -93,7 +93,7 @@ export const MoodTracker = ({ navigation }) => {
           />
         </View>
       )}
-    </View>
+    </Block>
   );
 
   return (
@@ -132,7 +132,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   headingContainer: {
-    alignItems: "flex-start",
     paddingTop: 38,
     paddingBottom: 16,
   },
