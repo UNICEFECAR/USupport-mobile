@@ -285,6 +285,7 @@ const styles = StyleSheet.create({
   body: {
     minHeight: 0,
     marginTop: 8,
+    paddingBottom: 8,
   },
   bodyContent: {
     paddingHorizontal: 16,
