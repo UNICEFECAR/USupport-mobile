@@ -38,6 +38,7 @@ export const Backdrop = ({
   onClose,
   disableOverlayClose = false,
   overlayVariant = "default",
+  layerIndex = 999,
   style,
   topHeaderComponent,
   topHeaderStyles,
@@ -77,6 +78,7 @@ export const Backdrop = ({
   setKeyboardHeight,
 }) => {
   const { colors } = useGetTheme();
+  const overlayLayerIndex = Math.max(0, layerIndex - 1);
   const hasButtons = ctaLabel || secondaryCtaLabel;
   const [isOverlayShown, setIsOverlayShown] = useState(false);
   const [buttonsContainerHeight, setButtonsContainerHeight] = useState(0);
@@ -176,10 +178,17 @@ export const Backdrop = ({
           tint="dark"
           style={[StyleSheet.absoluteFill, styles.authOverlay]}
         />
-        <View style={[styles.overlay, styles.authOverlay, overlayStyles]} />
+        <View
+          style={[
+            styles.overlay,
+            styles.authOverlay,
+            { zIndex: overlayLayerIndex },
+            overlayStyles,
+          ]}
+        />
       </>
     ) : (
-      <View style={[styles.overlay, overlayStyles]} />
+      <View style={[styles.overlay, { zIndex: overlayLayerIndex }, overlayStyles]} />
     );
 
   const Overlay = () =>
@@ -197,6 +206,7 @@ export const Backdrop = ({
         style={[
           styles.backdrop,
           { backgroundColor: colors.background },
+          { zIndex: layerIndex, elevation: layerIndex },
           Platform.OS === "android" && {
             paddingBottom: bottomInset + 6,
           },
@@ -372,7 +382,6 @@ const styles = StyleSheet.create({
     height: appStyles.screenHeight,
     backgroundColor: appStyles.overlay,
     position: "absolute",
-    zIndex: 5,
     left: 0,
     right: 0,
     bottom: 0,
@@ -386,8 +395,7 @@ const styles = StyleSheet.create({
     padding: 16,
     bottom: 0,
     height: appStyles.screenHeight * 0.8,
-    zIndex: 999, // Put higher zIndex in order to show the backdrop above the emergency button
-    elevation: 999,
+    // zIndex/elevation are set via `layerIndex` prop to allow specific backdrops to be above others.
     position: "absolute",
     width: "100%",
   },
@@ -485,6 +493,12 @@ Backdrop.propTypes = {
    * Controls overlay look. "auth" matches client-ui auth overlay.
    */
   overlayVariant: PropTypes.oneOf(["default", "auth"]),
+
+  /**
+   * Controls stacking order of both the dimmed overlay and the sheet.
+   * Higher value renders above other Backdrops.
+   */
+  layerIndex: PropTypes.number,
 
   /**
    * Optional component to render as a full-width header above the modal content.
