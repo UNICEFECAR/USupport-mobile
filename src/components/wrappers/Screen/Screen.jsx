@@ -12,7 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { ButtonOnlyIcon } from "../../buttons";
-import pageMobileHero from "../../../assets/page-mobile-hero.png";
+import pageMobileHero from "../../../assets/page-hero-new.png";
 import pageTabletHero from "../../../assets/page-tablet-hero.png";
 import { HeaderNavigation } from "../../headings";
 import { JoinConsultation } from "#backdrops";
