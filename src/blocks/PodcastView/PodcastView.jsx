@@ -91,6 +91,37 @@ export const PodcastView = ({ podcastData, t, isTmpUser }) => {
     }
     return appStyles.colorBlue_3d527b;
   }, [isDarkMode, isHighContrast]);
+  const labelPaletteIndices = useMemo(() => {
+    const count = podcastData.labels?.length ?? 0;
+    const paletteSize = 6; // keep in sync with `Label` palettes
+    if (count <= 0) return [];
+
+    const shuffle = (arr) => {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    };
+
+    const base = Array.from({ length: paletteSize }, (_, i) => i);
+    const out = [];
+    let last = null;
+
+    while (out.length < count) {
+      let chunk = shuffle(base);
+      if (last !== null && chunk[0] === last && chunk.length > 1) {
+        [chunk[0], chunk[1]] = [chunk[1], chunk[0]];
+      }
+      for (let i = 0; i < chunk.length && out.length < count; i += 1) {
+        out.push(chunk[i]);
+        last = chunk[i];
+      }
+    }
+
+    return out;
+  }, [podcastData.labels]);
 
   const addContentEngagementMutation = useAddContentEngagement();
   const removeContentEngagementMutation = useRemoveContentEngagement();
@@ -319,7 +350,14 @@ export const PodcastView = ({ podcastData, t, isTmpUser }) => {
         <View style={styles.labelsLikeRow}>
           <View style={styles.labelsWrap}>
             {podcastData.labels?.map((label, index) => (
-              <Label style={styles.label} text={label.name} key={index} />
+              <Label
+                style={styles.label}
+                textStyle={styles.labelText}
+                textProps={{ numberOfLines: 1, ellipsizeMode: "tail" }}
+                text={label.name}
+                paletteIndex={labelPaletteIndices[index] ?? index}
+                key={index}
+              />
             ))}
           </View>
           <View style={styles.likeWrap}>
@@ -445,7 +483,16 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     marginRight: 0,
     marginTop: 4,
-    paddingVertical: 0,
+    borderRadius: 4,
+    paddingHorizontal: 16,
+    minHeight: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  labelText: {
+    includeFontPadding: false,
+    textAlignVertical: "center",
+    lineHeight: 12,
   },
   likeWrap: {
     alignItems: "flex-end",

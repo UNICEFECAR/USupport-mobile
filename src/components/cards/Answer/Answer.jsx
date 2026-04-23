@@ -193,6 +193,8 @@ export const Answer = ({
                 key={index}
                 style={styles.labelChip}
                 paletteIndex={tagPaletteIndices[index] ?? index}
+                textStyle={styles.labelChipText}
+                textProps={{ numberOfLines: 1, ellipsizeMode: "tail" }}
               />
             ))}
           </View>
@@ -358,7 +360,15 @@ const styles = StyleSheet.create({
     marginRight: 8,
     marginBottom: 8,
     borderRadius: 4,
-    paddingVertical: 2,
+    paddingHorizontal: 16,
+    minHeight: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  labelChipText: {
+    includeFontPadding: false,
+    textAlignVertical: "center",
+    lineHeight: 12,
   },
   labelsContainer: {
     flexDirection: "row",

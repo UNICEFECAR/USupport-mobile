@@ -408,18 +408,15 @@ const styles = StyleSheet.create({
     marginRight: 8,
     marginBottom: 8,
     borderRadius: 4,
-    paddingVertical: 0,
     paddingHorizontal: 16,
-    maxHeight: 20,
     minHeight: 20,
     justifyContent: "center",
     alignItems: "center",
   },
   labelChipText: {
-    // Match web CardMedia label chips (tight vertical rhythm)
     includeFontPadding: false,
     textAlignVertical: "center",
-    lineHeight: 20,
+    lineHeight: 12,
   },
   descriptionContainer: {
     marginTop: 8,
