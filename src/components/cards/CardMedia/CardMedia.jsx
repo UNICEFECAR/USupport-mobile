@@ -7,6 +7,7 @@ import {
   UIManager,
   Platform,
 } from "react-native";
+import { useMemo } from "react";
 import Config from "react-native-config";
 
 import { AppText } from "../../texts/AppText/AppText";
@@ -51,10 +52,40 @@ export const CardMedia = ({
 }) => {
   const { colors, isHighContrast } = useGetTheme();
   const isLightTheme = colors.background === appStyles.colorWhite_ff;
+
+  const labelPaletteIndices = useMemo(() => {
+    const count = labels?.length ?? 0;
+    const paletteSize = 6; // keep in sync with `Label` palettes
+    if (count <= 0) return [];
+
+    const shuffle = (arr) => {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    };
+
+    const base = Array.from({ length: paletteSize }, (_, i) => i);
+    const out = [];
+    let last = null;
+
+    while (out.length < count) {
+      let chunk = shuffle(base);
+      if (last !== null && chunk[0] === last && chunk.length > 1) {
+        [chunk[0], chunk[1]] = [chunk[1], chunk[0]];
+      }
+      for (let i = 0; i < chunk.length && out.length < count; i += 1) {
+        out.push(chunk[i]);
+        last = chunk[i];
+      }
+    }
+
+    return out;
+  }, [labels]);
   const canRenderExpoBlur = (() => {
     try {
-      // expo-blur requires a native view manager registered as `ExpoBlurView`.
-      // If the dev client hasn't been rebuilt with expo-blur, this will be missing.
       return !!UIManager.getViewManagerConfig?.("ExpoBlurView");
     } catch (e) {
       return false;
@@ -145,13 +176,7 @@ export const CardMedia = ({
               gradient={{
                 degrees: 145,
                 locations: [0, 1],
-                // Without real `backdrop-filter` blur we lower the alpha
-                // so the content behind the card still reads through.
-                colors: [
-                  // Match web `glass_panel_background` (client-ui CardMedia)
-                  "rgba(30, 46, 86, 0.82)",
-                  "rgba(19, 32, 65, 0.78)",
-                ],
+                colors: ["rgba(30, 46, 86, 0.82)", "rgba(19, 32, 65, 0.78)"],
               }}
               style={styles.gradientSurface}
             />
@@ -203,7 +228,7 @@ export const CardMedia = ({
                 <Label
                   key={label.id ?? index}
                   text={label.name}
-                  paletteIndex={index}
+                  paletteIndex={labelPaletteIndices[index] ?? index}
                   style={styles.labelChip}
                   textStyle={styles.labelChipText}
                   textProps={{ numberOfLines: 1, ellipsizeMode: "tail" }}
@@ -362,7 +387,6 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     borderRadius: 10,
     borderWidth: 1,
-    // Match client-ui `.card-media__category`
     backgroundColor: "rgba(209, 231, 250, 0.95)",
     borderColor: "rgba(60, 109, 159, 0.45)",
     justifyContent: "center",
@@ -389,6 +413,7 @@ const styles = StyleSheet.create({
     maxHeight: 20,
     minHeight: 20,
     justifyContent: "center",
+    alignItems: "center",
   },
   labelChipText: {
     // Match web CardMedia label chips (tight vertical rhythm)
@@ -428,10 +453,8 @@ const styles = StyleSheet.create({
     textDecorationLine: "underline",
   },
   categoryText: {
-    // Better vertical centering across iOS + Android (custom fonts can sit low)
     includeFontPadding: false,
     textAlignVertical: "center",
-    // Match client-ui `.card-media__category__text`
     color: "#234567",
     fontSize: 14,
     lineHeight: 14,
