@@ -95,8 +95,15 @@ export const Backdrop = ({
   });
 
   const onShowKeyboard = (height) => {
-    if (Platform.OS === "ios") {
-      backdropBottom.value = withSpring(-height + 24, appStyles.springConfig);
+    const shouldMoveSheet =
+      Platform.OS === "ios" ||
+      (overlayVariant === "auth" && hasKeyboardListener);
+    if (shouldMoveSheet) {
+      const clampedHeight = Math.min(height || 0, appStyles.screenHeight * 0.8);
+      backdropBottom.value = withSpring(
+        -clampedHeight + 24,
+        appStyles.springConfig
+      );
     }
     if (isInVideoTherapy) {
       handleShowKeyboard();
@@ -104,7 +111,10 @@ export const Backdrop = ({
     }
   };
   const onHideKeyboard = () => {
-    if (Platform.OS === "ios" && !isClosing.current) {
+    const shouldMoveSheet =
+      Platform.OS === "ios" ||
+      (overlayVariant === "auth" && hasKeyboardListener);
+    if (shouldMoveSheet && !isClosing.current) {
       backdropBottom.value = withSpring(0, appStyles.springConfig);
     }
     if (isInVideoTherapy) {
@@ -119,7 +129,7 @@ export const Backdrop = ({
   );
 
   useEffect(() => {
-    if (keyboardHeight) {
+    if (keyboardHeight && typeof setKeyboardHeight === "function") {
       setKeyboardHeight(keyboardHeight);
     }
   }, [keyboardHeight]);
@@ -188,7 +198,9 @@ export const Backdrop = ({
         />
       </>
     ) : (
-      <View style={[styles.overlay, { zIndex: overlayLayerIndex }, overlayStyles]} />
+      <View
+        style={[styles.overlay, { zIndex: overlayLayerIndex }, overlayStyles]}
+      />
     );
 
   const Overlay = () =>
@@ -276,7 +288,9 @@ export const Backdrop = ({
                         <Icon
                           name="close-x"
                           size="md"
-                          color={colors.primary || appStyles.colorPrimary_20809e}
+                          color={
+                            colors.primary || appStyles.colorPrimary_20809e
+                          }
                         />
                       </TouchableOpacity>
                     ) : (

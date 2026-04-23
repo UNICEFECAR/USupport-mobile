@@ -262,7 +262,7 @@ export function AuthWelcomeModal({
           />
           <NewButton
             label={t("register_anonymously")}
-            type="outline"
+            type="welcome-outline"
             size="lg"
             isFullWidth
             disabled={!canProceed}

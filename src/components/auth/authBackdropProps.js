@@ -14,6 +14,7 @@ export function getAuthBackdropProps() {
     onClose: () => {},
     disableOverlayClose: true,
     overlayVariant: "auth",
+    hasKeyboardListener: true,
     hasHeader: false,
     hasCloseIcon: false,
     topHeaderComponent: <AuthenticationModalsLogo />,
