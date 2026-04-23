@@ -9,6 +9,7 @@ import {
 import { FlashList } from "@shopify/flash-list";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
+import { BlurView } from "expo-blur";
 
 import { AppText, Icon, Loading, Line, Tabs } from "#components";
 
@@ -59,7 +60,14 @@ export function NotificationsDropdownPanel({
     >
       <View style={styles.modalRoot}>
         <TouchableWithoutFeedback onPress={onClose}>
-          <View style={styles.backdrop} />
+          <View style={StyleSheet.absoluteFill}>
+            <BlurView
+              intensity={18}
+              tint="dark"
+              style={StyleSheet.absoluteFill}
+            />
+            <View style={styles.backdrop} />
+          </View>
         </TouchableWithoutFeedback>
         <View
           style={[
@@ -173,7 +181,7 @@ const styles = StyleSheet.create({
   },
   backdrop: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0,0,0,0.4)",
+    backgroundColor: "rgba(0,0,0,0.55)",
   },
   panel: {
     position: "absolute",
