@@ -1486,19 +1486,6 @@ const EmoticonHistorySm = ({}) => {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <Path
-        d="M20 14H16V18"
-        stroke="#1E3C4A"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <Path
-        d="M16 18C17.5 15.5 20.5 14 24 14C29 14 33 18 33 23"
-        stroke="#1E3C4A"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
     </Svg>
   );
 };
@@ -1526,19 +1513,6 @@ const EmoticonHistoryLg = ({}) => {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <Path
-        d="M26 19H20V25"
-        stroke="#1E3C4A"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <Path
-        d="M20 25C22 21 26 19 32 19C39 19 44 24 44 31"
-        stroke="#1E3C4A"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-      />
     </Svg>
   );
 };
@@ -1547,13 +1521,7 @@ const EmoticonInsightSm = ({}) => {
   return (
     <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
       <Defs>
-        <LinearGradient
-          id="moodInsightGradSm"
-          x1="0"
-          y1="0"
-          x2="48"
-          y2="48"
-        >
+        <LinearGradient id="moodInsightGradSm" x1="0" y1="0" x2="48" y2="48">
           <Stop offset="0%" stopColor="#2F80ED" />
           <Stop offset="100%" stopColor="#56CCF2" />
         </LinearGradient>
