@@ -65,7 +65,9 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
       locations: [0, 100],
       colors:
         isLightTheme && !isHighContrast
-          ? ["rgba(255, 255, 255, 0.99)", "rgba(245, 248, 255, 0.85)"]
+          ? Platform.OS === "android"
+            ? ["#ffffff", "#f5f8ff"]
+            : ["rgba(255, 255, 255, 0.99)", "rgba(245, 248, 255, 0.85)"]
           : colors.cardMediaGradient,
     }),
     [isLightTheme, isHighContrast, colors.cardMediaGradient]
@@ -79,9 +81,10 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
     ? appStyles.colorHighContrast_ffff00
     : colors.text;
 
-  const actionIconColor = isLightTheme && !isHighContrast
-    ? appStyles.colorGray_66768d
-    : appStyles.colorWhite_ff;
+  const actionIconColor =
+    isLightTheme && !isHighContrast
+      ? appStyles.colorGray_66768d
+      : appStyles.colorWhite_ff;
 
   const categoryBadgeStyle = useMemo(() => {
     if (isDarkMode && !isHighContrast) {
@@ -396,6 +399,37 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
   );
 
   const creator = articleData.creator;
+  const labelPaletteIndices = useMemo(() => {
+    const count = articleData.labels?.length ?? 0;
+    const paletteSize = 6; // keep in sync with `Label` palettes
+    if (count <= 0) return [];
+
+    const shuffle = (arr) => {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    };
+
+    const base = Array.from({ length: paletteSize }, (_, i) => i);
+    const out = [];
+    let last = null;
+
+    while (out.length < count) {
+      let chunk = shuffle(base);
+      if (last !== null && chunk[0] === last && chunk.length > 1) {
+        [chunk[0], chunk[1]] = [chunk[1], chunk[0]];
+      }
+      for (let i = 0; i < chunk.length && out.length < count; i += 1) {
+        out.push(chunk[i]);
+        last = chunk[i];
+      }
+    }
+
+    return out;
+  }, [articleData.labels]);
 
   return (
     <View style={styles.screen}>
@@ -410,7 +444,10 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
               <View style={[styles.categoryBadge, categoryBadgeStyle]}>
                 <AppText
                   namedStyle="smallText"
-                  style={[styles.categoryBadgeText, { color: categoryTextColor }]}
+                  style={[
+                    styles.categoryBadgeText,
+                    { color: categoryTextColor },
+                  ]}
                 >
                   {articleData.categoryName}
                 </AppText>
@@ -425,7 +462,11 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
                 {t("by", { creator })}
               </AppText>
             ) : null}
-            {creator ? <View style={[styles.metaDot, { backgroundColor: metaAccentColor }]} /> : null}
+            {creator ? (
+              <View
+                style={[styles.metaDot, { backgroundColor: metaAccentColor }]}
+              />
+            ) : null}
             <Icon name="time" size="sm" color={timeIconColor} />
             <AppText namedStyle="smallText" style={{ color: metaAccentColor }}>
               {articleData.readingTime} {t("min_read")}
@@ -435,7 +476,14 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
           {articleData.labels?.length > 0 ? (
             <View style={styles.labelsRow}>
               {articleData.labels.map((label, index) => (
-                <Label style={styles.label} text={label.name} key={index} />
+                <Label
+                  key={label.id ?? index}
+                  text={label.name}
+                  paletteIndex={labelPaletteIndices[index] ?? index}
+                  style={styles.labelChip}
+                  textStyle={styles.labelChipText}
+                  textProps={{ numberOfLines: 1, ellipsizeMode: "tail" }}
+                />
               ))}
             </View>
           ) : null}
@@ -571,11 +619,23 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     gap: 8,
     marginBottom: 16,
+    alignItems: "center",
   },
-  label: {
+  labelChip: {
     marginBottom: 0,
     marginRight: 0,
+    borderRadius: 4,
     paddingVertical: 0,
+    paddingHorizontal: 16,
+    maxHeight: 20,
+    minHeight: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  labelChipText: {
+    includeFontPadding: false,
+    textAlignVertical: "center",
+    lineHeight: 20,
   },
   separator: {
     height: 1,

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Linking,
   KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { useTranslation } from "react-i18next";
 import Share from "react-native-share";
@@ -267,7 +268,9 @@ export const Organizations = ({
       locations: [0, 100],
       colors:
         isLightTheme && !isHighContrast
-          ? ["rgba(255, 255, 255, 0.99)", "rgba(245, 248, 255, 0.85)"]
+          ? Platform.OS === "android"
+            ? ["#ffffff", "#f5f8ff"]
+            : ["rgba(255, 255, 255, 0.99)", "rgba(245, 248, 255, 0.85)"]
           : colors.cardMediaGradient,
     }),
     [isLightTheme, isHighContrast, colors.cardMediaGradient]

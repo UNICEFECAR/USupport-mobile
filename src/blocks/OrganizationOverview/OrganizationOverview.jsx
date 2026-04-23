@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useCallback, useMemo } from "react";
-import { View, StyleSheet, Linking, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Linking, TouchableOpacity, Platform } from "react-native";
 import * as Clipboard from "expo-clipboard";
 
 import { Block, Loading, AppText, Icon } from "#components";
@@ -48,7 +48,9 @@ const OrganizationDetails = ({ organization, t }) => {
       locations: [0, 100],
       colors:
         isLightTheme && !isHighContrast
-          ? ["rgba(255, 255, 255, 0.99)", "rgba(245, 248, 255, 0.85)"]
+          ? Platform.OS === "android"
+            ? ["#ffffff", "#f5f8ff"]
+            : ["rgba(255, 255, 255, 0.99)", "rgba(245, 248, 255, 0.85)"]
           : colors.cardMediaGradient,
     }),
     [isLightTheme, isHighContrast, colors.cardMediaGradient]

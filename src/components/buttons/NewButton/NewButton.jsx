@@ -34,6 +34,13 @@ export const NewButton = ({
 
   const handlePress = disabled || loading ? () => {} : onClick || onPress;
 
+  // Client-ui Welcome overrides outline to a solid blue for "Register anonymously"
+  const welcomeBlue = {
+    normal: "#6a90e9",
+    hover: "#5d83dc",
+    active: "#4f76cf",
+  };
+
   // Gradient definitions for gradient button type
   const gradientNormal = {
     degrees: 135.77,
@@ -64,6 +71,8 @@ export const NewButton = ({
     }
 
     switch (type) {
+      case "welcome-outline":
+        return "#ffffff";
       case "outline":
         // Web new-button.scss: theme text main; active #4b6b84 (light) / #e7f1f7 (dark)
         if (isHighContrast) {
@@ -110,6 +119,8 @@ export const NewButton = ({
           return isDarkMode ? "#6c70c7" : "#4a2fd7";
         }
         return isDarkMode ? "#8c90eb" : "#6a4ffb";
+      case "welcome-outline":
+        return pressed ? welcomeBlue.active : welcomeBlue.normal;
       case "outline":
         // Web: active rgba(104,77,253,0.08) light; dark active rgba(193,215,224,0.12)
         if (pressed) {
@@ -131,10 +142,13 @@ export const NewButton = ({
 
   const getBorderColor = (pressed = false) => {
     if (disabled || loading) {
+      if (type === "welcome-outline") return welcomeBlue.normal;
       return isDarkMode ? "#c1d7e0" : "#cdd8e1";
     }
 
     switch (type) {
+      case "welcome-outline":
+        return pressed ? welcomeBlue.active : welcomeBlue.normal;
       case "outline":
         // Web: hover/active use #684dfd; dark uses #c1d7e0
         if (isDarkMode) {
@@ -273,7 +287,7 @@ export const NewButton = ({
         type !== "gradient" && {
           backgroundColor: getBackgroundColor(pressed),
           borderColor: getBorderColor(pressed),
-          borderWidth: type === "outline" ? 1 : 0,
+          borderWidth: type === "outline" || type === "welcome-outline" ? 1 : 0,
         },
         (type === "ghost" || type === "ghost-purple") && styles.buttonGhost,
         (disabled || loading) && styles.buttonDisabled,
@@ -424,6 +438,7 @@ NewButton.propTypes = {
     "gradient",
     "solid",
     "outline",
+    "welcome-outline",
     "white",
     "ghost",
     "ghost-purple",

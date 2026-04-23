@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { Platform, StyleSheet, View } from "react-native";
 
 import { AppText, Consultation, NewButton } from "#components";
 import { ONE_HOUR, showToast } from "#utils";
@@ -60,6 +60,7 @@ export const Consultations = ({
 }) => {
   const { t, i18n } = useTranslation("blocks", { keyPrefix: "consultations" });
   const { colors, isDarkMode } = useGetTheme();
+  const isAndroid = Platform.OS === "android";
   const hasAutoTriggeredRef = useRef(false);
 
   const daysOfWeekTranslations = {
@@ -270,10 +271,14 @@ export const Consultations = ({
           {
             backgroundColor: isDarkMode
               ? colors.card
-              : "rgba(255,255,255,0.78)",
+              : isAndroid
+                ? colors.card
+                : "rgba(255,255,255,0.78)",
             borderColor: isDarkMode
               ? colors.border || "rgba(255,255,255,0.12)"
-              : "rgba(224, 233, 255, 0.70)",
+              : isAndroid
+                ? appStyles.colorGray_cdd8e1
+                : "rgba(224, 233, 255, 0.70)",
           },
         ]}
       >

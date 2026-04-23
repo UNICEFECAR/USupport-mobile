@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { View, StyleSheet } from "react-native";
+import { Platform, View, StyleSheet } from "react-native";
 
 import { AppText, NewButton, Loading, Consultation } from "#components";
 import LinearGradient from "../../components/LinearGradient";
@@ -126,7 +126,9 @@ export const ConsultationsDashboard = ({
       locations: [0, 100],
       colors:
         isLightTheme && !isHighContrast
-          ? ["rgba(255, 255, 255, 0.99)", "rgba(245, 248, 255, 0.85)"]
+          ? Platform.OS === "android"
+            ? ["#ffffff", "#f5f8ff"]
+            : ["rgba(255, 255, 255, 0.99)", "rgba(245, 248, 255, 0.85)"]
           : colors.cardMediaGradient,
     }),
     [isLightTheme, isHighContrast, colors.cardMediaGradient]

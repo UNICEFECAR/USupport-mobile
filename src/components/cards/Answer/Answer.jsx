@@ -47,6 +47,38 @@ export const Answer = ({
 
   const imageUrl = AMAZON_S3_BUCKET + "/" + (providerInfo.image || "default");
 
+  const tagPaletteIndices = React.useMemo(() => {
+    const count = question?.tags?.length ?? 0;
+    const paletteSize = 6; // keep in sync with `Label` palettes
+    if (count <= 0) return [];
+
+    const shuffle = (arr) => {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    };
+
+    const base = Array.from({ length: paletteSize }, (_, i) => i);
+    const out = [];
+    let last = null;
+
+    while (out.length < count) {
+      let chunk = shuffle(base);
+      if (last !== null && chunk[0] === last && chunk.length > 1) {
+        [chunk[0], chunk[1]] = [chunk[1], chunk[0]];
+      }
+      for (let i = 0; i < chunk.length && out.length < count; i += 1) {
+        out.push(chunk[i]);
+        last = chunk[i];
+      }
+    }
+
+    return out;
+  }, [question?.tags]);
+
   const canRenderExpoBlur = (() => {
     try {
       // expo-blur requires a native view manager registered as `ExpoBlurView`.
@@ -160,7 +192,7 @@ export const Answer = ({
                 text={label}
                 key={index}
                 style={styles.labelChip}
-                paletteIndex={index}
+                paletteIndex={tagPaletteIndices[index] ?? index}
               />
             ))}
           </View>

@@ -18,6 +18,7 @@ export const Label = ({
   style,
   textStyle,
   paletteIndex,
+  paletteKey,
   textProps,
 }) => {
   const { isHighContrast } = useGetTheme();
@@ -30,13 +31,30 @@ export const Label = ({
     { bg: "#ffdce5", border: "#eda3b5", text: "#8f3a54" },
   ];
 
+  const hashStringToInt = (value) => {
+    if (value === null || value === undefined) return 0;
+    const str = String(value);
+    let hash = 0;
+    for (let i = 0; i < str.length; i += 1) {
+      hash = (hash << 5) - hash + str.charCodeAt(i);
+      hash |= 0; // keep 32-bit int
+    }
+    return hash;
+  };
+
   // Only apply colorful palette when paletteIndex is explicitly provided.
   // This keeps existing monochrome labels unchanged elsewhere in the app.
   const usePalette =
-    typeof paletteIndex === "number" && !Number.isNaN(paletteIndex);
+    (typeof paletteIndex === "number" && !Number.isNaN(paletteIndex)) ||
+    paletteKey !== undefined;
+
+  const rawPaletteIndex =
+    typeof paletteIndex === "number" && !Number.isNaN(paletteIndex)
+      ? paletteIndex
+      : hashStringToInt(paletteKey);
 
   const effectiveIndex = usePalette
-    ? Math.abs(Math.floor(paletteIndex)) % PALETTES.length
+    ? Math.abs(Math.floor(rawPaletteIndex)) % PALETTES.length
     : null;
   const palette = effectiveIndex !== null ? PALETTES[effectiveIndex] : null;
 

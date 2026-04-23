@@ -39,7 +39,9 @@ export const Tabs = ({
 
   const tabBackgrounds = useMemo(() => {
     const unselected =
-      colors.cardMediaGradient?.[0] ?? "rgba(225, 233, 252, 1)";
+      Platform.OS === "android" && isLightTheme
+        ? "#e1e9fc"
+        : (colors.cardMediaGradient?.[0] ?? "rgba(225, 233, 252, 1)");
     const selected =
       Platform.OS === "android" && isLightTheme && !isHighContrast
         ? "#edf5ff"
@@ -207,7 +209,9 @@ export const Tabs = ({
 
   const showArrows = contentWidth > containerWidth + 1;
   const arrowBg = isLightTheme
-    ? "rgba(255, 255, 255, 0.82)"
+    ? Platform.OS === "android"
+      ? appStyles.colorWhite_ff
+      : "rgba(255, 255, 255, 0.82)"
     : "rgba(20, 25, 31, 0.75)";
   const arrowBorder = isLightTheme
     ? "rgba(0, 0, 0, 0.12)"
