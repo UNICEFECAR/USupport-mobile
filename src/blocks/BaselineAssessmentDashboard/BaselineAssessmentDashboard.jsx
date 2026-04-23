@@ -1,6 +1,12 @@
 import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { View, StyleSheet, TouchableOpacity, Platform } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Platform,
+  Pressable,
+} from "react-native";
 
 import {
   AppText,
@@ -25,6 +31,7 @@ export const BaselineAssessmentDashboard = ({
   openBaselineAssesmentModal,
   navigation,
   isTmpUser,
+  openEmergencySituation,
 }) => {
   const [isHowItWorksBAOpen, setIsHowItWorksBAOpen] = useState(false);
 
@@ -79,6 +86,72 @@ export const BaselineAssessmentDashboard = ({
     }),
     []
   );
+
+  const userGuideButtons = useMemo(
+    () => [
+      {
+        name: "emergency_services",
+        icon: "phone-emergency",
+        onPress: () => navigation.navigate("SOSCenter"),
+      },
+      {
+        name: "map",
+        icon: "location",
+        onPress: () => {
+          if (openEmergencySituation) openEmergencySituation();
+        },
+        isDisabled: !openEmergencySituation,
+      },
+      {
+        name: "rights",
+        icon: "read-book",
+        onPress: () =>
+          navigation.navigate("ChildrenRights", { start: "rights-intro" }),
+      },
+    ],
+    [navigation, openEmergencySituation]
+  );
+
+  const renderUserGuideButtons = () => {
+    return (
+      <View style={styles.userGuideButtons}>
+        {userGuideButtons.map((button) => (
+          <Pressable
+            key={button.name}
+            onPress={button.onPress}
+            disabled={button.isDisabled}
+            style={({ pressed }) => [
+              styles.userGuideCard,
+              { backgroundColor: appStyles.colorWhite_ff },
+              pressed && !button.isDisabled && styles.userGuideCardPressed,
+              button.isDisabled && styles.userGuideCardDisabled,
+            ]}
+            accessibilityRole="button"
+            accessibilityLabel={t(button.name)}
+          >
+            <LinearGradient
+              gradient={styles.userGuideIconGradient}
+              style={styles.userGuideCardIcon}
+            >
+              <Icon name={button.icon} size="md" color="#fff" />
+            </LinearGradient>
+
+            <View style={styles.userGuideCardText}>
+              <AppText
+                namedStyle="text"
+                style={[
+                  styles.userGuideCardDescription,
+                  { color: colors.textTertiary },
+                ]}
+              >
+                {t(button.name)}
+              </AppText>
+            </View>
+          </Pressable>
+        ))}
+      </View>
+    );
+  };
 
   const renderAssessmentContent = () => {
     if (isFetching) {
@@ -228,7 +301,7 @@ export const BaselineAssessmentDashboard = ({
                 </View>
                 <AppText
                   namedStyle="smallText"
-                  style={[styles.exploreDescription, ,]}
+                  style={styles.exploreDescription}
                 >
                   {t("explore_card_description")}
                 </AppText>
@@ -270,6 +343,25 @@ export const BaselineAssessmentDashboard = ({
             </View>
             {renderAssessmentContent()}
           </View>
+        </LinearGradient>
+
+        <LinearGradient
+          gradient={glassGradient}
+          style={[
+            styles.userGuideWrapper,
+            isLightTheme && !isHighContrast
+              ? styles.liquidGlassShadowLight
+              : appStyles.cardMediaShadowDark,
+            { borderColor: colors.cardMediaGradientBorder },
+          ]}
+        >
+          <AppText
+            namedStyle="h3"
+            style={[styles.userGuideHeading, { color: colors.text }]}
+          >
+            {t("user_guide_heading")}
+          </AppText>
+          {renderUserGuideButtons()}
         </LinearGradient>
       </View>
     </React.Fragment>
@@ -346,6 +438,51 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     textAlign: "center",
   },
+  userGuideButtons: {
+    width: "100%",
+    alignItems: "center",
+    flexDirection: "column",
+  },
+  userGuideCard: {
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "#e0e4fb",
+    width: "100%",
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    marginBottom: 12,
+
+    shadowColor: "#262054",
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 6,
+  },
+  userGuideCardPressed: {
+    borderWidth: 1,
+    borderColor: appStyles.colorPrimaryPressed_0c5f7a,
+  },
+  userGuideCardDisabled: {
+    opacity: 0.55,
+  },
+  userGuideCardIcon: {
+    width: 48,
+    height: 48,
+    borderRadius: 16,
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
+  },
+  userGuideIconGradient: {
+    degrees: 135.77,
+    locations: [0, 20, 70, 100],
+    colors: ["#a597d9", "#9f90dc", "#775ff3", "#684dfd"],
+  },
+  userGuideCardText: { flex: 1 },
+  userGuideCardDescription: { lineHeight: 20 },
   assessmentHeader: {
     alignItems: "center",
     flexDirection: "row",
@@ -414,5 +551,18 @@ const styles = StyleSheet.create({
     gap: 12,
     marginTop: 4,
     width: "100%",
+  },
+  userGuideWrapper: {
+    borderRadius: 16,
+    borderWidth: 1,
+    marginTop: 16,
+    overflow: "hidden",
+    padding: 16,
+  },
+  userGuideHeading: {
+    fontFamily: appStyles.fontLight,
+    letterSpacing: 0.16,
+    marginBottom: 12,
+    textAlign: "left",
   },
 });

@@ -434,6 +434,7 @@ export const Dashboard = ({ navigation }) => {
               navigation={navigation}
               openBaselineAssesmentModal={openBaselineAssesmentModal}
               isTmpUser={isTmpUser}
+              openEmergencySituation={openEmergencySituation}
             />
           )}
           <ArticlesDashboard

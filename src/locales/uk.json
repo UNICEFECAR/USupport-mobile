@@ -984,6 +984,13 @@
       "explore_heading": "Find Support Near You",
       "explore_card_description": "After completing the baseline assessment, we will help you find the most relevant support near you.",
       "explore_button_label": "Дослідити карту",
+      "user_guide_heading": "Хочеш дізнатися більше про:",
+      "emergency_services": "Екстрені служби",
+      "emergency_services_description": "Екстрені служби",
+      "map": "Карта послуг з психічного здоров’я та психо-емоційної підтримки, доступних у Бухаресті",
+      "map_description": "Карта служб підтримки (Бухарест)",
+      "rights": "Права дітей та підлітків на доступ до послуг з психічного здоров’я та психо-емоційної підтримки",
+      "rights_description": "Права дітей і підлітків",
       "start_new_assessment": "Почати оцінювання",
       "completed": "Завершено",
       "in_progress": "В процесі",
@@ -1590,8 +1597,8 @@
     "user-guide": {
       "heading": "Хочеш дізнатися більше про:",
       "emergency_services": "Екстрені служби",
-      "map": "Карта послуг з психічного здоров’я та психо-емоційної підтримки, доступних у Бухаресті",
-      "rights": "Права дітей та підлітків на доступ до послуг з психічного здоров’я та психо-емоційної підтримки"
+      "map": "Карта служб підтримки (Бухарест)",
+      "rights": "Права дітей і підлітків"
     },
     "emergency-situation": {
       "heading": "Карта послуг з психічного здоров’я та психосоціальної підтримки для дітей і підлітків у Бухаресті",

@@ -971,6 +971,13 @@
       "explore_heading": "Find Support Near You",
       "explore_card_description": "After completing the baseline assessment, we will help you find the most relevant support near you.",
       "explore_button_label": "Explore Organizations",
+      "user_guide_heading": "Do you want to know more about:",
+      "emergency_services": "Emergency services",
+      "emergency_services_description": "Emergency services",
+      "map": "Support services map (Bucharest)",
+      "map_description": "Support services map (Bucharest)",
+      "rights": "Children & adolescents rights",
+      "rights_description": "Children & adolescents rights",
       "start_new_assessment": "Start Assessment",
       "completed": "Completed",
       "in_progress": "In Progress",
@@ -1598,8 +1605,8 @@
     "user-guide": {
       "heading": "Do you want to know more about:",
       "emergency_services": "Emergency services",
-      "map": "Map of mental health and psycho-emotional support services available in Bucharest",
-      "rights": "The rights of children and adolescents to access mental health and psycho-emotional support services"
+      "map": "Support services map (Bucharest)",
+      "rights": "Children & adolescents rights"
     },
     "emergency-situation": {
       "heading": "Map of Mental Health and Psychosocial Support Services for Children and Adolescents in Bucharest",

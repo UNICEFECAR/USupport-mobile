@@ -5,7 +5,7 @@ import {
   Platform,
   View,
   StatusBar,
-  Image,
+  ImageBackground,
   useWindowDimensions,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -143,7 +143,7 @@ export function Screen({
       </View>
 
       {showBackgroundImage && (
-        <Image
+        <ImageBackground
           source={backgroundImageSource}
           style={styles.backgroundImage}
           resizeMode="cover"
@@ -211,13 +211,13 @@ export function Screen({
 
 const styles = StyleSheet.create({
   screen: {
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     flex: 1,
     position: "relative",
   },
   screenBackground: { backgroundColor: appStyles.colorWhite_ff },
   screenChildren: {
     flex: 1,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   radialGradient: {
     position: "absolute",
@@ -235,11 +235,11 @@ const styles = StyleSheet.create({
     elevation: 998,
   },
   backgroundImage: {
-    width: "100%",
-    height: "100%",
     position: "absolute",
     top: 0,
     left: 0,
+    right: 0,
+    bottom: 0,
     zIndex: -1,
   },
 });
