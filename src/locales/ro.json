@@ -285,7 +285,9 @@
       "by": "de {{creator}}",
       "min_read": "min de citit",
       "view_more": "Vezi mai mult",
-      "no_recommendations": "Nu s-au găsit recomandări"
+      "no_recommendations": "Nu s-au găsit recomandări",
+      "previous": "Anterior",
+      "next": "Următor"
     },
     "notification-preferences": {
       "email": "Notificări prin e-mail",

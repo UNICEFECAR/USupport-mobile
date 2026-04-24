@@ -285,7 +285,9 @@
       "by": "{{creator}} авторынан",
       "min_read": "мин оқу",
       "view_more": "Көбірек көру",
-      "no_recommendations": "Ұсыныстар табылмады"
+      "no_recommendations": "Ұсыныстар табылмады",
+      "previous": "Алдыңғы",
+      "next": "Келесі"
     },
     "notification-preferences": {
       "email": "Электрондық пошта арқылы хабарландырулар",

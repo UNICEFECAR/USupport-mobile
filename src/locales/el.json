@@ -285,7 +285,9 @@
       "by": "από {{creator}}",
       "min_read": "λεπτά ανάγνωσης",
       "view_more": "Δείτε περισσότερα",
-      "no_recommendations": "Δεν βρέθηκαν συστάσεις"
+      "no_recommendations": "Δεν βρέθηκαν συστάσεις",
+      "previous": "Προηγούμενο",
+      "next": "Επόμενο"
     },
     "notification-preferences": {
       "email": "Ειδοποιήσεις μέσω email",

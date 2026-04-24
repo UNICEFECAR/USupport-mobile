@@ -17,6 +17,9 @@ import {
   CardMedia,
   TransparentModal,
   NotFoundCard,
+  CHART_PADDING_TOP,
+  CHART_GRIDLINE_SPACING,
+  CHART_BOTTOM_GRIDLINE_Y,
 } from "#components";
 import {
   useGetMoodTrackEntries,
@@ -25,13 +28,8 @@ import {
 } from "#hooks";
 import { Context } from "#services";
 
-/**
- * MoodTrackerHistory
- *
- * MoodTrackerHistory block
- *
- * @return {JSX.Element}
- */
+const EMOTICON_ITEM_HEIGHT = 40;
+
 export const MoodTrackHistory = ({ navigation, header, onHowItWorksPress }) => {
   const { width: windowWidth } = useWindowDimensions();
   const { t, i18n } = useTranslation("blocks", {
@@ -39,54 +37,58 @@ export const MoodTrackHistory = ({ navigation, header, onHowItWorksPress }) => {
   });
   const language = i18n.language;
   const { country } = useContext(Context);
-  const IS_RO = country === "RO";
+  const isRomania = country === "RO";
 
   const chartWidth = useMemo(() => {
     const blockHorizontalPadding = 32;
-    const emoticonRail = 56;
+    const emoticonRailWidth = 36;
+    const emoticonRailGap = 8;
     return Math.max(
       160,
-      Math.floor(windowWidth - blockHorizontalPadding - emoticonRail)
+      Math.floor(
+        windowWidth -
+          blockHorizontalPadding -
+          emoticonRailWidth -
+          emoticonRailGap
+      )
     );
   }, [windowWidth]);
 
   const [pageNum, setPageNum] = useState(0);
-  const [loadedPages, setLoadedPages] = useState([]);
-  const limitToLoad = 6;
-  const limit = `pageNum_${pageNum}_limitToLoad_${limitToLoad}`;
-  const [moodTrackerData, setMoodTrackerData] = useState({});
+  const [loadedPageNumbers, setLoadedPageNumbers] = useState([]);
+  const pageSize = 6;
+  const pageCacheKey = `pageNum_${pageNum}_pageSize_${pageSize}`;
+  const [entriesByPageKey, setEntriesByPageKey] = useState({});
   const [selectedItemId, setSelectedItemId] = React.useState(null);
   const [lastMood, setLastMood] = useState(null);
 
   const onSuccess = (data) => {
     const { curEntries, prevEntries, hasMore } = data;
 
-    let dataCopy = { ...moodTrackerData };
+    let dataCopy = { ...entriesByPageKey };
 
-    if (!dataCopy[limit]) {
-      dataCopy[limit] = {
+    if (!dataCopy[pageCacheKey]) {
+      dataCopy[pageCacheKey] = {
         entries: curEntries,
         hasMore: prevEntries.length > 0,
       };
     }
-    const prevPageLimit = `pageNum_${pageNum + 1}_limitToLoad_${limitToLoad}`;
+    const prevPageCacheKey = `pageNum_${pageNum + 1}_pageSize_${pageSize}`;
 
-    if (prevEntries.length < limitToLoad) {
-      prevEntries.push(
-        ...curEntries.slice(0, limitToLoad - prevEntries.length)
-      );
+    if (prevEntries.length < pageSize) {
+      prevEntries.push(...curEntries.slice(0, pageSize - prevEntries.length));
     }
 
-    dataCopy[prevPageLimit] = { entries: prevEntries, hasMore };
-    let loadedPagesCopy = [...loadedPages];
+    dataCopy[prevPageCacheKey] = { entries: prevEntries, hasMore };
+    let loadedPagesCopy = [...loadedPageNumbers];
     loadedPagesCopy.push(pageNum);
-    setLoadedPages(loadedPagesCopy);
+    setLoadedPageNumbers(loadedPagesCopy);
 
-    if (curEntries.length > 0 && !lastMood && IS_RO) {
+    if (curEntries.length > 0 && !lastMood && isRomania) {
       setLastMood(curEntries[curEntries.length - 1]?.mood);
     }
 
-    setMoodTrackerData(dataCopy);
+    setEntriesByPageKey(dataCopy);
   };
 
   const {
@@ -95,16 +97,21 @@ export const MoodTrackHistory = ({ navigation, header, onHowItWorksPress }) => {
   } = useGetMoodTrackerRecommendations(lastMood, language);
 
   const enabled = useMemo(() => {
-    return !loadedPages.includes(pageNum);
-  }, [loadedPages, pageNum]);
+    return !loadedPageNumbers.includes(pageNum);
+  }, [loadedPageNumbers, pageNum]);
 
-  useGetMoodTrackEntries(limitToLoad, pageNum, onSuccess, enabled);
+  useGetMoodTrackEntries(pageSize, pageNum, onSuccess, enabled);
   const emoticons = ["happy", "good", "sad", "depressed", "worried"];
 
   const renderEmoticons = () => {
     return emoticons.map((name, index) => {
+      const centerY = CHART_PADDING_TOP + CHART_GRIDLINE_SPACING * index;
+      const top = centerY - EMOTICON_ITEM_HEIGHT / 2;
       return (
-        <View style={styles.emoticonItem} key={index}>
+        <View
+          style={[styles.emoticonItem, { top, height: EMOTICON_ITEM_HEIGHT }]}
+          key={index}
+        >
           <Emoticon name={name} size="sm" style={styles.emoticon} />
         </View>
       );
@@ -112,7 +119,9 @@ export const MoodTrackHistory = ({ navigation, header, onHowItWorksPress }) => {
   };
 
   const renderDates = () => {
-    return moodTrackerData[limit]?.entries.map((mood, index) => {
+    const entries = entriesByPageKey[pageCacheKey]?.entries || [];
+
+    const dateItems = entries.map((mood, index) => {
       const dateText = `${
         mood.time.getDate() > 9
           ? mood.time.getDate()
@@ -126,11 +135,20 @@ export const MoodTrackHistory = ({ navigation, header, onHowItWorksPress }) => {
 
       return (
         <View style={styles.dateItem} key={index}>
-          <AppText namedStyle="small-text">{dateText}</AppText>
-          <AppText namedStyle="small-text">{hourText}</AppText>
+          <AppText namedStyle="small-text" style={styles.dateText}>
+            {dateText}
+          </AppText>
+          <AppText namedStyle="small-text" style={styles.dateText}>
+            {hourText}
+          </AppText>
         </View>
       );
     });
+
+    const shouldIncludeLeadingSpacer = entries.length > 1;
+    return shouldIncludeLeadingSpacer
+      ? [<View style={styles.dateItem} key="placeholder" />, ...dateItems]
+      : dateItems;
   };
 
   const handlePageChange = (next = false) => {
@@ -138,7 +156,9 @@ export const MoodTrackHistory = ({ navigation, header, onHowItWorksPress }) => {
   };
 
   const handleMoodClick = (index) => {
-    setSelectedItemId(moodTrackerData[limit].entries[index].mood_tracker_id);
+    setSelectedItemId(
+      entriesByPageKey[pageCacheKey].entries[index].mood_tracker_id
+    );
   };
 
   const onSwipeLeft = () => {
@@ -147,7 +167,7 @@ export const MoodTrackHistory = ({ navigation, header, onHowItWorksPress }) => {
     }
   };
   const onSwipeRight = () => {
-    if (moodTrackerData[limit].hasMore) {
+    if (entriesByPageKey[pageCacheKey].hasMore) {
       handlePageChange(true);
     }
   };
@@ -157,11 +177,11 @@ export const MoodTrackHistory = ({ navigation, header, onHowItWorksPress }) => {
   return (
     <View style={styles.block}>
       {header}
-      {!moodTrackerData[limit] ? (
+      {!entriesByPageKey[pageCacheKey] ? (
         <View style={styles.loadingContainer}>
           <Loading />
         </View>
-      ) : moodTrackerData[limit].entries.length === 0 ? (
+      ) : entriesByPageKey[pageCacheKey].entries.length === 0 ? (
         <View style={styles.loadingContainer}>
           <NotFoundCard
             mode="illustrated"
@@ -179,61 +199,63 @@ export const MoodTrackHistory = ({ navigation, header, onHowItWorksPress }) => {
         <>
           <View onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
             <View style={styles.chartContainer}>
-              <View style={styles.emoticonsContainer}>
-                {renderEmoticons()}
-                <View
-                  style={[
-                    styles.loadPreviusContainer,
-                    !moodTrackerData[limit].hasMore && styles.disabled,
-                  ]}
-                >
-                  <TouchableOpacity
-                    onPress={() =>
-                      moodTrackerData[limit].hasMore
-                        ? handlePageChange(true)
-                        : {}
-                    }
-                    disabled={!moodTrackerData[limit].hasMore}
-                  >
-                    <Icon name="arrow-chevron-back" size="md" color="#20809E" />
-                  </TouchableOpacity>
-                </View>
-              </View>
+              <View style={styles.emoticonsContainer}>{renderEmoticons()}</View>
               <View style={styles.lineChartContainer}>
                 <MoodTrackLineChart
-                  data={moodTrackerData[limit]?.entries || []}
+                  data={entriesByPageKey[pageCacheKey]?.entries || []}
                   handleSelectItem={handleMoodClick}
                   selectedItemId={selectedItemId}
                   width={chartWidth}
-                  paddingLeft={0}
-                  paddingRight={0}
                 />
-                <View style={styles.datesContainer}>
-                  <View style={styles.datesRow}>{renderDates()}</View>
-                  <View
-                    style={[
-                      styles.loadNextContainer,
-                      pageNum === 0 && styles.disabled,
-                    ]}
-                  >
-                    <TouchableOpacity
-                      onPress={() => (pageNum === 0 ? {} : handlePageChange())}
-                      disabled={pageNum === 0}
-                    >
-                      <Icon
-                        name="arrow-chevron-forward"
-                        size="md"
-                        color="#20809E"
-                        style={styles.icon}
-                      />
-                    </TouchableOpacity>
-                  </View>
+                <View
+                  style={[
+                    styles.datesTrack,
+                    { width: chartWidth },
+                    (entriesByPageKey[pageCacheKey]?.entries?.length || 0) >=
+                      6 && {
+                      marginLeft: -20,
+                    },
+                  ]}
+                  pointerEvents="none"
+                >
+                  {renderDates()}
                 </View>
               </View>
             </View>
+            <View style={styles.navRow}>
+              <TouchableOpacity
+                style={[
+                  styles.navButton,
+                  !entriesByPageKey[pageCacheKey].hasMore && styles.disabled,
+                ]}
+                onPress={() =>
+                  entriesByPageKey[pageCacheKey].hasMore
+                    ? handlePageChange(true)
+                    : null
+                }
+                disabled={!entriesByPageKey[pageCacheKey].hasMore}
+                hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+              >
+                <Icon name="arrow-chevron-back" size="md" color="#20809E" />
+                <AppText namedStyle="small-text" style={styles.navButtonLabel}>
+                  {t("previous")}
+                </AppText>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.navButton, pageNum === 0 && styles.disabled]}
+                onPress={() => (pageNum === 0 ? null : handlePageChange())}
+                disabled={pageNum === 0}
+                hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+              >
+                <AppText namedStyle="small-text" style={styles.navButtonLabel}>
+                  {t("next")}
+                </AppText>
+                <Icon name="arrow-chevron-forward" size="md" color="#20809E" />
+              </TouchableOpacity>
+            </View>
           </View>
           {(() => {
-            const selectedMood = moodTrackerData[limit]?.entries.find(
+            const selectedMood = entriesByPageKey[pageCacheKey]?.entries.find(
               (x) => x.mood_tracker_id === selectedItemId
             );
 
@@ -267,7 +289,7 @@ export const MoodTrackHistory = ({ navigation, header, onHowItWorksPress }) => {
           })()}
         </>
       )}
-      {IS_RO && (
+      {isRomania && (
         <React.Fragment>
           {lastMood && (
             <View style={{ paddingTop: 18 }}>
@@ -309,11 +331,8 @@ export const MoodTrackHistory = ({ navigation, header, onHowItWorksPress }) => {
                     readingTime={article.readingTime}
                     categoryName={article.categoryName}
                     contentType="articles"
-                    // isLikedByUser={isLikedByUser}
-                    // isDislikedByUser={isDislikedByUser}
                     likes={article.likes}
                     dislikes={article.dislikes}
-                    // isRead={readArticleIds.includes(article.id)}
                     t={t}
                     onPress={() => {
                       navigation.push("ArticleInformation", {
@@ -343,11 +362,8 @@ export const MoodTrackHistory = ({ navigation, header, onHowItWorksPress }) => {
                     readingTime={podcast.readingTime}
                     categoryName={podcast.categoryName}
                     contentType="podcasts"
-                    // isLikedByUser={isLikedByUser}
-                    // isDislikedByUser={isDislikedByUser}
                     likes={podcast.likes}
                     dislikes={podcast.dislikes}
-                    // isRead={readArticleIds.includes(article.id)}
                     t={t}
                     onPress={() => {
                       navigation.push("PodcastInformation", {
@@ -409,23 +425,21 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   dateItem: {
-    alignItems: "center",
-  },
-  datesContainer: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    position: "relative",
-    marginLeft: -12,
-  },
-  datesRow: {
     flex: 1,
+    alignItems: "center",
+  },
+  dateText: {
+    textAlign: "center",
+    fontSize: 14,
+  },
+  datesTrack: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    paddingRight: 40,
+    justifyContent: "space-evenly",
+    alignItems: "flex-start",
+    marginTop: 8,
   },
   disabled: {
-    opacity: 0.5,
+    opacity: 0.4,
   },
   emoticon: {
     transform: [{ scale: 0.73 }],
@@ -433,31 +447,20 @@ const styles = StyleSheet.create({
   emoticonItem: {
     alignItems: "center",
     justifyContent: "center",
-    minHeight: 40,
+    position: "absolute",
+    left: 0,
+    right: 0,
   },
   emoticonsContainer: {
-    flexDirection: "column",
-    height: 240,
-    justifyContent: "space-between",
+    height: Math.ceil(CHART_BOTTOM_GRIDLINE_Y + EMOTICON_ITEM_HEIGHT / 2 + 4),
     marginRight: 8,
+    position: "relative",
+    width: 36,
   },
-  icon: { marginRight: 8 },
   lineChartContainer: {
     flex: 1,
     flexDirection: "column",
     minWidth: 0,
-  },
-  loadNextContainer: {
-    height: 40,
-    justifyContent: "center",
-    alignItems: "flex-end",
-    marginBottom: 12,
-  },
-  loadPreviusContainer: {
-    alignItems: "center",
-    height: 40,
-    justifyContent: "center",
-    width: 40,
   },
   loadingContainer: {
     alignItems: "center",
@@ -465,5 +468,22 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingVertical: 16,
     minHeight: 200,
+  },
+  navRow: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 16,
+    paddingHorizontal: 8,
+  },
+  navButton: {
+    alignItems: "center",
+    flexDirection: "row",
+    gap: 4,
+    paddingVertical: 6,
+    paddingHorizontal: 8,
+  },
+  navButtonLabel: {
+    color: "#20809E",
   },
 });

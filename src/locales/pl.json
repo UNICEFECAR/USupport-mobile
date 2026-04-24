@@ -285,7 +285,9 @@
       "by": "autor: {{creator}}",
       "min_read": "min czytania",
       "view_more": "Zobacz więcej",
-      "no_recommendations": "Nie znaleziono żadnych rekomendacji"
+      "no_recommendations": "Nie znaleziono żadnych rekomendacji",
+      "previous": "Poprzedni",
+      "next": "Następny"
     },
     "notification-preferences": {
       "email": "Powiadomienia email",

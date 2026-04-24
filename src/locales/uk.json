@@ -285,7 +285,9 @@
       "by": "від {{creator}}",
       "min_read": "хв читання",
       "view_more": "Переглянути більше",
-      "no_recommendations": "Не знайдено рекомендацій"
+      "no_recommendations": "Не знайдено рекомендацій",
+      "previous": "Назад",
+      "next": "Далі"
     },
     "notification-preferences": {
       "email": "Сповіщення електронною поштою",

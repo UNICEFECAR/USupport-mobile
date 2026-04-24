@@ -285,7 +285,9 @@
       "by": "հեղինակ՝ {{creator}}",
       "min_read": "րոպե ընթերցանություն",
       "view_more": "Կարդալ ավելին",
-      "no_recommendations": "Առաջարկություններ չեն գտնվել"
+      "no_recommendations": "Առաջարկություններ չեն գտնվել",
+      "previous": "Նախորդ",
+      "next": "Հաջորդ"
     },
     "notification-preferences": {
       "email": "Ծանուցումներ՝ էլեկտրոնային փոստով",

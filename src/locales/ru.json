@@ -285,7 +285,9 @@
       "by": "от {{creator}}",
       "min_read": "мин чтения",
       "view_more": "Посмотреть больше",
-      "no_recommendations": "Не найдено рекомендаций"
+      "no_recommendations": "Не найдено рекомендаций",
+      "previous": "Назад",
+      "next": "Далее"
     },
     "notification-preferences": {
       "email": "Уведомления по электронной почте",

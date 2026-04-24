@@ -283,7 +283,9 @@
       "by": "by {{creator}}",
       "min_read": "min read",
       "view_more": "View more",
-      "no_recommendations": "No recommendations found"
+      "no_recommendations": "No recommendations found",
+      "previous": "Previous",
+      "next": "Next"
     },
     "notification-preferences": {
       "email": "Email notifications",
