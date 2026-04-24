@@ -15,3 +15,4 @@ export { default as welcomeRadial } from "./welcome_radial.png";
 export { default as welcomeSpiral } from "./welcome_spiral.png";
 export { default as mascotHappyPurpleFull } from "./mascot_happy_purple_full.png";
 export { default as notFoundTransparent } from "./not-found-transparent.png";
+export { default as mapBackground } from "./map.webp";

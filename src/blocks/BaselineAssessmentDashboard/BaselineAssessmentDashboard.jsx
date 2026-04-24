@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   View,
+  Image,
   StyleSheet,
   TouchableOpacity,
   Platform,
@@ -18,6 +19,7 @@ import {
 import LinearGradient from "../../components/LinearGradient";
 import { HowItWorksBA } from "#modals";
 import { useGetLatestBaselineAssessment, useGetTheme } from "#hooks";
+import { mapBackground } from "#assets";
 import { appStyles } from "#styles";
 
 /**
@@ -73,7 +75,8 @@ export const BaselineAssessmentDashboard = ({
     () => ({
       degrees: 135,
       locations: [0, 100],
-      colors: ["rgba(102, 118, 141, 0.85)", "rgba(74, 85, 104, 0.9)"],
+      // Keep this subtle so the map image remains visible underneath.
+      colors: ["rgba(102, 118, 141, 0.12)", "rgba(74, 85, 104, 0.18)"],
     }),
     []
   );
@@ -281,6 +284,12 @@ export const BaselineAssessmentDashboard = ({
               {t("explore_heading")}
             </AppText>
             <View style={styles.mapContainer}>
+              <Image
+                source={mapBackground}
+                style={StyleSheet.absoluteFillObject}
+                resizeMode="cover"
+                accessible={false}
+              />
               <LinearGradient
                 gradient={mapBackdropGradient}
                 style={StyleSheet.absoluteFillObject}
