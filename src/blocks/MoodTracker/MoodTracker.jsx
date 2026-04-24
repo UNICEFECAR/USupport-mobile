@@ -22,7 +22,6 @@ import {
   AppText,
   Block,
   Emoticon,
-  Icon,
   Toggle,
   Textarea,
   TransparentModal,
@@ -49,7 +48,6 @@ export const MoodTracker = ({
   navigation,
   clientData,
   openRequireDataAgreement,
-  openUserGuide,
   onTextareaFocus,
 }) => {
   const { colors, isDarkMode, isHighContrast } = useGetTheme();
@@ -332,20 +330,20 @@ export const MoodTracker = ({
     setIsHowItWorksMoodTrackOpen(true);
   };
 
-  const renderUserGuideButton = () => {
-    if (!IS_RO || typeof openUserGuide !== "function") return null;
+  // const renderUserGuideButton = () => {
+  //   if (!IS_RO || typeof openUserGuide !== "function") return null;
 
-    return (
-      <TouchableOpacity
-        onPress={openUserGuide}
-        accessibilityRole="button"
-        accessibilityLabel={t("user_guide")}
-        style={[styles.userGuideButton, styles.userGuideButtonCompact]}
-      >
-        <Icon name="read-book" color="#fff" size="sm" />
-      </TouchableOpacity>
-    );
-  };
+  //   return (
+  //     <TouchableOpacity
+  //       onPress={openUserGuide}
+  //       accessibilityRole="button"
+  //       accessibilityLabel={t("user_guide")}
+  //       style={[styles.userGuideButton, styles.userGuideButtonCompact]}
+  //     >
+  //       <Icon name="read-book" color="#fff" size="sm" />
+  //     </TouchableOpacity>
+  //   );
+  // };
 
   return (
     <React.Fragment>
@@ -383,7 +381,7 @@ export const MoodTracker = ({
               {t("heading")}
             </AppText>
           </View>
-          {renderUserGuideButton()}
+          {/* {renderUserGuideButton()} */}
         </View>
 
         <View style={styles.rating}>

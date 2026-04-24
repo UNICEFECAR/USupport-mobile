@@ -408,7 +408,7 @@ export const Dashboard = ({ navigation }) => {
               navigation={navigation}
               clientData={clientData}
               openRequireDataAgreement={openRequireDataAgreement}
-              openUserGuide={openUserGuide}
+              // openUserGuide={openUserGuide}
               onTextareaFocus={handleMoodTrackerTextareaFocus}
             />
           </View>
