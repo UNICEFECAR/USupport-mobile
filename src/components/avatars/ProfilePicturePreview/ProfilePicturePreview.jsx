@@ -26,15 +26,21 @@ export const ProfilePicturePreview = ({
     ? imageFile
     : { uri: AMAZON_S3_BUCKET + "/" + (image || "default") };
 
+  const shouldShowDelete =
+    typeof handleDeleteClick === "function" &&
+    (Boolean(imageFile) || (Boolean(image) && image !== "default"));
+
   return (
     <View style={[styles.container, style]}>
       <View>
-        <TouchableOpacity
-          onPress={handleDeleteClick}
-          style={styles.iconContainer}
-        >
-          <Icon name="circle-actions-close-purple" size="md" />
-        </TouchableOpacity>
+        {shouldShowDelete ? (
+          <TouchableOpacity
+            onPress={handleDeleteClick}
+            style={styles.iconContainer}
+          >
+            <Icon name="circle-actions-close-purple" size="md" />
+          </TouchableOpacity>
+        ) : null}
         <Image source={imageSrc} style={styles.image} />
       </View>
       <TouchableOpacity onPress={handleChangeClick}>
