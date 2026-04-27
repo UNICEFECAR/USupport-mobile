@@ -54,9 +54,9 @@ const styles = StyleSheet.create({
   container: {
     position: "relative",
     flexDirection: "row",
-    // width: "100%",
     alignItems: "center",
     justifyContent: "flex-start",
+    backgroundColor: "transparent",
   },
 
   iconContainer: {
@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
     marginLeft: 12,
     minWidth: "auto",
     textDecorationLine: "underline",
+    color: "#20809E",
   },
 });
 
