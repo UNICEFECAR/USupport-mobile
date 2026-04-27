@@ -31,7 +31,7 @@ export const Input = ({
   wrapperStyles,
   ...props
 }) => {
-  const { colors, isDarkMode, isHighContrast } = useGetTheme();
+  const { colors } = useGetTheme();
   const [isFocused, setIsFocused] = useState(false);
 
   const getBorderColor = () => {
@@ -71,6 +71,7 @@ export const Input = ({
             isTextarea && styles.inputTextarea,
             inputStyles,
           ]}
+          placeholderTextColor={colors.inputPlaceholder || colors.textSecondary}
           editable={!disabled}
           selectTextOnFocus={!disabled}
           secureTextEntry={isPassword}
