@@ -112,24 +112,26 @@ export function NotificationsDropdownPanel({
                 />
               </View>
             </View>
-            <View style={styles.markReadContainer}>
-              <TouchableOpacity
-                onPress={handleMarkAllAsRead}
-                style={styles.markReadTouchable}
-                hitSlop={8}
-              >
-                <AppText
-                  style={[
-                    notificationStyles.markAllAsReadButton,
-                    isHighContrast
-                      ? notificationStyles.markAllAsReadButtonHC
-                      : null,
-                  ]}
+            {notificationsQuery.data?.pages?.flat().length > 0 && (
+              <View style={styles.markReadContainer}>
+                <TouchableOpacity
+                  onPress={handleMarkAllAsRead}
+                  style={styles.markReadTouchable}
+                  hitSlop={8}
                 >
-                  {t("mark_read")}
-                </AppText>
-              </TouchableOpacity>
-            </View>
+                  <AppText
+                    style={[
+                      notificationStyles.markAllAsReadButton,
+                      isHighContrast
+                        ? notificationStyles.markAllAsReadButtonHC
+                        : null,
+                    ]}
+                  >
+                    {t("mark_read")}
+                  </AppText>
+                </TouchableOpacity>
+              </View>
+            )}
 
             <View style={styles.listWrap}>
               <FlashList
