@@ -29,6 +29,17 @@ const IconFilter = ({ color }) => {
   );
 };
 
+const IconReset = ({ color }) => {
+  return (
+    <Svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <Path
+        d="M12 6V3L8 7l4 4V8c2.76 0 5 2.24 5 5 0 .65-.12 1.26-.34 1.82l1.46 1.46A6.93 6.93 0 0 0 19 13c0-3.87-3.13-7-7-7Zm-7 7c0 3.87 3.13 7 7 7v3l4-4-4-4v3c-2.76 0-5-2.24-5-5 0-.65.12-1.26.34-1.82L5.88 6.72A6.93 6.93 0 0 0 5 13Z"
+        fill={color}
+      />
+    </Svg>
+  );
+};
+
 const IconPhoneEmergency = ({ color }) => {
   return (
     <Svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2324,6 +2335,7 @@ const IconOrganization = ({ color }) => {
 
 export {
   IconFilter,
+  IconReset,
   IconPhoneEmergency,
   IconPhone,
   IconComment,

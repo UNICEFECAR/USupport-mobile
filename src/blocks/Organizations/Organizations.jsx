@@ -335,6 +335,7 @@ export const Organizations = ({
               </View>
               <View style={styles.toolbarActions}>
                 <NewButton
+                  iconName="reset"
                   type="outline"
                   size="sm"
                   label={t("reset_filters")}
