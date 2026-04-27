@@ -344,7 +344,7 @@ export const Organizations = ({
                   style={styles.toolbarAction}
                 />
                 <NewButton
-                  type="solid"
+                  type="outline"
                   size="sm"
                   label={t("personalize")}
                   iconName="person"
@@ -354,7 +354,6 @@ export const Organizations = ({
                   style={styles.toolbarAction}
                 />
                 <NewButton
-                  type="outline"
                   size="sm"
                   label={t("filter")}
                   iconName="filter"
