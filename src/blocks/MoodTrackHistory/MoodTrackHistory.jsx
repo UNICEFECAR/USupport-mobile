@@ -25,8 +25,10 @@ import {
   useGetMoodTrackEntries,
   useSwipe,
   useGetMoodTrackerRecommendations,
+  useGetTheme,
 } from "#hooks";
 import { Context } from "#services";
+import { appStyles } from "#styles";
 
 const EMOTICON_ITEM_HEIGHT = 40;
 
@@ -37,6 +39,7 @@ export const MoodTrackHistory = ({ navigation, header, onHowItWorksPress }) => {
   });
   const language = i18n.language;
   const { country } = useContext(Context);
+  const { colors, isDarkMode, isHighContrast } = useGetTheme();
   const isRomania = country === "RO";
 
   const chartWidth = useMemo(() => {
@@ -174,6 +177,16 @@ export const MoodTrackHistory = ({ navigation, header, onHowItWorksPress }) => {
 
   const { onTouchStart, onTouchEnd } = useSwipe(onSwipeLeft, onSwipeRight, 30);
 
+  const navActionColor =
+    isHighContrast || isDarkMode
+      ? colors.text
+      : colors.primary || appStyles.colorPrimary_20809e;
+
+  const prevDisabled = !(entriesByPageKey[pageCacheKey]?.hasMore ?? false);
+  const nextDisabled = pageNum === 0;
+  const prevColor = prevDisabled ? colors.textSecondary : navActionColor;
+  const nextColor = nextDisabled ? colors.textSecondary : navActionColor;
+
   return (
     <View style={styles.block}>
       {header}
@@ -226,31 +239,48 @@ export const MoodTrackHistory = ({ navigation, header, onHowItWorksPress }) => {
               <TouchableOpacity
                 style={[
                   styles.navButton,
-                  !entriesByPageKey[pageCacheKey].hasMore && styles.disabled,
+                  isDarkMode && styles.navButtonDark,
+                  isHighContrast && styles.navButtonHC,
+                  prevDisabled && styles.disabled,
                 ]}
                 onPress={() =>
                   entriesByPageKey[pageCacheKey].hasMore
                     ? handlePageChange(true)
                     : null
                 }
-                disabled={!entriesByPageKey[pageCacheKey].hasMore}
+                disabled={prevDisabled}
                 hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
               >
-                <Icon name="arrow-chevron-back" size="md" color="#20809E" />
-                <AppText namedStyle="small-text" style={styles.navButtonLabel}>
+                <Icon name="arrow-chevron-back" size="md" color={prevColor} />
+                <AppText
+                  namedStyle="small-text"
+                  style={[styles.navButtonLabel, { color: prevColor }]}
+                >
                   {t("previous")}
                 </AppText>
               </TouchableOpacity>
               <TouchableOpacity
-                style={[styles.navButton, pageNum === 0 && styles.disabled]}
+                style={[
+                  styles.navButton,
+                  isDarkMode && styles.navButtonDark,
+                  isHighContrast && styles.navButtonHC,
+                  nextDisabled && styles.disabled,
+                ]}
                 onPress={() => (pageNum === 0 ? null : handlePageChange())}
-                disabled={pageNum === 0}
+                disabled={nextDisabled}
                 hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
               >
-                <AppText namedStyle="small-text" style={styles.navButtonLabel}>
+                <AppText
+                  namedStyle="small-text"
+                  style={[styles.navButtonLabel, { color: nextColor }]}
+                >
                   {t("next")}
                 </AppText>
-                <Icon name="arrow-chevron-forward" size="md" color="#20809E" />
+                <Icon
+                  name="arrow-chevron-forward"
+                  size="md"
+                  color={nextColor}
+                />
               </TouchableOpacity>
             </View>
           </View>
@@ -484,6 +514,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   navButtonLabel: {
-    color: "#20809E",
+    color: appStyles.colorPrimary_20809e,
+  },
+  navButtonDark: {
+    backgroundColor: "rgba(255, 255, 255, 0.06)",
+    borderRadius: 8,
+  },
+  navButtonHC: {
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: appStyles.colorHighContrast_ffff00,
   },
 });
