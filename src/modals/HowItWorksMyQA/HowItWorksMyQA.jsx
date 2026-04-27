@@ -107,6 +107,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
   },
   image: {
+    marginTop: 8,
     width: appStyles.screenWidth * 0.85,
     height: 400,
   },
