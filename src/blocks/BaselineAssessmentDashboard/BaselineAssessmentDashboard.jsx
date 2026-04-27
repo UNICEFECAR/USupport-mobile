@@ -115,6 +115,27 @@ export const BaselineAssessmentDashboard = ({
     [navigation, openEmergencySituation]
   );
 
+  const userGuideCardSurfaceStyle = useMemo(() => {
+    const borderColor =
+      colors.cardMediaBorder ||
+      colors.cardMediaGradientBorder ||
+      (isLightTheme ? "rgba(224, 228, 251, 1)" : "rgba(255, 255, 255, 0.10)");
+
+    // In dark mode we rely more on border separation than shadows.
+    const shadowStyle =
+      isLightTheme && !isHighContrast
+        ? styles.userGuideCardShadowLight
+        : styles.userGuideCardShadowDark;
+
+    return [{ backgroundColor: colors.card, borderColor }, shadowStyle];
+  }, [
+    colors.card,
+    colors.cardMediaBorder,
+    colors.cardMediaGradientBorder,
+    isHighContrast,
+    isLightTheme,
+  ]);
+
   const renderUserGuideButtons = () => {
     return (
       <View style={styles.userGuideButtons}>
@@ -125,7 +146,7 @@ export const BaselineAssessmentDashboard = ({
             disabled={button.isDisabled}
             style={({ pressed }) => [
               styles.userGuideCard,
-              { backgroundColor: appStyles.colorWhite_ff },
+              userGuideCardSurfaceStyle,
               pressed && !button.isDisabled && styles.userGuideCardPressed,
               button.isDisabled && styles.userGuideCardDisabled,
             ]}
@@ -455,7 +476,6 @@ const styles = StyleSheet.create({
   userGuideCard: {
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: "#e0e4fb",
     width: "100%",
     paddingHorizontal: 16,
     paddingVertical: 14,
@@ -463,12 +483,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 12,
     marginBottom: 12,
-
+  },
+  userGuideCardShadowLight: {
     shadowColor: "#262054",
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.08,
     shadowRadius: 12,
     elevation: 6,
+  },
+  userGuideCardShadowDark: {
+    shadowOpacity: 0,
+    elevation: 0,
   },
   userGuideCardPressed: {
     borderWidth: 1,
