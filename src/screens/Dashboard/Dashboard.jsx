@@ -76,6 +76,7 @@ export const Dashboard = ({ navigation }) => {
   const getClientDataEnabled = isTmpUser === false ? true : false;
   const clientDataQuery = useGetClientData(getClientDataEnabled)[0];
   const clientData = clientDataQuery.data;
+  const isLoggedIn = isTmpUser === false && !!clientData;
   const clientName = clientData
     ? clientData?.name
       ? `${clientData.name} ${clientData.surname}`
@@ -338,8 +339,17 @@ export const Dashboard = ({ navigation }) => {
       handleRegistrationModalOpen();
       return;
     }
+    // Don't open behind other screens (e.g. RegisterAboutYou).
+    if (!isFocused || !isLoggedIn) return;
     setIsBaselineAssesmentModalOpen(true);
   };
+
+  useEffect(() => {
+    // Ensure we never show this modal when Dashboard isn't the active screen.
+    if (!isFocused && isBaselineAssesmentModalOpen) {
+      setIsBaselineAssesmentModalOpen(false);
+    }
+  }, [isFocused, isBaselineAssesmentModalOpen]);
 
   const [isEmergencySituationOpen, setIsEmergencySituationOpen] =
     useState(false);
@@ -379,7 +389,7 @@ export const Dashboard = ({ navigation }) => {
     <Screen hasHeaderNavigation t={t} hasEmergencyButton={false}>
       {IS_RO && (
         <BaselineAssesmentModal
-          open={isBaselineAssesmentModalOpen}
+          open={isBaselineAssesmentModalOpen && isFocused && isLoggedIn}
           setOpen={setIsBaselineAssesmentModalOpen}
           navigation={navigation}
           isTmpUser={isTmpUser}
