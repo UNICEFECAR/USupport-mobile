@@ -652,7 +652,11 @@
       "living_place_placeholder": "Introduceți locul dvs. de reședință",
       "error_fetching_data": "Eroare la încărcarea detaliilor profilului",
       "parent": "Părinte",
-      "delete_mood_tracker": "Șterge datele din monitorizarea stării de spirit"
+      "delete_mood_tracker": "Șterge datele din monitorizarea stării de spirit",
+      "account_section": "Cont",
+      "data_management_section": "Gestionarea datelor",
+      "danger_zone_section": "Zonă periculoasă",
+      "delete_account_description": "Această acțiune este permanentă și nu poate fi anulată."
     },
     "user-profile": {
       "heading": "Profilul dvs.",

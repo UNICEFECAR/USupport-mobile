@@ -653,7 +653,11 @@
       "living_place_placeholder": "Նշեք ձեր բնակության վայրը",
       "error_fetching_data": "Տեղի է ունեցել պրոֆիլի տվյալների ներբեռնման սխալ",
       "parent": "Ծնող",
-      "delete_mood_tracker": "Ջնջել տրամադրության ստուգիչի պատմությունը"
+      "delete_mood_tracker": "Ջնջել տրամադրության ստուգիչի պատմությունը",
+      "account_section": "Հաշիվ",
+      "data_management_section": "Տվյալների կառավարում",
+      "danger_zone_section": "Վտանգավոր գոտի",
+      "delete_account_description": "Այս գործողությունը մշտական է և չի կարող հետ շրջվել։"
     },
     "user-profile": {
       "heading": "Ձեր պրոֆիլը",

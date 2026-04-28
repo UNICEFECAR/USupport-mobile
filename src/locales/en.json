@@ -650,7 +650,11 @@
       "living_place_placeholder": "Enter your living place",
       "error_fetching_data": "An error occured while fetching profile details",
       "parent": "Parent",
-      "delete_mood_tracker": "Clear mood tracker data"
+      "delete_mood_tracker": "Clear mood tracker data",
+      "account_section": "Account",
+      "data_management_section": "Data management",
+      "danger_zone_section": "Danger zone",
+      "delete_account_description": "This action is permanent and cannot be undone."
     },
     "user-profile": {
       "heading": "Your profile",

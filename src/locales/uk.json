@@ -652,7 +652,11 @@
       "living_place_placeholder": "Введи своє місце проживання",
       "error_fetching_data": "При завантаженні даних профілю виникла помилка",
       "parent": "Мати/Батько/Опікун",
-      "delete_mood_tracker": "Очистити дані трекера настрою"
+      "delete_mood_tracker": "Очистити дані трекера настрою",
+      "account_section": "Обліковий запис",
+      "data_management_section": "Управління даними",
+      "danger_zone_section": "Небезпечна зона",
+      "delete_account_description": "Ця дія є постійною і не може бути скасована."
     },
     "user-profile": {
       "heading": "Твій профіль",

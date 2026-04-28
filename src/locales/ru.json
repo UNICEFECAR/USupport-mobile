@@ -652,7 +652,11 @@
       "living_place_placeholder": "Введите место вашего жительства",
       "error_fetching_data": "Произошла ошибка при получении данных профиля.",
       "parent": "Родитель",
-      "delete_mood_tracker": "Очистить историю трекера настроения"
+      "delete_mood_tracker": "Очистить историю трекера настроения",
+      "account_section": "Аккаунт",
+      "data_management_section": "Управление данными",
+      "danger_zone_section": "Опасная зона",
+      "delete_account_description": "Это действие необратимо и не может быть отменено."
     },
     "user-profile": {
       "heading": "Ваш профиль",

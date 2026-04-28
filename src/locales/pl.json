@@ -652,7 +652,11 @@
       "living_place_placeholder": "Wprowadź swoje miejsce zamieszkania",
       "error_fetching_data": "Wystąpił błąd podczas pobierania szczegółów profilu ",
       "parent": "Rodzic",
-      "delete_mood_tracker": "Clear mood tracker data"
+      "delete_mood_tracker": "Clear mood tracker data",
+      "account_section": "Konto",
+      "data_management_section": "Zarządzanie danymi",
+      "danger_zone_section": "Strefa niebezpieczna",
+      "delete_account_description": "Ta czynność jest trwała i nie można jej cofnąć."
     },
     "user-profile": {
       "heading": "Twój profil",

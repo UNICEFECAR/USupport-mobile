@@ -8,6 +8,7 @@ import { PrivacyPolicy } from "../PrivacyPolicy";
 
 import {
   AccessToken,
+  ActionRow,
   AppText,
   Block,
   ButtonWithIcon,
@@ -490,37 +491,83 @@ export const UserDetails = ({
               />
             </View>
 
-            <View style={styles.ghostButtonsContainer}>
-              <NewButton
-                type="ghost"
-                label={t("change_password")}
-                onPress={openChangePasswordBackdrop}
-                size="lg"
-                style={styles.textButton}
-              />
-              <NewButton
-                label={t("delete_account")}
-                type={"ghost"}
-                onPress={openDeleteAccountBackdrop}
-                style={styles.textButton}
-                size="lg"
-              />
-              {!IS_RO && (
-                <NewButton
-                  label={t("delete_chat")}
-                  type={"ghost"}
-                  onPress={openDeleteChatHistoryBackdrop}
-                  style={styles.textButton}
-                  size="lg"
+            {/* Account Section */}
+            <View style={styles.sectionContainer}>
+              <AppText style={[styles.sectionHeader, { color: colors.text }]}>
+                {t("account_section")}
+              </AppText>
+              <View
+                style={[
+                  styles.actionCard,
+                  { backgroundColor: colors.card || "#F5F7FA" },
+                ]}
+              >
+                <ActionRow
+                  iconName="fingerprint"
+                  label={t("change_password")}
+                  onPress={openChangePasswordBackdrop}
+                  colors={colors}
                 />
-              )}
-              <NewButton
-                label={t("delete_mood_tracker")}
-                type={"ghost"}
-                onPress={openDeleteMoodTrackerHistoryBackdrop}
-                style={[styles.textButton, styles.marginBottom20]}
-                size="lg"
-              />
+              </View>
+            </View>
+
+            {/* Data Management Section */}
+            <View style={styles.sectionContainer}>
+              <AppText style={[styles.sectionHeader, { color: colors.text }]}>
+                {t("data_management_section")}
+              </AppText>
+              <View
+                style={[
+                  styles.actionCard,
+                  { backgroundColor: colors.card || "#F5F7FA" },
+                ]}
+              >
+                <ActionRow
+                  iconName="mood"
+                  label={t("delete_mood_tracker")}
+                  onPress={openDeleteMoodTrackerHistoryBackdrop}
+                  colors={colors}
+                />
+                {!IS_RO && (
+                  <>
+                    <View
+                      style={[
+                        styles.actionRowDivider,
+                        { backgroundColor: colors.border || "#E8ECF0" },
+                      ]}
+                    />
+                    <ActionRow
+                      iconName="comment"
+                      label={t("delete_chat")}
+                      onPress={openDeleteChatHistoryBackdrop}
+                      colors={colors}
+                    />
+                  </>
+                )}
+              </View>
+            </View>
+
+            {/* Danger Zone Section */}
+            <View style={[styles.sectionContainer, styles.marginBottom100]}>
+              <AppText style={styles.dangerSectionHeader}>
+                {t("danger_zone_section")}
+              </AppText>
+              <View
+                style={[
+                  styles.actionCard,
+                  styles.dangerCard,
+                  { backgroundColor: colors.card || "#F5F7FA" },
+                ]}
+              >
+                <ActionRow
+                  iconName="circle-actions-close"
+                  label={t("delete_account")}
+                  onPress={openDeleteAccountBackdrop}
+                  colors={colors}
+                  isDanger
+                  subtitle={t("delete_account_description")}
+                />
+              </View>
             </View>
           </>
         )}
@@ -573,6 +620,14 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: "93%",
   },
+  actionCard: {
+    borderRadius: 16,
+    overflow: "hidden",
+  },
+  actionRowDivider: {
+    height: 1,
+    marginHorizontal: 16,
+  },
   block: { flex: 1 },
   buttonContainer: {
     flexDirection: "row",
@@ -582,9 +637,18 @@ const styles = StyleSheet.create({
     paddingTop: 32,
   },
   checkBox: { marginTop: 4 },
-  ghostButtonsContainer: {
-    gap: 8,
+  checkBoxContainer: {
     alignItems: "flex-start",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingBottom: 32,
+    paddingTop: 4,
+  },
+  dangerSectionHeader: {
+    color: appStyles.colorRed_eb5757,
+    fontFamily: appStyles.fontMedium,
+    fontSize: 14,
+    marginBottom: 8,
   },
   input: { marginTop: 24 },
   inputsContainer: {
@@ -592,6 +656,7 @@ const styles = StyleSheet.create({
     paddingTop: 8,
   },
   marginBottom20: { marginBottom: 20 },
+  marginBottom100: { marginBottom: 100 },
   privacyPolicyContainer: {
     alignSelf: "center",
     paddingTop: 20,
@@ -602,18 +667,16 @@ const styles = StyleSheet.create({
     fontFamily: appStyles.fontSemiBold,
     fontSize: 18,
   },
-  textButton: {
-    justifyContent: "flex-start",
-  },
-  checkBoxContainer: {
-    alignItems: "flex-start",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingBottom: 32,
-    paddingTop: 4,
-  },
   saveAndDiscardButtons: {
     width: "49%",
+  },
+  sectionContainer: {
+    marginTop: 24,
+  },
+  sectionHeader: {
+    fontFamily: appStyles.fontMedium,
+    fontSize: 14,
+    marginBottom: 8,
   },
   zIndex3: { zIndex: 3 },
   zIndex4: { zIndex: 4 },

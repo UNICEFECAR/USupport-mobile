@@ -652,7 +652,11 @@
       "living_place_placeholder": "Тұрғылықты жеріңізді енгізіңіз",
       "error_fetching_data": "Профиль мәліметтерін алу кезінде қате орын алды",
       "parent": "Ата-ана",
-      "delete_mood_tracker": "Көңіл-күй трекерінің тарихын тазалау"
+      "delete_mood_tracker": "Көңіл-күй трекерінің тарихын тазалау",
+      "account_section": "Аккаунт",
+      "data_management_section": "Деректерді басқару",
+      "danger_zone_section": "Қауіпті аймақ",
+      "delete_account_description": "Бұл әрекет тұрақты және қайтарылмайды."
     },
     "user-profile": {
       "heading": "Сіздің парақшаңыз",

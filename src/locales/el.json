@@ -652,7 +652,11 @@
       "living_place_placeholder": "Εισαγάγετε τον τόπο διαμονής σας",
       "error_fetching_data": "An error occured while fetching profile details",
       "parent": "Γονέας",
-      "delete_mood_tracker": "Εκκαθάριση δεδομένων καταγραφής διάθεσης"
+      "delete_mood_tracker": "Εκκαθάριση δεδομένων καταγραφής διάθεσης",
+      "account_section": "Λογαριασμός",
+      "data_management_section": "Διαχείριση δεδομένων",
+      "danger_zone_section": "Επικίνδυνη ζώνη",
+      "delete_account_description": "Αυτή η ενέργεια είναι μόνιμη και δεν μπορεί να αναιρεθεί."
     },
     "user-profile": {
       "heading": "Το προφίλ σας",
