@@ -45,7 +45,7 @@ export function AuthenticationModalsLogo({ onBackPress }) {
       <View
         style={[
           styles.logoContainer,
-          { backgroundColor: isDarkMode ? colors.background : "#f0f1f9" },
+          { backgroundColor: "#f0f1f9" },
         ]}
       >
         <Image
