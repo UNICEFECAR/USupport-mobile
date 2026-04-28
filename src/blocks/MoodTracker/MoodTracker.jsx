@@ -269,7 +269,8 @@ export const MoodTracker = ({
             size={emoticon.isSelected ? "lg" : "sm"}
           />
           <AppText
-            numberOfLines={2}
+            numberOfLines={1}
+            ellipsizeMode="tail"
             namedStyle="smallText"
             style={[styles.tileLabel, textDynamicStyle]}
           >
@@ -525,6 +526,8 @@ const styles = StyleSheet.create({
   tileLabel: {
     marginTop: 6,
     paddingHorizontal: 2,
+    width: "100%",
+    flexWrap: "nowrap",
   },
   mascotRow: {
     width: "100%",
