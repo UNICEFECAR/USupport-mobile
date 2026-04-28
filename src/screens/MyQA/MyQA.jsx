@@ -15,6 +15,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Screen, NewButton } from "#components";
 import { MyQA as MyQABlock, InformationPortalHero } from "#blocks";
 import { HowItWorksMyQA } from "#modals";
+import myQaHeroImage from "../../blocks/InformationPortalHero/assets/my-qa-mobile.jpg";
 import {
   CreateQuestion,
   QuestionDetails,
@@ -284,6 +285,7 @@ export const MyQA = ({ navigation }) => {
             searchValue={searchValue}
             onSearchChange={setSearchValue}
             placeholder={blocksT("search_input_placeholder")}
+            image={myQaHeroImage}
           />
           <MyQABlock
             tabs={tabs}
