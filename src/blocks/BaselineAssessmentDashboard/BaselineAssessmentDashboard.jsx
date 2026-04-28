@@ -93,12 +93,12 @@ export const BaselineAssessmentDashboard = ({
   const userGuideButtons = useMemo(
     () => [
       {
-        name: "emergency_services",
+        name: "emergency_services_description",
         icon: "phone-emergency",
         onPress: () => navigation.navigate("SOSCenter"),
       },
       {
-        name: "map",
+        name: "map_description",
         icon: "location",
         onPress: () => {
           if (openEmergencySituation) openEmergencySituation();
@@ -106,7 +106,7 @@ export const BaselineAssessmentDashboard = ({
         isDisabled: !openEmergencySituation,
       },
       {
-        name: "rights",
+        name: "rights_description",
         icon: "read-book",
         onPress: () =>
           navigation.navigate("ChildrenRights", { start: "rights-intro" }),

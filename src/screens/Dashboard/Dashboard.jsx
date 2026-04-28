@@ -349,7 +349,7 @@ export const Dashboard = ({ navigation }) => {
   };
   const closeEmergencySituation = () => {
     setIsEmergencySituationOpen(false);
-    openUserGuide();
+    // openUserGuide();
   };
 
   const [isUserGuideOpen, setIsUserGuideOpen] = useState(false);
@@ -408,7 +408,6 @@ export const Dashboard = ({ navigation }) => {
               navigation={navigation}
               clientData={clientData}
               openRequireDataAgreement={openRequireDataAgreement}
-              // openUserGuide={openUserGuide}
               onTextareaFocus={handleMoodTrackerTextareaFocus}
             />
           </View>
