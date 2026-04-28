@@ -87,7 +87,6 @@ const styles = StyleSheet.create({
   },
   slide: {
     alignItems: "center",
-    paddingHorizontal: 16,
-    width: "96%",
+    paddingHorizontal: 32,
   },
 });
