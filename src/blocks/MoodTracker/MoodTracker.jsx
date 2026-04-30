@@ -35,7 +35,7 @@ import { showToast } from "#utils";
 import { appStyles } from "#styles";
 import { localStorage, Context } from "#services";
 import { HowItWorksMoodTrack } from "#modals";
-import { mascotHappyPurpleFull } from "#assets";
+import { mascotHappyPurpleFull, mascotHappyPurpleLight } from "#assets";
 
 /**
  * MoodTracker
@@ -422,7 +422,14 @@ export const MoodTracker = ({
         </View>
 
         <View style={styles.mascotRow}>
-          <Image source={mascotHappyPurpleFull} style={styles.mascot} />
+          <Image
+            source={
+              isDarkMode || isHighContrast
+                ? mascotHappyPurpleLight
+                : mascotHappyPurpleFull
+            }
+            style={styles.mascot}
+          />
         </View>
       </Block>
 
