@@ -17,3 +17,7 @@ export { default as mascotHappyPurpleFull } from "./mascot_happy_purple_full.png
 export { default as notFoundTransparent } from "./not-found-transparent.png";
 export { default as mapBackground } from "./map.webp";
 export { default as mascotHappyPurpleLight } from "./mascot-happy-purple-full-light.png";
+export { default as logoHorizontal } from "./logo_horizontal.webp";
+export { default as logoHorizontalDark } from "./logo_horizontal_dark.webp";
+export { default as logoHorizontalRo } from "./logo_horizontal_ro.png";
+export { default as logoHorizontalRoDark } from "./logo_horizontal_ro_dark.png";

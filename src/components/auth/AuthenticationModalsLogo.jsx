@@ -1,14 +1,21 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
-import Config from "react-native-config";
 
+import {
+  logoHorizontal,
+  logoHorizontalDark,
+  logoHorizontalRo,
+  logoHorizontalRoDark,
+} from "#assets";
 import { AppText, Icon } from "#components";
 import { useGetTheme } from "#hooks";
 import { Context, localStorage } from "#services";
 import { appStyles } from "#styles";
 
-const { AMAZON_S3_BUCKET } = Config;
+// Match client-ui `authentication-modal-logo.scss` (`__logo-container`).
+const LOGO_STRIP_BG_LIGHT = "#f0f1f9";
+const LOGO_STRIP_BG_DARK = "#3d414f";
 
 /**
  * AuthenticationModalsLogo
@@ -16,7 +23,7 @@ const { AMAZON_S3_BUCKET } = Config;
 export function AuthenticationModalsLogo({ onBackPress }) {
   const { t } = useTranslation("blocks", { keyPrefix: "welcome" });
   const { t: tScreen } = useTranslation("screens", { keyPrefix: "screen" });
-  const { colors, isDarkMode } = useGetTheme();
+  const { isDarkMode, isHighContrast } = useGetTheme();
 
   const { country: contextCountry } = useContext(Context) ?? {};
   const [storedCountry, setStoredCountry] = useState(null);
@@ -34,23 +41,28 @@ export function AuthenticationModalsLogo({ onBackPress }) {
 
   const effectiveCountry = contextCountry ?? storedCountry;
   const isRo = effectiveCountry === "RO";
-  const imageUrl = isRo
-    ? `${AMAZON_S3_BUCKET}/logo-horizontal-ro`
-    : isDarkMode
-      ? `${AMAZON_S3_BUCKET}/logo-vertical-dark`
-      : `${AMAZON_S3_BUCKET}/logo-horizontal`;
+  const useDarkLogo = isDarkMode || isHighContrast;
+
+  const logoSource = isRo
+    ? useDarkLogo
+      ? logoHorizontalRoDark
+      : logoHorizontalRo
+    : useDarkLogo
+      ? logoHorizontalDark
+      : logoHorizontal;
+
+  const logoStripBg = useDarkLogo ? LOGO_STRIP_BG_DARK : LOGO_STRIP_BG_LIGHT;
+  const backIconColor = useDarkLogo
+    ? appStyles.color_blue_c1d7e0
+    : appStyles.colorPrimary_20809e;
 
   return (
     <View style={styles.wrapper}>
-      <View
-        style={[
-          styles.logoContainer,
-          { backgroundColor: "#f0f1f9" },
-        ]}
-      >
+      <View style={[styles.logoContainer, { backgroundColor: logoStripBg }]}>
         <Image
           resizeMode="contain"
-          source={{ uri: imageUrl }}
+          accessibilityIgnoresInvertColors
+          source={logoSource}
           style={styles.logo}
         />
       </View>
@@ -67,7 +79,7 @@ export function AuthenticationModalsLogo({ onBackPress }) {
               <Icon
                 name="arrow-chevron-back"
                 size="md"
-                color={appStyles.colorPrimary_20809e}
+                color={backIconColor}
               />
             </TouchableOpacity>
           </View>
@@ -98,9 +110,12 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
   },
+  // Match web `max-height: 100px` + `max-width: 25.3rem` (~253 at 10px/rem).
   logo: {
-    width: 220,
-    height: 90,
+    alignSelf: "center",
+    height: 100,
+    width: "100%",
+    maxWidth: 253,
   },
   heading: {
     marginTop: 32,
