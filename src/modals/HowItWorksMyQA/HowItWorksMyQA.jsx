@@ -86,7 +86,7 @@ export const HowItWorksMyQA = ({ isOpen, onClose }) => {
       heading={t("heading")}
       isOpen={isOpen}
       handleClose={onClose}
-      scrollAnimationDuration={4000}
+      scrollableBody={false}
     >
       <View style={{ height: 480 }}>
         <CustomCarousel

@@ -34,7 +34,7 @@ export const CustomCarousel = ({ data, style, ...props }) => {
         data={data}
         {...props}
       />
-      <View style={styles.paginationContainer}>
+      <View pointerEvents="box-none" style={styles.paginationContainer}>
         {data.map((_, index) => (
           <Pressable
             key={index}

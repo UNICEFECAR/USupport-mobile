@@ -6,12 +6,15 @@ import {
   SafeAreaView,
   StatusBar,
   StyleSheet,
-  ScrollView,
   TouchableOpacity,
   TouchableWithoutFeedback,
   useWindowDimensions,
   View,
 } from "react-native";
+import {
+  GestureHandlerRootView,
+  ScrollView,
+} from "react-native-gesture-handler";
 
 import { AppText } from "../texts";
 import { Icon } from "../icons";
@@ -53,6 +56,7 @@ export function TransparentModal({
   isOpen,
   errorMessage,
   style,
+  scrollableBody = true,
 }) {
   const { width: windowWidth } = useWindowDimensions();
   const { isDarkMode, isHighContrast, colors } = useGetTheme();
@@ -96,9 +100,17 @@ export function TransparentModal({
 
   return (
     <Modal transparent visible={isOpen}>
-      <TouchableWithoutFeedback onPress={handleClose}>
+      {/**
+       * Modal mounts outside App's GestureHandlerRootView; RNGH pan handlers need a
+       * root here. Backdrop: TouchableWithoutFeedback only on dimmed area; SafeAreaView
+       * is box-none so taps pass through overlay to backdrop.
+       */}
+      <GestureHandlerRootView style={styles.gestureRoot}>
         <View style={styles.wrapper}>
-          <SafeAreaView style={styles.safeAreaView}>
+          <TouchableWithoutFeedback onPress={handleClose}>
+            <View style={StyleSheet.absoluteFill} />
+          </TouchableWithoutFeedback>
+          <SafeAreaView style={styles.safeAreaView} pointerEvents="box-none">
             <StatusBar
               barStyle={
                 isDarkMode || isHighContrast ? "light-content" : "dark-content"
@@ -106,116 +118,127 @@ export function TransparentModal({
               backgroundColor="transparent"
               translucent={Platform.OS === "android"}
             />
-            <TouchableWithoutFeedback>
-              <View
-                style={[
-                  styles.content,
-                  {
-                    backgroundColor: modalBg,
-                    width: cardWidth,
-                    maxWidth: MODAL_MAX_WIDTH,
-                    minWidth: Math.min(MODAL_MIN_WIDTH, windowWidth - 32),
-                  },
-                  style,
-                ]}
-              >
-                {heading ? (
-                  <View style={styles.header}>
-                    <AppText
-                      style={[styles.modalHeading, { color: headingColor }]}
-                    >
-                      {heading}
-                    </AppText>
-                  </View>
-                ) : null}
-
-                {hasCloseIcon ? (
-                  <TouchableOpacity
-                    onPress={handleClose}
-                    style={styles.closeIcon}
-                    hitSlop={12}
-                    accessibilityRole="button"
-                    accessibilityLabel="Close"
-                  >
-                    <Icon name="close-x" size="md" color={closeIconColor} />
-                  </TouchableOpacity>
-                ) : null}
-
-                {text ? (
+            <View
+              style={[
+                styles.content,
+                {
+                  backgroundColor: modalBg,
+                  width: cardWidth,
+                  maxWidth: MODAL_MAX_WIDTH,
+                  minWidth: Math.min(MODAL_MIN_WIDTH, windowWidth - 32),
+                },
+                style,
+              ]}
+            >
+              {heading ? (
+                <View style={styles.header}>
                   <AppText
-                    namedStyle="text"
-                    style={[
-                      styles.leadText,
-                      {
-                        color: introTextColor,
-                      },
-                    ]}
+                    style={[styles.modalHeading, { color: headingColor }]}
                   >
-                    {text}
+                    {heading}
                   </AppText>
-                ) : null}
+                </View>
+              ) : null}
 
+              {hasCloseIcon ? (
+                <TouchableOpacity
+                  onPress={handleClose}
+                  style={styles.closeIcon}
+                  hitSlop={12}
+                  accessibilityRole="button"
+                  accessibilityLabel="Close"
+                >
+                  <Icon name="close-x" size="md" color={closeIconColor} />
+                </TouchableOpacity>
+              ) : null}
+
+              {text ? (
+                <AppText
+                  namedStyle="text"
+                  style={[
+                    styles.leadText,
+                    {
+                      color: introTextColor,
+                    },
+                  ]}
+                >
+                  {text}
+                </AppText>
+              ) : null}
+
+              {scrollableBody ? (
                 <ScrollView
                   style={styles.body}
                   contentContainerStyle={styles.bodyContent}
                   showsVerticalScrollIndicator={false}
+                  nestedScrollEnabled
                 >
                   {children}
                   {showErrorInBody ? (
                     <Error style={styles.errorInBody} message={errorMessage} />
                   ) : null}
                 </ScrollView>
+              ) : (
+                <View style={[styles.body, styles.bodyContent]}>
+                  {children}
+                  {showErrorInBody ? (
+                    <Error style={styles.errorInBody} message={errorMessage} />
+                  ) : null}
+                </View>
+              )}
 
-                {hasFooter ? (
-                  <View
-                    style={[
-                      styles.footerWrapper,
-                      { borderTopColor: footerBorderColor },
-                    ]}
-                  >
-                    <View style={styles.footerInner}>
-                      {showErrorInFooter ? (
-                        <Error
-                          style={styles.footerError}
-                          message={errorMessage}
+              {hasFooter ? (
+                <View
+                  style={[
+                    styles.footerWrapper,
+                    { borderTopColor: footerBorderColor },
+                  ]}
+                >
+                  <View style={styles.footerInner}>
+                    {showErrorInFooter ? (
+                      <Error
+                        style={styles.footerError}
+                        message={errorMessage}
+                      />
+                    ) : null}
+                    <View style={styles.footerButtonsRow}>
+                      {ctaLabel ? (
+                        <NewButton
+                          label={ctaLabel}
+                          onPress={ctaHandleClick}
+                          size="lg"
+                          disabled={isCtaDisabled}
+                          loading={isCtaLoading}
+                          // color={ctaColor}
+                          style={styles.footerButton}
                         />
                       ) : null}
-                      <View style={styles.footerButtonsRow}>
-                        {ctaLabel ? (
-                          <NewButton
-                            label={ctaLabel}
-                            onPress={ctaHandleClick}
-                            size="lg"
-                            disabled={isCtaDisabled}
-                            loading={isCtaLoading}
-                            // color={ctaColor}
-                            style={styles.footerButton}
-                          />
-                        ) : null}
-                        {secondaryCtaLabel ? (
-                          <NewButton
-                            label={secondaryCtaLabel}
-                            onPress={secondaryCtaHandleClick}
-                            size="lg"
-                            disabled={isSecondaryCtaDisabled}
-                            type={getSecondaryNewButtonType(secondaryCtaType)}
-                            style={styles.footerButton}
-                          />
-                        ) : null}
-                      </View>
+                      {secondaryCtaLabel ? (
+                        <NewButton
+                          label={secondaryCtaLabel}
+                          onPress={secondaryCtaHandleClick}
+                          size="lg"
+                          disabled={isSecondaryCtaDisabled}
+                          type={getSecondaryNewButtonType(secondaryCtaType)}
+                          style={styles.footerButton}
+                        />
+                      ) : null}
                     </View>
                   </View>
-                ) : null}
-              </View>
-            </TouchableWithoutFeedback>
+                </View>
+              ) : null}
+            </View>
           </SafeAreaView>
         </View>
-      </TouchableWithoutFeedback>
+      </GestureHandlerRootView>
     </Modal>
   );
 }
 
 const styles = StyleSheet.create({
+  gestureRoot: {
+    flex: 1,
+  },
   /** base-modal__overlay — $overlay_66768D */
   wrapper: {
     flex: 1,
@@ -351,6 +374,11 @@ TransparentModal.propTypes = {
    * Additional styles to be passed to the view that renders the content
    */
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+
+  /**
+   * When false, body does not scroll (avoids gesture conflict with nested horizontal pans).
+   */
+  scrollableBody: PropTypes.bool,
 
   children: PropTypes.node,
 };

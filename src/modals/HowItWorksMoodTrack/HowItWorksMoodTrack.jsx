@@ -63,7 +63,7 @@ export const HowItWorksMoodTrack = ({ isOpen, onClose }) => {
       heading={t("heading")}
       isOpen={isOpen}
       handleClose={onClose}
-      scrollAnimationDuration={4000}
+      scrollableBody={false}
     >
       <View style={styles.carouselContainer}>
         <CustomCarousel
