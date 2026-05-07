@@ -55,7 +55,7 @@ export const CardMedia = ({
 
   const labelPaletteIndices = useMemo(() => {
     const count = labels?.length ?? 0;
-    const paletteSize = 6; // keep in sync with `Label` palettes
+    const paletteSize = 6;
     if (count <= 0) return [];
 
     const shuffle = (arr) => {
@@ -103,12 +103,6 @@ export const CardMedia = ({
     ? colors.textSecondary
     : appStyles.colorGray_66768d;
   const metaTextColor = colors.cardMediaMetaText || grayTextColor;
-  const timeIconColor = isHighContrast
-    ? metaTextColor
-    : appStyles.colorTextMain_0e202f;
-  const linkTextColor = isHighContrast
-    ? colors.text
-    : appStyles.colorBlue_6989a4;
 
   const showPlayButton =
     (contentType === "videos" || contentType === "podcasts") && handlePlay;
@@ -258,7 +252,11 @@ export const CardMedia = ({
                   <Icon
                     size="sm"
                     name="time"
-                    color={timeIconColor}
+                    color={
+                      isLightTheme
+                        ? appStyles.colorTextMain_0e202f
+                        : appStyles.colorTextMain_ededed
+                    }
                     style={styles.icon}
                   />
                   <AppText
