@@ -7,8 +7,7 @@ import {
   UIManager,
   Platform,
 } from "react-native";
-import { useMemo } from "react";
-import Config from "react-native-config";
+import { useMemo, useState, useCallback, useEffect } from "react";
 
 import { AppText } from "../../texts/AppText/AppText";
 import { Icon } from "../../icons/Icon";
@@ -19,9 +18,9 @@ import { Label } from "../../labels";
 
 import { appStyles } from "#styles";
 
-import { useGetTheme } from "#hooks";
-
-const { AMAZON_S3_BUCKET } = Config;
+import { useGetTheme, useEventListener } from "#hooks";
+import { localStorage } from "#services";
+import { getBrandingLogoUrl } from "#utils";
 
 /**
  * CardMedia
@@ -49,8 +48,9 @@ export const CardMedia = ({
   t,
   style,
   isRead = false,
+  countryCode: countryCodeProp,
 }) => {
-  const { colors, isHighContrast } = useGetTheme();
+  const { colors, isHighContrast, isDarkMode } = useGetTheme();
   const isLightTheme = colors.background === appStyles.colorWhite_ff;
 
   const labelPaletteIndices = useMemo(() => {
@@ -113,6 +113,39 @@ export const CardMedia = ({
       handlePlay();
     }
   };
+
+  const [syncedCountry, setSyncedCountry] = useState("KZ");
+
+  const loadCountry = useCallback(async () => {
+    try {
+      const c = await localStorage.getItem("country");
+      setSyncedCountry(c || "KZ");
+    } catch {
+      setSyncedCountry("KZ");
+    }
+  }, []);
+
+  useEffect(() => {
+    loadCountry();
+  }, [loadCountry]);
+
+  useEventListener("countryChanged", loadCountry);
+
+  const resolvedCountryForBranding =
+    countryCodeProp !== undefined ? countryCodeProp : syncedCountry;
+
+  const brandingFallbackUrl = useMemo(
+    () =>
+      getBrandingLogoUrl({
+        isDarkMode,
+        isHighContrast,
+        countryCode: resolvedCountryForBranding,
+      }),
+    [isDarkMode, isHighContrast, resolvedCountryForBranding],
+  );
+
+  const isBrandingFallback = !image;
+  const imageUri = image || brandingFallbackUrl;
 
   const cardContainerStyle = [
     styles.cardMediaOuter,
@@ -178,17 +211,30 @@ export const CardMedia = ({
           </>
         )}
 
-        <View style={styles.imageContainer}>
-          <Image
-            source={
-              image
-                ? { uri: image }
-                : {
-                    uri: `${AMAZON_S3_BUCKET}/article-placeholder`,
-                  }
-            }
-            style={styles.image}
-          />
+        <View
+          style={[
+            styles.imageContainer,
+            isBrandingFallback && [
+              styles.imageContainerBranding,
+              {
+                backgroundColor: isLightTheme
+                  ? "rgba(245, 248, 255, 0.92)"
+                  : "rgba(22, 36, 70, 0.55)",
+                borderColor:
+                  colors.cardMediaBorder || "rgba(137, 157, 209, 0.35)",
+              },
+            ],
+          ]}
+        >
+          {(image || brandingFallbackUrl) && (
+            <Image
+              source={{ uri: imageUri }}
+              style={
+                isBrandingFallback ? styles.imageBrandingFallback : styles.image
+              }
+              resizeMode={isBrandingFallback ? "contain" : "cover"}
+            />
+          )}
 
           {showPlayButton && (
             <TouchableOpacity
@@ -344,9 +390,25 @@ const styles = StyleSheet.create({
     position: "relative",
     zIndex: 3,
   },
+  imageContainerBranding: {
+    minHeight: 160,
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    borderWidth: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 16,
+    paddingHorizontal: 12,
+  },
   image: {
     width: "100%",
     height: 160,
+    borderTopRightRadius: 24,
+    borderTopLeftRadius: 24,
+  },
+  imageBrandingFallback: {
+    width: "100%",
+    height: 80,
     borderTopRightRadius: 24,
     borderTopLeftRadius: 24,
   },

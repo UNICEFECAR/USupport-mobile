@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useCallback, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -10,7 +10,6 @@ import Markdown from "react-native-markdown-display";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
 import Share from "react-native-share";
 import { useTranslation } from "react-i18next";
-import Config from "react-native-config";
 
 import {
   AudioPlayer,
@@ -29,11 +28,10 @@ import {
   useAddContentRating,
   useAddContentEngagement,
   useRemoveContentEngagement,
+  useEventListener,
 } from "#hooks";
-import { cmsSvc } from "#services";
-import { constructShareUrl, generatePDF, showToast } from "#utils";
-
-const { AMAZON_S3_BUCKET } = Config;
+import { cmsSvc, localStorage } from "#services";
+import { constructShareUrl, generatePDF, showToast, getBrandingLogoUrl } from "#utils";
 
 /**
  * ArticleView
@@ -50,6 +48,23 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
   const queryClient = useQueryClient();
 
   const isLightTheme = colors.background === appStyles.colorWhite_ff;
+
+  const [syncedCountry, setSyncedCountry] = useState("KZ");
+
+  const loadCountry = useCallback(async () => {
+    try {
+      const c = await localStorage.getItem("country");
+      setSyncedCountry(c || "KZ");
+    } catch {
+      setSyncedCountry("KZ");
+    }
+  }, []);
+
+  useEffect(() => {
+    loadCountry();
+  }, [loadCountry]);
+
+  useEventListener("countryChanged", loadCountry);
 
   const [contentRating, setContentRating] = React.useState({
     likes: articleData.likes || 0,
@@ -350,6 +365,18 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
     articleData.imageThumbnail ||
     articleData.imageSmall;
 
+  const hasHeroImage = Boolean(articleImageUri);
+
+  const brandingFallbackUrl = useMemo(
+    () =>
+      getBrandingLogoUrl({
+        isDarkMode,
+        isHighContrast,
+        countryCode: syncedCountry,
+      }),
+    [isDarkMode, isHighContrast, syncedCountry],
+  );
+
   const markdownStyles = useMemo(
     () => ({
       heading3: {
@@ -536,15 +563,38 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
             ]}
           />
 
-          <Image
-            source={
-              articleImageUri
-                ? { uri: articleImageUri }
-                : { uri: `${AMAZON_S3_BUCKET}/article-placeholder` }
-            }
-            style={styles.heroImage}
-            resizeMode="cover"
-          />
+          <View
+            style={[
+              styles.heroImageWrapper,
+              !hasHeroImage && [
+                styles.heroImageWrapperBranding,
+                {
+                  backgroundColor: isLightTheme
+                    ? "rgba(245, 248, 255, 0.92)"
+                    : "rgba(22, 36, 70, 0.55)",
+                  borderColor:
+                    colors.cardMediaBorder || "rgba(137, 157, 209, 0.35)",
+                },
+              ],
+            ]}
+          >
+            {(hasHeroImage
+              ? articleImageUri
+              : brandingFallbackUrl) && (
+              <Image
+                source={{
+                  uri: hasHeroImage ? articleImageUri : brandingFallbackUrl,
+                }}
+                style={
+                  hasHeroImage
+                    ? styles.heroImage
+                    : styles.heroImageBrandingOnly
+                }
+                resizeMode={hasHeroImage ? "cover" : "contain"}
+                accessibilityLabel={hasHeroImage ? articleData.title : "Logo"}
+              />
+            )}
+          </View>
 
           {articleData?.ttsUrl ? (
             <AudioPlayer
@@ -662,12 +712,30 @@ const styles = StyleSheet.create({
     width: 42,
   },
   loadingIcon: { height: 16, width: 16 },
+  heroImageWrapper: {
+    marginTop: 20,
+    width: "100%",
+  },
+  heroImageWrapperBranding: {
+    aspectRatio: 16 / 10,
+    maxHeight: 400,
+    borderRadius: 12,
+    borderWidth: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 16,
+    overflow: "hidden",
+  },
   heroImage: {
     aspectRatio: 16 / 9,
     borderRadius: 12,
-    marginTop: 20,
     maxHeight: 400,
     width: "100%",
+  },
+  heroImageBrandingOnly: {
+    width: "100%",
+    height: 80,
+    borderRadius: 12,
   },
   audioPlayer: {
     marginBottom: 8,
