@@ -11,15 +11,16 @@ import {
   AppText,
   Emoticon,
   Icon,
+  LinearGradient,
   Loading,
   MoodTrackLineChart,
   MoodTrackDetails,
   CardMedia,
   TransparentModal,
   NotFoundCard,
-  CHART_PADDING_TOP,
-  CHART_GRIDLINE_SPACING,
   CHART_BOTTOM_GRIDLINE_Y,
+  getDotXPositions,
+  getMoodChartHorizontalLineY,
 } from "#components";
 import {
   useGetMoodTrackEntries,
@@ -30,7 +31,7 @@ import {
 import { Context } from "#services";
 import { appStyles } from "#styles";
 
-const EMOTICON_ITEM_HEIGHT = 40;
+const EMOTICON_ITEM_HEIGHT = 44;
 
 export const MoodTrackHistory = ({ navigation, header, onHowItWorksPress }) => {
   const { width: windowWidth } = useWindowDimensions();
@@ -40,17 +41,32 @@ export const MoodTrackHistory = ({ navigation, header, onHowItWorksPress }) => {
   const language = i18n.language;
   const { country } = useContext(Context);
   const { colors, isDarkMode, isHighContrast } = useGetTheme();
+  const isLightTheme = colors.background === appStyles.colorWhite_ff;
   const isRomania = country === "RO";
+
+  const chartGlassGradient = useMemo(
+    () => ({
+      degrees: 145,
+      locations: [0, 100],
+      colors:
+        isLightTheme && !isHighContrast
+          ? ["rgba(255, 255, 255, 0.72)", "rgba(245, 248, 255, 0.58)"]
+          : colors.cardMediaGradient,
+    }),
+    [isLightTheme, isHighContrast, colors.cardMediaGradient]
+  );
 
   const chartWidth = useMemo(() => {
     const blockHorizontalPadding = 32;
-    const emoticonRailWidth = 36;
-    const emoticonRailGap = 8;
+    const cardHorizontalPadding = 24;
+    const emoticonRailWidth = 42;
+    const emoticonRailGap = 12;
     return Math.max(
       160,
       Math.floor(
         windowWidth -
           blockHorizontalPadding -
+          cardHorizontalPadding -
           emoticonRailWidth -
           emoticonRailGap
       )
@@ -108,7 +124,7 @@ export const MoodTrackHistory = ({ navigation, header, onHowItWorksPress }) => {
 
   const renderEmoticons = () => {
     return emoticons.map((name, index) => {
-      const centerY = CHART_PADDING_TOP + CHART_GRIDLINE_SPACING * index;
+      const centerY = getMoodChartHorizontalLineY(index);
       const top = centerY - EMOTICON_ITEM_HEIGHT / 2;
       return (
         <View
@@ -123,8 +139,17 @@ export const MoodTrackHistory = ({ navigation, header, onHowItWorksPress }) => {
 
   const renderDates = () => {
     const entries = entriesByPageKey[pageCacheKey]?.entries || [];
+    if (!entries.length) {
+      return null;
+    }
 
-    const dateItems = entries.map((mood, index) => {
+    const dotXPositions = getDotXPositions(entries.length, chartWidth);
+    const labelWidth = Math.min(
+      76,
+      Math.max(44, Math.floor(chartWidth / Math.max(entries.length * 1.35, 1)))
+    );
+
+    return entries.map((mood, index) => {
       const dateText = `${
         mood.time.getDate() > 9
           ? mood.time.getDate()
@@ -135,23 +160,35 @@ export const MoodTrackHistory = ({ navigation, header, onHowItWorksPress }) => {
           ? mood.time.getMinutes()
           : `0${mood.time.getMinutes()}`
       }`;
+      const dotX = dotXPositions[index] ?? chartWidth / 2;
 
       return (
-        <View style={styles.dateItem} key={index}>
-          <AppText namedStyle="small-text" style={styles.dateText}>
+        <View
+          style={[
+            styles.dateItem,
+            {
+              position: "absolute",
+              left: dotX - labelWidth / 2,
+              width: labelWidth,
+            },
+          ]}
+          key={index}
+        >
+          <AppText
+            namedStyle="small-text"
+            style={[styles.dateLine, { color: colors.textSecondary }]}
+          >
             {dateText}
           </AppText>
-          <AppText namedStyle="small-text" style={styles.dateText}>
+          <AppText
+            namedStyle="small-text"
+            style={[styles.timeLine, { color: colors.text }]}
+          >
             {hourText}
           </AppText>
         </View>
       );
     });
-
-    const shouldIncludeLeadingSpacer = entries.length > 1;
-    return shouldIncludeLeadingSpacer
-      ? [<View style={styles.dateItem} key="placeholder" />, ...dateItems]
-      : dateItems;
   };
 
   const handlePageChange = (next = false) => {
@@ -182,10 +219,10 @@ export const MoodTrackHistory = ({ navigation, header, onHowItWorksPress }) => {
       ? colors.text
       : colors.primary || appStyles.colorPrimary_20809e;
 
-  const prevDisabled = !(entriesByPageKey[pageCacheKey]?.hasMore ?? false);
-  const nextDisabled = pageNum === 0;
-  const prevColor = prevDisabled ? colors.textSecondary : navActionColor;
-  const nextColor = nextDisabled ? colors.textSecondary : navActionColor;
+  const chartHasMore = !!(entriesByPageKey[pageCacheKey]?.hasMore ?? false);
+  const showChartNavPrev = chartHasMore;
+  const showChartNavNext = pageNum > 0;
+  const showChartNavRow = showChartNavPrev || showChartNavNext;
 
   return (
     <View style={styles.block}>
@@ -211,77 +248,129 @@ export const MoodTrackHistory = ({ navigation, header, onHowItWorksPress }) => {
       ) : (
         <>
           <View onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
-            <View style={styles.chartContainer}>
-              <View style={styles.emoticonsContainer}>{renderEmoticons()}</View>
-              <View style={styles.lineChartContainer}>
-                <MoodTrackLineChart
-                  data={entriesByPageKey[pageCacheKey]?.entries || []}
-                  handleSelectItem={handleMoodClick}
-                  selectedItemId={selectedItemId}
-                  width={chartWidth}
-                />
-                <View
-                  style={[
-                    styles.datesTrack,
-                    { width: chartWidth },
-                    (entriesByPageKey[pageCacheKey]?.entries?.length || 0) >=
-                      6 && {
-                      marginLeft: -20,
-                    },
-                  ]}
-                  pointerEvents="none"
-                >
-                  {renderDates()}
+            <View
+              style={[
+                styles.chartCardOuter,
+                isLightTheme && !isHighContrast
+                  ? styles.liquidGlassShadowLight
+                  : appStyles.cardMediaShadowDark,
+              ]}
+            >
+              <LinearGradient
+                gradient={chartGlassGradient}
+                style={[
+                  styles.chartCardInner,
+                  {
+                    borderColor: isHighContrast
+                      ? colors.textSecondary
+                      : colors.cardMediaGradientBorder,
+                  },
+                  isHighContrast && styles.chartCardHC,
+                ]}
+              >
+                <View style={styles.chartContainer}>
+                  <View
+                    style={[
+                      styles.emoticonsContainer,
+                      {
+                        backgroundColor: isDarkMode
+                          ? "rgba(255,255,255,0.04)"
+                          : "rgba(104, 77, 253, 0.06)",
+                      },
+                    ]}
+                  >
+                    {renderEmoticons()}
+                  </View>
+                  <View style={styles.lineChartContainer}>
+                    <MoodTrackLineChart
+                      data={entriesByPageKey[pageCacheKey]?.entries || []}
+                      handleSelectItem={handleMoodClick}
+                      selectedItemId={selectedItemId}
+                      width={chartWidth}
+                    />
+                    <View
+                      style={[styles.datesTrack, { width: chartWidth }]}
+                      pointerEvents="none"
+                    >
+                      {renderDates()}
+                    </View>
+                  </View>
                 </View>
-              </View>
-            </View>
-            <View style={styles.navRow}>
-              <TouchableOpacity
-                style={[
-                  styles.navButton,
-                  isDarkMode && styles.navButtonDark,
-                  isHighContrast && styles.navButtonHC,
-                  prevDisabled && styles.disabled,
-                ]}
-                onPress={() =>
-                  entriesByPageKey[pageCacheKey].hasMore
-                    ? handlePageChange(true)
-                    : null
-                }
-                disabled={prevDisabled}
-                hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-              >
-                <Icon name="arrow-chevron-back" size="md" color={prevColor} />
-                <AppText
-                  namedStyle="small-text"
-                  style={[styles.navButtonLabel, { color: prevColor }]}
-                >
-                  {t("previous")}
-                </AppText>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[
-                  styles.navButton,
-                  isDarkMode && styles.navButtonDark,
-                  isHighContrast && styles.navButtonHC,
-                  nextDisabled && styles.disabled,
-                ]}
-                onPress={() => (pageNum === 0 ? null : handlePageChange())}
-                disabled={nextDisabled}
-                hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-              >
-                <AppText
-                  namedStyle="small-text"
-                  style={[styles.navButtonLabel, { color: nextColor }]}
-                >
-                  {t("next")}
-                </AppText>
-                <Icon
-                  name="arrow-chevron-forward"
-                  size="md"
-                  color={nextColor}
-                />
-              </TouchableOpacity>
+                {showChartNavRow ? (
+                  <View
+                    style={[
+                      styles.chartNavRow,
+                      {
+                        borderTopColor: isHighContrast
+                          ? colors.textSecondary
+                          : colors.cardMediaSeparator ||
+                            "rgba(15, 32, 47, 0.12)",
+                      },
+                    ]}
+                  >
+                    <View style={styles.chartNavSideStart}>
+                      {showChartNavPrev ? (
+                        <TouchableOpacity
+                          style={[
+                            styles.navButton,
+                            isDarkMode && styles.navButtonDark,
+                            isHighContrast && styles.navButtonHC,
+                          ]}
+                          onPress={() =>
+                            entriesByPageKey[pageCacheKey].hasMore
+                              ? handlePageChange(true)
+                              : null
+                          }
+                          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                        >
+                          <Icon
+                            name="arrow-chevron-back"
+                            size="md"
+                            color={navActionColor}
+                          />
+                          <AppText
+                            namedStyle="small-text"
+                            style={[
+                              styles.navButtonLabel,
+                              { color: navActionColor },
+                            ]}
+                          >
+                            {t("previous")}
+                          </AppText>
+                        </TouchableOpacity>
+                      ) : null}
+                    </View>
+                    <View style={styles.chartNavSideEnd}>
+                      {showChartNavNext ? (
+                        <TouchableOpacity
+                          style={[
+                            styles.navButton,
+                            isDarkMode && styles.navButtonDark,
+                            isHighContrast && styles.navButtonHC,
+                          ]}
+                          onPress={() => handlePageChange()}
+                          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                        >
+                          <AppText
+                            namedStyle="small-text"
+                            style={[
+                              styles.navButtonLabel,
+                              { color: navActionColor },
+                            ]}
+                          >
+                            {t("next")}
+                          </AppText>
+                          <Icon
+                            name="arrow-chevron-forward"
+                            size="md"
+                            color={navActionColor}
+                          />
+                        </TouchableOpacity>
+                      ) : null}
+                    </View>
+                  </View>
+                ) : null}
+              </LinearGradient>
             </View>
           </View>
           {(() => {
@@ -449,30 +538,58 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingBottom: 32,
   },
+  liquidGlassShadowLight: {
+    shadowColor: "rgb(95, 108, 145)",
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.14,
+    shadowRadius: 16,
+    elevation: 4,
+  },
+  chartCardOuter: {
+    width: "100%",
+    marginTop: 16,
+    overflow: "visible",
+  },
+  chartCardInner: {
+    width: "100%",
+    borderRadius: 16,
+    borderWidth: 1,
+    overflow: "hidden",
+    paddingVertical: 14,
+    paddingHorizontal: 12,
+  },
+  chartCardHC: {
+    borderWidth: 2,
+  },
   chartContainer: {
     flexDirection: "row",
-    marginTop: 16,
+    alignItems: "flex-start",
     width: "100%",
   },
   dateItem: {
-    flex: 1,
     alignItems: "center",
   },
-  dateText: {
+  dateLine: {
     textAlign: "center",
-    fontSize: 14,
+    fontSize: 11,
+    fontWeight: "500",
+    letterSpacing: 0.2,
+  },
+  timeLine: {
+    textAlign: "center",
+    fontSize: 13,
+    fontWeight: "600",
+    marginTop: 2,
+    letterSpacing: 0.15,
   },
   datesTrack: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    alignItems: "flex-start",
-    marginTop: 8,
-  },
-  disabled: {
-    opacity: 0.4,
+    position: "relative",
+    alignSelf: "flex-start",
+    marginTop: 4,
+    minHeight: 42,
   },
   emoticon: {
-    transform: [{ scale: 0.73 }],
+    transform: [{ scale: 0.82 }],
   },
   emoticonItem: {
     alignItems: "center",
@@ -482,10 +599,12 @@ const styles = StyleSheet.create({
     right: 0,
   },
   emoticonsContainer: {
-    height: Math.ceil(CHART_BOTTOM_GRIDLINE_Y + EMOTICON_ITEM_HEIGHT / 2 + 4),
-    marginRight: 8,
+    height: Math.ceil(CHART_BOTTOM_GRIDLINE_Y + EMOTICON_ITEM_HEIGHT / 2 + 8),
+    marginRight: 12,
     position: "relative",
-    width: 36,
+    width: 42,
+    borderRadius: 14,
+    overflow: "hidden",
   },
   lineChartContainer: {
     flex: 1,
@@ -499,12 +618,26 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     minHeight: 200,
   },
-  navRow: {
-    alignItems: "center",
+  chartNavRow: {
     flexDirection: "row",
+    alignItems: "center",
     justifyContent: "space-between",
-    marginTop: 16,
-    paddingHorizontal: 8,
+    width: "100%",
+    marginTop: 8,
+    paddingTop: 12,
+    paddingBottom: 2,
+    paddingHorizontal: 2,
+    borderTopWidth: StyleSheet.hairlineWidth * 2,
+  },
+  chartNavSideStart: {
+    flex: 1,
+    alignItems: "flex-start",
+    justifyContent: "center",
+  },
+  chartNavSideEnd: {
+    flex: 1,
+    alignItems: "flex-end",
+    justifyContent: "center",
   },
   navButton: {
     alignItems: "center",
