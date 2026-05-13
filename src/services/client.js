@@ -253,6 +253,14 @@ async function getOrganizationById(organizationId) {
   return response;
 }
 
+async function createOrganizationReport(organizationId, payload) {
+  const response = await http.post(
+    `${API_ENDPOINT}/organization/${organizationId}/report`,
+    payload
+  );
+  return response;
+}
+
 /**
  *
  * @param {string} suggestion
@@ -474,6 +482,7 @@ const exportedFunctions = {
   getCategoryInteractions,
   getOrganizations,
   getOrganizationById,
+  createOrganizationReport,
   sendPlatformSuggestion,
   createBaselineAssessment,
   getBaselineAssessmentQuestions,
