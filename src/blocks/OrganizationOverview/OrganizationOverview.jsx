@@ -1,12 +1,13 @@
 import { useTranslation } from "react-i18next";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { View, StyleSheet, Linking, TouchableOpacity, Platform } from "react-native";
 import * as Clipboard from "expo-clipboard";
 
-import { Block, Loading, AppText, Icon } from "#components";
+import { Block, Loading, AppText, Icon, NewButton } from "#components";
 import { useGetOrganizationById, useGetTheme } from "#hooks";
 import { appStyles } from "#styles";
 import { constructShareUrl, showToast } from "#utils";
+import { ReportOrganization } from "#modals";
 import LinearGradient from "../../components/LinearGradient";
 
 export const OrganizationOverview = ({ organizationId }) => {
@@ -20,6 +21,8 @@ export const OrganizationOverview = ({ organizationId }) => {
     isError,
   } = useGetOrganizationById(organizationId);
 
+  const [isReportOpen, setIsReportOpen] = useState(false);
+
   return (
     <Block>
       {isError ? (
@@ -29,15 +32,29 @@ export const OrganizationOverview = ({ organizationId }) => {
           <Loading size="lg" />
         </View>
       ) : (
-        <OrganizationDetails organization={organization} t={t} />
+        <>
+          <OrganizationDetails
+            organization={organization}
+            t={t}
+            onReportPress={() => setIsReportOpen(true)}
+          />
+          <ReportOrganization
+            isOpen={isReportOpen}
+            handleClose={() => setIsReportOpen(false)}
+            organizationId={organizationId}
+          />
+        </>
       )}
     </Block>
   );
 };
 
-const OrganizationDetails = ({ organization, t }) => {
+const OrganizationDetails = ({ organization, t, onReportPress }) => {
   const { colors, isHighContrast, isDarkMode } = useGetTheme();
   const { i18n } = useTranslation();
+
+  const contactIconColor =
+    isDarkMode || isHighContrast ? "#ededed" : "#66768D";
 
   const isLightTheme = colors.background === appStyles.colorWhite_ff;
 
@@ -176,9 +193,20 @@ const OrganizationDetails = ({ organization, t }) => {
               </TouchableOpacity>
             </View>
 
+            <View style={styles.reportRow}>
+              <NewButton
+                label={t("report_inactive")}
+                type="solid"
+                size="md"
+                isFullWidth
+                onPress={onReportPress}
+                style={styles.reportButton}
+              />
+            </View>
+
             {organization.phone && (
               <View style={styles.informationWithIcon}>
-                <Icon name="call" size="md" color={styles.iconMuted.color} />
+                <Icon name="call" size="md" color={contactIconColor} />
                 <AppText
                   style={styles.informationText}
                   onPress={handlePhonePress}
@@ -193,7 +221,7 @@ const OrganizationDetails = ({ organization, t }) => {
                 <Icon
                   name="mail-admin"
                   size="md"
-                  color={styles.iconMuted.color}
+                  color={contactIconColor}
                 />
                 <AppText
                   style={styles.informationText}
@@ -206,7 +234,7 @@ const OrganizationDetails = ({ organization, t }) => {
 
             {organization.websiteUrl && (
               <View style={styles.informationWithIcon}>
-                <Icon name="globe" size="md" color={styles.iconMuted.color} />
+                <Icon name="globe" size="md" color={contactIconColor} />
                 <AppText
                   style={styles.informationText}
                   onPress={handleWebsitePress}
@@ -351,9 +379,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 12,
   },
-  iconMuted: {
-    color: "#66768D",
-  },
   informationText: {
     marginLeft: 10,
     flex: 1,
@@ -385,5 +410,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 10,
     paddingVertical: 4,
+  },
+  reportRow: {
+    width: "100%",
+    marginBottom: 4,
+  },
+  reportButton: {
+    backgroundColor: appStyles.colorRed_eb5757,
   },
 });

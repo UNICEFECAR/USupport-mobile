@@ -926,6 +926,7 @@
       "identity_issues": "Identity issues",
       "illness_oncological_treatment_chronic_diseases": "Illness (oncological treatment, chronic diseases)",
       "other_situations": "Other situations",
+      "report_inactive": "Zgłoś jako nieaktywną",
       "copy_link_success": "Link copied to clipboard!"
     },
     "baseline-assesment": {
@@ -1600,6 +1601,15 @@
       "end_date": "Data zakończenia",
       "end_date_before_start_error": "Data zakończenia musi być późniejsza niż data rozpoczęcia",
       "confirm": "Potwierdź"
+    },
+    "organization-report": {
+      "heading": "Zgłoś tę organizację",
+      "subheading": "Prosimy, powiedz nam, dlaczego zgłaszasz tę organizację.",
+      "message_label": "Dodatkowe informacje (opcjonalnie)",
+      "message_placeholder": "Wyjaśnij, dlaczego zgłaszasz tę organizację—np. co wydaje się nieprawidłowe, mylące lub nieaktualne.",
+      "confirm_button": "Wyślij zgłoszenie",
+      "cancel_button": "Anuluj",
+      "success_message": "Dziękujemy. Twoje zgłoszenie zostało przyjęte."
     },
     "user-guide": {
       "heading": "Chcesz dowiedzieć się więcej o:",
