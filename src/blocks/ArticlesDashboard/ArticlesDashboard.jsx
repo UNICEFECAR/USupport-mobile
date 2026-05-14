@@ -5,14 +5,14 @@ import { StyleSheet, View } from "react-native";
 
 import { AppText, NewButton, Loading, CardMedia } from "#components";
 
-import { appStyles } from "#styles";
-
-import { localStorage, cmsSvc, adminSvc, Context } from "#services";
+import { localStorage, cmsSvc, Context } from "#services";
 
 import {
   useGetTheme,
   useGetUserContentEngagements,
   useRecommendedArticles,
+  useArticlesDashboardCountryArticleIds,
+  useRomaniaPinnedArticlesDashboard,
 } from "#hooks";
 
 import {
@@ -20,7 +20,6 @@ import {
   checkIsLikedAndDisliked,
   getLikesAndDislikesForContent,
 } from "#utils";
-import { Error } from "../../components/errors";
 import LinearGradient from "../../components/LinearGradient";
 
 const PL_LANGUAGE_AGE_GROUP_IDS = {
@@ -48,6 +47,9 @@ export const ArticlesDashboard = ({
   const { isDarkMode, isHighContrast } = useGetTheme();
   const { isTmpUser } = useContext(Context);
   const [country, setCountry] = useState();
+
+  const IS_RO =
+    typeof country === "string" && country.toUpperCase() === "RO";
 
   const [usersLanguage, setUsersLanguage] = useState(i18n.language);
   const [showAgeGroups, setShowAgeGroups] = useState(true);
@@ -193,21 +195,63 @@ export const ArticlesDashboard = ({
     enabled: articleIdsForRatings.length > 0,
   });
 
-  const getArticlesIds = async () => {
-    // Request articles ids from the master DB based for website platform
-    const articlesIds = await adminSvc.getArticles();
+  const articleIdsQuerry = useArticlesDashboardCountryArticleIds({
+    selectedAgeGroupId,
+    usersLanguage,
+    setArticleIdsForRatings,
+  });
 
-    if (usersLanguage === "en") {
-      setArticleIdsForRatings(articlesIds);
+  const dashboardArticleSourcesReadyForPinnedCms = useMemo(() => {
+    if (
+      articleIdsQuerry.isLoading ||
+      !articleIdsQuerry.data?.length ||
+      categoriesQuery.isLoading ||
+      !categoriesQuery.data?.length
+    ) {
+      return false;
     }
+    if (isTmpUser || shouldUseHardcodedAgeGroup) {
+      return true;
+    }
+    return Boolean(selectedAgeGroup?.id) && !ageGroupsQuery.isLoading;
+  }, [
+    articleIdsQuerry.isLoading,
+    articleIdsQuerry.data,
+    categoriesQuery.isLoading,
+    categoriesQuery.data,
+    isTmpUser,
+    shouldUseHardcodedAgeGroup,
+    selectedAgeGroup?.id,
+    ageGroupsQuery.isLoading,
+  ]);
 
-    return articlesIds;
-  };
+  const {
+    romaniaPinnedIdsLoading,
+    orderedPinnedStrapiIdsInPublishedPool,
+    showRomaniaPinnedArticlesOnly,
+    romanianDashboardUsesPinnedLayout,
+    pinnedArticlesCmsQuery,
+  } = useRomaniaPinnedArticlesDashboard({
+    country,
+    IS_RO,
+    usersLanguage,
+    articleIdsQuerry,
+    dashboardArticleSourcesReadyForPinnedCms,
+  });
 
-  const articleIdsQuerry = useQuery(
-    ["articleIds", selectedAgeGroupId],
-    getArticlesIds
-  );
+  useEffect(() => {
+    if (
+      !IS_RO ||
+      !pinnedArticlesCmsQuery.data?.length ||
+      usersLanguage !== "en"
+    ) {
+      return;
+    }
+    setArticleIdsForRatings((prev) => [
+      ...prev,
+      ...pinnedArticlesCmsQuery.data.map((a) => a.id),
+    ]);
+  }, [IS_RO, pinnedArticlesCmsQuery.data, usersLanguage]);
 
   const { data: articleCategoryIdsToShow } = useQuery(
     [
@@ -223,12 +267,18 @@ export const ArticlesDashboard = ({
         articleIdsQuerry.data
       ),
     {
-      enabled: !!articleIdsQuerry.data && !!selectedAgeGroupId,
+      enabled: !!articleIdsQuerry.data,
     }
   );
 
   const categoriesToShow = useMemo(() => {
-    if (!allCategories || !articleCategoryIdsToShow) return [];
+    if (
+      !allCategories ||
+      !articleCategoryIdsToShow ||
+      !articleIdsQuerry.data?.length
+    ) {
+      return [{ label: t("all"), value: "all", isSelected: true }];
+    }
 
     const filtered = allCategories.filter(
       (category) =>
@@ -237,7 +287,7 @@ export const ArticlesDashboard = ({
     );
 
     return filtered;
-  }, [allCategories, articleCategoryIdsToShow]);
+  }, [allCategories, articleCategoryIdsToShow, articleIdsQuerry.data, t]);
 
   const handleCategoryOnPress = (index) => {
     const clicked = categoriesToShow[index];
@@ -314,7 +364,8 @@ export const ArticlesDashboard = ({
         articleIdsQuerry.data?.length > 0 &&
         !categoriesQuery.isLoading &&
         categoriesQuery.data?.length > 0 &&
-        (isTmpUser || shouldUseHardcodedAgeGroup),
+        (isTmpUser || shouldUseHardcodedAgeGroup) &&
+        !romanianDashboardUsesPinnedLayout,
 
       refetchOnWindowFocus: false,
     }
@@ -328,17 +379,19 @@ export const ArticlesDashboard = ({
   const {
     articles,
     loading: isArticlesLoading,
-    error,
     isReady,
     readArticleIds,
   } = useRecommendedArticles({
-    limit: 6, // Only show 2 articles
+    limit: 2,
     ageGroupId: selectedAgeGroup?.id,
     categoryIdFilter:
       selectedCategory?.value === "all" ? null : selectedCategory?.id || null,
-    sortFilter: "read_count",
     availableCategories,
-    enabled: !isTmpUser,
+    enabled:
+      !isTmpUser &&
+      !!selectedAgeGroup?.id &&
+      !ageGroupsQuery.isLoading &&
+      !romanianDashboardUsesPinnedLayout,
   });
 
   useEffect(() => {
@@ -353,17 +406,70 @@ export const ArticlesDashboard = ({
     }
   }, [usersLanguage, articles]);
 
-  const articlesToTransform = isTmpUser ? newestArticles : articles;
+  const articlesToTransform = useMemo(() => {
+    const base = isTmpUser ? newestArticles : articles;
 
-  // Transform articles data to match expected format
-  const transformedArticles = articlesToTransform
-    ?.slice(0, 2)
-    ?.map((article) => {
-      // If article already has direct properties, use them, otherwise use article.data
-      return article.data ? article.data : article;
-    });
+    if (!romanianDashboardUsesPinnedLayout) {
+      return base;
+    }
 
-  const showLoading = isTmpUser ? newestArticlesLoading : isArticlesLoading;
+    if (romaniaPinnedIdsLoading) {
+      return [];
+    }
+
+    if (!showRomaniaPinnedArticlesOnly) {
+      return [];
+    }
+
+    const cmsData = pinnedArticlesCmsQuery.data;
+    if (!Array.isArray(cmsData) || cmsData.length === 0) {
+      return [];
+    }
+
+    if (isTmpUser || shouldUseHardcodedAgeGroup) {
+      return cmsData.map((raw) => destructureArticleData(raw));
+    }
+    return cmsData.map((raw) => ({
+      data: { ...raw, id: raw.id },
+    }));
+  }, [
+    romanianDashboardUsesPinnedLayout,
+    romaniaPinnedIdsLoading,
+    showRomaniaPinnedArticlesOnly,
+    isTmpUser,
+    shouldUseHardcodedAgeGroup,
+    newestArticles,
+    articles,
+    pinnedArticlesCmsQuery.data,
+  ]);
+
+  const romaniaPinnedContentLoading =
+    romanianDashboardUsesPinnedLayout &&
+    (romaniaPinnedIdsLoading ||
+      !dashboardArticleSourcesReadyForPinnedCms ||
+      (orderedPinnedStrapiIdsInPublishedPool.length === 0 &&
+        (articleIdsQuerry.isLoading || articleIdsQuerry.isFetching)) ||
+      (orderedPinnedStrapiIdsInPublishedPool.length > 0 &&
+        pinnedArticlesCmsQuery.isFetching));
+
+  const transformedArticles = useMemo(() => {
+    if (!articlesToTransform?.length) return [];
+    const source = showRomaniaPinnedArticlesOnly
+      ? articlesToTransform
+      : articlesToTransform.slice(0, 2);
+    return source.map((article) => (article.data ? article.data : article));
+  }, [articlesToTransform, showRomaniaPinnedArticlesOnly]);
+
+  const showLoading =
+    romaniaPinnedContentLoading ||
+    (!romanianDashboardUsesPinnedLayout &&
+      (isTmpUser ? newestArticlesLoading : isArticlesLoading));
+
+  const hasArticlesData = transformedArticles?.length > 0;
+
+  const shouldShowNoResults = romanianDashboardUsesPinnedLayout
+    ? !romaniaPinnedContentLoading && !hasArticlesData
+    : (isReady || isNewestArticlesFetched) && !hasArticlesData;
 
   const handleRedirect = () =>
     navigation.navigate("TabNavigation", { screen: "InformationalPortal" });
@@ -442,18 +548,11 @@ export const ArticlesDashboard = ({
               })}
           </View>
 
-          {error && (
+          {shouldShowNoResults && !showLoading && (
             <View style={styles.loadingContainer}>
-              <Error message={t("heading_no_results")} />
+              <AppText namedStyle="h3">{t("heading_no_results")}</AppText>
             </View>
           )}
-
-          {(isReady || isNewestArticlesFetched) &&
-            transformedArticles?.length === 0 && (
-              <View style={styles.loadingContainer}>
-                <AppText namedStyle="h3">{t("heading_no_results")}</AppText>
-              </View>
-            )}
 
           <View
             style={[
