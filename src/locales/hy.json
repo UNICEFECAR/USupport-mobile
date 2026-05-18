@@ -913,7 +913,7 @@
       "identity_issues": "Ինքնության խնդիրներ",
       "illness_oncological_treatment_chronic_diseases": "Հիվանդություն (օնկոլոգիական բուժում, քրոնիկ հիվանդություններ)",
       "other_situations": "Այլ իրավիճակներ",
-      "report_inactive": "Հաղորդել որպես ոչ ակտիվ",
+      "report_inactive": "Հաղորդել",
       "copy_link_success": "Հղումը պատճենվել է clipboard-ում։",
       "description_label": ""
     },
@@ -1590,7 +1590,8 @@
     "organization-report": {
       "heading": "Բողոքել այս կազմակերպությունը",
       "subheading": "Խնդրում ենք նշել, թե ինչու եք բողոքում այս կազմակերպության դեմ։",
-      "message_label": "Լրացուցիչ մանրամասներ (ըստ ցանկության)",
+      "message_label": "Լրացուցիչ մանրամասներ *",
+      "message_error": "Խնդրում ենք մուտքագրել ձեր բողոքի մանրամասները:",
       "message_placeholder": "Բացատրեք, թե ինչու եք բողոքում այս կազմակերպության դեմ․ օրինակ՝ ինչը սխալ, շփոթեցնող կամ հնացած է թվում։",
       "confirm_button": "Ուղարկել",
       "cancel_button": "Չեղարկել",

@@ -926,7 +926,7 @@
       "identity_issues": "Проблеми ідентичності",
       "illness_oncological_treatment_chronic_diseases": "Захворювання (онкологічне лікування, хронічні хвороби)",
       "other_situations": "Інші ситуації",
-      "report_inactive": "Повідомити про неактивність",
+      "report_inactive": "Повідомити",
       "copy_link_success": "Посилання скопійовано до буфера!"
     },
     "baseline-assesment": {
@@ -1605,7 +1605,8 @@
     "organization-report": {
       "heading": "Поскаржитися на цю організацію",
       "subheading": "Будь ласка, напишіть, чому ви скаржитеся на цю організацію.",
-      "message_label": "Додаткові деталі (необов’язково)",
+      "message_label": "Додаткові деталі *",
+      "message_error": "Вкажіть деталі скарги.",
       "message_placeholder": "Поясніть, чому ви скаржитеся на цю організацію—наприклад, що здається неправильним, оманливим або застарілим.",
       "confirm_button": "Надіслати скаргу",
       "cancel_button": "Скасувати",

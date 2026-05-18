@@ -912,7 +912,7 @@
       "identity_issues": "Identity issues",
       "illness_oncological_treatment_chronic_diseases": "Illness (oncological treatment, chronic diseases)",
       "other_situations": "Other situations",
-      "report_inactive": "Report as inactive",
+      "report_inactive": "Report",
       "copy_link_success": "Link copied to clipboard!",
       "description_label": ""
     },
@@ -1613,7 +1613,8 @@
     "organization-report": {
       "heading": "Report this organization",
       "subheading": "Please tell us why you are reporting this organization.",
-      "message_label": "Further details (optional)",
+      "message_label": "Further details *",
+      "message_error": "Please enter details about your report.",
       "message_placeholder": "Explain why you are reporting this organization—for example what seems wrong, misleading, or out of date.",
       "confirm_button": "Submit report",
       "cancel_button": "Cancel",

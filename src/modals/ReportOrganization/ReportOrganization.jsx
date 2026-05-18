@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
+import Joi from "joi";
 
 import { TransparentModal, Textarea } from "#components";
 import { useCreateOrganizationReport } from "#hooks";
-import { showToast } from "#utils";
+import { showToast, validate } from "#utils";
 
 export function ReportOrganization({ isOpen, handleClose, organizationId }) {
   const { t } = useTranslation("backdrops", {
@@ -13,11 +14,17 @@ export function ReportOrganization({ isOpen, handleClose, organizationId }) {
   });
 
   const [message, setMessage] = useState("");
+  const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState(null);
+
+  const schema = Joi.object({
+    message: Joi.string().trim().min(1).label(t("message_error")),
+  });
 
   useEffect(() => {
     if (!isOpen) {
       setMessage("");
+      setErrors({});
       setSubmitError(null);
     }
   }, [isOpen]);
@@ -33,8 +40,16 @@ export function ReportOrganization({ isOpen, handleClose, organizationId }) {
   const handleConfirm = async () => {
     if (!organizationId) return;
     setSubmitError(null);
+
+    if ((await validate({ message }, schema, setErrors)) !== null) {
+      return;
+    }
+
     try {
-      await mutation.mutateAsync({ organizationId, reason: message });
+      await mutation.mutateAsync({
+        organizationId,
+        reason: message.trim(),
+      });
     } catch {
       //
     }
@@ -48,7 +63,7 @@ export function ReportOrganization({ isOpen, handleClose, organizationId }) {
       text={t("subheading")}
       ctaLabel={t("confirm_button")}
       ctaHandleClick={handleConfirm}
-      isCtaDisabled={mutation.isLoading}
+      isCtaDisabled={mutation.isLoading || !message.trim()}
       isCtaLoading={mutation.isLoading}
       secondaryCtaLabel={t("cancel_button")}
       secondaryCtaHandleClick={handleClose}
@@ -62,6 +77,7 @@ export function ReportOrganization({ isOpen, handleClose, organizationId }) {
           value={message}
           onChange={setMessage}
           style={styles.textarea}
+          errorMessage={errors.message}
         />
       </View>
     </TransparentModal>
