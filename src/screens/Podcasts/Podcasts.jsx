@@ -14,6 +14,7 @@ import { Podcasts as PodcastsBlock } from "#blocks";
 export const Podcasts = ({ navigation, route }) => {
   const { t } = useTranslation("screens", { keyPrefix: "podcasts-screen" });
   const sort = route.params?.sort;
+  const initialSearchValue = route?.params?.initialSearchValue;
 
   let heading = t("heading_default");
   let subheading = t("subheading_default");
@@ -44,6 +45,7 @@ export const Podcasts = ({ navigation, route }) => {
         showSearch={true}
         showCategories={true}
         sort={sort}
+        initialSearchValue={initialSearchValue}
       />
     </Screen>
   );

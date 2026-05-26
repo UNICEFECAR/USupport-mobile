@@ -10,7 +10,7 @@ import {
 
 import { useAddPlatformRating } from "#hooks";
 
-import { Block, Rating, Textarea, AppButton } from "#components";
+import { Block, Rating, Textarea, NewButton, Heading } from "#components";
 import { showToast } from "../../utils/showToast";
 
 /**
@@ -60,7 +60,7 @@ export const PlatformRating = ({ navigation }) => {
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1, marginTop: 120 }}
+      style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : null}
       keyboardVerticalOffset={50}
     >
@@ -72,6 +72,11 @@ export const PlatformRating = ({ navigation }) => {
         keyboardShouldPersistTaps="handled"
       >
         <Block style={styles.block}>
+          <Heading
+            heading={t("heading")}
+            subheading={t("subheading")}
+            handleGoBack={() => navigation.goBack()}
+          />
           <View>
             <Rating
               label={t("rating_label")}
@@ -91,16 +96,16 @@ export const PlatformRating = ({ navigation }) => {
               flex: 1,
               justifyContent: "flex-end",
               width: "100%",
-              paddingBottom: 40,
+              paddingBottom: 90,
             }}
           >
-            <AppButton
+            <NewButton
               label={t("button_label")}
               size="lg"
               onPress={() => handleSendRating()}
               disabled={canContinue}
               loading={addPlatformRatingMutation.isLoading}
-              style={[styles.marginTop32]}
+              style={styles.marginTop32}
             />
           </View>
         </Block>

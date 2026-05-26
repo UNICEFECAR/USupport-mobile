@@ -15,7 +15,7 @@ import {
   getLikesAndDislikesForContent,
 } from "#utils";
 
-import { useGetUserContentEngagements } from "#hooks";
+import { useGetUserContentEngagements, useGetTheme } from "#hooks";
 
 import { appStyles } from "#styles";
 
@@ -29,6 +29,7 @@ import { appStyles } from "#styles";
 export const ArticleInformation = ({ navigation, route }) => {
   const id = route.params.articleId;
   const { isTmpUser } = useContext(Context);
+  const { isHighContrast } = useGetTheme();
   const { i18n, t } = useTranslation("screens", {
     keyPrefix: "article-information",
   });
@@ -274,12 +275,22 @@ export const ArticleInformation = ({ navigation, route }) => {
 
   return (
     <Screen>
-      <TouchableOpacity
-        style={styles.goBackIconContainer}
-        onPress={() => navigation.goBack()}
-      >
-        <Icon name="arrow-chevron-back" color={appStyles.colorPrimary_20809e} />
-      </TouchableOpacity>
+      <View style={styles.headerRow}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.goBackRow}
+          hitSlop={appStyles.hitSlop}
+        >
+          <Icon
+            style={styles.goBackIcon}
+            name="arrow-chevron-back"
+            color={isHighContrast ? "#fff" : appStyles.colorPrimary_20809e}
+          />
+          <AppText namedStyle="text" isBold style={styles.goBackText}>
+            {t("go_back")}
+          </AppText>
+        </TouchableOpacity>
+      </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         {articleData && !isLoading ? (
           <ArticleView
@@ -386,5 +397,23 @@ const styles = StyleSheet.create({
     height: 264,
     justifyContent: "center",
     alignItems: "center",
+  },
+  headerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 16,
+    marginTop: 16,
+  },
+  goBackRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "flex-start",
+  },
+  goBackIcon: {
+    marginRight: 8,
+  },
+  goBackText: {
+    textTransform: "none",
   },
 });

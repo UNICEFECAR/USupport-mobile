@@ -1,7 +1,6 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
 
-import { Screen, Block, Heading } from "#components";
+import { Screen } from "#components";
 import { Passcode as PasscodeBlock } from "#blocks";
 
 /**
@@ -12,15 +11,8 @@ import { Passcode as PasscodeBlock } from "#blocks";
  * @returns {JSX.Element}
  */
 export const Passcode = ({ navigation }) => {
-  const { t } = useTranslation("screens", { keyPrefix: "passcode-screen" });
-
   return (
     <Screen>
-      <Heading
-        heading={t("heading")}
-        subheading={t("subheading")}
-        handleGoBack={() => navigation.goBack()}
-      />
       <PasscodeBlock navigation={navigation} />
     </Screen>
   );

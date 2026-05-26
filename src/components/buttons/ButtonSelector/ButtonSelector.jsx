@@ -109,13 +109,13 @@ const styles = StyleSheet.create({
   text: {
     marginLeft: 11,
     fontSize: 14,
-    fontFamily: "Nunito-Regular",
+    fontFamily: appStyles.fontRegular,
     flex: 1,
   },
 
   textPressed: {
     color: appStyles.colorPrimaryPressed_0c5f7a,
-    fontFamily: "Nunito-Bold",
+    fontFamily: appStyles.fontBold,
   },
 
   textContainer: {

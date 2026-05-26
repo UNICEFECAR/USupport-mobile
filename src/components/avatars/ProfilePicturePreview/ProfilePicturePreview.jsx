@@ -4,8 +4,6 @@ import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { Icon } from "../../icons/Icon";
 import { AppText } from "../../texts/AppText/AppText";
 
-import { appStyles } from "#styles";
-
 import Config from "react-native-config";
 const { AMAZON_S3_BUCKET } = Config;
 
@@ -28,49 +26,59 @@ export const ProfilePicturePreview = ({
     ? imageFile
     : { uri: AMAZON_S3_BUCKET + "/" + (image || "default") };
 
+  const shouldShowDelete =
+    typeof handleDeleteClick === "function" &&
+    (Boolean(imageFile) || (Boolean(image) && image !== "default"));
+
   return (
     <View style={[styles.container, style]}>
-      <TouchableOpacity
-        onPress={handleDeleteClick}
-        style={styles.iconContainer}
-      >
-        <Icon name="circle-actions-close-purple" size="md" />
+      <View>
+        {shouldShowDelete ? (
+          <TouchableOpacity
+            onPress={handleDeleteClick}
+            style={styles.iconContainer}
+          >
+            <Icon name="circle-actions-close-purple" size="md" />
+          </TouchableOpacity>
+        ) : null}
+        <Image source={imageSrc} style={styles.image} />
+      </View>
+      <TouchableOpacity onPress={handleChangeClick}>
+        <AppText style={styles.changePhotoText}>{changePhotoText}</AppText>
       </TouchableOpacity>
-      <Image source={imageSrc} style={styles.image} />
-      <AppText onPress={handleChangeClick} style={styles.text}>
-        {changePhotoText}
-      </AppText>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    width: 80,
     position: "relative",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    backgroundColor: "transparent",
   },
 
   iconContainer: {
     position: "absolute",
-    top: 0,
-    right: 0,
+    top: -6,
+    right: -5,
     zIndex: 2,
+    borderRadius: 50,
   },
 
   image: {
-    width: 80,
-    height: 80,
-    borderRadius: 50,
+    width: 60,
+    height: 60,
+    borderRadius: 12,
     objectFit: "cover",
   },
 
-  text: {
-    color: appStyles.colorSecondary_9749fa,
-    fontFamily: "Nunito-SemiBold",
-    marginTop: 4,
-    alignSelf: "center",
-    textAlign: "center",
-    width: 100,
+  changePhotoText: {
+    marginLeft: 12,
+    minWidth: "auto",
+    textDecorationLine: "underline",
+    color: "#20809E",
   },
 });
 

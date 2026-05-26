@@ -322,9 +322,12 @@ async function getContentEngagementsById({ ids, contentType }) {
 }
 
 async function validatePlatformPassword(value) {
-  const response = await http.post(`${API_ENDPOINT}/validate-platform-password`, {
-    platformPassword: value,
-  });
+  const response = await http.post(
+    `${API_ENDPOINT}/validate-platform-password`,
+    {
+      platformPassword: value,
+    }
+  );
   return response;
 }
 

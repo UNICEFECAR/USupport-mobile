@@ -13,7 +13,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useQueryClient } from "@tanstack/react-query";
 
-import { Screen, AppButton } from "#components";
+import { AppText, Screen } from "#components";
 import { Consultations as ConsultationsBlock, GiveSuggestion } from "#blocks";
 
 import {
@@ -227,7 +227,10 @@ export const Consultations = ({ navigation }) => {
       const visibleHeight = windowHeight - keyboardHeight;
       const scrollY = Math.max(
         0,
-        giveSuggestionLayout.y + giveSuggestionLayout.height - visibleHeight + 56
+        giveSuggestionLayout.y +
+          giveSuggestionLayout.height -
+          visibleHeight +
+          56
       );
       scrollViewRef.current?.scrollTo({ y: scrollY, animated: true });
     });
@@ -262,14 +265,18 @@ export const Consultations = ({ navigation }) => {
           }
           keyboardShouldPersistTaps="handled"
         >
+          <AppText namedStyle="h2" style={styles.heading}>
+            {t("heading")}
+          </AppText>
           <ConsultationsBlock
             openJoinConsultation={openJoinConsultation}
             openEditConsultation={openEditConsultation}
             isTmpUser={isTmpUser}
             navigation={navigation}
             currencySymbol={currencySymbol}
+            onScheduleConsultationClick={handleScheduleConsultationClick}
           />
-          <View
+          {/* <View
             onLayout={(e) => setGiveSuggestionLayout(e.nativeEvent.layout)}
             collapsable={false}
           >
@@ -278,7 +285,7 @@ export const Consultations = ({ navigation }) => {
               type="consultations"
               onTextareaFocus={handleGiveSuggestionFocus}
             />
-          </View>
+          </View> */}
           <View style={{ marginBottom: 85 }} />
         </ScrollView>
       </KeyboardAvoidingView>
@@ -338,30 +345,18 @@ export const Consultations = ({ navigation }) => {
         onClose={closeRequireDataAgreement}
         onSuccess={handleDataAgreementSucess}
       />
-
-      {!isKeyboardShown && (
-        <AppButton
-          label={t("button_label")}
-          size="lg"
-          style={[
-            styles.button,
-            {
-              bottom: Platform.OS === "ios" ? 70 : 115 + bottomInset,
-            },
-          ]}
-          onPress={handleScheduleConsultationClick}
-        />
-      )}
     </Screen>
   );
 };
 
 const styles = StyleSheet.create({
-  button: {
-    alignSelf: "center",
-    position: "absolute",
-  },
   screen: {
     paddingTop: 48,
+  },
+  heading: {
+    marginTop: 16,
+    marginBottom: 4,
+    textAlign: "left",
+    paddingHorizontal: 16,
   },
 });

@@ -1,8 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { clientSvc } from "#services";
 
-export function useGetMoodTrackEntries(pageNum = 0, onSuccess, enabled) {
-  const limit = 5;
+export function useGetMoodTrackEntries(
+  limit = 6,
+  pageNum = 0,
+  onSuccess,
+  enabled
+) {
   const getMoodTrackEntries = async () => {
     const { data } = await clientSvc.getMoodTrackEntries(limit, pageNum);
 

@@ -19,6 +19,7 @@ export * from "./NotificationPreferences";
 export * from "./SOSCenter";
 export * from "./MascotHeadingBlock";
 export * from "./InformationalPortal";
+export * from "./InformationPortalHero";
 export * from "./GiveSuggestion";
 export * from "./Articles";
 export * from "./ArticleView";

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
-import { useTranslation, Trans } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import {
   StyleSheet,
   View,
@@ -12,9 +12,10 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { Screen, AppText, AppButton } from "#components";
-import { MascotHeadingBlock, MyQA as MyQABlock, GiveSuggestion } from "#blocks";
+import { Screen, NewButton } from "#components";
+import { MyQA as MyQABlock, InformationPortalHero } from "#blocks";
 import { HowItWorksMyQA } from "#modals";
+import myQaHeroImage from "../../blocks/InformationPortalHero/assets/my-qa-mobile.jpg";
 import {
   CreateQuestion,
   QuestionDetails,
@@ -31,7 +32,6 @@ import {
   useAddCountryEvent,
 } from "#hooks";
 import { showToast } from "#utils";
-import { appStyles } from "#styles";
 import { Context } from "#services";
 
 /**
@@ -43,10 +43,12 @@ import { Context } from "#services";
  */
 export const MyQA = ({ navigation }) => {
   const { t } = useTranslation("screens", { keyPrefix: "my-qa-screen" });
+  const { t: blocksT } = useTranslation("blocks", { keyPrefix: "my-qa" });
   const { bottom: bottomInset } = useSafeAreaInsets();
   const { height: windowHeight } = useWindowDimensions();
   const scrollViewRef = useRef(null);
   const [giveSuggestionLayout, setGiveSuggestionLayout] = useState(null);
+  const [searchValue, setSearchValue] = useState("");
 
   const { isTmpUser, handleRegistrationModalOpen } = useContext(Context);
 
@@ -253,23 +255,46 @@ export const MyQA = ({ navigation }) => {
     });
   };
 
+  const scrollContentBottomPadding =
+    bottomInset + (Platform.OS === "ios" ? 130 : 140);
+
   return (
-    <Screen hasEmergencyButton={false} hasHeaderNavigation t={t}>
+    <Screen
+      hasEmergencyButton={false}
+      hasHeaderNavigation
+      t={t}
+      style={
+        !isKeyboardShown
+          ? { paddingBottom: Platform.OS === "ios" ? 50 : 100 + bottomInset }
+          : undefined
+      }
+    >
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "position" : null}
         keyboardVerticalOffset={64}
       >
-        <ScrollView ref={scrollViewRef} keyboardShouldPersistTaps="handled">
-          <MascotHeadingBlock style={styles.headingBlock}>
-            <Heading
-              t={t}
-              handleButtonPress={() => setIsHowItWorksOpen(true)}
-            />
-          </MascotHeadingBlock>
+        <ScrollView
+          ref={scrollViewRef}
+          keyboardShouldPersistTaps="handled"
+          style={styles.scrollView}
+          contentContainerStyle={{ paddingBottom: scrollContentBottomPadding }}
+        >
+          <InformationPortalHero
+            navigation={navigation}
+            showSearch={true}
+            searchValue={searchValue}
+            onSearchChange={setSearchValue}
+            placeholder={blocksT("search_input_placeholder")}
+            image={myQaHeroImage}
+          />
           <MyQABlock
             tabs={tabs}
             setTabs={setTabs}
             questions={questions}
+            searchValue={searchValue}
+            howItWorksLabel={t("heading_button_label")}
+            onHowItWorksPress={() => setIsHowItWorksOpen(true)}
+            onGoBack={() => navigation.goBack()}
             handleLike={handleLike}
             handleAskQuestion={handleAskQuestion}
             handleSchedulePress={handleScheduleConsultationPress}
@@ -283,7 +308,7 @@ export const MyQA = ({ navigation }) => {
             setSelectedLanguage={setSelectedLanguage}
             setShouldFetchQuestions={setShouldFetchQuestions}
           />
-          <View
+          {/* <View
             onLayout={(e) => setGiveSuggestionLayout(e.nativeEvent.layout)}
             collapsable={false}
           >
@@ -293,7 +318,7 @@ export const MyQA = ({ navigation }) => {
               type="my-qa"
               onTextareaFocus={handleGiveSuggestionFocus}
             />
-          </View>
+          </View> */}
         </ScrollView>
       </KeyboardAvoidingView>
       {isHowItWorksOpen ? (
@@ -338,43 +363,21 @@ export const MyQA = ({ navigation }) => {
         />
       )}
       {!isKeyboardShown && (
-        <AppButton
-          label={t("ask_button_label")}
-          size="lg"
+        <View
           style={{
             bottom: Platform.OS === "ios" ? 70 : bottomInset + 120,
             ...styles.askButton,
           }}
-          onPress={handleAskQuestion}
-        />
+        >
+          <NewButton
+            label={t("ask_button_label")}
+            size="lg"
+            isFullWidth
+            onPress={handleAskQuestion}
+          />
+        </View>
       )}
     </Screen>
-  );
-};
-
-const Heading = ({ t, handleButtonPress }) => {
-  return (
-    <View>
-      <AppText namedStyle="h3" style={styles.headingText} black>
-        {t("heading")}
-      </AppText>
-      <AppText namedStyle="text" black>
-        <Trans
-          components={
-            <AppText namedStyle="text" style={styles.textBold} black></AppText>
-          }
-        >
-          {t("subheading")}
-        </Trans>
-      </AppText>
-      <AppButton
-        label={t("heading_button_label")}
-        size="md"
-        type="secondary"
-        style={styles.headingButton}
-        onPress={handleButtonPress}
-      />
-    </View>
   );
 };
 
@@ -382,10 +385,9 @@ const styles = StyleSheet.create({
   askButton: {
     alignSelf: "center",
     position: "absolute",
+    width: "100%",
+    paddingHorizontal: 16,
   },
-  headingBlock: { paddingTop: 88 },
-  headingButton: { marginRight: 24, marginTop: 12 },
-  headingText: { marginBottom: 12 },
+  scrollView: { paddingTop: 30 },
   marginBottom80: { marginBottom: 200 },
-  textBold: { fontFamily: appStyles.fontExtraBold },
 });

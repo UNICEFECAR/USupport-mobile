@@ -2,6 +2,8 @@ import { Platform } from "react-native";
 import RNHTMLtoPDF from "react-native-html-to-pdf";
 import { marked } from "marked";
 
+import { getDateView, getTime } from "./date.js";
+
 export const generatePDF = async ({ articleData, t }) => {
   try {
     // Convert markdown to HTML
@@ -17,7 +19,7 @@ export const generatePDF = async ({ articleData, t }) => {
           <style>
             * { print-color-adjust:exact !important; }
             body {
-              font-family: 'Nunito', sans-serif;
+              font-family: 'Inter', sans-serif;
               color: #333;
             }
             .header {
@@ -214,7 +216,7 @@ export const generateBaselineAssessmentResultPDF = async ({
           <style>
             * { print-color-adjust:exact !important; }
             body {
-              font-family: 'Nunito', sans-serif;
+              font-family: 'Inter', sans-serif;
               color: #333;
               padding: 16px;
             }
@@ -427,6 +429,162 @@ export const generateBaselineAssessmentResultPDF = async ({
     return file;
   } catch (error) {
     console.error("Error generating baseline assessment PDF:", error);
+    throw error;
+  }
+};
+
+/**
+ * @param {object} params
+ * @param {Array<{ isSystem: boolean, isSent: boolean, body: string, date: Date }>} params.rows
+ * @param {string} params.providerName
+ * @param {string} params.chatHistoryHeading
+ * @param {string} params.exportedAtLine
+ * @param {string} [params.logoUri]
+ */
+export const generateActivityHistoryChatPDF = async ({
+  rows,
+  providerName,
+  chatHistoryHeading,
+  exportedAtLine,
+  logoUri,
+}) => {
+  try {
+    const messageBlocks = (rows || [])
+      .map((row) => {
+        const d = row.date instanceof Date ? row.date : new Date(row.date);
+        const dateStr = `${getDateView(d)}, ${getTime(d)}`;
+        const body = escapeHtml(row.body || "");
+        if (row.isSystem) {
+          return `
+            <div class="msgRow system">
+              <div class="bubble system">
+                <div class="bubbleText">${body}</div>
+                <div class="bubbleDate">${escapeHtml(dateStr)}</div>
+              </div>
+            </div>`;
+        }
+        const side = row.isSent ? "sent" : "received";
+        return `
+            <div class="msgRow ${side}">
+              <div class="bubble ${side}">
+                <div class="bubbleText">${body}</div>
+                <div class="bubbleDate ${row.isSent ? "dateSent" : ""}">${escapeHtml(
+                  dateStr
+                )}</div>
+              </div>
+            </div>`;
+      })
+      .join("");
+
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <title>${escapeHtml(chatHistoryHeading || "Chat history")}</title>
+          <style>
+            * { print-color-adjust: exact !important; }
+            body {
+              font-family: 'Inter', sans-serif;
+              color: #20809e;
+              padding: 16px;
+              font-size: 12px;
+            }
+            .logo {
+              width: 30%;
+              max-width: 180px;
+              height: auto;
+              align-self: center;
+              margin: 0 auto 16px;
+              display: block;
+            }
+            .heading {
+              text-align: center;
+              margin-top: 8px;
+              font-weight: 600;
+            }
+            .providerName {
+              text-align: center;
+              margin-top: 6px;
+              font-weight: 400;
+              color: #20809e;
+            }
+            .exported {
+              text-align: center;
+              margin-top: 6px;
+              color: #666;
+              font-size: 11px;
+            }
+            .msgRow {
+              width: 100%;
+              display: flex;
+              flex-direction: column;
+              margin-top: 8px;
+            }
+            .msgRow.sent { align-items: flex-end; }
+            .msgRow.received { align-items: flex-start; }
+            .msgRow.system { align-items: center; }
+            .bubble {
+              border-radius: 18px;
+              padding: 8px 14px;
+              max-width: 88%;
+            }
+            .bubble.sent {
+              background-color: #54cfd9;
+              margin-right: 8px;
+            }
+            .bubble.received {
+              background-color: #e6f1f4;
+              margin-left: 8px;
+            }
+            .bubble.system {
+              background-color: #ffffff;
+              border: 1px solid #20809e;
+              max-width: 92%;
+            }
+            .bubbleText {
+              color: #20809e;
+              font-weight: 700;
+              font-size: 12px;
+            }
+            .bubbleDate {
+              color: gray;
+              margin-top: 6px;
+              font-size: 10px;
+            }
+            .bubbleDate.dateSent {
+              color: #66768d;
+            }
+          </style>
+        </head>
+        <body>
+          ${
+            logoUri
+              ? `<img class="logo" src="${escapeHtml(logoUri)}" alt="" />`
+              : ""
+          }
+          <div class="heading">${escapeHtml(chatHistoryHeading || "")}</div>
+          <div class="providerName">${escapeHtml(providerName || "")}</div>
+          <div class="exported">${escapeHtml(exportedAtLine || "")}</div>
+          ${messageBlocks}
+        </body>
+      </html>
+    `;
+
+    const safeName = String(providerName || "chat")
+      .replace(/[/\\?%*:|"<>]/g, "-")
+      .slice(0, 80);
+    const fileName = `Chat-history-${safeName}-${Date.now()}.pdf`;
+    const options = {
+      html: htmlContent,
+      fileName,
+      directory: Platform.OS === "ios" ? "Documents" : "Download",
+      base64: true,
+    };
+
+    return await RNHTMLtoPDF.convert(options);
+  } catch (error) {
+    console.error("Error generating activity history PDF:", error);
     throw error;
   }
 };

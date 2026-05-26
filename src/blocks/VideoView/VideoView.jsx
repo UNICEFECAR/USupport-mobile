@@ -1,13 +1,19 @@
-import React, { useState, useCallback, useRef, useEffect } from "react";
-import { StyleSheet, View, Dimensions } from "react-native";
+import React, { useState, useCallback, useRef, useMemo } from "react";
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
 import YoutubePlayer from "react-native-youtube-iframe";
 import { WebView } from "react-native-webview";
+import Share from "react-native-share";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { Block, AppText, Label } from "#components";
+import { AppText, Icon, Label, Like } from "#components";
+import LinearGradient from "../../components/LinearGradient";
 import { appStyles } from "#styles";
-import { Like } from "../../components/icons/Like";
-
 import { cmsSvc } from "#services";
 import {
   useAddContentRating,
@@ -15,23 +21,29 @@ import {
   useAddContentEngagement,
   useRemoveContentEngagement,
 } from "#hooks";
+import { constructShareUrl, showToast } from "#utils";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
-const VIDEO_HEIGHT = (SCREEN_WIDTH * 9) / 16; // 16:9 aspect ratio
+const CONTENT_WIDTH = SCREEN_WIDTH - 32;
+const VIDEO_HEIGHT = (CONTENT_WIDTH * 9) / 16;
 
 /**
  * VideoView
  *
- * Video view block component
+ * Layout and styling aligned with client-ui video-view (title + share, creator +
+ * category, labels + likes, embed, description).
  *
  * @returns {JSX.Element}
  */
 export const VideoView = ({ videoData, t, isTmpUser }) => {
-  const { colors } = useGetTheme();
+  const { colors, isHighContrast, isDarkMode } = useGetTheme();
 
   const [playing, setPlaying] = useState(false);
+  const [isShared, setIsShared] = useState(false);
   const webViewRef = useRef(null);
   const queryClient = useQueryClient();
+
+  const creator = videoData.creator ? videoData.creator : null;
 
   const [contentRating, setContentRating] = useState({
     likes: videoData.likes || 0,
@@ -40,16 +52,16 @@ export const VideoView = ({ videoData, t, isTmpUser }) => {
     isDislikedByUser: videoData.contentRating?.isDislikedByUser || false,
   });
 
-  // Extract video ID and platform from URL
   const getVideoInfo = (url) => {
-    if (!url) return { platform: null, videoId: null };
+    if (!url) return { platform: null };
 
     const isYoutube = url.includes("youtube") || url.includes("youtu.be");
     const isVimeo = url.includes("vimeo");
 
     if (isYoutube) {
       return { platform: "youtube" };
-    } else if (isVimeo) {
+    }
+    if (isVimeo) {
       return { platform: "vimeo" };
     }
 
@@ -58,12 +70,56 @@ export const VideoView = ({ videoData, t, isTmpUser }) => {
 
   const { platform } = getVideoInfo(videoData.originalUrl);
 
-  // Handle video state change (for YouTube)
   const onStateChange = useCallback((state) => {
     if (state === "ended") {
       setPlaying(false);
     }
   }, []);
+
+  const isLightTheme = colors.background === appStyles.colorWhite_ff;
+
+  const glassGradient = useMemo(
+    () => ({
+      degrees: 145,
+      locations: [0, 100],
+      colors:
+        isLightTheme && !isHighContrast
+          ? Platform.OS === "android"
+            ? ["#ffffff", "#f5f8ff"]
+            : ["rgba(255, 255, 255, 0.99)", "rgba(245, 248, 255, 0.85)"]
+          : colors.cardMediaGradient,
+    }),
+    [isLightTheme, isHighContrast, colors.cardMediaGradient]
+  );
+
+  const metaAccentColor = isHighContrast
+    ? appStyles.colorOrangeArticleCreatorHC_ffc18c
+    : colors.cardMediaMetaText;
+
+  const actionIconColor =
+    isLightTheme && !isHighContrast
+      ? appStyles.colorGray_66768d
+      : appStyles.colorWhite_ff;
+
+  const categoryBadgeStyle = useMemo(() => {
+    if (isDarkMode && !isHighContrast) {
+      return {
+        backgroundColor: appStyles.colorGray_66768d,
+        borderColor: "transparent",
+      };
+    }
+    return {
+      backgroundColor: appStyles.colorBlue_20809E_0_3,
+      borderColor: "transparent",
+    };
+  }, [isDarkMode, isHighContrast]);
+
+  const categoryTextColor = useMemo(() => {
+    if (isDarkMode && !isHighContrast) {
+      return appStyles.color_blue_c1d7e0;
+    }
+    return appStyles.colorBlue_3d527b;
+  }, [isDarkMode, isHighContrast]);
 
   const addContentEngagementMutation = useAddContentEngagement();
   const removeContentEngagementMutation = useRemoveContentEngagement();
@@ -84,7 +140,7 @@ export const VideoView = ({ videoData, t, isTmpUser }) => {
       cacheTime: Infinity,
     }
   );
-  // Like/Dislike functionality
+
   const onMutate = (data) => {
     const prevData = JSON.parse(JSON.stringify(contentRating));
 
@@ -162,7 +218,7 @@ export const VideoView = ({ videoData, t, isTmpUser }) => {
 
   const onError = (error, rollback) => {
     rollback();
-    toast.error(error);
+    showToast({ message: error, type: "error" });
   };
 
   const onSuccess = () => {
@@ -182,15 +238,12 @@ export const VideoView = ({ videoData, t, isTmpUser }) => {
     const isRemovingReaction =
       action === "remove-like" || action === "remove-dislike";
 
-    // Track engagement
     if (isRemovingReaction) {
-      // Remove like/dislike from engagement tracking
       removeContentEngagementMutation({
         contentId: videoData.id,
         contentType: "video",
       });
     } else {
-      // Add like/dislike to engagement tracking
       addContentEngagementMutation({
         contentId: videoData.id,
         contentType: "video",
@@ -198,7 +251,6 @@ export const VideoView = ({ videoData, t, isTmpUser }) => {
       });
     }
 
-    // Update rating in the rating system
     addContentRatingMutation({
       contentId: videoData.id,
       positive: action === "like" ? true : isRemovingReaction ? null : false,
@@ -206,7 +258,41 @@ export const VideoView = ({ videoData, t, isTmpUser }) => {
     });
   };
 
+  const handleShare = async () => {
+    try {
+      const url = await constructShareUrl({
+        contentType: "video",
+        id: videoData.id,
+        name: videoData.title,
+      });
+      await Share.open({
+        title: videoData.title,
+        message: `${t("check_video")}\n\n${url}`,
+      });
+      showToast({ message: t("share_success"), type: "success" });
+      if (!isShared) {
+        cmsSvc.addVideoShareCount(videoData.id).then(() => {
+          setIsShared(true);
+        });
+        if (!isTmpUser) {
+          addContentEngagementMutation({
+            contentId: videoData.id,
+            contentType: "video",
+            action: "share",
+          });
+        }
+      }
+    } catch (error) {
+      if (error?.message && !error.message.includes("User did not share")) {
+        console.log("Share error:", error);
+      }
+    }
+  };
+
   const renderVideo = () => {
+    if (!videoData?.videoId) {
+      return null;
+    }
     if (!platform) {
       return (
         <View style={styles.errorContainer}>
@@ -218,9 +304,10 @@ export const VideoView = ({ videoData, t, isTmpUser }) => {
       return (
         <YoutubePlayer
           height={VIDEO_HEIGHT}
+          width={CONTENT_WIDTH}
           play={playing}
           videoId={videoData.videoId}
-          onStateChange={onStateChange}
+          onChangeState={onStateChange}
         />
       );
     }
@@ -237,112 +324,224 @@ export const VideoView = ({ videoData, t, isTmpUser }) => {
         />
       );
     }
+
+    return null;
   };
 
   return (
-    <Block style={styles.videoViewBlock}>
-      <View style={styles.categoryContainer}>
-        <AppText
-          namedStyle="smallText"
-          style={[styles.categoryText, { color: colors.text }]}
-        >
-          {videoData.categoryName}
-        </AppText>
-      </View>
-      <View style={styles.videoContainer}>{renderVideo()}</View>
-
-      <View>
-        {videoData.description && (
-          <AppText style={styles.description}>{videoData.description}</AppText>
-        )}
-
-        {videoData.creator && (
-          <AppText style={styles.creator}>{videoData.creator}</AppText>
-        )}
-
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <View style={styles.labelsContainer}>
-            {videoData.labels &&
-              videoData.labels.length > 0 &&
-              videoData.labels.map((label, index) => (
-                <Label style={styles.label} text={label.name} key={index} />
-              ))}
-          </View>
-          <Like
-            handleClick={handleAddRating}
-            likes={contentRating?.likes || 0}
-            isLiked={contentRating?.isLikedByUser || false}
-            dislikes={contentRating?.dislikes || 0}
-            isDisliked={contentRating?.isDislikedByUser || false}
-            answerId={videoData.id}
-          />
+    <View style={styles.screen}>
+      <LinearGradient
+        gradient={glassGradient}
+        style={[
+          styles.glassCard,
+          isLightTheme && !isHighContrast
+            ? styles.liquidGlassShadowLight
+            : appStyles.cardMediaShadowDark,
+          { borderColor: colors.cardMediaGradientBorder },
+        ]}
+      >
+        <View style={styles.titleRow}>
+          <AppText namedStyle="h2" style={styles.title}>
+            {videoData.title}
+          </AppText>
+          <TouchableOpacity
+            style={styles.actionIconBtn}
+            onPress={handleShare}
+            accessibilityRole="button"
+          >
+            <Icon name="share" size="sm" color={actionIconColor} />
+          </TouchableOpacity>
         </View>
-      </View>
-    </Block>
+
+        <View style={styles.detailsRow}>
+          {creator ? (
+            <AppText
+              namedStyle="smallText"
+              style={[styles.creatorText, { color: metaAccentColor }]}
+              numberOfLines={1}
+            >
+              {t("by", { creator })}
+            </AppText>
+          ) : null}
+          {videoData.categoryName ? (
+            <View
+              style={[
+                styles.categoryBadge,
+                categoryBadgeStyle,
+                !creator && styles.categoryBadgeFirst,
+              ]}
+            >
+              <AppText
+                namedStyle="smallText"
+                style={[styles.categoryBadgeText, { color: categoryTextColor }]}
+              >
+                {videoData.categoryName}
+              </AppText>
+            </View>
+          ) : null}
+        </View>
+
+        <View style={styles.labelsLikeRow}>
+          <View style={styles.labelsWrap}>
+            {videoData.labels?.map((label, index) => (
+              <Label style={styles.label} text={label.name} key={index} />
+            ))}
+          </View>
+          <View style={styles.likeWrap}>
+            <Like
+              size={30}
+              handleClick={handleAddRating}
+              likes={contentRating?.likes || 0}
+              isLiked={contentRating?.isLikedByUser || false}
+              dislikes={contentRating?.dislikes || 0}
+              isDisliked={contentRating?.isDislikedByUser || false}
+              answerId={videoData.id}
+            />
+          </View>
+        </View>
+
+        <View style={styles.videoOuter}>
+          <View style={styles.videoContainer}>{renderVideo()}</View>
+        </View>
+
+        {videoData.description ? (
+          <AppText
+            namedStyle="text"
+            style={[styles.description, { color: colors.textSecondary }]}
+          >
+            {videoData.description}
+          </AppText>
+        ) : null}
+      </LinearGradient>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  videoViewBlock: {
-    flex: 1,
-    paddingTop: 84,
+  screen: {
+    marginTop: 8,
+    paddingHorizontal: 16,
+    paddingBottom: 8,
+    maxWidth: SCREEN_WIDTH,
   },
-  videoContainer: {
-    width: "100%",
-    height: VIDEO_HEIGHT,
-    backgroundColor: appStyles.colorBlack_37,
+  glassCard: {
+    borderRadius: 16,
+    borderWidth: 1,
+    overflow: "hidden",
+    padding: 16,
+  },
+  liquidGlassShadowLight: {
+    shadowColor: "rgb(95, 108, 145)",
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.14,
+    shadowRadius: 16,
+    elevation: 4,
+  },
+  titleRow: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginBottom: 16,
-  },
-  webview: {
     width: "100%",
-    height: "100%",
   },
-
   title: {
-    marginBottom: 12,
+    flex: 1,
+    marginRight: 12,
+    textAlign: "left",
   },
-  description: {
-    marginBottom: 16,
+  actionIconBtn: {
+    alignItems: "center",
+    borderRadius: 21,
+    height: 42,
+    justifyContent: "center",
+    width: 42,
   },
-  creator: {
-    color: appStyles.colorGray_92,
-    marginBottom: 16,
-  },
-  labelsContainer: {
+  detailsRow: {
+    alignItems: "center",
     flexDirection: "row",
     flexWrap: "wrap",
-    width: "70%",
+    marginBottom: 16,
+    width: "100%",
+  },
+  creatorText: {
+    flexShrink: 1,
+    marginRight: 8,
+    maxWidth: "55%",
+  },
+  categoryBadge: {
+    alignItems: "center",
+    borderRadius: 25,
+    height: 24,
+    justifyContent: "center",
+    marginLeft: 16,
+    paddingHorizontal: 12,
+  },
+  categoryBadgeFirst: {
+    marginLeft: 0,
+  },
+  categoryBadgeText: {
+    fontFamily: appStyles.fontBold,
+  },
+  labelsLikeRow: {
+    alignItems: "flex-start",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 16,
+    paddingTop: 8,
+    width: "100%",
+  },
+  labelsWrap: {
+    flex: 1,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+    marginRight: 8,
+    maxWidth: "72%",
   },
   label: {
-    marginRight: 8,
-    marginBottom: 8,
-    paddingVertical: 1,
+    marginBottom: 4,
+    marginRight: 0,
+    marginTop: 4,
+    paddingVertical: 0,
+  },
+  likeWrap: {
+    alignItems: "flex-end",
+    justifyContent: "center",
+    minWidth: 120,
+  },
+  videoOuter: {
+    marginBottom: 24,
+    marginTop: 12,
+    width: "100%",
+  },
+  videoContainer: {
+    alignItems: "center",
+    backgroundColor: appStyles.colorBlack_37,
+    borderRadius: 10,
+    justifyContent: "center",
+    minHeight: VIDEO_HEIGHT,
+    overflow: "hidden",
+    width: "100%",
+    ...appStyles.cardMediaShadowLight,
+  },
+  webview: {
+    height: VIDEO_HEIGHT,
+    width: "100%",
+  },
+  description: {
+    textAlign: "left",
+    width: "100%",
   },
   errorContainer: {
+    alignItems: "center",
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
+    minHeight: VIDEO_HEIGHT,
+    paddingHorizontal: 16,
+    width: "100%",
   },
   errorText: {
     color: appStyles.colorDanger,
-  },
-  categoryContainer: {
-    marginBottom: 5,
-    backgroundColor: appStyles.colorBlue_20809E_0_3,
-    paddingHorizontal: 12,
-    paddingVertical: 2,
-    borderRadius: 25,
-    justifyContent: "center",
-    width: "auto",
-    alignSelf: "flex-start",
-  },
-  categoryText: {
-    fontFamily: appStyles.fontBold,
-    color: appStyles.colorBlue_3d527b,
+    textAlign: "center",
   },
 });

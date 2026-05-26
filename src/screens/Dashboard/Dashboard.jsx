@@ -6,7 +6,6 @@ import {
   ScrollView,
   View,
   RefreshControl,
-  ImageBackground,
   KeyboardAvoidingView,
   Platform,
   Keyboard,
@@ -15,20 +14,11 @@ import {
 import { useTranslation } from "react-i18next";
 import Config from "react-native-config";
 
-import {
-  Screen,
-  AppText,
-  AppButton,
-  ButtonWithIcon,
-  ButtonOnlyIcon,
-  ConsultationDashboard,
-  Loading,
-} from "#components";
+import { Screen } from "#components";
 
 import {
   ArticlesDashboard,
   BaselineAssessmentDashboard,
-  MascotHeadingBlock,
   ConsultationsDashboard,
   MoodTracker,
 } from "#blocks";
@@ -86,6 +76,7 @@ export const Dashboard = ({ navigation }) => {
   const getClientDataEnabled = isTmpUser === false ? true : false;
   const clientDataQuery = useGetClientData(getClientDataEnabled)[0];
   const clientData = clientDataQuery.data;
+  const isLoggedIn = isTmpUser === false && !!clientData;
   const clientName = clientData
     ? clientData?.name
       ? `${clientData.name} ${clientData.surname}`
@@ -348,8 +339,17 @@ export const Dashboard = ({ navigation }) => {
       handleRegistrationModalOpen();
       return;
     }
+    // Don't open behind other screens (e.g. RegisterAboutYou).
+    if (!isFocused || !isLoggedIn) return;
     setIsBaselineAssesmentModalOpen(true);
   };
+
+  useEffect(() => {
+    // Ensure we never show this modal when Dashboard isn't the active screen.
+    if (!isFocused && isBaselineAssesmentModalOpen) {
+      setIsBaselineAssesmentModalOpen(false);
+    }
+  }, [isFocused, isBaselineAssesmentModalOpen]);
 
   const [isEmergencySituationOpen, setIsEmergencySituationOpen] =
     useState(false);
@@ -359,7 +359,7 @@ export const Dashboard = ({ navigation }) => {
   };
   const closeEmergencySituation = () => {
     setIsEmergencySituationOpen(false);
-    openUserGuide();
+    // openUserGuide();
   };
 
   const [isUserGuideOpen, setIsUserGuideOpen] = useState(false);
@@ -389,7 +389,7 @@ export const Dashboard = ({ navigation }) => {
     <Screen hasHeaderNavigation t={t} hasEmergencyButton={false}>
       {IS_RO && (
         <BaselineAssesmentModal
-          open={isBaselineAssesmentModalOpen}
+          open={isBaselineAssesmentModalOpen && isFocused && isLoggedIn}
           setOpen={setIsBaselineAssesmentModalOpen}
           navigation={navigation}
           isTmpUser={isTmpUser}
@@ -410,28 +410,6 @@ export const Dashboard = ({ navigation }) => {
           }
           keyboardShouldPersistTaps="handled"
         >
-          <MascotHeadingBlock style={styles.mascotHeadingBlock}>
-            {clientData?.isLoading || isTmpUser === null ? (
-              <Loading />
-            ) : (
-              <HeadingBlockContent
-                openEmergencySituation={openEmergencySituation}
-                openUserGuide={openUserGuide}
-                isTmpUser={isTmpUser}
-                t={t}
-                clientName={clientName}
-                upcomingConsultations={upcomingConsultations}
-                openJoinConsultation={openJoinConsultation}
-                openEditConsultation={openEditConsultation}
-                handleScheduleConsultation={handleScheduleConsultation}
-                handleAcceptSuggestion={handleAcceptSuggestion}
-                handleRegistrationModalOpen={handleRegistrationModalOpen}
-                country={country}
-                isDarkMode={isDarkMode}
-                navigation={navigation}
-              />
-            )}
-          </MascotHeadingBlock>
           <View
             onLayout={(e) => setMoodTrackerLayout(e.nativeEvent.layout)}
             collapsable={false}
@@ -443,20 +421,6 @@ export const Dashboard = ({ navigation }) => {
               onTextareaFocus={handleMoodTrackerTextareaFocus}
             />
           </View>
-          {IS_RO && (
-            <BaselineAssessmentDashboard
-              navigation={navigation}
-              openBaselineAssesmentModal={openBaselineAssesmentModal}
-            />
-          )}
-          <ArticlesDashboard
-            navigation={navigation}
-            openArticlesModal={openArticlesModal}
-            handleSetCategories={handleSetCategories}
-            handleCategorySelect={handleCategorySelect}
-            selectCategory={selectedCategory}
-            allCategories={allCategories}
-          />
           {!IS_RO && (
             <ConsultationsDashboard
               openJoinConsultation={openJoinConsultation}
@@ -470,11 +434,26 @@ export const Dashboard = ({ navigation }) => {
                 consultationsQuery.isLoading &&
                 consultationsQuery.fetchStatus !== "idle"
               }
-              t={t}
+              currencySymbol={currencySymbol}
               navigation={navigation}
             />
           )}
-          <View style={{ height: 200 }} />
+          {IS_RO && (
+            <BaselineAssessmentDashboard
+              navigation={navigation}
+              openBaselineAssesmentModal={openBaselineAssesmentModal}
+              isTmpUser={isTmpUser}
+              openEmergencySituation={openEmergencySituation}
+            />
+          )}
+          <ArticlesDashboard
+            navigation={navigation}
+            openArticlesModal={openArticlesModal}
+            handleSetCategories={handleSetCategories}
+            handleCategorySelect={handleCategorySelect}
+            selectCategory={selectedCategory}
+            allCategories={allCategories}
+          />
         </ScrollView>
       </KeyboardAvoidingView>
       <ArticleCategories
@@ -557,124 +536,12 @@ export const Dashboard = ({ navigation }) => {
   );
 };
 
-const HeadingBlockContent = ({
-  openUserGuide,
-  isTmpUser,
-  t,
-  clientName,
-  country,
-  handleRegistrationModalOpen,
-  upcomingConsultations,
-  openJoinConsultation,
-  openEditConsultation,
-  handleScheduleConsultation,
-  handleAcceptSuggestion,
-  isDarkMode,
-  navigation,
-}) => {
-  const IS_RO = country === "RO";
-  return (
-    <View>
-      {isTmpUser ? (
-        <>
-          <AppText namedStyle="h3" style={styles.colorTextBlue}>
-            {t("no_registration_heading", { clientName: clientName })}
-          </AppText>
-          <AppText
-            style={[
-              styles.marginTop16,
-              isDarkMode
-                ? { color: appStyles.colorWhite_ff }
-                : styles.colorTextBlue,
-            ]}
-          >
-            {t("no_registration_subheading")}
-          </AppText>
-          <AppButton
-            label={t("create_account_button")}
-            color="purple"
-            size="md"
-            onPress={handleRegistrationModalOpen}
-            style={[styles.alignSelfStart, styles.marginTop16]}
-          />
-        </>
-      ) : (
-        <>
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <AppText namedStyle="h3">{t("welcome", { clientName })}</AppText>
-            {IS_RO && (
-              <View>
-                <ButtonOnlyIcon
-                  iconName="read-book"
-                  iconSize="sm"
-                  label={t("info")}
-                  color="purple"
-                  onPress={openUserGuide}
-                />
-              </View>
-            )}
-          </View>
-          {!IS_RO && (
-            <AppText
-              style={[
-                styles.marginTop16,
-                isDarkMode
-                  ? { color: appStyles.colorWhite_ff }
-                  : appStyles.colorTextBlue,
-              ]}
-            >
-              {t("next_consultation")}
-            </AppText>
-          )}
-          {IS_RO ? (
-            <ImageBackground
-              style={styles.imageBackground}
-              source={{
-                uri: "https://external-preview.redd.it/C0aIsVBPnfHe1w7gPLkidhK_0M5MEPZdNq7sIfa9Bjk.jpg?width=640&crop=smart&auto=webp&s=969e5fcc68b406912978f8ad0f58f327598d3b9a",
-              }}
-            >
-              <View style={styles.mapContainer}>
-                <View style={styles.mapContainerButton}>
-                  <ButtonWithIcon
-                    iconName="search"
-                    iconSize="sm"
-                    label={t("explore")}
-                    color="purple"
-                    onPress={() => {
-                      navigation.navigate("Consultations");
-                    }}
-                  />
-                </View>
-              </View>
-            </ImageBackground>
-          ) : (
-            <ConsultationDashboard
-              consultation={
-                upcomingConsultations ? upcomingConsultations[0] : null
-              }
-              style={styles.marginTop16}
-              handleJoin={openJoinConsultation}
-              handleEdit={openEditConsultation}
-              handleSchedule={handleScheduleConsultation}
-              handleAcceptSuggestion={handleAcceptSuggestion}
-              t={t}
-            />
-          )}
-        </>
-      )}
-    </View>
-  );
-};
-
 const styles = StyleSheet.create({
   keyboardAvoid: { flex: 1 },
   alignSelfStart: { alignSelf: "flex-start" },
   colorTextBlue: { color: appStyles.colorBlue_263238 },
   marginBottom85: { marginBottom: 85 },
   marginTop16: { marginTop: 16 },
-  mascotHeadingBlock: { paddingTop: 70 },
   imageBackground: {
     width: "100%",
     height: 150,

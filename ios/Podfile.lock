@@ -30,6 +30,8 @@ PODS:
     - React-Core
   - ExpoAsset (11.0.5):
     - ExpoModulesCore
+  - ExpoBlur (14.0.3):
+    - ExpoModulesCore
   - ExpoCamera (16.0.18):
     - ExpoModulesCore
     - ZXingObjC/OneD
@@ -2328,6 +2330,7 @@ DEPENDENCIES:
   - Expo (from `../node_modules/expo`)
   - "ExpoAdapterGoogleSignIn (from `../node_modules/@react-native-google-signin/google-signin/expo/ios`)"
   - ExpoAsset (from `../node_modules/expo-asset/ios`)
+  - ExpoBlur (from `../node_modules/expo-blur/ios`)
   - ExpoCamera (from `../node_modules/expo-camera/ios`)
   - ExpoClipboard (from `../node_modules/expo-clipboard/ios`)
   - ExpoDevice (from `../node_modules/expo-device/ios`)
@@ -2520,6 +2523,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-google-signin/google-signin/expo/ios"
   ExpoAsset:
     :path: "../node_modules/expo-asset/ios"
+  ExpoBlur:
+    :path: "../node_modules/expo-blur/ios"
   ExpoCamera:
     :path: "../node_modules/expo-camera/ios"
   ExpoClipboard:
@@ -2778,6 +2783,7 @@ SPEC CHECKSUMS:
   Expo: 03dca15247583ca0d09d3cee37fb2d5a0b878f04
   ExpoAdapterGoogleSignIn: d20c9bd110725db21da6f4e188508bee352e86d8
   ExpoAsset: 0687fe05f5d051c4a34dd1f9440bd00858413cfe
+  ExpoBlur: 567af66164e3043a9a30069594aed1ddf0a88d97
   ExpoCamera: 173e000631122854b87c20310513981e89030bc6
   ExpoClipboard: 5250b207b6d545f4e9aac5ea3c6e61c4f16d0aed
   ExpoDevice: cf7419343b6e060209aaadd596defb1b6320597f

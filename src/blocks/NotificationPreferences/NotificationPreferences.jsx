@@ -4,12 +4,14 @@ import { StyleSheet, View } from "react-native";
 
 import {
   Block,
-  AppText,
-  Toggle,
-  RadioButtonSelectorGroup,
+  RadioButton,
+  Dropdown,
   Loading,
+  Heading,
+  Error,
 } from "#components";
 import { Context } from "#services";
+import { showToast } from "#utils";
 
 import {
   useGetNotificationPreferences,
@@ -25,7 +27,7 @@ import {
  *
  * @return {jsx}
  */
-export const NotificationPreferences = () => {
+export const NotificationPreferences = ({ navigation }) => {
   const { t } = useTranslation("blocks", {
     keyPrefix: "notification-preferences",
   });
@@ -43,12 +45,14 @@ export const NotificationPreferences = () => {
 
   const data = notificationPreferencesQuery.data;
 
+  const isAnon = !clientDataQuery.data?.email;
+
   const onUpdateError = (error) => {
     const { message: errorMessage } = useError(error);
     setError(errorMessage);
   };
   const notificationsPreferencesMutation = useUpdateNotificationPreferences(
-    () => {},
+    () => showToast({ message: t("success") }),
     onUpdateError
   );
 
@@ -62,54 +66,53 @@ export const NotificationPreferences = () => {
 
   return (
     <Block style={{ paddingBottom: 30 }}>
+      <Heading
+        heading={t("heading")}
+        subheading={t("subheading")}
+        handleGoBack={() => navigation.goBack()}
+      />
       {notificationPreferencesQuery.isLoading &&
-      !clientDataQuery.isLoading &&
+      clientDataQuery.isLoading &&
       !notificationPreferencesQuery.data ? (
         <View style={styles.loadingContainer}>
           <Loading size="lg" />
         </View>
       ) : (
         <View>
-          {clientDataQuery.data.email && (
-            <View style={styles.toggleContainer}>
-              <AppText>{t("email")}</AppText>
-              <Toggle
-                isToggled={data?.email}
-                handleToggle={(value) => handleChange("email", value)}
-                style={styles.toggle}
+          {!isAnon && (
+            <View style={styles.radioRow}>
+              <RadioButton
+                label={t("email")}
+                isChecked={data?.email}
+                setIsChecked={(value) => handleChange("email", value)}
               />
             </View>
           )}
           {!IS_RO && (
-            <View style={styles.toggleContainer}>
-              <AppText>{t("appointment")}</AppText>
-              <Toggle
-                isToggled={
-                  data?.consultationReminder
-                    ? data?.consultationReminder
-                    : false
-                }
-                handleToggle={(value) =>
-                  handleChange("consultationReminder", value)
-                }
-                style={styles.toggle}
-              />
-            </View>
-          )}
-          {!IS_RO && (
-            <View style={styles.radioButtonSelectorGroup}>
-              {data?.consultationReminder && (
-                <RadioButtonSelectorGroup
+            <View>
+              <View style={styles.radioRow}>
+                <RadioButton
+                  label={t("appointment")}
+                  isChecked={data?.consultationReminder}
+                  setIsChecked={(value) =>
+                    handleChange("consultationReminder", value)
+                  }
+                />
+              </View>
+              {data?.consultationReminder ? (
+                <Dropdown
                   selected={data.consultationReminderMin}
                   setSelected={(value) =>
                     handleChange("consultationReminderMin", value)
                   }
                   options={consultationReminderOptions}
+                  dropdownId="notificationPreferencesReminderMin"
+                  style={styles.reminderDropdown}
                 />
-              )}
+              ) : null}
+              {error ? <Error message={error} /> : null}
             </View>
           )}
-          {error ? <ErrorComponent message={error} /> : null}
         </View>
       )}
     </Block>
@@ -123,14 +126,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  toggleContainer: {
+  radioRow: {
     marginTop: 24,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
   },
-  radioButtonSelectorGroup: {
-    marginTop: 24,
-    alignItems: "center",
+  reminderDropdown: {
+    marginTop: 16,
+    zIndex: 3,
   },
 });

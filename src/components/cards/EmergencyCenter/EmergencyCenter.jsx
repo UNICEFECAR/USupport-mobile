@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet, Image, Linking, Platform } from "react-native";
 
 import { AppText } from "../../texts/";
-import { AppButton } from "../../buttons";
+import { NewButton } from "../../buttons";
 import { appStyles } from "#styles";
 import { useGetTheme } from "#hooks";
 
@@ -70,24 +70,21 @@ export const EmergencyCenter = ({
       </AppText>
       <View style={styles.buttonsContainer}>
         {phone ? (
-          <AppButton
-            color="red"
+          <NewButton
             size="sm"
             label={btnLabelCall}
             onPress={() => handlePress("phone", true)}
           />
         ) : null}
         {link ? (
-          <AppButton
-            color="purple"
+          <NewButton
             size="sm"
             label={btnLabelLink}
             onPress={() => handlePress()}
           />
         ) : null}
         {showCustomButton ? (
-          <AppButton
-            color="purple"
+          <NewButton
             size="sm"
             label={btnLabelCustom}
             onPress={() => handlePress()}

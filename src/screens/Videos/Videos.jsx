@@ -14,6 +14,7 @@ import { Videos as VideosBlock } from "#blocks";
 export const Videos = ({ navigation, route }) => {
   const { t } = useTranslation("screens", { keyPrefix: "videos-screen" });
   const sort = route.params?.sort;
+  const initialSearchValue = route?.params?.initialSearchValue;
 
   let heading = t("heading_default");
   let subheading = t("subheading_default");
@@ -47,6 +48,7 @@ export const Videos = ({ navigation, route }) => {
         showSearch={true}
         showCategories={true}
         sort={sort}
+        initialSearchValue={initialSearchValue}
       />
     </Screen>
   );

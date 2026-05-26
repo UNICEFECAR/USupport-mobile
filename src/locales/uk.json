@@ -7,6 +7,8 @@
       "show_system_messages": "Переглянь системні повідомлення",
       "show_previous_consultations": "Переглянь попередні консультації",
       "export_label": "Експорт",
+      "download_success": "PDF успішно завантажено",
+      "exported_at": "Експортовано: {{time}}",
       "chat_history": "Історія чату з",
       "client_joined": "Клієнт/ка долучився/лася до консультації",
       "client_left": "Клієнт/ка залишив/ла консультацію",
@@ -28,6 +30,8 @@
       "could_not_load_content": "Для обраної країни й мови немає результатів.",
       "all": "Усі",
       "read_more": "Читати далі",
+      "read_more_button": "Читати далі",
+      "view_more": "Переглянути більше",
       "min_read": "хв читання",
       "by": "Від {{creator}}",
       "number_of_more_options": "ще {{count}}",
@@ -50,7 +54,9 @@
       "min_read": "хв. читання",
       "by": "Від {{creator}}",
       "number_of_more_options": "ще {{count}}",
-      "read": "Читати"
+      "read": "Читати",
+      "read_more_button": "Читати далі",
+      "show_more": "Показати більше"
     },
     "change-passcode": {
       "enter_passcode": "Введи дійсний пароль",
@@ -70,6 +76,11 @@
       "heading": "Мої консультації",
       "view_all": "Переглянути усі",
       "schedule_consultation_label": "Запланувати консультацію",
+      "heading_need_support": "Потрібна підтримка?",
+      "explore_resources_label": "Переглянути ресурси",
+      "dummy_provider_1": "Др. Шевченко",
+      "dummy_provider_2": "Др. Коваленко",
+      "dummy_provider_3": "Др. Мельник",
       "live_text": "Зараз",
       "accept_button_label": "Погодитись на консультацію",
       "join_button_label": "Приєднатись",
@@ -90,6 +101,8 @@
       "october": "Жовтень",
       "november": "Листопад",
       "december": "Грудень",
+      "join": "Приєднатися",
+      "edit": "Редагувати",
       "join_button_label_tooltip": "Ви можете приєднатися до консультації за 5 хвилин до початку"
     },
     "consultations": {
@@ -191,6 +204,10 @@
       "heading_popular_podcasts": "Найпопулярніші підкасти",
       "more_podcasts": "Більше підкастів",
       "no_results": "Нічого не знайдено",
+      "share_success": "Вміст успішно поширено",
+      "check_podcast": "Привіт, переглянь цей подкаст",
+      "check_video": "Привіт, переглянь це відео",
+      "video_not_available": "Відео недоступне",
       "heading": "",
       "subheading": "",
       "emergency_button_label": ""
@@ -216,8 +233,11 @@
       "sad": "Засмученим/ою",
       "depressed": "Пригніченим/ою",
       "worried": "Схвильованим/ою",
+      "history": "Історія",
+      "welcome-heading": "Welcome",
       "heading": "Монітор настрою",
       "mood_tracker": "Монітор настрою",
+      "additional_comment_label": "Що є причиною того, що ти себе так почуваєш?",
       "additional_comment_placeholder": "Що є причиною того, що ти себе так почуваєш?",
       "submit_mood_track": "Надішли",
       "add_mood_tracker_success": "Щоденний настрій додано",
@@ -227,9 +247,22 @@
       "how_it_works": "Як це працює",
       "recommendations": "Рекомендації",
       "recommendations_text": "Хочете переглянути графік настрою та побачити рекомендований контент?",
-      "check_out": "Переглянути"
+      "check_out": "Переглянути",
+      "user_guide": "Використання платформи"
     },
     "mood-track-history": {
+      "month_1": "Січ",
+      "month_2": "Лют",
+      "month_3": "Бер",
+      "month_4": "Кві",
+      "month_5": "Тра",
+      "month_6": "Чер",
+      "month_7": "Лип",
+      "month_8": "Сер",
+      "month_9": "Вер",
+      "month_10": "Жов",
+      "month_11": "Лис",
+      "month_12": "Гру",
       "saturday": "Сб",
       "happy": "Щасливим/ою",
       "good": "Задоволеним/ою",
@@ -239,6 +272,10 @@
       "you_felt": "Ти відчув/ла себе",
       "comment_text": "і прокоментув/ла:",
       "no_result": "Жодних результатів не знайденою",
+      "no_result_line1": "У вас ще немає записів настрою.",
+      "no_result_line2": "Додайте перший запис — і історія з’явиться тут.",
+      "no_result_primary": "Назад",
+      "no_result_secondary": "Як це працює",
       "critical_text": "Пов'язано з життєвою подією або критичною ситуацією",
       "recommendations": "Рекомендації відповідно до вашого настрою",
       "articles": "Статті",
@@ -248,17 +285,24 @@
       "by": "від {{creator}}",
       "min_read": "хв читання",
       "view_more": "Переглянути більше",
-      "no_recommendations": "Не знайдено рекомендацій"
+      "no_recommendations": "Не знайдено рекомендацій",
+      "previous": "Назад",
+      "next": "Далі"
     },
     "notification-preferences": {
       "email": "Сповіщення електронною поштою",
       "appointment": "Сповіщення про зустрічі",
       "minutes_before": "хвилин до",
       "heading": "",
-      "subheading": ""
+      "subheading": "",
+      "success": "Налаштування сповіщень збережено"
     },
     "notifications": {
       "heading": "Повідомлення",
+      "panel_heading": "Повідомлення",
+      "tab_all": "Усі",
+      "tab_new": "Нові",
+      "tab_read": "Прочитані",
       "mark_read": "Познач все як прочитане",
       "subheading": "Тут ти знайдеш всі повідомлення, які надійшли на твій акаунт.",
       "consultation_booking": "Консультацію з {{providerName}} заплановано на {{date}} з {{startHour}} до {{endHour}}",
@@ -318,6 +362,15 @@
     },
     "provider-overview": {
       "button_label": "Запланувати консультацію",
+      "free": "Безкоштовно",
+      "coupon": "Купон",
+      "sunday": "Неділя",
+      "monday": "Понеділок",
+      "tuesday": "Вівторок",
+      "wednesday": "Середа",
+      "thursday": "Четвер",
+      "friday": "Пʼятниця",
+      "saturday": "Субота",
       "earliest_slot_label": "Найближчий вільний часовий слот для консультації",
       "languages_label": "Мови",
       "education_label": "Освіта",
@@ -414,7 +467,7 @@
       "modal_button_label": "Я зберіг/зберегла токен доступу",
       "copy_success": "токен скопіювано",
       "warning": "Розумію, що не матиму доступу до облікового запису, якщо втрачу цей токен",
-      "confirm_password_label": "Підтвердь пароль",
+      "confirm_password_label": "Підтвердь пароль *",
       "password_match_error": "Поля «Пароль» і «Підтвердь пароль» не збігаються",
       "password_placeholder": "Введи свій пароль",
       "age_terms_agreement_text": "Мені більше 16 років",
@@ -425,9 +478,9 @@
     },
     "register-email": {
       "heading": "Зареєструйся за допомогою електронної пошти",
-      "email_label": "Електронна пошта",
+      "email_label": "Електронна пошта *",
       "email_placeholder": "user@mail.com",
-      "password_label": "Пароль",
+      "password_label": "Пароль *",
       "password_placeholder": "Введи свій пароль",
       "email_error": "Введи дійсну електронну пошту",
       "password_error": "Пароль має містити щонайменше 8 символів, 1 велику літеру, 1 малу літеру і 1 цифру",
@@ -441,7 +494,7 @@
       "register_button": "Зареєструватися",
       "paragraph": "Або зареєструйся використовуючи:",
       "login_button_label": "Вже маю обліковий запис",
-      "confirm_password_label": "Підтвердь пароль",
+      "confirm_password_label": "Підтвердь пароль *",
       "password_match_error": "Поля «Пароль» і «Підтвердь пароль» не збігаються",
       "age_terms_agreement_text": "Мені більше {{age}} років",
       "prompt_title": "Збережіи свої дані, щоб швидко входити до систему",
@@ -502,6 +555,7 @@
       "psychiatrist": "Психіатр/иня",
       "psychotherapist": "Психотерапевт/ка",
       "no_match": "Немає консультантів, що відповідають твоїм критеріям",
+      "book_session": "Забронювати сесію",
       "free": "Безкоштовно",
       "coupon": "Купон",
       "tab_paid": "Платно",
@@ -532,6 +586,7 @@
       "max_price": "",
       "providers_free_consultation_label": "",
       "coupon_note": " Цього разу ми ввели за тебе код на безкоштовну сесію! Запишись на зустріч з одним із наших консультантів і зроби перший крок, щоб подбати про своє самопочуття.",
+      "choose-the-provider": "Оберіть фахівця, з яким хочете спілкуватися відео, аудіо чи текстом. Іноді може знадобитися кілька сесій, щоб знайти фахівця, який підходить вам за потребами та форматом роботи.",
       "choose_provider": "Вибери консультанта/ку, з яким ти хочеш поспілкуватися в рамах консультації за допомогою відео, аудіо або тексту. Пошук консультанта/ки, який добре відповідає твоїм потребам і бажаному підходу, іноді може зайняти кілька сеансів."
     },
     "share-platform": {
@@ -597,7 +652,11 @@
       "living_place_placeholder": "Введи своє місце проживання",
       "error_fetching_data": "При завантаженні даних профілю виникла помилка",
       "parent": "Мати/Батько/Опікун",
-      "delete_mood_tracker": "Очистити дані трекера настрою"
+      "delete_mood_tracker": "Очистити дані трекера настрою",
+      "account_section": "Обліковий запис",
+      "data_management_section": "Управління даними",
+      "danger_zone_section": "Небезпечна зона",
+      "delete_account_description": "Ця дія є постійною і не може бути скасована."
     },
     "user-profile": {
       "heading": "Твій профіль",
@@ -605,6 +664,7 @@
       "button_label": "Вийти з системи",
       "first_group_heading": "Інформація про профіль",
       "guest": "Гість/гостяs",
+      "edit_profile": "Редагувати профіль",
       "second_group_heading": "Налаштування додаткуs",
       "rate_share": "Оціни і поділисяs",
       "other": "Інше",
@@ -625,12 +685,18 @@
       "high_contrast_mode": "Режим високого контраста"
     },
     "welcome": {
-      "heading": "Вітаємо в",
+      "heading": "Ласкаво просимо до клієнтського порталу",
       "country": "Країна",
       "language": "Мова",
       "placeholder": "Вибрати",
       "button": "Продовжити",
       "poland_description": "uSupport — це платформа психічного здоров’я та добробуту, призначена для молодих людей (16–24)",
+      "register_email": "Зареєструватися за допомогою електронної пошти",
+      "register_with_email": "Зареєструватися електронною поштою",
+      "register_anonymously": "Анонімна реєстрація",
+      "continue_as_guest": "Продовжити без реєстрації",
+      "already_have_account": "Вже маєте обліковий запис?",
+      "log_in": "Увійти",
       "ro_password_modal_heading": "Потрібен пароль",
       "ro_password_modal_text": "Введіть пароль, щоб продовжити.",
       "ro_password_modal_cta": "Продовжити",
@@ -650,12 +716,14 @@
       "schedule_consultation": "Заплануй консультацію",
       "today": "Сьогодні",
       "no_questions_found": "Запитань не знайдено",
+      "try_changing_filters": "Спробуйте змінити фільтри",
       "language_placeholder": "Виберіть мову",
       "heading": "",
       "subheading": "",
       "heading_button_label": "",
       "emergency_button_label": "",
-      "ask_button_label": "Zapytaj psychologa",
+      "ask_button_label": "Поставити анонімне запитання",
+      "go_back": "Назад",
       "date_answered": "від {{date}}"
     },
     "set-up-biometrics": {
@@ -666,6 +734,9 @@
       "btn_skip": "Поки що пропустити"
     },
     "videos": {
+      "by": "Від {{creator}}",
+      "min_read": "хв читання",
+      "read": "Читати",
       "read_more_button": "Переглянути більше",
       "all": "Усі",
       "could_not_load_content": "Не вдалося завантажити вміст.",
@@ -718,6 +789,7 @@
       "search_placeholder": "Пошук за назвою або назвою підрозділу",
       "no_data_found": "Дані не знайдено",
       "reset_filters": "Скинути фільтри",
+      "services": "Послуги",
       "view_organization_details": "Переглянути деталі організації",
       "address": "Адреса",
       "phone": "Телефон",
@@ -854,6 +926,7 @@
       "identity_issues": "Проблеми ідентичності",
       "illness_oncological_treatment_chronic_diseases": "Захворювання (онкологічне лікування, хронічні хвороби)",
       "other_situations": "Інші ситуації",
+      "report_inactive": "Повідомити про неактивність",
       "copy_link_success": "Посилання скопійовано до буфера!"
     },
     "baseline-assesment": {
@@ -894,6 +967,12 @@
       "assessment_completed": "Оцінку завершено",
       "assessment_completed_description": "Дякуємо за проходження оцінки. Ваші відповіді збережено і вони допоможуть нам підтримати вас.",
       "assessment_completed_button": "Повернутися на головну",
+      "save_button_label": "Зберегти на потім",
+      "sontrgly_disagree": "Повністю не згоден/не згодна",
+      "disagree": "Не згоден/не згодна",
+      "neutral": "Нейтрально",
+      "agree": "Згоден/згодна",
+      "strongly_agree": "Повністю згоден/згодна",
       "loading_results": "Завантаження результатів...",
       "recommended_articles": "Рекомендовані статті",
       "recommended_videos": "Рекомендовані відео",
@@ -907,7 +986,19 @@
     },
     "baseline-assessment-dashboard": {
       "heading": "Ваш базовий оцінювання",
+      "heading_completed": "Your Latest Assessment",
       "no_assessment_text": "Ви ще не пройшли базовий оцінювання. Пройдіть його, щоб отримати персоналізовані рекомендації щодо вашого психологічного здоров'я.",
+      "no_assessment_description": "Take a quick assessment to understand your mental health better and get personalized recommendations.",
+      "explore_heading": "Find Support Near You",
+      "explore_card_description": "After completing the baseline assessment, we will help you find the most relevant support near you.",
+      "explore_button_label": "Дослідити карту",
+      "user_guide_heading": "Хочеш дізнатися більше про:",
+      "emergency_services": "Екстрені служби",
+      "emergency_services_description": "Екстрені служби",
+      "map": "Карта послуг з психічного здоров’я та психо-емоційної підтримки, доступних у Бухаресті",
+      "map_description": "Карта служб підтримки (Бухарест)",
+      "rights": "Права дітей та підлітків на доступ до послуг з психічного здоров’я та психо-емоційної підтримки",
+      "rights_description": "Права дітей і підлітків",
       "start_new_assessment": "Почати оцінювання",
       "completed": "Завершено",
       "in_progress": "В процесі",
@@ -921,7 +1012,7 @@
       "biological": "Біологічний",
       "social": "Соціальний",
       "how_it_works": "Як це працює",
-      "see_last_result": "Останній результат"
+      "see_last_result": "Останні результати"
     },
     "baseline-assesment-result": {
       "assessment_completed": "Оцінювання завершено",
@@ -974,6 +1065,9 @@
     }
   },
   "screens": {
+    "screen": {
+      "go_back": "Назад"
+    },
     "article-information": {
       "heading": "Більше статей",
       "no_results": "Для вибраної мови немає схожих статей.",
@@ -982,7 +1076,16 @@
       "by": "Від {{creator}}",
       "check_article": "Привіт, переглянь цю статтю",
       "share_success": "Статтю успішно поділено",
-      "download_success": "Статтю успішно завантажено"
+      "download_success": "Статтю успішно завантажено",
+      "go_back": "Назад",
+      "audio_player_title": "Послухайте цю статтю",
+      "audio_player_subtitle": "Надаєте перевагу аудіо? Увімкніть озвучену версію.",
+      "audio_player_badge_listen_time": "{{minutes}} хв. прослуховування",
+      "audio_player_helper": "Можете читати разом із прослуховуванням або просто розслабитися й насолоджуватися.",
+      "audio_player_seek_back_label": "Перемотати назад на {{seconds}} с",
+      "audio_player_seek_forward_label": "Перемотати вперед на {{seconds}} с",
+      "audio_player_play_label": "Відтворити",
+      "audio_player_pause_label": "Пауза"
     },
     "articles-screen": {
       "heading_default": "Всі статті",
@@ -1058,6 +1161,7 @@
       "emergency_button_label": "Невідкладна допомога"
     },
     "dashboard": {
+      "heading": "",
       "welcome": "З поверненням, {{clientName}}!",
       "no_registration_heading": "Ти використовуєш додаток без реєстрації",
       "no_registration_subheading": "Щоб користуватися всіма функціями додатку, потрібно мати анонімний або звичайний обліковий запис.",
@@ -1095,6 +1199,11 @@
     },
     "informational-portal-screen": {
       "heading": "Знання",
+      "by": "Від {{creator}}",
+      "min_read": "хв читання",
+      "most_read_heading": "Найчитаніші",
+      "read_more": "Читати далі",
+      "search": "Пошук",
       "subheading": "Тут можна ознайомитися зі всім, що потрібно для покращення психічного здоров'я",
       "emergency_button_label": "Невідкладна допомога",
       "articles": "Статті",
@@ -1112,7 +1221,7 @@
       "subheading": "Тут можна відстежувати свій настрій і прогрес ",
       "emergency_button_label": "Невідкладна допомога",
       "report": "Згенерувати звіт",
-      "how-it-works": "How it works",
+      "how-it-works": "Як це працює",
       "how_it_works": "Як це працює"
     },
     "notification-preferences-screen": {
@@ -1151,6 +1260,7 @@
       "modal_coupon_input_placeholder": "КУПОН1",
       "heading_with_coupon": "Вибери консультанта/ку для використання купону: {{coupon}}",
       "remove_coupon_label": "Видали купон",
+      "coupon_not_found_error": "Цей купон не знайдено або він більше не дійсний.",
       "coupon_paragraph": "Наші партнери спонсорують купони, які забезпечують безкоштовні сесії.",
       "coupon_paragraph_two": "Якщо ти отримав/ла код купона в рамках кампанії в соціальних мережах або від партнера, скопіюй його та встав нижче. Після надсилання коду купона ти побачиш всіх консультантів, які його обслуговують, та їхню доступність. Купон може обслуговувати одну або кілька сесій. Платформа покаже, чи купон втратив чинність або досяг максимальної кількості використаних сесій.",
       "max_price": "Максимальна ціна",
@@ -1432,6 +1542,25 @@
       "subheading_new": "Обери дату й час зустрічі.",
       "cta_button_label": "Збережи",
       "no_slots_available": "На обраний день немає вільних слотів.",
+      "january": "Січень",
+      "february": "Лютий",
+      "march": "Березень",
+      "april": "Квітень",
+      "may": "Травень",
+      "june": "Червень",
+      "july": "Липень",
+      "august": "Серпень",
+      "september": "Вересень",
+      "october": "Жовтень",
+      "november": "Листопад",
+      "december": "Грудень",
+      "su": "Нд",
+      "mo": "Пн",
+      "tu": "Вт",
+      "we": "Ср",
+      "th": "Чт",
+      "fr": "Пт",
+      "sa": "Сб",
       "coupon_code": "Код купона",
       "apply_coupon": "Застосуй купон",
       "remove_coupon": "Видали купон",
@@ -1481,11 +1610,20 @@
       "end_date_before_start_error": "Кінцева дата має бути після початкової дати",
       "confirm": "Підтвердити"
     },
+    "organization-report": {
+      "heading": "Поскаржитися на цю організацію",
+      "subheading": "Будь ласка, напишіть, чому ви скаржитеся на цю організацію.",
+      "message_label": "Додаткові деталі (необов’язково)",
+      "message_placeholder": "Поясніть, чому ви скаржитеся на цю організацію—наприклад, що здається неправильним, оманливим або застарілим.",
+      "confirm_button": "Надіслати скаргу",
+      "cancel_button": "Скасувати",
+      "success_message": "Дякуємо. Ваше звернення прийнято."
+    },
     "user-guide": {
       "heading": "Хочеш дізнатися більше про:",
       "emergency_services": "Екстрені служби",
-      "map": "Карта послуг з психічного здоров’я та психо-емоційної підтримки, доступних у Бухаресті",
-      "rights": "Права дітей та підлітків на доступ до послуг з психічного здоров’я та психо-емоційної підтримки"
+      "map": "Карта служб підтримки (Бухарест)",
+      "rights": "Права дітей і підлітків"
     },
     "emergency-situation": {
       "heading": "Карта послуг з психічного здоров’я та психосоціальної підтримки для дітей і підлітків у Бухаресті",

@@ -4,7 +4,7 @@ import { StyleSheet, View } from "react-native";
 import * as LocalAuthentication from "expo-local-authentication";
 import { useFocusEffect } from "@react-navigation/native";
 
-import { Block, ButtonSelector, AppText, Toggle } from "#components";
+import { Block, ButtonSelector, AppText, Toggle, Heading } from "#components";
 import { localStorage, Context } from "#services";
 import { appStyles } from "#styles";
 import { useGetTheme } from "#hooks";
@@ -71,7 +71,12 @@ export const Passcode = ({ navigation }) => {
   };
 
   return (
-    <Block style={styles.block}>
+    <Block>
+      <Heading
+        heading={t("heading")}
+        subheading={t("subheading")}
+        handleGoBack={() => navigation.goBack()}
+      />
       <AppText style={[styles.label, { color: colors.text }]}>
         {t("passcode")}
       </AppText>
@@ -108,7 +113,6 @@ export const Passcode = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  block: { paddingTop: 118 },
   label: {
     color: appStyles.colorBlue_3d527b,
     fontFamily: appStyles.fontSemiBold,

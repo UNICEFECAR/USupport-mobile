@@ -42,6 +42,7 @@ export const RadioButton = ({
         {label && (
           <AppText
             namedStyle="text"
+            isSemibold={isChecked}
             style={[
               isChecked && styles.textChecked,
               isChecked && { color: colors.text },
@@ -93,7 +94,6 @@ const styles = StyleSheet.create({
 
   textChecked: {
     color: appStyles.colorBlue_3d527b,
-    fontFamily: "Nunito-SemiBold",
   },
 });
 

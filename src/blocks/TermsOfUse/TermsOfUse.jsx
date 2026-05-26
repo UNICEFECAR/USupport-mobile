@@ -55,67 +55,69 @@ export const TermsOfUse = ({ navigation }) => {
     isFetched: isTermsOfUseFetched,
   } = useQuery(["terms-of-use", currentCountry, i18n.language], getTermsOfUse);
 
+  const handleGoBack = () => {
+    navigation.goBack();
+  };
+
   return (
-    <ScrollView>
-      <Block style={styles.termsOfUse}>
-        <Heading
-          heading={t("heading")}
-          handleGoBack={() => navigation.goBack()}
-        />
-        <View style={styles.termsOfUse}>
-          {termsOfUseData && <CKRenderer data={termsOfUseData} />}
-          {!termsOfUseData && termsOfUseLoading && (
-            <View style={styles.loadingContainer}>
-              <Loading />
-            </View>
-          )}
-          {!termsOfUseData && !termsOfUseLoading && isTermsOfUseFetched && (
-            <AppText namedStyle="h3">{t("no_results")}</AppText>
-          )}
-        </View>
+    <React.Fragment>
+      <Block>
+        <Heading heading={t("heading")} handleGoBack={handleGoBack} />
       </Block>
-    </ScrollView>
+      <ScrollView>
+        <Block>
+          <View>
+            {termsOfUseData && <CKRenderer data={termsOfUseData} />}
+            {!termsOfUseData && termsOfUseLoading && (
+              <View style={styles.loadingContainer}>
+                <Loading />
+              </View>
+            )}
+            {!termsOfUseData && !termsOfUseLoading && isTermsOfUseFetched && (
+              <AppText namedStyle="h3">{t("no_results")}</AppText>
+            )}
+          </View>
+        </Block>
+      </ScrollView>
+    </React.Fragment>
   );
 };
 
 const styles = StyleSheet.create({
-  termsOfUse: {
-    paddingTop: 30,
-  },
   heading1: {
     fontSize: 40,
     lineHeight: 48,
-    fontFamily: "Nunito-SemiBold",
+    fontFamily: appStyles.fontSemiBold,
     color: "#3d527b",
   },
   heading2: {
     fontSize: 32,
     lineHeight: 38,
-    fontFamily: "Nunito-SemiBold",
+    fontFamily: appStyles.fontSemiBold,
     color: "#3d527b",
   },
   heading3: {
     fontSize: 20,
     lineHeight: 24,
-    fontFamily: "Nunito-SemiBold",
+    fontFamily: appStyles.fontSemiBold,
     color: "#3d527b",
   },
   heading4: {
     fontSize: 18,
     lineHeight: 22,
-    fontFamily: "Nunito-SemiBold",
+    fontFamily: appStyles.fontSemiBold,
     color: "#3d527b",
   },
   paragraph: {
     color: appStyles.colorGray_66768d,
     fontSize: 16,
-    fontFamily: "Nunito-Regular",
+    fontFamily: appStyles.fontRegular,
     lineHeight: 24,
   },
   list_item: {
     color: appStyles.colorGray_66768d,
     fontSize: 16,
-    fontFamily: "Nunito-Regular",
+    fontFamily: appStyles.fontRegular,
     lineHeight: 24,
   },
   loadingContainer: {

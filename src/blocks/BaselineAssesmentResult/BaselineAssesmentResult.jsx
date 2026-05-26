@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -19,8 +19,8 @@ import {
   Loading,
   CardMedia,
   Icon,
-  AppButton,
   CKRenderer,
+  NewButton,
 } from "#components";
 
 import { useGetTheme, useGetAssessmentResult } from "#hooks";
@@ -42,12 +42,17 @@ import appStyles from "../../styles/appStyles";
  *
  * @return {jsx}
  */
-export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
+export const BaselineAssesmentResult = ({
+  result,
+  redirectToDashboard,
+  assessmentDate,
+}) => {
   const { t, i18n } = useTranslation("blocks", {
     keyPrefix: "baseline-assesment-result",
   });
+  const { t: tScreen } = useTranslation("screens", { keyPrefix: "screen" });
   const navigation = useNavigation();
-  const { colors, isDarkMode } = useGetTheme();
+  const { colors, isDarkMode, isHighContrast } = useGetTheme();
   const language = i18n.language;
   const [isPdfLoading, setIsPdfLoading] = useState(false);
 
@@ -55,6 +60,36 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
     ...result,
     language: language,
   });
+
+  const actionColor = isHighContrast ? "#fff" : appStyles.colorPrimary_20809e;
+
+  const formattedDate = useMemo(() => {
+    const rawDate =
+      assessmentDate ??
+      result?.assessmentDate ??
+      result?.assessment_date ??
+      result?.createdAt ??
+      result?.created_at;
+    if (!rawDate) return "";
+    const d = new Date(rawDate);
+    if (Number.isNaN(d.getTime())) return "";
+    try {
+      return new Intl.DateTimeFormat(language, {
+        year: "numeric",
+        month: "long",
+        day: "2-digit",
+      }).format(d);
+    } catch {
+      return d.toLocaleDateString();
+    }
+  }, [
+    assessmentDate,
+    language,
+    result?.assessmentDate,
+    result?.assessment_date,
+    result?.createdAt,
+    result?.created_at,
+  ]);
 
   const handleArticlePress = (articleData) => {
     navigation.navigate("ArticleInformation", {
@@ -239,45 +274,44 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
 
   return (
     <ScrollView
-      style={[styles.container, { backgroundColor: colors.background }]}
+      style={styles.container}
       contentContainerStyle={styles.contentContainer}
     >
       <View style={styles.resultContainer}>
-        <View style={styles.completedSection}>
+        <View style={styles.headerSection}>
           <TouchableOpacity
-            style={{ marginLeft: "auto" }}
             onPress={redirectToDashboard}
+            style={styles.goBackRow}
           >
-            <Icon name="close-x" color={colors.text} />
+            <Icon
+              style={styles.goBackIcon}
+              name="arrow-chevron-back"
+              color={actionColor}
+            />
+            <AppText namedStyle="text" isBold style={styles.goBackText}>
+              {tScreen("go_back")}
+            </AppText>
           </TouchableOpacity>
           <AppText namedStyle="h2" style={styles.completedTitle}>
             {t("assessment_completed")}
           </AppText>
+          {!!formattedDate && (
+            <AppText namedStyle="text" style={styles.dateText}>
+              {t("date", { defaultValue: "Date" })}: {formattedDate}
+            </AppText>
+          )}
           <View style={styles.statsContainer}>
             <ProgressBar progress={100} height="lg" showPercentage />
           </View>
-          <AppButton
-            label={t("download_pdf", {
-              defaultValue: "Download results (PDF)",
-            })}
-            onPress={handleExportPDF}
-            style={styles.downloadButton}
-            color="purple"
-            size="lg"
-            disabled={isPdfLoading || isFetching}
-            loading={isPdfLoading}
-          />
         </View>
 
         {result && (
-          <View
-            style={{
-              flexDirection: "column",
-              gap: 16,
-              alignItems: "center",
-            }}
-          >
-            {resultText && <AppText namedStyle="h4">{resultText}</AppText>}
+          <View style={styles.compareSection}>
+            {!!resultText && (
+              <AppText namedStyle="h4" style={styles.compareTitle}>
+                {resultText}
+              </AppText>
+            )}
             {result.psychologicalScore !== undefined && (
               <Box boxShadow={2} style={styles.factor}>
                 <AppText>
@@ -308,6 +342,19 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
           </View>
         )}
 
+        <View style={styles.downloadSection}>
+          <NewButton
+            label={t("download_pdf", {
+              defaultValue: "Download results (PDF)",
+            })}
+            onPress={handleExportPDF}
+            style={styles.downloadButton}
+            size="lg"
+            disabled={isPdfLoading || isFetching}
+            loading={isPdfLoading}
+          />
+        </View>
+
         {isFetching && (
           <View style={styles.loadingSection}>
             <AppText namedStyle="text" style={styles.loadingText}>
@@ -329,7 +376,7 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
                 {data.summary}
               </AppText>
             )}
-            <AppButton
+            <NewButton
               label={t("organizations")}
               onPress={() =>
                 navigation.navigate("Organizations", {
@@ -337,7 +384,6 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
                 })
               }
               style={styles.organizationsButton}
-              color="purple"
               size="lg"
             />
           </View>
@@ -346,7 +392,7 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
         {/* Recommended Articles */}
         {data?.articles?.length > 0 && (
           <View style={styles.contentSection}>
-            <AppText namedStyle="h3" style={styles.sectionTitle}>
+            <AppText namedStyle="h4" style={styles.sectionTitle}>
               {t("recommended_articles")}
             </AppText>
             {renderContentGrid(data.articles, handleArticlePress, "articles")}
@@ -356,7 +402,7 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
         {/* Recommended Videos */}
         {data?.videos?.length > 0 && (
           <View style={styles.contentSection}>
-            <AppText namedStyle="h3" style={styles.sectionTitle}>
+            <AppText namedStyle="h4" style={styles.sectionTitle}>
               {t("recommended_videos")}
             </AppText>
             {renderContentGrid(data.videos, handleVideoPress, "videos")}
@@ -366,7 +412,7 @@ export const BaselineAssesmentResult = ({ result, redirectToDashboard }) => {
         {/* Recommended Podcasts */}
         {data?.podcasts?.length > 0 && (
           <View style={styles.contentSection}>
-            <AppText namedStyle="h3" style={styles.sectionTitle}>
+            <AppText namedStyle="h4" style={styles.sectionTitle}>
               {t("recommended_podcasts")}
             </AppText>
             {renderContentGrid(data.podcasts, handlePodcastPress, "podcasts")}
@@ -388,31 +434,67 @@ const styles = StyleSheet.create({
   resultContainer: {
     alignSelf: "center",
     width: "100%",
+    maxWidth: 640,
   },
 
-  completedSection: {
+  headerSection: {
     alignItems: "center",
     marginBottom: 32,
-    paddingHorizontal: 16,
+    paddingHorizontal: 22,
+  },
+  goBackRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 16,
+    alignSelf: "flex-start",
+    paddingVertical: 6,
+    paddingHorizontal: 4,
+  },
+  goBackIcon: {
+    marginRight: 8,
+  },
+  goBackText: {
+    textTransform: "none",
   },
   completedTitle: {
     textAlign: "center",
     marginBottom: 24,
     marginTop: 18,
   },
+  dateText: {
+    marginTop: -12,
+    marginBottom: 12,
+    textAlign: "center",
+  },
   downloadButton: {
-    marginTop: 18,
     alignSelf: "center",
+  },
+  downloadSection: {
+    alignItems: "center",
+    marginTop: 16,
+    marginBottom: 16,
+    paddingHorizontal: 22,
   },
   statsContainer: {
     width: "100%",
     maxWidth: 400,
   },
 
+  compareSection: {
+    flexDirection: "column",
+    gap: 16,
+    alignItems: "center",
+    paddingHorizontal: 22,
+  },
+  compareTitle: {
+    textAlign: "center",
+  },
+
   loadingSection: {
     alignItems: "center",
     marginBottom: 32,
     marginTop: 32,
+    paddingHorizontal: 22,
   },
   loadingText: {
     textAlign: "center",
@@ -426,19 +508,20 @@ const styles = StyleSheet.create({
   summarySection: {
     marginBottom: 32,
     marginTop: 32,
-    paddingHorizontal: 16,
+    paddingHorizontal: 22,
   },
   summaryTitle: {
     marginBottom: 16,
-    textAlign: "center",
+    textAlign: "left",
   },
   summaryText: {
-    textAlign: "center",
+    textAlign: "left",
     lineHeight: 24,
   },
   organizationsButton: {
     marginTop: 24,
-    alignSelf: "center",
+    alignSelf: "flex-start",
+    marginHorizontal: "auto",
   },
 
   // Content sections
@@ -446,8 +529,9 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   sectionTitle: {
-    textAlign: "center",
+    textAlign: "left",
     marginBottom: 24,
+    paddingHorizontal: 22,
   },
 
   // Content grid
@@ -465,7 +549,8 @@ const styles = StyleSheet.create({
     maxWidth: appStyles.screenWidth * 0.9,
   },
   factor: {
-    width: "90%",
+    width: "100%",
+    maxWidth: 480,
     padding: 16,
     flexDirection: "row",
     alignItems: "center",

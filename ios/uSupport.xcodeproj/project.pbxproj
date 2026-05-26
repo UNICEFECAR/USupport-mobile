@@ -63,7 +63,7 @@
 		43001CE229EEEAE800B32A2A /* USupportDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = USupportDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		43001CE329EEEAE800B32A2A /* USupportDev-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "USupportDev-Info.plist"; path = "/Users/georgipavlov/Desktop/projects/usupportme/USupport-mobile/ios/USupportDev-Info.plist"; sourceTree = "<absolute>"; };
 		43183A5729A36F5D00474D8D /* USupport.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = USupport.entitlements; path = USupportmobile/USupport.entitlements; sourceTree = "<group>"; };
-		43926DB829E5675A005505FD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		43926DB829E5675A005505FD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "USupportmobile/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		43C1F6AE2DD7DA4F00613CC3 /* Nunito_300Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Nunito_300Light.ttf; sourceTree = "<group>"; };
 		43C1F6AF2DD7DA4F00613CC3 /* Nunito_400Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Nunito_400Regular.ttf; sourceTree = "<group>"; };
 		43C1F6B02DD7DA4F00613CC3 /* Nunito_500Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Nunito_500Medium.ttf; sourceTree = "<group>"; };

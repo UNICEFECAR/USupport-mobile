@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Linking,
   KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { useTranslation } from "react-i18next";
 import Share from "react-native-share";
@@ -14,16 +15,16 @@ import { useQueryClient, useMutation } from "@tanstack/react-query";
 
 import {
   AppText,
-  Block,
   Input,
   InteractiveMap,
   Loading,
   OrganizationOverview,
   Avatar,
-  ButtonWithIcon,
-  AppButton,
   Icon,
   TransparentModal,
+  NewButton,
+  LinearGradient,
+  ButtonWithIcon,
 } from "#components";
 import {
   useGetAllOrganizations,
@@ -34,10 +35,8 @@ import {
 } from "#hooks";
 import { appStyles } from "#styles";
 import { constructShareUrl } from "#utils";
-import { Context, clientSvc } from "#services";
+import { Context, clientSvc, userSvc } from "#services";
 import { RequireRegistration, BaselineAssesmentModal } from "#modals";
-
-import { GiveSuggestion } from "../GiveSuggestion";
 
 const { AMAZON_S3_BUCKET } = Config;
 
@@ -54,8 +53,12 @@ export const Organizations = ({
   setIsFilterOpen,
   specialisations,
   triggerPersonalization,
+  initialFilters,
 }) => {
   const { t } = useTranslation("blocks", { keyPrefix: "organizations" });
+  const { colors, isHighContrast } = useGetTheme();
+  const isLightTheme = colors.background === appStyles.colorWhite_ff;
+  const separatorColor = colors.cardMediaSeparator || colors.inputBorder;
 
   const queryClient = useQueryClient();
   const { isTmpUser } = useContext(Context);
@@ -141,6 +144,20 @@ export const Organizations = ({
     });
   };
 
+  const handleResetFilters = () => {
+    if (initialFilters) {
+      setFilters(initialFilters);
+      return;
+    }
+    setFilters({
+      search: "",
+      district: "",
+      paymentMethod: "",
+      userInteraction: "",
+      specialisations: [],
+    });
+  };
+
   const handleOrganizationClick = (organization) => {
     // Check if map controls are available and organization has valid location
     if (
@@ -193,7 +210,13 @@ export const Organizations = ({
         paymentMethod={organization.paymentMethod}
         specialisations={organization.specialisations}
         address={organization.address}
+        phone={organization.phone}
         onPress={() => handleOrganizationClick(organization)}
+        onViewDetails={() => {
+          navigation.navigate("OrganizationOverview", {
+            organizationId: organization.organizationId,
+          });
+        }}
         t={t}
       />
     ));
@@ -213,7 +236,7 @@ export const Organizations = ({
 
   const handleRegisterRedirection = () => {
     userSvc.logout();
-    navigate("/register-preview");
+    navigation?.navigate?.("RegisterPreview");
   };
 
   const handleModalCtaClick = () => {
@@ -237,6 +260,21 @@ export const Organizations = ({
       });
     }
   };
+
+  // Match ArticleView / CardMedia liquid glass wrapper
+  const glassGradient = React.useMemo(
+    () => ({
+      degrees: 145,
+      locations: [0, 100],
+      colors:
+        isLightTheme && !isHighContrast
+          ? Platform.OS === "android"
+            ? ["#ffffff", "#f5f8ff"]
+            : ["rgba(255, 255, 255, 0.99)", "rgba(245, 248, 255, 0.85)"]
+          : colors.cardMediaGradient,
+    }),
+    [isLightTheme, isHighContrast, colors.cardMediaGradient]
+  );
 
   return (
     <>
@@ -271,86 +309,122 @@ export const Organizations = ({
           nestedScrollEnabled={false}
           scrollEventThrottle={16}
         >
-          <Block style={styles.container}>
-            <View style={styles.buttonsContainer}>
-              <ButtonWithIcon
-                label={t("personalize")}
-                onPress={handlePersonalizeClick}
-                loading={personalizationMutation.isLoading}
-                // type="primary"
-                color="purple"
-                iconName="person"
-                style={styles.buttonsContainerItem}
-              />
-              <ButtonWithIcon
-                label={t("filter")}
-                onPress={() => setIsFilterOpen(true)}
-                iconName="filter"
-                color="purple"
-                style={styles.buttonsContainerItem}
-              />
-            </View>
-            <View style={styles.searchContainer}>
-              <Input
-                value={filters.search}
-                onChangeText={(value) => handleChange("search", value)}
-                placeholder={t("search_placeholder")}
-                style={styles.searchInput}
-              />
-            </View>
-
-            {isLoading ? (
-              <View style={styles.loadingContainer}>
-                <Loading />
+          <View style={styles.screen}>
+            <LinearGradient
+              gradient={glassGradient}
+              style={[
+                styles.glassCard,
+                isLightTheme && !isHighContrast
+                  ? styles.liquidGlassShadowLight
+                  : appStyles.cardMediaShadowDark,
+                {
+                  borderColor:
+                    isLightTheme && !isHighContrast
+                      ? "rgba(224, 233, 255, 0.72)"
+                      : colors.cardMediaGradientBorder,
+                },
+              ]}
+            >
+              <View style={styles.searchContainer}>
+                <Input
+                  value={filters.search}
+                  onChangeText={(value) => handleChange("search", value)}
+                  placeholder={t("search_placeholder")}
+                  style={styles.searchInput}
+                />
               </View>
-            ) : (
-              <>
-                <View style={styles.mapWrapper}>
-                  <InteractiveMap
-                    data={data}
-                    onMapReady={handleMapReady}
-                    setSelectedMarker={setSelectedOrganization}
-                    t={t}
-                    style={styles.map}
-                    organizationToZoom={organizationToZoom}
-                    onInteractionStart={() => {
-                      if (!isMapInteractingRef.current) {
-                        isMapInteractingRef.current = true;
-                        scrollViewRef.current?.setNativeProps({
-                          scrollEnabled: false,
-                        });
-                      }
-                    }}
-                    onInteractionEnd={() => {
-                      if (isMapInteractingRef.current) {
-                        isMapInteractingRef.current = false;
-                        scrollViewRef.current?.setNativeProps({
-                          scrollEnabled: true,
-                        });
-                      }
-                    }}
-                  />
-                </View>
+              <View style={styles.toolbarActions}>
+                <NewButton
+                  iconName="reset"
+                  type="outline"
+                  size="sm"
+                  label={t("reset_filters")}
+                  onPress={handleResetFilters}
+                  isFullWidth
+                  style={styles.toolbarAction}
+                />
+                <NewButton
+                  type="outline"
+                  size="sm"
+                  label={t("personalize")}
+                  iconName="person"
+                  onPress={handlePersonalizeClick}
+                  loading={personalizationMutation.isLoading}
+                  isFullWidth
+                  style={styles.toolbarAction}
+                />
+                <NewButton
+                  size="sm"
+                  label={t("filter")}
+                  iconName="filter"
+                  onPress={() => setIsFilterOpen(true)}
+                  isFullWidth
+                  style={styles.toolbarAction}
+                />
+              </View>
 
-                <View style={styles.organizationsContainer}>
-                  {renderOrganizations()}
-                </View>
+              <View
+                style={[
+                  styles.separator,
+                  { backgroundColor: separatorColor || "#cdd8e1" },
+                ]}
+              />
 
-                {data && data.length === 0 && (
-                  <View style={styles.noDataContainer}>
-                    <AppText style={styles.noDataText}>
-                      {t("no_data_found")}
-                    </AppText>
+              {isLoading ? (
+                <View style={styles.loadingContainer}>
+                  <Loading />
+                </View>
+              ) : (
+                <>
+                  <View style={styles.mapWrapper}>
+                    <InteractiveMap
+                      data={data}
+                      onMapReady={handleMapReady}
+                      setSelectedMarker={setSelectedOrganization}
+                      t={t}
+                      style={styles.map}
+                      organizationToZoom={organizationToZoom}
+                      onInteractionStart={() => {
+                        if (!isMapInteractingRef.current) {
+                          isMapInteractingRef.current = true;
+                          scrollViewRef.current?.setNativeProps({
+                            scrollEnabled: false,
+                          });
+                        }
+                      }}
+                      onInteractionEnd={() => {
+                        if (isMapInteractingRef.current) {
+                          isMapInteractingRef.current = false;
+                          scrollViewRef.current?.setNativeProps({
+                            scrollEnabled: true,
+                          });
+                        }
+                      }}
+                    />
                   </View>
-                )}
-              </>
-            )}
-          </Block>
-          <GiveSuggestion
-            navigation={navigation}
-            style={{ marginBottom: 50 }}
-            type="organizations"
-          />
+
+                  <View
+                    style={[
+                      styles.separator,
+                      { backgroundColor: separatorColor || "#cdd8e1" },
+                    ]}
+                  />
+
+                  <View style={styles.organizationsContainer}>
+                    {renderOrganizations()}
+                  </View>
+
+                  {data && data.length === 0 && (
+                    <View style={styles.noDataContainer}>
+                      <AppText style={styles.noDataText}>
+                        {t("no_data_found")}
+                      </AppText>
+                    </View>
+                  )}
+                </>
+              )}
+            </LinearGradient>
+          </View>
         </ScrollView>
       </KeyboardAvoidingView>
       {selectedOrganization && (
@@ -520,7 +594,7 @@ const OrganizationBackdrop = ({ organization, onClose, t, navigation }) => {
           {/* <TouchableOpacity style={styles.actionButton} onPress={handleShare}>
             <Icon name="share" size="sm" color={colors.text} />
           </TouchableOpacity> */}
-          <AppButton
+          <NewButton
             onPress={handleViewDetails}
             label={t("view_organization_details")}
           />
@@ -563,27 +637,45 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
   },
-  buttonsContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-evenly",
-    width: "100%",
-    paddingBottom: 16,
-    gap: 16,
-  },
-  buttonsContainerItem: {
-    width: "100%",
-    maxWidth: "45%",
-  },
-  container: {
-    flex: 1,
-    paddingTop: 50,
+  screen: {
+    marginTop: 8,
     paddingHorizontal: 16,
     paddingBottom: 20,
+  },
+  glassCard: {
+    borderRadius: 24,
+    borderWidth: 1,
+    overflow: "hidden",
+    padding: 16,
+  },
+  liquidGlassShadowLight: {
+    shadowColor: "rgb(95, 108, 145)",
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.14,
+    shadowRadius: 16,
+    elevation: 4,
+  },
+  separator: {
+    height: 1,
+    width: "100%",
+    marginBottom: 16,
   },
   searchInput: {
     marginBottom: 16,
     width: "100%",
+  },
+  toolbarActions: {
+    flexDirection: "column",
+    alignItems: "stretch",
+    justifyContent: "flex-start",
+    width: "100%",
+    paddingBottom: 16,
+    gap: 12,
+  },
+  toolbarAction: {
+    width: "100%",
+    minWidth: "100%",
+    maxWidth: "100%",
   },
   resetButton: {
     backgroundColor: appStyles.colorSecondary_9749fa,

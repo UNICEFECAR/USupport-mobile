@@ -320,6 +320,13 @@ async function joinConsultation(payload) {
   return response;
 }
 
+async function getProviderStatusById(providerId) {
+  const response = await http.get(
+    `${API_ENDPOINT}/status?providerId=${providerId}`
+  );
+  return response;
+}
+
 const exportedFunctions = {
   addAvailableSlot,
   addTemplateAvailability,
@@ -356,5 +363,6 @@ const exportedFunctions = {
   getConsultationsTime,
   getQuestionTags,
   joinConsultation,
+  getProviderStatusById,
 };
 export default exportedFunctions;

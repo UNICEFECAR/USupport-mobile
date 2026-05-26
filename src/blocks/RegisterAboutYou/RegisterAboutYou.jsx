@@ -10,7 +10,7 @@ import {
   Input,
   Dropdown,
   RadioButtonSelectorGroup,
-  AppButton,
+  NewButton,
 } from "#components";
 
 import { useUpdateClientData, useGetClientData } from "#hooks";
@@ -258,10 +258,11 @@ export const RegisterAboutYou = ({ navigation }) => {
         </View>
 
         <View style={styles.buttonContainer}>
-          <AppButton
+          <NewButton
             disabled={!canContinue}
             loading={updateClientDetailsMutation.isLoading}
             size="lg"
+            isFullWidth
             label={t("button_continue_label")}
             onPress={() => handleContinue()}
           />

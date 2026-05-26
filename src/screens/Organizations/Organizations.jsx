@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { View } from "react-native";
 import { useTranslation } from "react-i18next";
 
 import { Organizations as OrganizationsBlock } from "#blocks";
-import { Screen, Heading, ButtonOnlyIcon } from "#components";
+import { Screen, Heading, Block } from "#components";
 import { FilterOrganizations } from "#backdrops";
 
 const INITIAL_FILTERS = {
@@ -11,7 +10,7 @@ const INITIAL_FILTERS = {
   district: "",
   paymentMethod: "",
   userInteraction: "",
-  specialisations: "",
+  specialisations: [],
 };
 
 /**
@@ -42,16 +41,12 @@ export const Organizations = ({ route, navigation }) => {
     paymentMethod: paymentMethod || INITIAL_FILTERS.paymentMethod,
     userInteraction: userInteraction || INITIAL_FILTERS.userInteraction,
     // Ensure specialisations is always an array (even if empty)
-    specialisations: Array.isArray(specialisations) && specialisations.length > 0 
-      ? specialisations 
-      : [],
+    specialisations:
+      Array.isArray(specialisations) && specialisations.length > 0
+        ? specialisations
+        : [],
   });
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-
-  const handleGoBack = () => {
-    navigation.goBack();
-    setActiveCoupon(null);
-  };
 
   return (
     <Screen hasEmergencyButton={false} hasHeaderNavigation t={t}>
@@ -62,13 +57,13 @@ export const Organizations = ({ route, navigation }) => {
         setFilters={setFilters}
         initialFilters={INITIAL_FILTERS}
       />
-      <Heading
-        style={{ paddingTop: 80 }}
-        heading={t("heading")}
-        subheading={t("subheading")}
-        hasGoBackArrow={false}
-      />
-      <View style={{ marginTop: 120 }} />
+      <Block>
+        <Heading
+          style={{ marginTop: 20 }}
+          heading={t("heading")}
+          hasGoBackArrow={false}
+        />
+      </Block>
       <OrganizationsBlock
         navigation={navigation}
         filters={filters}
@@ -76,6 +71,7 @@ export const Organizations = ({ route, navigation }) => {
         specialisations={specialisations}
         setIsFilterOpen={setIsFilterOpen}
         triggerPersonalization={triggerPersonalization}
+        initialFilters={INITIAL_FILTERS}
       />
     </Screen>
   );

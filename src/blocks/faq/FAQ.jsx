@@ -102,10 +102,7 @@ export const FAQ = ({ navigation }) => {
         subheading={t("subheading")}
         handleGoBack={handleGoBack}
       />
-      <ScrollView
-        style={{ marginTop: 90 }}
-        showsVerticalScrollIndicator={false}
-      >
+      <ScrollView showsVerticalScrollIndicator={false}>
         <InputSearch
           value={searchQuery}
           onChange={(value) => setSearchQuery(value)}

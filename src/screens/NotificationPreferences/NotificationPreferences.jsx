@@ -1,9 +1,8 @@
 import React from "react";
 
-import { ScrollView, View } from "react-native";
-import { useTranslation } from "react-i18next";
+import { ScrollView } from "react-native";
 
-import { Screen, Heading } from "#components";
+import { Screen } from "#components";
 
 import { NotificationPreferences as NotificationPreferencesBlock } from "#blocks";
 
@@ -15,18 +14,9 @@ import { NotificationPreferences as NotificationPreferencesBlock } from "#blocks
  * @returns {JSX.Element}
  */
 export const NotificationPreferences = ({ navigation }) => {
-  const { t } = useTranslation("screens", {
-    keyPrefix: "notification-preferences-screen",
-  });
-
   return (
     <Screen>
-      <Heading
-        heading={t("heading")}
-        subheading={t("subheading")}
-        handleGoBack={() => navigation.goBack()}
-      />
-      <ScrollView style={{ marginTop: 112 }}>
+      <ScrollView>
         <NotificationPreferencesBlock navigation={navigation} />
       </ScrollView>
     </Screen>

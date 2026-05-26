@@ -13,6 +13,10 @@ import {
   EmoticonDepressedLg,
   EmoticonWorriedSm,
   EmoticonWorriedLg,
+  EmoticonHistorySm,
+  EmoticonHistoryLg,
+  EmoticonInsightSm,
+  EmoticonInsightLg,
 } from "./assets/sprite";
 
 /**
@@ -56,6 +60,18 @@ export const Emoticon = ({ name, size, style }) => {
       break;
     case "worried-lg":
       icon = <EmoticonWorriedLg />;
+      break;
+    case "emoticon-history-sm":
+      icon = <EmoticonHistorySm />;
+      break;
+    case "emoticon-history-lg":
+      icon = <EmoticonHistoryLg />;
+      break;
+    case "emoticon-insight-sm":
+      icon = <EmoticonInsightSm />;
+      break;
+    case "emoticon-insight-lg":
+      icon = <EmoticonInsightLg />;
       break;
   }
 

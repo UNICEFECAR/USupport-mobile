@@ -25,7 +25,7 @@
 		<key>CFBundlePackageType</key>
 		<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 		<key>CFBundleShortVersionString</key>
-		<string>1.0.29</string>
+		<string>1.0.31</string>
 		<key>CFBundleSignature</key>
 		<string>????</string>
 		<key>CFBundleVersion</key>
@@ -88,18 +88,6 @@
 		</array>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
 		<false/>
-		<key>UIAppFonts</key>
-		<array>
-			<string>Nunito_300Light.ttf</string>
-			<string>Nunito_400Regular.ttf</string>
-			<string>Nunito_500Medium.ttf</string>
-			<string>Nunito_600SemiBold.ttf</string>
-			<string>Nunito_700Bold.ttf</string>
-			<string>Nunito_800ExtraBold.ttf</string>
-			<string>Inter_400Regular.ttf</string>
-			<string>Inter_600SemiBold.ttf</string>
-			<string>Inter_700Bold.ttf</string>
-		</array>
 		<key>NSLocationWhenInUseUsageDescription</key>
 		<string>Allow $(PRODUCT_NAME) to access your location</string>
 		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>

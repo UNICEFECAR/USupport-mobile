@@ -63,7 +63,7 @@ export const HowItWorksMoodTrack = ({ isOpen, onClose }) => {
       heading={t("heading")}
       isOpen={isOpen}
       handleClose={onClose}
-      scrollAnimationDuration={4000}
+      scrollableBody={false}
     >
       <View style={styles.carouselContainer}>
         <CustomCarousel
@@ -87,7 +87,6 @@ const styles = StyleSheet.create({
   },
   slide: {
     alignItems: "center",
-    paddingHorizontal: 16,
-    width: "96%",
+    paddingHorizontal: 32,
   },
 });

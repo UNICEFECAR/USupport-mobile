@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 
-import { Block, AppText, Loading, CardMedia } from "#components";
+import { Block, AppText, Loading, CardMedia, NotFoundCard } from "#components";
 
 import { VideoModal, PodcastModal } from "#backdrops";
 
@@ -203,7 +203,11 @@ export const InformationalPortal = ({
         </View>
 
         {hasNoData ? (
-          <AppText style={styles.noResults}>{t("no_results")}</AppText>
+          <NotFoundCard
+            mode="illustrated"
+            headingText={t("no_results")}
+            style={styles.notFound}
+          />
         ) : (
           <View style={styles.articlesContainer}>
             {contentItems?.map((item, index) => {
@@ -311,9 +315,11 @@ export const InformationalPortal = ({
 
       <Block style={styles.informationalPortalBlock}>
         {noContentForLanguage ? (
-          <AppText style={styles.headingNoLanguageResults} namedStyle="h3">
-            {noContentForLanguageText}
-          </AppText>
+          <NotFoundCard
+            mode="illustrated"
+            headingText={noContentForLanguageText}
+            style={styles.notFoundTop}
+          />
         ) : null}
 
         {!noContentForLanguage && (
@@ -355,10 +361,7 @@ export const InformationalPortal = ({
 
 const styles = StyleSheet.create({
   informationalPortalBlock: { paddingTop: 40 },
-  headingNoLanguageResults: {
-    marginBottom: 40,
-    textAlign: "center",
-  },
+  notFoundTop: { marginBottom: 24 },
   headingContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -382,8 +385,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  noResults: {
-    textAlign: "center",
-    paddingVertical: 30,
-  },
+  notFound: { marginTop: 12 },
 });

@@ -17,7 +17,7 @@ import "fast-text-encoding";
 import Joi from "joi";
 
 import {
-  AppButton,
+  NewButton,
   AppText,
   Block,
   Heading,
@@ -42,7 +42,12 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
-export const RegisterAnonymous = ({ navigation }) => {
+export const RegisterAnonymous = ({
+  navigation,
+  onGoBack,
+  onGoToLogin,
+  inBackdrop,
+}) => {
   const { colors } = useGetTheme();
   const { t } = useTranslation("blocks", { keyPrefix: "register-anonymous" });
 
@@ -103,7 +108,8 @@ export const RegisterAnonymous = ({ navigation }) => {
   const register = async () => {
     const countryID = await localStorage.getItem("country_id");
     if (!countryID) {
-      navigate("/");
+      if (onGoBack) return onGoBack();
+      navigation?.navigate?.("Welcome");
     }
     return await userSvc.signUp({
       userType: "client",
@@ -222,7 +228,8 @@ export const RegisterAnonymous = ({ navigation }) => {
   };
 
   const handleLoginRedirect = () => {
-    navigation.navigate("Login");
+    if (onGoToLogin) return onGoToLogin();
+    navigation?.navigate?.("Login");
   };
 
   const copyToClipboard = async () => {
@@ -248,8 +255,105 @@ export const RegisterAnonymous = ({ navigation }) => {
     }
   };
 
-  return (
-    <Screen hasEmergencyButton={false}>
+  const content = (
+    <>
+      <View>
+        <AppText isSemibold style={{ color: colors.textSecondary }}>
+          {t("access_code")}
+        </AppText>
+        {userAccessToken ? (
+          <View style={styles.copyCodeContainer}>
+            <AppText namedStyle="h3">{userAccessToken}</AppText>
+            <TouchableOpacity onPress={copyToClipboard}>
+              <Icon style={styles.copyIcon} name="copy" />
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View style={{ alignSelf: "center", marginVertical: 20 }}>
+            <Loading />
+          </View>
+        )}
+      </View>
+
+      <View style={styles.warningContainer}>
+        <Icon style={styles.warningIcon} name="warning" />
+        <AppText namedStyle="smallText" style={{ color: colors.textSecondary }}>
+          {t("copy_text")}
+        </AppText>
+      </View>
+
+      <Input
+        label={t("nickname_label")}
+        placeholder={t("nickname_placeholder")}
+        value={data.nickname}
+        onChange={(value) => handleChange("nickname", value)}
+        onBlur={() => handleBlur("nickname", data.nickname)}
+        errorMessage={errors.nickname}
+        style={styles.input}
+      />
+      <InputPassword
+        label={t("password_label")}
+        placeholder={t("password_placeholder")}
+        value={data.password}
+        onChange={(value) => handleChange("password", value)}
+        errorMessage={errors.password}
+        onBlur={() => handleBlur("password", data.password)}
+        style={styles.input}
+      />
+      <InputPassword
+        label={t("confirm_password_label")}
+        placeholder={t("password_placeholder")}
+        value={data.confirmPassword}
+        onChange={(value) => handleChange("confirmPassword", value)}
+        errorMessage={errors.confirmPassword}
+        onBlur={() => handleBlur("confirmPassword", data.confirmPassword)}
+        style={styles.input}
+      />
+
+      <View style={styles.termsAgreement}>
+        <TermsAgreement
+          isChecked={data.isPrivacyAndTermsSelected}
+          setIsChecked={() =>
+            handleChange(
+              "isPrivacyAndTermsSelected",
+              !data.isPrivacyAndTermsSelected
+            )
+          }
+          navigation={navigation}
+          textOne={t("terms_agreement_text_1")}
+          textTwo={t("terms_agreement_text_2")}
+          textThree={t("terms_agreement_text_3")}
+          textFour={t("terms_agreement_text_4")}
+          style={{ marginBottom: 12 }}
+        />
+        <TermsAgreement
+          isChecked={data.isAgeTermsSelected}
+          setIsChecked={() =>
+            handleChange("isAgeTermsSelected", !data.isAgeTermsSelected)
+          }
+          textOne={t("age_terms_agreement_text", { age: minAge })}
+        />
+      </View>
+      <NewButton
+        disabled={!canContinue}
+        label={t("register_button_label")}
+        style={styles.button}
+        size="lg"
+        onPress={handleRegisterButtonClick}
+        loading={registerMutation.isLoading}
+      />
+      <NewButton
+        label={t("login_button_label")}
+        size="lg"
+        type="ghost-purple"
+        onPress={handleLoginRedirect}
+        style={{ marginTop: 8 }}
+      />
+    </>
+  );
+
+  const wrapper = (
+    <>
       <SaveAccessCodeConfirmation
         isOpen={isConfirmationModalOpen}
         handleClose={() => setIsConfirmationModalOpen(false)}
@@ -258,126 +362,35 @@ export const RegisterAnonymous = ({ navigation }) => {
         isRegisterLoading={registerMutation.isLoading}
         t={t}
       />
-      <Heading
-        heading={t("heading")}
-        subheading={t("subheading")}
-        handleGoBack={() => navigation.goBack()}
-      />
-      <Block style={{ flex: 1, flexGrow: 1, marginTop: 112 }}>
+      {inBackdrop ? null : (
+        <Heading
+          heading={t("heading")}
+          subheading={t("subheading")}
+          handleGoBack={() => {
+            if (onGoBack) return onGoBack();
+            navigation?.goBack?.();
+          }}
+        />
+      )}
+      <Block style={{ flex: 1, flexGrow: 1, marginTop: inBackdrop ? 0 : 112 }}>
         <KeyboardAvoidingView
           style={styles.keyboardAvoidingView}
           behavior={Platform.OS === "ios" ? "padding" : null}
           enabled
         >
-          <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            <View>
-              <AppText isSemibold style={{ color: colors.textSecondary }}>
-                {t("access_code")}
-              </AppText>
-              {userAccessToken ? (
-                <View style={styles.copyCodeContainer}>
-                  <AppText namedStyle="h3">{userAccessToken}</AppText>
-                  <TouchableOpacity onPress={copyToClipboard}>
-                    <Icon style={styles.copyIcon} name="copy" />
-                  </TouchableOpacity>
-                </View>
-              ) : (
-                <View
-                  style={{
-                    alignSelf: "center",
-                    marginVertical: 20,
-                  }}
-                >
-                  <Loading />
-                </View>
-              )}
-            </View>
-
-            <View style={styles.warningContainer}>
-              <Icon style={styles.warningIcon} name="warning" />
-              <AppText
-                namedStyle="smallText"
-                style={{ color: colors.textSecondary }}
-              >
-                {t("copy_text")}
-              </AppText>
-            </View>
-
-            <Input
-              label={t("nickname_label")}
-              placeholder={t("nickname_placeholder")}
-              value={data.nickname}
-              onChange={(value) => handleChange("nickname", value)}
-              onBlur={() => handleBlur("nickname", data.nickname)}
-              errorMessage={errors.nickname}
-              style={styles.input}
-            />
-            <InputPassword
-              label={t("password_label")}
-              placeholder={t("password_placeholder")}
-              value={data.password}
-              onChange={(value) => handleChange("password", value)}
-              errorMessage={errors.password}
-              onBlur={() => {
-                handleBlur("password", data.password);
-              }}
-              style={styles.input}
-            />
-            <InputPassword
-              label={t("confirm_password_label")}
-              placeholder={t("password_placeholder")}
-              value={data.confirmPassword}
-              onChange={(value) => handleChange("confirmPassword", value)}
-              errorMessage={errors.confirmPassword}
-              onBlur={() => {
-                handleBlur("confirmPassword", data.confirmPassword);
-              }}
-              style={styles.input}
-            />
-
-            <View style={styles.termsAgreement}>
-              <TermsAgreement
-                isChecked={data.isPrivacyAndTermsSelected}
-                setIsChecked={() =>
-                  handleChange(
-                    "isPrivacyAndTermsSelected",
-                    !data.isPrivacyAndTermsSelected
-                  )
-                }
-                navigation={navigation}
-                textOne={t("terms_agreement_text_1")}
-                textTwo={t("terms_agreement_text_2")}
-                textThree={t("terms_agreement_text_3")}
-                textFour={t("terms_agreement_text_4")}
-                style={{ marginBottom: 12 }}
-              />
-              <TermsAgreement
-                isChecked={data.isAgeTermsSelected}
-                setIsChecked={() =>
-                  handleChange("isAgeTermsSelected", !data.isAgeTermsSelected)
-                }
-                textOne={t("age_terms_agreement_text", { age: minAge })}
-              />
-            </View>
-            <AppButton
-              disabled={!canContinue}
-              label={t("register_button_label")}
-              style={styles.button}
-              size="lg"
-              onPress={handleRegisterButtonClick}
-              loading={registerMutation.isLoading}
-            />
-            <AppButton
-              label={t("login_button_label")}
-              size="lg"
-              type="ghost"
-              onPress={handleLoginRedirect}
-            />
-          </ScrollView>
+          {inBackdrop ? (
+            content
+          ) : (
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>{content}</ScrollView>
+          )}
         </KeyboardAvoidingView>
       </Block>
-    </Screen>
+    </>
   );
+
+  if (inBackdrop) return wrapper;
+
+  return <Screen hasEmergencyButton={false}>{wrapper}</Screen>;
 };
 
 const SaveAccessCodeConfirmation = ({
@@ -467,7 +480,7 @@ const SaveAccessCodeConfirmation = ({
           {t("warning")}
         </AppText>
       </View>
-      <AppButton
+      <NewButton
         label={t("modal_button_label")}
         size="lg"
         style={{ marginTop: 24 }}

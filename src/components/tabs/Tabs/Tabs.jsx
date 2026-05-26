@@ -1,10 +1,16 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   View,
   StyleSheet,
   ScrollView,
-  TouchableOpacity,
-  Dimensions,
+  Platform,
+  Pressable,
 } from "react-native";
 
 import { AppText } from "../../texts/AppText/AppText";
@@ -12,8 +18,6 @@ import { Icon } from "../../icons"; // Assuming you have an Icon component
 
 import { appStyles } from "#styles";
 import { useGetTheme } from "#hooks";
-
-const { width: screenWidth } = Dimensions.get("window");
 
 /**
  * Tabs
@@ -28,215 +32,214 @@ export const Tabs = ({
   style,
   tabsStyle,
   t = () => {},
+  ...rest
 }) => {
-  const { colors, isDarkMode } = useGetTheme();
+  const { colors, isDarkMode, isHighContrast } = useGetTheme();
+  const isLightTheme = colors.background === appStyles.colorWhite_ff;
+
+  const tabBackgrounds = useMemo(() => {
+    const unselected =
+      Platform.OS === "android" && isLightTheme
+        ? "#e1e9fc"
+        : (colors.cardMediaGradient?.[0] ?? "rgba(225, 233, 252, 1)");
+    const selected =
+      Platform.OS === "android" && isLightTheme && !isHighContrast
+        ? "#edf5ff"
+        : (colors.tabSelectedGradient?.[0] ?? "rgba(255,255,255,0.5)");
+    return { unselected, selected };
+  }, [
+    colors.cardMediaGradient,
+    colors.tabSelectedGradient,
+    isHighContrast,
+    isLightTheme,
+  ]);
   const scrollViewRef = useRef(null);
-  const tabRefs = useRef({});
+  const tabLayoutsRef = useRef(new Map());
+  const [contentWidth, setContentWidth] = useState(0);
+  const [containerWidth, setContainerWidth] = useState(0);
+  const [scrollX, setScrollX] = useState(0);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
-  const [contentWidth, setContentWidth] = useState(0);
-  const [scrollViewWidth, setScrollViewWidth] = useState(0);
-  const [currentScrollX, setCurrentScrollX] = useState(0);
 
-  const scrollToTab = (index) => {
-    if (!scrollViewRef.current || !tabRefs.current[index]) {
-      return;
-    }
-
-    tabRefs.current[index].measureLayout(
-      scrollViewRef.current,
-      (x, y, width, height) => {
-        // Calculate the position to center the tab in the visible area
-        const tabCenter = x + width / 2;
-        const scrollViewCenter = scrollViewWidth / 2;
-        const targetScrollX = Math.max(
-          0,
-          Math.min(contentWidth - scrollViewWidth, tabCenter - scrollViewCenter)
-        );
-
-        scrollViewRef.current.scrollTo({
-          x: targetScrollX,
-          animated: true,
-        });
-
-        // Update state after a short delay to account for animation
-        setTimeout(() => {
-          setCurrentScrollX(targetScrollX);
-          checkScrollability(targetScrollX);
-        }, 100);
-      },
-      () => {
-        // Fallback: if measureLayout fails, try to scroll based on estimated position
-        // Average tab width is approximately 100px (padding + text + margins)
-        const estimatedTabWidth = 100;
-        const estimatedPosition = index * estimatedTabWidth;
-        const targetScrollX = Math.max(
-          0,
-          Math.min(
-            contentWidth - scrollViewWidth,
-            estimatedPosition - scrollViewWidth / 2 + estimatedTabWidth / 2
-          )
-        );
-
-        scrollViewRef.current.scrollTo({
-          x: targetScrollX,
-          animated: true,
-        });
-
-        setTimeout(() => {
-          setCurrentScrollX(targetScrollX);
-          checkScrollability(targetScrollX);
-        }, 100);
-      }
-    );
-  };
-
-  const handleOnSelect = (index) => {
-    // Scroll to the selected tab
-    scrollToTab(index);
-
-    if (handleSelect) {
-      handleSelect(index);
-    }
-  };
-
-  const checkScrollability = (scrollX) => {
-    const tolerance = 1;
-    setCanScrollLeft(scrollX > tolerance);
-    setCanScrollRight(scrollX < contentWidth - scrollViewWidth - tolerance);
-  };
-
-  const scrollTabs = (direction) => {
-    if (scrollViewRef.current && scrollViewWidth > 0) {
-      const scrollAmount = Math.max(scrollViewWidth / 2.5, 100); // Minimum scroll amount
-      const newOffset =
-        direction === "left"
-          ? Math.max(0, currentScrollX - scrollAmount)
-          : Math.min(
-              Math.max(0, contentWidth - scrollViewWidth),
-              currentScrollX + scrollAmount
-            );
-
-      // Only scroll if there's actually a change
-      if (Math.abs(newOffset - currentScrollX) > 1) {
-        scrollViewRef.current.scrollTo({
-          x: newOffset,
-          animated: true,
-        });
-
-        // Update current scroll position immediately for better UX
-        setCurrentScrollX(newOffset);
-        checkScrollability(newOffset);
-      }
-    }
-  };
-
-  const handleScroll = (event) => {
-    const scrollX = event.nativeEvent.contentOffset.x;
-    setCurrentScrollX(scrollX);
-    checkScrollability(scrollX);
-  };
-
-  const handleContentSizeChange = (contentWidth) => {
-    setContentWidth(contentWidth);
-  };
-
-  const handleLayout = (event) => {
-    const { width } = event.nativeEvent.layout;
-    setScrollViewWidth(width);
-  };
+  const updateScrollability = useCallback(
+    (nextScrollX) => {
+      const tolerance = 1;
+      const maxX = Math.max(0, contentWidth - containerWidth);
+      setCanScrollLeft(nextScrollX > tolerance);
+      setCanScrollRight(nextScrollX < maxX - tolerance);
+    },
+    [contentWidth, containerWidth]
+  );
 
   useEffect(() => {
-    // Check scrollability when content or container size changes
-    if (contentWidth && scrollViewWidth) {
-      checkScrollability(currentScrollX);
-    }
-  }, [contentWidth, scrollViewWidth, currentScrollX]);
+    updateScrollability(scrollX);
+  }, [scrollX, updateScrollability]);
 
-  // Scroll to selected tab when options change
+  const scrollToX = useCallback(
+    (x, animated = true) => {
+      const maxX = Math.max(0, contentWidth - containerWidth);
+      const clamped = Math.max(0, Math.min(maxX, x));
+      if (!scrollViewRef.current) return;
+      scrollViewRef.current.scrollTo({ x: clamped, animated });
+      setScrollX(clamped);
+      updateScrollability(clamped);
+    },
+    [contentWidth, containerWidth, updateScrollability]
+  );
+
+  const scrollToTab = useCallback(
+    (index) => {
+      const layout = tabLayoutsRef.current.get(index);
+      if (!layout || containerWidth <= 0) return;
+
+      const tabCenter = layout.x + layout.width / 2;
+      const targetX = tabCenter - containerWidth / 2;
+      scrollToX(targetX, true);
+    },
+    [containerWidth, scrollToX]
+  );
+
+  const handleOnSelect = useCallback(
+    (index) => {
+      scrollToTab(index);
+      handleSelect?.(index);
+    },
+    [handleSelect, scrollToTab]
+  );
+
+  const handleScroll = useCallback(
+    (event) => {
+      const next = event.nativeEvent.contentOffset.x ?? 0;
+      setScrollX(next);
+      updateScrollability(next);
+    },
+    [updateScrollability]
+  );
+
+  const handleContainerLayout = useCallback((event) => {
+    setContainerWidth(event.nativeEvent.layout.width ?? 0);
+  }, []);
+
+  const handleContentSizeChange = useCallback((w) => {
+    setContentWidth(w ?? 0);
+  }, []);
+
+  const selectedIndex = useMemo(() => {
+    if (!Array.isArray(options)) return -1;
+    return options.findIndex((opt) => opt?.isSelected);
+  }, [options]);
+
   useEffect(() => {
-    if (
-      options &&
-      options.length > 0 &&
-      scrollViewWidth > 0 &&
-      contentWidth > 0
-    ) {
-      const selectedIndex = options.findIndex((opt) => opt.isSelected);
-      if (selectedIndex >= 0 && tabRefs.current[selectedIndex]) {
-        // Small delay to ensure layout is complete
-        setTimeout(() => {
-          scrollToTab(selectedIndex);
-        }, 100);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [options, scrollViewWidth, contentWidth]);
+    if (selectedIndex < 0) return;
+
+    // Wait a tick for onLayout measurements to populate.
+    const id = setTimeout(() => {
+      scrollToTab(selectedIndex);
+    }, 0);
+    return () => clearTimeout(id);
+  }, [selectedIndex, scrollToTab, options]);
+
+  const scrollTabs = useCallback(
+    (direction) => {
+      const amount = Math.max(containerWidth / 2.5, 96);
+      const next = direction === "left" ? scrollX - amount : scrollX + amount;
+      scrollToX(next, true);
+    },
+    [containerWidth, scrollToX, scrollX]
+  );
 
   const renderOptions = () => {
     if (!options || !Array.isArray(options)) {
       return null;
     }
 
-    return options.map((option, index) => (
-      <TouchableOpacity
-        onPress={option.isInactive ? undefined : () => handleOnSelect(index)}
-        key={index}
-        disabled={option.isInactive}
-        activeOpacity={0.7}
-      >
-        <View
-          ref={(ref) => {
-            if (ref) {
-              tabRefs.current[index] = ref;
-            }
+    return options.map((option, index) => {
+      const isSelected = option.isSelected;
+      const labelColor = isSelected ? colors.text : colors.inputText;
+      const backgroundColor = isSelected
+        ? tabBackgrounds.selected
+        : tabBackgrounds.unselected;
+
+      return (
+        <Pressable
+          key={index}
+          onPress={option.isInactive ? undefined : () => handleOnSelect(index)}
+          disabled={option.isInactive}
+          android_ripple={
+            option.isInactive
+              ? undefined
+              : { color: "rgba(255,255,255,0.18)", borderless: false }
+          }
+          accessibilityRole="button"
+          accessibilityState={{
+            selected: !!isSelected,
+            disabled: !!option.isInactive,
           }}
-          style={[
-            styles.tab,
-            {
-              backgroundColor: !isDarkMode
-                ? appStyles.colorGreen_f4f7fe
-                : appStyles.colorBlack_1e,
-            },
-            option.isSelected && styles.tabSelected,
-            option.isSelected && {
-              backgroundColor: colors.background,
-            },
-            option.isInactive && styles.tabInactive,
-          ]}
+          onLayout={(e) => {
+            const { x, width } = e.nativeEvent.layout;
+            tabLayoutsRef.current.set(index, { x, width });
+          }}
+          style={styles.tabPressable}
         >
-          <AppText black numberOfLines={1} ellipsizeMode="tail">
-            {option.label}
-          </AppText>
-        </View>
-      </TouchableOpacity>
-    ));
+          <View
+            style={[
+              styles.tab,
+              isLightTheme && !isHighContrast
+                ? appStyles.cardMediaShadowLight
+                : appStyles.cardMediaShadowDark,
+              {
+                borderColor: colors.cardMediaGradientBorder,
+                backgroundColor,
+              },
+              option.isInactive && styles.tabInactive,
+            ]}
+          >
+            <AppText
+              numberOfLines={1}
+              ellipsizeMode="tail"
+              style={[styles.tabLabel, { color: labelColor }]}
+            >
+              {option.label}
+            </AppText>
+          </View>
+        </Pressable>
+      );
+    });
   };
 
-  const showArrows = contentWidth > scrollViewWidth;
+  const showArrows = contentWidth > containerWidth + 1;
+  const arrowBg = isLightTheme
+    ? Platform.OS === "android"
+      ? appStyles.colorWhite_ff
+      : "rgba(255, 255, 255, 0.82)"
+    : "rgba(20, 25, 31, 0.75)";
+  const arrowBorder = isLightTheme
+    ? "rgba(0, 0, 0, 0.12)"
+    : "rgba(255, 255, 255, 0.12)";
 
   return (
-    <View style={[styles.tabsWrapper, style]}>
+    <View style={[styles.tabsWrapper, style]} {...rest}>
       <View style={[styles.tabs, tabsStyle]}>
         {showArrows && (
-          <TouchableOpacity
-            style={[
+          <Pressable
+            style={({ pressed }) => [
               styles.tabArrow,
               styles.tabArrowLeft,
+              { backgroundColor: arrowBg, borderColor: arrowBorder },
               !canScrollLeft && styles.tabArrowDisabled,
+              pressed && canScrollLeft && styles.tabArrowPressed,
             ]}
             onPress={() => canScrollLeft && scrollTabs("left")}
             disabled={!canScrollLeft}
-            activeOpacity={0.7}
+            hitSlop={10}
+            accessibilityRole="button"
+            accessibilityLabel={t?.("scroll_left") || "Scroll left"}
           >
-            <Icon
-              name="arrow-chevron-back"
-              size="md"
-              color={appStyles.colorBlack_1e}
-            />
-          </TouchableOpacity>
+            <Icon name="arrow-chevron-back" size="md" color={colors.text} />
+          </Pressable>
         )}
 
-        <View style={styles.tabsContainer} onLayout={handleLayout}>
+        <View style={styles.tabsContainer} onLayout={handleContainerLayout}>
           <ScrollView
             ref={scrollViewRef}
             horizontal
@@ -245,28 +248,29 @@ export const Tabs = ({
             scrollEventThrottle={16}
             onContentSizeChange={handleContentSizeChange}
             contentContainerStyle={styles.scrollContent}
+            bounces={false}
           >
             {renderOptions()}
           </ScrollView>
         </View>
 
         {showArrows && (
-          <TouchableOpacity
-            style={[
+          <Pressable
+            style={({ pressed }) => [
               styles.tabArrow,
               styles.tabArrowRight,
+              { backgroundColor: arrowBg, borderColor: arrowBorder },
               !canScrollRight && styles.tabArrowDisabled,
+              pressed && canScrollRight && styles.tabArrowPressed,
             ]}
             onPress={() => canScrollRight && scrollTabs("right")}
             disabled={!canScrollRight}
-            activeOpacity={0.7}
+            hitSlop={10}
+            accessibilityRole="button"
+            accessibilityLabel={t?.("scroll_right") || "Scroll right"}
           >
-            <Icon
-              name="arrow-chevron-forward"
-              size="md"
-              color={appStyles.colorBlack_1e}
-            />
-          </TouchableOpacity>
+            <Icon name="arrow-chevron-forward" size="md" color={colors.text} />
+          </Pressable>
         )}
       </View>
     </View>
@@ -292,21 +296,26 @@ const styles = StyleSheet.create({
   scrollContent: {
     alignItems: "center",
     paddingRight: 8,
+    paddingVertical: 2,
+  },
+  tabPressable: {
+    borderRadius: 12,
   },
   tab: {
     paddingVertical: 4,
     paddingHorizontal: 24,
-    borderRadius: 40,
+    borderRadius: 12,
     marginHorizontal: 4,
-    borderWidth: 1,
-    borderColor: "transparent",
+    borderWidth: 1.5,
     minWidth: 60,
     maxWidth: 260,
     alignItems: "center",
     justifyContent: "center",
+    overflow: "visible",
   },
-  tabSelected: {
-    borderColor: appStyles.colorSecondary_9749fa,
+  tabLabel: {
+    textAlign: "center",
+    includeFontPadding: false,
   },
   tabInactive: {
     opacity: 0.2,
@@ -315,9 +324,7 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: "rgba(255, 255, 255, 0.8)",
     borderWidth: 1,
-    borderColor: "rgba(0, 0, 0, 0.1)",
     alignItems: "center",
     justifyContent: "center",
     elevation: 2,
@@ -328,6 +335,10 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.2,
     shadowRadius: 1.41,
+  },
+  tabArrowPressed: {
+    opacity: Platform.OS === "android" ? 1 : 0.9,
+    transform: [{ scale: 0.98 }],
   },
   tabArrowLeft: {
     marginRight: 8,

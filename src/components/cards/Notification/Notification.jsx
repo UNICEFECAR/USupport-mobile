@@ -24,8 +24,8 @@ export const Notification = ({
   const dateText = isDateToday(date)
     ? ""
     : isYesterday
-    ? t("yesterday")
-    : date.toLocaleDateString();
+      ? t("yesterday")
+      : date.toLocaleDateString();
 
   const hourText = getTimeFromDate(date);
 
@@ -35,33 +35,27 @@ export const Notification = ({
         style={[
           styles.container,
           !isRead && styles.containerNew,
-          !isRead && isDarkMode && { backgroundColor: appStyles.colorBlack_1e },
+          !isRead && isDarkMode && styles.containerNewDark,
         ]}
       >
         <View style={styles.content}>
           <View style={styles.iconContainer}>
             <Icon
               name={icon}
-              color={isRead ? appStyles.colorGray_66768d : "#9749FA"}
+              color={appStyles.colorSecondary_9749fa}
               size="md"
             />
           </View>
           <View style={styles.informationContainer}>
             <View style={styles.heading}>
               <View style={styles.nameContainer}>
-                <AppText
-                  className="small-text"
-                  style={[
-                    styles.nameText,
-                    isRead && { color: appStyles.colorGray_66768d },
-                  ]}
-                >
+                <AppText className="small-text" style={styles.nameText}>
                   {title}
                 </AppText>
                 {isRead ? null : <View style={styles.emptyContainer} />}
               </View>
               <AppText namedStyle="smallText">
-                {dateText} {isDateToday(date) && hourText}
+                {dateText} {hourText}
               </AppText>
             </View>
             <AppText namedStyle="smallText" style={styles.descriptionText}>
@@ -79,20 +73,21 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     padding: 16,
-    marginTop: 8,
+    marginBottom: 8,
+    borderRadius: 13,
+    overflow: "hidden",
   },
   containerNew: { backgroundColor: appStyles.colorGreen_e6f1f4 },
+  containerNewDark: { backgroundColor: appStyles.colorBlue_20809E_0_3 },
   content: { flexDirection: "row", alignItems: "center" },
   iconContainer: { marginRight: 16 },
-  informationContainer: { width: "92%" },
+  informationContainer: { flex: 1, minWidth: 0 },
   heading: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    width: "95%",
   },
   nameContainer: {
-    display: "flex",
     flexDirection: "row",
     alignItems: "center",
   },
@@ -107,7 +102,7 @@ const styles = StyleSheet.create({
     backgroundColor: appStyles.colorSecondary_9749fa,
     borderRadius: 16,
   },
-  descriptionText: { maxWidth: "75%", marginTop: 4 },
+  descriptionText: { maxWidth: "80%", marginTop: 4, textAlign: "left" },
 });
 
 Notification.propTypes = {

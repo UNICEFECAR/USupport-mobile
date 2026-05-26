@@ -7,15 +7,11 @@ import React, {
   useRef,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { View } from "react-native";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { AppText, Screen, Heading, TransparentModal, Input } from "#components";
-
+import { Screen, Heading, Block } from "#components";
 import { SelectProvider as SelectProviderBlock } from "#blocks";
-
 import { FilterProviders } from "#backdrops";
-
 import { useGetProvidersData, useError, useCheckActiveCampaign } from "#hooks";
 
 import {
@@ -43,7 +39,6 @@ export const SelectProvider = ({ navigation, route }) => {
 
   const { activeCoupon, setActiveCoupon, country, selectedCountry } =
     useContext(Context);
-  const [headingHeight, setHeadingHeight] = useState(0);
   const [selectedBillingType, setSelectedBillingType] = useState(null);
   const prevHasActiveCampaignRef = useRef(undefined);
 
@@ -113,7 +108,8 @@ export const SelectProvider = ({ navigation, route }) => {
 
     if (!shouldPreferCoupon) return;
 
-    const campaignJustBecameAvailable = prev !== true && hasActiveCampaign === true;
+    const campaignJustBecameAvailable =
+      prev !== true && hasActiveCampaign === true;
     if (!campaignJustBecameAvailable) return;
 
     setSelectedBillingType("coupon");
@@ -259,17 +255,11 @@ export const SelectProvider = ({ navigation, route }) => {
   ]);
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [isCouponModalOpen, setIsCouponModalOpen] = useState(false);
-  const [couponValue, setCouponValue] = useState("");
-  const [couponError, setCouponError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
 
-  const [showCoupon, setShowCoupon] = useState(null);
   const [showPrices, setShowPrices] = useState(true);
 
   useEffect(() => {
     if (selectedCountry) {
-      setShowCoupon(selectedCountry.hasCoupons ?? country !== "KZ");
       setShowPrices(
         selectedCountry.hasPayments !== false &&
           country !== "KZ" &&
@@ -277,7 +267,6 @@ export const SelectProvider = ({ navigation, route }) => {
       );
     } else {
       localStorage.getItem("country").then((countryCode) => {
-        setShowCoupon(countryCode !== "KZ");
         setShowPrices(countryCode !== "KZ" && countryCode !== "PL");
       });
     }
@@ -359,33 +348,6 @@ export const SelectProvider = ({ navigation, route }) => {
     closeFilter();
   };
 
-  const openCouponModal = () => setIsCouponModalOpen(true);
-  const closeCouponModal = () => setIsCouponModalOpen(false);
-
-  const removeCoupon = () => {
-    setActiveCoupon(null);
-  };
-
-  const handleSubmitCoupon = async () => {
-    setIsLoading(true);
-    try {
-      const { data } = await clientSvc.checkIsCouponAvailable(couponValue);
-      if (data?.campaign_id) {
-        setActiveCoupon({
-          couponValue,
-          campaignId: data.campaign_id,
-        });
-        closeCouponModal();
-        queryClient.invalidateQueries(["all-providers-data"]);
-      }
-    } catch (err) {
-      const { message: errorMessage } = useError(err);
-      setCouponError(errorMessage);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const handleGoBack = () => {
     navigation.goBack();
     setActiveCoupon(null);
@@ -393,14 +355,18 @@ export const SelectProvider = ({ navigation, route }) => {
 
   return (
     <Screen>
-      <Heading
-        heading={t("heading")}
-        onLayout={(e) => {
-          setHeadingHeight(e.nativeEvent.layout.height);
-        }}
-        handleGoBack={handleGoBack}
-      />
-      <View style={{ marginTop: headingHeight + 8 }} />
+      <Block>
+        <Heading
+          heading={
+            effectiveActiveCoupon?.couponValue
+              ? t("heading_with_coupon", {
+                  coupon: effectiveActiveCoupon.couponValue,
+                })
+              : t("heading")
+          }
+          handleGoBack={handleGoBack}
+        />
+      </Block>
 
       <SelectProviderBlock
         providers={providersData}
@@ -420,27 +386,9 @@ export const SelectProvider = ({ navigation, route }) => {
         selectedBillingType={selectedBillingType}
         setSelectedBillingType={setSelectedBillingType}
         handleFilterClick={handleFilterClick}
+        filterButtonLabel={t("button_label")}
         hasActiveCampaign={canUseCoupons}
       />
-      <TransparentModal
-        isOpen={isCouponModalOpen}
-        handleClose={closeCouponModal}
-        heading={t("modal_coupon_heading")}
-        ctaLabel={t("modal_coupon_button_label")}
-        ctaHandleClick={handleSubmitCoupon}
-        isCtaLoading={isLoading}
-        errorMessage={couponError}
-      >
-        <AppText namedStyle="text">{t("coupon_paragraph")}</AppText>
-        <AppText namedStyle="text">{t("coupon_paragraph_two")}</AppText>
-        <Input
-          label={t("modal_coupon_input_label")}
-          placeholder={t("modal_coupon_input_placeholder")}
-          value={couponValue}
-          style={{ marginVertical: 26 }}
-          onChange={(value) => setCouponValue(value)}
-        />
-      </TransparentModal>
       <FilterProviders
         isOpen={isFilterOpen}
         onClose={() => setIsFilterOpen(false)}

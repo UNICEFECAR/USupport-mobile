@@ -1,17 +1,18 @@
-import React, { useCallback, useState, useMemo, useEffect } from "react";
+import React, { useCallback, useMemo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Platform, StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import {
+  NewButton,
   Icon,
   Block,
-  InputSearch,
   Tabs,
   Answer,
   AppText,
   Loading,
   Dropdown,
+  NotFoundCard,
 } from "#components";
-import { useGetLanguages } from "#hooks";
+import { useGetTheme, useGetLanguages } from "#hooks";
 import { localStorage } from "#services";
 import appStyles from "../../styles/appStyles";
 
@@ -37,10 +38,13 @@ export const MyQA = ({
   selectedLanguage,
   setSelectedLanguage,
   setShouldFetchQuestions,
+  searchValue = "",
+  howItWorksLabel,
+  onHowItWorksPress,
+  onGoBack,
 }) => {
   const { t, i18n } = useTranslation("blocks", { keyPrefix: "my-qa" });
-
-  const [searchValue, setSearchValue] = useState("");
+  const { isHighContrast } = useGetTheme();
   const selectedTab = tabs.find((x) => x.isSelected)?.value;
 
   const { data: languages } = useGetLanguages();
@@ -138,9 +142,12 @@ export const MyQA = ({
 
     if (!filteredQuestions.length) {
       return (
-        <AppText style={styles.noQuestionsText}>
-          {t("no_questions_found")}
-        </AppText>
+        <NotFoundCard
+          mode="illustrated"
+          headingText={t("no_questions_found")}
+          descriptionLine1={t("try_changing_filters") || ""}
+          style={styles.notFound}
+        />
       );
     }
 
@@ -169,15 +176,31 @@ export const MyQA = ({
 
   return (
     <>
+      {!!howItWorksLabel && !!onHowItWorksPress && !!onGoBack && (
+        <View style={styles.headerRow}>
+          <TouchableOpacity
+            onPress={onGoBack}
+            style={styles.goBackRow}
+            hitSlop={appStyles.hitSlop}
+          >
+            <Icon
+              style={styles.goBackIcon}
+              name="arrow-chevron-back"
+              color={isHighContrast ? "#fff" : appStyles.colorPrimary_20809e}
+            />
+            <AppText namedStyle="text" isBold style={styles.goBackText}>
+              {t("go_back")}
+            </AppText>
+          </TouchableOpacity>
+        </View>
+      )}
       <Block style={styles.block}>
         <View style={styles.headingContainer}>
-          <InputSearch
-            placeholder={t("search_input_placeholder")}
-            style={styles.inputSearch}
-            value={searchValue}
-            onChange={(value) => setSearchValue(value)}
+          <NewButton
+            label={howItWorksLabel}
+            size="lg"
+            onPress={onHowItWorksPress}
           />
-
           <TouchableOpacity
             onPress={handleFilterTags}
             style={styles.filterButton}
@@ -227,24 +250,38 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     display: "flex",
     justifyContent: "center",
-    maxWidth: "15%",
     padding: 10,
+  },
+  goBackRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 16,
+    alignSelf: "flex-start",
   },
   headingContainer: {
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 32,
     width: "100%",
   },
-  inputSearch: { maxWidth: "85%" },
   loadingContainer: {
     alignItems: "center",
     marginTop: 24,
   },
-  noQuestionsText: { alignSelf: "center", marginTop: 20 },
+  notFound: { marginTop: 20 },
   renderBlock: {
     alignItems: "center",
     flexDirection: "column",
+  },
+  headerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 16,
+    marginTop: 16,
+  },
+  goBackButton: {
+    paddingVertical: 8,
+    paddingRight: 16,
   },
 });

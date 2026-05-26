@@ -21,7 +21,7 @@ export const Avatar = ({ image, size = "sm", style }) => {
 
 const styles = StyleSheet.create({
   avatar: {
-    borderRadius: 100,
+    borderRadius: 8,
     objectFit: "cover",
   },
   xs: {

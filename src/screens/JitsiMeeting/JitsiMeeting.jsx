@@ -356,7 +356,6 @@ export const JitsiMeeting = ({
         heading={t("cancel_confirmation_heading")}
         ctaLabel={t("cancel_confirmation_cta")}
         ctaHandleClick={disconnect}
-        ctaColor="red"
         secondaryCtaLabel={t("cancel_confirmation_secondary_cta")}
         secondaryCtaHandleClick={() => setIsCancelConfirmationOpen(false)}
         secondaryCtaType="secondary"

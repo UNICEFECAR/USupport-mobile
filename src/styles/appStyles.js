@@ -8,13 +8,13 @@ export default {
 
   platform: Platform.OS,
 
-  //Fonts
-  fontLight: "Nunito_300Light",
-  fontRegular: "Nunito_400Regular",
-  fontMedium: "Nunito_500Medium",
-  fontSemiBold: "Nunito_600SemiBold",
-  fontBold: "Nunito_700Bold",
-  fontExtraBold: "Nunito_800ExtraBold",
+  // Inter via @expo-google-fonts/inter (loaded in App.js with useFonts).
+  fontLight: "Inter_300Light",
+  fontRegular: "Inter_400Regular",
+  fontMedium: "Inter_500Medium",
+  fontSemiBold: "Inter_600SemiBold",
+  fontBold: "Inter_700Bold",
+  fontExtraBold: "Inter_800ExtraBold",
 
   // Colors
   colorPrimary_20809e: "#20809e",
@@ -31,9 +31,13 @@ export default {
   colorBlack_1e: "#1e1e1e",
   colorBlack_12: "#121212",
   colorBlack_1d: "#1d1d1d",
+  colorBlack_31: "#313131",
 
   colorWhite_ff: "#ffffff",
   colorTransparent: "rgba(0, 0, 0, 0)",
+
+  colorGray_cdd8e1: "#cdd8e1",
+  colorBlue_6989a4: "#6989a4",
 
   colorGray_ea: "#eaeaea",
   colorGray_92989b: "#92989b",
@@ -47,8 +51,15 @@ export default {
   colorGreen_e6f1f4: "#e6f1f4",
   colorGreen_7ec680: "#7ec680",
 
+  // Article creator accent (match web: $color_orange_article_creator)
+  colorOrangeArticleCreator_ba7446: "#ba7446",
+  // High-contrast creator accent (match web highContrast: #ffc18c)
+  colorOrangeArticleCreatorHC_ffc18c: "#ffc18c",
+
   colorPurple_dac3f6: "#dac3f6",
   colorPurple_c39af9: "#c39af9",
+  // Match client-ui token `color_6a4ffb_8c90eb` (light): #6a4ffb
+  colorPurple: "#6a4ffb",
 
   colorBlue_2a54bc: "#2a54bc",
   colorBlue_3d527b: "#3d527b",
@@ -57,6 +68,13 @@ export default {
   color_blue_c1d7e0: "#c1d7e0",
   colorBlue_246FE5: "#246FE5",
   colorBlue_eaf7f9: "#eaf7f9",
+  // CardMedia (ported from web CardMedia glass styles)
+  colorCardMediaSurfaceLight_rgba: "rgba(255, 255, 255, 0.95)",
+  colorCardMediaBorderLight_rgba: "rgba(224, 233, 255, 0.7)",
+  colorCardMediaShadowLight_rgba: "rgba(9, 14, 26, 0.08)",
+  colorCardMediaCategoryBg_rgba: "rgba(209, 231, 250, 0.95)",
+  colorCardMediaCategoryBorder_rgba: "rgba(60, 109, 159, 0.45)",
+  colorCardMediaCategoryText_234567: "#234567",
 
   colorRed_eb5757: "#eb5757",
   colorRed_cc4c4c: "#cc4c4c",
@@ -64,6 +82,9 @@ export default {
   colorRed_ed5657: "#ed5657",
 
   colorHighContrast_ffff00: "#ffff00",
+
+  colorTextMain_0e202f: "#0e202f",
+  colorTextMain_ededed: "#ededed",
 
   // Gradients
   gradientPrimary: {
@@ -137,6 +158,22 @@ export default {
     shadowRadius: 5,
 
     elevation: 5,
+  },
+
+  cardMediaShadowLight: {
+    shadowColor: "#090e1a",
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.08,
+    shadowRadius: 16,
+    elevation: 3,
+  },
+
+  cardMediaShadowDark: {
+    shadowColor: "#090e1a",
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.45,
+    shadowRadius: 16,
+    elevation: 6,
   },
 
   shadow3: {
