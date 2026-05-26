@@ -1063,7 +1063,15 @@
       "check_article": "Ողջույն, կարդա այս հոդվածը",
       "share_success": "Հոդվածը հաջողությամբ կիսվեց",
       "download_success": "Հոդվածը հաջողությամբ ներբեռնվեց",
-      "go_back": "Հետ գնալ"
+      "go_back": "Հետ գնալ",
+      "audio_player_title": "Լսեք այս հոդվածը",
+      "audio_player_subtitle": "Նախընտրում եք աուդիո՞ Միացրեք պատմողական տարբերակը։",
+      "audio_player_badge_listen_time": "{{minutes}} ր լսելու",
+      "audio_player_helper": "Կարող եք կարդալ լսելիս կամ պարզապես հանգստանալ և վայելել։",
+      "audio_player_seek_back_label": "Հետ {{seconds}} վրկ",
+      "audio_player_seek_forward_label": "Առաջ {{seconds}} վրկ",
+      "audio_player_play_label": "Նվագարկել",
+      "audio_player_pause_label": "Դադար"
     },
     "articles-screen": {
       "heading_default": "Բոլոր հոդվածները",

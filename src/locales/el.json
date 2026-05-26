@@ -1075,7 +1075,15 @@
       "check_article": "Γεια σας, ρίξτε μια ματιά σε αυτό το άρθρο",
       "share_success": "Το άρθρο κοινοποιήθηκε με επιτυχία",
       "download_success": "Η λήψη του άρθρου ολοκληρώθηκε με επιτυχία",
-      "go_back": "Επιστροφή"
+      "go_back": "Επιστροφή",
+      "audio_player_title": "Ακούστε αυτό το άρθρο",
+      "audio_player_subtitle": "Προτιμάτε ήχο; Αναπαράγετε την αφηγηματική έκδοση.",
+      "audio_player_badge_listen_time": "{{minutes}} λεπ. ακρόασης",
+      "audio_player_helper": "Μπορείτε να διαβάζετε ενώ ακούτε ή απλά να χαλαρώσετε και να απολαύσετε.",
+      "audio_player_seek_back_label": "Μετάβαση πίσω {{seconds}} δ",
+      "audio_player_seek_forward_label": "Μετάβαση μπροστά {{seconds}} δ",
+      "audio_player_play_label": "Αναπαραγωγή",
+      "audio_player_pause_label": "Παύση"
     },
     "articles-screen": {
       "heading_default": "Όλα τα άρθρα",

@@ -1062,7 +1062,15 @@
       "check_article": "Bună ziua, citiți acest articol",
       "share_success": "Articolul a fost distribuit",
       "download_success": "Articolul a fost descărcat",
-      "go_back": "Înapoi"
+      "go_back": "Înapoi",
+      "audio_player_title": "Ascultați acest articol",
+      "audio_player_subtitle": "Preferați audio? Redați versiunea narativă.",
+      "audio_player_badge_listen_time": "{{minutes}} min. ascultare",
+      "audio_player_helper": "Puteți citi în timp ce ascultați sau doar să vă relaxați și să vă bucurați.",
+      "audio_player_seek_back_label": "Sari înapoi {{seconds}} s",
+      "audio_player_seek_forward_label": "Sari înainte {{seconds}} s",
+      "audio_player_play_label": "Redă",
+      "audio_player_pause_label": "Pauză"
     },
     "articles-screen": {
       "heading_default": "Toate articolele",

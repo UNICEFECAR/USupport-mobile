@@ -1075,7 +1075,15 @@
       "check_article": "Привет, проверь эту статью",
       "share_success": "Статья успешно отправлена",
       "download_success": "Статья успешно загружена",
-      "go_back": "Назад"
+      "go_back": "Назад",
+      "audio_player_title": "Послушайте эту статью",
+      "audio_player_subtitle": "Предпочитаете аудио? Включите озвученную версию.",
+      "audio_player_badge_listen_time": "{{minutes}} мин. прослушивания",
+      "audio_player_helper": "Можете читать вслух вместе с аудио или просто расслабиться и насладиться.",
+      "audio_player_seek_back_label": "Перемотать назад на {{seconds}} с",
+      "audio_player_seek_forward_label": "Перемотать вперёд на {{seconds}} с",
+      "audio_player_play_label": "Воспроизвести",
+      "audio_player_pause_label": "Пауза"
     },
     "articles-screen": {
       "heading_default": "Все статьи",

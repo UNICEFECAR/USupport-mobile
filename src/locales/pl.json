@@ -1077,7 +1077,15 @@
       "check_article": "Cześć, sprawdź ten artykuł",
       "share_success": "Artykuł został udostępniony",
       "download_success": "Artykuł został pobrany",
-      "go_back": "Wróć"
+      "go_back": "Wróć",
+      "audio_player_title": "Posłuchaj tego artykułu",
+      "audio_player_subtitle": "Wolisz audio? Odtwórz wersję narracyjną.",
+      "audio_player_badge_listen_time": "{{minutes}} min słuchania",
+      "audio_player_helper": "Możesz czytać podczas słuchania lub po prostu odprężyć się i cieszyć się treścią.",
+      "audio_player_seek_back_label": "Przewiń w tył o {{seconds}} s",
+      "audio_player_seek_forward_label": "Przewiń do przodu o {{seconds}} s",
+      "audio_player_play_label": "Odtwórz",
+      "audio_player_pause_label": "Wstrzymaj"
     },
     "articles-screen": {
       "heading_default": "Wszystkie artykuły",

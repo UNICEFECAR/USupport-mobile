@@ -1062,7 +1062,15 @@
       "check_article": "Hello, check this article",
       "share_success": "Article shared successfully",
       "download_success": "Article downloaded successfully",
-      "go_back": "Go back"
+      "go_back": "Go back",
+      "audio_player_title": "Listen to this article",
+      "audio_player_subtitle": "Prefer audio? Play the narrated version.",
+      "audio_player_badge_listen_time": "{{minutes}} min listen",
+      "audio_player_helper": "You can read along while listening or just relax and enjoy.",
+      "audio_player_seek_back_label": "Skip back {{seconds}} seconds",
+      "audio_player_seek_forward_label": "Skip forward {{seconds}} seconds",
+      "audio_player_play_label": "Play",
+      "audio_player_pause_label": "Pause"
     },
     "articles-screen": {
       "heading_default": "All Articles",

@@ -1077,7 +1077,15 @@
       "check_article": "Привіт, переглянь цю статтю",
       "share_success": "Статтю успішно поділено",
       "download_success": "Статтю успішно завантажено",
-      "go_back": "Назад"
+      "go_back": "Назад",
+      "audio_player_title": "Послухайте цю статтю",
+      "audio_player_subtitle": "Надаєте перевагу аудіо? Увімкніть озвучену версію.",
+      "audio_player_badge_listen_time": "{{minutes}} хв. прослуховування",
+      "audio_player_helper": "Можете читати разом із прослуховуванням або просто розслабитися й насолоджуватися.",
+      "audio_player_seek_back_label": "Перемотати назад на {{seconds}} с",
+      "audio_player_seek_forward_label": "Перемотати вперед на {{seconds}} с",
+      "audio_player_play_label": "Відтворити",
+      "audio_player_pause_label": "Пауза"
     },
     "articles-screen": {
       "heading_default": "Всі статті",

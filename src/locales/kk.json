@@ -1075,7 +1075,15 @@
       "check_article": "Сәлем, осы мақаланы тексеріңіз",
       "share_success": "Мақала сәтті бөлісілді",
       "download_success": "Мақала сәтті жүктеп алынды",
-      "go_back": "Артқа"
+      "go_back": "Артқа",
+      "audio_player_title": "Осы мақаланы тыңдаңыз",
+      "audio_player_subtitle": "Аудиоға басымдық бересіз бе? Дыбысталған нұсқасын ойнатыңыз.",
+      "audio_player_badge_listen_time": "{{minutes}} мин тыңдау",
+      "audio_player_helper": "Тыңдап тұрып оқи аласыз немесе тек демалып, рахаттана аласыз.",
+      "audio_player_seek_back_label": "{{seconds}} сек артқа",
+      "audio_player_seek_forward_label": "{{seconds}} сек алға",
+      "audio_player_play_label": "Ойнату",
+      "audio_player_pause_label": "Кідірту"
     },
     "articles-screen": {
       "heading_default": "Барлық мақалалар",
