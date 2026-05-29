@@ -45,6 +45,7 @@ export function AuthWelcomeModal({
   const [isRoPasswordModalOpen, setIsRoPasswordModalOpen] = useState(false);
   const [roPassword, setRoPassword] = useState("");
   const [roPasswordError, setRoPasswordError] = useState("");
+  const [pendingAction, setPendingAction] = useState(null);
 
   useEffect(() => {
     localStorage.getItem("country").then((country) => {
@@ -149,30 +150,12 @@ export function AuthWelcomeModal({
     setIsRoPasswordModalOpen(false);
     setRoPassword("");
     setRoPasswordError("");
+    setPendingAction(null);
   };
 
-  const validatePlatformPasswordMutation = useMutation(
-    async (value) => await userSvc.validatePlatformPassword(value),
-    {
-      onError: (error) => {
-        const { message: errorMessage } = useError(error);
-        setRoPasswordError(errorMessage);
-      },
-      onSuccess: () => {
-        queryClient.setQueryData(["hasPassedValidation"], true);
-        handleCloseRoPasswordModal();
-      },
-    }
-  );
-
-  const handleSubmitRoPassword = () => {
-    const trimmedPassword = roPassword.trim();
-    if (!trimmedPassword) {
-      setRoPasswordError(t("ro_password_modal_error"));
-      return;
-    }
-    validatePlatformPasswordMutation.mutate(trimmedPassword);
-  };
+  const requiresRoPassword = () =>
+    selectedCountry === "RO" &&
+    !queryClient.getQueryData(["hasPassedValidation"]);
 
   const tmpLoginMutation = useMutation(async () => await userSvc.tmpLogin(), {
     onSuccess: async (res) => {
@@ -189,12 +172,7 @@ export function AuthWelcomeModal({
     },
   });
 
-  const handleAction = async (action) => {
-    if (!canProceed) return;
-
-    const ok = await persistSelection();
-    if (!ok) return;
-
+  const executeAction = (action) => {
     const eventMap = {
       email: "mobile_email_register_click",
       anonymously: "mobile_anonymous_register_click",
@@ -208,6 +186,54 @@ export function AuthWelcomeModal({
     if (action === "anonymously") return onRegisterAnonymous?.();
     if (action === "login") return onLogin?.();
     if (action === "guest") return tmpLoginMutation.mutate();
+  };
+
+  const validatePlatformPasswordMutation = useMutation(
+    async ({ password }) => await userSvc.validatePlatformPassword(password),
+    {
+      onError: (error) => {
+        const { message: errorMessage } = useError(error);
+        setRoPasswordError(errorMessage);
+      },
+      onSuccess: (_, { action }) => {
+        queryClient.setQueryData(["hasPassedValidation"], true);
+        setIsRoPasswordModalOpen(false);
+        setRoPassword("");
+        setRoPasswordError("");
+        setPendingAction(null);
+        if (action) {
+          executeAction(action);
+        }
+      },
+    }
+  );
+
+  const handleSubmitRoPassword = () => {
+    const trimmedPassword = roPassword.trim();
+    if (!trimmedPassword) {
+      setRoPasswordError(t("ro_password_modal_error"));
+      return;
+    }
+    validatePlatformPasswordMutation.mutate({
+      password: trimmedPassword,
+      action: pendingAction,
+    });
+  };
+
+  const handleAction = async (action) => {
+    if (!canProceed) return;
+
+    const ok = await persistSelection();
+    if (!ok) return;
+
+    if (requiresRoPassword()) {
+      setPendingAction(action);
+      setRoPasswordError("");
+      setIsRoPasswordModalOpen(true);
+      return;
+    }
+
+    executeAction(action);
   };
 
   return (
