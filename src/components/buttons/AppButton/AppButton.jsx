@@ -34,8 +34,16 @@ export const AppButton = ({
       ? "primary"
       : type;
 
+  const isEmergencyButton = isHighContrast && color === "red";
+
   // Compute text styles (separate from Pressable style callback)
-  const textStyles = isHighContrast
+  const textStyles = isEmergencyButton
+    ? [
+        styles.btnText,
+        size === "lg" && styles.btnTextLg,
+        isPressed && styles.btnTextPressed,
+      ]
+    : isHighContrast
     ? (() => {
         const hcTextPrimary = "#ffffff";
         const hcTextSecondary = "#000000";
@@ -82,6 +90,19 @@ export const AppButton = ({
   return (
     <Pressable
       style={({ pressed }) => {
+        if (isEmergencyButton) {
+          return [
+            appStyles.shadow1,
+            styles.btn,
+            styles.red,
+            styles[btnType],
+            styles[size],
+            disabled && styles.disabled,
+            pressed && styles[color + "Pressed" + btnType],
+            style,
+          ];
+        }
+
         // High-contrast overrides (black/white scheme with strong borders, no shadows)
         if (isHighContrast) {
           const hcBgPrimary = "#000000";
