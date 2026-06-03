@@ -133,11 +133,7 @@ export function Screen({
             ]}
             onPress={() => handleSosCenterClick()}
             color="red"
-            iconColor={
-              isHighContrast
-                ? appStyles.colorRed_ed5657
-                : appStyles.colorWhite_ff
-            }
+            iconColor={appStyles.colorWhite_ff}
           />
         )}
       </View>

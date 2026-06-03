@@ -5,6 +5,7 @@ import { Icon } from "../../icons/Icon";
 import { AppButton } from "../AppButton";
 
 import { appStyles } from "#styles";
+import { useGetTheme } from "#hooks";
 
 /**
  * ButtonWithIcon
@@ -17,15 +18,22 @@ export const ButtonWithIcon = ({
   iconName,
   iconColor = appStyles.colorWhite_ff,
   iconSize = "md",
+  color,
   style,
   ...props
 }) => {
+  const { isHighContrast } = useGetTheme();
+  const resolvedIconColor =
+    isHighContrast && color === "red"
+      ? appStyles.colorWhite_ff
+      : iconColor;
+
   return (
-    <AppButton style={[styles.btn, style]} {...props}>
+    <AppButton style={[styles.btn, style]} color={color} {...props}>
       <Icon
         name={iconName}
         size={iconSize}
-        color={iconColor}
+        color={resolvedIconColor}
         style={styles.icon}
       />
     </AppButton>
