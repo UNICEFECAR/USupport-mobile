@@ -83,31 +83,31 @@ export const MoodTrackHistory = ({ navigation, header, onHowItWorksPress }) => {
 
   const onSuccess = (data) => {
     const { curEntries, prevEntries, hasMore } = data;
-
-    let dataCopy = { ...entriesByPageKey };
-
-    if (!dataCopy[pageCacheKey]) {
-      dataCopy[pageCacheKey] = {
-        entries: curEntries,
-        hasMore: prevEntries.length > 0,
-      };
-    }
     const prevPageCacheKey = `pageNum_${pageNum + 1}_pageSize_${pageSize}`;
+    const prevEntriesCopy = [...prevEntries];
 
-    if (prevEntries.length < pageSize) {
-      prevEntries.push(...curEntries.slice(0, pageSize - prevEntries.length));
+    if (prevEntriesCopy.length < pageSize) {
+      prevEntriesCopy.push(
+        ...curEntries.slice(0, pageSize - prevEntriesCopy.length)
+      );
     }
 
-    dataCopy[prevPageCacheKey] = { entries: prevEntries, hasMore };
-    let loadedPagesCopy = [...loadedPageNumbers];
-    loadedPagesCopy.push(pageNum);
-    setLoadedPageNumbers(loadedPagesCopy);
+    setEntriesByPageKey((prev) => ({
+      ...prev,
+      [pageCacheKey]: {
+        entries: curEntries,
+        hasMore: prevEntriesCopy.length > 0,
+      },
+      [prevPageCacheKey]: { entries: prevEntriesCopy, hasMore },
+    }));
 
-    if (curEntries.length > 0 && !lastMood && isRomania) {
+    setLoadedPageNumbers((prev) =>
+      prev.includes(pageNum) ? prev : [...prev, pageNum]
+    );
+
+    if (curEntries.length > 0 && isRomania) {
       setLastMood(curEntries[curEntries.length - 1]?.mood);
     }
-
-    setEntriesByPageKey(dataCopy);
   };
 
   const {

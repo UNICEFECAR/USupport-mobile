@@ -6,7 +6,6 @@ import React, {
   useMemo,
   useRef,
 } from "react";
-import { useQueryClient } from "@tanstack/react-query";
 import {
   StyleSheet,
   View,
@@ -55,8 +54,6 @@ export const MoodTracker = ({
   const { t, i18n } = useTranslation("blocks", { keyPrefix: "mood-tracker" });
   const { country, isTmpUser, handleRegistrationModalOpen } =
     useContext(Context);
-  const queryClient = useQueryClient();
-
   const IS_RO = country === "RO";
 
   const [isReduceMotionEnabled, setIsReduceMotionEnabled] = useState(false);
@@ -233,10 +230,6 @@ export const MoodTracker = ({
     setEmoticons(emoticonsInitialState);
     setIsEmergency(false);
     setIsMoodTrackModalOpen(false);
-    queryClient.refetchQueries({
-      queryKey: ["getMoodTrackEntries", 5, 0],
-      refetchType: "all",
-    });
     showToast({ message: t("add_mood_tracker_success") });
 
     if (IS_RO) {
