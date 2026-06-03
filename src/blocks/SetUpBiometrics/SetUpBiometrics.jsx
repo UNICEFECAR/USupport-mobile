@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import * as LocalAuthentication from "expo-local-authentication";
 import { useFocusEffect } from "@react-navigation/native";
 
-import { Block, Heading, AppButton } from "#components";
+import { Block, Heading, NewButton } from "#components";
 import { localStorage } from "#services";
 
 export const SetUpBiometrics = ({ navigation, goBackOnSkip }) => {
@@ -61,18 +61,18 @@ export const SetUpBiometrics = ({ navigation, goBackOnSkip }) => {
         hasGoBackArrow={false}
         subheading={t("subheading")}
       />
-      <AppButton
+      <NewButton
         label={t("btn_label")}
         onPress={handleBtnPress}
         style={{ marginTop: "auto", marginBottom: 6 }}
         size="lg"
       />
-      <AppButton
+      <NewButton
         label={t("btn_skip")}
         onPress={handleSkip}
         size="lg"
-        type={"ghost"}
-        style={{ marginBottom: 18 }}
+        type="ghost"
+        style={{ marginVertical: 18 }}
       />
     </Block>
   );

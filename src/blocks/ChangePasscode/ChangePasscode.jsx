@@ -3,7 +3,7 @@ import { StyleSheet, View, TextInput, TouchableOpacity } from "react-native";
 import { useTranslation } from "react-i18next";
 import BcryptReactNative from "bcrypt-react-native";
 
-import { Block, AppText, Icon, AppButton, Error } from "#components";
+import { Block, AppText, Icon, NewButton, Error } from "#components";
 import { localStorage, Context } from "#services";
 import { showToast } from "#utils";
 import { appStyles } from "#styles";
@@ -223,7 +223,7 @@ export const ChangePasscode = ({ navigation, route }) => {
           </View>
         </TouchableOpacity>
         {!userPin && !oldPin && data.filter((x) => x.value).length === 4 ? (
-          <AppButton
+          <NewButton
             label="Continue"
             size="lg"
             style={styles.button}
