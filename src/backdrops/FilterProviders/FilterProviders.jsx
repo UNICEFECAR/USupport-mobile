@@ -102,7 +102,7 @@ export const FilterProviders = ({
       .filter((x) => x.isSelected)
       .map((x) => x.value);
 
-    setAllFilters();
+    setAllFilters(dataCopy);
     onSave(dataCopy);
   };
   const [availableAfterOpen, setAvailableAfterOpen] = useState();
@@ -212,13 +212,11 @@ export const FilterProviders = ({
       <Dropdown
         options={
           languages?.map((x) => {
-            return { ...x, label: x.name, value: x.language_id };
+            return { ...x, label: x.name };
           }) || []
         }
         selected={data.language}
-        setSelected={(selectedOption) =>
-          handleSelect("language", selectedOption)
-        }
+        setSelected={(selected) => handleSelect("language", selected)}
         label={t("language")}
         placeholder={t("language_placeholder")}
         style={[styles.dropdown, styles.marginBottom32]}

@@ -6,6 +6,14 @@ import React, {
   useCallback,
   useRef,
 } from "react";
+import {
+  ScrollView,
+  RefreshControl,
+  StyleSheet,
+  View,
+  Platform,
+  KeyboardAvoidingView,
+} from "react-native";
 import { useTranslation } from "react-i18next";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -353,42 +361,81 @@ export const SelectProvider = ({ navigation, route }) => {
     setActiveCoupon(null);
   };
 
-  return (
-    <Screen>
-      <Block>
-        <Heading
-          heading={
-            effectiveActiveCoupon?.couponValue
-              ? t("heading_with_coupon", {
-                  coupon: effectiveActiveCoupon.couponValue,
-                })
-              : t("heading")
-          }
-          handleGoBack={handleGoBack}
-        />
-      </Block>
+  const isCouponTabSelected =
+    selectedBillingType === "coupon" && !!canUseCoupons;
+  const showProvidersList =
+    !isCouponTabSelected || !!effectiveActiveCoupon;
 
-      <SelectProviderBlock
-        providers={providersData}
-        navigation={navigation}
-        activeCoupon={effectiveActiveCoupon}
-        setActiveCoupon={setActiveCoupon}
-        onCouponRemoved={() => {
-          userRemovedCouponRef.current = true;
-        }}
-        urlCoupon={urlCoupon}
-        urlCouponErrorMessage={urlCouponErrorMessage}
-        onUrlCouponErrorDismiss={() => setUrlCouponErrorDismissed(true)}
-        providersQuery={providersQuery}
-        isFiltering={isFiltering}
-        setIsFiltering={setIsFiltering}
-        onRefresh={onRefresh}
-        selectedBillingType={selectedBillingType}
-        setSelectedBillingType={setSelectedBillingType}
-        handleFilterClick={handleFilterClick}
-        filterButtonLabel={t("button_label")}
-        hasActiveCampaign={canUseCoupons}
-      />
+  const handleScroll = useCallback(
+    ({ nativeEvent }) => {
+      const { contentOffset, contentSize, layoutMeasurement } = nativeEvent;
+      const nearBottom =
+        contentOffset.y + layoutMeasurement.height >=
+        contentSize.height - 300;
+      if (
+        nearBottom &&
+        showProvidersList &&
+        !providersQuery.isFetchingNextPage
+      ) {
+        providersQuery.fetchNextPage();
+      }
+    },
+    [showProvidersList, providersQuery]
+  );
+
+  return (
+    <Screen style={styles.screen}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "position" : "height"}
+        style={{ flex: 1 }}
+      >
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={providersQuery.isRefetching}
+              onRefresh={onRefresh}
+            />
+          }
+          onScroll={handleScroll}
+          scrollEventThrottle={400}
+          keyboardShouldPersistTaps="handled"
+        >
+          <Block>
+            <Heading
+              heading={
+                effectiveActiveCoupon?.couponValue
+                  ? t("heading_with_coupon", {
+                      coupon: effectiveActiveCoupon.couponValue,
+                    })
+                  : t("heading")
+              }
+              handleGoBack={handleGoBack}
+            />
+          </Block>
+
+          <SelectProviderBlock
+            providers={providersData}
+            navigation={navigation}
+            activeCoupon={effectiveActiveCoupon}
+            setActiveCoupon={setActiveCoupon}
+            onCouponRemoved={() => {
+              userRemovedCouponRef.current = true;
+            }}
+            urlCoupon={urlCoupon}
+            urlCouponErrorMessage={urlCouponErrorMessage}
+            onUrlCouponErrorDismiss={() => setUrlCouponErrorDismissed(true)}
+            providersQuery={providersQuery}
+            isFiltering={isFiltering}
+            selectedBillingType={selectedBillingType}
+            setSelectedBillingType={setSelectedBillingType}
+            handleFilterClick={handleFilterClick}
+            filterButtonLabel={t("button_label")}
+            hasActiveCampaign={canUseCoupons}
+          />
+
+          <View style={{ marginBottom: 85 }} />
+        </ScrollView>
+      </KeyboardAvoidingView>
       <FilterProviders
         isOpen={isFilterOpen}
         onClose={() => setIsFilterOpen(false)}
@@ -403,3 +450,9 @@ export const SelectProvider = ({ navigation, route }) => {
     </Screen>
   );
 };
+
+const styles = StyleSheet.create({
+  screen: {
+    paddingTop: 48,
+  },
+});

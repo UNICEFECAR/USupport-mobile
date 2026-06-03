@@ -1,31 +1,20 @@
 import React, { useContext, useMemo, useState, useEffect } from "react";
-import { Platform, RefreshControl, StyleSheet, View } from "react-native";
+import { Platform, StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
 
 import {
-  Block,
   AppText,
   ProviderOverview,
   Loading,
   Tabs,
   Input,
-  AppButton,
   NewButton,
 } from "#components";
 
 import { Context, clientSvc } from "#services";
-import { FlashList } from "@shopify/flash-list";
 import { useError, useGetTheme } from "#hooks";
 import { appStyles } from "#styles";
-import LinearGradient from "../../components/LinearGradient";
 
-/**
- * SelectProvider
- *
- * SelectProvider block with billing tabs (paid/coupon/free) and coupon input.
- *
- * @returns {JSX.Element}
- */
 export const SelectProvider = ({
   providers,
   navigation,
@@ -38,7 +27,6 @@ export const SelectProvider = ({
   providersQuery,
   HeaderComponent,
   isFiltering,
-  onRefresh,
   selectedBillingType,
   setSelectedBillingType,
   handleFilterClick,
@@ -50,27 +38,11 @@ export const SelectProvider = ({
     keyPrefix: "select-provider-screen",
   }).t;
   const { currencySymbol, selectedCountry } = useContext(Context);
-  const { colors, isHighContrast } = useGetTheme();
-  const isLightTheme = colors.background === appStyles.colorWhite_ff;
+  const { colors, isDarkMode } = useGetTheme();
+  const isAndroid = Platform.OS === "android";
   const dividerColor =
-    colors.cardMediaSeparator || (isLightTheme ? "#eaecf0" : "#344054");
+    colors.cardMediaSeparator || (isDarkMode ? "#344054" : "#eaecf0");
 
-  // Match ArticleView / ProviderDetails "liquid glass" wrapper
-  const glassGradient = useMemo(
-    () => ({
-      degrees: 145,
-      locations: [0, 100],
-      colors:
-        isLightTheme && !isHighContrast
-          ? Platform.OS === "android"
-            ? ["#ffffff", "#f5f8ff"]
-            : ["rgba(255, 255, 255, 0.99)", "rgba(245, 248, 255, 0.85)"]
-          : colors.cardMediaGradient,
-    }),
-    [isLightTheme, isHighContrast, colors.cardMediaGradient]
-  );
-
-  // Coupon input state (urlCoupon from URL takes precedence for display when no active coupon yet)
   const [couponValue, setCouponValue] = useState(
     () =>
       activeCoupon?.couponValue ||
@@ -248,167 +220,140 @@ export const SelectProvider = ({
     </View>
   );
 
-  const renderProviderItem = ({ item: provider }) => (
-    <ProviderOverview
-      currencySymbol={currencySymbol}
-      earliestAvailableSlot={provider.earliestAvailableSlot}
-      freeLabel={selectedBillingType === "free" ? t("free") : t("coupon")}
-      image={provider.image}
-      name={provider.name}
-      onPress={() => handleProviderClick(provider.providerDetailId)}
-      handleViewProfile={() => handleProviderClick(provider.providerDetailId)}
-      handleBookSession={() =>
-        handleBookSessionClick(provider.providerDetailId)
-      }
-      patronym={provider.patronym}
-      price={
-        selectedBillingType === "free"
-          ? 0
-          : activeCoupon
-            ? null
-            : provider.consultationPrice
-      }
-      provider={provider}
-      specializations={provider.specializations.map((x) => t(x))}
-      surname={provider.surname}
-      style={styles.providerItem}
-      t={t}
-    />
-  );
+  const renderListContent = () => {
+    if (
+      (providersQuery.isFetching || providersQuery.isRefetching) &&
+      !providersQuery.isFetchingNextPage
+    ) {
+      return (
+        <View style={styles.loadingContainer}>
+          <Loading size="lg" />
+        </View>
+      );
+    }
 
-  const listHeader = (
-    <View
-      style={[
-        styles.headerWrapper,
-        {
-          borderBottomColor: dividerColor,
-        },
-      ]}
-    >
-      {HeaderComponent}
-      <View style={styles.headingContent}>
-        {billingTabs.length > 1 && (
-          <Tabs
-            tabsStyle={{ paddingHorizontal: 0 }}
-            options={billingTabs}
-            handleSelect={handleTabSelect}
-            t={t}
-            style={styles.tabs}
-          />
-        )}
-        {isCouponTabSelected && renderCouponInput()}
-        <AppText namedStyle="text" style={styles.chooseProviderText}>
-          {t("choose-the-provider")}
-        </AppText>
-        {!!handleFilterClick && (
-          <NewButton
-            label={filterButtonLabel || t("button_label")}
-            iconName="filter"
-            iconColor="#ffffff"
-            iconSize="sm"
-            size="sm"
-            onPress={handleFilterClick}
-            style={styles.filterButton}
-          />
+    if (isCouponTabSelected && !activeCoupon) {
+      return (
+        <View style={styles.emptyContainer}>
+          <AppText namedStyle="text">
+            {t("enter_coupon_to_see_providers")}
+          </AppText>
+        </View>
+      );
+    }
+
+    if (listData.length === 0) {
+      return (
+        <View style={styles.loadingContainer}>
+          <AppText namedStyle="h3">{t("no_match")}</AppText>
+        </View>
+      );
+    }
+
+    return listData.map((provider) => (
+      <ProviderOverview
+        key={provider.providerDetailId}
+        currencySymbol={currencySymbol}
+        earliestAvailableSlot={provider.earliestAvailableSlot}
+        freeLabel={selectedBillingType === "free" ? t("free") : t("coupon")}
+        image={provider.image}
+        name={provider.name}
+        onPress={() => handleProviderClick(provider.providerDetailId)}
+        handleViewProfile={() => handleProviderClick(provider.providerDetailId)}
+        handleBookSession={() =>
+          handleBookSessionClick(provider.providerDetailId)
+        }
+        patronym={provider.patronym}
+        price={
+          selectedBillingType === "free"
+            ? 0
+            : activeCoupon
+              ? null
+              : provider.consultationPrice
+        }
+        provider={provider}
+        specializations={provider.specializations.map((x) => t(x))}
+        surname={provider.surname}
+        style={styles.providerItem}
+        t={t}
+      />
+    ));
+  };
+
+  return (
+    <View style={styles.root}>
+      <View
+        style={[
+          styles.glassCard,
+          {
+            backgroundColor: isDarkMode
+              ? colors.card
+              : isAndroid
+                ? colors.card
+                : "rgba(255,255,255,0.78)",
+            borderColor: isDarkMode
+              ? colors.border || "rgba(255,255,255,0.12)"
+              : isAndroid
+                ? appStyles.colorGray_cdd8e1
+                : "rgba(224, 233, 255, 0.70)",
+          },
+        ]}
+      >
+        <View
+          style={[styles.headerWrapper, { borderBottomColor: dividerColor }]}
+        >
+          {HeaderComponent}
+          <View style={styles.headingContent}>
+            {billingTabs.length > 1 && (
+              <Tabs
+                tabsStyle={{ paddingHorizontal: 0 }}
+                options={billingTabs}
+                handleSelect={handleTabSelect}
+                t={t}
+                style={styles.tabs}
+              />
+            )}
+            {isCouponTabSelected && renderCouponInput()}
+            <AppText namedStyle="text" style={styles.chooseProviderText}>
+              {t("choose-the-provider")}
+            </AppText>
+            {!!handleFilterClick && (
+              <NewButton
+                label={filterButtonLabel || t("button_label")}
+                iconName="filter"
+                iconColor="#ffffff"
+                iconSize="sm"
+                size="sm"
+                onPress={handleFilterClick}
+                style={styles.filterButton}
+              />
+            )}
+          </View>
+        </View>
+
+        {renderListContent()}
+
+        {providersQuery.isFetchingNextPage && (
+          <View style={styles.loadingContainer}>
+            <Loading size="lg" />
+          </View>
         )}
       </View>
     </View>
   );
-
-  return (
-    <Block style={styles.block}>
-      <View style={styles.screen}>
-        <LinearGradient
-          gradient={glassGradient}
-          style={[
-            styles.glassCard,
-            isLightTheme && !isHighContrast
-              ? styles.liquidGlassShadowLight
-              : appStyles.cardMediaShadowDark,
-            { borderColor: colors.cardMediaGradientBorder },
-          ]}
-        >
-          <FlashList
-            data={listData}
-            estimatedItemSize={120}
-            keyExtractor={(item) => item.providerDetailId}
-            renderItem={renderProviderItem}
-            contentContainerStyle={styles.listContent}
-            refreshControl={
-              <RefreshControl
-                refreshing={
-                  providersQuery.isRefetching || providersQuery.isFetching
-                }
-                onRefresh={onRefresh}
-              />
-            }
-            showsVerticalScrollIndicator={false}
-            ListHeaderComponent={listHeader}
-            ListEmptyComponent={
-              providersQuery.isFetching || providersQuery.isRefetching ? (
-                <View style={styles.loadingContainer}>
-                  <Loading size="lg" />
-                </View>
-              ) : isCouponTabSelected && !activeCoupon ? (
-                <View style={styles.emptyContainer}>
-                  <AppText namedStyle="text">
-                    {t("enter_coupon_to_see_providers")}
-                  </AppText>
-                </View>
-              ) : (
-                <View style={styles.loadingContainer}>
-                  <AppText namedStyle="h3">{t("no_match")}</AppText>
-                </View>
-              )
-            }
-            ListFooterComponent={
-              providersQuery.isFetchingNextPage ? (
-                <View style={styles.loadingContainer}>
-                  <Loading size="lg" />
-                </View>
-              ) : null
-            }
-            onEndReachedThreshold={0}
-            onEndReached={() => {
-              if (showProvidersList) {
-                providersQuery.fetchNextPage();
-              }
-            }}
-          />
-        </LinearGradient>
-      </View>
-    </Block>
-  );
 };
 
 const styles = StyleSheet.create({
-  block: {
-    flex: 1,
-  },
-  screen: {
-    flex: 1,
-    marginTop: 8,
+  root: {
     paddingHorizontal: 16,
-    paddingBottom: 40,
+    paddingTop: 24,
+    paddingBottom: 64,
   },
   glassCard: {
-    flex: 1,
-    borderRadius: 16,
+    borderRadius: 24,
     borderWidth: 1,
-    // Allow card shadows inside the list to render outside the container.
-    // This wrapper already has its own border/shadow, so we don't need clipping here.
-    overflow: "visible",
-    padding: 16,
-  },
-  liquidGlassShadowLight: {
-    shadowColor: "rgb(95, 108, 145)",
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.14,
-    shadowRadius: 16,
-    elevation: 4,
-  },
-  listContent: {
-    paddingBottom: 200,
+    padding: 20,
+    ...appStyles.shadow2,
   },
   headerWrapper: {
     paddingBottom: 16,
