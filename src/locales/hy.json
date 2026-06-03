@@ -160,7 +160,12 @@
       "contact_reason_3_pl": "Բողոք",
       "contact_reason_4_pl": "Այլ",
       "success": "Ձեր խնդրի մասին բարեհաջող տեղեկացել ենք։ Շուտով կկապվենք ձեզ հետ",
-      "contact_form": "Կապի ձև"
+      "contact_form": "Կապի ձև",
+      "technical_problem_label": "Տեխնիկական խնդիր",
+      "report_issue_intro": "Before you submit this form, please check that your email address is spelled correctly.",
+      "close_button_label": "Close",
+      "email": "Email",
+      "email_error": "Please, enter your email"
     },
     "faq": {
       "heading": "Հաճախակի տրվող հարցեր",
@@ -1581,7 +1586,9 @@
       "send": "Ուղարկել",
       "didnt_get_code": "Չե՞ք ստացել կոդը",
       "resend": "Վերաուղարկել էլեկտրոնային նամակը",
-      "seconds": "{{seconds}} վայրկյանի ընթացքում"
+      "seconds": "{{seconds}} վայրկյանի ընթացքում",
+      "report_issue_text": "Having trouble receiving the code?",
+      "report_issue_cta": "Report an issue"
     },
     "article-categories": {
       "categories": "Կատեգորիաները"

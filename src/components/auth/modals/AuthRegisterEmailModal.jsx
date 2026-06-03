@@ -367,6 +367,7 @@ export function AuthRegisterEmailModal({ onGoBack, onGoToLogin }) {
         handleRegister={handleRegister}
         submitError={errors.submit}
         isMutating={registerMutation.isLoading}
+        email={data.email}
       />
     </>
   );

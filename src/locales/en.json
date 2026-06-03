@@ -160,7 +160,12 @@
       "contact_reason_3_pl": "Complaint",
       "contact_reason_4_pl": "Something else",
       "success": "Your issue was reported successfully. We'll get back to you soon",
-      "contact_form": "Contact form"
+      "contact_form": "Contact form",
+      "technical_problem_label": "Technical problem",
+      "report_issue_intro": "Before you submit this form, please check that your email address is spelled correctly.",
+      "close_button_label": "Close",
+      "email": "Email",
+      "email_error": "Please, enter your email"
     },
     "faq": {
       "heading": "FAQ",
@@ -1604,7 +1609,9 @@
       "send": "Send",
       "didnt_get_code": "Didnt get code?",
       "resend": "Resend email",
-      "seconds": " in {{seconds}} seconds"
+      "seconds": " in {{seconds}} seconds",
+      "report_issue_text": "Having trouble receiving the code?",
+      "report_issue_cta": "Report an issue"
     },
     "article-categories": {
       "categories": "Categories"

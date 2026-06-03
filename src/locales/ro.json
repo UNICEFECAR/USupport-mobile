@@ -160,7 +160,12 @@
       "contact_reason_3_pl": "Plangere",
       "contact_reason_4_pl": "Altceva",
       "success": "Problema dvs. a fost raportată. Vă vom contacta în curând.",
-      "contact_form": "Formular de contact"
+      "contact_form": "Formular de contact",
+      "technical_problem_label": "Problemă tehnică",
+      "report_issue_intro": "Before you submit this form, please check that your email address is spelled correctly.",
+      "close_button_label": "Close",
+      "email": "Email",
+      "email_error": "Please, enter your email"
     },
     "faq": {
       "heading": "ÎNTREBĂRI FRECVENTE",
@@ -1581,7 +1586,9 @@
       "send": "Trimiteți",
       "didnt_get_code": "Nu ați primit codul?",
       "resend": "Retrimiteți e-mail",
-      "seconds": " în {{seconds}} secunde"
+      "seconds": " în {{seconds}} secunde",
+      "report_issue_text": "Having trouble receiving the code?",
+      "report_issue_cta": "Report an issue"
     },
     "article-categories": {
       "categories": "Categorii"

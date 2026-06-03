@@ -50,8 +50,8 @@ export const ContactUs = ({ navigation }) => {
       selected: false,
     },
     {
-      label: t(IS_PL ? "contact_reason_3_pl" : "contact_reason_3"),
-      value: "technical_problem",
+      label: t(IS_PL ? "contact_reason_2_pl" : "contact_reason_3"),
+      value: "technical-problem",
       selected: false,
     },
     {

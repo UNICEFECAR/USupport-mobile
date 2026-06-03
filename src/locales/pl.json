@@ -160,7 +160,12 @@
       "contact_reason_3_pl": "Skarga",
       "contact_reason_4_pl": "Coś innego",
       "success": "Zagadnienie zostało pomyślnie zgłoszone. Wkrótce się odezwiemy",
-      "contact_form": "Contact form"
+      "contact_form": "Contact form",
+      "technical_problem_label": "Problem techniczny",
+      "report_issue_intro": "Przed wysłaniem formularza upewnij się, że adres e-mail jest wpisany poprawnie.",
+      "close_button_label": "Close",
+      "email": "Email",
+      "email_error": "Please, enter your email"
     },
     "faq": {
       "heading": "Najczęściej zadawane pytania",
@@ -1596,7 +1601,9 @@
       "send": "Wyślij",
       "didnt_get_code": "Nie otrzymałeś/aś kodu?",
       "resend": "Wyślij ponownie wiadomość email",
-      "seconds": "za {{seconds}} sekund"
+      "seconds": "za {{seconds}} sekund",
+      "report_issue_text": "Masz problemy z rejestracją? Nie wahaj się z nami skontaktować.",
+      "report_issue_cta": "Skontaktuj się z nami"
     },
     "article-categories": {
       "categories": "Kategorie"

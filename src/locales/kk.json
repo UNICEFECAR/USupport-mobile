@@ -160,7 +160,12 @@
       "contact_reason_3_pl": "Шағым",
       "contact_reason_4_pl": "Басқа",
       "success": "Сіздің мәселеңіз туралы хабарлама сәтті қабылданды. Жақында біз Сізбен байланысамыз",
-      "contact_form": "Contact form"
+      "contact_form": "Contact form",
+      "technical_problem_label": "Техникалық мәселе",
+      "report_issue_intro": "Before you submit this form, please check that your email address is spelled correctly.",
+      "close_button_label": "Close",
+      "email": "Email",
+      "email_error": "Please, enter your email"
     },
     "faq": {
       "heading": "Жиі қойылатын сұрақтар",
@@ -1594,7 +1599,9 @@
       "send": "Жіберу",
       "didnt_get_code": "Кодты алған жоқсыз ба?",
       "resend": "Хатты қайта жіберу",
-      "seconds": " {{seconds}} секундтан кейін"
+      "seconds": " {{seconds}} секундтан кейін",
+      "report_issue_text": "Having trouble receiving the code?",
+      "report_issue_cta": "Report an issue"
     },
     "article-categories": {
       "categories": "Санаттар"

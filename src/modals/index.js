@@ -10,3 +10,4 @@ export * from "./DeleteMoodTrackerHistory";
 export * from "./HowItWorksMoodTrack";
 export * from "./HowItWorksBA";
 export * from "./ReportOrganization";
+export * from "./ReportIssue";

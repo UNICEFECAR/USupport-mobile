@@ -160,7 +160,12 @@
       "contact_reason_3_pl": "Παράπονο",
       "contact_reason_4_pl": "Κάτι άλλο",
       "success": "Η αναφορά του θέματός σας ολοκληρώθηκε με επιτυχία. Θα επικοινωνήσουμε μαζί σας σύντομα.",
-      "contact_form": "Φόρμα επικοινωνίας"
+      "contact_form": "Φόρμα επικοινωνίας",
+      "technical_problem_label": "Τεχνικό πρόβλημα",
+      "report_issue_intro": "Before you submit this form, please check that your email address is spelled correctly.",
+      "close_button_label": "Close",
+      "email": "Email",
+      "email_error": "Please, enter your email"
     },
     "faq": {
       "heading": "Συχνές ερωτήσεις",
@@ -1594,7 +1599,9 @@
       "send": "Αποστολή",
       "didnt_get_code": "Δεν λάβατε κωδικό;",
       "resend": "Επαναποστολή email",
-      "seconds": "σε {{seconds}} δευτερόλεπτα"
+      "seconds": "σε {{seconds}} δευτερόλεπτα",
+      "report_issue_text": "Having trouble receiving the code?",
+      "report_issue_cta": "Report an issue"
     },
     "article-categories": {
       "categories": "Κατηγορίες"

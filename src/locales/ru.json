@@ -160,7 +160,12 @@
       "contact_reason_3_pl": "Жалоба",
       "contact_reason_4_pl": "Прочее",
       "success": "Сообщение о вашей проблеме было успешно получено. Мы скоро свяжемся с Вами",
-      "contact_form": "Contact form"
+      "contact_form": "Contact form",
+      "technical_problem_label": "Техническая проблема",
+      "report_issue_intro": "Before you submit this form, please check that your email address is spelled correctly.",
+      "close_button_label": "Close",
+      "email": "Email",
+      "email_error": "Please, enter your email"
     },
     "faq": {
       "heading": "Часто задаваемые вопросы",
@@ -1594,7 +1599,9 @@
       "send": "Отправить",
       "didnt_get_code": "Не получили код?",
       "resend": "Отправить письмо повторно",
-      "seconds": " через {{seconds}} секунд"
+      "seconds": " через {{seconds}} секунд",
+      "report_issue_text": "Having trouble receiving the code?",
+      "report_issue_cta": "Report an issue"
     },
     "article-categories": {
       "categories": "Категории"

@@ -385,6 +385,7 @@ export const RegisterEmail = ({
         handleRegister={handleRegister}
         submitError={errors.submit}
         isMutating={registerMutation.isLoading}
+        email={data.email}
       />
     </>
   );

@@ -160,7 +160,12 @@
       "contact_reason_3_pl": "Я клієнт/ка, і у мене виникла технічна проблема",
       "contact_reason_4_pl": "Щось інше.",
       "success": "Про твою проблему повідомлено. Найближчим часом ми зв'яжемося з тобою",
-      "contact_form": "Contact form"
+      "contact_form": "Contact form",
+      "technical_problem_label": "Технічна проблема",
+      "report_issue_intro": "Перед надсиланням форми переконайся, що адресу електронної пошти вказано правильно.",
+      "close_button_label": "Close",
+      "email": "Email",
+      "email_error": "Please, enter your email"
     },
     "faq": {
       "heading": "Поширені запитання",
@@ -1596,7 +1601,9 @@
       "send": "Надішли",
       "didnt_get_code": "Не отримав/ла коду?",
       "resend": "Повторно надішли листа",
-      "seconds": "за {{seconds}} секунд"
+      "seconds": "за {{seconds}} секунд",
+      "report_issue_text": "Having trouble receiving the code?",
+      "report_issue_cta": "Report an issue"
     },
     "article-categories": {
       "categories": "Категорії"
