@@ -69,6 +69,7 @@ export const HeaderNavigation = ({
           iconName="phone-emergency"
           label={t("emergency_button_label")}
           color="red"
+          iconColor={appStyles.colorWhite_ff}
           onPress={() => navigation.navigate("SOSCenter")}
         />
       ) : (
@@ -76,6 +77,7 @@ export const HeaderNavigation = ({
           iconName="phone-emergency"
           iconSize="md"
           color="red"
+          iconColor={appStyles.colorWhite_ff}
           onPress={() => navigation.navigate("SOSCenter")}
         />
       )}
