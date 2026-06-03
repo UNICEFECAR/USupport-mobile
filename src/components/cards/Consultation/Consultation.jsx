@@ -136,7 +136,10 @@ export const Consultation = ({
   let statusModifier = "";
 
   if (renderIn === "client") {
-    if (!isPast) {
+    if (isFiveMinutesBefore) {
+      statusLabel = t("live");
+      statusModifier = "live";
+    } else if (!isPast) {
       statusLabel = t("upcoming_tab_label");
       statusModifier = "upcoming";
     } else if (status === "finished") {
@@ -297,7 +300,8 @@ export const Consultation = ({
           <View
             style={[
               styles.statusBadgeFloating,
-              statusModifier === "upcoming" && styles.statusBadgeUpcoming,
+              (statusModifier === "upcoming" || statusModifier === "live") &&
+                styles.statusBadgeUpcoming,
               statusModifier === "completed" && styles.statusBadgeCompleted,
               statusModifier === "not-conducted" &&
                 styles.statusBadgeNotConducted,
@@ -307,7 +311,8 @@ export const Consultation = ({
               namedStyle="smallText"
               style={[
                 styles.statusBadgeLabel,
-                statusModifier === "upcoming" && styles.statusBadgeTextUpcoming,
+                (statusModifier === "upcoming" || statusModifier === "live") &&
+                  styles.statusBadgeTextUpcoming,
                 statusModifier === "completed" &&
                   styles.statusBadgeTextCompleted,
                 statusModifier === "not-conducted" &&
