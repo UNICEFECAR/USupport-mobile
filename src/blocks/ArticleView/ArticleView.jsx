@@ -102,7 +102,14 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
       : appStyles.colorWhite_ff;
 
   const categoryBadgeStyle = useMemo(() => {
-    if (isDarkMode && !isHighContrast) {
+    if (isHighContrast) {
+      return {
+        backgroundColor: "#000000",
+        borderColor: appStyles.colorHighContrast_ffff00,
+        borderWidth: 1,
+      };
+    }
+    if (isDarkMode) {
       return {
         backgroundColor: appStyles.colorGray_66768d,
         borderColor: "transparent",
@@ -115,7 +122,10 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
   }, [isDarkMode, isHighContrast]);
 
   const categoryTextColor = useMemo(() => {
-    if (isDarkMode && !isHighContrast) {
+    if (isHighContrast) {
+      return appStyles.colorHighContrast_ffff00;
+    }
+    if (isDarkMode) {
       return appStyles.color_blue_c1d7e0;
     }
     return appStyles.colorBlue_3d527b;

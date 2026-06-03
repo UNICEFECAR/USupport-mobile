@@ -300,8 +300,8 @@ export const Consultation = ({
           <View
             style={[
               styles.statusBadgeFloating,
-              (statusModifier === "upcoming" || statusModifier === "live") &&
-                styles.statusBadgeUpcoming,
+              statusModifier === "upcoming" && styles.statusBadgeUpcoming,
+              statusModifier === "live" && styles.statusBadgeLive,
               statusModifier === "completed" && styles.statusBadgeCompleted,
               statusModifier === "not-conducted" &&
                 styles.statusBadgeNotConducted,
@@ -311,8 +311,9 @@ export const Consultation = ({
               namedStyle="smallText"
               style={[
                 styles.statusBadgeLabel,
-                (statusModifier === "upcoming" || statusModifier === "live") &&
+                statusModifier === "upcoming" &&
                   styles.statusBadgeTextUpcoming,
+                statusModifier === "live" && styles.statusBadgeTextLive,
                 statusModifier === "completed" &&
                   styles.statusBadgeTextCompleted,
                 statusModifier === "not-conducted" &&
@@ -574,6 +575,12 @@ const styles = StyleSheet.create({
   },
   statusBadgeUpcoming: {
     backgroundColor: "rgba(151, 73, 250, 0.16)",
+  },
+  statusBadgeLive: {
+    backgroundColor: appStyles.colorSecondary_9749fa,
+  },
+  statusBadgeTextLive: {
+    color: appStyles.colorWhite_ff,
   },
   textContainer: {
     flexGrow: 1,

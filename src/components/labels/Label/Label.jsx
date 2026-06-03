@@ -58,18 +58,25 @@ export const Label = ({
     : null;
   const palette = effectiveIndex !== null ? PALETTES[effectiveIndex] : null;
 
+  const hcPalette = {
+    bg: "#000000",
+    border: appStyles.colorHighContrast_ffff00,
+    text: appStyles.colorHighContrast_ffff00,
+  };
+  const activePalette = isHighContrast ? hcPalette : palette;
+
   const containerStyle = [
     styles.label,
-    usePalette && {
-      backgroundColor: palette.bg,
-      borderColor: palette.border,
+    (usePalette || isHighContrast) && {
+      backgroundColor: activePalette.bg,
+      borderColor: activePalette.border,
+      borderWidth: isHighContrast ? 1 : undefined,
     },
     style,
   ];
 
-  const textColorStyle = usePalette
-    ? { color: isHighContrast ? "#fff" : palette.text }
-    : isHighContrast && styles.textHC;
+  const textColorStyle =
+    usePalette || isHighContrast ? { color: activePalette.text } : undefined;
 
   return (
     <Pressable onPress={onPress}>
@@ -100,5 +107,4 @@ const styles = StyleSheet.create({
     width: "auto",
   },
   text: { color: appStyles.colorPrimary_20809e },
-  textHC: { color: "#fff" },
 });

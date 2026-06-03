@@ -104,6 +104,20 @@ export const CardMedia = ({
     : appStyles.colorGray_66768d;
   const metaTextColor = colors.cardMediaMetaText || grayTextColor;
 
+  const categoryContainerStyle = useMemo(() => {
+    if (isHighContrast) {
+      return {
+        backgroundColor: "rgba(0, 0, 0, 0.92)",
+        borderColor: appStyles.colorHighContrast_ffff00,
+      };
+    }
+    return null;
+  }, [isHighContrast]);
+
+  const categoryTextColor = isHighContrast
+    ? appStyles.colorHighContrast_ffff00
+    : styles.categoryText.color;
+
   const showPlayButton =
     (contentType === "videos" || contentType === "podcasts") && handlePlay;
 
@@ -250,11 +264,11 @@ export const CardMedia = ({
         </View>
 
         {!!categoryName && (
-          <View style={styles.categoryContainer}>
+          <View style={[styles.categoryContainer, categoryContainerStyle]}>
             <AppText
               namedStyle="smallText"
               isSemibold
-              style={styles.categoryText}
+              style={[styles.categoryText, { color: categoryTextColor }]}
             >
               {categoryName}
             </AppText>
