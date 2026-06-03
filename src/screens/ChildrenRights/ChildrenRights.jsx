@@ -1004,7 +1004,7 @@ export const ChildrenRights = ({ route }) => {
                     size="lg"
                     type="ghost"
                     onPress={() => navigation.navigate("Dashboard")}
-                    style={styles.fullWidthButton}
+                    style={[styles.fullWidthButton, styles.dashboardButton]}
                   />
                 </View>
               )}
@@ -1213,5 +1213,8 @@ const styles = StyleSheet.create({
     flex: 0,
     width: "100%",
     minWidth: "auto",
+  },
+  dashboardButton: {
+    marginTop: 16,
   },
 });
