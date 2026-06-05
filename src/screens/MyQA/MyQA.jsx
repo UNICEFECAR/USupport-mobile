@@ -11,11 +11,12 @@ import {
 } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Config from "react-native-config";
 
 import { Screen, NewButton } from "#components";
 import { MyQA as MyQABlock, InformationPortalHero } from "#blocks";
 import { HowItWorksMyQA } from "#modals";
-import myQaHeroImage from "../../blocks/InformationPortalHero/assets/my-qa-mobile.jpg";
+
 import {
   CreateQuestion,
   QuestionDetails,
@@ -33,6 +34,10 @@ import {
 } from "#hooks";
 import { showToast } from "#utils";
 import { Context } from "#services";
+
+const { AMAZON_S3_BUCKET } = Config;
+
+const myQaHeroImage = `${AMAZON_S3_BUCKET}/my-qa-mobile`;
 
 /**
  * MyQA
@@ -285,7 +290,7 @@ export const MyQA = ({ navigation }) => {
             searchValue={searchValue}
             onSearchChange={setSearchValue}
             placeholder={blocksT("search_input_placeholder")}
-            image={myQaHeroImage}
+            image={{ uri: myQaHeroImage }}
           />
           <MyQABlock
             tabs={tabs}

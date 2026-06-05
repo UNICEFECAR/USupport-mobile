@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   Platform,
   Keyboard,
+  useWindowDimensions,
 } from "react-native";
 import { BlurView } from "expo-blur";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -82,7 +83,8 @@ export const Backdrop = ({
   const hasButtons = ctaLabel || secondaryCtaLabel;
   const [isOverlayShown, setIsOverlayShown] = useState(false);
   const [buttonsContainerHeight, setButtonsContainerHeight] = useState(0);
-  const { bottom: bottomInset } = useSafeAreaInsets();
+  const { bottom: bottomInset, top: topInset } = useSafeAreaInsets();
+  const { height: windowHeight } = useWindowDimensions();
 
   const isClosing = useRef(false);
   const [shrinkBackdrop, setShrinkBackdrop] = useState(false);
@@ -224,6 +226,12 @@ export const Backdrop = ({
           },
           backdropStyle,
           style,
+          // Bound the sheet to the live viewport so the inner ScrollView is
+          // properly sized when the Android keyboard resizes the window
+          // (windowSoftInputMode="adjustResize"). Without this, a backdrop
+          // sized with `height: "auto"` will overflow above the visible
+          // area and hide form fields.
+          { maxHeight: Math.max(0, windowHeight - topInset) },
           shrinkBackdrop ? { height: appStyles.screenHeight * 0.3 } : {},
         ]}
       >
@@ -320,6 +328,8 @@ export const Backdrop = ({
                 scrollViewStyle,
               ]}
               showsVerticalScrollIndicator={false}
+              keyboardShouldPersistTaps="handled"
+              keyboardDismissMode="interactive"
             >
               {children}
             </ScrollView>

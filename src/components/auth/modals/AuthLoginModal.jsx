@@ -182,6 +182,7 @@ export function AuthLoginModal({
       secondaryCtaHandleClick={onGoToRegister}
       secondaryCtaType="ghost"
       errorMessage={errors.submit}
+      hasKeyboardListener={true}
     >
       <>
         {hasCredentials && !!biometryType ? (
