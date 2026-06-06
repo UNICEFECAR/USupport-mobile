@@ -107,6 +107,12 @@ export const NewButton = ({
 
   const getBackgroundColor = (pressed = false) => {
     if (disabled || loading) {
+      // welcome-outline is a solid blue button with white label, so a
+      // transparent background would make the label invisible. Keep the
+      // brand blue and rely on `buttonDisabled` opacity to convey state.
+      if (type === "welcome-outline") {
+        return welcomeBlue.normal;
+      }
       return null;
     }
 
