@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { TextInput, View, StyleSheet } from "react-native";
-import { Backdrop, AppText } from "#components";
+import { Backdrop, AppText, TransparentModal } from "#components";
 import { useTranslation } from "react-i18next";
 import { appStyles } from "#styles";
 import { ReportIssue } from "#modals";
@@ -8,6 +8,8 @@ import { ReportIssue } from "#modals";
 export default function CodeVerification({
   isOpen,
   onClose,
+  handleGoBack,
+  inAuthFlow = false,
   showTimer,
   resendTimer,
   handleRegister,
@@ -89,6 +91,87 @@ export default function CodeVerification({
     requestOTP();
   };
 
+  const goBack = handleGoBack ?? onClose;
+
+  const pinInputs = (
+    <View style={styles.codeContainer}>
+      {data.map((box, index) => {
+        return (
+          <TextInput
+            key={box.name}
+            value={box.value}
+            ref={box.reference}
+            keyboardType={"numeric"}
+            maxLength={1}
+            onChangeText={(newText) =>
+              changeText(index, newText, box.nextIndex)
+            }
+            onKeyPress={({ nativeEvent: { key: keyValue } }) =>
+              goToPreviousBox(box.previousIndex, keyValue)
+            }
+            maxFontSizeMultiplier={appStyles.maxFontSizeMultiplier}
+            style={styles.textInput}
+          />
+        );
+      })}
+    </View>
+  );
+
+  const footerContent = (
+    <View style={styles.footer}>
+      <AppText style={styles.footerTextCenter}>{t("didnt_get_code")} </AppText>
+      <View style={styles.footerActions}>
+        {canRequestOTP ? (
+          <AppText onPress={handleResendCode} style={styles.linkText}>
+            {t("resend")}
+          </AppText>
+        ) : (
+          <AppText>{t("resend")}</AppText>
+        )}
+        {showTimer && (
+          <AppText>{t("seconds", { seconds: resendTimer })}</AppText>
+        )}
+      </View>
+      <View style={styles.reportIssueRow}>
+        <AppText style={styles.footerTextCenter}>{t("report_issue_text")} </AppText>
+        <AppText
+          onPress={() => setIsReportIssueOpen(true)}
+          style={styles.linkText}
+        >
+          {t("report_issue_cta")}
+        </AppText>
+      </View>
+    </View>
+  );
+
+  if (inAuthFlow) {
+    return (
+      <>
+        <TransparentModal
+          isOpen={isOpen}
+          handleClose={goBack}
+          heading={t("heading")}
+          text={t("text")}
+          ctaLabel={t("send")}
+          ctaHandleClick={() => handleRegister(pinValue.current)}
+          isCtaLoading={isMutating}
+          errorMessage={submitError}
+          hasCloseIcon={false}
+          scrollableBody={false}
+        >
+          {pinInputs}
+          {footerContent}
+        </TransparentModal>
+
+        <ReportIssue
+          isOpen={isReportIssueOpen}
+          onClose={() => setIsReportIssueOpen(false)}
+          initialEmail={email}
+        />
+      </>
+    );
+  }
+
   return (
     <>
       <Backdrop
@@ -100,61 +183,9 @@ export default function CodeVerification({
         ctaHandleClick={() => handleRegister(pinValue.current)}
         errorMessage={submitError}
         isCtaLoading={isMutating}
-        footerComponent={
-          <View style={styles.footer}>
-            <AppText style={styles.footerTextCenter}>
-              {t("didnt_get_code")}{" "}
-            </AppText>
-            <View style={styles.footerActions}>
-              {canRequestOTP ? (
-                <AppText
-                  onPress={handleResendCode}
-                  style={styles.linkText}
-                >
-                  {t("resend")}
-                </AppText>
-              ) : (
-                <AppText>{t("resend")}</AppText>
-              )}
-              {showTimer && (
-                <AppText>{t("seconds", { seconds: resendTimer })}</AppText>
-              )}
-            </View>
-            <View style={styles.reportIssueRow}>
-              <AppText style={styles.footerTextCenter}>
-                {t("report_issue_text")}{" "}
-              </AppText>
-              <AppText
-                onPress={() => setIsReportIssueOpen(true)}
-                style={styles.linkText}
-              >
-                {t("report_issue_cta")}
-              </AppText>
-            </View>
-          </View>
-        }
+        footerComponent={footerContent}
       >
-        <View style={styles.codeContainer}>
-          {data.map((box, index) => {
-            return (
-              <TextInput
-                key={box.name}
-                value={box.value}
-                ref={box.reference}
-                keyboardType={"numeric"}
-                maxLength={1}
-                onChangeText={(newText) =>
-                  changeText(index, newText, box.nextIndex)
-                }
-                onKeyPress={({ nativeEvent: { key: keyValue } }) =>
-                  goToPreviousBox(box.previousIndex, keyValue)
-                }
-                maxFontSizeMultiplier={appStyles.maxFontSizeMultiplier}
-                style={styles.textInput}
-              />
-            );
-          })}
-        </View>
+        {pinInputs}
       </Backdrop>
 
       <ReportIssue

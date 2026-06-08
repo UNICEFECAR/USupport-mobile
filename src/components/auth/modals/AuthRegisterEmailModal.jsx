@@ -266,109 +266,114 @@ export function AuthRegisterEmailModal({ onGoBack, onGoToLogin }) {
 
   return (
     <>
-      <Backdrop
-        {...getAuthBackdropProps()}
-        topHeaderComponent={<AuthenticationModalsLogo onBackPress={onGoBack} />}
-      >
-        <View style={styles.content}>
-          <Input
-            label={t("email_label")}
-            style={styles.input}
-            placeholder="user@mail.com"
-            value={data.email}
-            onChange={(value) => handleChange("email", value)}
-            onBlur={() => handleBlur("email")}
-            errorMessage={errors.email}
-            autoCapitalize="none"
-          />
-          <Input
-            label={t("nickname_label")}
-            style={styles.input}
-            placeholder={t("nickname_placeholder")}
-            value={data.nickname}
-            onChange={(value) => handleChange("nickname", value)}
-            onBlur={() => handleBlur("nickname")}
-            errorMessage={errors.nickname}
-          />
-          <InputPassword
-            style={styles.input}
-            label={t("password_label")}
-            value={data.password}
-            placeholder={t("password_placeholder")}
-            onChange={(value) => handleChange("password", value)}
-            onBlur={() => handleBlur("password")}
-            errorMessage={errors.password}
-            autoCapitalize="none"
-          />
-          <InputPassword
-            style={styles.input}
-            label={t("confirm_password_label")}
-            value={data.confirmPassword}
-            placeholder={t("password_placeholder")}
-            onChange={(value) => handleChange("confirmPassword", value)}
-            onBlur={() => handleBlur("confirmPassword")}
-            errorMessage={errors.confirmPassword}
-            autoCapitalize="none"
-          />
-          <TermsAgreement
-            isChecked={data.isPrivacyAndTermsSelected}
-            setIsChecked={() =>
-              handleChange(
-                "isPrivacyAndTermsSelected",
-                !data.isPrivacyAndTermsSelected
-              )
-            }
-            textOne={t("terms_agreement_text_1")}
-            textTwo={t("terms_agreement_text_2")}
-            textThree={t("terms_agreement_text_3")}
-            textFour={t("terms_agreement_text_4")}
-            style={{ marginBottom: 12 }}
-          />
-          <TermsAgreement
-            isChecked={data.isAgeTermsSelected}
-            setIsChecked={() =>
-              handleChange("isAgeTermsSelected", !data.isAgeTermsSelected)
-            }
-            textOne={t("age_terms_agreement_text", { age: minAge })}
-          />
-          <View style={styles.actions}>
-            {errors.submit ? (
-              <Error style={styles.inlineError} message={errors.submit} />
-            ) : null}
+      {!isCodeVerificationOpen ? (
+        <Backdrop
+          {...getAuthBackdropProps()}
+          topHeaderComponent={
+            <AuthenticationModalsLogo onBackPress={onGoBack} />
+          }
+        >
+          <View style={styles.content}>
+            <Input
+              label={t("email_label")}
+              style={styles.input}
+              placeholder="user@mail.com"
+              value={data.email}
+              onChange={(value) => handleChange("email", value)}
+              onBlur={() => handleBlur("email")}
+              errorMessage={errors.email}
+              autoCapitalize="none"
+            />
+            <Input
+              label={t("nickname_label")}
+              style={styles.input}
+              placeholder={t("nickname_placeholder")}
+              value={data.nickname}
+              onChange={(value) => handleChange("nickname", value)}
+              onBlur={() => handleBlur("nickname")}
+              errorMessage={errors.nickname}
+            />
+            <InputPassword
+              style={styles.input}
+              label={t("password_label")}
+              value={data.password}
+              placeholder={t("password_placeholder")}
+              onChange={(value) => handleChange("password", value)}
+              onBlur={() => handleBlur("password")}
+              errorMessage={errors.password}
+              autoCapitalize="none"
+            />
+            <InputPassword
+              style={styles.input}
+              label={t("confirm_password_label")}
+              value={data.confirmPassword}
+              placeholder={t("password_placeholder")}
+              onChange={(value) => handleChange("confirmPassword", value)}
+              onBlur={() => handleBlur("confirmPassword")}
+              errorMessage={errors.confirmPassword}
+              autoCapitalize="none"
+            />
+            <TermsAgreement
+              isChecked={data.isPrivacyAndTermsSelected}
+              setIsChecked={() =>
+                handleChange(
+                  "isPrivacyAndTermsSelected",
+                  !data.isPrivacyAndTermsSelected
+                )
+              }
+              textOne={t("terms_agreement_text_1")}
+              textTwo={t("terms_agreement_text_2")}
+              textThree={t("terms_agreement_text_3")}
+              textFour={t("terms_agreement_text_4")}
+              style={{ marginBottom: 12 }}
+            />
+            <TermsAgreement
+              isChecked={data.isAgeTermsSelected}
+              setIsChecked={() =>
+                handleChange("isAgeTermsSelected", !data.isAgeTermsSelected)
+              }
+              textOne={t("age_terms_agreement_text", { age: minAge })}
+            />
+            <View style={styles.actions}>
+              {errors.submit ? (
+                <Error style={styles.inlineError} message={errors.submit} />
+              ) : null}
+              <NewButton
+                size="lg"
+                label={t("register_button")}
+                onPress={handleOtpRequest}
+                disabled={!canContinue}
+                loading={requestEmailOTPMutation.isLoading}
+                isFullWidth
+                type="gradient"
+                style={styles.registerButton}
+              />
+            </View>
             <NewButton
-              size="lg"
-              label={t("register_button")}
-              onPress={handleOtpRequest}
-              disabled={!canContinue}
-              loading={requestEmailOTPMutation.isLoading}
+              label={t("login_button_label")}
+              onPress={onGoToLogin}
               isFullWidth
-              type="gradient"
-              style={styles.registerButton}
+              size="lg"
+              type="ghost"
+              style={styles.loginCta}
             />
           </View>
-          <NewButton
-            label={t("login_button_label")}
-            onPress={onGoToLogin}
-            isFullWidth
-            size="lg"
-            type="ghost"
-            style={styles.loginCta}
-          />
-        </View>
-      </Backdrop>
-
-      <CodeVerification
-        isOpen={isCodeVerificationOpen}
-        onClose={() => setIsCodeVerificationOpen(false)}
-        requestOTP={requestEmailOTPMutation.mutate}
-        canRequestOTP={canRequestNewOTP}
-        resendTimer={seconds}
-        showTimer={showTimer}
-        handleRegister={handleRegister}
-        submitError={errors.submit}
-        isMutating={registerMutation.isLoading}
-        email={data.email}
-      />
+        </Backdrop>
+      ) : (
+        <CodeVerification
+          inAuthFlow
+          isOpen={isCodeVerificationOpen}
+          handleGoBack={() => setIsCodeVerificationOpen(false)}
+          requestOTP={requestEmailOTPMutation.mutate}
+          canRequestOTP={canRequestNewOTP}
+          resendTimer={seconds}
+          showTimer={showTimer}
+          handleRegister={handleRegister}
+          submitError={errors.submit}
+          isMutating={registerMutation.isLoading}
+          email={data.email}
+        />
+      )}
     </>
   );
 }
