@@ -175,14 +175,17 @@ export const Dropdown = ({
   };
 
   return (
-    <View style={[styles.dropdown, disabled && styles.disabled, style]}>
+    <View style={[styles.dropdown, style]}>
       {label && (
-        <AppText namedStyle="text" style={styles.label}>
+        <AppText
+          namedStyle="text"
+          style={[styles.label, disabled && styles.labelDisabled]}
+        >
           {label}
         </AppText>
       )}
 
-      <TouchableWithoutFeedback onPress={handleDropdownClick}>
+      <TouchableWithoutFeedback onPress={handleDropdownClick} disabled={disabled}>
         <View
           style={[
             styles.container,
@@ -190,7 +193,8 @@ export const Dropdown = ({
               backgroundColor: colors.input,
               borderColor: getBorderColor(),
             },
-            appStyles.shadow1,
+            !disabled && appStyles.shadow1,
+            disabled && styles.containerDisabled,
           ]}
         >
           {isLoading ? (
@@ -211,15 +215,18 @@ export const Dropdown = ({
                     ? colors.inputText || colors.textTertiary
                     : getPlaceholderColor(),
                 },
+                disabled && styles.selectedOptionDisabled,
               ]}
             >
               {getDisplayText()}
             </AppText>
           )}
 
-          <Animated.View style={arrowIconStyles}>
-            <Icon name="arrow-chevron-down" size="sm" color={getIconColor()} />
-          </Animated.View>
+          {!disabled ? (
+            <Animated.View style={arrowIconStyles}>
+              <Icon name="arrow-chevron-down" size="sm" color={getIconColor()} />
+            </Animated.View>
+          ) : null}
         </View>
       </TouchableWithoutFeedback>
 
@@ -234,8 +241,16 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
 
-  disabled: {
-    opacity: 0.6,
+  labelDisabled: {
+    opacity: 0.7,
+  },
+
+  containerDisabled: {
+    opacity: 0.7,
+  },
+
+  selectedOptionDisabled: {
+    color: appStyles.colorGray_a6b4b8,
   },
 
   dropdownOpen: {

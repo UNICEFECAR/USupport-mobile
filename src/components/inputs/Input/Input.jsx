@@ -41,9 +41,12 @@ export const Input = ({
   };
 
   return (
-    <View style={[styles.inputContainer, disabled && styles.disabled, style]}>
+    <View style={[styles.inputContainer, style]}>
       {label && (
-        <AppText namedStyle="text" style={styles.label}>
+        <AppText
+          namedStyle="text"
+          style={[styles.label, disabled && styles.labelDisabled]}
+        >
           {label}
         </AppText>
       )}
@@ -54,7 +57,8 @@ export const Input = ({
             backgroundColor: colors.input,
             borderColor: getBorderColor(),
           },
-          appStyles.shadow1,
+          !disabled && appStyles.shadow1,
+          disabled && styles.inputWrapperDisabled,
           errorMessage && styles.inputError,
           isTextarea && styles.textarea,
           wrapperStyles,
@@ -105,8 +109,12 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
 
-  disabled: {
-    opacity: 0.6,
+  labelDisabled: {
+    opacity: 0.7,
+  },
+
+  inputWrapperDisabled: {
+    opacity: 0.7,
   },
 
   label: {

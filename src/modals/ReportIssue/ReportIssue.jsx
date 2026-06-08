@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import Joi from "joi";
 
-import { TransparentModal, Dropdown, Textarea, Input } from "#components";
+import { TransparentModal, Textarea, Input } from "#components";
 import { useSendIssueEmail } from "#hooks";
 import { validate, showToast } from "#utils";
 
@@ -114,14 +114,11 @@ export function ReportIssue({ isOpen, onClose, initialEmail = "" }) {
           style={styles.input}
           placeholder="name@mail.com"
         />
-        <Dropdown
+        <Input
           label={t("issue")}
-          style={styles.dropdown}
-          options={technicalProblemOptions}
-          selected={data.issue}
-          setSelected={() => {}}
+          value={t("technical_problem_label")}
           disabled
-          dropdownId="report-issue-reason"
+          style={styles.input}
         />
         <Textarea
           label={t("message")}
@@ -149,10 +146,6 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 16,
-  },
-  dropdown: {
-    marginBottom: 16,
-    zIndex: 3,
   },
   textarea: {
     marginBottom: 8,
