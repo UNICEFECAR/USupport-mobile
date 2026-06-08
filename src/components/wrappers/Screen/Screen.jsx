@@ -10,10 +10,9 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Config from "react-native-config";
 
 import { ButtonOnlyIcon } from "../../buttons";
-import pageMobileHero from "../../../assets/page-hero-new.png";
-import pageTabletHero from "../../../assets/page-tablet-hero.png";
 import { HeaderNavigation } from "../../headings";
 import { JoinConsultation } from "#backdrops";
 import { RequireDataAgreement } from "#modals";
@@ -26,6 +25,11 @@ import {
 } from "#hooks";
 import { Context } from "#services";
 import { appStyles } from "#styles";
+
+const { AMAZON_S3_BUCKET } = Config;
+
+const pageMobileHero = `${AMAZON_S3_BUCKET}/page-hero-new`;
+const pageTabletHero = `${AMAZON_S3_BUCKET}/page-tablet-hero`;
 
 // Main wrapper for every screen
 export function Screen({
@@ -77,8 +81,8 @@ export function Screen({
   // Match web `Page` behavior: the hero/background image is only shown in light mode.
   const showBackgroundImage = backgroundImage !== false && !isDarkMode;
   const backgroundImageSource = useMemo(() => {
-    if (width >= 768) return pageTabletHero;
-    return pageMobileHero;
+    if (width >= 768) return { uri: pageTabletHero };
+    return { uri: pageMobileHero };
   }, [width]);
 
   const onCheckHasUnreadNotificationsSuccess = (data) => {

@@ -6,14 +6,18 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import Config from "react-native-config";
 
 import { InputSearch, Icon, NewButton } from "#components";
 import { useGetTheme } from "#hooks";
 import { Context } from "#services";
 import { appStyles } from "#styles";
-import informationPortalMobile from "./assets/information-portal-mobile.png";
-import informationPortalPsMobile from "./assets/information-portal-ps-mobile.png";
-import informationPortalPsMobileDark from "./assets/information-portal-ps-mobile-dark.png";
+
+const { AMAZON_S3_BUCKET } = Config;
+
+const informationPortalMobile = `${AMAZON_S3_BUCKET}/information-portal-mobile`;
+const informationPortalPsMobile = `${AMAZON_S3_BUCKET}/information-portal-ps-mobile`;
+const informationPortalPsMobileDark = `${AMAZON_S3_BUCKET}/information-portal-ps-mobile-dark`;
 
 /**
  * InformationPortalHero
@@ -41,9 +45,9 @@ export const InformationPortalHero = ({
     image ||
     (IS_PS
       ? isDarkMode
-        ? informationPortalPsMobileDark
-        : informationPortalPsMobile
-      : informationPortalMobile);
+        ? { uri: informationPortalPsMobileDark }
+        : { uri: informationPortalPsMobile }
+      : { uri: informationPortalMobile });
 
   const handleGoBack = () => {
     navigation.goBack();

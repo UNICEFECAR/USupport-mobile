@@ -1,13 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
+import Config from "react-native-config";
 
-import {
-  logoHorizontal,
-  logoHorizontalDark,
-  logoHorizontalRo,
-  logoHorizontalRoDark,
-} from "#assets";
+// import {
+//   logoHorizontal,
+//   logoHorizontalDark,
+//   logoHorizontalRo,
+//   logoHorizontalRoDark,
+// } from "#assets";
+
 import { AppText, Icon } from "#components";
 import { useGetTheme } from "#hooks";
 import { Context, localStorage } from "#services";
@@ -16,6 +18,15 @@ import { appStyles } from "#styles";
 // Match client-ui `authentication-modal-logo.scss` (`__logo-container`).
 const LOGO_STRIP_BG_LIGHT = "#f0f1f9";
 const LOGO_STRIP_BG_DARK = "#3d414f";
+
+const { AMAZON_S3_BUCKET } = Config;
+
+const logoHorizontal = `${AMAZON_S3_BUCKET}/logo-horizontal-app`;
+const logoHorizontalDark = `${AMAZON_S3_BUCKET}/logo-horizontal-dark-app`;
+const logoHorizontalRo = `${AMAZON_S3_BUCKET}/logo-horizontal-ro-app`;
+const logoHorizontalRoDark = `${AMAZON_S3_BUCKET}/logo-horizontal-ro-dark-app`;
+
+console.log(logoHorizontal);
 
 /**
  * AuthenticationModalsLogo
@@ -62,7 +73,7 @@ export function AuthenticationModalsLogo({ onBackPress }) {
         <Image
           resizeMode="contain"
           accessibilityIgnoresInvertColors
-          source={logoSource}
+          source={{ uri: logoSource }}
           style={styles.logo}
         />
       </View>
@@ -76,11 +87,7 @@ export function AuthenticationModalsLogo({ onBackPress }) {
               accessibilityRole="button"
               accessibilityLabel={tScreen("go_back")}
             >
-              <Icon
-                name="arrow-chevron-back"
-                size="md"
-                color={backIconColor}
-              />
+              <Icon name="arrow-chevron-back" size="md" color={backIconColor} />
             </TouchableOpacity>
           </View>
           <AppText namedStyle="h3" style={styles.headingCenteredWithBack}>
