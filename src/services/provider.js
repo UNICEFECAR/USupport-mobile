@@ -107,13 +107,17 @@ async function getAllProviders(
   campaignId,
   limit = 5,
   offset,
-  filtersQueryString
+  filtersQueryString,
+  randomSeed
 ) {
-  const response = await http.get(
-    `${API_ENDPOINT}/all?offset=${offset}&limit=${limit}&${filtersQueryString}&${
-      campaignId ? `campaignId=${campaignId}` : ""
-    }`
-  );
+  let query = `${API_ENDPOINT}/all?offset=${offset}&limit=${limit}&${filtersQueryString}`;
+  if (campaignId) {
+    query += `&campaignId=${campaignId}`;
+  }
+  if (randomSeed) {
+    query += `&randomSeed=${randomSeed}`;
+  }
+  const response = await http.get(query);
   return response;
 }
 
