@@ -1,7 +1,7 @@
-import { Image, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import Config from "react-native-config";
 
-import { Screen } from "#components";
+import { Screen, CachedImage } from "#components";
 import { RegisterPreview as RegisterPreviewBlock } from "#blocks";
 
 const { AMAZON_S3_BUCKET } = Config;
@@ -19,14 +19,14 @@ export const RegisterPreview = ({ navigation }) => {
       hasEmergencyButton={false}
       outsideComponent={
         <>
-          <Image
+          <CachedImage
             source={{
               uri: `${AMAZON_S3_BUCKET}/spiral-background-2`,
             }}
             style={styles.background}
             resizeMode="cover"
           />
-          <Image
+          <CachedImage
             source={{
               uri: `${AMAZON_S3_BUCKET}/radial-green`,
             }}

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Image, ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Config from "react-native-config";
@@ -11,6 +11,7 @@ import {
   Dropdown,
   TransparentModal,
   Input,
+  CachedImage,
 } from "#components";
 import {
   languageSvc,
@@ -246,7 +247,7 @@ export function Welcome({ navigation }) {
       <Block style={styles.flexGrow}>
         <View style={styles.headingContainer}>
           <AppText namedStyle="h2">{t("heading")}</AppText>
-          <Image
+          <CachedImage
             resizeMode="contain"
             source={{
               uri: imageUrl,

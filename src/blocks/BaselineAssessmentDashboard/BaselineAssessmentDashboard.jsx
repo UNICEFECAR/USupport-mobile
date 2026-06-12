@@ -2,7 +2,6 @@ import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   View,
-  Image,
   StyleSheet,
   TouchableOpacity,
   Platform,
@@ -15,6 +14,7 @@ import {
   NewButton,
   Loading,
   BaselineAssesmentBox,
+  CachedImage,
 } from "#components";
 import LinearGradient from "../../components/LinearGradient";
 import { HowItWorksBA } from "#modals";
@@ -305,7 +305,7 @@ export const BaselineAssessmentDashboard = ({
               {t("explore_heading")}
             </AppText>
             <View style={styles.mapContainer}>
-              <Image
+              <CachedImage
                 source={mapBackground}
                 style={StyleSheet.absoluteFillObject}
                 resizeMode="cover"

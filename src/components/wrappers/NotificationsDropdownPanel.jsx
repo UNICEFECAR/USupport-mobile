@@ -40,7 +40,7 @@ export function NotificationsDropdownPanel({
   const {
     styles: notificationStyles,
     notificationsQuery,
-    isLoadingProviders,
+    isListLoading,
     renderNotification,
     handleMarkAllAsRead,
   } = useNotificationsList({
@@ -136,7 +136,7 @@ export function NotificationsDropdownPanel({
             <View style={styles.listWrap}>
               <FlashList
                 ListEmptyComponent={
-                  isLoadingProviders ? (
+                  isListLoading ? (
                     <View style={notificationStyles.loadingContainer}>
                       <Loading size="lg" />
                     </View>

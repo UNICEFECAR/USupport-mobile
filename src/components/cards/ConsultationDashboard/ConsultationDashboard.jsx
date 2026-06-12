@@ -1,9 +1,10 @@
 import React from "react";
-import { View, StyleSheet, Image, Pressable } from "react-native";
+import { View, StyleSheet, Pressable } from "react-native";
 
 import { AppText } from "../../texts/AppText/AppText";
 import { AppButton } from "../../buttons/AppButton/AppButton";
 import { appStyles } from "#styles";
+import { CachedImage } from "../../images";
 
 import {
   checkIsFiveMinutesBefore,
@@ -70,7 +71,7 @@ export const ConsultationDashboard = ({
             >{`${dateText} ${timeText}`}</AppText>
           )}
           <View style={styles.providerContainer}>
-            <Image source={{ uri: imageUrl }} style={styles.providerImage} />
+            <CachedImage source={{ uri: imageUrl }} style={styles.providerImage} resizeMode="cover" />
             <AppText style={[styles.providerNameText, { color: colors.text }]}>
               {providerName}
             </AppText>
@@ -176,7 +177,6 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     height: 32,
     marginRight: 8,
-    objectFit: "cover",
     width: 32,
   },
   providerNameText: {

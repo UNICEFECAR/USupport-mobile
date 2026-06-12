@@ -1,7 +1,6 @@
 import {
   View,
   StyleSheet,
-  Image,
   Pressable,
   TouchableOpacity,
   UIManager,
@@ -15,6 +14,7 @@ import { Like } from "../../icons/Like";
 import LinearGradient from "../../LinearGradient";
 import { NewButton } from "../../buttons";
 import { Label } from "../../labels";
+import { CachedImage } from "../../images";
 
 import { appStyles } from "#styles";
 
@@ -241,7 +241,7 @@ export const CardMedia = ({
           ]}
         >
           {(image || brandingFallbackUrl) && (
-            <Image
+            <CachedImage
               source={{ uri: imageUri }}
               style={
                 isBrandingFallback ? styles.imageBrandingFallback : styles.image

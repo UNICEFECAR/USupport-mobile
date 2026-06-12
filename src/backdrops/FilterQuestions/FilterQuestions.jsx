@@ -12,7 +12,13 @@ import { useGetQuestionsTags } from "#hooks";
  *
  * @return {jsx}
  */
-export const FilterQuestions = ({ isOpen, onClose, selectedTag, setTag }) => {
+export const FilterQuestions = ({
+  isOpen,
+  onClose,
+  selectedTag,
+  setTag,
+  selectedLanguage,
+}) => {
   const { t } = useTranslation("backdrops", { keyPrefix: "filter-questions" });
 
   const [tags, setTags] = useState([]);
@@ -26,7 +32,7 @@ export const FilterQuestions = ({ isOpen, onClose, selectedTag, setTag }) => {
   const onSuccess = (data) => {
     setTags(data);
   };
-  const tagsQuery = useGetQuestionsTags(onSuccess);
+  const tagsQuery = useGetQuestionsTags(selectedLanguage, onSuccess);
 
   const [selectedTagId, setSelectedTagId] = useState();
 

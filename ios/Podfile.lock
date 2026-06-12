@@ -44,6 +44,12 @@ PODS:
     - ExpoModulesCore
   - ExpoFont (13.0.4):
     - ExpoModulesCore
+  - ExpoImage (2.0.7):
+    - ExpoModulesCore
+    - libavif/libdav1d
+    - SDWebImage (~> 5.19.1)
+    - SDWebImageAVIFCoder (~> 0.11.0)
+    - SDWebImageSVGCoder (~> 1.7.0)
   - ExpoKeepAwake (14.0.3):
     - ExpoModulesCore
   - ExpoLinearGradient (14.0.2):
@@ -262,6 +268,11 @@ PODS:
     - React-Core
     - react-native-webrtc
   - JitsiWebRTC (124.0.2)
+  - libavif/core (1.0.0)
+  - libavif/libdav1d (1.0.0):
+    - libavif/core
+    - libdav1d (>= 0.6.0)
+  - libdav1d (1.2.0)
   - libwebp (1.5.0):
     - libwebp/demux (= 1.5.0)
     - libwebp/mux (= 1.5.0)
@@ -2253,6 +2264,14 @@ PODS:
     - React-Core
   - RNWatch (1.1.0):
     - React
+  - SDWebImage (5.19.7):
+    - SDWebImage/Core (= 5.19.7)
+  - SDWebImage/Core (5.19.7)
+  - SDWebImageAVIFCoder (0.11.1):
+    - libavif/core (>= 0.11.0)
+    - SDWebImage (~> 5.10)
+  - SDWebImageSVGCoder (1.7.0):
+    - SDWebImage/Core (~> 5.6)
   - SocketRocket (0.7.1)
   - SplashView (0.0.18):
     - DoubleConversion
@@ -2336,6 +2355,7 @@ DEPENDENCIES:
   - ExpoDevice (from `../node_modules/expo-device/ios`)
   - ExpoFileSystem (from `../node_modules/expo-file-system/ios`)
   - ExpoFont (from `../node_modules/expo-font/ios`)
+  - ExpoImage (from `../node_modules/expo-image/ios`)
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
   - ExpoLinearGradient (from `../node_modules/expo-linear-gradient/ios`)
   - ExpoLocalAuthentication (from `../node_modules/expo-local-authentication/ios`)
@@ -2484,11 +2504,16 @@ SPEC REPOS:
     - GTMAppAuth
     - GTMSessionFetcher
     - JitsiWebRTC
+    - libavif
+    - libdav1d
     - libwebp
     - nanopb
     - ObjectiveDropboxOfficial
     - PromisesObjC
     - PromisesSwift
+    - SDWebImage
+    - SDWebImageAVIFCoder
+    - SDWebImageSVGCoder
     - SocketRocket
     - Stripe
     - StripeApplePay
@@ -2535,6 +2560,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-file-system/ios"
   ExpoFont:
     :path: "../node_modules/expo-font/ios"
+  ExpoImage:
+    :path: "../node_modules/expo-image/ios"
   ExpoKeepAwake:
     :path: "../node_modules/expo-keep-awake/ios"
   ExpoLinearGradient:
@@ -2789,6 +2816,7 @@ SPEC CHECKSUMS:
   ExpoDevice: cf7419343b6e060209aaadd596defb1b6320597f
   ExpoFileSystem: c8c19bf80d914c83dda3beb8569d7fb603be0970
   ExpoFont: 773955186469acc5108ff569712a2d243857475f
+  ExpoImage: c37f79e5e97e0a662ed1c4b17363464007da3148
   ExpoKeepAwake: 2a5f15dd4964cba8002c9a36676319a3394c85c7
   ExpoLinearGradient: ee9efc5acb988b911320e964fab9b4cbdeb198c4
   ExpoLocalAuthentication: 64bf2cbee456f5639d69a853684c285afc0602d8
@@ -2822,6 +2850,8 @@ SPEC CHECKSUMS:
   hermes-engine: 9e868dc7be781364296d6ee2f56d0c1a9ef0bb11
   jitsi-meet-rnsdk: a19879ee556627a830939595b81d47554cbdb072
   JitsiWebRTC: b47805ab5668be38e7ee60e2258f49badfe8e1d0
+  libavif: 5f8e715bea24debec477006f21ef9e95432e254d
+  libdav1d: 23581a4d8ec811ff171ed5e2e05cd27bad64c39f
   libwebp: 02b23773aedb6ff1fd38cec7a77b81414c6842a8
   lottie-ios: a881093fab623c467d3bce374367755c272bdd59
   lottie-react-native: 440dc225dc9e4c4ebc160f9b48d63090e4d6cafb
@@ -2925,6 +2955,9 @@ SPEC CHECKSUMS:
   RNSound: 6c156f925295bdc83e8e422e7d8b38d33bc71852
   RNSVG: 76d7cafaaa603fbbcb05aff928653e720251f483
   RNWatch: fd30ca40a5b5ef58dcbc195638e68219bc455236
+  SDWebImage: 8a6b7b160b4d710e2a22b6900e25301075c34cb3
+  SDWebImageAVIFCoder: afe194a084e851f70228e4be35ef651df0fc5c57
+  SDWebImageSVGCoder: 15a300a97ec1c8ac958f009c02220ac0402e936c
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   SplashView: 7e724a0bb5d500d2f5657ec97541bbc89266124b
   Stripe: cdf416cf2efe286f532a6306de0fcaa0ecc8c71a

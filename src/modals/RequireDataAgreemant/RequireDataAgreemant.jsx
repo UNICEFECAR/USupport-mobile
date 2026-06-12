@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Image, StyleSheet, TouchableOpacity, Modal } from "react-native";
+import { StyleSheet, TouchableOpacity, Modal } from "react-native";
 import Config from "react-native-config";
 
-import { TransparentModal, AppText, Screen } from "#components";
+import { TransparentModal, AppText, Screen, CachedImage } from "#components";
 import { PrivacyPolicy } from "../../blocks/PrivacyPolicy";
 import { appStyles } from "#styles";
 import { clientSvc } from "#services";
@@ -86,12 +86,12 @@ export const RequireDataAgreement = ({
             </Screen>
           </Modal>
         )}
-        <Image
+        <CachedImage
           source={{
             uri: `${AMAZON_S3_BUCKET}/mascot-happy-blue`,
           }}
-          alt="Mascot"
           style={styles.image}
+          resizeMode="contain"
         />
         <AppText style={styles.text}>{t("text")}</AppText>
         <AppText style={{ color: colors.textSecondary }}>{t("text_2")}</AppText>
@@ -122,7 +122,6 @@ const styles = StyleSheet.create({
   image: {
     width: 160,
     height: 160,
-    resizeMode: "contain",
     alignSelf: "center",
   },
   text: { marginVertical: 8 },

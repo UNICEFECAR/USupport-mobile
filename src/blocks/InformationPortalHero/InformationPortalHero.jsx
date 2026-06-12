@@ -2,13 +2,12 @@ import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import {
   View,
-  ImageBackground,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
 import Config from "react-native-config";
 
-import { InputSearch, Icon, NewButton } from "#components";
+import { InputSearch, Icon, NewButton, CachedImageBackground } from "#components";
 import { useGetTheme } from "#hooks";
 import { Context } from "#services";
 import { appStyles } from "#styles";
@@ -54,7 +53,7 @@ export const InformationPortalHero = ({
   };
 
   return (
-    <ImageBackground
+    <CachedImageBackground
       source={selectedImage}
       style={styles.imageBackground}
       resizeMode="cover"
@@ -87,7 +86,7 @@ export const InformationPortalHero = ({
           />
         </View>
       )}
-    </ImageBackground>
+    </CachedImageBackground>
   );
 };
 

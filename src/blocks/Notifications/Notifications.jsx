@@ -29,7 +29,7 @@ export const Notifications = ({
     isHighContrast,
     styles,
     notificationsQuery,
-    isLoadingProviders,
+    isListLoading,
     renderNotification,
     handleMarkAllAsRead,
   } = useNotificationsList({
@@ -68,7 +68,7 @@ export const Notifications = ({
         <MarkAllAsReadButton />
         <FlashList
           ListEmptyComponent={
-            isLoadingProviders ? (
+            isListLoading ? (
               <View style={styles.loadingContainer}>
                 <Loading size="lg" />
               </View>

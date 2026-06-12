@@ -1,18 +1,20 @@
 import React, { useContext, useMemo, useState, useCallback } from "react";
 import {
   StyleSheet,
-  SafeAreaView,
   Platform,
   View,
   StatusBar,
-  ImageBackground,
   useWindowDimensions,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+  useSafeAreaInsets,
+  SafeAreaView,
+} from "react-native-safe-area-context";
 import Config from "react-native-config";
 
 import { ButtonOnlyIcon } from "../../buttons";
+import { CachedImageBackground } from "../../images";
 import { HeaderNavigation } from "../../headings";
 import { JoinConsultation } from "#backdrops";
 import { RequireDataAgreement } from "#modals";
@@ -143,7 +145,7 @@ export function Screen({
       </View>
 
       {showBackgroundImage && (
-        <ImageBackground
+        <CachedImageBackground
           source={backgroundImageSource}
           style={styles.backgroundImage}
           resizeMode="cover"

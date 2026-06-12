@@ -363,15 +363,13 @@ export const SelectProvider = ({ navigation, route }) => {
 
   const isCouponTabSelected =
     selectedBillingType === "coupon" && !!canUseCoupons;
-  const showProvidersList =
-    !isCouponTabSelected || !!effectiveActiveCoupon;
+  const showProvidersList = !isCouponTabSelected || !!effectiveActiveCoupon;
 
   const handleScroll = useCallback(
     ({ nativeEvent }) => {
       const { contentOffset, contentSize, layoutMeasurement } = nativeEvent;
       const nearBottom =
-        contentOffset.y + layoutMeasurement.height >=
-        contentSize.height - 300;
+        contentOffset.y + layoutMeasurement.height >= contentSize.height - 300;
       if (
         nearBottom &&
         showProvidersList &&
@@ -410,6 +408,7 @@ export const SelectProvider = ({ navigation, route }) => {
                   : t("heading")
               }
               handleGoBack={handleGoBack}
+              wrapperStyle={{ paddingTop: 0 }}
             />
           </Block>
 
@@ -453,6 +452,6 @@ export const SelectProvider = ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
   screen: {
-    paddingTop: 48,
+    paddingTop: 18,
   },
 });

@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { CachedImage } from "../../images";
 import { Icon } from "../../icons/Icon";
 import { AppText } from "../../texts/AppText/AppText";
 
@@ -41,7 +42,7 @@ export const ProfilePicturePreview = ({
             <Icon name="circle-actions-close-purple" size="md" />
           </TouchableOpacity>
         ) : null}
-        <Image source={imageSrc} style={styles.image} />
+        <CachedImage source={imageSrc} style={styles.image} resizeMode="cover" />
       </View>
       <TouchableOpacity onPress={handleChangeClick}>
         <AppText style={styles.changePhotoText}>{changePhotoText}</AppText>
@@ -71,7 +72,6 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 12,
-    objectFit: "cover",
   },
 
   changePhotoText: {

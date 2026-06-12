@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { StyleSheet, View } from "react-native";
 
-import { AppText, NewButton, Loading, CardMedia } from "#components";
+import { AppText, NewButton, CardMedia, CardMediaSkeleton } from "#components";
 
 import { appStyles } from "#styles";
 
@@ -392,8 +392,9 @@ export const ArticlesDashboard = ({
           </AppText>
 
           {showLoading && (
-            <View style={styles.loadingContainer}>
-              <Loading />
+            <View style={styles.articlesContainer}>
+              <CardMediaSkeleton style={styles.cardMedia} />
+              <CardMediaSkeleton style={styles.cardMedia} />
             </View>
           )}
 

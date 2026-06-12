@@ -1,7 +1,7 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import Config from "react-native-config";
 
-import { Screen } from "#components";
+import { Screen, CachedImage } from "#components";
 import { Welcome as WelcomeBlock } from "#blocks";
 
 const { AMAZON_S3_BUCKET } = Config;
@@ -13,14 +13,14 @@ export const Welcome = ({ navigation }) => {
       backgroundImage={false}
       outsideComponent={
         <>
-          <Image
+          <CachedImage
             source={{
               uri: `${AMAZON_S3_BUCKET}/welcome-spiral`,
             }}
             style={styles.spiralBackground}
             resizeMode="stretch"
           />
-          <Image
+          <CachedImage
             source={{
               uri: `${AMAZON_S3_BUCKET}/welcome-radial`,
             }}

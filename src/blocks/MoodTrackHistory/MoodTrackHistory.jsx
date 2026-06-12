@@ -536,7 +536,7 @@ export const MoodTrackHistory = ({ navigation, header, onHowItWorksPress }) => {
 const styles = StyleSheet.create({
   block: {
     paddingHorizontal: 16,
-    paddingBottom: 32,
+    marginBottom: 100,
   },
   liquidGlassShadowLight: {
     shadowColor: "rgb(95, 108, 145)",

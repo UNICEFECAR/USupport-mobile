@@ -19,8 +19,10 @@ import {
   AppText,
   Loading,
   CardMedia,
+  CardMediaSkeleton,
   InputSearch,
   Tabs,
+  TabsSkeleton,
 } from "#components";
 import { VideoModal } from "#backdrops";
 
@@ -132,7 +134,11 @@ export const Videos = ({
     }
   );
 
-  const { data: videoCategoryIdsToShow } = useQuery(
+  const {
+    data: videoCategoryIdsToShow,
+    isLoading: isVideoCategoryIdsLoading,
+    isFetching: isVideoCategoryIdsFetching,
+  } = useQuery(
     ["videos-category-ids", usersLanguage, videoIdsQuery.data],
     () =>
       cmsSvc.getVideoCategoryIds(
@@ -324,6 +330,20 @@ export const Videos = ({
   const showCategoriesBlock =
     showCategories && areCategoriesReady && hasVideosDifferentThanNewest;
 
+  const isCategoriesPending =
+    categoriesQuery.isLoading ||
+    categoriesQuery.isFetching ||
+    !categories ||
+    videoIdsQuery.isLoading ||
+    videoIdsQuery.isFetching ||
+    (videoIdsQuery.data?.length > 0 &&
+      (isVideoCategoryIdsLoading ||
+        isVideoCategoryIdsFetching ||
+        videoCategoryIdsToShow === undefined));
+
+  const showCategoriesSkeleton =
+    showCategories && !showCategoriesBlock && isCategoriesPending;
+
   const newestVideoData = newestVideo
     ? {
         ...newestVideo,
@@ -355,9 +375,7 @@ export const Videos = ({
         {(isNewestVideoLoading || newestVideoData) && (
           <View style={styles.featuredSection}>
             {isNewestVideoLoading ? (
-              <View style={styles.featuredLoading}>
-                <Loading />
-              </View>
+              <CardMediaSkeleton style={styles.videoCard} />
             ) : newestVideoData ? (
               <CardMedia
                 contentType="videos"
@@ -396,7 +414,7 @@ export const Videos = ({
           </View>
         )}
 
-        {showCategoriesBlock && (
+        {showCategoriesBlock ? (
           <View style={styles.categoriesContainer}>
             <Tabs
               options={categoriesToShow}
@@ -404,7 +422,11 @@ export const Videos = ({
               t={t}
             />
           </View>
-        )}
+        ) : showCategoriesSkeleton ? (
+          <View style={styles.categoriesContainer}>
+            <TabsSkeleton count={6} />
+          </View>
+        ) : null}
 
         {hasVideosDifferentThanNewest && (
           <View style={styles.listSection}>
@@ -485,9 +507,10 @@ export const Videos = ({
           videoIdsQuery.isFetching) &&
         !videos?.length &&
         !newestVideoData ? (
-          <View style={styles.loadingContainer}>
-            <Loading style={styles.loading} />
-          </View>
+          <>
+            <CardMediaSkeleton style={styles.videoCard} />
+            <CardMediaSkeleton style={styles.videoCard} />
+          </>
         ) : null}
 
         {videoIdsQuery.isFetched &&

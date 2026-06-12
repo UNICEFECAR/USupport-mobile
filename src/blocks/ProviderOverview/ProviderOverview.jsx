@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
   block: {
     position: "relative",
     flexGrow: 1,
+    paddingBottom: 70,
   },
   loadingContainer: {
     width: "100%",

@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, Image } from "react-native";
+import { StyleSheet } from "react-native";
+import { CachedImage } from "../../images";
 
 /**
  * Avatar
@@ -11,10 +12,10 @@ import { StyleSheet, Image } from "react-native";
  */
 export const Avatar = ({ image, size = "sm", style }) => {
   return (
-    <Image
+    <CachedImage
       style={[styles.avatar, styles[size], style]}
       source={image}
-      alt="avatar"
+      resizeMode="cover"
     />
   );
 };
@@ -22,7 +23,6 @@ export const Avatar = ({ image, size = "sm", style }) => {
 const styles = StyleSheet.create({
   avatar: {
     borderRadius: 8,
-    objectFit: "cover",
   },
   xs: {
     width: 26,

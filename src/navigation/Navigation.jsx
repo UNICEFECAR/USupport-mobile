@@ -189,6 +189,7 @@ export function Navigation({
         // Logout the client if there are no pin or biometrics setup
         if (!hasBiometrics && !userPin) {
           logoutMutation.mutate();
+          console.log("logout");
         } else {
           setHasAuthenticatedWithPin(false);
         }

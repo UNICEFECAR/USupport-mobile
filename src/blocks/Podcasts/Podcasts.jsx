@@ -19,8 +19,10 @@ import {
   AppText,
   Loading,
   CardMedia,
+  CardMediaSkeleton,
   InputSearch,
   Tabs,
+  TabsSkeleton,
 } from "#components";
 import { PodcastModal } from "#backdrops";
 
@@ -136,7 +138,11 @@ export const Podcasts = ({
     }
   );
 
-  const { data: podcastCategoryIdsToShow } = useQuery(
+  const {
+    data: podcastCategoryIdsToShow,
+    isLoading: isPodcastCategoryIdsLoading,
+    isFetching: isPodcastCategoryIdsFetching,
+  } = useQuery(
     ["podcasts-category-ids", usersLanguage, podcastIdsQuery.data],
     () =>
       cmsSvc.getPodcastCategoryIds(
@@ -331,6 +337,20 @@ export const Podcasts = ({
   const showCategoriesBlock =
     showCategories && areCategoriesReady && hasPodcastsDifferentThanNewest;
 
+  const isCategoriesPending =
+    categoriesQuery.isLoading ||
+    categoriesQuery.isFetching ||
+    !categories ||
+    podcastIdsQuery.isLoading ||
+    podcastIdsQuery.isFetching ||
+    (podcastIdsQuery.data?.length > 0 &&
+      (isPodcastCategoryIdsLoading ||
+        isPodcastCategoryIdsFetching ||
+        podcastCategoryIdsToShow === undefined));
+
+  const showCategoriesSkeleton =
+    showCategories && !showCategoriesBlock && isCategoriesPending;
+
   const newestPodcastData = newestPodcast
     ? {
         ...newestPodcast,
@@ -365,9 +385,7 @@ export const Podcasts = ({
         {(isNewestPodcastLoading || newestPodcastData) && (
           <View style={styles.featuredSection}>
             {isNewestPodcastLoading ? (
-              <View style={styles.featuredLoading}>
-                <Loading />
-              </View>
+              <CardMediaSkeleton style={styles.podcastCard} />
             ) : newestPodcastData ? (
               <CardMedia
                 contentType="podcasts"
@@ -409,7 +427,7 @@ export const Podcasts = ({
           </View>
         )}
 
-        {showCategoriesBlock && (
+        {showCategoriesBlock ? (
           <View style={styles.categoriesContainer}>
             <Tabs
               options={categoriesToShow}
@@ -417,7 +435,11 @@ export const Podcasts = ({
               t={t}
             />
           </View>
-        )}
+        ) : showCategoriesSkeleton ? (
+          <View style={styles.categoriesContainer}>
+            <TabsSkeleton count={6} />
+          </View>
+        ) : null}
 
         {hasPodcastsDifferentThanNewest && (
           <View style={styles.listSection}>
@@ -501,9 +523,10 @@ export const Podcasts = ({
           podcastIdsQuery.isFetching) &&
         !podcasts?.length &&
         !newestPodcastData ? (
-          <View style={styles.loadingContainer}>
-            <Loading style={styles.loading} />
-          </View>
+          <>
+            <CardMediaSkeleton style={styles.podcastCard} />
+            <CardMediaSkeleton style={styles.podcastCard} />
+          </>
         ) : null}
 
         {podcastIdsQuery.isFetched &&

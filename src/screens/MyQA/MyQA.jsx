@@ -84,7 +84,6 @@ export const MyQA = ({ navigation }) => {
   const [shouldFetchQuestions, setShouldFetchQuestions] = useState(false);
 
   const [isKeyboardShown, setIsKeyboardShown] = useState(false);
-
   useKeyboard(
     true,
     () => setIsKeyboardShown(true),
@@ -365,12 +364,13 @@ export const MyQA = ({ navigation }) => {
           onClose={() => setIsFilterQuestionsBackdropOpen(false)}
           selectedTag={filterTag}
           setTag={setFilterTag}
+          selectedLanguage={selectedLanguage}
         />
       )}
       {!isKeyboardShown && (
         <View
           style={{
-            bottom: Platform.OS === "ios" ? 70 : bottomInset + 120,
+            bottom: Platform.OS === "ios" ? 110 : bottomInset + 120,
             ...styles.askButton,
           }}
         >
