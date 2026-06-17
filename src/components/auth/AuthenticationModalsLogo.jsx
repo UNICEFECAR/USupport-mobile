@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import Config from "react-native-config";
 
@@ -10,7 +10,7 @@ import Config from "react-native-config";
 //   logoHorizontalRoDark,
 // } from "#assets";
 
-import { AppText, Icon } from "#components";
+import { AppText, Icon, CachedImage } from "#components";
 import { useGetTheme } from "#hooks";
 import { Context, localStorage } from "#services";
 import { appStyles } from "#styles";
@@ -25,8 +25,6 @@ const logoHorizontal = `${AMAZON_S3_BUCKET}/logo-horizontal-app`;
 const logoHorizontalDark = `${AMAZON_S3_BUCKET}/logo-horizontal-dark-app`;
 const logoHorizontalRo = `${AMAZON_S3_BUCKET}/logo-horizontal-ro-app`;
 const logoHorizontalRoDark = `${AMAZON_S3_BUCKET}/logo-horizontal-ro-dark-app`;
-
-console.log(logoHorizontal);
 
 /**
  * AuthenticationModalsLogo
@@ -70,7 +68,7 @@ export function AuthenticationModalsLogo({ onBackPress }) {
   return (
     <View style={styles.wrapper}>
       <View style={[styles.logoContainer, { backgroundColor: logoStripBg }]}>
-        <Image
+        <CachedImage
           resizeMode="contain"
           accessibilityIgnoresInvertColors
           source={{ uri: logoSource }}

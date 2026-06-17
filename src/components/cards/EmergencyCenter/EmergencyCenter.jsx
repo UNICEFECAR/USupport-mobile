@@ -1,10 +1,11 @@
 import React from "react";
-import { View, StyleSheet, Image, Linking, Platform } from "react-native";
+import { View, StyleSheet, Linking, Platform } from "react-native";
 
 import { AppText } from "../../texts/";
 import { NewButton } from "../../buttons";
 import { appStyles } from "#styles";
 import { useGetTheme } from "#hooks";
+import { CachedImage } from "../../images";
 
 /**
  * EmergencyCenter
@@ -53,10 +54,10 @@ export const EmergencyCenter = ({
       style={[styles.emergencyCenter, { backgroundColor: colors.card }, style]}
     >
       {image && (
-        <Image
-          className="emergency-center__image"
+        <CachedImage
           source={image && { uri: image }}
           style={styles.image}
+          resizeMode="cover"
         />
       )}
       <AppText style={[styles.textHeading, { color: colors.text }]}>
@@ -117,8 +118,6 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     height: 200,
     marginBottom: 8,
-    objectFit: "cover",
-    objectPosition: "center",
     width: "100%",
   },
 

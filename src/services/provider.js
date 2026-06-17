@@ -314,8 +314,10 @@ async function getConsultationsTime(consultationId) {
   return res;
 }
 
-async function getQuestionTags() {
-  const res = await http.get(`${API_ENDPOINT}/my-qa/tags`);
+async function getQuestionTags(languageId) {
+  const res = await http.get(
+    `${API_ENDPOINT}/my-qa/tags?languageId=${languageId}`
+  );
   return res;
 }
 

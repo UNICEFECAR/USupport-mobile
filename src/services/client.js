@@ -276,10 +276,7 @@ async function sendPlatformSuggestion({ suggestion, type }) {
 }
 
 async function addSOSCenterClick(payload) {
-  const response = await http.post(
-    `${API_ENDPOINT}/add-sos-center-click`,
-    payload
-  );
+  const response = await http.post(`${API_ENDPOINT}/sos-center-click`, payload);
   return response;
 }
 

@@ -1,8 +1,8 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View, Image } from "react-native";
+import { StyleSheet, View } from "react-native";
 
-import { TransparentModal, CustomCarousel, AppText } from "#components";
+import { TransparentModal, CustomCarousel, AppText, CachedImage } from "#components";
 
 import { appStyles } from "#styles";
 
@@ -77,7 +77,7 @@ export const HowItWorksMyQA = ({ isOpen, onClose }) => {
   const renderSlide = ({ item, index }) => (
     <View key={index} style={styles.slide}>
       <AppText namedStyle="text">{item.text}</AppText>
-      <Image source={item.image} style={styles.image} resizeMode="contain" />
+      <CachedImage source={item.image} style={styles.image} resizeMode="contain" />
     </View>
   );
 

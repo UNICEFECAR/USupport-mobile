@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { StyleSheet, View, Image, ScrollView } from "react-native";
+import { StyleSheet, View, ScrollView } from "react-native";
 import Config from "react-native-config";
 
 import {
@@ -10,6 +10,7 @@ import {
   NewButton,
   CustomCarousel,
   AppText,
+  CachedImage,
 } from "#components";
 
 import { userSvc, localStorage, Context } from "#services";
@@ -121,11 +122,12 @@ export const RegisterPreview = ({
   const content = (
     <Block style={styles.block}>
       <View style={styles.imageContainer}>
-        <Image
+        <CachedImage
           source={{
             uri: `${AMAZON_S3_BUCKET}/mascot-happy-blue`,
           }}
           style={styles.image}
+          resizeMode="contain"
         />
       </View>
 
@@ -203,7 +205,6 @@ const styles = StyleSheet.create({
   },
   image: {
     height: 258,
-    resizeMode: "contain",
     width: 325,
   },
   imageContainer: {

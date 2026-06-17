@@ -1,11 +1,12 @@
 import React, { useMemo } from "react";
 import PropTypes from "prop-types";
-import { Image, StyleSheet, View, useWindowDimensions } from "react-native";
+import { StyleSheet, View, useWindowDimensions } from "react-native";
 
 import { AppText } from "../../texts/AppText";
 import { Icon } from "../../icons/Icon";
 import { NewButton } from "../../buttons/NewButton/NewButton";
 import LinearGradient from "../../LinearGradient";
+import { CachedImage } from "../../images";
 import { useGetTheme } from "#hooks";
 import { notFoundTransparent } from "#assets";
 import { appStyles } from "#styles";
@@ -107,7 +108,7 @@ export const NotFoundCard = ({
               ]}
             >
               <View style={[styles.media, isWide && styles.mediaWide]}>
-                <Image
+                <CachedImage
                   source={illustration}
                   accessibilityLabel={imageAlt || ""}
                   style={[styles.image, isWide && styles.imageWide]}

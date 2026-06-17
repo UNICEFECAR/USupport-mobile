@@ -7,8 +7,8 @@ import {
   Block,
   Tabs,
   Answer,
+  AnswerSkeleton,
   AppText,
-  Loading,
   Dropdown,
   NotFoundCard,
 } from "#components";
@@ -98,12 +98,15 @@ export const MyQA = ({
     if (
       (selectedTab === "your_questions" && userQuestionsLoading) ||
       (selectedTab !== "your_questions" && allQuestionsLoading)
-    )
+    ) {
       return (
-        <View style={styles.loadingContainer}>
-          <Loading size="md" />
-        </View>
+        <>
+          <AnswerSkeleton style={styles.answer} />
+          <AnswerSkeleton style={styles.answer} />
+          <AnswerSkeleton style={styles.answer} />
+        </>
       );
+    }
     const filteredQuestions = questions.filter((question) => {
       if (filterTag) {
         const tags = question.tags;

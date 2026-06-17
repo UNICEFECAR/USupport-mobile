@@ -23,7 +23,7 @@ import {
   AppText,
   TabsUnderlined,
   CardMedia,
-  Loading,
+  CardMediaSkeleton,
 } from "#components";
 import {
   GiveSuggestion,
@@ -244,9 +244,7 @@ export const InformationalPortal = ({ navigation, route }) => {
               {!searchValue?.trim() && (
                 <View style={styles.mostReadContainer}>
                   {mostReadArticleQuery.isLoading ? (
-                    <View style={styles.mostReadLoadingContainer}>
-                      <Loading />
-                    </View>
+                    <CardMediaSkeleton style={styles.mostReadCard} />
                   ) : mostReadArticleQuery.data ? (
                     <>
                       <AppText namedStyle="h2" style={styles.mostReadHeading}>

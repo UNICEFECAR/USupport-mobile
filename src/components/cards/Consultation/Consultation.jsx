@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Pressable, Image } from "react-native";
+import { View, StyleSheet, Pressable } from "react-native";
 import Config from "react-native-config";
 import { useTranslation } from "react-i18next";
 
@@ -9,6 +9,7 @@ import { Icon } from "../../icons/Icon";
 import LinearGradient from "../../LinearGradient";
 import { appStyles } from "#styles";
 import { NewButton } from "../../buttons/NewButton/NewButton";
+import { CachedImage } from "../../images";
 import {
   showToast,
   getDayOfTheWeek,
@@ -263,7 +264,7 @@ export const Consultation = ({
             <View style={styles.priceBadgeOuter}>
               <View style={styles.priceBadge}>
                 {isBookedWithCoupon && sponsorImage ? (
-                  <Image
+                  <CachedImage
                     style={styles.sponsorImage}
                     resizeMode="cover"
                     source={{
@@ -271,7 +272,7 @@ export const Consultation = ({
                     }}
                   />
                 ) : withOrganization ? (
-                  <Image
+                  <CachedImage
                     style={styles.sponsorImage}
                     resizeMode="cover"
                     source={{

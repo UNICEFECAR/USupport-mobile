@@ -14,10 +14,12 @@ import {
   Block,
   InputSearch,
   Tabs,
+  TabsSkeleton,
   CardMedia,
+  CardMediaSkeleton,
   AppText,
-  Loading,
   TabsUnderlined,
+  TabsUnderlinedSkeleton,
 } from "#components";
 import { cmsSvc, adminSvc, localStorage, Context } from "#services";
 import {
@@ -248,7 +250,11 @@ export const Articles = ({
     getArticlesIds
   );
 
-  const { data: articleCategoryIdsToShow } = useQuery(
+  const {
+    data: articleCategoryIdsToShow,
+    isLoading: isArticleCategoryIdsLoading,
+    isFetching: isArticleCategoryIdsFetching,
+  } = useQuery(
     [
       "articles-category-ids",
       usersLanguage,
@@ -448,8 +454,56 @@ export const Articles = ({
     };
   });
 
-  let areCategoriesAndAgeGroupsReady =
+  const areCategoriesAndAgeGroupsReady =
     categoriesQuery?.data?.length > 1 && ageGroupsQuery?.data?.length > 0;
+
+  const showAgeGroupsTabs =
+    showAgeGroups &&
+    categoriesQuery?.data?.length > 1 &&
+    ageGroupsQuery?.data?.length > 0 &&
+    ageGroups;
+
+  const showAgeGroupsSkeleton =
+    showAgeGroups &&
+    !showAgeGroupsTabs &&
+    (ageGroupsQuery.isLoading ||
+      ageGroupsQuery.isFetching ||
+      categoriesQuery.isLoading ||
+      categoriesQuery.isFetching ||
+      !categoriesQuery.data);
+
+  const showCategoryTabs =
+    showCategories &&
+    !hasSearch &&
+    areCategoriesAndAgeGroupsReady &&
+    categoriesToShow?.length > 2;
+
+  const isCategoriesPending =
+    categoriesQuery.isLoading ||
+    categoriesQuery.isFetching ||
+    ageGroupsQuery.isLoading ||
+    ageGroupsQuery.isFetching ||
+    !categories ||
+    articleIdsQuery.isLoading ||
+    articleIdsQuery.isFetching ||
+    (articleIdsQuery.data?.length > 0 &&
+      (isArticleCategoryIdsLoading ||
+        isArticleCategoryIdsFetching ||
+        articleCategoryIdsToShow === undefined));
+
+  const showCategorySkeleton =
+    showCategories && !hasSearch && !showCategoryTabs && isCategoriesPending;
+
+  const isArticlesQueryLoading = isTmpUser
+    ? isGuestArticlesLoading
+    : isArticlesLoading;
+
+  const showArticlesSkeleton =
+    isCategoriesPending ||
+    (isArticlesQueryLoading && !transformedArticles?.length);
+
+  const showArticlesNoResults =
+    !showArticlesSkeleton && !transformedArticles?.length;
 
   const renderArticle = ({ item, index }) => {
     const articleData = destructureArticleData(item.data ? item.data : item);
@@ -491,15 +545,14 @@ export const Articles = ({
   return (
     <>
       <Block style={[styles.blockWithMargin, { marginTop: topSpacing }]}>
-        {showAgeGroups &&
-        categoriesQuery?.data?.length > 1 &&
-        ageGroupsQuery?.data?.length > 0 &&
-        ageGroups ? (
+        {showAgeGroupsTabs ? (
           <TabsUnderlined
             options={ageGroups}
             handleSelect={handleAgeGroupOnPress}
             style={styles.ageGroupsTabs}
           />
+        ) : showAgeGroupsSkeleton ? (
+          <TabsUnderlinedSkeleton style={styles.ageGroupsTabs} count={3} />
         ) : null}
 
         {showSearch && areCategoriesAndAgeGroupsReady ? (
@@ -511,11 +564,7 @@ export const Articles = ({
         ) : null}
       </Block>
 
-      {showCategories &&
-      !hasSearch &&
-      areCategoriesAndAgeGroupsReady &&
-      categoriesToShow &&
-      categoriesToShow.length > 2 ? (
+      {showCategoryTabs ? (
         <Tabs
           options={categoriesToShow}
           handleSelect={handleCategoryOnPress}
@@ -523,6 +572,8 @@ export const Articles = ({
           t={t}
           handleModalOpen={openArticlesModal}
         />
+      ) : showCategorySkeleton ? (
+        <TabsSkeleton style={styles.tabs} count={6} />
       ) : null}
 
       <Block style={styles.articlesBlock}>
@@ -541,28 +592,22 @@ export const Articles = ({
               }
             }}
             onEndReachedThreshold={0.2}
-            ListFooterComponent={
-              !isTmpUser ? (
-                // Logged-in user
-                isArticlesLoading && transformedArticles?.length === 0 ? (
-                  <View style={styles.loadingContainer}>
-                    <Loading />
-                  </View>
-                ) : isReady &&
-                  !isArticlesLoading &&
-                  transformedArticles?.length === 0 ? (
+            ListEmptyComponent={
+              showArticlesSkeleton ? (
+                <>
+                  <CardMediaSkeleton style={styles.cardMedia} />
+                  <CardMediaSkeleton style={styles.cardMedia} />
+                  <CardMediaSkeleton style={styles.cardMedia} />
+                </>
+              ) : !isTmpUser ? (
+                showArticlesNoResults && isReady && !isArticlesLoading ? (
                   <View style={styles.articlesNoResultsContainer}>
                     <AppText>{t("no_results")}</AppText>
                   </View>
                 ) : null
-              ) : // Guest
-              isGuestArticlesLoading && transformedArticles?.length === 0 ? (
-                <View style={styles.loadingContainer}>
-                  <Loading />
-                </View>
-              ) : isArticlesFetched &&
-                !isGuestArticlesLoading &&
-                transformedArticles?.length === 0 ? (
+              ) : showArticlesNoResults &&
+                isArticlesFetched &&
+                !isGuestArticlesLoading ? (
                 <View style={styles.articlesNoResultsContainer}>
                   <AppText>{t("no_results")}</AppText>
                 </View>

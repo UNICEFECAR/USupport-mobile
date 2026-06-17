@@ -152,6 +152,7 @@ export const ProviderOverview = ({ navigation, route }) => {
           heading={t("heading")}
           subheading={t("subheading")}
           handleGoBack={() => navigation.goBack()}
+          wrapperStyle={{ paddingTop: 0 }}
         />
       </Block>
       <ScrollView

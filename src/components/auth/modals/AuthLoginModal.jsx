@@ -32,6 +32,7 @@ export function AuthLoginModal({
 
   const [data, setData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
+  const [autoSubmit, setAutoSubmit] = useState(false);
 
   const [biometryType, setBiometryType] = useState(null);
   const [hasCredentials, setHasCredentials] = useState(false);
@@ -143,6 +144,13 @@ export function AuthLoginModal({
     },
   });
 
+  useEffect(() => {
+    if (autoSubmit && data.email && data.password) {
+      setAutoSubmit(false);
+      loginMutation.mutate();
+    }
+  }, [autoSubmit, data]);
+
   const isSubmitDisabled = !data.email || !data.password || isLoginDisabled;
 
   const handleLogin = () => {
@@ -166,7 +174,7 @@ export function AuthLoginModal({
       const { username, password } = credentials;
       savedCredentials.current = { username, password };
       setData({ email: username, password });
-      setTimeout(handleLogin, 0);
+      setAutoSubmit(true);
     }
   };
 

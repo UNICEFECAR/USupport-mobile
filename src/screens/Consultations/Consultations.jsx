@@ -286,7 +286,7 @@ export const Consultations = ({ navigation }) => {
               onTextareaFocus={handleGiveSuggestionFocus}
             />
           </View> */}
-          <View style={{ marginBottom: 85 }} />
+          {/* <View style={{ marginBottom: 85 }} /> */}
         </ScrollView>
       </KeyboardAvoidingView>
       <JoinConsultation

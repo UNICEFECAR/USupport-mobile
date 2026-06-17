@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { StyleSheet } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import Joi from "joi";
 
-import { Backdrop, Textarea, AppButton } from "#components";
+import { Backdrop, Textarea } from "#components";
 
 import { useAddQuestion } from "#hooks";
 
@@ -49,9 +48,7 @@ export const CreateQuestion = ({ isOpen, onClose }) => {
   };
 
   const handleChange = (value) => {
-    const dataCopy = { ...data };
-    dataCopy.question = value;
-    setData(dataCopy);
+    setData((prev) => ({ ...prev, question: value }));
   };
 
   return (
@@ -61,34 +58,21 @@ export const CreateQuestion = ({ isOpen, onClose }) => {
       isOpen={isOpen}
       onClose={onClose}
       errorMessage={errors.query}
+      ctaLabel={t("send_your_question")}
+      ctaHandleClick={handleSendQuestion}
+      isCtaLoading={addQuestionMutation.isLoading}
+      secondaryCtaLabel={t("cancel")}
+      secondaryCtaHandleClick={onClose}
+      secondaryCtaType="secondary"
+      secondaryCtaStyle={{ marginBottom: 85 }}
+      hasKeyboardListener={true}
     >
       <Textarea
         label={t("text_area_label")}
-        onChange={(value) => handleChange(value)}
-        value={data.message}
+        onChange={handleChange}
+        value={data.question}
         errorMessage={errors.question}
-      />
-      <AppButton
-        label={t("send_your_question")}
-        size="lg"
-        onPress={handleSendQuestion}
-        style={styles.button}
-      />
-      <AppButton
-        label={t("cancel")}
-        type="secondary"
-        size="lg"
-        style={styles.button}
-        onPress={onClose}
       />
     </Backdrop>
   );
 };
-
-const styles = StyleSheet.create({
-  button: {
-    alignSelf: "center",
-    marginHorizontal: 12,
-    marginTop: 20,
-  },
-});

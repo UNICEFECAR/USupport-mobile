@@ -10,7 +10,6 @@ import {
   StyleSheet,
   View,
   TouchableOpacity,
-  Image,
   Animated,
   Easing,
   AccessibilityInfo,
@@ -24,6 +23,7 @@ import {
   Toggle,
   Textarea,
   TransparentModal,
+  CachedImage,
 } from "#components";
 import {
   useAddMoodTrack,
@@ -415,13 +415,14 @@ export const MoodTracker = ({
         </View>
 
         <View style={styles.mascotRow}>
-          <Image
+          <CachedImage
             source={
               isDarkMode || isHighContrast
                 ? mascotHappyPurpleLight
                 : mascotHappyPurpleFull
             }
             style={styles.mascot}
+            resizeMode="contain"
           />
         </View>
       </Block>
@@ -534,7 +535,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     paddingTop: 4,
   },
-  mascot: { width: 160, height: 160, resizeMode: "contain" },
+  mascot: { width: 160, height: 160 },
   modalBody: {
     width: "100%",
     alignItems: "center",

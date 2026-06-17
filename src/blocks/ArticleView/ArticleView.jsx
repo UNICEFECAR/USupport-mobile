@@ -2,7 +2,6 @@ import React, { useMemo, useState, useCallback, useEffect } from "react";
 import {
   View,
   StyleSheet,
-  Image,
   TouchableOpacity,
   Platform,
 } from "react-native";
@@ -19,6 +18,7 @@ import {
   Like,
   Loading,
   CKRenderer,
+  CachedImage,
 } from "#components";
 import LinearGradient from "../../components/LinearGradient";
 import { appStyles } from "#styles";
@@ -591,7 +591,7 @@ export const ArticleView = ({ articleData, isTmpUser }) => {
             {(hasHeroImage
               ? articleImageUri
               : brandingFallbackUrl) && (
-              <Image
+              <CachedImage
                 source={{
                   uri: hasHeroImage ? articleImageUri : brandingFallbackUrl,
                 }}

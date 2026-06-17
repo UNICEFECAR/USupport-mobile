@@ -1,10 +1,10 @@
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View, Image } from "react-native";
+import { StyleSheet, View } from "react-native";
 import Config from "react-native-config";
 
-import { Backdrop, AppText } from "#components";
+import { Backdrop, AppText, CachedImage } from "#components";
 
 import { getMonthName, getTimeAsString } from "#utils";
 
@@ -53,13 +53,14 @@ export const ConfirmConsultation = ({
       ctaStyle={ctaStyle}
     >
       <View style={styles.contentContainer}>
-        <Image
+        <CachedImage
           source={
             customMascotImage || {
               uri: `${AMAZON_S3_BUCKET}/mascot-happy-orange`,
             }
           }
           style={styles.image}
+          resizeMode="contain"
         />
         <View style={styles.textContainer}>
           <AppText namedStyle="h3">{customHeading || t("heading")}</AppText>
@@ -85,6 +86,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   textContainer: { width: "80%" },
-  image: { width: 200, height: 159, marginBottom: 40, resizeMode: "contain" },
+  image: { width: 200, height: 159, marginBottom: 40 },
   text: { marginTop: 40 },
 });

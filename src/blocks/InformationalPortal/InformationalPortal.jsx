@@ -3,7 +3,13 @@ import { StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 
-import { Block, AppText, Loading, CardMedia, NotFoundCard } from "#components";
+import {
+  Block,
+  AppText,
+  CardMedia,
+  CardMediaSkeleton,
+  NotFoundCard,
+} from "#components";
 
 import { VideoModal, PodcastModal } from "#backdrops";
 
@@ -182,8 +188,9 @@ export const InformationalPortal = ({
 
     if (isLoading) {
       return (
-        <View style={styles.loadingContainer}>
-          <Loading style={styles.loading} />
+        <View style={styles.articlesContainer}>
+          <CardMediaSkeleton style={styles.article} />
+          <CardMediaSkeleton style={styles.article} />
         </View>
       );
     }

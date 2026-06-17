@@ -7,12 +7,11 @@ import {
   TouchableWithoutFeedback,
   ScrollView,
   Linking,
-  Image,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Config from "react-native-config";
 
-import { AppText, Icon } from "#components";
+import { AppText, Icon, CachedImage } from "#components";
 
 import { useProfileMenu } from "#blocks";
 
@@ -103,11 +102,12 @@ export function ProfileMenuPanel({ isOpen, onClose, navigation, panelTop }) {
               </AppText>
               <View style={styles.profileRow}>
                 <View style={styles.profileRowLeft}>
-                  <Image
+                  <CachedImage
                     source={{
                       uri: `${AMAZON_S3_BUCKET}/${clientData?.image || "default"}`,
                     }}
                     style={styles.avatar}
+                    resizeMode="cover"
                   />
                   <View style={styles.profileText}>
                     <AppText style={[styles.profileName, { color: colors.text }]}>

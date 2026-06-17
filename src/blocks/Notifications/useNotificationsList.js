@@ -701,12 +701,18 @@ export function useNotificationsList({
     }
   };
 
+  const isListLoading =
+    isLoadingProviders ||
+    notificationsQuery.isLoading ||
+    (notificationsQuery.isFetching && !notificationsQuery.data);
+
   return {
     t,
     isHighContrast,
     styles,
     notificationsQuery,
     isLoadingProviders,
+    isListLoading,
     renderNotification,
     handleMarkAllAsRead,
     markAllAsReadMutation,
