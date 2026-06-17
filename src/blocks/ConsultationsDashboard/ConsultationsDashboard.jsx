@@ -27,6 +27,7 @@ export const ConsultationsDashboard = ({
   handleRegistrationModalOpen,
   isTmpUser,
   currencySymbol = "",
+  openDeviceTest,
 }) => {
   const { colors, isHighContrast } = useGetTheme();
   const { t, i18n } = useTranslation("blocks", {
@@ -144,6 +145,7 @@ export const ConsultationsDashboard = ({
           handleOpenEdit={openEditConsultation}
           handleOpenDetails={handleOpenDetails}
           handleJoinClick={openJoinConsultation}
+          handleTestDevices={isLoggedIn ? openDeviceTest : undefined}
           handleAcceptConsultation={handleAcceptSuggestion}
           handleRejectConsultation={handleRejectConsultation}
           currencySymbol={currencySymbol}
@@ -157,71 +159,71 @@ export const ConsultationsDashboard = ({
 
   return (
     <View style={styles.root}>
-      <LinearGradient
-        gradient={glassGradient}
-        style={[
-          styles.glassOuter,
-          isLightTheme && !isHighContrast
-            ? styles.consultationsDashboardShadowLight
-            : appStyles.cardMediaShadowDark,
-          { borderColor: colors.cardMediaGradientBorder },
-        ]}
-      >
-        {showFirstSection && (
-          <View
-            style={[
-              styles.part,
-              styles.partFirst,
-              { borderBottomColor: colors.cardMediaSeparator },
-            ]}
-          >
+        <LinearGradient
+          gradient={glassGradient}
+          style={[
+            styles.glassOuter,
+            isLightTheme && !isHighContrast
+              ? styles.consultationsDashboardShadowLight
+              : appStyles.cardMediaShadowDark,
+            { borderColor: colors.cardMediaGradientBorder },
+          ]}
+        >
+          {showFirstSection && (
+            <View
+              style={[
+                styles.part,
+                styles.partFirst,
+                { borderBottomColor: colors.cardMediaSeparator },
+              ]}
+            >
+              <AppText
+                namedStyle="h3"
+                style={[styles.sectionHeading, { color: colors.text }]}
+              >
+                {t("heading")}
+              </AppText>
+              {isLoading ? (
+                <View style={styles.loadingContainer}>
+                  <Loading size="lg" />
+                </View>
+              ) : (
+                consultationsToShow?.slice(0, 1).map((c) => renderConsultation(c))
+              )}
+            </View>
+          )}
+
+          <View style={styles.part}>
             <AppText
               namedStyle="h3"
               style={[styles.sectionHeading, { color: colors.text }]}
             >
-              {t("heading")}
+              {t("heading_need_support")}
             </AppText>
-            {isLoading ? (
-              <View style={styles.loadingContainer}>
-                <Loading size="lg" />
-              </View>
-            ) : (
-              consultationsToShow?.slice(0, 1).map((c) => renderConsultation(c))
-            )}
+            <LinearGradient
+              gradient={glassGradient}
+              style={[
+                styles.needSupportInner,
+                { borderColor: colors.cardMediaGradientBorder },
+              ]}
+            >
+              <NewButton
+                label={t("schedule_consultation_label")}
+                onPress={handleScheduleConsultation}
+                iconName="calendar"
+                size="lg"
+                isFullWidth
+              />
+              <NewButton
+                label={t("explore_resources_label")}
+                onPress={handleExploreResources}
+                size="lg"
+                type="outline"
+                isFullWidth
+              />
+            </LinearGradient>
           </View>
-        )}
-
-        <View style={styles.part}>
-          <AppText
-            namedStyle="h3"
-            style={[styles.sectionHeading, { color: colors.text }]}
-          >
-            {t("heading_need_support")}
-          </AppText>
-          <LinearGradient
-            gradient={glassGradient}
-            style={[
-              styles.needSupportInner,
-              { borderColor: colors.cardMediaGradientBorder },
-            ]}
-          >
-            <NewButton
-              label={t("schedule_consultation_label")}
-              onPress={handleScheduleConsultation}
-              iconName="calendar"
-              size="lg"
-              isFullWidth
-            />
-            <NewButton
-              label={t("explore_resources_label")}
-              onPress={handleExploreResources}
-              size="lg"
-              type="outline"
-              isFullWidth
-            />
-          </LinearGradient>
-        </View>
-      </LinearGradient>
+        </LinearGradient>
     </View>
   );
 };

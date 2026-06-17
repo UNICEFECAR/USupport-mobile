@@ -136,7 +136,9 @@
       "free": "Free",
       "button_label": "",
       "emergency_button_label": "",
-      "join_button_label_tooltip": "You can join the consultation 5 minutes before the start time"
+      "join_button_label_tooltip": "You can join the consultation 5 minutes before the start time",
+      "test_audio_camera": "Test audio & camera",
+      "test_audio_camera_description": "Check your devices before the consultation"
     },
     "contact-us-block": {
       "heading": "Contact us",
@@ -1542,6 +1544,18 @@
       "permissions_error": "You have not granted permission to use the camera or microphone",
       "permissions_error_subheading": "Please grant permission to use the camera or microphone from the settings of your device, to join the consultation",
       "open_settings": "Open settings"
+    },
+    "device-test": {
+      "heading": "Test audio & camera",
+      "subheading": "Check your devices before the consultation to make sure everything works.",
+      "done": "Done",
+      "configuring_devices": "Configuring devices...",
+      "camera_off_label": "Camera is off",
+      "mic_level_label": "Microphone",
+      "toggle_camera": "Toggle camera",
+      "toggle_microphone": "Toggle microphone",
+      "retry_permissions": "Try again",
+      "permissions_error": "Allow camera and microphone permissions"
     },
     "select-avatar": {
       "heading": "Change profile picture",

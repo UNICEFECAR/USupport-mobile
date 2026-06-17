@@ -32,6 +32,7 @@ import {
   ArticleCategories,
   EmergencySituation,
   UserGuide,
+  DeviceTest,
 } from "#backdrops";
 
 import { BaselineAssesmentModal, RequireDataAgreement } from "#modals";
@@ -174,6 +175,10 @@ export const Dashboard = ({ navigation }) => {
     setIsJoinConsultationOpen(true);
   };
   const closeJoinConsultation = () => setIsJoinConsultationOpen(false);
+
+  const [isDeviceTestOpen, setIsDeviceTestOpen] = useState(false);
+  const openDeviceTest = () => setIsDeviceTestOpen(true);
+  const closeDeviceTest = () => setIsDeviceTestOpen(false);
 
   const [isEditingConsultation, setIsEditingConsultation] = useState(true);
   const [blockSlotError, setBlockSlotError] = useState();
@@ -425,6 +430,7 @@ export const Dashboard = ({ navigation }) => {
             <ConsultationsDashboard
               openJoinConsultation={openJoinConsultation}
               openEditConsultation={openEditConsultation}
+              openDeviceTest={openDeviceTest}
               handleAcceptSuggestion={handleAcceptSuggestion}
               handleSchedule={handleScheduleConsultation}
               isTmpUser={isTmpUser}
@@ -468,6 +474,11 @@ export const Dashboard = ({ navigation }) => {
         isOpen={isJoinConsultationOpen}
         onClose={closeJoinConsultation}
         consultation={selectedConsultation}
+      />
+      <DeviceTest
+        isOpen={isDeviceTestOpen}
+        onClose={closeDeviceTest}
+        isInDashboard
       />
       {selectedConsultationProviderId && (
         <SelectConsultation

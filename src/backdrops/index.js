@@ -21,3 +21,4 @@ export * from "./PodcastModal";
 export * from "./MoodTrackReport";
 export * from "./EmergencySituation";
 export * from "./UserGuide";
+export * from "./DeviceTest";

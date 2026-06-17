@@ -136,7 +136,9 @@
       "free": "Gratuit",
       "button_label": "Programați o consultație",
       "emergency_button_label": "Ajutor de urgență",
-      "join_button_label_tooltip": "Puteți intra la consultație cu 5 minute înainte de începere"
+      "join_button_label_tooltip": "Puteți intra la consultație cu 5 minute înainte de începere",
+      "test_audio_camera": "Testează audio și camera",
+      "test_audio_camera_description": "Verifică dispozitivele înainte de consultație"
     },
     "contact-us-block": {
       "heading": "Contactați-ne",
@@ -1519,6 +1521,18 @@
       "permissions_error": "Nu ați acordat permisiunea de a utiliza camera sau microfonul",
       "permissions_error_subheading": "Pentru a vă alătura consultației, acordați permisiunea de a utiliza camera sau microfonul din setările dispozitivului.",
       "open_settings": "Deschide setările"
+    },
+    "device-test": {
+      "heading": "Testează audio și camera",
+      "subheading": "Verifică dispozitivele înainte de consultație pentru a te asigura că totul funcționează.",
+      "done": "Gata",
+      "configuring_devices": "Configurarea dispozitivelor...",
+      "camera_off_label": "Camera este oprită",
+      "mic_level_label": "Microfon",
+      "toggle_camera": "Comută camera",
+      "toggle_microphone": "Comută microfon",
+      "retry_permissions": "Încearcă din nou",
+      "permissions_error": "Permiteți accesul la cameră și microfon"
     },
     "select-avatar": {
       "heading": "Schimbare imagine profil",
