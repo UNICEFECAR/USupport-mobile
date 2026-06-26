@@ -57,6 +57,7 @@ export const Consultations = ({
   navigation,
   currencySymbol,
   onScheduleConsultationClick,
+  openDeviceTest,
 }) => {
   const { t, i18n } = useTranslation("blocks", { keyPrefix: "consultations" });
   const { colors, isDarkMode } = useGetTheme();
@@ -130,6 +131,7 @@ export const Consultations = ({
           renderIn="client"
           handleOpenEdit={handleOpenEdit}
           handleJoinClick={openJoinConsultation}
+          handleTestDevices={openDeviceTest}
           handleOpenDetails={handleOpenDetails}
           daysOfWeekTranslations={daysOfWeekTranslations}
           consultation={consultation}
@@ -151,6 +153,7 @@ export const Consultations = ({
       daysOfWeekTranslations,
       handleOpenDetails,
       openJoinConsultation,
+      openDeviceTest,
       rejectConsultation,
       t,
     ]

@@ -136,7 +136,9 @@
       "free": "Δωρεάν",
       "button_label": "",
       "emergency_button_label": "",
-      "join_button_label_tooltip": "Μπορείτε να συνδεθείτε στη συνεδρία 5 λεπτά πριν από την ώρα έναρξης"
+      "join_button_label_tooltip": "Μπορείτε να συνδεθείτε στη συνεδρία 5 λεπτά πριν από την ώρα έναρξης",
+      "test_audio_camera": "Test audio & camera",
+      "test_audio_camera_description": "Check your devices before the consultation"
     },
     "contact-us-block": {
       "heading": "Επικοινωνία",
@@ -1532,6 +1534,18 @@
       "permissions_error": "Δεν έχετε δώσει άδεια για τη χρήση της κάμερας ή του μικροφώνου",
       "permissions_error_subheading": "Παρακαλoύμε δώστε άδεια για τη χρήση της κάμερας ή του μικροφώνου από τις ρυθμίσεις της συσκευής σας, για να συνδεθείτε στη συνεδρία",
       "open_settings": "Άνοιγμα ρυθμίσεων"
+    },
+    "device-test": {
+      "heading": "Test audio & camera",
+      "subheading": "Check your devices before the consultation to make sure everything works.",
+      "done": "Done",
+      "configuring_devices": "Configuring devices...",
+      "camera_off_label": "Camera is off",
+      "mic_level_label": "Microphone",
+      "toggle_camera": "Toggle camera",
+      "toggle_microphone": "Toggle microphone",
+      "retry_permissions": "Try again",
+      "permissions_error": "Allow camera and microphone permissions"
     },
     "select-avatar": {
       "heading": "Αλλάξτε φωτογραφία προφίλ",

@@ -53,6 +53,7 @@ export const Consultation = ({
   handleOpenEdit,
   handleOpenDetails,
   handleJoinClick,
+  handleTestDevices,
   handleCancelConsultation,
   handleAcceptConsultation,
   handleRejectConsultation,
@@ -198,6 +199,12 @@ export const Consultation = ({
     handleJoinClick(consultation);
   };
 
+  const handleTestDevicesPress = () => {
+    if (typeof handleTestDevices === "function") {
+      handleTestDevices(consultation);
+    }
+  };
+
   const handleEdit = () => {
     handleOpenEdit(consultation);
   };
@@ -217,8 +224,10 @@ export const Consultation = ({
     // Keep the badge when there is a paid price or when it's a coupon/organization booking.
     (Number(price) > 0 || !!isBookedWithCoupon || !!withOrganization);
 
+  const CardWrapper = onPress ? Pressable : View;
+
   return (
-    <Pressable onPress={onPress} style={styles.touchableOpacity}>
+    <CardWrapper onPress={onPress} style={styles.touchableOpacity}>
       <View
         style={[
           styles.consultation,
@@ -358,6 +367,46 @@ export const Consultation = ({
             </View>
           </View>
 
+          {!overview &&
+            !suggested &&
+            buttonAction === "edit" &&
+            typeof handleTestDevices === "function" && (
+              <Pressable
+                onPress={handleTestDevicesPress}
+                style={[
+                  styles.testDevices,
+                  { borderColor: appStyles.colorGray_cdd8e1 },
+                ]}
+              >
+                <View style={styles.testDevicesLeft}>
+                  <Icon
+                    name="microphone"
+                    size="sm"
+                    color={appStyles.colorSecondary_9749fa}
+                  />
+                  <View style={styles.testDevicesText}>
+                    <AppText
+                      isBold
+                      style={{ color: appStyles.colorSecondary_9749fa }}
+                    >
+                      {t("test_audio_camera")}
+                    </AppText>
+                    <AppText
+                      namedStyle="smallText"
+                      style={{ color: appStyles.colorGray_66768d }}
+                    >
+                      {t("test_audio_camera_description")}
+                    </AppText>
+                  </View>
+                </View>
+                <Icon
+                  name="arrow-chevron-forward"
+                  size="sm"
+                  color={appStyles.colorGray_66768d}
+                />
+              </Pressable>
+            )}
+
           {hasActions && (
             <View
               style={[
@@ -449,7 +498,7 @@ export const Consultation = ({
           )}
         </View>
       </View>
-    </Pressable>
+    </CardWrapper>
   );
 };
 
@@ -582,6 +631,27 @@ const styles = StyleSheet.create({
   },
   statusBadgeTextLive: {
     color: appStyles.colorWhite_ff,
+  },
+  testDevices: {
+    alignItems: "center",
+    borderRadius: 16,
+    borderWidth: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    width: "100%",
+  },
+  testDevicesLeft: {
+    alignItems: "center",
+    flexDirection: "row",
+    flex: 1,
+    gap: 12,
+  },
+  testDevicesText: {
+    flex: 1,
+    gap: 2,
   },
   textContainer: {
     flexGrow: 1,

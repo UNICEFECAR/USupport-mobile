@@ -22,6 +22,7 @@ import {
   SelectConsultation,
   ConfirmConsultation,
   JoinConsultation,
+  DeviceTest,
 } from "#backdrops";
 
 import { RequireDataAgreement } from "#modals";
@@ -99,6 +100,10 @@ export const Consultations = ({ navigation }) => {
     setSelectedConsultation(consultation);
   };
   const closeJoinConsultation = () => setIsJoinConsultationOpen(false);
+
+  const [isDeviceTestOpen, setIsDeviceTestOpen] = useState(false);
+  const openDeviceTest = () => setIsDeviceTestOpen(true);
+  const closeDeviceTest = () => setIsDeviceTestOpen(false);
 
   // Require data agreement modal
   const [isRequireDataAgreementOpen, setIsRequireDataAgreementOpen] =
@@ -271,6 +276,7 @@ export const Consultations = ({ navigation }) => {
           <ConsultationsBlock
             openJoinConsultation={openJoinConsultation}
             openEditConsultation={openEditConsultation}
+            openDeviceTest={openDeviceTest}
             isTmpUser={isTmpUser}
             navigation={navigation}
             currencySymbol={currencySymbol}
@@ -293,6 +299,11 @@ export const Consultations = ({ navigation }) => {
         isOpen={isJoinConsultationOpen}
         onClose={closeJoinConsultation}
         consultation={selectedConsultation}
+      />
+      <DeviceTest
+        isOpen={isDeviceTestOpen}
+        onClose={closeDeviceTest}
+        isInDashboard
       />
       {selectedConsultationProviderId && (
         <SelectConsultation
