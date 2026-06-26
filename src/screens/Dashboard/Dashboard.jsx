@@ -104,9 +104,7 @@ export const Dashboard = ({ navigation }) => {
   }, [clientData, isFocused, isTmpUser]);
 
   // Get the consultations data only if the user is NOT temporary
-  const consultationsQuery = useGetAllConsultations(
-    isTmpUser === false ? true : false
-  );
+  const consultationsQuery = useGetAllConsultations(!isTmpUser);
 
   const upcomingConsultations = useMemo(() => {
     const currentDateTs = new Date().getTime();

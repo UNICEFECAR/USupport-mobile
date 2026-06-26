@@ -29,6 +29,7 @@ export function NotificationsDropdownPanel({
   panelTop,
   openJoinConsultation,
   openRequireDataAgreement,
+  isTmpUser,
 }) {
   const { t } = useTranslation("blocks", { keyPrefix: "notifications" });
   const { colors, isDarkMode, isHighContrast } = useGetTheme();
@@ -49,6 +50,7 @@ export function NotificationsDropdownPanel({
     openRequireDataAgreement,
     notificationType: selectedTab,
     onAfterNavigate: onClose,
+    enabled: !isTmpUser,
   });
 
   return (

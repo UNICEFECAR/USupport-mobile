@@ -37,6 +37,7 @@ export function AuthWelcomeModal({
     setSelectedCountry,
     setIsPodcastsActive,
     setIsVideosActive,
+    setIsTmpUser,
   } = useContext(Context);
 
   const [selectedCountry, setSelectedCountryCode] = useState(null);
@@ -164,6 +165,7 @@ export function AuthWelcomeModal({
       await localStorage.setItem("token", token);
       await localStorage.setItem("expires-in", expiresIn);
       await localStorage.setItem("refresh-token", refreshToken);
+      setIsTmpUser(true);
       setToken(token);
     },
     onError: (error) => {

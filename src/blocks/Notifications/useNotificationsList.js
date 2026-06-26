@@ -76,6 +76,7 @@ export function useNotificationsList({
   openRequireDataAgreement,
   notificationType = "all",
   onAfterNavigate,
+  enabled = true,
 }) {
   const styles = notificationListStyles;
   const { t } = useTranslation("blocks", { keyPrefix: "notifications" });
@@ -166,6 +167,7 @@ export function useNotificationsList({
     ["notifications", notificationType],
     getNotifications,
     {
+      enabled,
       getNextPageParam: (lastPage, pages) => {
         if (lastPage.length === 0) return undefined;
         return pages.length + 1;

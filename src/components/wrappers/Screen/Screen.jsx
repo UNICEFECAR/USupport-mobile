@@ -188,6 +188,7 @@ export function Screen({
             panelTop={headerNavLayoutHeight}
             openJoinConsultation={openJoinConsultation}
             openRequireDataAgreement={openRequireDataAgreement}
+            isTmpUser={isTmpUser}
           />
           <ProfileMenuPanel
             isOpen={isProfilePanelOpen}
