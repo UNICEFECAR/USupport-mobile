@@ -7,18 +7,19 @@ import * as LocalAuthentication from "expo-local-authentication";
 
 import {
   Backdrop,
-  CheckBox,
   AppText,
   Input,
   InputPassword,
   Icon,
 } from "#components";
 import { Context, localStorage, userSvc } from "#services";
-import { getCountryFromTimezone } from "#utils";
+import { getCountryFromTimezone, resolveKeepMeSignedInOnLogin } from "#utils";
 import { useError } from "#hooks";
 
 import { AuthenticationModalsLogo } from "../AuthenticationModalsLogo";
 import { getAuthBackdropProps } from "../authBackdropProps";
+import { KeepMeSignedInSheet } from "../KeepMeSignedInSheet";
+import { LoginOptionCard } from "../LoginOptionCard";
 
 export function AuthLoginModal({
   onGoBack,
@@ -27,7 +28,7 @@ export function AuthLoginModal({
 }) {
   const { t } = useTranslation("blocks", { keyPrefix: "login" });
   const queryClient = useQueryClient();
-  const { setToken, setInitialRouteName, isLoginDisabled, setIsLoginDisabled } =
+  const { setToken, setInitialRouteName, isLoginDisabled, setIsLoginDisabled, setRequireBiometricsSetup } =
     useContext(Context);
 
   const [data, setData] = useState({ email: "", password: "" });
@@ -37,7 +38,31 @@ export function AuthLoginModal({
   const [biometryType, setBiometryType] = useState(null);
   const [hasCredentials, setHasCredentials] = useState(false);
   const [shouldSaveCredentials, setShouldSaveCredentials] = useState(false);
+  const [keepMeSignedIn, setKeepMeSignedIn] = useState(false);
+  const [isKeepMeSignedInSheetOpen, setIsKeepMeSignedInSheetOpen] =
+    useState(false);
+  const [isKeepMeSignedInPending, setIsKeepMeSignedInPending] = useState(false);
   const savedCredentials = useRef({});
+
+  const handleKeepMeSignedInToggle = (nextValue) => {
+    if (nextValue) {
+      setIsKeepMeSignedInPending(true);
+      setIsKeepMeSignedInSheetOpen(true);
+      return;
+    }
+    setKeepMeSignedIn(false);
+  };
+
+  const handleKeepMeSignedInSheetCancel = () => {
+    setIsKeepMeSignedInSheetOpen(false);
+    setIsKeepMeSignedInPending(false);
+  };
+
+  const handleKeepMeSignedInSheetContinue = () => {
+    setIsKeepMeSignedInSheetOpen(false);
+    setIsKeepMeSignedInPending(false);
+    setKeepMeSignedIn(true);
+  };
 
   useEffect(() => {
     const checkKeystore = async () => {
@@ -122,7 +147,11 @@ export function AuthLoginModal({
         userSvc.transformUserData(userData)
       );
 
-      setInitialRouteName("TabNavigation");
+      const { initialRouteName, requireBiometricsSetup } =
+        await resolveKeepMeSignedInOnLogin(keepMeSignedIn);
+      setInitialRouteName(initialRouteName);
+      setRequireBiometricsSetup(requireBiometricsSetup);
+
       setErrors({});
       setToken(token);
     },
@@ -179,20 +208,20 @@ export function AuthLoginModal({
   };
 
   return (
-    <Backdrop
-      {...getAuthBackdropProps()}
-      topHeaderComponent={<AuthenticationModalsLogo onBackPress={onGoBack} />}
-      ctaLabel={t("login_label")}
-      ctaHandleClick={handleLogin}
-      isCtaDisabled={isSubmitDisabled}
-      isCtaLoading={loginMutation.isLoading}
-      secondaryCtaLabel={t("register_button_label")}
-      secondaryCtaHandleClick={onGoToRegister}
-      secondaryCtaType="ghost"
-      errorMessage={errors.submit}
-      hasKeyboardListener={true}
-    >
-      <>
+    <>
+      <Backdrop
+        {...getAuthBackdropProps()}
+        topHeaderComponent={<AuthenticationModalsLogo onBackPress={onGoBack} />}
+        ctaLabel={t("login_label")}
+        ctaHandleClick={handleLogin}
+        isCtaDisabled={isSubmitDisabled}
+        isCtaLoading={loginMutation.isLoading}
+        secondaryCtaLabel={t("register_button_label")}
+        secondaryCtaHandleClick={onGoToRegister}
+        secondaryCtaType="ghost"
+        errorMessage={errors.submit}
+        hasKeyboardListener={true}
+      >
         {hasCredentials && !!biometryType ? (
           <View style={styles.biometryContainer}>
             <TouchableOpacity onPress={getCredentials}>
@@ -226,18 +255,23 @@ export function AuthLoginModal({
           autoCapitalize="none"
         />
 
-        <View style={styles.checkboxContainer}>
-          <CheckBox
-            isChecked={shouldSaveCredentials}
-            setIsChecked={() => setShouldSaveCredentials((v) => !v)}
-          />
-          <AppText
-            onPress={() => setShouldSaveCredentials((v) => !v)}
-            namedStyle="text"
-          >
-            {t("save_credentials")}
-          </AppText>
-        </View>
+        <LoginOptionCard
+          iconName="fingerprint"
+          title={t("save_credentials")}
+          description={t("save_credentials_description")}
+          isToggled={shouldSaveCredentials}
+          onToggle={setShouldSaveCredentials}
+        />
+
+        <LoginOptionCard
+          iconName="circle-actions-success"
+          title={t("keep_me_signed_in")}
+          description={t("keep_me_signed_in_description")}
+          isToggled={keepMeSignedIn || isKeepMeSignedInPending}
+          onToggle={handleKeepMeSignedInToggle}
+          showInfoIcon
+          onInfoPress={() => setIsKeepMeSignedInSheetOpen(true)}
+        />
 
         <AppText
           onPress={onGoToForgotPassword}
@@ -247,8 +281,14 @@ export function AuthLoginModal({
         >
           {t("forgot_password_label")}
         </AppText>
-      </>
-    </Backdrop>
+      </Backdrop>
+
+      <KeepMeSignedInSheet
+        isOpen={isKeepMeSignedInSheetOpen}
+        onCancel={handleKeepMeSignedInSheetCancel}
+        onContinue={handleKeepMeSignedInSheetContinue}
+      />
+    </>
   );
 }
 
@@ -264,15 +304,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: 22,
     marginBottom: 12,
-  },
-  checkboxContainer: {
-    display: "flex",
-    justifyContent: "flex-start",
-    flexDirection: "row",
-    alignItems: "center",
-    marginLeft: 0,
-    marginBottom: 10,
-    marginTop: 4,
   },
   forgotPassword: {
     color: "#9749FA",

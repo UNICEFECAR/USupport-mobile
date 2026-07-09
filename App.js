@@ -20,7 +20,12 @@ import { Navigation } from "#navigation";
 import { localStorage, Context, userSvc } from "#services";
 import { NoInternetModal, RequireRegistration } from "#modals";
 import { DropdownBackdrop } from "#backdrops";
-import { FIVE_MINUTES, isTokenExpired } from "#utils";
+import {
+  FIVE_MINUTES,
+  isTokenExpired,
+  isKeepMeSignedIn,
+  clearAbandonedPendingOnColdStart,
+} from "#utils";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
   useFonts,
@@ -104,6 +109,7 @@ function App() {
   const [isPodcastsActive, setIsPodcastsActive] = useState(false);
   const [isVideosActive, setIsVideosActive] = useState(false);
   const [pendingDeepLink, setPendingDeepLink] = useState(null);
+  const [requireBiometricsSetup, setRequireBiometricsSetup] = useState(false);
 
   const [dropdownOptions, setDropdownOptions] = useState({
     isOpen: false,
@@ -172,11 +178,9 @@ function App() {
   const handleTokenCheck = async (data) => {
     const [token, pinCode] = data;
     const clearTokenIfNoPinOrBiometrics = async () => {
-      // If the client doesn't have biometrics enabled and doesn't have a pin code remove the
-      // token  from the local storage, so that re-authentication is required on next app launch
       const hasBiometrics = await localStorage.getItem("biometrics-enabled");
-      // await localStorage.removeItem("has-declined-biometrics");
-      if (!hasBiometrics && !pinCode && token && !__DEV__) {
+      const keepSignedIn = await isKeepMeSignedIn();
+      if (!hasBiometrics && !pinCode && !keepSignedIn && token && !__DEV__) {
         await localStorage.removeItem("token");
         setToken(null);
       }
@@ -190,6 +194,7 @@ function App() {
       const token = await localStorage.getItem("token");
       const pinCode = await localStorage.getItem("pin-code");
       setUserPin(pinCode);
+      await clearAbandonedPendingOnColdStart(pinCode);
 
       // Treat expired or invalid token as no token (clear storage and stay logged out)
       if (token && isTokenExpired(token)) {
@@ -295,6 +300,8 @@ function App() {
     setIsVideosActive,
     pendingDeepLink,
     setPendingDeepLink,
+    requireBiometricsSetup,
+    setRequireBiometricsSetup,
   };
 
   return (

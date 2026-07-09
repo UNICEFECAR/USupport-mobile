@@ -224,6 +224,7 @@ export const RegisterEmail = ({
       await localStorage.setItem("token-expires-in", expiresIn);
       await localStorage.setItem("refresh-token", refreshToken);
       await localStorage.setItem("token", token);
+      await localStorage.setItem("isRegistered", "true");
 
       queryClient.setQueryData(
         ["client-data"],

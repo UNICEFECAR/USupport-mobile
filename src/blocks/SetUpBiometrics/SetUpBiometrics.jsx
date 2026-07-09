@@ -6,7 +6,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { Block, Heading, NewButton } from "#components";
 import { localStorage } from "#services";
 
-export const SetUpBiometrics = ({ navigation, goBackOnSkip }) => {
+export const SetUpBiometrics = ({ navigation, goBackOnSkip, mandatory = false }) => {
   const { t } = useTranslation("blocks", { keyPrefix: "set-up-biometrics" });
 
   const [canUseBiometrics, setCanUseBiometrics] = useState(false);
@@ -22,12 +22,23 @@ export const SetUpBiometrics = ({ navigation, goBackOnSkip }) => {
   });
 
   const handleBtnPress = async () => {
+    if (!canUseBiometrics) {
+      navigation.navigate("ChangePasscode", {
+        hasGoBackArrow: false,
+        mandatory,
+      });
+      return;
+    }
+
     if (canUseBiometrics) {
       const isEnrolled = await LocalAuthentication.isEnrolledAsync();
       if (isEnrolled) {
         handleFaceId();
       } else {
-        navigation.navigate("ChangePasscode", { hasGoBackArrow: false });
+        navigation.navigate("ChangePasscode", {
+          hasGoBackArrow: false,
+          mandatory,
+        });
       }
     }
   };
@@ -39,12 +50,17 @@ export const SetUpBiometrics = ({ navigation, goBackOnSkip }) => {
     }).then(async (result) => {
       if (result.success) {
         await localStorage.setItem("biometrics-enabled", "true");
-        navigation.navigate("ChangePasscode", { hasGoBackArrow: false });
+        navigation.navigate("ChangePasscode", {
+          hasGoBackArrow: false,
+          mandatory,
+        });
       }
     });
   };
 
   const handleSkip = async () => {
+    if (mandatory) return;
+
     await localStorage.setItem("has-declined-biometrics", "true");
 
     if (goBackOnSkip) {
@@ -59,7 +75,7 @@ export const SetUpBiometrics = ({ navigation, goBackOnSkip }) => {
       <Heading
         heading={t("heading")}
         hasGoBackArrow={false}
-        subheading={t("subheading")}
+        subheading={mandatory ? t("subheading_mandatory") : t("subheading")}
       />
       <NewButton
         label={t("btn_label")}
@@ -67,13 +83,15 @@ export const SetUpBiometrics = ({ navigation, goBackOnSkip }) => {
         style={{ marginTop: "auto", marginBottom: 6 }}
         size="lg"
       />
-      <NewButton
-        label={t("btn_skip")}
-        onPress={handleSkip}
-        size="lg"
-        type="ghost"
-        style={{ marginVertical: 18 }}
-      />
+      {!mandatory ? (
+        <NewButton
+          label={t("btn_skip")}
+          onPress={handleSkip}
+          size="lg"
+          type="ghost"
+          style={{ marginVertical: 18 }}
+        />
+      ) : null}
     </Block>
   );
 };
