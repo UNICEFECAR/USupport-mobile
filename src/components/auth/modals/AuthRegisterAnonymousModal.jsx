@@ -152,6 +152,7 @@ export function AuthRegisterAnonymousModal({ onGoBack, onGoToLogin }) {
         localStorage.setItem("token", token),
         localStorage.setItem("token-expires-in", expiresIn),
         localStorage.setItem("refresh-token", refreshToken),
+        localStorage.setItem("isRegistered", "true"),
       ]);
 
       setToken(token);

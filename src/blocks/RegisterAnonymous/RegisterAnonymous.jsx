@@ -172,6 +172,7 @@ export const RegisterAnonymous = ({
         tokenPromise,
         tokenExpiresInPromise,
         refreshTokenPromise,
+        localStorage.setItem("isRegistered", "true"),
       ]);
       setTimeout(() => {
         setToken(token);
