@@ -38,9 +38,14 @@ import {
   useGetClientData,
   useLogout,
 } from "#hooks";
-import { countrySvc, localStorage, userSvc, Context } from "#services";
+import { countrySvc, localStorage, Context, userSvc } from "#services";
 
-import { getCountryFromTimezone, FIVE_MINUTES } from "#utils";
+import {
+  getCountryFromTimezone,
+  FIVE_MINUTES,
+  isKeepMeSignedIn,
+  isPendingKeepMeSignedIn,
+} from "#utils";
 
 export const navigationRef = createNavigationContainerRef();
 
@@ -131,6 +136,7 @@ export function Navigation({
     setSelectedCountry,
     pendingDeepLink,
     setPendingDeepLink,
+    requireBiometricsSetup,
   } = useContext(Context);
 
   const getClientDataEnabled = !!(
@@ -185,9 +191,9 @@ export function Navigation({
         }
         const hasBiometrics = await localStorage.getItem("biometrics-enabled");
         const userPin = await localStorage.getItem("pin-code");
+        const keepSignedIn = await isKeepMeSignedIn();
 
-        // Logout the client if there are no pin or biometrics setup
-        if (!hasBiometrics && !userPin) {
+        if (!hasBiometrics && !userPin && !keepSignedIn) {
           logoutMutation.mutate();
           console.log("logout");
         } else {
@@ -457,6 +463,7 @@ export function Navigation({
           <>
             <RedirectToBiometrics
               checkForDeclined={initialRouteName !== "RegisterAboutYou"}
+              requireBiometricsSetup={requireBiometricsSetup}
             />
             <AppNavigation />
           </>
@@ -468,20 +475,33 @@ export function Navigation({
   );
 }
 
-const RedirectToBiometrics = ({ checkForDeclined }) => {
+const RedirectToBiometrics = ({ checkForDeclined, requireBiometricsSetup }) => {
   const navigation = useNavigation();
+  const { initialRouteName } = useContext(Context);
+
   useEffect(() => {
     const checkHasDeclined = async () => {
       const hasDeclined = await localStorage.getItem("has-declined-biometrics");
       const userPin = await localStorage.getItem("pin-code");
       const hasBiometrics = await localStorage.getItem("biometrics-enabled");
+      const pending = await isPendingKeepMeSignedIn();
+      const keepSignedIn = await isKeepMeSignedIn();
+
+      if (
+        requireBiometricsSetup ||
+        pending ||
+        keepSignedIn ||
+        initialRouteName === "SetUpBiometrics"
+      ) {
+        return;
+      }
 
       if (!hasDeclined && !userPin && !hasBiometrics && checkForDeclined) {
         navigation.navigate("SetUpBiometrics", { goBackOnSkip: true });
       }
     };
     checkHasDeclined();
-  }, [checkForDeclined]);
+  }, [checkForDeclined, requireBiometricsSetup, initialRouteName, navigation]);
   return <></>;
 };
 

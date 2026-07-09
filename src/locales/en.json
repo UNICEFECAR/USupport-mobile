@@ -231,7 +231,14 @@
       "prompt_title": "Authenticate for Quick login",
       "prompt_2_title": "Authenticate to save your credentials",
       "cancel": "Cancel",
-      "save_credentials": "Save credentials"
+      "save_credentials": "Save credentials",
+      "save_credentials_description": "Use Face ID or device PIN to autofill your password next time.",
+      "keep_me_signed_in": "Keep me signed in",
+      "keep_me_signed_in_description": "Stay signed in on this device until you manually sign out.",
+      "keep_me_signed_in_sheet_title": "Stay signed in on this device?",
+      "keep_me_signed_in_sheet_body": "You'll stay signed in until you manually sign out. Only use this option on your personal device. If this is a shared or public device, sign out when you're done to protect your account and personal information.",
+      "keep_me_signed_in_sheet_cancel": "Cancel",
+      "keep_me_signed_in_sheet_continue": "Continue"
     },
     "mood-tracker": {
       "happy": "Happy",
@@ -736,6 +743,7 @@
       "heading": "Set up passcode and biometrics",
       "btn_label": "Continue",
       "subheading": "Set up a passcode or biometrics to keep your account secured. If you skip this step, you have to login every time you open the app.",
+      "subheading_mandatory": "To stay signed in on this device, set up a passcode or biometrics.",
       "biometrics_btn_label": "Use biometrics",
       "btn_skip": "Skip for now"
     },

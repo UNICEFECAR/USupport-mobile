@@ -231,7 +231,14 @@
       "prompt_title": "Uwierzytelnij się, aby szybko się zalogować",
       "prompt_2_title": "Uwierzytelnij się, aby zapisać swoje dane logowania",
       "cancel": "Anuluj",
-      "save_credentials": "Zapisz dane uwierzytelniające"
+      "save_credentials": "Zapisz dane uwierzytelniające",
+      "save_credentials_description": "Użyj Face ID lub kodu PIN urządzenia, aby następnym razem automatycznie wypełnić hasło.",
+      "keep_me_signed_in": "Pozostań zalogowany",
+      "keep_me_signed_in_description": "Pozostań zalogowany na tym urządzeniu, dopóki ręcznie się nie wylogujesz.",
+      "keep_me_signed_in_sheet_title": "Pozostać zalogowanym na tym urządzeniu?",
+      "keep_me_signed_in_sheet_body": "Pozostaniesz zalogowany, dopóki ręcznie się nie wylogujesz. Korzystaj z tej opcji tylko na swoim osobistym urządzeniu. Na współdzielonym lub publicznym urządzeniu wyloguj się po zakończeniu, aby chronić swoje konto i dane osobowe.",
+      "keep_me_signed_in_sheet_cancel": "Anuluj",
+      "keep_me_signed_in_sheet_continue": "Kontynuuj"
     },
     "mood-tracker": {
       "happy": "Szczęśliwy/a",
@@ -738,6 +745,7 @@
       "heading": "Skonfiguruj kod dostępu i dane biometryczne",
       "btn_label": "Kontynuuj",
       "subheading": "Skonfiguruj kod dostępu lub dane biometryczne, aby zabezpieczyć swoje konto. Jeśli pominiesz ten krok, będziesz musiał/a logować się za każdym razem, gdy otworzysz aplikację.",
+      "subheading_mandatory": "Aby pozostać zalogowanym na tym urządzeniu, skonfiguruj kod dostępu lub biometrię.",
       "biometrics_btn_label": "Użyj biometrii",
       "btn_skip": "Na razie pomiń"
     },

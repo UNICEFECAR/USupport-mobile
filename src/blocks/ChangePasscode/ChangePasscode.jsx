@@ -5,7 +5,11 @@ import BcryptReactNative from "bcrypt-react-native";
 
 import { Block, AppText, Icon, NewButton, Error } from "#components";
 import { localStorage, Context } from "#services";
-import { showToast } from "#utils";
+import {
+  finalizeKeepMeSignedInAfterPinSetup,
+  clearSessionPersistenceFlags,
+  showToast,
+} from "#utils";
 import { appStyles } from "#styles";
 /**
  * ChangePasscode
@@ -17,9 +21,10 @@ import { appStyles } from "#styles";
 export const ChangePasscode = ({ navigation, route }) => {
   const { t } = useTranslation("blocks", { keyPrefix: "change-passcode" });
 
-  const { token, setUserPin, setHasAuthenticatedWithPin } = useContext(Context);
-  let { userPin, oldPin, isRemove } = route.params;
-  const { hasGoBackArrow } = route.params || true;
+  const { token, setUserPin, setHasAuthenticatedWithPin, setRequireBiometricsSetup } =
+    useContext(Context);
+  let { userPin, oldPin, isRemove, mandatory } = route.params || {};
+  const { hasGoBackArrow = true } = route.params || {};
 
   const heading = userPin
     ? t("enter_passcode")
@@ -69,6 +74,8 @@ export const ChangePasscode = ({ navigation, route }) => {
 
   const removePin = async () => {
     await localStorage.removeItem("pin-code");
+    await clearSessionPersistenceFlags();
+    setRequireBiometricsSetup?.(false);
     showToast({
       message: t("remove_success"),
     });
@@ -84,6 +91,11 @@ export const ChangePasscode = ({ navigation, route }) => {
       await localStorage.setItem("token", token);
       setUserPin(hashedPin);
       setHasAuthenticatedWithPin(true);
+
+      const finalized = await finalizeKeepMeSignedInAfterPinSetup();
+      if (finalized) {
+        setRequireBiometricsSetup(false);
+      }
 
       showToast({
         message: t("success"),
@@ -130,6 +142,7 @@ export const ChangePasscode = ({ navigation, route }) => {
         navigation.push("ChangePasscode", {
           oldPin: pinValue.current,
           hasGoBackArrow,
+          mandatory,
         });
 
         // If there is an oldPin then we check if its the same as the currently typed one
@@ -168,6 +181,7 @@ export const ChangePasscode = ({ navigation, route }) => {
     navigation.push("ChangePasscode", {
       oldPin: pinValue.current,
       hasGoBackArrow,
+      mandatory,
     });
   };
 

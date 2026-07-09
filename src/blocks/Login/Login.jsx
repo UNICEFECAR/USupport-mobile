@@ -25,7 +25,7 @@ import {
   NewButton,
 } from "#components";
 
-import { getCountryFromTimezone } from "#utils";
+import { getCountryFromTimezone, resolveKeepMeSignedInOnLogin } from "#utils";
 import { userSvc, localStorage, Context } from "#services";
 import { useError } from "#hooks";
 
@@ -47,7 +47,7 @@ export const Login = ({
   const { t } = useTranslation("blocks", { keyPrefix: "login" });
   const queryClient = useQueryClient();
 
-  const { setToken, setInitialRouteName, isLoginDisabled, setIsLoginDisabled } =
+  const { setToken, setInitialRouteName, isLoginDisabled, setIsLoginDisabled, setRequireBiometricsSetup } =
     useContext(Context);
 
   const [data, setData] = useState({
@@ -59,6 +59,7 @@ export const Login = ({
   const [biometryType, setBiometryType] = useState(null);
   const [hasCredentials, setHasCredentials] = useState(false);
   const [shouldSaveCredentials, setShouldSaveCredentials] = useState(false);
+  const [keepMeSignedIn, setKeepMeSignedIn] = useState(false);
 
   const savedCredentials = useRef({});
 
@@ -147,7 +148,12 @@ export const Login = ({
         ["client-data"],
         userSvc.transformUserData(userData)
       );
-      setInitialRouteName("TabNavigation");
+
+      const { initialRouteName, requireBiometricsSetup } =
+        await resolveKeepMeSignedInOnLogin(keepMeSignedIn);
+      setInitialRouteName(initialRouteName);
+      setRequireBiometricsSetup(requireBiometricsSetup);
+
       setErrors({});
       setToken(token);
     },
@@ -273,6 +279,22 @@ export const Login = ({
           {t("save_credentials")}
         </AppText>
       </View>
+      <View style={styles.checkboxContainer}>
+        <CheckBox
+          isChecked={keepMeSignedIn}
+          setIsChecked={() => setKeepMeSignedIn(!keepMeSignedIn)}
+        />
+        <AppText
+          onPress={() => setKeepMeSignedIn(!keepMeSignedIn)}
+          namedStyle="text"
+          style={styles.checkboxLabel}
+        >
+          {t("keep_me_signed_in")}
+        </AppText>
+      </View>
+      <AppText namedStyle="smallText" style={styles.keepSignedInHelper}>
+        {t("keep_me_signed_in_description")}
+      </AppText>
       <NewButton
         type="ghost-purple"
         label={t("forgot_password_label")}
@@ -351,6 +373,12 @@ const styles = StyleSheet.create({
     marginLeft: 18,
     marginBottom: 10,
     marginTop: 4,
+  },
+  checkboxLabel: { flex: 1 },
+  keepSignedInHelper: {
+    marginLeft: 18,
+    marginBottom: 10,
+    opacity: 0.75,
   },
   registerButton: {
     marginTop: 20,

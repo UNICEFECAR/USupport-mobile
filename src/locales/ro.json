@@ -231,7 +231,14 @@
       "prompt_title": "Autentificare pentru conectare rapidă",
       "prompt_2_title": "Autentificați-vă pentru a vă salva datele de identificare",
       "cancel": "Anulare",
-      "save_credentials": "Salvați datele de autentificare"
+      "save_credentials": "Salvați datele de autentificare",
+      "save_credentials_description": "Folosiți Face ID sau PIN-ul dispozitivului pentru a completa automat parola data viitoare.",
+      "keep_me_signed_in": "Păstrați-mă conectat",
+      "keep_me_signed_in_description": "Rămâneți conectat pe acest dispozitiv până când vă deconectați manual.",
+      "keep_me_signed_in_sheet_title": "Rămâneți conectat pe acest dispozitiv?",
+      "keep_me_signed_in_sheet_body": "Veți rămâne conectat până când vă deconectați manual. Folosiți această opțiune doar pe dispozitivul personal. Pe un dispozitiv partajat sau public, deconectați-vă când ați terminat pentru a vă proteja contul și informațiile personale.",
+      "keep_me_signed_in_sheet_cancel": "Anulare",
+      "keep_me_signed_in_sheet_continue": "Continuare"
     },
     "mood-tracker": {
       "happy": "Fericit",
@@ -738,6 +745,7 @@
       "heading": "Configurați codul de acces și elementele biometrice",
       "btn_label": "Continuați",
       "subheading": "Configurați o parolă sau date biometrice pentru a vă securiza contul. Dacă omiteți acest pas, va trebui să vă autentificați de fiecare dată când deschideți aplicația.",
+      "subheading_mandatory": "Pentru a rămâne conectat pe acest dispozitiv, configurați un cod de acces sau biometrie.",
       "biometrics_btn_label": "Utilizare date biometrice",
       "btn_skip": "Omite acum"
     },
