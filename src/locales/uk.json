@@ -702,6 +702,8 @@
       "register_anonymously": "Анонімна реєстрація",
       "continue_as_guest": "Продовжити без реєстрації",
       "already_have_account": "Вже маєте обліковий запис?",
+      "dont_have_account": "Немає облікового запису?",
+      "sign_up": "Зареєструватися",
       "log_in": "Увійти",
       "ro_password_modal_heading": "Потрібен пароль",
       "ro_password_modal_text": "Введіть пароль, щоб продовжити.",

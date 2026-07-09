@@ -702,6 +702,8 @@
       "register_anonymously": "Электрондық поштасыз тіркелу",
       "continue_as_guest": "Тіркеусіз жалғастыру",
       "already_have_account": "Есептік жазбаңыз бар ма?",
+      "dont_have_account": "Есептік жазбаңыз жоқ па?",
+      "sign_up": "Тіркелу",
       "log_in": "Кіру",
       "ro_password_modal_heading": "Құпиясөз қажет",
       "ro_password_modal_text": "Жалғастыру үшін құпиясөзді енгізіңіз.",

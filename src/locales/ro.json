@@ -702,6 +702,8 @@
       "register_anonymously": "Înregistrare anonimă",
       "continue_as_guest": "Continuați fără înregistrare",
       "already_have_account": "Aveți deja un cont?",
+      "dont_have_account": "Nu aveți un cont?",
+      "sign_up": "Înregistrare",
       "log_in": "Autentificare",
       "ro_password_modal_heading": "Parolă necesară",
       "ro_password_modal_text": "Introduceți parola pentru a continua.",

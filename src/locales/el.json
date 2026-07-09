@@ -702,6 +702,8 @@
       "register_anonymously": "Ανώνυμη εγγραφή",
       "continue_as_guest": "Συνέχεια χωρίς εγγραφή",
       "already_have_account": "Έχετε ήδη λογαριασμό;",
+      "dont_have_account": "Δεν έχετε λογαριασμό;",
+      "sign_up": "Εγγραφή",
       "log_in": "Σύνδεση",
       "ro_password_modal_heading": "Απαιτείται κωδικός",
       "ro_password_modal_text": "Εισαγάγετε τον κωδικό για να συνεχίσετε.",

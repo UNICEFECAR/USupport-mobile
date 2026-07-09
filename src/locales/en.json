@@ -700,6 +700,8 @@
       "register_anonymously": "Register anonymously",
       "continue_as_guest": "Continue without registration",
       "already_have_account": "Already have an account?",
+      "dont_have_account": "Don't have an account?",
+      "sign_up": "Sign up",
       "log_in": "Log in",
       "ro_password_modal_heading": "Password required",
       "ro_password_modal_text": "Enter password to continue.",

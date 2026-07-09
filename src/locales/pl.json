@@ -702,6 +702,8 @@
       "register_anonymously": "Rejestracja anonimowa",
       "continue_as_guest": "Kontynuuj bez rejestracji",
       "already_have_account": "Masz już konto?",
+      "dont_have_account": "Nie masz konta?",
+      "sign_up": "Zarejestruj się",
       "log_in": "Zaloguj się",
       "ro_password_modal_heading": "Wymagane hasło",
       "ro_password_modal_text": "Wprowadź hasło, aby kontynuować.",

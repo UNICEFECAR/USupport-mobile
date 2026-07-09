@@ -702,6 +702,8 @@
       "register_anonymously": "Зарегистрироваться без электронной почты",
       "continue_as_guest": "Продолжить без регистрации",
       "already_have_account": "Уже есть аккаунт?",
+      "dont_have_account": "Нет аккаунта?",
+      "sign_up": "Зарегистрироваться",
       "log_in": "Войти",
       "ro_password_modal_heading": "Требуется пароль",
       "ro_password_modal_text": "Введите пароль, чтобы продолжить.",

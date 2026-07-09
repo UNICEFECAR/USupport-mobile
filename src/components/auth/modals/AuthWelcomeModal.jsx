@@ -41,6 +41,8 @@ export function AuthWelcomeModal({
 
   const [selectedCountry, setSelectedCountryCode] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState(null);
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [showRegisterOptions, setShowRegisterOptions] = useState(false);
 
   const [isRoPasswordModalOpen, setIsRoPasswordModalOpen] = useState(false);
   const [roPassword, setRoPassword] = useState("");
@@ -56,6 +58,9 @@ export function AuthWelcomeModal({
         setSelectedLanguage(lang);
         i18n.changeLanguage(lang);
       }
+    });
+    localStorage.getItem("isRegistered").then((value) => {
+      setIsRegistered(value === "true");
     });
   }, [i18n]);
 
@@ -277,42 +282,114 @@ export function AuthWelcomeModal({
       </View>
 
       <View style={styles.buttonsContainer}>
-        <View style={styles.buttonsRow}>
-          <NewButton
-            label={t("register_email")}
-            size="lg"
-            isFullWidth
-            disabled={!canProceed}
-            onPress={() => handleAction("email")}
-            style={styles.rowButton}
-          />
-          <NewButton
-            label={t("register_anonymously")}
-            type="welcome-outline"
-            size="lg"
-            isFullWidth
-            disabled={!canProceed}
-            onPress={() => handleAction("anonymously")}
-            style={styles.rowButton}
-          />
-        </View>
+        {isRegistered ? (
+          <>
+            <View style={styles.buttonsRow}>
+              <NewButton
+                label={t("log_in")}
+                size="lg"
+                isFullWidth
+                disabled={!canProceed}
+                onPress={() => handleAction("login")}
+                style={styles.rowButtonFull}
+              />
+            </View>
 
-        <View style={styles.loginRow}>
-          <AppText
-            style={[styles.loginText, !canProceed && styles.loginTextDisabled]}
-          >
-            {t("already_have_account")}{" "}
-            <AppText style={styles.loginLink} isBold>
-              {t("log_in")}
-            </AppText>
-          </AppText>
-          <TouchableOpacity
-            onPress={!canProceed ? undefined : () => handleAction("login")}
-            disabled={!canProceed}
-            style={StyleSheet.absoluteFill}
-            accessibilityRole="button"
-          />
-        </View>
+            <View
+              style={[
+                styles.loginRow,
+                showRegisterOptions && styles.loginRowExpanded,
+              ]}
+            >
+              <AppText
+                style={[
+                  styles.loginText,
+                  !canProceed && styles.loginTextDisabled,
+                ]}
+              >
+                {t("dont_have_account")}{" "}
+                <AppText style={styles.loginLink} isBold>
+                  {t("sign_up")}
+                </AppText>
+              </AppText>
+              <TouchableOpacity
+                onPress={
+                  !canProceed ? undefined : () => setShowRegisterOptions(true)
+                }
+                disabled={!canProceed}
+                style={StyleSheet.absoluteFill}
+                accessibilityRole="button"
+              />
+            </View>
+
+            {showRegisterOptions ? (
+              <>
+                <View style={styles.buttonsRow}>
+                  <NewButton
+                    label={t("register_email")}
+                    size="lg"
+                    isFullWidth
+                    disabled={!canProceed}
+                    onPress={() => handleAction("email")}
+                    style={styles.rowButton}
+                  />
+                  <NewButton
+                    label={t("register_anonymously")}
+                    type="welcome-outline"
+                    size="lg"
+                    isFullWidth
+                    disabled={!canProceed}
+                    onPress={() => handleAction("anonymously")}
+                    style={styles.rowButton}
+                  />
+                </View>
+                <View style={styles.separator} />
+              </>
+            ) : null}
+          </>
+        ) : (
+          <>
+            <View style={styles.buttonsRow}>
+              <NewButton
+                label={t("register_email")}
+                size="lg"
+                isFullWidth
+                disabled={!canProceed}
+                onPress={() => handleAction("email")}
+                style={styles.rowButton}
+              />
+              <NewButton
+                label={t("register_anonymously")}
+                type="welcome-outline"
+                size="lg"
+                isFullWidth
+                disabled={!canProceed}
+                onPress={() => handleAction("anonymously")}
+                style={styles.rowButton}
+              />
+            </View>
+
+            <View style={styles.loginRow}>
+              <AppText
+                style={[
+                  styles.loginText,
+                  !canProceed && styles.loginTextDisabled,
+                ]}
+              >
+                {t("already_have_account")}{" "}
+                <AppText style={styles.loginLink} isBold>
+                  {t("log_in")}
+                </AppText>
+              </AppText>
+              <TouchableOpacity
+                onPress={!canProceed ? undefined : () => handleAction("login")}
+                disabled={!canProceed}
+                style={StyleSheet.absoluteFill}
+                accessibilityRole="button"
+              />
+            </View>
+          </>
+        )}
 
         <NewButton
           label={t("continue_as_guest")}
@@ -373,12 +450,22 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   rowButton: { width: "47%" },
+  rowButtonFull: { width: "100%" },
   loginRow: {
     width: "100%",
     borderBottomWidth: 1,
     borderBottomColor: "#e0e0e0",
     position: "relative",
     paddingBottom: 16,
+  },
+  loginRowExpanded: {
+    borderBottomWidth: 0,
+    paddingBottom: 0,
+  },
+  separator: {
+    width: "100%",
+    height: 1,
+    backgroundColor: "#e0e0e0",
   },
   loginText: {
     fontSize: 18,

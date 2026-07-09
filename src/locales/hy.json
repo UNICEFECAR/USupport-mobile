@@ -703,6 +703,8 @@
       "register_anonymously": "Գրանցվել առանց էլեկտրոնային փոստի",
       "continue_as_guest": "Շարունակել առանց գրանցման",
       "already_have_account": "Արդեն ունե՞ք հաշիվ",
+      "dont_have_account": "Հաշիվ չունե՞ք",
+      "sign_up": "Գրանցվել",
       "log_in": "Մուտք գործել",
       "ro_password_modal_heading": "Պահանջվում է գաղտնաբառ",
       "ro_password_modal_text": "Շարունակելու համար մուտքագրեք գաղտնաբառը։",
