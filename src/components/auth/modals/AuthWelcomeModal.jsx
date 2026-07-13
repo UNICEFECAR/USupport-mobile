@@ -19,6 +19,7 @@ import {
   userSvc,
 } from "#services";
 import { useAddCountryEvent, useError } from "#hooks";
+import { handleCountrySelectionChange } from "#utils";
 
 import { getAuthBackdropProps } from "../authBackdropProps";
 
@@ -38,6 +39,7 @@ export function AuthWelcomeModal({
     setIsPodcastsActive,
     setIsVideosActive,
     setIsTmpUser,
+    setRequireBiometricsSetup,
   } = useContext(Context);
 
   const [selectedCountry, setSelectedCountryCode] = useState(null);
@@ -109,9 +111,20 @@ export function AuthWelcomeModal({
   const handleSelectCountry = async (alpha2) => {
     const countryObject =
       countriesQuery.data?.find((x) => x.value === alpha2) ?? null;
-    await localStorage.setItem("country", alpha2);
-    setSelectedCountryCode(alpha2);
 
+    const countryChanged = await handleCountrySelectionChange({
+      previousCountry: selectedCountry,
+      nextCountry: alpha2,
+      countryObject,
+    });
+
+    if (countryChanged) {
+      setToken(null);
+      setRequireBiometricsSetup?.(false);
+      queryClient.clear();
+    }
+
+    setSelectedCountryCode(alpha2);
     setSelectedCountry(countryObject);
     setCountry(alpha2);
     if (countryObject?.currencySymbol)

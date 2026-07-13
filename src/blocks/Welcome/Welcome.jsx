@@ -21,6 +21,7 @@ import {
   userSvc,
 } from "#services";
 import { useError, useGetTheme } from "#hooks";
+import { handleCountrySelectionChange } from "#utils";
 
 const { AMAZON_S3_BUCKET } = Config;
 
@@ -35,6 +36,7 @@ export function Welcome({ navigation }) {
     setIsPodcastsActive,
     setIsVideosActive,
     setToken,
+    setRequireBiometricsSetup,
   } = useContext(Context);
   const [selectedCountry, setSelectedCountry] = useState(null); // alpha2 for dropdown
   const [selectedLanguage, setSelectedLanguage] = useState(null);
@@ -120,10 +122,27 @@ export function Welcome({ navigation }) {
 
   const handleSelectCountry = async (option) => {
     const countryObject = countriesQuery.data?.find((x) => x.value === option);
-    await localStorage.setItem("country", option);
+
+    const countryChanged = await handleCountrySelectionChange({
+      previousCountry: selectedCountry,
+      nextCountry: option,
+      countryObject,
+    });
+
+    if (countryChanged) {
+      setToken(null);
+      setRequireBiometricsSetup?.(false);
+      queryClient.clear();
+    }
+
     setSelectedCountry(option);
     setSelectedCountryObject(countryObject ?? null);
     setCountry(option);
+    if (countryObject?.currencySymbol) {
+      setCurrencySymbol(countryObject.currencySymbol);
+    }
+    setIsPodcastsActive(!!countryObject?.podcastsActive);
+    setIsVideosActive(!!countryObject?.videosActive);
   };
 
   const continueToRegisterPreview = () => {
