@@ -22,9 +22,7 @@ import { NoInternetModal, RequireRegistration } from "#modals";
 import { DropdownBackdrop } from "#backdrops";
 import {
   FIVE_MINUTES,
-  isTokenExpired,
-  isKeepMeSignedIn,
-  clearAbandonedPendingOnColdStart,
+  resolveStoredSessionOnColdStart,
 } from "#utils";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
@@ -175,41 +173,18 @@ function App() {
     checkCountry();
   }, [currencySymbol, country]);
 
-  const handleTokenCheck = async (data) => {
-    const [token, pinCode] = data;
-    const clearTokenIfNoPinOrBiometrics = async () => {
-      const hasBiometrics = await localStorage.getItem("biometrics-enabled");
-      const keepSignedIn = await isKeepMeSignedIn();
-      if (!hasBiometrics && !pinCode && !keepSignedIn && token && !__DEV__) {
-        await localStorage.removeItem("token");
-        setToken(null);
-      }
-    };
-    clearTokenIfNoPinOrBiometrics();
-  };
-
   useEffect(() => {
     SplashScreen.preventAutoHideAsync();
     async function checkToken() {
-      const token = await localStorage.getItem("token");
-      const pinCode = await localStorage.getItem("pin-code");
+      const storedToken = await localStorage.getItem("token");
+      const { token, pinCode } =
+        await resolveStoredSessionOnColdStart(storedToken);
+
       setUserPin(pinCode);
-      await clearAbandonedPendingOnColdStart(pinCode);
-
-      // Treat expired or invalid token as no token (clear storage and stay logged out)
-      if (token && isTokenExpired(token)) {
-        await localStorage.removeItem("token");
-        await localStorage.removeItem("refresh-token");
-        await localStorage.removeItem("expires-in");
-        setToken(null);
-        return [null, pinCode];
-      }
-
       setToken(token);
       return [token, pinCode];
     }
     checkToken().then((data) => {
-      handleTokenCheck(data);
       const [tokenFromCheck] = data;
       Linking.getInitialURL().then((url) => {
         if (url && !tokenFromCheck) {
