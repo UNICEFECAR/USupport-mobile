@@ -1,10 +1,8 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import { StyleSheet, TouchableOpacity, View, Platform } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import * as Clipboard from "expo-clipboard";
-import * as Keychain from "react-native-keychain";
-import * as LocalAuthentication from "expo-local-authentication";
 
 import "fast-text-encoding";
 import Joi from "joi";
@@ -25,10 +23,11 @@ import {
 
 import { userSvc, localStorage, Context } from "#services";
 import { validate, validateProperty, showToast } from "#utils";
-import { useGetTheme, useError } from "#hooks";
+import { useGetTheme, useError, useAuthSessionOptions } from "#hooks";
 import { appStyles } from "#styles";
 
 import { AuthenticationModalsLogo } from "../AuthenticationModalsLogo";
+import { AuthSessionOptionCards } from "../AuthSessionOptionCards";
 import { getAuthBackdropProps } from "../authBackdropProps";
 
 export function AuthRegisterAnonymousModal({ onGoBack, onGoToLogin }) {
@@ -38,39 +37,18 @@ export function AuthRegisterAnonymousModal({ onGoBack, onGoToLogin }) {
   const { setToken, setInitialRouteName, setIsAnonymousRegister } =
     useContext(Context);
 
-  const saveAnonymousCredentialsBestEffort = async ({
-    generatedAccessToken,
-    password,
-  }) => {
-    try {
-      let iosSuccess = false;
-
-      if (Platform.OS === "ios") {
-        const res = await LocalAuthentication.authenticateAsync({
-          promptMessage: t("prompt_2_title"),
-        });
-        iosSuccess = Boolean(res?.success);
-      }
-
-      if (Platform.OS === "android" || iosSuccess) {
-        await Keychain.setInternetCredentials(
-          "https://usupport.online",
-          generatedAccessToken,
-          password,
-          {
-            accessControl:
-              Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET_OR_DEVICE_PASSCODE,
-            authenticationPrompt: {
-              title: t("prompt_2_title"),
-              cancel: t("cancel"),
-            },
-          }
-        );
-      }
-    } catch (e) {
-      // User cancellation / OS policy should not break registration.
-    }
-  };
+  const {
+    shouldSaveCredentials,
+    setShouldSaveCredentials,
+    keepMeSignedInToggleValue,
+    handleKeepMeSignedInToggle,
+    isKeepMeSignedInSheetOpen,
+    handleKeepMeSignedInSheetCancel,
+    handleKeepMeSignedInSheetContinue,
+    openKeepMeSignedInSheet,
+    saveCredentialsIfEnabled,
+    applyKeepMeSignedIn,
+  } = useAuthSessionOptions();
 
   const schema = useMemo(() => {
     return Joi.object({
@@ -157,10 +135,11 @@ export function AuthRegisterAnonymousModal({ onGoBack, onGoToLogin }) {
 
       setToken(token);
 
-      await saveAnonymousCredentialsBestEffort({
-        generatedAccessToken,
+      await saveCredentialsIfEnabled({
+        username: generatedAccessToken,
         password: data.password,
       });
+      await applyKeepMeSignedIn();
     },
     onError: (error) => {
       const { message: errorMessage } = useError(error);
@@ -347,6 +326,19 @@ export function AuthRegisterAnonymousModal({ onGoBack, onGoToLogin }) {
           />
         </View>
 
+        <View style={styles.authSessionOptionCardsWrapper}>
+          <AuthSessionOptionCards
+            shouldSaveCredentials={shouldSaveCredentials}
+            onSaveCredentialsToggle={setShouldSaveCredentials}
+            keepMeSignedInToggleValue={keepMeSignedInToggleValue}
+            onKeepMeSignedInToggle={handleKeepMeSignedInToggle}
+            onKeepMeSignedInInfoPress={openKeepMeSignedInSheet}
+            isKeepMeSignedInSheetOpen={isKeepMeSignedInSheetOpen}
+            onKeepMeSignedInSheetCancel={handleKeepMeSignedInSheetCancel}
+            onKeepMeSignedInSheetContinue={handleKeepMeSignedInSheetContinue}
+          />
+        </View>
+
         <View style={styles.actions}>
           {errors.submit ? (
             <Error style={styles.inlineError} message={errors.submit} />
@@ -459,6 +451,9 @@ function SaveAccessCodeConfirmation({
 }
 
 const styles = StyleSheet.create({
+  authSessionOptionCardsWrapper: {
+    marginTop: 16,
+  },
   accessTokenCard: {
     padding: 16,
     borderRadius: 24,

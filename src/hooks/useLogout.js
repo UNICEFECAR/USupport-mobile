@@ -1,11 +1,10 @@
 import { useContext } from "react";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import {
-  localStorage,
   Context,
   userSvc,
 } from "#services";
-import { clearSessionPersistenceFlags } from "#utils";
+import { clearAuthSessionOnLogout } from "#utils";
 
 export const useLogout = () => {
   const {
@@ -13,6 +12,9 @@ export const useLogout = () => {
     setInitialRouteName,
     setInitialAuthRouteName,
     setRequireBiometricsSetup,
+    setUserPin,
+    setHasAuthenticatedWithPin,
+    setIsAnonymousRegister,
   } = useContext(Context);
   const queryClient = useQueryClient();
 
@@ -21,14 +23,12 @@ export const useLogout = () => {
     setInitialRouteName("TabNavigation");
     setInitialAuthRouteName("Login");
     setRequireBiometricsSetup?.(false);
+    setUserPin?.(null);
+    setHasAuthenticatedWithPin?.(false);
+    setIsAnonymousRegister?.(false);
     setToken(null);
-    await clearSessionPersistenceFlags();
-    setTimeout(() => {
-      localStorage.removeItem("token");
-      localStorage.removeItem("refresh-token");
-      localStorage.removeItem("token-expires-in");
-      queryClient.clear();
-    }, 900);
+    await clearAuthSessionOnLogout();
+    queryClient.clear();
   });
 
   return logoutMutation;

@@ -18,6 +18,7 @@ import { useUpdateClientData, useGetClientData } from "#hooks";
 import { validateProperty, validate } from "#utils";
 
 import { localStorage, Context } from "#services";
+import { isPendingKeepMeSignedIn } from "#utils";
 
 /**
  * RegisterAboutYou
@@ -31,7 +32,8 @@ export const RegisterAboutYou = ({ navigation }) => {
 
   const queryClient = useQueryClient();
   const countriesData = queryClient.getQueryData(["countries"]);
-  const { isAnonymousRegister } = useContext(Context);
+  const { isAnonymousRegister, requireBiometricsSetup, setInitialRouteName } =
+    useContext(Context);
 
   const schema = Joi.object({
     name: Joi.string().allow(null, "", " ").label(t("nickname_error")),
@@ -123,10 +125,19 @@ export const RegisterAboutYou = ({ navigation }) => {
   const onMutateSuccess = async () => {
     const biometrics = await localStorage.getItem("biometrics-enabled");
     const pinCode = await localStorage.getItem("pin-code");
+    const pendingKeepMeSignedIn = await isPendingKeepMeSignedIn();
+    const shouldSetUpDeviceUnlock =
+      (requireBiometricsSetup || pendingKeepMeSignedIn) &&
+      !biometrics &&
+      !pinCode;
 
-    if (biometrics || pinCode) {
-      navigation.replace("TabNavigation");
-    } else navigation.replace("SetUpBiometrics");
+    if (shouldSetUpDeviceUnlock) {
+      navigation.replace("SetUpBiometrics", { mandatory: true });
+      return;
+    }
+
+    setInitialRouteName("TabNavigation");
+    navigation.replace("TabNavigation");
   };
 
   const onMutateError = (error) => {

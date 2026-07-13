@@ -9,7 +9,6 @@ import React, {
 import { Platform, StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import * as Keychain from "react-native-keychain";
 
 import "fast-text-encoding";
 import Joi from "joi";
@@ -25,36 +24,29 @@ import {
 } from "#components";
 import { validate, validateProperty } from "#utils";
 import { Context, localStorage, userSvc } from "#services";
-import { useError } from "#hooks";
+import { useError, useAuthSessionOptions } from "#hooks";
 
 import { AuthenticationModalsLogo } from "../AuthenticationModalsLogo";
+import { AuthSessionOptionCards } from "../AuthSessionOptionCards";
 import { getAuthBackdropProps } from "../authBackdropProps";
 
 export function AuthRegisterEmailModal({ onGoBack, onGoToLogin }) {
   const { setInitialRouteName, setToken } = useContext(Context);
   const { t } = useTranslation("blocks", { keyPrefix: "register-email" });
   const queryClient = useQueryClient();
-
-  const saveEmailCredentialsBestEffort = async ({ email, password }) => {
-    try {
-      await Keychain.setInternetCredentials(
-        "https://usupport.online",
-        email,
-        password,
-        {
-          accessControl:
-            Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET_OR_DEVICE_PASSCODE,
-          authenticationPrompt: {
-            title: "Authenticate to save your credentials",
-            subtitle: "Save your credentials in keychain for quick login",
-            cancel: "Cancel",
-          },
-        }
-      );
-    } catch (e) {
-      // User cancellation / OS policy should not break registration.
-    }
-  };
+  const authSessionOptions = useAuthSessionOptions();
+  const {
+    shouldSaveCredentials,
+    setShouldSaveCredentials,
+    keepMeSignedInToggleValue,
+    handleKeepMeSignedInToggle,
+    isKeepMeSignedInSheetOpen,
+    handleKeepMeSignedInSheetCancel,
+    handleKeepMeSignedInSheetContinue,
+    openKeepMeSignedInSheet,
+    saveCredentialsIfEnabled,
+    applyKeepMeSignedIn,
+  } = authSessionOptions;
 
   const schema = useMemo(() => {
     return Joi.object({
@@ -225,12 +217,11 @@ export function AuthRegisterEmailModal({ onGoBack, onGoToLogin }) {
       );
       setToken(token);
 
-      // Save credentials in secure storage best-effort.
-      // Cancelling biometric/auth prompt must NOT break registration.
-      await saveEmailCredentialsBestEffort({
-        email: data.email,
+      await saveCredentialsIfEnabled({
+        username: data.email,
         password: data.password,
       });
+      await applyKeepMeSignedIn();
     },
     onError: (error) => {
       const { message: errorMessage } = useError(error);
@@ -335,6 +326,22 @@ export function AuthRegisterEmailModal({ onGoBack, onGoToLogin }) {
               }
               textOne={t("age_terms_agreement_text", { age: minAge })}
             />
+
+            <View style={styles.authSessionOptionCardsWrapper}>
+              <AuthSessionOptionCards
+                shouldSaveCredentials={shouldSaveCredentials}
+                onSaveCredentialsToggle={setShouldSaveCredentials}
+                keepMeSignedInToggleValue={keepMeSignedInToggleValue}
+                onKeepMeSignedInToggle={handleKeepMeSignedInToggle}
+                onKeepMeSignedInInfoPress={openKeepMeSignedInSheet}
+                isKeepMeSignedInSheetOpen={isKeepMeSignedInSheetOpen}
+                onKeepMeSignedInSheetCancel={handleKeepMeSignedInSheetCancel}
+                onKeepMeSignedInSheetContinue={
+                  handleKeepMeSignedInSheetContinue
+                }
+              />
+            </View>
+
             <View style={styles.actions}>
               {errors.submit ? (
                 <Error style={styles.inlineError} message={errors.submit} />
@@ -380,6 +387,9 @@ export function AuthRegisterEmailModal({ onGoBack, onGoToLogin }) {
 }
 
 const styles = StyleSheet.create({
+  authSessionOptionCardsWrapper: {
+    marginTop: 16,
+  },
   content: {
     paddingTop: Platform.OS === "ios" ? 4 : 0,
   },

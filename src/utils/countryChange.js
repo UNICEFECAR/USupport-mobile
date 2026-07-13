@@ -1,26 +1,15 @@
-import * as Keychain from "react-native-keychain";
-
 import { localStorage } from "#services";
 
-import { clearSessionPersistenceFlags } from "./sessionPersistence";
-
-const KEYCHAIN_SERVER = "https://usupport.online";
-
-export async function clearSavedCredentials() {
-  try {
-    await Keychain.resetInternetCredentials({ server: KEYCHAIN_SERVER });
-  } catch {}
-}
+import {
+  clearEphemeralAuthSession,
+} from "./sessionPersistence";
 
 /** Clears keep-me-signed-in flags, keychain credentials, and auth tokens. */
 export async function clearStaleAuthSession() {
-  await clearSessionPersistenceFlags();
-  await clearSavedCredentials();
-  await localStorage.removeItem("token");
-  await localStorage.removeItem("refresh-token");
-  await localStorage.removeItem("expires-in");
-  await localStorage.removeItem("token-expires-in");
+  await clearEphemeralAuthSession();
 }
+
+export { clearSavedCredentials } from "./sessionPersistence";
 
 /**
  * Run when the user picks a different country on Welcome / auth welcome.
