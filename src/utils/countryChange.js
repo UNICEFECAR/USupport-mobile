@@ -1,15 +1,16 @@
 import { localStorage } from "#services";
 
-import {
-  clearEphemeralAuthSession,
-} from "./sessionPersistence";
+import { clearAuthSessionData } from "./sessionPersistence";
 
-/** Clears keep-me-signed-in flags, keychain credentials, and auth tokens. */
+/** Clears session tokens and flags when switching country. Preserves keychain credentials. */
 export async function clearStaleAuthSession() {
-  await clearEphemeralAuthSession();
+  await clearAuthSessionData();
 }
 
-export { clearSavedCredentials } from "./sessionPersistence";
+export {
+  clearSavedCredentials,
+  clearSavedCredentialsForCountry,
+} from "./savedCredentials";
 
 /**
  * Run when the user picks a different country on Welcome / auth welcome.

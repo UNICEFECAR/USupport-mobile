@@ -221,7 +221,7 @@ export const Backdrop = ({
           styles.backdrop,
           { backgroundColor: colors.background },
           { zIndex: layerIndex, elevation: layerIndex },
-          Platform.OS === "android" && {
+          {
             paddingBottom: bottomInset + 6,
           },
           backdropStyle,
@@ -343,12 +343,7 @@ export const Backdrop = ({
               overlayVariant === "auth" ? styles.buttonContainerAuth : null,
               {
                 bottom: 0,
-                paddingBottom:
-                  bottomInset === 0
-                    ? 24
-                    : Platform.OS === "android"
-                      ? bottomInset
-                      : bottomInset / 2,
+                paddingBottom: Math.max(bottomInset, 16),
               },
             ]}
             onLayout={({ nativeEvent }) => {

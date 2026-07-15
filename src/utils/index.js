@@ -9,4 +9,5 @@ export * from "./pdfGenerator";
 export * from "./token";
 export * from "./getBrandingLogoUrl";
 export * from "./sessionPersistence";
+export * from "./savedCredentials";
 export * from "./countryChange";

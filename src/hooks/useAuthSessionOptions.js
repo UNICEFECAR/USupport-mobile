@@ -1,20 +1,22 @@
 import { useContext, useState } from "react";
 import { Platform } from "react-native";
 import { useTranslation } from "react-i18next";
-import * as Keychain from "react-native-keychain";
 import * as LocalAuthentication from "expo-local-authentication";
 
 import { Context } from "#services";
-import { resolveKeepMeSignedInOnLogin } from "#utils";
-
-const KEYCHAIN_SERVER = "https://usupport.online";
+import {
+  resolveKeepMeSignedInOnLogin,
+  saveCredentialsForCurrentCountry,
+  syncDeviceUnlockFromStorage,
+} from "#utils";
 
 /**
  * Shared save-credentials + keep-me-signed-in state for auth modals.
  */
 export function useAuthSessionOptions() {
   const { t } = useTranslation("blocks", { keyPrefix: "login" });
-  const { setRequireBiometricsSetup } = useContext(Context);
+  const { setRequireBiometricsSetup, setUserPin, setHasAuthenticatedWithPin } =
+    useContext(Context);
 
   const [shouldSaveCredentials, setShouldSaveCredentials] = useState(false);
   const [keepMeSignedIn, setKeepMeSignedIn] = useState(false);
@@ -47,9 +49,6 @@ export function useAuthSessionOptions() {
 
     try {
       let iosSuccess = false;
-      const usernameForKeychain = String(username).includes("@")
-        ? String(username).toLowerCase().trim()
-        : String(username).trim();
 
       if (Platform.OS === "ios") {
         const res = await LocalAuthentication.authenticateAsync({
@@ -59,19 +58,14 @@ export function useAuthSessionOptions() {
       }
 
       if (Platform.OS === "android" || iosSuccess) {
-        await Keychain.setInternetCredentials(
-          KEYCHAIN_SERVER,
-          usernameForKeychain,
+        await saveCredentialsForCurrentCountry({
+          username,
           password,
-          {
-            accessControl:
-              Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET_OR_DEVICE_PASSCODE,
-            authenticationPrompt: {
-              title: t("prompt_2_title"),
-              cancel: t("cancel"),
-            },
-          }
-        );
+          authenticationPrompt: {
+            title: t("prompt_2_title"),
+            cancel: t("cancel"),
+          },
+        });
       }
     } catch {
       // User cancellation / OS policy should not break auth success.
@@ -82,6 +76,10 @@ export function useAuthSessionOptions() {
     const { requireBiometricsSetup } =
       await resolveKeepMeSignedInOnLogin(keepMeSignedIn);
     setRequireBiometricsSetup?.(requireBiometricsSetup);
+    await syncDeviceUnlockFromStorage({
+      setUserPin,
+      setHasAuthenticatedWithPin,
+    });
   };
 
   return {

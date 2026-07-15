@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import * as LocalAuthentication from "expo-local-authentication";
 import { useFocusEffect } from "@react-navigation/native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { Block, Heading, NewButton } from "#components";
 import { localStorage } from "#services";
 
 export const SetUpBiometrics = ({ navigation, goBackOnSkip, mandatory = false }) => {
   const { t } = useTranslation("blocks", { keyPrefix: "set-up-biometrics" });
+  const { bottom: bottomInset } = useSafeAreaInsets();
+  const bottomPadding = Math.max(bottomInset, 16);
 
   const [canUseBiometrics, setCanUseBiometrics] = useState(false);
 
@@ -71,7 +74,7 @@ export const SetUpBiometrics = ({ navigation, goBackOnSkip, mandatory = false })
   };
 
   return (
-    <Block style={{ flex: 1 }}>
+    <Block style={{ flex: 1, paddingBottom: bottomPadding }}>
       <Heading
         heading={t("heading")}
         hasGoBackArrow={false}
@@ -80,7 +83,7 @@ export const SetUpBiometrics = ({ navigation, goBackOnSkip, mandatory = false })
       <NewButton
         label={t("btn_label")}
         onPress={handleBtnPress}
-        style={{ marginTop: "auto", marginBottom: 6 }}
+        style={{ marginTop: "auto" }}
         size="lg"
       />
       {!mandatory ? (
@@ -89,7 +92,7 @@ export const SetUpBiometrics = ({ navigation, goBackOnSkip, mandatory = false })
           onPress={handleSkip}
           size="lg"
           type="ghost"
-          style={{ marginVertical: 18 }}
+          style={{ marginTop: 16 }}
         />
       ) : null}
     </Block>

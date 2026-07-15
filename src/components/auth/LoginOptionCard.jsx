@@ -1,7 +1,7 @@
 import React from "react";
-import { StyleSheet, Switch, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 
-import { AppText, Icon } from "#components";
+import { AppText, Icon, Toggle } from "#components";
 import { appStyles } from "#styles";
 import { useGetTheme } from "#hooks";
 
@@ -61,18 +61,7 @@ export function LoginOptionCard({
         </AppText>
       </View>
 
-      <Switch
-        trackColor={{
-          false: appStyles.colorGray_ea,
-          true: appStyles.colorSecondary_9749fa,
-        }}
-        thumbColor={appStyles.colorWhite_ff}
-        ios_backgroundColor={
-          isToggled ? appStyles.colorSecondary_9749fa : appStyles.colorGray_ea
-        }
-        onValueChange={onToggle}
-        value={isToggled}
-      />
+      <Toggle isToggled={isToggled} handleToggle={onToggle} />
     </View>
   );
 }

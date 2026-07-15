@@ -26,6 +26,12 @@ import {
 } from "#components";
 
 import { getCountryFromTimezone, resolveKeepMeSignedInOnLogin } from "#utils";
+import {
+  hasSavedCredentialsForCurrentCountry,
+  getSavedCredentialsForCurrentCountry,
+  saveCredentialsForCurrentCountry,
+  syncDeviceUnlockFromStorage,
+} from "#utils";
 import { userSvc, localStorage, Context } from "#services";
 import { useError } from "#hooks";
 
@@ -47,7 +53,7 @@ export const Login = ({
   const { t } = useTranslation("blocks", { keyPrefix: "login" });
   const queryClient = useQueryClient();
 
-  const { setToken, setInitialRouteName, isLoginDisabled, setIsLoginDisabled, setRequireBiometricsSetup } =
+  const { setToken, setInitialRouteName, isLoginDisabled, setIsLoginDisabled, setRequireBiometricsSetup, setUserPin, setHasAuthenticatedWithPin } =
     useContext(Context);
 
   const [data, setData] = useState({
@@ -70,9 +76,7 @@ export const Login = ({
           await LocalAuthentication.hasHardwareAsync();
         const biometryType = await Keychain.getSupportedBiometryType();
         setBiometryType(biometryType || isHardwareAvailable);
-        const hasCredentials = await Keychain.hasInternetCredentials(
-          "https://usupport.online"
-        );
+        const hasCredentials = await hasSavedCredentialsForCurrentCountry();
         if (hasCredentials) {
           setHasCredentials(true);
         }
@@ -107,9 +111,6 @@ export const Login = ({
           savedCredentials.current?.password !== data.password)
       ) {
         let iosSuccess = false;
-        const usernameForKeychain = data.email.includes("@")
-          ? data.email.toLowerCase().trim()
-          : String(data.email).trim();
 
         // For some reason Keychain.setInternetCredentials doesn't trigger the biometric prompt
         // on iOS, so we need to do it manually
@@ -121,19 +122,14 @@ export const Login = ({
           });
         }
         if (Platform.OS === "android" || iosSuccess) {
-          await Keychain.setInternetCredentials(
-            "https://usupport.online",
-            usernameForKeychain,
-            data.password,
-            {
-              accessControl:
-                Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET_OR_DEVICE_PASSCODE,
-              authenticationPrompt: {
-                title: t("prompt_2_title"),
-                cancel: t("cancel"),
-              },
-            }
-          ).then((res) => console.log("Result: ", res));
+          await saveCredentialsForCurrentCountry({
+            username: data.email,
+            password: data.password,
+            authenticationPrompt: {
+              title: t("prompt_2_title"),
+              cancel: t("cancel"),
+            },
+          });
         }
       }
 
@@ -153,6 +149,10 @@ export const Login = ({
         await resolveKeepMeSignedInOnLogin(keepMeSignedIn);
       setInitialRouteName(initialRouteName);
       setRequireBiometricsSetup(requireBiometricsSetup);
+      await syncDeviceUnlockFromStorage({
+        setUserPin,
+        setHasAuthenticatedWithPin,
+      });
 
       setErrors({});
       setToken(token);
@@ -175,17 +175,10 @@ export const Login = ({
   });
 
   const getCredentials = async () => {
-    // const enrolled = await LocalAuthentication.isEnrolledAsync();
-    const credentials = await Keychain.getInternetCredentials(
-      "https://usupport.online",
-      {
-        accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_ANY,
-        authenticationPrompt: {
-          title: t("prompt_title"),
-          cancel: t("cancel"),
-        },
-      }
-    );
+    const credentials = await getSavedCredentialsForCurrentCountry({
+      title: t("prompt_title"),
+      cancel: t("cancel"),
+    });
     if (credentials) {
       const { username, password } = credentials;
       savedCredentials.current = { username, password };

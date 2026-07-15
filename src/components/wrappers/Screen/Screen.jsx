@@ -127,7 +127,7 @@ export function Screen({
         style={[
           styles.screenChildren,
           style,
-          Platform.OS === "android" && { paddingBottom: bottomInset },
+          { paddingBottom: bottomInset },
         ]}
       >
         {children}
@@ -135,7 +135,7 @@ export function Screen({
           <ButtonOnlyIcon
             style={[
               styles.emergencyButton,
-              Platform.OS === "android" && { bottom: 16 + bottomInset },
+              { bottom: 16 + bottomInset },
             ]}
             onPress={() => handleSosCenterClick()}
             color="red"

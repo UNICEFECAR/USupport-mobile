@@ -1,11 +1,9 @@
 import { localStorage } from "#services";
-import * as Keychain from "react-native-keychain";
 
 import { isTokenExpired } from "./token";
 
 const KEEP_ME_SIGNED_IN_KEY = "keep-me-signed-in";
 const PENDING_KEEP_ME_SIGNED_IN_KEY = "pending-keep-me-signed-in";
-const KEYCHAIN_SERVER = "https://usupport.online";
 
 export async function setKeepMeSignedIn(enabled) {
   if (enabled) {
@@ -36,12 +34,6 @@ export async function clearSessionPersistenceFlags() {
   await localStorage.removeItem(PENDING_KEEP_ME_SIGNED_IN_KEY);
 }
 
-export async function clearSavedCredentials() {
-  try {
-    await Keychain.resetInternetCredentials({ server: KEYCHAIN_SERVER });
-  } catch {}
-}
-
 export async function clearStoredAuthTokens() {
   await localStorage.removeItem("token");
   await localStorage.removeItem("refresh-token");
@@ -55,18 +47,39 @@ export async function clearDeviceUnlockSettings() {
   await localStorage.removeItem("has-declined-biometrics");
 }
 
-/** Clears tokens, device unlock, session flags, and keychain credentials. */
-export async function clearEphemeralAuthSession() {
+/** Clears tokens and keep-me-signed-in flags. Preserves PIN/biometrics and keychain credentials. */
+export async function clearAuthSessionTokensAndFlags() {
   await clearStoredAuthTokens();
-  await clearDeviceUnlockSettings();
   await clearSessionPersistenceFlags();
-  await clearSavedCredentials();
 }
 
-/** Full local auth cleanup used on logout. */
+/** Clears tokens, device unlock, and session flags. Preserves keychain credentials. */
+export async function clearAuthSessionData() {
+  await clearAuthSessionTokensAndFlags();
+  await clearDeviceUnlockSettings();
+}
+
+/** Ends the active session on logout. Preserves PIN/biometrics and saved credentials. */
 export async function clearAuthSessionOnLogout() {
-  await clearEphemeralAuthSession();
+  await clearAuthSessionTokensAndFlags();
   await localStorage.removeItem("isRegistered");
+}
+
+/**
+ * Loads a stored PIN into context after login when device unlock already exists.
+ */
+export async function syncDeviceUnlockFromStorage({
+  setUserPin,
+  setHasAuthenticatedWithPin,
+}) {
+  const pinCode = await localStorage.getItem("pin-code");
+  if (!pinCode) return;
+
+  setUserPin?.(pinCode);
+
+  if (await isKeepMeSignedIn()) {
+    setHasAuthenticatedWithPin?.(false);
+  }
 }
 
 /**
@@ -82,14 +95,15 @@ export async function resolveStoredSessionOnColdStart(storedToken) {
   }
 
   if (isTokenExpired(storedToken)) {
-    await clearEphemeralAuthSession();
+    await clearAuthSessionTokensAndFlags();
     return { token: null, pinCode: null };
   }
 
   const keepSignedIn = await isKeepMeSignedIn();
   if (!keepSignedIn) {
-    await clearEphemeralAuthSession();
-    return { token: null, pinCode: null };
+    await clearAuthSessionTokensAndFlags();
+    const pinCode = await localStorage.getItem("pin-code");
+    return { token: null, pinCode };
   }
 
   const pinCode = await localStorage.getItem("pin-code");

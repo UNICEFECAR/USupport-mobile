@@ -10,7 +10,6 @@ import {
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import * as Clipboard from "expo-clipboard";
-import * as Keychain from "react-native-keychain";
 import * as LocalAuthentication from "expo-local-authentication";
 
 import "fast-text-encoding";
@@ -32,7 +31,7 @@ import {
 } from "#components";
 
 import { userSvc, localStorage, Context } from "#services";
-import { validate, validateProperty, showToast } from "#utils";
+import { validate, validateProperty, showToast, saveCredentialsForCurrentCountry } from "#utils";
 import { useGetTheme, useError } from "#hooks";
 import Animated, {
   useAnimatedStyle,
@@ -124,9 +123,8 @@ export const RegisterAnonymous = ({
 
   const registerMutation = useMutation(register, {
     onSuccess: async (response) => {
-      // Store credentials with generatedAccessToken as username
-      // For some reason Keychain.setInternetCredentials doesn't trigger the biometric prompt
-      // on iOS, so we need to do it manually
+      // Store credentials with generatedAccessToken as username.
+      // On iOS, LocalAuthentication is required before keychain write.
       let iosSuccess = false;
       const generatedAccessToken = String(userAccessToken).trim();
 
@@ -138,19 +136,14 @@ export const RegisterAnonymous = ({
         });
       }
       if (Platform.OS === "android" || iosSuccess) {
-        await Keychain.setInternetCredentials(
-          "https://usupport.online",
-          generatedAccessToken,
-          data.password,
-          {
-            accessControl:
-              Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET_OR_DEVICE_PASSCODE,
-            authenticationPrompt: {
-              title: t("prompt_2_title"),
-              cancel: t("cancel"),
-            },
-          }
-        ).then((res) => console.log("Result: ", res));
+        await saveCredentialsForCurrentCountry({
+          username: generatedAccessToken,
+          password: data.password,
+          authenticationPrompt: {
+            title: t("prompt_2_title"),
+            cancel: t("cancel"),
+          },
+        });
       }
 
       setIsAnonymousRegister(true);
