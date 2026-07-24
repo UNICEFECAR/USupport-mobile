@@ -503,12 +503,6 @@
       "psychotherapist": "Psychoterapeuta/ka",
       "no_match": "Brak konsultantów spełniających Twoje kryteria",
       "free": "Wolny",
-      "coupon": "Kupon",
-      "tab_paid": "Płatne",
-      "tab_coupon": "Kupon",
-      "tab_free": "Bezpłatnie",
-      "enter_coupon_to_see_providers": "Wprowadź kupon powyżej, aby zobaczyć konsultantów",
-      "error_invalid_coupon": "Nieprawidłowy kupon",
       "earliest_available_slot": "Pierwsza dostępna konsultacja:",
       "sunday": "Niedz.",
       "monday": "Pon.",
@@ -531,7 +525,14 @@
       "coupon_paragraph_two": "",
       "max_price": "",
       "providers_free_consultation_label": "",
+      "coupon": "Kupon",
+      "tab_paid": "Płatne",
+      "tab_coupon": "Kupon",
+      "tab_free": "Bezpłatnie",
+      "enter_coupon_to_see_providers": "Wprowadź kupon powyżej, aby zobaczyć konsultantów",
+      "error_invalid_coupon": "Nieprawidłowy kupon",
       "coupon_note": "Tym razem wpisaliśmy za Ciebie kod na darmową sesję! Umów się z jednym z naszych konsultantów i zrób pierwszy krok, aby zadbać o swoje samopoczucie.",
+      "choose-provider": "",
       "choose_provider": "Wybierz konsultanta/kę, z którym chcesz porozmawiać w ramach konsultacji wideo, audio lub tekstowej. Znalezienie konsultanta/ki, który/a będzie dobrze dopasowany/a do Twoich potrzeb i preferowanego podejścia, może czasami zająć trochę czasu."
     },
     "share-platform": {
@@ -958,8 +959,8 @@
       "answered_questions": "",
       "latest_result": "",
       "same_same_same": "Twoje wyniki są takie same jak w poprzedniej ocenie.",
-      "summary_heading": "Recommendations generated based on the score obtained",
       "organizations": "Polecane organizacje",
+      "summary_heading": "Recommendations generated based on the score obtained",
       "read_more": "Czytaj więcej",
       "view_more": "Zobacz więcej"
     }
@@ -969,7 +970,7 @@
       "heading": "Więcej artykułów",
       "no_results": "Brak podobnych artykułów dla aktualnie wybranego języka. ",
       "read_more": "Czytaj więcej",
-      "min_read": "min czytać",
+      "min_read": "min. czytania",
       "by": "Przez {{creator}}",
       "check_article": "Cześć, sprawdź ten artykuł",
       "share_success": "Artykuł został udostępniony",
@@ -1186,6 +1187,10 @@
       "subheading": "Szczegółowy przegląd profilu wybranej organizacji",
       "emergency_button_label": "Emergency help"
     },
+    "organization-overview-screen": {
+      "heading": "Przegląd organizacji",
+      "subheading": "Szczegółowy przegląd profilu wybranej organizacji"
+    },
     "children-rights-screen": {
       "back": "Wstecz",
       "continue": "Kontynuuj",
@@ -1295,10 +1300,6 @@
       "min_read": "min czytania",
       "read_more": "Czytaj więcej",
       "to_dashboard": "Przejdź do pulpitu"
-    },
-    "organization-overview-screen": {
-      "heading": "Przegląd organizacji",
-      "subheading": "Szczegółowy przegląd profilu wybranej organizacji"
     }
   },
   "backdrops": {
@@ -1471,6 +1472,22 @@
       "end_date": "End date",
       "end_date_before_start_error": "End date must be after start date",
       "confirm": "Confirm"
+    },
+    "user-guide": {
+      "heading": "Do you want to know more about:",
+      "emergency_services": "Emergency services",
+      "map": "Map of mental health and psycho-emotional support services available in Bucharest",
+      "rights": "The rights of children and adolescents to access mental health and psycho-emotional support services"
+    },
+    "emergency-situation": {
+      "heading": "Map of Mental Health and Psychosocial Support Services for Children and Adolescents in Bucharest",
+      "paragraph": "This interactive map presents mental health and psychosocial well-being services available for children and adolescents in Bucharest. We will try to guide you in order to offer the options that best match your needs.",
+      "paragraph_two": "<0>Disclaimer:</0> This map was created based on the descriptions found on the service providers’ websites. We cannot guarantee the accuracy of the information at the time you access the map. Services and providers are constantly changing, so we recommend that when you choose a provider, you contact them by phone and explain in detail the situation for which you need professional help.",
+      "question": "Are you looking for services for an emergency situation?",
+      "subquestion": "For example: self-harm, suicide attempt, school or family violence, sexual abuse, etc",
+      "yes": "Yes",
+      "no": "No",
+      "dont_know": "I don't know if it's urgent"
     }
   },
   "modals": {
