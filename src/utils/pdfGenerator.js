@@ -2,6 +2,8 @@ import { Platform } from "react-native";
 import RNHTMLtoPDF from "react-native-html-to-pdf";
 import { marked } from "marked";
 
+import { getDateView, getTime } from "./date.js";
+
 export const generatePDF = async ({ articleData, t }) => {
   try {
     // Convert markdown to HTML
@@ -17,7 +19,7 @@ export const generatePDF = async ({ articleData, t }) => {
           <style>
             * { print-color-adjust:exact !important; }
             body {
-              font-family: 'Nunito', sans-serif;
+              font-family: 'Inter', sans-serif;
               color: #333;
             }
             .header {
@@ -162,6 +164,427 @@ export const generatePDF = async ({ articleData, t }) => {
     return file;
   } catch (error) {
     console.error("Error generating PDF:", error);
+    throw error;
+  }
+};
+
+const escapeHtml = (value) => {
+  if (value === null || value === undefined) return "";
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+};
+
+export const generateBaselineAssessmentResultPDF = async ({
+  result,
+  assessmentData,
+  t,
+  logoUri,
+}) => {
+  try {
+    const summarySource =
+      assessmentData?.summary ||
+      assessmentData?.summaryText ||
+      assessmentData?.summary_md ||
+      "";
+    const summaryHtml = summarySource ? marked.parse(summarySource) : "";
+
+    const listItems = (items) =>
+      (items || [])
+        .slice(0, 10)
+        .map(
+          (i) =>
+            `<li><span class="liTitle">${escapeHtml(i.title || "")}</span>${
+              i.creator
+                ? `<span class="liMeta"> — ${escapeHtml(i.creator)}</span>`
+                : ""
+            }</li>`
+        )
+        .join("");
+
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <title>${escapeHtml(
+            t?.("assessment_completed") || "Assessment completed"
+          )}</title>
+          <style>
+            * { print-color-adjust:exact !important; }
+            body {
+              font-family: 'Inter', sans-serif;
+              color: #333;
+              padding: 16px;
+            }
+            .header {
+              display: flex;
+              justify-content: space-between;
+              align-items: flex-start;
+              gap: 16px;
+              margin-bottom: 16px;
+            }
+            .logo {
+              width: 120px;
+              height: auto;
+              object-fit: contain;
+              margin-left: auto;
+            }
+            .title {
+              font-size: 22px;
+              font-weight: bold;
+              margin: 0 0 6px 0;
+            }
+            .meta {
+              color: #666;
+              font-size: 12px;
+            }
+            .section {
+              margin-top: 18px;
+              padding-top: 12px;
+              border-top: 1px solid #eee;
+            }
+            .sectionTitle {
+              font-size: 16px;
+              font-weight: 700;
+              margin-bottom: 10px;
+              color: #3d527b;
+            }
+            .subtitle {
+              font-size: 13px;
+              color: #555;
+              margin-bottom: 10px;
+            }
+            .stats {
+              display: flex;
+              gap: 12px;
+              flex-wrap: wrap;
+            }
+            .stat {
+              background: #f6f8fa;
+              border-radius: 10px;
+              padding: 10px 12px;
+              min-width: 160px;
+              flex: 1;
+            }
+            .statLabel {
+              font-size: 12px;
+              color: #66768d;
+              margin-bottom: 6px;
+              font-weight: 700;
+            }
+            .statValue {
+              font-size: 20px;
+              font-weight: 800;
+              color: #111;
+            }
+            .markdown {
+              line-height: 1.6;
+              font-size: 15px;
+            }
+            .markdown h1, .markdown h2, .markdown h3, .markdown h4, .markdown h5, .markdown h6 {
+              color: #333;
+              margin-top: 18px;
+              margin-bottom: 12px;
+              font-weight: 700;
+              line-height: 1.25;
+            }
+            .markdown p { margin: 0 0 12px 0; }
+            .list { padding-left: 18px; margin: 0; }
+            .list li { margin-bottom: 8px; }
+            .liTitle { font-weight: 700; }
+            .liMeta { color: #666; font-size: 12px; }
+            .footer {
+              margin-top: 18px;
+              padding-top: 12px;
+              border-top: 1px solid #eee;
+              color: #666;
+              font-size: 11px;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <div>
+              <div class="title">${escapeHtml(
+                t?.("assessment_completed") || "Assessment completed"
+              )}</div>
+              <div class="meta">${escapeHtml(
+                t?.("download_pdf_footer") || "Generated by USupport client app"
+              )}</div>
+            </div>
+            ${
+              logoUri
+                ? `<img class="logo" src="${escapeHtml(
+                    logoUri
+                  )}" alt="USupport" />`
+                : ""
+            }
+          </div>
+
+          ${
+            result
+              ? `<div class="section">
+                  <div class="sectionTitle">${escapeHtml(
+                    t?.("summary_heading") || "Summary"
+                  )}</div>
+                  ${
+                    result?.comparePreviousText
+                      ? `<div class="subtitle">${escapeHtml(
+                          result.comparePreviousText
+                        )}</div>`
+                      : ""
+                  }
+                  <div class="stats">
+                    <div class="stat">
+                      <div class="statLabel">${escapeHtml(
+                        t?.("psychological") || "Psychological"
+                      )}</div>
+                      <div class="statValue">${escapeHtml(
+                        result.psychologicalScore
+                      )}</div>
+                    </div>
+                    <div class="stat">
+                      <div class="statLabel">${escapeHtml(
+                        t?.("biological") || "Biological"
+                      )}</div>
+                      <div class="statValue">${escapeHtml(
+                        result.biologicalScore
+                      )}</div>
+                    </div>
+                    <div class="stat">
+                      <div class="statLabel">${escapeHtml(
+                        t?.("social") || "Social"
+                      )}</div>
+                      <div class="statValue">${escapeHtml(
+                        result.socialScore
+                      )}</div>
+                    </div>
+                  </div>
+                </div>`
+              : ""
+          }
+
+          ${
+            summaryHtml
+              ? `<div class="section">
+                  <div class="sectionTitle">${escapeHtml(
+                    t?.("summary_heading") || "Summary"
+                  )}</div>
+                  <div class="markdown">${summaryHtml}</div>
+                </div>`
+              : ""
+          }
+
+          ${
+            assessmentData?.articles?.length
+              ? `<div class="section">
+                  <div class="sectionTitle">${escapeHtml(
+                    t?.("recommended_articles") || "Recommended articles"
+                  )}</div>
+                  <ul class="list">${listItems(assessmentData.articles)}</ul>
+                </div>`
+              : ""
+          }
+          ${
+            assessmentData?.videos?.length
+              ? `<div class="section">
+                  <div class="sectionTitle">${escapeHtml(
+                    t?.("recommended_videos") || "Recommended videos"
+                  )}</div>
+                  <ul class="list">${listItems(assessmentData.videos)}</ul>
+                </div>`
+              : ""
+          }
+          ${
+            assessmentData?.podcasts?.length
+              ? `<div class="section">
+                  <div class="sectionTitle">${escapeHtml(
+                    t?.("recommended_podcasts") || "Recommended podcasts"
+                  )}</div>
+                  <ul class="list">${listItems(assessmentData.podcasts)}</ul>
+                </div>`
+              : ""
+          }
+
+          <div class="footer">${escapeHtml(
+            t?.("download_pdf_footer") || "Generated by USupport client app"
+          )}</div>
+        </body>
+      </html>
+    `;
+
+    const fileName = `baseline_assessment_result_${Date.now()}.pdf`;
+    const options = {
+      html: htmlContent,
+      fileName,
+      directory: Platform.OS === "ios" ? "Documents" : "Download",
+      base64: true,
+    };
+
+    const file = await RNHTMLtoPDF.convert(options);
+    return file;
+  } catch (error) {
+    console.error("Error generating baseline assessment PDF:", error);
+    throw error;
+  }
+};
+
+/**
+ * @param {object} params
+ * @param {Array<{ isSystem: boolean, isSent: boolean, body: string, date: Date }>} params.rows
+ * @param {string} params.providerName
+ * @param {string} params.chatHistoryHeading
+ * @param {string} params.exportedAtLine
+ * @param {string} [params.logoUri]
+ */
+export const generateActivityHistoryChatPDF = async ({
+  rows,
+  providerName,
+  chatHistoryHeading,
+  exportedAtLine,
+  logoUri,
+}) => {
+  try {
+    const messageBlocks = (rows || [])
+      .map((row) => {
+        const d = row.date instanceof Date ? row.date : new Date(row.date);
+        const dateStr = `${getDateView(d)}, ${getTime(d)}`;
+        const body = escapeHtml(row.body || "");
+        if (row.isSystem) {
+          return `
+            <div class="msgRow system">
+              <div class="bubble system">
+                <div class="bubbleText">${body}</div>
+                <div class="bubbleDate">${escapeHtml(dateStr)}</div>
+              </div>
+            </div>`;
+        }
+        const side = row.isSent ? "sent" : "received";
+        return `
+            <div class="msgRow ${side}">
+              <div class="bubble ${side}">
+                <div class="bubbleText">${body}</div>
+                <div class="bubbleDate ${row.isSent ? "dateSent" : ""}">${escapeHtml(
+                  dateStr
+                )}</div>
+              </div>
+            </div>`;
+      })
+      .join("");
+
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <title>${escapeHtml(chatHistoryHeading || "Chat history")}</title>
+          <style>
+            * { print-color-adjust: exact !important; }
+            body {
+              font-family: 'Inter', sans-serif;
+              color: #20809e;
+              padding: 16px;
+              font-size: 12px;
+            }
+            .logo {
+              width: 30%;
+              max-width: 180px;
+              height: auto;
+              align-self: center;
+              margin: 0 auto 16px;
+              display: block;
+            }
+            .heading {
+              text-align: center;
+              margin-top: 8px;
+              font-weight: 600;
+            }
+            .providerName {
+              text-align: center;
+              margin-top: 6px;
+              font-weight: 400;
+              color: #20809e;
+            }
+            .exported {
+              text-align: center;
+              margin-top: 6px;
+              color: #666;
+              font-size: 11px;
+            }
+            .msgRow {
+              width: 100%;
+              display: flex;
+              flex-direction: column;
+              margin-top: 8px;
+            }
+            .msgRow.sent { align-items: flex-end; }
+            .msgRow.received { align-items: flex-start; }
+            .msgRow.system { align-items: center; }
+            .bubble {
+              border-radius: 18px;
+              padding: 8px 14px;
+              max-width: 88%;
+            }
+            .bubble.sent {
+              background-color: #54cfd9;
+              margin-right: 8px;
+            }
+            .bubble.received {
+              background-color: #e6f1f4;
+              margin-left: 8px;
+            }
+            .bubble.system {
+              background-color: #ffffff;
+              border: 1px solid #20809e;
+              max-width: 92%;
+            }
+            .bubbleText {
+              color: #20809e;
+              font-weight: 700;
+              font-size: 12px;
+            }
+            .bubbleDate {
+              color: gray;
+              margin-top: 6px;
+              font-size: 10px;
+            }
+            .bubbleDate.dateSent {
+              color: #66768d;
+            }
+          </style>
+        </head>
+        <body>
+          ${
+            logoUri
+              ? `<img class="logo" src="${escapeHtml(logoUri)}" alt="" />`
+              : ""
+          }
+          <div class="heading">${escapeHtml(chatHistoryHeading || "")}</div>
+          <div class="providerName">${escapeHtml(providerName || "")}</div>
+          <div class="exported">${escapeHtml(exportedAtLine || "")}</div>
+          ${messageBlocks}
+        </body>
+      </html>
+    `;
+
+    const safeName = String(providerName || "chat")
+      .replace(/[/\\?%*:|"<>]/g, "-")
+      .slice(0, 80);
+    const fileName = `Chat-history-${safeName}-${Date.now()}.pdf`;
+    const options = {
+      html: htmlContent,
+      fileName,
+      directory: Platform.OS === "ios" ? "Documents" : "Download",
+      base64: true,
+    };
+
+    return await RNHTMLtoPDF.convert(options);
+  } catch (error) {
+    console.error("Error generating activity history PDF:", error);
     throw error;
   }
 };

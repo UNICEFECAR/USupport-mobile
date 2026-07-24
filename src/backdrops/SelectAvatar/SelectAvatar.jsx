@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-  Image,
   StyleSheet,
   TouchableWithoutFeedback,
   View,
@@ -8,7 +7,7 @@ import {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
-import { Backdrop, AppText } from "#components";
+import { Backdrop, AppText, CachedImage } from "#components";
 import { clientSvc } from "#services";
 import { useError } from "#hooks";
 import { appStyles } from "#styles";
@@ -78,7 +77,7 @@ export const SelectAvatar = ({ isOpen, onClose }) => {
       errorMessage={error}
     >
       <View style={styles.selectedAvatarContent}>
-        <Image
+        <CachedImage
           style={styles.imagePreview}
           resizeMode="contain"
           source={{ uri: AMAZON_S3_BUCKET + "/" + image }}
@@ -89,7 +88,7 @@ export const SelectAvatar = ({ isOpen, onClose }) => {
               key={index}
               onPress={() => setSelectedAvatar(avatar)}
             >
-              <Image
+              <CachedImage
                 style={[
                   styles.avatarImage,
                   avatar === selectedAvatar && styles.selectedAvatar,

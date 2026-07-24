@@ -8,7 +8,9 @@ import {
   TouchableWithoutFeedback,
   Platform,
   Keyboard,
+  useWindowDimensions,
 } from "react-native";
+import { BlurView } from "expo-blur";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, {
   useAnimatedStyle,
@@ -18,7 +20,7 @@ import Animated, {
 
 import { AppText } from "../../texts";
 import { Icon } from "../../icons";
-import { AppButton } from "../../buttons";
+import { NewButton } from "../../buttons";
 import { Loading } from "../../loaders/";
 import { Error } from "../../errors/";
 import { appStyles } from "#styles";
@@ -35,7 +37,16 @@ import { useGetTheme } from "#hooks";
 export const Backdrop = ({
   isOpen,
   onClose,
+  disableOverlayClose = false,
+  overlayVariant = "default",
+  layerIndex = 999,
   style,
+  topHeaderComponent,
+  topHeaderStyles,
+  hasGoBackArrow = false,
+  handleGoBack,
+  hasHeader = true,
+  hasCloseIcon = true,
   heading,
   text,
   ctaLabel,
@@ -68,10 +79,12 @@ export const Backdrop = ({
   setKeyboardHeight,
 }) => {
   const { colors } = useGetTheme();
+  const overlayLayerIndex = Math.max(0, layerIndex - 1);
   const hasButtons = ctaLabel || secondaryCtaLabel;
   const [isOverlayShown, setIsOverlayShown] = useState(false);
   const [buttonsContainerHeight, setButtonsContainerHeight] = useState(0);
-  const { bottom: bottomInset } = useSafeAreaInsets();
+  const { bottom: bottomInset, top: topInset } = useSafeAreaInsets();
+  const { height: windowHeight } = useWindowDimensions();
 
   const isClosing = useRef(false);
   const [shrinkBackdrop, setShrinkBackdrop] = useState(false);
@@ -84,8 +97,15 @@ export const Backdrop = ({
   });
 
   const onShowKeyboard = (height) => {
-    if (Platform.OS === "ios") {
-      backdropBottom.value = withSpring(-height + 24, appStyles.springConfig);
+    const shouldMoveSheet =
+      Platform.OS === "ios" ||
+      (overlayVariant === "auth" && hasKeyboardListener);
+    if (shouldMoveSheet) {
+      const clampedHeight = Math.min(height || 0, appStyles.screenHeight * 0.8);
+      backdropBottom.value = withSpring(
+        -clampedHeight + 24,
+        appStyles.springConfig
+      );
     }
     if (isInVideoTherapy) {
       handleShowKeyboard();
@@ -93,7 +113,10 @@ export const Backdrop = ({
     }
   };
   const onHideKeyboard = () => {
-    if (Platform.OS === "ios" && !isClosing.current) {
+    const shouldMoveSheet =
+      Platform.OS === "ios" ||
+      (overlayVariant === "auth" && hasKeyboardListener);
+    if (shouldMoveSheet && !isClosing.current) {
       backdropBottom.value = withSpring(0, appStyles.springConfig);
     }
     if (isInVideoTherapy) {
@@ -108,7 +131,7 @@ export const Backdrop = ({
   );
 
   useEffect(() => {
-    if (keyboardHeight) {
+    if (keyboardHeight && typeof setKeyboardHeight === "function") {
       setKeyboardHeight(keyboardHeight);
     }
   }, [keyboardHeight]);
@@ -148,11 +171,48 @@ export const Backdrop = ({
     handleCloseIconPress();
   };
 
-  const Overlay = () => (
-    <TouchableWithoutFeedback onPress={handleCloseBackdrop}>
-      <View style={[styles.overlay, overlayStyles]} />
-    </TouchableWithoutFeedback>
-  );
+  const toNewButtonType = (type) => {
+    switch (type) {
+      case "primary":
+        return "gradient";
+      case "secondary":
+        return "outline";
+      default:
+        return type;
+    }
+  };
+
+  const overlayContent =
+    overlayVariant === "auth" ? (
+      <>
+        <BlurView
+          intensity={18}
+          tint="dark"
+          style={[StyleSheet.absoluteFill, styles.authOverlay]}
+        />
+        <View
+          style={[
+            styles.overlay,
+            styles.authOverlay,
+            { zIndex: overlayLayerIndex },
+            overlayStyles,
+          ]}
+        />
+      </>
+    ) : (
+      <View
+        style={[styles.overlay, { zIndex: overlayLayerIndex }, overlayStyles]}
+      />
+    );
+
+  const Overlay = () =>
+    disableOverlayClose ? (
+      overlayContent
+    ) : (
+      <TouchableWithoutFeedback onPress={handleCloseBackdrop}>
+        {overlayContent}
+      </TouchableWithoutFeedback>
+    );
   return (
     <>
       {isOverlayShown ? <Overlay /> : null}
@@ -160,76 +220,130 @@ export const Backdrop = ({
         style={[
           styles.backdrop,
           { backgroundColor: colors.background },
-          Platform.OS === "android" && {
+          { zIndex: layerIndex, elevation: layerIndex },
+          {
             paddingBottom: bottomInset + 6,
           },
           backdropStyle,
           style,
+          // Bound the sheet to the live viewport so the inner ScrollView is
+          // properly sized when the Android keyboard resizes the window
+          // (windowSoftInputMode="adjustResize"). Without this, a backdrop
+          // sized with `height: "auto"` will overflow above the visible
+          // area and hide form fields.
+          { maxHeight: Math.max(0, windowHeight - topInset) },
           shrinkBackdrop ? { height: appStyles.screenHeight * 0.3 } : {},
         ]}
       >
         {customRender ? (
           children
         ) : (
-          <View>
-            <TouchableOpacity
-              hitSlop={appStyles.hitSlop}
-              style={{
-                zIndex: 999,
-              }}
-              onPress={
-                handleCloseIconPress ? handleCustomClose : handleCloseBackdrop
-              }
-            >
-              <Icon
-                name="close-x"
-                size="md"
-                color={appStyles.colorPrimary_20809e}
-                style={styles.icon}
-              />
-            </TouchableOpacity>
-            <View style={[styles.header,headerStyles]}>
-              <AppText namedStyle="h3" style={styles.headingText}>
-                {heading}
-              </AppText>
-            </View>
-            {text ? (
-              <View>
-                <AppText style={styles.subheading}>{text}</AppText>
+          <>
+            {topHeaderComponent ? (
+              <View style={[styles.topHeader, topHeaderStyles]}>
+                {topHeaderComponent}
               </View>
-            ) : (
-              <View style={{ height: 10 }} />
-            )}
+            ) : null}
+
+            {hasGoBackArrow ? (
+              <TouchableOpacity
+                onPress={handleGoBack}
+                hitSlop={appStyles.hitSlop}
+                style={styles.goBackRow}
+              >
+                <Icon
+                  name="arrow-chevron-back"
+                  size="md"
+                  color={appStyles.colorPrimary_20809e}
+                  style={styles.goBackIcon}
+                />
+              </TouchableOpacity>
+            ) : null}
+
+            {hasHeader ? (
+              <View>
+                {heading || hasCloseIcon ? (
+                  <View
+                    style={[
+                      styles.headerRow,
+                      !hasCloseIcon ? styles.headerRowNoClose : null,
+                      headerStyles,
+                    ]}
+                  >
+                    <View style={styles.headerLeftContainer} />
+
+                    {heading ? (
+                      <View style={styles.headerTextContainer}>
+                        <AppText
+                          namedStyle="h3"
+                          style={[styles.headingText, { color: colors.text }]}
+                        >
+                          {heading}
+                        </AppText>
+                      </View>
+                    ) : null}
+
+                    {hasCloseIcon ? (
+                      <TouchableOpacity
+                        hitSlop={appStyles.hitSlop}
+                        style={styles.headerIconContainer}
+                        onPress={
+                          handleCloseIconPress
+                            ? handleCustomClose
+                            : handleCloseBackdrop
+                        }
+                      >
+                        <Icon
+                          name="close-x"
+                          size="md"
+                          color={
+                            colors.primary || appStyles.colorPrimary_20809e
+                          }
+                        />
+                      </TouchableOpacity>
+                    ) : (
+                      <View style={styles.headerIconContainer} />
+                    )}
+                  </View>
+                ) : null}
+
+                {text ? (
+                  <View>
+                    <AppText style={styles.subheading}>{text}</AppText>
+                  </View>
+                ) : heading ? (
+                  <View style={{ height: 10 }} />
+                ) : null}
+              </View>
+            ) : null}
 
             <ScrollView
               contentContainerStyle={[
                 styles.scrollView,
                 {
                   paddingBottom: hasButtons
-                    ? buttonsContainerHeight * 2
+                    ? buttonsContainerHeight + 20
                     : 32 + bottomInset,
                 },
                 scrollViewStyle,
               ]}
               showsVerticalScrollIndicator={false}
+              keyboardShouldPersistTaps="handled"
+              keyboardDismissMode="interactive"
             >
               {children}
             </ScrollView>
-          </View>
+          </>
         )}
         {hasButtons ? (
           <View
             style={[
               styles.buttonContainer,
               { backgroundColor: colors.background },
+              overlayVariant === "auth" ? styles.buttonContainerAuth : null,
               {
                 bottom: 0,
-                paddingBottom:
-                  bottomInset === 0
-                    ? 24
-                    : Platform.OS === "android"
-                      ? bottomInset
-                      : bottomInset / 2,
+                paddingBottom: Math.max(bottomInset, 16),
               },
             ]}
             onLayout={({ nativeEvent }) => {
@@ -244,13 +358,14 @@ export const Backdrop = ({
               isCtaDisabled && showLoadingIfDisabled ? (
                 <Loading />
               ) : (
-                <AppButton
+                <NewButton
                   label={ctaLabel}
                   disabled={isCtaDisabled || isCtaLoading}
                   loading={isCtaLoading}
                   onPress={handleClick}
-                  color={ctaColor}
+                  type={toNewButtonType("primary")}
                   size="lg"
+                  isFullWidth
                   style={ctaStyle}
                 />
               )
@@ -261,14 +376,14 @@ export const Backdrop = ({
                   <Loading />
                 </View>
               ) : (
-                <AppButton
+                <NewButton
                   label={secondaryCtaLabel}
                   onPress={secondaryCtaHandleClick}
                   disabled={isSecondaryCtaDisabled || isSecondaryCtaLoading}
                   loading={isSecondaryCtaLoading}
                   size="lg"
-                  type={secondaryCtaType}
-                  color={secondaryCtaColor}
+                  type={toNewButtonType(secondaryCtaType)}
+                  isFullWidth
                   style={[styles.secondButton, secondaryCtaStyle]}
                 />
               )
@@ -286,10 +401,12 @@ const styles = StyleSheet.create({
     height: appStyles.screenHeight,
     backgroundColor: appStyles.overlay,
     position: "absolute",
-    zIndex: 5,
     left: 0,
     right: 0,
     bottom: 0,
+  },
+  authOverlay: {
+    backgroundColor: "rgba(18, 18, 24, 0.55)",
   },
   backdrop: {
     borderTopLeftRadius: 32,
@@ -297,8 +414,7 @@ const styles = StyleSheet.create({
     padding: 16,
     bottom: 0,
     height: appStyles.screenHeight * 0.8,
-    zIndex: 999, // Put higher zIndex in order to show the backdrop above the emergency button
-    elevation: 999,
+    // zIndex/elevation are set via `layerIndex` prop to allow specific backdrops to be above others.
     position: "absolute",
     width: "100%",
   },
@@ -306,29 +422,54 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     zIndex: 99,
   },
-  header: {
+  headerRow: {
     width: "100%",
-    paddingLeft: 30,
-    paddingRight: 30,
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    marginTop: 4,
+  },
+  headerRowNoClose: {
+    justifyContent: "center",
+  },
+  headerLeftContainer: {
+    width: 24,
+    height: 24,
+  },
+  headerTextContainer: {
+    flex: 1,
+    paddingHorizontal: 8,
+    alignItems: "center",
   },
   headingText: {
-    alignSelf: "center",
     fontFamily: appStyles.fontSemiBold,
-    // marginRight: "-10%",
+    textAlign: "center",
   },
   subheading: {
     marginTop: 24,
     width: "100%",
   },
-  icon: {
-    position: "absolute",
-    right: 10,
-    top: 0,
-    zIndex: 999,
+  headerIconContainer: {
+    width: 24,
+    height: 24,
+    alignItems: "flex-end",
+    justifyContent: "flex-start",
   },
   scrollView: {
     flexGrow: 1,
     paddingTop: 32,
+  },
+  topHeader: {
+    width: "100%",
+  },
+  goBackRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 16,
+    alignSelf: "flex-start",
+  },
+  goBackIcon: {
+    marginRight: 8,
   },
   buttonContainer: {
     alignItems: "center",
@@ -336,9 +477,13 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "100%",
     alignSelf: "center",
+    paddingBottom: 16,
+  },
+  buttonContainerAuth: {
+    paddingHorizontal: 16,
   },
   secondButton: {
-    marginTop: 16,
+    marginVertical: 16,
   },
   secondButtonLoadingContainer: {
     minHeight: 100,
@@ -357,6 +502,53 @@ Backdrop.propTypes = {
    * Function to be called when the backdrop/modal is closed
    */
   onClose: PropTypes.func.isRequired,
+
+  /**
+   * If true, tapping the dimmed overlay won't close the backdrop.
+   */
+  disableOverlayClose: PropTypes.bool,
+
+  /**
+   * Controls overlay look. "auth" matches client-ui auth overlay.
+   */
+  overlayVariant: PropTypes.oneOf(["default", "auth"]),
+
+  /**
+   * Controls stacking order of both the dimmed overlay and the sheet.
+   * Higher value renders above other Backdrops.
+   */
+  layerIndex: PropTypes.number,
+
+  /**
+   * Optional component to render as a full-width header above the modal content.
+   * Mirrors client-ui Backdrop's `topHeaderComponent`.
+   */
+  topHeaderComponent: PropTypes.node,
+
+  /**
+   * Optional styles for the top header wrapper.
+   */
+  topHeaderStyles: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+
+  /**
+   * Whether to show a go-back arrow row.
+   */
+  hasGoBackArrow: PropTypes.bool,
+
+  /**
+   * Handler for the go-back action when `hasGoBackArrow` is true.
+   */
+  handleGoBack: PropTypes.func,
+
+  /**
+   * Whether to render the standard header area (close icon + heading/text).
+   */
+  hasHeader: PropTypes.bool,
+
+  /**
+   * Whether to show the close icon (when `hasHeader` is true).
+   */
+  hasCloseIcon: PropTypes.bool,
 
   /**
    * Additional styles for the component

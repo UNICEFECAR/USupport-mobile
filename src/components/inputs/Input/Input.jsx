@@ -31,27 +31,36 @@ export const Input = ({
   wrapperStyles,
   ...props
 }) => {
-  const { colors, isDarkMode } = useGetTheme();
+  const { colors } = useGetTheme();
   const [isFocused, setIsFocused] = useState(false);
 
+  const getBorderColor = () => {
+    if (errorMessage) return appStyles.colorRed_eb5757;
+    if (isFocused && !disabled) return appStyles.colorSecondary_9749fa;
+    return colors.inputBorder || appStyles.colorGray_cdd8e1;
+  };
+
   return (
-    <View style={[styles.inputWrapper, style]}>
+    <View style={[styles.inputContainer, style]}>
       {label && (
         <AppText
           namedStyle="text"
-          style={[styles.label, { color: colors.text }]}
+          style={[styles.label, disabled && styles.labelDisabled]}
         >
           {label}
         </AppText>
       )}
       <View
         style={[
-          styles.input,
-          { backgroundColor: colors.input },
-          appStyles.shadow2,
+          styles.inputWrapper,
+          {
+            backgroundColor: colors.input,
+            borderColor: getBorderColor(),
+          },
+          !disabled && appStyles.shadow1,
+          disabled && styles.inputWrapperDisabled,
           errorMessage && styles.inputError,
           isTextarea && styles.textarea,
-          isFocused && !errorMessage && styles.inputFocused,
           wrapperStyles,
         ]}
       >
@@ -59,17 +68,17 @@ export const Input = ({
         <TextInput
           style={[
             styles.textInput,
-            { color: colors.textTertiary },
+            {
+              color: colors.inputText || colors.textTertiary,
+              backgroundColor: colors.input,
+            },
             isTextarea && styles.inputTextarea,
-            disabled && styles.inputWrapperDisabled,
             inputStyles,
           ]}
+          placeholderTextColor={colors.inputPlaceholder || colors.textSecondary}
           editable={!disabled}
           selectTextOnFocus={!disabled}
           secureTextEntry={isPassword}
-          placeholderTextColor={
-            !isDarkMode ? appStyles.colorGray_92989b : appStyles.colorGray_ea
-          }
           autoCorrect={false}
           autoComplete="email"
           spellCheck={false}
@@ -95,56 +104,55 @@ export const Input = ({
 };
 
 const styles = StyleSheet.create({
-  input: {
-    alignItems: "center",
-    alignSelf: "center",
-    borderColor: "transparent",
-    borderRadius: 53,
-    borderWidth: 1,
-    display: "flex",
+  inputContainer: {
+    width: "100%",
+    textAlign: "left",
+  },
+
+  labelDisabled: {
+    opacity: 0.7,
+  },
+
+  inputWrapperDisabled: {
+    opacity: 0.7,
+  },
+
+  label: {
+    fontFamily: appStyles.fontMedium,
+    marginBottom: 4,
+  },
+
+  inputWrapper: {
     flexDirection: "row",
-    marginTop: 4,
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    width: "97%",
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderRadius: 12,
+    borderWidth: 1,
+    backgroundColor: appStyles.colorWhite_ff,
   },
 
   inputError: {
     borderColor: appStyles.colorRed_eb5757,
   },
 
-  inputFocused: {
-    borderColor: appStyles.colorSecondary_9749fa,
+  textInput: {
+    flex: 1,
+    borderWidth: 0,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 12,
+    fontSize: 16,
+    fontFamily: appStyles.fontRegular,
+    textAlignVertical: "center",
   },
 
   inputTextarea: {
     height: 120,
-  },
-
-  inputWrapper: {
-    display: "flex",
-    maxWidth: 420,
-    textAlign: "left",
-    width: "96%",
-  },
-
-  inputWrapperDisabled: {
-    opacity: 0.4,
-  },
-
-  label: {
-    fontFamily: appStyles.fontSemiBold,
-  },
-
-  textInput: {
-    color: appStyles.colorBlack_37,
-    height: 24,
-    textAlignVertical: "center",
-    width: "95%",
+    textAlignVertical: "top",
   },
 
   textarea: {
-    borderRadius: 32,
+    alignItems: "flex-start",
   },
 });
 

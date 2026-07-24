@@ -12,15 +12,79 @@ import { useGetTheme } from "#hooks";
  *
  * @return {jsx}
  */
-export const Label = ({ text, onPress, style, textStyle }) => {
+export const Label = ({
+  text,
+  onPress,
+  style,
+  textStyle,
+  paletteIndex,
+  paletteKey,
+  textProps,
+}) => {
   const { isHighContrast } = useGetTheme();
+  const PALETTES = [
+    { bg: "#ffe4cc", border: "#f2b77f", text: "#925522" },
+    { bg: "#d6f3e2", border: "#95d3af", text: "#2f6e4a" },
+    { bg: "#e5ddff", border: "#b8a9f4", text: "#5946a0" },
+    { bg: "#d6edf9", border: "#97c9e6", text: "#2d6382" },
+    { bg: "#fff2c9", border: "#e8ce7c", text: "#8a6b1f" },
+    { bg: "#ffdce5", border: "#eda3b5", text: "#8f3a54" },
+  ];
+
+  const hashStringToInt = (value) => {
+    if (value === null || value === undefined) return 0;
+    const str = String(value);
+    let hash = 0;
+    for (let i = 0; i < str.length; i += 1) {
+      hash = (hash << 5) - hash + str.charCodeAt(i);
+      hash |= 0; // keep 32-bit int
+    }
+    return hash;
+  };
+
+  // Only apply colorful palette when paletteIndex is explicitly provided.
+  // This keeps existing monochrome labels unchanged elsewhere in the app.
+  const usePalette =
+    (typeof paletteIndex === "number" && !Number.isNaN(paletteIndex)) ||
+    paletteKey !== undefined;
+
+  const rawPaletteIndex =
+    typeof paletteIndex === "number" && !Number.isNaN(paletteIndex)
+      ? paletteIndex
+      : hashStringToInt(paletteKey);
+
+  const effectiveIndex = usePalette
+    ? Math.abs(Math.floor(rawPaletteIndex)) % PALETTES.length
+    : null;
+  const palette = effectiveIndex !== null ? PALETTES[effectiveIndex] : null;
+
+  const hcPalette = {
+    bg: "#000000",
+    border: appStyles.colorHighContrast_ffff00,
+    text: appStyles.colorHighContrast_ffff00,
+  };
+  const activePalette = isHighContrast ? hcPalette : palette;
+
+  const containerStyle = [
+    styles.label,
+    (usePalette || isHighContrast) && {
+      backgroundColor: activePalette.bg,
+      borderColor: activePalette.border,
+      borderWidth: isHighContrast ? 1 : undefined,
+    },
+    style,
+  ];
+
+  const textColorStyle =
+    usePalette || isHighContrast ? { color: activePalette.text } : undefined;
 
   return (
     <Pressable onPress={onPress}>
-      <View style={[styles.label, style]}>
+      <View style={containerStyle}>
         <AppText
-          namedStyle="textSmall"
-          style={[styles.text, isHighContrast && styles.textHC, textStyle]}
+          namedStyle="smallText"
+          style={[styles.text, textColorStyle, textStyle]}
+          {...(textProps || {})}
         >
           {text}
         </AppText>
@@ -43,5 +107,4 @@ const styles = StyleSheet.create({
     width: "auto",
   },
   text: { color: appStyles.colorPrimary_20809e },
-  textHC: { color: "#fff" },
 });

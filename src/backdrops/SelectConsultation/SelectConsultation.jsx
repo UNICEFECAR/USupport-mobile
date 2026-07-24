@@ -1,23 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Pressable, Platform } from "react-native";
 
-import {
-  AppText,
-  AppButton,
-  Backdrop,
-  Error,
-  Header,
-  Loading,
-  RadioButtonSelectorGroup,
-  Input,
-} from "#components";
+import { AppText, Backdrop, Error, Header, Loading } from "#components";
 import { appStyles } from "#styles";
 
-import { useGetProviderDataById, useError } from "#hooks";
+import { useGetProviderDataById } from "#hooks";
 import { getTimestampFromUTC, parseUTCDate } from "#utils";
-import { providerSvc, Context, clientSvc, localStorage } from "#services";
+import { providerSvc, Context, localStorage } from "#services";
 
 /**
  * SelectConsultation
@@ -117,7 +108,7 @@ export const SelectConsultation = ({
   };
 
   const handleChooseSlot = (slot) => {
-    (setSelectedSlot(slot), providerData.consultationPrice);
+    setSelectedSlot(slot);
   };
 
   const renderFreeSlots = () => {
@@ -156,13 +147,32 @@ export const SelectConsultation = ({
       [availableSlots]
     );
 
+    const isSingleOption = options.length === 1;
+
     return (
-      <RadioButtonSelectorGroup
-        options={options}
-        name="free-slots"
-        selected={selectedSlot}
-        setSelected={handleChooseSlot}
-      />
+      <View
+        style={[styles.timeGrid, isSingleOption ? styles.timeGridSingle : null]}
+      >
+        {options.map((option) => {
+          const isSelected = selectedSlot === option.value;
+          return (
+            <Pressable
+              key={option.value}
+              onPress={() => handleChooseSlot(option.value)}
+              style={({ pressed }) => [
+                styles.timeChip,
+                isSingleOption ? styles.timeChipSingle : null,
+                isSelected ? styles.timeChipSelected : null,
+                pressed ? styles.timeChipPressed : null,
+              ]}
+            >
+              <AppText namedStyle="text" style={styles.timeChipText}>
+                {option.label}
+              </AppText>
+            </Pressable>
+          );
+        })}
+      </View>
     );
   };
 
@@ -196,8 +206,7 @@ export const SelectConsultation = ({
       title="SelectConsultation"
       isOpen={isOpen}
       onClose={onClose}
-      heading={edit === true ? t("heading_edit") : t("heading_new")}
-      text={edit === true ? t("subheading_edit") : t("subheading_new")}
+      heading={edit === true ? t("subheading_edit") : t("subheading_new")}
       ctaLabel={t("cta_button_label")}
       ctaHandleClick={handleSave}
       ctaStyle={isInDashboard ? { marginBottom: 85 } : {}}
@@ -206,9 +215,11 @@ export const SelectConsultation = ({
       errorMessage={errorMessage}
     >
       {showCoupon && (activeCoupon || couponCode) && (
-        <AppText isBold>
-          {t("coupon_code")}: {activeCoupon?.couponValue || couponCode}
-        </AppText>
+        <View style={styles.couponContainer}>
+          <AppText isBold>
+            {t("coupon_code")}: {activeCoupon?.couponValue || couponCode}
+          </AppText>
+        </View>
       )}
       {couponError && <Error style={styles.error} message={couponError} />}
       {providerDataQuery.isLoading ? (
@@ -220,12 +231,13 @@ export const SelectConsultation = ({
           {t("provider_not_available")}
         </AppText>
       ) : (
-        <View style={{ marginTop: 20 }}>
+        <View style={styles.contentContainer}>
           <Header
             handleDayChange={handleDayChange}
             setStartDate={setStartDate}
             startDate={providerData?.earliestAvailableSlot}
             style={styles.calendarHeader}
+            t={t}
           />
           <View style={styles.slotsContainer}>
             {availableSlotsQuery.isLoading &&
@@ -242,25 +254,68 @@ export const SelectConsultation = ({
 };
 
 const styles = StyleSheet.create({
+  couponContainer: {
+    paddingTop: 8,
+  },
+  contentContainer: {
+    marginTop: 20,
+  },
   calendarHeader: { marginBottom: 16 },
   slotsContainer: {
     paddingTop: 12,
     paddingBottom: 24,
     alignItems: "center",
+    width: "100%",
   },
   noSlotsText: { color: appStyles.colorRed_ed5657 },
-  couponContainer: {
-    flexDirection: "row",
-    alignItems: "flex-end",
-    flex: 1,
-    marginBottom: 16,
-    height: 90,
-  },
-  couponInput: { width: "50%", marginRight: 12 },
   error: {
     width: "100%",
     alignSelf: "center",
     marginBottom: 12,
     textAlign: "center",
+  },
+  timeGrid: {
+    width: "100%",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    paddingHorizontal: 4,
+  },
+  timeGridSingle: {
+    justifyContent: "center",
+  },
+  timeChip: {
+    width: "48%",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: "#cdd8e1",
+    backgroundColor: appStyles.colorWhite_ff,
+    marginBottom: 12,
+  },
+  timeChipSingle: {
+    width: "100%",
+    maxWidth: 320,
+  },
+  timeChipSelected: {
+    borderColor: "#684dfd",
+    backgroundColor: "rgba(104, 77, 253, 0.08)",
+    ...appStyles.shadow2,
+  },
+  timeChipPressed: Platform.select({
+    ios: {
+      backgroundColor: "rgba(104, 77, 253, 0.08)",
+    },
+    android: {
+      backgroundColor: "rgba(104, 77, 253, 0.08)",
+    },
+    default: {},
+  }),
+  timeChipText: {
+    textAlign: "center",
+    fontFamily: appStyles.fontMedium,
   },
 });

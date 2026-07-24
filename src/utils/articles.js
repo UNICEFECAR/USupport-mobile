@@ -47,6 +47,7 @@ function destructureArticleData(article) {
     description,
     likes: article.likes || 0,
     dislikes: article.dislikes || 0,
+    ttsUrl: articleData.s3_tts_url || "",
   };
 }
 

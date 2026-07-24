@@ -9,54 +9,55 @@ import { useGetTheme } from "#hooks";
 /**
  * TabsUnderlined
  *
- * TabsUnderlined component
+ * TabsUnderlined component — colors aligned with client-ui tabs-underlined.scss
+ * (input text when idle, accent underline + main text when selected).
  *
  * @return {jsx}
  */
 export const TabsUnderlined = ({ style, options, handleSelect }) => {
   const { colors, isHighContrast } = useGetTheme();
+
   const renderAllOptions = () => {
-    if (options) {
-      return options
-        ? options.map((option, index) => {
-            return (
-              <TouchableOpacity
-                onPress={() => handleSelect(index)}
-                disabled={option.isInactive}
-                key={index}
-              >
-                <View
-                  style={[
-                    styles.tab,
-                    option.isSelected && [
-                      styles.tabSelected,
-                      isHighContrast && { borderBottomColor: colors.text },
-                    ],
-                    option.isInactive &&
-                      (isHighContrast ? { opacity: 1 } : styles.tabDisabled),
-                  ]}
-                >
-                  <AppText
-                    namedStyle="h3"
-                    style={[
-                      styles.label,
-                      isHighContrast && { color: colors.textSecondary },
-                      option.isSelected && [
-                        styles.labelSelected,
-                        isHighContrast && { color: colors.text },
-                      ],
-                      option.isInactive &&
-                        (isHighContrast ? { color: "#666666" } : null),
-                    ]}
-                  >
-                    {option.label}
-                  </AppText>
-                </View>
-              </TouchableOpacity>
-            );
-          })
-        : null;
+    if (!options) {
+      return null;
     }
+
+    return options.map((option, index) => {
+      const isSelected = option.isSelected;
+      const underlineWidth = isSelected && isHighContrast ? 4 : 2;
+
+      return (
+        <TouchableOpacity
+          onPress={() => handleSelect(index)}
+          disabled={option.isInactive}
+          key={index}
+        >
+          <View
+            style={[
+              styles.tab,
+              {
+                borderBottomWidth: underlineWidth,
+                borderBottomColor: isSelected
+                  ? colors.tabUnderlinedBorder
+                  : "transparent",
+              },
+              option.isInactive && styles.tabDisabled,
+            ]}
+          >
+            <AppText
+              namedStyle="h3"
+              style={[
+                styles.label,
+                { color: colors.inputText },
+                isSelected && [styles.labelSelected, { color: colors.text }],
+              ]}
+            >
+              {option.label}
+            </AppText>
+          </View>
+        </TouchableOpacity>
+      );
+    });
   };
 
   return (
@@ -71,23 +72,17 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   tab: {
-    paddingVertical: 10,
-    borderBottomWidth: 2,
-    borderBottomColor: "transparent",
-  },
-  tabSelected: {
-    borderBottomColor: appStyles.colorPrimary_20809e,
+    // Client: $spacing_1_2 padding, 0.2rem (~2px) underline
+    paddingVertical: 12,
+    paddingHorizontal: 12,
   },
   tabDisabled: {
     opacity: 0.4,
   },
   label: {
-    marginHorizontal: 12,
     fontFamily: appStyles.fontMedium,
-    color: appStyles.colorGray_66768d,
   },
   labelSelected: {
-    color: appStyles.colorPrimary_20809e,
     fontFamily: appStyles.fontBold,
   },
 });

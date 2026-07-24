@@ -1,15 +1,16 @@
 import React, { useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { StyleSheet, View, Image, ScrollView } from "react-native";
+import { StyleSheet, View, ScrollView } from "react-native";
 import Config from "react-native-config";
 
 import {
   Block,
   Heading,
-  AppButton,
+  NewButton,
   CustomCarousel,
   AppText,
+  CachedImage,
 } from "#components";
 
 import { userSvc, localStorage, Context } from "#services";
@@ -24,7 +25,14 @@ const { AMAZON_S3_BUCKET } = Config;
  *
  * @returns {JSX.Element}
  */
-export const RegisterPreview = ({ navigation }) => {
+export const RegisterPreview = ({
+  navigation,
+  onGoToLogin,
+  onGoToRegisterEmail,
+  onGoToRegisterAnonymous,
+  onGoToWelcome,
+  inBackdrop,
+}) => {
   const { colors } = useGetTheme();
   const { t } = useTranslation("blocks", { keyPrefix: "register-preview" });
   const [error, setErrror] = useState();
@@ -102,65 +110,74 @@ export const RegisterPreview = ({ navigation }) => {
       return;
     }
 
-    navigation.push(redirectTo);
+    if (redirectTo === "Login" && onGoToLogin) return onGoToLogin();
+    if (redirectTo === "RegisterEmail" && onGoToRegisterEmail)
+      return onGoToRegisterEmail();
+    if (redirectTo === "RegisterAnonymous" && onGoToRegisterAnonymous)
+      return onGoToRegisterAnonymous();
+
+    navigation?.push?.(redirectTo);
   };
+
+  const content = (
+    <Block style={styles.block}>
+      <View style={styles.imageContainer}>
+        <CachedImage
+          source={{
+            uri: `${AMAZON_S3_BUCKET}/mascot-happy-blue`,
+          }}
+          style={styles.image}
+          resizeMode="contain"
+        />
+      </View>
+
+      <View style={styles.contentContainer}>
+        <CustomCarousel
+          data={carouselItems}
+          renderItem={renderCarouselItems}
+          style={styles.carousel}
+        />
+        {country === "PL" && <AppText style={styles.plText}>{t("pl_text")}</AppText>}
+        <NewButton
+          label={t("login")}
+          size="lg"
+          onPress={() => handleRedirect("Login")}
+          style={styles.accessAnonymouslyButton}
+        />
+        <NewButton
+          label={t("register_anonymously")}
+          size="lg"
+          onPress={() => handleRedirect("RegisterAnonymous")}
+          style={styles.accessAnonymouslyButton}
+        />
+        <NewButton
+          label={t("register_email")}
+          size="lg"
+          onPress={() => handleRedirect("RegisterEmail")}
+        />
+        <NewButton
+          label={t("continue_as_guest")}
+          type="ghost"
+          size="lg"
+          onPress={() => handleRedirect("Guest")}
+          loading={tmpLoginMutation.isLoading}
+        />
+      </View>
+    </Block>
+  );
+
+  if (inBackdrop) return content;
 
   return (
     <React.Fragment>
       <Heading
         handleGoBack={() => {
-          navigation.navigate("Welcome");
+          if (onGoToWelcome) return onGoToWelcome();
+          navigation?.navigate?.("Welcome");
         }}
         hasBackground={false}
       />
-      <ScrollView contentContainerStyle={styles.scrollView}>
-        <Block style={styles.block}>
-          <View style={styles.imageContainer}>
-            <Image
-              source={{
-                uri: `${AMAZON_S3_BUCKET}/mascot-happy-blue`,
-              }}
-              style={styles.image}
-            />
-          </View>
-
-          <View style={styles.contentContainer}>
-            <CustomCarousel
-              data={carouselItems}
-              renderItem={renderCarouselItems}
-              style={styles.carousel}
-            />
-            {country === "PL" && (
-              <AppText style={styles.plText}>{t("pl_text")}</AppText>
-            )}
-            <AppButton
-              label={t("login")}
-              size="lg"
-              color="purple"
-              onPress={() => handleRedirect("Login")}
-              style={styles.accessAnonymouslyButton}
-            />
-            <AppButton
-              label={t("register_anonymously")}
-              size="lg"
-              onPress={() => handleRedirect("RegisterAnonymous")}
-              style={styles.accessAnonymouslyButton}
-            />
-            <AppButton
-              label={t("register_email")}
-              size="lg"
-              onPress={() => handleRedirect("RegisterEmail")}
-            />
-            <AppButton
-              label={t("continue_as_guest")}
-              type="ghost"
-              size="lg"
-              onPress={() => handleRedirect("Guest")}
-              loading={tmpLoginMutation.isLoading}
-            />
-          </View>
-        </Block>
-      </ScrollView>
+      <ScrollView contentContainerStyle={styles.scrollView}>{content}</ScrollView>
     </React.Fragment>
   );
 };
@@ -188,7 +205,6 @@ const styles = StyleSheet.create({
   },
   image: {
     height: 258,
-    resizeMode: "contain",
     width: 325,
   },
   imageContainer: {

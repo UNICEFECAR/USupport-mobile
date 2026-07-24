@@ -1,9 +1,14 @@
 import React from "react";
-import { StyleSheet, View, TouchableOpacity, PixelRatio } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  useWindowDimensions,
+} from "react-native";
 
 import { Avatar } from "../../avatars";
-import { ButtonWithIcon, ButtonOnlyIcon } from "../../buttons/";
 import { Icon } from "../../icons";
+import { ButtonOnlyIcon, ButtonWithIcon } from "../../buttons";
 
 import { useGetClientData, useGetTheme } from "#hooks";
 
@@ -19,9 +24,12 @@ export const HeaderNavigation = ({
   hasUnreadNotifications,
   isTmpUser,
   handleRegistrationModalOpen,
+  onPressNotifications,
+  onPressProfile,
+  onHeaderLayout,
 }) => {
   const { isDarkMode } = useGetTheme();
-  const fontScale = PixelRatio.getFontScale();
+  const { fontScale } = useWindowDimensions();
 
   const getClientDataEnabled = isTmpUser === false ? true : false;
   const clientDataQuery = useGetClientData(getClientDataEnabled);
@@ -29,6 +37,7 @@ export const HeaderNavigation = ({
 
   return (
     <View
+      onLayout={(e) => onHeaderLayout?.(e.nativeEvent.layout.height)}
       style={[
         styles.container,
         isDarkMode && { backgroundColor: appStyles.colorBlack_12 },
@@ -36,35 +45,53 @@ export const HeaderNavigation = ({
         style,
       ]}
     >
-      <TouchableOpacity onPress={() => navigation.push("UserProfile")}>
-        <Avatar
-          image={{
-            uri: `${AMAZON_S3_BUCKET}/${clientData?.image || "default"}`,
-          }}
-        />
-      </TouchableOpacity>
-      {/* {fontScale < 1.8 ? ( */}
-      <ButtonWithIcon
-        iconName="phone-emergency"
-        label={t("emergency_button_label")}
-        color="red"
-        onPress={() => navigation.navigate("SOSCenter")}
-      />
-      {/* ) : (
-        <ButtonOnlyIcon
-          iconName="phone-emergency"
-          iconSize="md"
-          color="red"
-          onPress={() => navigation.navigate("SOSCenter")}
-        />
-      )} */}
       <TouchableOpacity
         onPress={() => {
           if (isTmpUser) {
             handleRegistrationModalOpen();
             return;
           }
-          navigation.push("Notifications");
+          if (onPressProfile) {
+            onPressProfile();
+          } else {
+            navigation.push("UserProfile");
+          }
+        }}
+      >
+        <Avatar
+          image={{
+            uri: `${AMAZON_S3_BUCKET}/${clientData?.image || "default"}`,
+          }}
+        />
+      </TouchableOpacity>
+      {fontScale < 1.8 ? (
+        <ButtonWithIcon
+          iconName="phone-emergency"
+          label={t("emergency_button_label")}
+          color="red"
+          iconColor={appStyles.colorWhite_ff}
+          onPress={() => navigation.navigate("SOSCenter")}
+        />
+      ) : (
+        <ButtonOnlyIcon
+          iconName="phone-emergency"
+          iconSize="md"
+          color="red"
+          iconColor={appStyles.colorWhite_ff}
+          onPress={() => navigation.navigate("SOSCenter")}
+        />
+      )}
+      <TouchableOpacity
+        onPress={() => {
+          if (isTmpUser) {
+            handleRegistrationModalOpen();
+            return;
+          }
+          if (onPressNotifications) {
+            onPressNotifications();
+          } else {
+            navigation.push("Notifications");
+          }
         }}
       >
         <Icon

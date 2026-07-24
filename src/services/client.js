@@ -134,6 +134,11 @@ async function checkIsCouponAvailable(couponCode) {
   return response;
 }
 
+async function checkActiveCampaign() {
+  const response = await http.get(`${API_ENDPOINT}/check-active-campaign`);
+  return response;
+}
+
 async function unblockSlot(consultationId) {
   const response = await http.put(`${API_ENDPOINT}/consultation/unblock-slot`, {
     consultationId,
@@ -248,6 +253,14 @@ async function getOrganizationById(organizationId) {
   return response;
 }
 
+async function createOrganizationReport(organizationId, payload) {
+  const response = await http.post(
+    `${API_ENDPOINT}/organization/${organizationId}/report`,
+    payload
+  );
+  return response;
+}
+
 /**
  *
  * @param {string} suggestion
@@ -263,10 +276,7 @@ async function sendPlatformSuggestion({ suggestion, type }) {
 }
 
 async function addSOSCenterClick(payload) {
-  const response = await http.post(
-    `${API_ENDPOINT}/add-sos-center-click`,
-    payload
-  );
+  const response = await http.post(`${API_ENDPOINT}/sos-center-click`, payload);
   return response;
 }
 
@@ -428,6 +438,16 @@ async function getOrganizationSpecializations() {
   return response;
 }
 
+async function synthesizeTTS(payload) {
+  const response = await http.post(`${API_ENDPOINT}/tts/synthesize/`, payload, {
+    responseType: "arraybuffer",
+    headers: {
+      Accept: "audio/mpeg",
+    },
+  });
+  return response;
+}
+
 const exportedFunctions = {
   addMoodTrack,
   getClientData,
@@ -447,6 +467,7 @@ const exportedFunctions = {
   getMoodTrackEntries,
   addPushNotificationToken,
   checkIsCouponAvailable,
+  checkActiveCampaign,
   unblockSlot,
   addQuestion,
   getClientQuestions,
@@ -458,6 +479,7 @@ const exportedFunctions = {
   getCategoryInteractions,
   getOrganizations,
   getOrganizationById,
+  createOrganizationReport,
   sendPlatformSuggestion,
   createBaselineAssessment,
   getBaselineAssessmentQuestions,
@@ -471,6 +493,7 @@ const exportedFunctions = {
   generateMoodTrackReport,
   getOrganizationSpecializations,
   getHasCompletedMoodTrackerEver,
+  synthesizeTTS,
 };
 
 export default exportedFunctions;

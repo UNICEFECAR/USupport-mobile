@@ -17,6 +17,7 @@ import { appStyles } from "#styles";
  */
 export const Articles = ({ navigation, route }) => {
   const { t } = useTranslation("screens", { keyPrefix: "articles-screen" });
+  const initialSearchValue = route?.params?.initialSearchValue;
 
   let heading = t("heading_default");
   let subheading = t("subheading_default");
@@ -61,6 +62,7 @@ export const Articles = ({ navigation, route }) => {
           handleCategorySelect={handleCategorySelect}
           selectedCategory={selectedCategory}
           allCategories={allCategories}
+          initialSearchValue={initialSearchValue}
         />
       </Screen>
     </>

@@ -106,7 +106,7 @@ export const VideoModal = ({ isVisible, onClose, videoUrl, title, t }) => {
           height={VIDEO_HEIGHT}
           play={playing}
           videoId={videoId}
-          onStateChange={onStateChange}
+          onChangeState={onStateChange}
           webViewProps={{
             allowsFullscreenVideo: true,
           }}

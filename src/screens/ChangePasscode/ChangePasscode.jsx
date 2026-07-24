@@ -1,6 +1,5 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet } from "react-native";
 
 import { Screen, Block, Heading } from "#components";
 import { ChangePasscode as ChangePasscodeBlock } from "#blocks";
@@ -25,16 +24,15 @@ export const ChangePasscode = ({ navigation, route }) => {
 
   return (
     <Screen>
-      <Heading
-        heading={t("heading")}
-        subheading={subheading}
-        handleGoBack={() => navigation.goBack()}
-        hasGoBackArrow={hasGoBackArrow}
-      />
-      <Block></Block>
+      <Block>
+        <Heading
+          heading={t("heading")}
+          subheading={subheading}
+          handleGoBack={() => navigation.goBack()}
+          hasGoBackArrow={hasGoBackArrow}
+        />
+      </Block>
       <ChangePasscodeBlock route={route} navigation={navigation} />
     </Screen>
   );
 };
-
-const styles = StyleSheet.create({});

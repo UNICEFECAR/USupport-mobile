@@ -8,7 +8,7 @@ import { PrivacyPolicy } from "../PrivacyPolicy";
 
 import {
   AccessToken,
-  AppButton,
+  ActionRow,
   AppText,
   Block,
   ButtonWithIcon,
@@ -18,8 +18,10 @@ import {
   Input,
   Loading,
   ProfilePicturePreview,
-  Toggle,
+  CheckBox,
   TransparentModal,
+  ButtonOnlyIcon,
+  NewButton,
 } from "#components";
 
 import { appStyles } from "#styles";
@@ -293,7 +295,7 @@ export const UserDetails = ({
     <Block style={styles.block}>
       <Heading heading={t("heading")} handleGoBack={handleGoBack} />
       <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerStyle={{ flexGrow: 1, paddingTop: 6 }}
         showsVerticalScrollIndicator={false}
       >
         {clientDataQuery.isLoading ? (
@@ -331,13 +333,30 @@ export const UserDetails = ({
           </View>
         ) : (
           <>
-            <ProfilePicturePreview
-              image={clientData.image}
-              handleDeleteClick={openDeletePictureBackdrop}
-              handleChangeClick={openSelectAvatarBackdrop}
-              changePhotoText={t("change_photo")}
-              style={styles.profilePicturePreview}
-            />
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <ProfilePicturePreview
+                image={clientData.image}
+                handleDeleteClick={openDeletePictureBackdrop}
+                handleChangeClick={openSelectAvatarBackdrop}
+                changePhotoText={t("change_photo")}
+                style={styles.profilePicturePreview}
+              />
+              <ButtonOnlyIcon
+                iconName="exit"
+                iconSize="md"
+                size="lg"
+                iconColor={"#6989A4"}
+                onPress={logoutMutation.mutate}
+                color="transparent"
+              />
+            </View>
             {clientData.accessToken ? (
               <AccessToken
                 accessToken={clientData.accessToken}
@@ -419,39 +438,18 @@ export const UserDetails = ({
               />
             </View>
 
-            {errors.submit ? <Error message={errors.submit} /> : null}
-
-            <View style={styles.buttonContainer}>
-              <AppButton
-                label={t("button_text")}
-                size="lg"
-                onPress={handleSave}
-                disabled={isSaveDisabled}
-                loading={userDataMutation.isLoading}
-              />
-
-              <AppButton
-                type="secondary"
-                label={t("button_secondary_text")}
-                size="lg"
-                disabled={!canSaveChanges}
-                onPress={handleDiscard}
-                style={styles.button}
-              />
-            </View>
-
             <View style={styles.privacyPolicyContainer}>
-              <AppText
-                style={[styles.privacyPolicyText, { color: colors.text }]}
-              >
-                {t("privacy")}
-              </AppText>
-
-              <View style={styles.toggleContainer}>
-                <AppText
-                  namedStyle="text"
-                  style={{ color: colors.textSecondary }}
-                >
+              <View style={styles.checkBoxContainer}>
+                <CheckBox
+                  isChecked={dataProcessing}
+                  setIsChecked={handleToggleClick}
+                  style={styles.checkBox}
+                />
+                {/* <Toggle
+                  isToggled={dataProcessing ? true : false}
+                  handleToggle={handleToggleClick}
+                /> */}
+                <AppText namedStyle="text">
                   <Trans
                     components={[
                       <AppText
@@ -468,66 +466,108 @@ export const UserDetails = ({
                     {t("consent")}
                   </Trans>
                 </AppText>
-                <Toggle
-                  isToggled={dataProcessing ? true : false}
-                  handleToggle={handleToggleClick}
+              </View>
+            </View>
+
+            {errors.submit ? <Error message={errors.submit} /> : null}
+
+            <View style={styles.buttonContainer}>
+              <NewButton
+                label={t("button_text")}
+                size="lg"
+                onPress={handleSave}
+                disabled={isSaveDisabled}
+                loading={userDataMutation.isLoading}
+                style={styles.saveAndDiscardButtons}
+              />
+
+              <NewButton
+                type="outline"
+                label={t("button_secondary_text")}
+                size="lg"
+                disabled={!canSaveChanges}
+                onPress={handleDiscard}
+                style={styles.saveAndDiscardButtons}
+              />
+            </View>
+
+            {/* Account Section */}
+            <View style={styles.sectionContainer}>
+              <AppText style={[styles.sectionHeader, { color: colors.text }]}>
+                {t("account_section")}
+              </AppText>
+              <View
+                style={[
+                  styles.actionCard,
+                  { backgroundColor: colors.card || "#F5F7FA" },
+                ]}
+              >
+                <ActionRow
+                  iconName="fingerprint"
+                  label={t("change_password")}
+                  onPress={openChangePasswordBackdrop}
+                  colors={colors}
                 />
               </View>
             </View>
 
-            <View>
-              <AppButton
-                type="ghost"
-                label={t("change_password")}
-                onPress={openChangePasswordBackdrop}
-                size="lg"
-                style={styles.textButton}
-              />
-              <ButtonWithIcon
-                iconName="exit"
-                iconSize="md"
-                size="lg"
-                iconColor={appStyles.colorPrimary_20809e}
-                label={t("logout")}
-                type="ghost"
-                onPress={logoutMutation.mutate}
-                style={styles.textButton}
-              />
-              <ButtonWithIcon
-                iconName={"circle-actions-close"}
-                iconSize={"md"}
-                size="lg"
-                iconColor={"#eb5757"}
-                color={"red"}
-                label={t("delete_account")}
-                type={"ghost"}
-                onPress={openDeleteAccountBackdrop}
-                style={styles.textButton}
-              />
-              {!IS_RO && (
-                <ButtonWithIcon
-                  iconName={"circle-actions-close"}
-                  iconSize={"md"}
-                  size="lg"
-                  iconColor={"#eb5757"}
-                  color={"red"}
-                  label={t("delete_chat")}
-                  type={"ghost"}
-                  onPress={openDeleteChatHistoryBackdrop}
-                  style={styles.textButton}
+            {/* Data Management Section */}
+            <View style={styles.sectionContainer}>
+              <AppText style={[styles.sectionHeader, { color: colors.text }]}>
+                {t("data_management_section")}
+              </AppText>
+              <View
+                style={[
+                  styles.actionCard,
+                  { backgroundColor: colors.card || "#F5F7FA" },
+                ]}
+              >
+                <ActionRow
+                  iconName="mood"
+                  label={t("delete_mood_tracker")}
+                  onPress={openDeleteMoodTrackerHistoryBackdrop}
+                  colors={colors}
                 />
-              )}
-              <ButtonWithIcon
-                iconName={"circle-actions-close"}
-                iconSize={"md"}
-                size="lg"
-                iconColor={"#eb5757"}
-                color={"red"}
-                label={t("delete_mood_tracker")}
-                type={"ghost"}
-                onPress={openDeleteMoodTrackerHistoryBackdrop}
-                style={[styles.textButton, styles.marginBottom20]}
-              />
+                {!IS_RO && (
+                  <>
+                    <View
+                      style={[
+                        styles.actionRowDivider,
+                        { backgroundColor: colors.border || "#E8ECF0" },
+                      ]}
+                    />
+                    <ActionRow
+                      iconName="comment"
+                      label={t("delete_chat")}
+                      onPress={openDeleteChatHistoryBackdrop}
+                      colors={colors}
+                    />
+                  </>
+                )}
+              </View>
+            </View>
+
+            {/* Danger Zone Section */}
+            <View style={[styles.sectionContainer, styles.marginBottom100]}>
+              <AppText style={styles.dangerSectionHeader}>
+                {t("danger_zone_section")}
+              </AppText>
+              <View
+                style={[
+                  styles.actionCard,
+                  styles.dangerCard,
+                  { backgroundColor: colors.card || "#F5F7FA" },
+                ]}
+              >
+                <ActionRow
+                  iconName="circle-actions-close"
+                  label={t("delete_account")}
+                  onPress={openDeleteAccountBackdrop}
+                  colors={colors}
+                  isDanger
+                  subtitle={t("delete_account_description")}
+                />
+              </View>
             </View>
           </>
         )}
@@ -580,12 +620,35 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: "93%",
   },
+  actionCard: {
+    borderRadius: 16,
+    overflow: "hidden",
+  },
+  actionRowDivider: {
+    height: 1,
+    marginHorizontal: 16,
+  },
   block: { flex: 1 },
-  button: { marginTop: 16 },
   buttonContainer: {
+    flexDirection: "row",
+    gap: 8,
     alignItems: "center",
     paddingBottom: 20,
     paddingTop: 32,
+  },
+  checkBox: { marginTop: 4 },
+  checkBoxContainer: {
+    alignItems: "flex-start",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingBottom: 32,
+    paddingTop: 4,
+  },
+  dangerSectionHeader: {
+    color: appStyles.colorRed_eb5757,
+    fontFamily: appStyles.fontMedium,
+    fontSize: 14,
+    marginBottom: 8,
   },
   input: { marginTop: 24 },
   inputsContainer: {
@@ -593,6 +656,7 @@ const styles = StyleSheet.create({
     paddingTop: 8,
   },
   marginBottom20: { marginBottom: 20 },
+  marginBottom100: { marginBottom: 100 },
   privacyPolicyContainer: {
     alignSelf: "center",
     paddingTop: 20,
@@ -600,20 +664,19 @@ const styles = StyleSheet.create({
   },
   privacyPolicyText: {
     color: appStyles.colorBlue_3d527b,
-    fontFamily: "Nunito-SemiBold",
+    fontFamily: appStyles.fontSemiBold,
     fontSize: 18,
   },
-  profilePicturePreview: { alignSelf: "center", marginTop: 84 },
-  textButton: {
-    justifyContent: "flex-start",
-    marginTop: 20,
+  saveAndDiscardButtons: {
+    width: "49%",
   },
-  toggleContainer: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingBottom: 32,
-    paddingTop: 4,
+  sectionContainer: {
+    marginTop: 24,
+  },
+  sectionHeader: {
+    fontFamily: appStyles.fontMedium,
+    fontSize: 14,
+    marginBottom: 8,
   },
   zIndex3: { zIndex: 3 },
   zIndex4: { zIndex: 4 },

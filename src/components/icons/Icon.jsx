@@ -6,6 +6,7 @@ import appStyles from "../../styles/appStyles";
 
 import {
   IconFilter,
+  IconReset,
   IconPhoneEmergency,
   IconPhone,
   IconComment,
@@ -96,11 +97,16 @@ import {
   IconCurrentLocation,
   IconGoogleMaps,
   IconWaze,
+  IconOrganization,
   IconLocation,
   IconPlay,
   IconSave,
   IconAccessibility,
   IconMap,
+  IconSeekBack,
+  IconSeekForward,
+  IconPause,
+  IconPlayGradient,
 } from "./assets/sprite";
 
 /**
@@ -108,12 +114,15 @@ import {
  *
  * Icon component used to render different icons from the sprite file
  */
-export const Icon = ({ name, size = "md", color, style }) => {
+export const Icon = ({ name, size = "md", color, style, fill }) => {
   let icon;
 
   switch (name) {
     case "filter":
       icon = <IconFilter color={color} />;
+      break;
+    case "reset":
+      icon = <IconReset color={color} />;
       break;
     case "phone-emergency":
       icon = <IconPhoneEmergency color={color} />;
@@ -389,7 +398,7 @@ export const Icon = ({ name, size = "md", color, style }) => {
       icon = <IconLocation color={color} />;
       break;
     case "play":
-      icon = <IconPlay color={color} />;
+      icon = <IconPlay color={color} fill={fill} />;
       break;
     case "save":
       icon = <IconSave color={color} />;
@@ -399,6 +408,21 @@ export const Icon = ({ name, size = "md", color, style }) => {
       break;
     case "map":
       icon = <IconMap color={color} />;
+      break;
+    case "organization":
+      icon = <IconOrganization color={color} />;
+      break;
+    case "seek-back":
+      icon = <IconSeekBack color={color} />;
+      break;
+    case "seek-forward":
+      icon = <IconSeekForward color={color} />;
+      break;
+    case "pause":
+      icon = <IconPause color={color} />;
+      break;
+    case "play-gradient":
+      icon = <IconPlayGradient color={color} />;
       break;
     default:
       icon = null;
@@ -426,6 +450,10 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
   },
+  xxl: {
+    width: 48,
+    height: 48,
+  },
 });
 
 Icon.propTypes = {
@@ -439,7 +467,7 @@ Icon.propTypes = {
    * @default 'md'
    * @type 'sm' | 'md' | 'lg' | 'xl'
    * */
-  size: PropTypes.oneOf(["sm", "md", "lg", "xl"]),
+  size: PropTypes.oneOf(["sm", "md", "lg", "xl", "xxl"]),
 
   /**
    * The color of the icon.

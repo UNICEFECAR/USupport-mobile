@@ -7,6 +7,7 @@
       "show_system_messages": "Show system messages",
       "show_previous_consultations": "Show previous consultations",
       "export_label": "Export",
+      "download_success": "PDF downloaded successfully",
       "chat_history": "Consultation chat history with",
       "client_joined": "Client joined the consultation",
       "client_left": "Client left the consultation",
@@ -20,14 +21,16 @@
       "provider_camera_off": "The provider has turned off the camera",
       "provider_camera_on": "The provider has turned on the camera",
       "provider_microphone_off": "The provider has turned off the microphone",
-      "provider_microphone_on": "The provider has turned on the microphone"
+      "provider_microphone_on": "The provider has turned on the microphone",
+      "exported_at": "Exported at: {{time}}"
     },
     "articles": {
-      "heading": "Information portal",
       "no_results": "No results found",
       "could_not_load_content": "There are no results for the current selected country and language.",
       "all": "All",
-      "read_more": "Click to read more",
+      "read_more": "Read more",
+      "read_more_button": "Read more",
+      "view_more": "View more",
       "min_read": "min read",
       "by": "By {{creator}}",
       "number_of_more_options": "{{count}} more",
@@ -46,11 +49,13 @@
       "heading_no_results": "No results.",
       "view_all": "View all",
       "all": "All",
-      "read_more": "Click to read more",
+      "read_more": "Read more",
       "min_read": "min read",
       "by": "By {{creator}}",
       "number_of_more_options": "{{count}} more",
-      "read": "Read"
+      "read": "Read",
+      "read_more_button": "Read more",
+      "show_more": "Show more"
     },
     "change-passcode": {
       "enter_passcode": "Enter current passcode",
@@ -70,6 +75,11 @@
       "heading": "My Consultations",
       "view_all": "View all",
       "schedule_consultation_label": "Schedule a consultation",
+      "heading_need_support": "Need support?",
+      "explore_resources_label": "Explore resources",
+      "dummy_provider_1": "Dr. Smith",
+      "dummy_provider_2": "Dr. Johnson",
+      "dummy_provider_3": "Dr. Williams",
       "live_text": "Now",
       "accept_button_label": "Accept consultation",
       "join_button_label": "Join",
@@ -90,12 +100,15 @@
       "september": "September",
       "october": "October",
       "november": "November",
-      "december": "December"
+      "december": "December",
+      "join": "Join",
+      "edit": "Edit"
     },
     "consultations": {
       "heading": "Consultations",
       "upcoming_tab_label": "Upcoming",
       "past_tab_label": "Past",
+      "schedule_button_label": "Schedule a consultation",
       "sunday": "Sun",
       "monday": "Mon",
       "tuesday": "Tue",
@@ -111,6 +124,7 @@
       "edit": "Edit",
       "details": "See details",
       "active": "Now",
+      "live": "Live",
       "reject": "Reject suggestion",
       "accept": "Accept consultation",
       "cancel_consultation": "Cancel consultation",
@@ -122,7 +136,9 @@
       "free": "Free",
       "button_label": "",
       "emergency_button_label": "",
-      "join_button_label_tooltip": "You can join the consultation 5 minutes before the start time"
+      "join_button_label_tooltip": "You can join the consultation 5 minutes before the start time",
+      "test_audio_camera": "Test audio & camera",
+      "test_audio_camera_description": "Check your devices before the consultation"
     },
     "contact-us-block": {
       "heading": "Contact us",
@@ -146,7 +162,12 @@
       "contact_reason_3_pl": "Complaint",
       "contact_reason_4_pl": "Something else",
       "success": "Your issue was reported successfully. We'll get back to you soon",
-      "contact_form": "Contact form"
+      "contact_form": "Contact form",
+      "technical_problem_label": "Technical problem",
+      "report_issue_intro": "Before you submit this form, please check that your email address is spelled correctly.",
+      "close_button_label": "Close",
+      "email": "Email",
+      "email_error": "Please, enter your email"
     },
     "faq": {
       "heading": "FAQ",
@@ -177,7 +198,7 @@
       "heading_newest": "Newest Articles",
       "view_all": "View all",
       "heading_popular": "Most popular",
-      "read_more": "Click to read more",
+      "read_more": "Read more",
       "min_read": "min read",
       "by": "By {{creator}}",
       "heading_no_language_results": "We could not find any articles based on your selected language.",
@@ -191,6 +212,10 @@
       "heading_popular_podcasts": "Most popular podcasts",
       "more_podcasts": "More podcasts",
       "no_results": "No results found",
+      "share_success": "Content shared successfully",
+      "check_podcast": "Hello, check this podcast",
+      "check_video": "Hello, check this video",
+      "video_not_available": "Video not available",
       "heading": "",
       "subheading": "",
       "emergency_button_label": ""
@@ -208,7 +233,14 @@
       "prompt_title": "Authenticate for Quick login",
       "prompt_2_title": "Authenticate to save your credentials",
       "cancel": "Cancel",
-      "save_credentials": "Save credentials"
+      "save_credentials": "Save credentials",
+      "save_credentials_description": "Use Face ID or device PIN to autofill your password next time.",
+      "keep_me_signed_in": "Keep me signed in",
+      "keep_me_signed_in_description": "Stay signed in on this device until you manually sign out.",
+      "keep_me_signed_in_sheet_title": "Stay signed in on this device?",
+      "keep_me_signed_in_sheet_body": "You'll stay signed in until you manually sign out. Only use this option on your personal device. If this is a shared or public device, sign out when you're done to protect your account and personal information.",
+      "keep_me_signed_in_sheet_cancel": "Cancel",
+      "keep_me_signed_in_sheet_continue": "Continue"
     },
     "mood-tracker": {
       "happy": "Happy",
@@ -216,18 +248,34 @@
       "sad": "Sad",
       "depressed": "Depressed",
       "worried": "Worried",
+      "history": "History",
+      "welcome-heading": "Welcome",
       "heading": "How are you feeling today?",
       "mood_tracker": "Mood Tracker",
       "how_it_works": "How it works",
+      "additional_comment_label": "What made you feel this way?",
       "additional_comment_placeholder": "What made you feel this way?",
       "submit_mood_track": "Submit",
       "add_mood_tracker_success": "Your daily mood was added successfully",
       "emergency_label": "Does this relate to a life event or critical situation?",
       "recommendations": "Recommendations",
       "recommendations_text": "Do you want to check out your mood graph and see recommended content?",
-      "check_out": "Check out"
+      "check_out": "Check out",
+      "user_guide": "Platform usage"
     },
     "mood-track-history": {
+      "month_1": "Jan",
+      "month_2": "Feb",
+      "month_3": "Mar",
+      "month_4": "Apr",
+      "month_5": "May",
+      "month_6": "Jun",
+      "month_7": "Jul",
+      "month_8": "Aug",
+      "month_9": "Sep",
+      "month_10": "Oct",
+      "month_11": "Nov",
+      "month_12": "Dec",
       "saturday": "Sat",
       "happy": "Happy",
       "good": "Good",
@@ -237,6 +285,10 @@
       "you_felt": "You felt",
       "comment_text": "and you commented",
       "no_result": "Results were not found",
+      "no_result_line1": "You don't have any mood entries yet.",
+      "no_result_line2": "Add your first one and your history will appear here.",
+      "no_result_primary": "Go back",
+      "no_result_secondary": "How it works",
       "critical_text": "Related to a life event or critical situation",
       "recommendations": "Recommendations based on your mood",
       "articles": "Articles",
@@ -246,17 +298,24 @@
       "by": "by {{creator}}",
       "min_read": "min read",
       "view_more": "View more",
-      "no_recommendations": "No recommendations found"
+      "no_recommendations": "No recommendations found",
+      "previous": "Previous",
+      "next": "Next"
     },
     "notification-preferences": {
       "email": "Email notifications",
       "appointment": "Appointment notifications",
       "minutes_before": "minutes before",
-      "heading": "",
-      "subheading": ""
+      "heading": "Notification settings",
+      "subheading": "Here you can manage what type of notification you want to receive or not.",
+      "success": "Settings saved successfully"
     },
     "notifications": {
       "heading": "Notifications",
+      "panel_heading": "Notifications",
+      "tab_all": "All",
+      "tab_new": "New",
+      "tab_read": "Read",
       "mark_read": "Mark all as read",
       "subheading": "Here you can find all the notifications you ever received in your account.",
       "consultation_booking": "Your consultation with <0>{{providerName}}</0> was <0>scheduled</0> successfully for <0>{{date}}</0> from <0>{{startHour}}</0> to <0>{{endHour}}</0>",
@@ -280,13 +339,13 @@
       "consultation_remind_start_48_hours_before": "Your consultation with provider <0>{{providerName}}</0> starts in 48 hours"
     },
     "passcode": {
+      "heading": "Passcode and biometrics",
+      "subheading": "Here you can set up your passcode and biometrics or change them",
       "change_passcode": "Change Passcode",
       "passcode": "Passcode",
       "biometrics": "Biometrics",
       "create_passcode": "Create Passcode",
-      "delete_passcode": "Delete Passcode",
-      "heading": "",
-      "subheading": ""
+      "delete_passcode": "Delete Passcode"
     },
     "payment-history": {
       "service": "Service",
@@ -307,8 +366,8 @@
       "button_label": "Send the rating",
       "rating_success": "Rating sent successfully",
       "rating_error": "An unexpected error occured. Please try again.",
-      "heading": "",
-      "subheading": ""
+      "heading": "Want to rate us?",
+      "subheading": "We’ll be counting stars. Let’s stay honest. Tell us how you feel about this platform. Rate us and leave us your comment."
     },
     "privacy-policy": {
       "heading": "Privacy Policy",
@@ -316,6 +375,15 @@
     },
     "provider-overview": {
       "button_label": "Schedule consultation",
+      "free": "Free",
+      "coupon": "Coupon",
+      "sunday": "Sunday",
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
       "earliest_slot_label": "Earliest available slot for consultation",
       "languages_label": "Languages",
       "education_label": "Education",
@@ -412,7 +480,7 @@
       "modal_button_label": "I’ve saved the access code",
       "copy_success": "Succesfully copied the code",
       "warning": "I understand, that i will not have access to the account if i lose this code",
-      "confirm_password_label": "Confirm password",
+      "confirm_password_label": "Confirm password *",
       "password_match_error": "The Password and Confirm Password fields do not match",
       "password_placeholder": "Enter your password",
       "age_terms_agreement_text": "I am over {{age}} years old",
@@ -423,13 +491,13 @@
     },
     "register-email": {
       "heading": "Register with email",
-      "email_label": "Email",
+      "email_label": "Email *",
       "email_placeholder": "user@mail.com",
-      "password_label": "Password",
+      "password_label": "Password *",
       "password_placeholder": "Enter your password",
       "email_error": "Please enter a valid email",
       "password_error": "Password should contain at least 8 characters, 1 uppercase letter, 1 lowercase letter and 1 number",
-      "nickname_label": "Nickname",
+      "nickname_label": "Nickname *",
       "nickname_placeholder": "Enter your nickname",
       "nickname_error": "Nickname is required",
       "terms_agreement_text_1": "I agree with the",
@@ -439,7 +507,7 @@
       "register_button": "Register",
       "paragraph": "Or register with:",
       "login_button_label": "I already have an account",
-      "confirm_password_label": "Confirm password",
+      "confirm_password_label": "Confirm password *",
       "password_match_error": "The Password and Confirm Password fields do not match",
       "age_terms_agreement_text": "I am over {{age}} years old",
       "prompt_title": "Save your credentials for quick login",
@@ -500,6 +568,7 @@
       "psychiatrist": "Psychiatrist",
       "psychotherapist": "Psychotherapist",
       "no_match": "No providers matching your criteria",
+      "book_session": "Book session",
       "free": "Free",
       "coupon": "Coupon",
       "tab_paid": "Paid",
@@ -530,6 +599,7 @@
       "max_price": "",
       "providers_free_consultation_label": "",
       "coupon_note": "This time, we've entered a code for you for a free session! Schedule an appointment with one of our consultants and take the first step towards improving your well-being.",
+      "choose-the-provider": "Choose the provider you want to talk to in a video, audio or text consultation. It can sometimes take time to find a provider that is a good fit for your needs and your preferred approach.",
       "choose_provider": "Choose the provider you want to talk to in a video, audio or text consultation. It can sometimes take time to find a provider that is a good fit for your needs and your preferred approach."
     },
     "share-platform": {
@@ -595,7 +665,11 @@
       "living_place_placeholder": "Enter your living place",
       "error_fetching_data": "An error occured while fetching profile details",
       "parent": "Parent",
-      "delete_mood_tracker": "Clear mood tracker data"
+      "delete_mood_tracker": "Clear mood tracker data",
+      "account_section": "Account",
+      "data_management_section": "Data management",
+      "danger_zone_section": "Danger zone",
+      "delete_account_description": "This action is permanent and cannot be undone."
     },
     "user-profile": {
       "heading": "Your profile",
@@ -603,6 +677,7 @@
       "button_label": "Logout",
       "first_group_heading": "Profile details",
       "guest": "Guest",
+      "edit_profile": "Edit profile",
       "second_group_heading": "Application settings",
       "rate_share": "Rate",
       "other": "Other",
@@ -623,43 +698,65 @@
       "user_guide": "Platform usage"
     },
     "welcome": {
-      "heading": "Welcome to",
+      "heading": "Welcome to Client Portal",
       "country": "Country",
       "language": "Language",
       "placeholder": "Select",
       "button": "Continue",
-      "poland_description": "uSupport is a mental health and well-being platform designed for youth (16–24)."
+      "poland_description": "uSupport is a mental health and well-being platform designed for youth (16–24).",
+      "register_with_email": "Register with email",
+      "register_email": "Register with email",
+      "register_anonymously": "Register anonymously",
+      "continue_as_guest": "Continue without registration",
+      "already_have_account": "Already have an account?",
+      "dont_have_account": "Don't have an account?",
+      "sign_up": "Sign up",
+      "log_in": "Log in",
+      "ro_password_modal_heading": "Password required",
+      "ro_password_modal_text": "Enter password to continue.",
+      "ro_password_modal_cta": "Continue",
+      "ro_password_modal_input_label": "Password",
+      "ro_password_modal_input_placeholder": "Enter password",
+      "ro_password_modal_error": "Invalid password"
     },
     "my-qa": {
       "search_input_placeholder": "Search",
       "filter_button_label": "Filter",
-      "read_more": "Click to read more",
+      "read_more": "Read more",
       "all": "All",
       "most_popular": "Most Popular",
       "newest": "Newest",
       "your_questions": "Your Questions",
-      "answer_by": "Answer by:",
+      "answer_by": "Answered by:",
       "schedule_consultation": "Schedule consultation",
       "today": "Today",
       "no_questions_found": "No questions found",
+      "try_changing_filters": "Try changing filters",
       "language_placeholder": "Select language",
       "heading": "",
       "subheading": "",
       "heading_button_label": "",
       "emergency_button_label": "",
       "ask_button_label": "",
-      "date_answered": "on {{date}}"
+      "date_answered": "on {{date}}",
+      "go_back": "Go back"
     },
     "set-up-biometrics": {
       "heading": "Set up passcode and biometrics",
       "btn_label": "Continue",
       "subheading": "Set up a passcode or biometrics to keep your account secured. If you skip this step, you have to login every time you open the app.",
+      "subheading_mandatory": "To stay signed in on this device, set up a passcode or biometrics.",
       "biometrics_btn_label": "Use biometrics",
       "btn_skip": "Skip for now"
     },
     "videos": {
       "read_more_button": "View more",
+      "read": "Read",
+      "min_read": "min read",
+      "by": "By {{creator}}",
       "all": "All",
+      "video_not_available": "Video not available",
+      "podcast_unavailable": "Podcast unavailable",
       "could_not_load_content": "Could not load content.",
       "no_results": "No results found",
       "number_of_more_options": "{{count}} more",
@@ -710,6 +807,7 @@
       "search_placeholder": "Search by organization name",
       "no_data_found": "No data found",
       "reset_filters": "Reset filters",
+      "services": "Services",
       "view_organization_details": "Read more",
       "address": "Address",
       "phone": "Phone",
@@ -832,6 +930,7 @@
       "identity_issues": "Identity issues",
       "illness_oncological_treatment_chronic_diseases": "Illness (oncological treatment, chronic diseases)",
       "other_situations": "Other situations",
+      "report_inactive": "Report as inactive",
       "copy_link_success": "Link copied to clipboard!",
       "description_label": ""
     },
@@ -866,13 +965,19 @@
       "frequent_headaches": "I have frequent headaches for no reason.",
       "question": "Question {{number}} of {{total}}",
       "completed": "{{percentage}}% completed",
-      "back": "Back",
+      "back": "Previous question",
       "next": "Next",
       "start_assessment": "Start Assessment",
       "finish_assessment": "Finish Assessment",
       "assessment_completed": "Assessment Completed",
       "assessment_completed_description": "Thank you for completing the assessment. Your answers have been saved and will be used to help you.",
       "assessment_completed_button": "Back to Home",
+      "save_button_label": "Save for later",
+      "sontrgly_disagree": "Strongly Disagree",
+      "disagree": "Disagree",
+      "neutral": "Neutral",
+      "agree": "Agree",
+      "strongly_agree": "Strongly Agree",
       "loading_results": "Loading your results...",
       "recommended_articles": "Recommended Articles",
       "recommended_videos": "Recommended Videos",
@@ -886,7 +991,19 @@
     },
     "baseline-assessment-dashboard": {
       "heading": "Your Baseline Assessment",
+      "heading_completed": "Your Latest Assessment",
       "no_assessment_text": "You haven't completed a baseline assessment yet. Complete one to get personalized insights about your mental health.",
+      "no_assessment_description": "Take a quick assessment to understand your mental health better and get personalized recommendations.",
+      "explore_heading": "Find Support Near You",
+      "explore_card_description": "After completing the baseline assessment, we will help you find the most relevant support near you.",
+      "explore_button_label": "Explore Organizations",
+      "user_guide_heading": "Do you want to know more about:",
+      "emergency_services": "Emergency services",
+      "emergency_services_description": "Emergency services",
+      "map": "Support services map (Bucharest)",
+      "map_description": "Support services map (Bucharest)",
+      "rights": "Children & adolescents rights",
+      "rights_description": "Children & adolescents rights",
       "start_new_assessment": "Start Assessment",
       "completed": "Completed",
       "in_progress": "In Progress",
@@ -900,7 +1017,7 @@
       "biological": "Biological",
       "social": "Social",
       "how_it_works": "How it works",
-      "see_last_result": "Latest Results"
+      "see_last_result": "View Results"
     },
     "baseline-assesment-result": {
       "assessment_completed": "Assessment completed",
@@ -944,24 +1061,39 @@
       "summary_heading": "Recommendations generated based on the score obtained",
       "organizations": "Recommended organizations",
       "read_more": "Read more",
-      "view_more": "View more"
+      "view_more": "View more",
+      "download_pdf": "Download results (PDF)",
+      "download_success": "PDF downloaded successfully",
+      "download_pdf_footer": "Generated by USupport client app"
     }
   },
   "screens": {
+    "screen": {
+      "go_back": "Go back"
+    },
     "article-information": {
       "heading": "More Articles",
       "no_results": "There are no similar articles for the current selected language. ",
-      "read_more": "Click to read more",
+      "read_more": "Read more",
       "min_read": "min read",
       "by": "By {{creator}}",
       "check_article": "Hello, check this article",
       "share_success": "Article shared successfully",
-      "download_success": "Article downloaded successfully"
+      "download_success": "Article downloaded successfully",
+      "go_back": "Go back",
+      "audio_player_title": "Listen to this article",
+      "audio_player_subtitle": "Prefer audio? Play the narrated version.",
+      "audio_player_badge_listen_time": "{{minutes}} min listen",
+      "audio_player_helper": "You can read along while listening or just relax and enjoy.",
+      "audio_player_seek_back_label": "Skip back {{seconds}} seconds",
+      "audio_player_seek_forward_label": "Skip forward {{seconds}} seconds",
+      "audio_player_play_label": "Play",
+      "audio_player_pause_label": "Pause"
     },
     "articles-screen": {
       "heading_default": "All Articles",
       "heading_newest": "Newest Articles",
-      "heading_most_read": "Most read Articles",
+      "heading_most_read": "Most Read Article",
       "subheading_default": "You can find all articles here",
       "subheading_newest": "Here you can find newest articles",
       "subheading_most_read": "Here you can find the most read articles from all categories"
@@ -1032,6 +1164,7 @@
       "emergency_button_label": "Emergency help"
     },
     "dashboard": {
+      "heading": "",
       "welcome": "Welcome back {{clientName}}!",
       "no_registration_heading": "You are using the app without registration",
       "no_registration_subheading": "To use all the features of the app you need to have an anonymous or regular account.",
@@ -1073,7 +1206,12 @@
       "emergency_button_label": "Emergency help",
       "articles": "Articles",
       "videos": "Videos",
-      "podcasts": "Podcasts"
+      "podcasts": "Podcasts",
+      "search": "Search",
+      "most_read_heading": "Most read",
+      "read_more": "Read more",
+      "min_read": "min read",
+      "by": "By {{creator}}"
     },
     "local-authentication-screen": {
       "enter_pin": "Enter your PIN Code",
@@ -1124,6 +1262,7 @@
       "modal_coupon_input_placeholder": "COUPON1",
       "heading_with_coupon": "Select a  Provider to use Coupon: {{coupon}}",
       "remove_coupon_label": "Remove coupon",
+      "coupon_not_found_error": "This coupon was not found or is no longer valid.",
       "coupon_paragraph": "Coupons provide “no-cost” sessions and are sponsored by our partners.",
       "coupon_paragraph_two": "If you received a coupon code from a social media campaign or a partner, please copy and paste that below. After you submit the coupon code, you will see any providers that support it and their availability. A coupon may support one or more sessions. The platform will indicate if the coupon has expired or reached the maximum session usage.",
       "max_price": "Maximum price",
@@ -1416,6 +1555,18 @@
       "permissions_error_subheading": "Please grant permission to use the camera or microphone from the settings of your device, to join the consultation",
       "open_settings": "Open settings"
     },
+    "device-test": {
+      "heading": "Test audio & camera",
+      "subheading": "Check your devices before the consultation to make sure everything works.",
+      "done": "Done",
+      "configuring_devices": "Configuring devices...",
+      "camera_off_label": "Camera is off",
+      "mic_level_label": "Microphone",
+      "toggle_camera": "Toggle camera",
+      "toggle_microphone": "Toggle microphone",
+      "retry_permissions": "Try again",
+      "permissions_error": "Allow camera and microphone permissions"
+    },
     "select-avatar": {
       "heading": "Change profile picture",
       "select": "Select the avatar you like",
@@ -1429,6 +1580,25 @@
       "subheading_new": "Select the date and time of the appointment.",
       "cta_button_label": "Save",
       "no_slots_available": "There are no available slots for the selected day.",
+      "january": "January",
+      "february": "February",
+      "march": "March",
+      "april": "April",
+      "may": "May",
+      "june": "June",
+      "july": "July",
+      "august": "August",
+      "september": "September",
+      "october": "October",
+      "november": "November",
+      "december": "December",
+      "su": "Su",
+      "mo": "Mo",
+      "tu": "Tu",
+      "we": "We",
+      "th": "Th",
+      "fr": "Fr",
+      "sa": "Sa",
       "coupon_code": "Coupon code",
       "apply_coupon": "Apply coupon",
       "remove_coupon": "Remove coupon",
@@ -1463,7 +1633,9 @@
       "send": "Send",
       "didnt_get_code": "Didnt get code?",
       "resend": "Resend email",
-      "seconds": " in {{seconds}} seconds"
+      "seconds": " in {{seconds}} seconds",
+      "report_issue_text": "Having trouble receiving the code?",
+      "report_issue_cta": "Report an issue"
     },
     "article-categories": {
       "categories": "Categories"
@@ -1478,11 +1650,20 @@
       "end_date_before_start_error": "End date must be after start date",
       "confirm": "Confirm"
     },
+    "organization-report": {
+      "heading": "Report this organization",
+      "subheading": "Please tell us why you are reporting this organization.",
+      "message_label": "Further details (optional)",
+      "message_placeholder": "Explain why you are reporting this organization—for example what seems wrong, misleading, or out of date.",
+      "confirm_button": "Submit report",
+      "cancel_button": "Cancel",
+      "success_message": "Thank you. Your report has been received."
+    },
     "user-guide": {
       "heading": "Do you want to know more about:",
       "emergency_services": "Emergency services",
-      "map": "Map of mental health and psycho-emotional support services available in Bucharest",
-      "rights": "The rights of children and adolescents to access mental health and psycho-emotional support services"
+      "map": "Support services map (Bucharest)",
+      "rights": "Children & adolescents rights"
     },
     "emergency-situation": {
       "heading": "Map of Mental Health and Psychosocial Support Services for Children and Adolescents in Bucharest",

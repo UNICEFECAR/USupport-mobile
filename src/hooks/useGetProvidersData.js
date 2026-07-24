@@ -1,4 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
 import { providerSvc } from "#services";
 import { getTimestampFromUTC, getStartAndEndOfWeek } from "#utils";
 
@@ -63,6 +64,8 @@ export default function useGetProvidersData(
   onSuccess = () => {},
   billingType = null
 ) {
+  const randomSeed = useMemo(() => Date.now().toString(), []);
+
   const fetchProvidersData = async ({ pageParam = 1 }) => {
     const providersLimit = 150;
     const { first } = getStartAndEndOfWeek(new Date());
@@ -79,7 +82,8 @@ export default function useGetProvidersData(
       activeCoupon?.campaignId,
       providersLimit,
       pageParam,
-      filtersQueryString
+      filtersQueryString,
+      randomSeed
     );
     const formattedData = [];
     for (let i = 0; i < data.length; i++) {

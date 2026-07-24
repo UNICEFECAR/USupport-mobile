@@ -1,9 +1,9 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View, Image } from "react-native";
+import { StyleSheet, View } from "react-native";
 import Config from "react-native-config";
 
-import { TransparentModal, CustomCarousel, AppText } from "#components";
+import { TransparentModal, CustomCarousel, AppText, CachedImage } from "#components";
 
 import { appStyles } from "#styles";
 
@@ -56,7 +56,7 @@ export const HowItWorksBA = ({ isOpen, onClose }) => {
   const renderSlide = ({ item, index }) => (
     <View key={index} style={styles.slide}>
       <AppText namedStyle="text">{item.text}</AppText>
-      <Image
+      <CachedImage
         source={{
           uri: item.image,
         }}
@@ -71,7 +71,7 @@ export const HowItWorksBA = ({ isOpen, onClose }) => {
       heading={t("heading")}
       isOpen={isOpen}
       handleClose={onClose}
-      scrollAnimationDuration={4000}
+      scrollableBody={false}
     >
       <View style={styles.carouselContainer}>
         <CustomCarousel

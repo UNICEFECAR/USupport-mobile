@@ -64,17 +64,16 @@ export const PrivacyPolicy = ({
 
   return (
     <React.Fragment>
-      <Heading
-        heading={t("heading")}
-        handleGoBack={handleGoBack}
-        hasCloseIcon={isModal}
-        handleCloseIconPress={handleModalClose}
-        style={isModal && { paddingTop: topInset + 10 }}
-      />
+      <Block>
+        <Heading
+          heading={t("heading")}
+          handleGoBack={handleGoBack}
+          hasCloseIcon={isModal}
+          handleCloseIconPress={handleModalClose}
+        />
+      </Block>
       <ScrollView>
-        <Block
-          style={[{ marginTop: 48 }, isModal && { marginTop: topInset + 60 }]}
-        >
+        <Block>
           <View style={styles.privacyContainer}>
             {policiesData && <CKRenderer data={policiesData} />}
             {!policiesData && policiesLoading && (
@@ -83,9 +82,7 @@ export const PrivacyPolicy = ({
               </View>
             )}
             {!policiesData && !policiesLoading && isPoliciesFetched && (
-              <AppText namedStlye="h3" className="privacy-policy__no-results">
-                {t("no_results")}
-              </AppText>
+              <AppText namedStlye="h3">{t("no_results")}</AppText>
             )}
           </View>
         </Block>
@@ -97,12 +94,11 @@ export const PrivacyPolicy = ({
 const styles = StyleSheet.create({
   privacyContainer: {
     paddingBottom: 28,
-    marginTop: 24,
   },
   heading2: {
     fontSize: 20,
     lineHeight: 24,
-    fontFamily: "Nunito-SemiBold",
+    fontFamily: appStyles.fontSemiBold,
     color: appStyles.colorBlue_3d527b,
     marginTop: 32,
     marginBottom: 16,
@@ -110,7 +106,7 @@ const styles = StyleSheet.create({
   paragraph: {
     color: appStyles.colorGray_66768d,
     fontSize: 16,
-    fontFamily: "Nunito-Regular",
+    fontFamily: appStyles.fontRegular,
     lineHeight: 24,
   },
   loadingContainer: {

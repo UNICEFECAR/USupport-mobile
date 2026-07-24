@@ -14,8 +14,8 @@ import { useGetTheme } from "#hooks";
  *
  * @return {jsx}
  */
-export const Header = ({ handleDayChange, startDate, style }) => {
-  const { colors, isDarkMode } = useGetTheme();
+export const Header = ({ handleDayChange, startDate, style, t = (x) => x }) => {
+  const { colors } = useGetTheme();
   const currentDay = new Date();
   const [today, setToday] = useState(
     startDate ? new Date(startDate) : new Date()
@@ -54,20 +54,20 @@ export const Header = ({ handleDayChange, startDate, style }) => {
   }, [selectedDay]);
 
   const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    "january",
+    "february",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "september",
+    "october",
+    "november",
+    "december",
   ];
-  const weekDays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+  const weekDays = ["su", "mo", "tu", "we", "th", "fr", "sa"];
 
   const handleSelectDay = (day) => {
     setSelectedDay(day);
@@ -76,28 +76,24 @@ export const Header = ({ handleDayChange, startDate, style }) => {
   const renderDaysOfWeek = () => {
     return daysOfWeek.map((day, index) => {
       const isToday = day.toDateString() === selectedDay.toDateString();
+      const isWeekend = index === 6 || index === 5;
+      const labelColor = isToday ? appStyles.colorWhite_ff : colors.text;
+      const dateColor = isToday
+        ? appStyles.colorWhite_ff
+        : isWeekend
+          ? appStyles.colorGray_92989b
+          : colors.text;
       return (
         <TouchableOpacity onPress={() => handleSelectDay(day)} key={index}>
-          <View style={[styles.dayOfWeek, isToday && styles.selectedToday]}>
-            <AppText
-              style={{
-                color:
-                  isToday && isDarkMode
-                    ? appStyles.colorBlack_37
-                    : colors.textTertiary,
-              }}
-            >
-              {weekDays[day.getDay()]}
+          <View style={[styles.dayOfWeek, isToday ? styles.selectedToday : null]}>
+            <AppText style={[styles.dayLabelText, { color: labelColor }]}>
+              {t(weekDays[day.getDay()])}
             </AppText>
             <AppText
               namedStyle="smallText"
               style={[
                 styles.dateText,
-                { color: colors.textTertiary },
-                (index === 6 || index === 5) && styles.dateTextWeekend,
-                index === 6 ||
-                  index === 5 ||
-                  (isToday && isDarkMode && { color: appStyles.colorBlack_37 }),
+                { color: dateColor },
               ]}
             >
               {day.getDate()}
@@ -134,15 +130,17 @@ export const Header = ({ handleDayChange, startDate, style }) => {
           <Icon
             size="md"
             name="arrow-chevron-back"
-            color={appStyles.colorBlack_37}
+            color={colors.text}
           />
         </TouchableOpacity>
-        <AppText>{months[today.getMonth()]}</AppText>
+        <AppText style={{ color: colors.text }}>
+          {t(months[today.getMonth()])}
+        </AppText>
         <TouchableOpacity onPress={() => handleMonthChange(1)}>
           <Icon
             size="md"
             name="arrow-chevron-forward"
-            color={appStyles.colorBlack_37}
+            color={colors.text}
           />
         </TouchableOpacity>
       </View>
@@ -158,7 +156,7 @@ export const Header = ({ handleDayChange, startDate, style }) => {
           <Icon
             size="md"
             name="arrow-chevron-back"
-            color={appStyles.colorBlack_37}
+            color={colors.text}
           />
         </TouchableOpacity>
         {renderDaysOfWeek()}
@@ -166,7 +164,7 @@ export const Header = ({ handleDayChange, startDate, style }) => {
           <Icon
             size="md"
             name="arrow-chevron-forward"
-            color={appStyles.colorBlack_37}
+            color={colors.text}
           />
         </TouchableOpacity>
       </View>
@@ -200,9 +198,8 @@ const styles = StyleSheet.create({
   },
   selectedToday: {
     borderRadius: 8,
-    backgroundColor: appStyles.colorGreen_c1eaea,
+    backgroundColor: "#6a4ffb",
   },
   dayLabelText: { color: appStyles.colorBlack_37 },
   dateText: { color: appStyles.colorBlack_37 },
-  dateTextWeekend: { color: appStyles.colorGray_92989b },
 });

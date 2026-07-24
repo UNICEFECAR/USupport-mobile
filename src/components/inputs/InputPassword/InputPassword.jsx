@@ -32,7 +32,7 @@ export const InputPassword = ({ ...props }) => {
 };
 
 const styles = StyleSheet.create({
-  icon: { width: 20, height: 20 },
+  icon: { width: 20, height: 20, marginRight: 10 },
 });
 
 InputPassword.propTypes = {

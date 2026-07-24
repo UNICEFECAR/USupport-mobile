@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import {
   StyleSheet,
   KeyboardAvoidingView,
@@ -9,22 +9,29 @@ import {
 } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CheckBox, AppText } from "#components";
 
 import * as Keychain from "react-native-keychain";
 import * as LocalAuthentication from "expo-local-authentication";
 
 import {
+  CheckBox,
+  AppText,
   Block,
   Heading,
   Input,
   InputPassword,
   Error,
-  AppButton,
   Icon,
+  NewButton,
 } from "#components";
 
-import { getCountryFromTimezone } from "#utils";
+import { getCountryFromTimezone, resolveKeepMeSignedInOnLogin } from "#utils";
+import {
+  hasSavedCredentialsForCurrentCountry,
+  getSavedCredentialsForCurrentCountry,
+  saveCredentialsForCurrentCountry,
+  syncDeviceUnlockFromStorage,
+} from "#utils";
 import { userSvc, localStorage, Context } from "#services";
 import { useError } from "#hooks";
 
@@ -35,11 +42,18 @@ import { useError } from "#hooks";
  *
  * @return {jsx}
  */
-export const Login = ({ navigation }) => {
+export const Login = ({
+  navigation,
+  onGoBack,
+  onGoToForgotPassword,
+  onGoToRegister,
+  inBackdrop,
+  onCtaConfigChange,
+}) => {
   const { t } = useTranslation("blocks", { keyPrefix: "login" });
   const queryClient = useQueryClient();
 
-  const { setToken, setInitialRouteName, isLoginDisabled, setIsLoginDisabled } =
+  const { setToken, setInitialRouteName, isLoginDisabled, setIsLoginDisabled, setRequireBiometricsSetup, setUserPin, setHasAuthenticatedWithPin } =
     useContext(Context);
 
   const [data, setData] = useState({
@@ -51,6 +65,7 @@ export const Login = ({ navigation }) => {
   const [biometryType, setBiometryType] = useState(null);
   const [hasCredentials, setHasCredentials] = useState(false);
   const [shouldSaveCredentials, setShouldSaveCredentials] = useState(false);
+  const [keepMeSignedIn, setKeepMeSignedIn] = useState(false);
 
   const savedCredentials = useRef({});
 
@@ -61,9 +76,7 @@ export const Login = ({ navigation }) => {
           await LocalAuthentication.hasHardwareAsync();
         const biometryType = await Keychain.getSupportedBiometryType();
         setBiometryType(biometryType || isHardwareAvailable);
-        const hasCredentials = await Keychain.hasInternetCredentials(
-          "https://usupport.online"
-        );
+        const hasCredentials = await hasSavedCredentialsForCurrentCountry();
         if (hasCredentials) {
           setHasCredentials(true);
         }
@@ -98,9 +111,6 @@ export const Login = ({ navigation }) => {
           savedCredentials.current?.password !== data.password)
       ) {
         let iosSuccess = false;
-        const usernameForKeychain = data.email.includes("@")
-          ? data.email.toLowerCase().trim()
-          : String(data.email).trim();
 
         // For some reason Keychain.setInternetCredentials doesn't trigger the biometric prompt
         // on iOS, so we need to do it manually
@@ -112,19 +122,14 @@ export const Login = ({ navigation }) => {
           });
         }
         if (Platform.OS === "android" || iosSuccess) {
-          await Keychain.setInternetCredentials(
-            "https://usupport.online",
-            usernameForKeychain,
-            data.password,
-            {
-              accessControl:
-                Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET_OR_DEVICE_PASSCODE,
-              authenticationPrompt: {
-                title: t("prompt_2_title"),
-                cancel: t("cancel"),
-              },
-            }
-          ).then((res) => console.log("Result: ", res));
+          await saveCredentialsForCurrentCountry({
+            username: data.email,
+            password: data.password,
+            authenticationPrompt: {
+              title: t("prompt_2_title"),
+              cancel: t("cancel"),
+            },
+          });
         }
       }
 
@@ -139,7 +144,16 @@ export const Login = ({ navigation }) => {
         ["client-data"],
         userSvc.transformUserData(userData)
       );
-      setInitialRouteName("TabNavigation");
+
+      const { initialRouteName, requireBiometricsSetup } =
+        await resolveKeepMeSignedInOnLogin(keepMeSignedIn);
+      setInitialRouteName(initialRouteName);
+      setRequireBiometricsSetup(requireBiometricsSetup);
+      await syncDeviceUnlockFromStorage({
+        setUserPin,
+        setHasAuthenticatedWithPin,
+      });
+
       setErrors({});
       setToken(token);
     },
@@ -161,17 +175,10 @@ export const Login = ({ navigation }) => {
   });
 
   const getCredentials = async () => {
-    // const enrolled = await LocalAuthentication.isEnrolledAsync();
-    const credentials = await Keychain.getInternetCredentials(
-      "https://usupport.online",
-      {
-        accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_ANY,
-        authenticationPrompt: {
-          title: t("prompt_title"),
-          cancel: t("cancel"),
-        },
-      }
-    );
+    const credentials = await getSavedCredentialsForCurrentCountry({
+      title: t("prompt_title"),
+      cancel: t("cancel"),
+    });
     if (credentials) {
       const { username, password } = credentials;
       savedCredentials.current = { username, password };
@@ -192,15 +199,35 @@ export const Login = ({ navigation }) => {
     loginMutation.mutate();
   };
 
+  useEffect(() => {
+    if (!onCtaConfigChange) return;
+    onCtaConfigChange({
+      ctaHandleClick: handleLogin,
+      isCtaDisabled: !data.email || !data.password || isLoginDisabled,
+      isCtaLoading: loginMutation.isLoading,
+      errorMessage: errors.submit,
+    });
+  }, [
+    onCtaConfigChange,
+    data.email,
+    data.password,
+    isLoginDisabled,
+    loginMutation.isLoading,
+    errors.submit,
+  ]);
+
   const handleForgotPassowrd = () => {
-    navigation.navigate("ForgotPassword");
+    if (onGoToForgotPassword) return onGoToForgotPassword();
+    navigation?.navigate?.("ForgotPassword");
   };
 
   const handleRegisterRedirect = () => {
-    navigation.navigate("RegisterPreview");
+    if (onGoToRegister) return onGoToRegister();
+    navigation?.navigate?.("RegisterPreview");
   };
 
   const handleGoBack = () => {
+    if (onGoBack) return onGoBack();
     if (navigation.canGoBack()) {
       navigation.goBack();
     } else {
@@ -208,66 +235,68 @@ export const Login = ({ navigation }) => {
     }
   };
 
-  return (
-    <KeyboardAvoidingView
-      style={styles.keyboardAvoidingView}
-      behavior={Platform.OS === "ios" ? "padding" : null}
-    >
-      <Heading heading={t("heading")} handleGoBack={handleGoBack} />
-      <Block style={[styles.flexGrow, { marginTop: 84 }]}>
-        <ScrollView
-          contentContainerStyle={styles.flexGrow}
-          keyboardShouldPersistTaps="handled"
+  const content = (
+    <>
+      {hasCredentials && !!biometryType ? (
+        <View style={{ width: "100%", height: 20, marginBottom: 30 }}>
+          <TouchableOpacity onPress={getCredentials}>
+            <Icon color="#20809e" style={{ alignSelf: "center" }} name="face-id" />
+          </TouchableOpacity>
+        </View>
+      ) : null}
+      <Input
+        label={t("email_label")}
+        onChange={(value) => handleChange("email", value)}
+        placeholder={t("email_placeholder")}
+        value={data.email}
+        autoCapitalize="none"
+        style={styles.input}
+      />
+      <InputPassword
+        label={t("password_label")}
+        onChange={(value) => handleChange("password", value)}
+        placeholder={t("password_placeholder")}
+        value={data.password}
+        style={styles.inputPassword}
+        autoCapitalize="none"
+      />
+      <View style={styles.checkboxContainer}>
+        <CheckBox
+          isChecked={shouldSaveCredentials}
+          setIsChecked={() => setShouldSaveCredentials(!shouldSaveCredentials)}
+        />
+        <AppText
+          onPress={() => setShouldSaveCredentials(!shouldSaveCredentials)}
+          namedStyle="text"
         >
-          {hasCredentials && !!biometryType ? (
-            <View style={{ width: "100%", height: 20, marginBottom: 30 }}>
-              <TouchableOpacity onPress={getCredentials}>
-                <Icon
-                  color="#20809e"
-                  style={{ alignSelf: "center" }}
-                  name="face-id"
-                />
-              </TouchableOpacity>
-            </View>
-          ) : null}
-          <Input
-            label={t("email_label")}
-            onChange={(value) => handleChange("email", value)}
-            placeholder={t("email_placeholder")}
-            value={data.email}
-            autoCapitalize="none"
-            style={styles.input}
-          />
-          <InputPassword
-            label={t("password_label")}
-            onChange={(value) => handleChange("password", value)}
-            placeholder={t("password_placeholder")}
-            value={data.password}
-            style={styles.inputPassword}
-            autoCapitalize="none"
-          />
-          <View style={styles.checkboxContainer}>
-            <CheckBox
-              isChecked={shouldSaveCredentials}
-              setIsChecked={() =>
-                setShouldSaveCredentials(!shouldSaveCredentials)
-              }
-            />
-            <AppText
-              onPress={() => setShouldSaveCredentials(!shouldSaveCredentials)}
-              namedStyle="text"
-            >
-              {t("save_credentials")}
-            </AppText>
-          </View>
-          <AppButton
-            type="ghost"
-            color="purple"
-            label={t("forgot_password_label")}
-            onPress={() => handleForgotPassowrd()}
-          />
-          {errors.submit ? <Error message={errors.submit} /> : null}
-          <AppButton
+          {t("save_credentials")}
+        </AppText>
+      </View>
+      <View style={styles.checkboxContainer}>
+        <CheckBox
+          isChecked={keepMeSignedIn}
+          setIsChecked={() => setKeepMeSignedIn(!keepMeSignedIn)}
+        />
+        <AppText
+          onPress={() => setKeepMeSignedIn(!keepMeSignedIn)}
+          namedStyle="text"
+          style={styles.checkboxLabel}
+        >
+          {t("keep_me_signed_in")}
+        </AppText>
+      </View>
+      <AppText namedStyle="smallText" style={styles.keepSignedInHelper}>
+        {t("keep_me_signed_in_description")}
+      </AppText>
+      <NewButton
+        type="ghost-purple"
+        label={t("forgot_password_label")}
+        onPress={handleForgotPassowrd}
+      />
+      {errors.submit ? <Error message={errors.submit} /> : null}
+      {inBackdrop ? null : (
+        <>
+          <NewButton
             label={t("login_label")}
             size="lg"
             onPress={handleLogin}
@@ -276,11 +305,37 @@ export const Login = ({ navigation }) => {
             isSubmit
             style={styles.loginButton}
           />
-          <AppButton
+          <NewButton
             type="ghost"
             label={t("register_button_label")}
             onPress={() => handleRegisterRedirect()}
+            style={styles.registerButton}
           />
+        </>
+      )}
+    </>
+  );
+
+  if (inBackdrop) {
+    return (
+      <KeyboardAvoidingView
+        style={styles.keyboardAvoidingView}
+        behavior={Platform.OS === "ios" ? "padding" : null}
+      >
+        <Block style={styles.flexGrow}>{content}</Block>
+      </KeyboardAvoidingView>
+    );
+  }
+
+  return (
+    <KeyboardAvoidingView
+      style={styles.keyboardAvoidingView}
+      behavior={Platform.OS === "ios" ? "padding" : null}
+    >
+      <Heading heading={t("heading")} handleGoBack={handleGoBack} />
+      <Block style={[styles.flexGrow, { marginTop: 84 }]}>
+        <ScrollView contentContainerStyle={styles.flexGrow} keyboardShouldPersistTaps="handled">
+          {content}
         </ScrollView>
       </Block>
     </KeyboardAvoidingView>
@@ -311,5 +366,14 @@ const styles = StyleSheet.create({
     marginLeft: 18,
     marginBottom: 10,
     marginTop: 4,
+  },
+  checkboxLabel: { flex: 1 },
+  keepSignedInHelper: {
+    marginLeft: 18,
+    marginBottom: 10,
+    opacity: 0.75,
+  },
+  registerButton: {
+    marginTop: 20,
   },
 });

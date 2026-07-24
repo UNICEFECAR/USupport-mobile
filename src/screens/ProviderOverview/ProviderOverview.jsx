@@ -1,12 +1,12 @@
-import React, { useState, useRef, useContext, useMemo } from "react";
+import React, { useState, useRef, useContext, useMemo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, ScrollView, Platform } from "react-native";
+import { StyleSheet, ScrollView } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { Screen, Heading, AppButton } from "#components";
+import { Screen, Heading, Block } from "#components";
 import { ProviderOverview as ProviderOverviewBlock } from "#blocks";
 import { SelectConsultation, ConfirmConsultation } from "#backdrops";
+import { RequireDataAgreement } from "#modals";
 import {
   useGetClientData,
   useBlockSlot,
@@ -14,7 +14,6 @@ import {
   useAddCountryEvent,
 } from "#hooks";
 import { Context } from "#services";
-import { parseUTCDate } from "#utils";
 
 /**
  * ProviderOverview
@@ -29,11 +28,19 @@ export const ProviderOverview = ({ navigation, route }) => {
   });
   const queryClient = useQueryClient();
   const { activeCoupon, setActiveCoupon } = useContext(Context);
-  const { bottom: bottomInset } = useSafeAreaInsets();
-  console.log(activeCoupon, "activeCoupon");
   const addCountryEventMutation = useAddCountryEvent();
 
   const providerId = route.params.providerId;
+  const billingType = route.params.billingType || null;
+  const didAutoOpenSchedule = useRef(false);
+
+  const effectiveActiveCoupon = billingType === "coupon" ? activeCoupon : null;
+
+  useEffect(() => {
+    if (billingType !== "coupon" && activeCoupon) {
+      setActiveCoupon(null);
+    }
+  }, [billingType, activeCoupon, setActiveCoupon]);
 
   if (!providerId) navigation.navigate("SelectProvider");
 
@@ -64,6 +71,14 @@ export const ProviderOverview = ({ navigation, route }) => {
   };
   const openConfirmConsultationBackdrop = () => setIsConfirmBackdropOpen(true);
   const openRequireDataAgreement = () => setIsRequireDataAgreementOpen(true);
+
+  useEffect(() => {
+    if (didAutoOpenSchedule.current) return;
+    if (route?.params?.openSchedule) {
+      didAutoOpenSchedule.current = true;
+      openScheduleBackdrop();
+    }
+  }, [route?.params?.openSchedule]);
 
   // Close modals
   const closeConfirmConsultationBackdrop = () =>
@@ -96,7 +111,7 @@ export const ProviderOverview = ({ navigation, route }) => {
     openConfirmConsultationBackdrop();
     setBlockSlotError(null);
     queryClient.invalidateQueries({ queryKey: ["all-consultations"] });
-    if (activeCoupon) {
+    if (effectiveActiveCoupon) {
       setActiveCoupon(null);
     }
   };
@@ -132,13 +147,16 @@ export const ProviderOverview = ({ navigation, route }) => {
 
   return (
     <Screen hasEmergencyButton={false} style={styles.flexGrow1}>
-      <Heading
-        heading={t("heading")}
-        subheading={t("subheading")}
-        handleGoBack={() => navigation.goBack()}
-      />
+      <Block>
+        <Heading
+          heading={t("heading")}
+          subheading={t("subheading")}
+          handleGoBack={() => navigation.goBack()}
+          wrapperStyle={{ paddingTop: 0 }}
+        />
+      </Block>
       <ScrollView
-        contentContainerStyle={[styles.flexGrow1, { marginTop: 112 }]}
+        contentContainerStyle={[styles.flexGrow1]}
         showsVerticalScrollIndicator={false}
       >
         <ProviderOverviewBlock
@@ -147,15 +165,6 @@ export const ProviderOverview = ({ navigation, route }) => {
           providerId={providerId}
         />
       </ScrollView>
-      <AppButton
-        style={[
-          styles.button,
-          { bottom: Platform.OS === "android" ? bottomInset + 6 : 15 },
-        ]}
-        label={t("button_label")}
-        size="lg"
-        onPress={openScheduleBackdrop}
-      />
       <SelectConsultation
         isOpen={isScheduleBackdropOpen}
         onClose={closeScheduleBackdrop}
@@ -176,15 +185,15 @@ export const ProviderOverview = ({ navigation, route }) => {
           }}
         />
       )}
+      <RequireDataAgreement
+        isOpen={isRequireDataAgreementOpen}
+        onClose={closeRequireDataAgreement}
+        onSuccess={() => setIsScheduleBackdropOpen(true)}
+      />
     </Screen>
   );
 };
 
 const styles = StyleSheet.create({
   flexGrow1: { flexGrow: 1 },
-  button: {
-    position: "absolute",
-    alignSelf: "center",
-    maxWidth: "96%",
-  },
 });

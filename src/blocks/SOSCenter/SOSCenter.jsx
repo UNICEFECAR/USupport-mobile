@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { View, StyleSheet } from "react-native";
 
 import {
-  AppButton,
+  NewButton,
   AppText,
   Block,
   Loading,
@@ -135,9 +135,9 @@ export const SOSCenter = ({ navigation }) => {
               <AppText namedStyle="h4" isSemibold>
                 {t("other_emergency_services")}
               </AppText>
-              <AppButton
-                color="purple"
+              <NewButton
                 label={t("browse")}
+                size="sm"
                 style={{ width: "auto", alignSelf: "center" }}
                 onPress={() =>
                   navigation.navigate("TabNavigation", {

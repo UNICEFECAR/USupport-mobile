@@ -7,7 +7,7 @@ import { FlashList } from "@shopify/flash-list";
 
 import {
   Block,
-  AppButton,
+  NewButton,
   RadioButtonSelector,
   CheckBox,
   Loading,
@@ -668,7 +668,9 @@ export const ChildrenRights = ({ route }) => {
     }
     // Note: propertyType is not used in Organizations filters, so we skip it
 
-    navigation.navigate("Organizations", params);
+    // Navigate within TabNavigation: the tab route is named "Consultations".
+    // In RO this tab renders the Organizations screen component.
+    navigation.navigate("TabNavigation", { screen: "Consultations", params });
   }, [
     currentScreenData,
     state.formData,
@@ -694,7 +696,7 @@ export const ChildrenRights = ({ route }) => {
           <View style={styles.header}>
             {screen.titleKey && (
               <AppText
-                namedStyle="h3"
+                namedStyle="h2"
                 style={[
                   styles.title,
                   { color: colors.text, textAlign: "center" },
@@ -722,7 +724,10 @@ export const ChildrenRights = ({ route }) => {
             <View style={styles.questionContent}>
               <AppText
                 namedStyle="h3"
-                style={[styles.questionText, { color: colors.text }]}
+                style={[
+                  styles.questionText,
+                  { color: colors.text, textAlign: "left" },
+                ]}
               >
                 {t(screen.questionKey)}
               </AppText>
@@ -754,19 +759,21 @@ export const ChildrenRights = ({ route }) => {
         {/* Navigation */}
         <View style={styles.navigation}>
           <View style={styles.navigationButtons}>
-            <AppButton
+            <NewButton
               label={t("back")}
-              type="secondary"
+              type="outline"
               size="lg"
+              isFullWidth
               onPress={handleBack}
-              style={styles.backButton}
+              style={styles.buttonFullWidth}
             />
-            <AppButton
+            <NewButton
               label={t("continue")}
               size="lg"
+              isFullWidth
               onPress={handleNext}
               disabled={!canContinue}
-              style={styles.continueButton}
+              style={styles.buttonFullWidth}
             />
           </View>
         </View>
@@ -787,7 +794,10 @@ export const ChildrenRights = ({ route }) => {
           <View style={styles.questionContent}>
             <AppText
               namedStyle="h3"
-              style={[styles.questionText, { color: colors.text }]}
+              style={[
+                styles.questionText,
+                { color: colors.text, textAlign: "left" },
+              ]}
             >
               {t(screen.questionKey)}
             </AppText>
@@ -847,19 +857,21 @@ export const ChildrenRights = ({ route }) => {
         {/* Navigation */}
         <View style={styles.navigation}>
           <View style={styles.navigationButtons}>
-            <AppButton
+            <NewButton
               label={t("back")}
-              type="secondary"
+              type="outline"
               size="lg"
+              isFullWidth
               onPress={handleBack}
-              style={styles.backButton}
+              style={styles.buttonFullWidth}
             />
-            <AppButton
+            <NewButton
               label={isLastQuestion ? t("submit") : t("continue")}
               size="lg"
+              isFullWidth
               onPress={isLastQuestion ? handleFormSubmit : handleNext}
               disabled={!canContinue}
-              style={styles.continueButton}
+              style={styles.buttonFullWidth}
             />
           </View>
         </View>
@@ -964,10 +976,11 @@ export const ChildrenRights = ({ route }) => {
                 styles.navigationButtonsStacked,
             ]}
           >
-            <AppButton
+            <NewButton
               label={t("back")}
-              type="secondary"
+              type="outline"
               size="lg"
+              isFullWidth
               onPress={handleBack}
               style={[
                 styles.backButton,
@@ -979,20 +992,19 @@ export const ChildrenRights = ({ route }) => {
             {screen.sectionNumber !== undefined &&
               screen.sectionNumber !== null && (
                 <View>
-                  <AppButton
+                  <NewButton
                     label={t("view_content")}
                     size="lg"
                     onPress={handleRedirectToContent}
                     style={styles.fullWidthButton}
                   />
 
-                  <AppButton
-                    underlined
+                  <NewButton
                     label={t("to_dashboard")}
                     size="lg"
                     type="ghost"
                     onPress={() => navigation.navigate("Dashboard")}
-                    style={styles.fullWidthButton}
+                    style={[styles.fullWidthButton, styles.dashboardButton]}
                   />
                 </View>
               )}
@@ -1029,7 +1041,7 @@ export const ChildrenRights = ({ route }) => {
 
   return (
     <Screen t={t} hasEmergencyButton={false}>
-      <View style={[styles.page, { backgroundColor: colors.background }]}>
+      <View style={styles.page}>
         <Block style={styles.block}>
           <ScrollView
             contentContainerStyle={styles.scrollContent}
@@ -1071,6 +1083,7 @@ const styles = StyleSheet.create({
   // Header section with title and paragraph
   header: {
     alignItems: "center",
+    marginTop: 12,
     marginBottom: 32,
     width: "100%",
   },
@@ -1090,7 +1103,8 @@ const styles = StyleSheet.create({
   },
   questionContent: {
     maxWidth: 1024,
-    marginHorizontal: "auto",
+    width: "100%",
+    alignSelf: "center",
   },
   questionText: {
     marginBottom: 16,
@@ -1106,13 +1120,14 @@ const styles = StyleSheet.create({
     gap: 16,
     maxWidth: 1024,
     width: "100%",
+    alignSelf: "center",
   },
   answersContainerMulti: {
     gap: 12,
   },
   answerOption: {
     flexDirection: "column",
-    alignItems: "center",
+    alignItems: "stretch",
     gap: 8,
     flex: 1,
     width: "100%",
@@ -1180,27 +1195,26 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   navigationButtons: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    gap: 24,
+    flexDirection: "column",
+    gap: 16,
     maxWidth: 1024,
     width: "100%",
+    alignSelf: "center",
   },
   navigationButtonsStacked: {
     flexDirection: "column",
     gap: 16,
   },
-  backButton: {
-    flex: 1,
-    minWidth: 120,
-  },
-  continueButton: {
-    flex: 1,
-    minWidth: 120,
+  buttonFullWidth: {
+    width: "100%",
+    minWidth: "auto",
   },
   fullWidthButton: {
     flex: 0,
     width: "100%",
     minWidth: "auto",
+  },
+  dashboardButton: {
+    marginTop: 16,
   },
 });

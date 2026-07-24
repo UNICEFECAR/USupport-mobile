@@ -7,6 +7,8 @@
       "show_system_messages": "Wyświetlanie komunikatów systemowych",
       "show_previous_consultations": "Pokaż poprzednie konsultacje",
       "export_label": "Eksport",
+      "download_success": "PDF został pomyślnie pobrany",
+      "exported_at": "Wyeksportowano: {{time}}",
       "chat_history": "Historia czatów z",
       "client_joined": "Klient/ka dołączył/a do konsultacji",
       "client_left": "Klient/ka opuścił/a konsultację",
@@ -28,6 +30,8 @@
       "could_not_load_content": "Brak wyników dla aktualnie wybranego kraju i języka.",
       "all": "Wszystkie",
       "read_more": "Czytaj więcej",
+      "read_more_button": "Czytaj więcej",
+      "view_more": "Zobacz więcej",
       "min_read": "min czytania",
       "by": "Przez {{creator}}",
       "number_of_more_options": "jeszcze {{count}}",
@@ -50,7 +54,9 @@
       "min_read": "min czytania",
       "by": "Przez {{creator}}",
       "number_of_more_options": "jeszcze {{count}}",
-      "read": "Czytać"
+      "read": "Czytać",
+      "read_more_button": "Czytaj więcej",
+      "show_more": "Zobacz więcej"
     },
     "change-passcode": {
       "enter_passcode": "Wprowadź aktualny kod dostępu",
@@ -70,6 +76,11 @@
       "heading": "Moje konsultacje",
       "view_all": "Wyświetl wszystkie",
       "schedule_consultation_label": "Zaplanuj konsultację",
+      "heading_need_support": "Potrzebujesz wsparcia?",
+      "explore_resources_label": "Poznaj zasoby",
+      "dummy_provider_1": "Dr Kowalski",
+      "dummy_provider_2": "Dr Nowak",
+      "dummy_provider_3": "Dr Wiśniewski",
       "live_text": "Teraz",
       "accept_button_label": "Zaakceptuj konsultację",
       "join_button_label": "Dołącz",
@@ -90,6 +101,8 @@
       "october": "Październik",
       "november": "Listopad",
       "december": "Grudzień",
+      "join": "Dołącz",
+      "edit": "Edytuj",
       "join_button_label_tooltip": "Możesz dołączyć do konsultacji 5 minut przed rozpoczęciem"
     },
     "consultations": {
@@ -111,6 +124,7 @@
       "edit": "Edytuj",
       "details": "Zobacz szczegóły",
       "active": "Teraz",
+      "live": "Na żywo",
       "reject": "Odrzucić sugestię",
       "accept": "Zaakceptuj konsultację",
       "cancel_consultation": "Anuluj konsultację",
@@ -122,7 +136,9 @@
       "free": "Wolny",
       "button_label": "",
       "emergency_button_label": "",
-      "join_button_label_tooltip": "Możesz dołączyć do konsultacji 5 minut przed rozpoczęciem"
+      "join_button_label_tooltip": "Możesz dołączyć do konsultacji 5 minut przed rozpoczęciem",
+      "test_audio_camera": "Przetestuj audio i kamerę",
+      "test_audio_camera_description": "Sprawdź urządzenia przed konsultacją"
     },
     "contact-us-block": {
       "heading": "Skontaktuj się z nami",
@@ -146,7 +162,12 @@
       "contact_reason_3_pl": "Skarga",
       "contact_reason_4_pl": "Coś innego",
       "success": "Zagadnienie zostało pomyślnie zgłoszone. Wkrótce się odezwiemy",
-      "contact_form": "Contact form"
+      "contact_form": "Contact form",
+      "technical_problem_label": "Problem techniczny",
+      "report_issue_intro": "Przed wysłaniem formularza upewnij się, że adres e-mail jest wpisany poprawnie.",
+      "close_button_label": "Close",
+      "email": "Email",
+      "email_error": "Please, enter your email"
     },
     "faq": {
       "heading": "Najczęściej zadawane pytania",
@@ -191,6 +212,10 @@
       "heading_popular_podcasts": "Najpopularniejsze podcasty",
       "more_podcasts": "More podcasts",
       "no_results": "Nie znaleziono wyników",
+      "share_success": "Treść została udostępniona",
+      "check_podcast": "Cześć, posłuchaj tego podcastu",
+      "check_video": "Cześć, obejrzyj ten film",
+      "video_not_available": "Film jest niedostępny",
       "heading": "",
       "subheading": "",
       "emergency_button_label": ""
@@ -208,7 +233,14 @@
       "prompt_title": "Uwierzytelnij się, aby szybko się zalogować",
       "prompt_2_title": "Uwierzytelnij się, aby zapisać swoje dane logowania",
       "cancel": "Anuluj",
-      "save_credentials": "Zapisz dane uwierzytelniające"
+      "save_credentials": "Zapisz dane uwierzytelniające",
+      "save_credentials_description": "Użyj Face ID lub kodu PIN urządzenia, aby następnym razem automatycznie wypełnić hasło.",
+      "keep_me_signed_in": "Pozostań zalogowany",
+      "keep_me_signed_in_description": "Pozostań zalogowany na tym urządzeniu, dopóki ręcznie się nie wylogujesz.",
+      "keep_me_signed_in_sheet_title": "Pozostać zalogowanym na tym urządzeniu?",
+      "keep_me_signed_in_sheet_body": "Pozostaniesz zalogowany, dopóki ręcznie się nie wylogujesz. Korzystaj z tej opcji tylko na swoim osobistym urządzeniu. Na współdzielonym lub publicznym urządzeniu wyloguj się po zakończeniu, aby chronić swoje konto i dane osobowe.",
+      "keep_me_signed_in_sheet_cancel": "Anuluj",
+      "keep_me_signed_in_sheet_continue": "Kontynuuj"
     },
     "mood-tracker": {
       "happy": "Szczęśliwy/a",
@@ -216,8 +248,11 @@
       "sad": "Smutny/a",
       "depressed": "Przygnębiony/a",
       "worried": "Zmartwiony/a",
+      "history": "Historia",
+      "welcome-heading": "Welcome",
       "heading": "Monitor nastroju",
       "mood_tracker": "Monitor nastroju",
+      "additional_comment_label": "Co sprawiło, że tak się poczułeś/aś?",
       "additional_comment_placeholder": "Co sprawiło, że tak się poczułeś/aś?",
       "submit_mood_track": "Prześlij",
       "add_mood_tracker_success": "Twój codzienny nastrój został pomyślnie dodany",
@@ -227,9 +262,22 @@
       "how_it_works": "Jak to działa",
       "recommendations": "Rekomendacje",
       "recommendations_text": "Chcesz zobaczyć wykres swojego nastroju i polecane treści?",
-      "check_out": "Zobacz"
+      "check_out": "Zobacz",
+      "user_guide": "Wykorzystanie platformy"
     },
     "mood-track-history": {
+      "month_1": "Sty",
+      "month_2": "Lut",
+      "month_3": "Mar",
+      "month_4": "Kwi",
+      "month_5": "Maj",
+      "month_6": "Cze",
+      "month_7": "Lip",
+      "month_8": "Sie",
+      "month_9": "Wrz",
+      "month_10": "Paź",
+      "month_11": "Lis",
+      "month_12": "Gru",
       "saturday": "Sob.",
       "happy": "Szczęśliwy/a",
       "good": "Zadowolony/a",
@@ -239,6 +287,10 @@
       "you_felt": "Poczułeś/aś",
       "comment_text": "i skomentowałeś/aś:",
       "no_result": "Nie znaleziono żadnych wyników.",
+      "no_result_line1": "Nie masz jeszcze wpisów nastroju.",
+      "no_result_line2": "Dodaj pierwszy wpis, a historia pojawi się tutaj.",
+      "no_result_primary": "Wróć",
+      "no_result_secondary": "Jak to działa",
       "critical_text": "Related to a life event or critical situation",
       "recommendations": "Rekomendacje w zależności od nastroju",
       "articles": "Artykuły",
@@ -248,17 +300,24 @@
       "by": "autor: {{creator}}",
       "min_read": "min czytania",
       "view_more": "Zobacz więcej",
-      "no_recommendations": "Nie znaleziono żadnych rekomendacji"
+      "no_recommendations": "Nie znaleziono żadnych rekomendacji",
+      "previous": "Poprzedni",
+      "next": "Następny"
     },
     "notification-preferences": {
       "email": "Powiadomienia email",
       "appointment": "Powiadomienia o spotkaniach",
       "minutes_before": "minut przed",
       "heading": "",
-      "subheading": ""
+      "subheading": "",
+      "success": "Ustawienia powiadomień zostały pomyślnie zapisane"
     },
     "notifications": {
       "heading": "Powiadomienia",
+      "panel_heading": "Powiadomienia",
+      "tab_all": "Wszystkie",
+      "tab_new": "Nowe",
+      "tab_read": "Przeczytane",
       "mark_read": "Oznacz wszystkie jako przeczytane",
       "subheading": "Tutaj znajdziesz wszystkie powiadomienia otrzymane na swoim koncie.",
       "consultation_booking": "Twoja konsultacja z <0>{{providerName}}</0> została <0>umówiona</0> pomyślnie na <0>{{date}}</0> od <0>{{startHour}}</0> do <0>{{endHour}}</0>",
@@ -318,6 +377,15 @@
     },
     "provider-overview": {
       "button_label": "Zaplanuj konsultację",
+      "free": "Bezpłatnie",
+      "coupon": "Kupon",
+      "sunday": "Niedziela",
+      "monday": "Poniedziałek",
+      "tuesday": "Wtorek",
+      "wednesday": "Środa",
+      "thursday": "Czwartek",
+      "friday": "Piątek",
+      "saturday": "Sobota",
       "earliest_slot_label": "Najwcześniejszy dostępny termin konsultacji",
       "languages_label": "Języki",
       "education_label": "Edukacja",
@@ -414,7 +482,7 @@
       "modal_button_label": "Zapisałem/am token dostępu",
       "copy_success": "Token został pomyślnie skopiowany",
       "warning": "Rozumiem, że nie będę mieć dostępu do konta, jeśli zgubię ten token.",
-      "confirm_password_label": "Potwierdź hasło",
+      "confirm_password_label": "Potwierdź hasło *",
       "password_match_error": "Pola Hasło i Potwierdź hasło nie są zgodne",
       "password_placeholder": "Wprowadź swoje hasło",
       "age_terms_agreement_text": "Mam ponad {{age}} lat",
@@ -425,9 +493,9 @@
     },
     "register-email": {
       "heading": "Zarejestruj się za pomocą adresu email",
-      "email_label": "Email",
+      "email_label": "Email *",
       "email_placeholder": "user@mail.com",
-      "password_label": "Hasło",
+      "password_label": "Hasło *",
       "password_placeholder": "Wprowadź swoje hasło",
       "email_error": "Wprowadź ważny adres e-mail",
       "password_error": "Hasło powinno zawierać co najmniej 8 znaków, 1 wielką literę, 1 małą literę i 1 cyfrę.",
@@ -441,7 +509,7 @@
       "register_button": "Rejestracja",
       "paragraph": "Lub zarejestruj się za pomocą:",
       "login_button_label": "Już posiadam konto",
-      "confirm_password_label": "Potwierdź hasło",
+      "confirm_password_label": "Potwierdź hasło *",
       "password_match_error": "Pola \"Hasło\" i \"Potwierdź hasło\" nie są zgodne",
       "age_terms_agreement_text": "Mam ponad {{age}} lat",
       "prompt_title": "Zapisz swoje dane uwierzytelniające, aby szybko się zalogować",
@@ -502,6 +570,7 @@
       "psychiatrist": "Psychiatra",
       "psychotherapist": "Psychoterapeuta/ka",
       "no_match": "Brak konsultantów spełniających Twoje kryteria",
+      "book_session": "Umów sesję",
       "free": "Wolny",
       "earliest_available_slot": "Pierwsza dostępna konsultacja:",
       "sunday": "Niedz.",
@@ -532,7 +601,7 @@
       "enter_coupon_to_see_providers": "Wprowadź kupon powyżej, aby zobaczyć konsultantów",
       "error_invalid_coupon": "Nieprawidłowy kupon",
       "coupon_note": "Tym razem wpisaliśmy za Ciebie kod na darmową sesję! Umów się z jednym z naszych konsultantów i zrób pierwszy krok, aby zadbać o swoje samopoczucie.",
-      "choose-provider": "",
+      "choose-the-provider": "Wybierz specjalistę, z którym chcesz rozmawiać przez wideo, audio lub czat. Czasami może minąć kilka sesji, zanim znajdziesz specjalistę odpowiedniego do Twoich potrzeb i preferowanego podejścia.",
       "choose_provider": "Wybierz konsultanta/kę, z którym chcesz porozmawiać w ramach konsultacji wideo, audio lub tekstowej. Znalezienie konsultanta/ki, który/a będzie dobrze dopasowany/a do Twoich potrzeb i preferowanego podejścia, może czasami zająć trochę czasu."
     },
     "share-platform": {
@@ -598,7 +667,11 @@
       "living_place_placeholder": "Wprowadź swoje miejsce zamieszkania",
       "error_fetching_data": "Wystąpił błąd podczas pobierania szczegółów profilu ",
       "parent": "Rodzic",
-      "delete_mood_tracker": "Clear mood tracker data"
+      "delete_mood_tracker": "Clear mood tracker data",
+      "account_section": "Konto",
+      "data_management_section": "Zarządzanie danymi",
+      "danger_zone_section": "Strefa niebezpieczna",
+      "delete_account_description": "Ta czynność jest trwała i nie można jej cofnąć."
     },
     "user-profile": {
       "heading": "Twój profil",
@@ -606,6 +679,7 @@
       "button_label": "Wylogowanie",
       "first_group_heading": "Szczegóły profilu",
       "guest": "Gość",
+      "edit_profile": "Edytuj profil",
       "second_group_heading": "Ustawienia aplikacji",
       "rate_share": "Oceń i udostępnij",
       "other": "Inne",
@@ -626,12 +700,26 @@
       "high_contrast_mode": "Tryb wysokiego kontrastu"
     },
     "welcome": {
-      "heading": "Witamy w",
+      "heading": "Witamy w portalu klienta",
       "country": "Kraj",
       "language": "Język",
       "placeholder": "Wybrać",
       "button": "Kontynuuj",
-      "poland_description": "uSupport to platforma zdrowia psychicznego i dobrego samopoczucia przeznaczona dla młodych osób (16-24)"
+      "poland_description": "uSupport to platforma zdrowia psychicznego i dobrego samopoczucia przeznaczona dla młodych osób (16-24)",
+      "register_email": "Zarejestruj się za pomocą adresu e-mail",
+      "register_with_email": "Zarejestruj się e-mailem",
+      "register_anonymously": "Rejestracja anonimowa",
+      "continue_as_guest": "Kontynuuj bez rejestracji",
+      "already_have_account": "Masz już konto?",
+      "dont_have_account": "Nie masz konta?",
+      "sign_up": "Zarejestruj się",
+      "log_in": "Zaloguj się",
+      "ro_password_modal_heading": "Wymagane hasło",
+      "ro_password_modal_text": "Wprowadź hasło, aby kontynuować.",
+      "ro_password_modal_cta": "Kontynuuj",
+      "ro_password_modal_input_label": "Hasło",
+      "ro_password_modal_input_placeholder": "Wprowadź hasło",
+      "ro_password_modal_error": "Nieprawidłowe hasło"
     },
     "my-qa": {
       "search_input_placeholder": "Wyszukiwanie",
@@ -641,26 +729,32 @@
       "most_popular": "Najpopularniejsze",
       "newest": "Najnowsze",
       "your_questions": "Twoje pytanie",
-      "answer_by": "Odpowiedź od:",
+      "answer_by": "Odpowiedź udzielona przez:",
       "schedule_consultation": "Zaplanuj konsultację",
       "today": "Dzisiaj",
       "no_questions_found": "Nie znaleziono żadnych pytań",
+      "try_changing_filters": "Spróbuj zmienić filtry",
       "language_placeholder": "Wybierz język",
       "heading": "",
       "subheading": "",
       "heading_button_label": "",
       "emergency_button_label": "",
       "ask_button_label": "Zapytaj psychologa",
+      "go_back": "Wróć",
       "date_answered": "w dniu {{date}}"
     },
     "set-up-biometrics": {
       "heading": "Skonfiguruj kod dostępu i dane biometryczne",
       "btn_label": "Kontynuuj",
       "subheading": "Skonfiguruj kod dostępu lub dane biometryczne, aby zabezpieczyć swoje konto. Jeśli pominiesz ten krok, będziesz musiał/a logować się za każdym razem, gdy otworzysz aplikację.",
+      "subheading_mandatory": "Aby pozostać zalogowanym na tym urządzeniu, skonfiguruj kod dostępu lub biometrię.",
       "biometrics_btn_label": "Użyj biometrii",
       "btn_skip": "Na razie pomiń"
     },
     "videos": {
+      "by": "Przez {{creator}}",
+      "min_read": "min czytania",
+      "read": "Czytaj",
       "read_more_button": "Zobacz więcej",
       "all": "Wszystkie",
       "could_not_load_content": "Nie udało się załadować treści.",
@@ -713,6 +807,7 @@
       "search_placeholder": "Szukaj po nazwie lub nazwie jednostki",
       "no_data_found": "Brak danych",
       "reset_filters": "Zresetuj filtry",
+      "services": "Usługi",
       "view_organization_details": "Zobacz szczegóły organizacji",
       "address": "Adres",
       "phone": "Telefon",
@@ -849,6 +944,7 @@
       "identity_issues": "Identity issues",
       "illness_oncological_treatment_chronic_diseases": "Illness (oncological treatment, chronic diseases)",
       "other_situations": "Other situations",
+      "report_inactive": "Zgłoś jako nieaktywną",
       "copy_link_success": "Link copied to clipboard!"
     },
     "baseline-assesment": {
@@ -889,6 +985,12 @@
       "assessment_completed": "Ocena zakończona",
       "assessment_completed_description": "Dziękujemy za wypełnienie oceny. Twoje odpowiedzi zostały zapisane i pomogą nam Cię wesprzeć.",
       "assessment_completed_button": "Wróć do strony głównej",
+      "save_button_label": "Zapisz na później",
+      "sontrgly_disagree": "Zdecydowanie się nie zgadzam",
+      "disagree": "Nie zgadzam się",
+      "neutral": "Neutralnie",
+      "agree": "Zgadzam się",
+      "strongly_agree": "Zdecydowanie się zgadzam",
       "loading_results": "Loading your results...",
       "recommended_articles": "Recommended Articles",
       "recommended_videos": "Recommended Videos",
@@ -902,7 +1004,19 @@
     },
     "baseline-assessment-dashboard": {
       "heading": "Twój podstawowy egzamin",
+      "heading_completed": "Your Latest Assessment",
       "no_assessment_text": "Nie przeszedłeś jeszcze podstawowego egzaminu. Przejdź go, aby otrzymać personalizowane rekomendacje dotyczące Twojego zdrowia psychicznego.",
+      "no_assessment_description": "Take a quick assessment to understand your mental health better and get personalized recommendations.",
+      "explore_heading": "Find Support Near You",
+      "explore_card_description": "After completing the baseline assessment, we will help you find the most relevant support near you.",
+      "explore_button_label": "Odkryj mapę",
+      "user_guide_heading": "Chcesz dowiedzieć się więcej o:",
+      "emergency_services": "Służbach ratunkowych",
+      "emergency_services_description": "Służbach ratunkowych",
+      "map": "Mapie usług wsparcia zdrowia psychicznego i psychoemocjonalnego dostępnych w Bukareszcie",
+      "map_description": "Mapa usług wsparcia (Bukareszt)",
+      "rights": "Prawach dzieci i młodzieży do dostępu do usług wsparcia zdrowia psychicznego i psychoemocjonalnego",
+      "rights_description": "Prawa dzieci i młodzieży",
       "start_new_assessment": "Rozpocznij egzamin",
       "completed": "Zakończone",
       "in_progress": "W toku",
@@ -916,7 +1030,7 @@
       "biological": "Biological",
       "social": "Social",
       "how_it_works": "How it works",
-      "see_last_result": "Latest Results"
+      "see_last_result": "Ostatnie wyniki"
     },
     "baseline-assesment-result": {
       "assessment_completed": "Assessment completed",
@@ -959,13 +1073,19 @@
       "answered_questions": "",
       "latest_result": "",
       "same_same_same": "Twoje wyniki są takie same jak w poprzedniej ocenie.",
+      "summary_heading": "Rekomendacje wygenerowane na podstawie uzyskanego wyniku",
       "organizations": "Polecane organizacje",
-      "summary_heading": "Recommendations generated based on the score obtained",
       "read_more": "Czytaj więcej",
-      "view_more": "Zobacz więcej"
+      "view_more": "Zobacz więcej",
+      "download_pdf": "Pobierz wyniki (PDF)",
+      "download_success": "PDF został pomyślnie pobrany",
+      "download_pdf_footer": "Wygenerowano przez aplikację kliencką USupport"
     }
   },
   "screens": {
+    "screen": {
+      "go_back": "Wróć"
+    },
     "article-information": {
       "heading": "Więcej artykułów",
       "no_results": "Brak podobnych artykułów dla aktualnie wybranego języka. ",
@@ -974,7 +1094,16 @@
       "by": "Przez {{creator}}",
       "check_article": "Cześć, sprawdź ten artykuł",
       "share_success": "Artykuł został udostępniony",
-      "download_success": "Artykuł został pobrany"
+      "download_success": "Artykuł został pobrany",
+      "go_back": "Wróć",
+      "audio_player_title": "Posłuchaj tego artykułu",
+      "audio_player_subtitle": "Wolisz audio? Odtwórz wersję narracyjną.",
+      "audio_player_badge_listen_time": "{{minutes}} min słuchania",
+      "audio_player_helper": "Możesz czytać podczas słuchania lub po prostu odprężyć się i cieszyć się treścią.",
+      "audio_player_seek_back_label": "Przewiń w tył o {{seconds}} s",
+      "audio_player_seek_forward_label": "Przewiń do przodu o {{seconds}} s",
+      "audio_player_play_label": "Odtwórz",
+      "audio_player_pause_label": "Wstrzymaj"
     },
     "articles-screen": {
       "heading_default": "Wszystkie artykuły",
@@ -1050,6 +1179,7 @@
       "emergency_button_label": "Pomoc w nagłych wypadkach"
     },
     "dashboard": {
+      "heading": "",
       "welcome": "Witamy z powrotem {{clientName}}!",
       "no_registration_heading": "Korzystasz z aplikacji bez rejestracji",
       "no_registration_subheading": "Aby korzystać ze wszystkich funkcji aplikacji, musisz mieć anonimowe lub zwykłe konto.",
@@ -1087,6 +1217,11 @@
     },
     "informational-portal-screen": {
       "heading": "Wiedza",
+      "by": "Przez {{creator}}",
+      "min_read": "min czytania",
+      "most_read_heading": "Najczęściej czytane",
+      "read_more": "Czytaj więcej",
+      "search": "Wyszukiwanie",
       "subheading": "Tutaj możesz odkryć wszystko, czego potrzebujesz, aby poprawić swoje zdrowie psychiczne",
       "emergency_button_label": "Pomoc w nagłych wypadkach",
       "articles": "Artykuły",
@@ -1143,6 +1278,7 @@
       "modal_coupon_input_placeholder": "KUPON1",
       "heading_with_coupon": "Wybierz konsultanta/kę, aby użyć kupon: {{coupon}}",
       "remove_coupon_label": "Usuń kupon",
+      "coupon_not_found_error": "Ten kupon nie został znaleziony lub nie jest już ważny.",
       "coupon_paragraph": "Kupony zapewniają bezpłatne sesje i są sponsorowane przez naszych partnerów.",
       "coupon_paragraph_two": "Jeśli otrzymałeś/aś kod kuponu z kampanii w mediach społecznościowych lub od partnera, skopiuj go i wklej poniżej. Po przesłaniu kodu kuponu zobaczysz wszystkich konsultantów, którzy go obsługują i ich dostępność. Kupon może obsługiwać jedną lub więcej sesji. Platforma wskaże, czy kupon wygasł lub osiągnął maksymalną liczbę wykorzystanych sesji.",
       "max_price": "Cena maksymalna",
@@ -1411,6 +1547,18 @@
       "permissions_error_subheading": "Please grant permission to use the camera or microphone from the settings of your device, to join the consultation",
       "open_settings": "Open settings"
     },
+    "device-test": {
+      "heading": "Przetestuj audio i kamerę",
+      "subheading": "Sprawdź urządzenia przed konsultacją, aby upewnić się, że wszystko działa.",
+      "done": "Gotowe",
+      "configuring_devices": "Konfigurowanie urządzeń...",
+      "camera_off_label": "Kamera wyłączona",
+      "mic_level_label": "Mikrofon",
+      "toggle_camera": "Przełącz kamerę",
+      "toggle_microphone": "Przełącz mikrofon",
+      "retry_permissions": "Spróbuj ponownie",
+      "permissions_error": "Zezwól na dostęp do kamery i mikrofonu"
+    },
     "select-avatar": {
       "heading": "Zmień zdjęcie profilowe",
       "select": "Wybierz awatar, który ci się podoba",
@@ -1424,6 +1572,25 @@
       "subheading_new": "Wybierz datę i godzinę spotkania.",
       "cta_button_label": "Zapisz",
       "no_slots_available": "W wybranym dniu nie ma dostępnych terminów.",
+      "january": "Styczeń",
+      "february": "Luty",
+      "march": "Marzec",
+      "april": "Kwiecień",
+      "may": "Maj",
+      "june": "Czerwiec",
+      "july": "Lipiec",
+      "august": "Sierpień",
+      "september": "Wrzesień",
+      "october": "Październik",
+      "november": "Listopad",
+      "december": "Grudzień",
+      "su": "Niedz.",
+      "mo": "Pon.",
+      "tu": "Wt.",
+      "we": "Śr.",
+      "th": "Czw.",
+      "fr": "Pt.",
+      "sa": "Sob.",
       "coupon_code": "Kod kuponu",
       "apply_coupon": "Zastosuj kupon",
       "remove_coupon": "Usuń kupon",
@@ -1458,36 +1625,47 @@
       "send": "Wyślij",
       "didnt_get_code": "Nie otrzymałeś/aś kodu?",
       "resend": "Wyślij ponownie wiadomość email",
-      "seconds": "za {{seconds}} sekund"
+      "seconds": "za {{seconds}} sekund",
+      "report_issue_text": "Masz problemy z rejestracją? Nie wahaj się z nami skontaktować.",
+      "report_issue_cta": "Skontaktuj się z nami"
     },
     "article-categories": {
       "categories": "Kategorie"
     },
     "mood-track-report": {
-      "heading": "Your mood tracking report",
-      "subheading": "Export your mood tracking history as a CSV file for the selected period. Weekly reports will be sent to your email address.",
-      "export_button": "Export report",
-      "cancel_button": "Cancel",
-      "start_date": "Start date",
-      "end_date": "End date",
-      "end_date_before_start_error": "End date must be after start date",
-      "confirm": "Confirm"
+      "heading": "Raport monitorowania nastroju",
+      "subheading": "Wyeksportuj historię monitorowania nastroju do pliku CSV dla wybranego okresu. Cotygodniowe raporty będą wysyłane na Twój adres e-mail.",
+      "export_button": "Eksportuj raport",
+      "cancel_button": "Anuluj",
+      "start_date": "Data rozpoczęcia",
+      "end_date": "Data zakończenia",
+      "end_date_before_start_error": "Data zakończenia musi być późniejsza niż data rozpoczęcia",
+      "confirm": "Potwierdź"
+    },
+    "organization-report": {
+      "heading": "Zgłoś tę organizację",
+      "subheading": "Prosimy, powiedz nam, dlaczego zgłaszasz tę organizację.",
+      "message_label": "Dodatkowe informacje (opcjonalnie)",
+      "message_placeholder": "Wyjaśnij, dlaczego zgłaszasz tę organizację—np. co wydaje się nieprawidłowe, mylące lub nieaktualne.",
+      "confirm_button": "Wyślij zgłoszenie",
+      "cancel_button": "Anuluj",
+      "success_message": "Dziękujemy. Twoje zgłoszenie zostało przyjęte."
     },
     "user-guide": {
-      "heading": "Do you want to know more about:",
-      "emergency_services": "Emergency services",
-      "map": "Map of mental health and psycho-emotional support services available in Bucharest",
-      "rights": "The rights of children and adolescents to access mental health and psycho-emotional support services"
+      "heading": "Chcesz dowiedzieć się więcej o:",
+      "emergency_services": "Służby ratunkowe",
+      "map": "Mapa usług wsparcia (Bukareszt)",
+      "rights": "Prawa dzieci i młodzieży"
     },
     "emergency-situation": {
-      "heading": "Map of Mental Health and Psychosocial Support Services for Children and Adolescents in Bucharest",
-      "paragraph": "This interactive map presents mental health and psychosocial well-being services available for children and adolescents in Bucharest. We will try to guide you in order to offer the options that best match your needs.",
-      "paragraph_two": "<0>Disclaimer:</0> This map was created based on the descriptions found on the service providers’ websites. We cannot guarantee the accuracy of the information at the time you access the map. Services and providers are constantly changing, so we recommend that when you choose a provider, you contact them by phone and explain in detail the situation for which you need professional help.",
-      "question": "Are you looking for services for an emergency situation?",
-      "subquestion": "For example: self-harm, suicide attempt, school or family violence, sexual abuse, etc",
-      "yes": "Yes",
-      "no": "No",
-      "dont_know": "I don't know if it's urgent"
+      "heading": "Mapa usług wsparcia psychicznego i psychospołecznego dla dzieci i młodzieży w Bukareszcie",
+      "paragraph": "Ta interaktywna mapa przedstawia usługi zdrowia psychicznego i dobrostanu psychospołecznego dostępne dla dzieci i młodzieży w Bukareszcie. Postaramy się poprowadzić Cię tak, aby zaproponować opcje najlepiej dopasowane do Twoich potrzeb.",
+      "paragraph_two": "<0>Zastrzeżenie:</0> Mapa została opracowana na podstawie opisów ze stron internetowych usługodawców. Nie możemy zagwarantować dokładności informacji w momencie korzystania z mapy. Usługi i dostawcy stale się zmieniają, dlatego po wyborze dostawcy zalecamy skontaktować się z nim telefonicznie i szczegółowo opisać sytuację, w której potrzebujesz pomocy specjalisty.",
+      "question": "Szukasz pomocy w sytuacji nagłej?",
+      "subquestion": "Na przykład: samookaleczenia, próba samobójstwa, przemoc w szkole lub w rodzinie, wykorzystanie seksualne itp.",
+      "yes": "Tak",
+      "no": "Nie",
+      "dont_know": "Nie wiem, czy to pilne"
     }
   },
   "modals": {
@@ -1552,11 +1730,11 @@
       "secondary_cta_label": "Nie chcę wypełniać kwestionariusza"
     },
     "delete-mood-tracker-history": {
-      "heading": "Are you sure you want to delete all your mood tracker data?",
-      "subheading": "This action is irreversible.",
-      "confirm": "Yes, delete all my mood tracker data",
-      "cancel": "No, keep my mood tracker data",
-      "success": "Your mood tracker data has been deleted successfully."
+      "heading": "Czy na pewno chcesz usunąć wszystkie dane monitora nastroju?",
+      "subheading": "Tej operacji nie można cofnąć.",
+      "confirm": "Tak, usuń wszystkie moje dane monitora nastroju",
+      "cancel": "Nie, zachowaj moje dane monitora nastroju",
+      "success": "Dane monitora nastroju zostały pomyślnie usunięte."
     },
     "how-it-works-mood-track": {
       "heading": "Jak działa rejestrator nastroju",
@@ -1567,14 +1745,14 @@
       "subheading_5": "Możesz wygenerować raport dla dowolnego zakresu dat i wyeksportować go jako plik CSV, aby łatwo przeglądać lub udostępniać dane o nastroju, gdy zajdzie taka potrzeba."
     },
     "how-it-works-ba": {
-      "heading": "How baseline assessment works",
-      "subheading_1": "Before accessing your baseline assessment, please review and accept the Privacy Policy. You must accept it to continue.",
-      "subheading_2": "You can also start the assessment anytime from your dashboard.",
-      "subheading_3": "The assessment is divided into multiple questions with a progress bar, and you can save your progress and continue later.",
-      "subheading_4": "When you continue your assessment, you’ll see the start date and your saved progress, and you’ll pick up right where you left off.",
-      "subheading_5": "When you complete the assessment, you’ll see your psychological, biological, and social results. You can retake it later to compare changes in your well-being, and related content based on your results will appear below.",
-      "subheading_6": "Once completed, your results will appear in the dashboard, along with an option to retake the assessment anytime.",
-      "subheading_7": "Stat changes are shown with green or red arrows, comparing only your most recent results to the previous assessment."
+      "heading": "Jak działa ocena wyjściowa",
+      "subheading_1": "Przed rozpoczęciem oceny wyjściowej zapoznaj się z Polityką prywatności i ją zaakceptuj. Aby kontynuować, musisz ją zaakceptować.",
+      "subheading_2": "Możesz też rozpocząć ocenę w dowolnym momencie z pulpitu.",
+      "subheading_3": "Ocena składa się z wielu pytań z paskiem postępu; możesz zapisać postęp i wrócić później.",
+      "subheading_4": "Kontynuując, zobaczysz datę rozpoczęcia i zapisany postęp i zaczniesz dokładnie tam, gdzie skończyłeś/aś.",
+      "subheading_5": "Po ukończeniu zobaczysz wyniki psychologiczne, biologiczne i społeczne. Możesz powtórzyć ocenę później, aby porównać zmiany samopoczucia; poniżej pojawią się treści powiązane z wynikami.",
+      "subheading_6": "Po ukończeniu wyniki pojawią się na pulpicie wraz z możliwością ponownego wypełnienia w dowolnym momencie.",
+      "subheading_7": "Zmiany wskaźników są pokazywane zielonymi lub czerwonymi strzałkami, porównując tylko najnowsze wyniki z poprzednią oceną."
     }
   },
   "navigation": {

@@ -2,10 +2,8 @@ globalThis.RNFB_SILENCE_MODULAR_DEPRECATION_WARNINGS = true;
 
 import React, { useCallback, useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Linking } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
-import { useFonts } from "expo-font";
-import { Inter_400Regular, Inter_600SemiBold, Inter_700Bold } from "@expo-google-fonts/inter";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import FlashMessage from "react-native-flash-message";
 import { StripeProvider } from "@stripe/stripe-react-native";
@@ -22,8 +20,20 @@ import { Navigation } from "#navigation";
 import { localStorage, Context, userSvc } from "#services";
 import { NoInternetModal, RequireRegistration } from "#modals";
 import { DropdownBackdrop } from "#backdrops";
-import { FIVE_MINUTES } from "#utils";
+import {
+  FIVE_MINUTES,
+  resolveStoredSessionOnColdStart,
+} from "#utils";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import {
+  useFonts,
+  Inter_300Light,
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_700Bold,
+  Inter_800ExtraBold,
+} from "@expo-google-fonts/inter";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -68,10 +78,13 @@ class AppErrorBoundary extends React.Component {
 }
 
 function App() {
-  const [fontsLoaded] = useFonts({
+  const [fontsLoaded, fontError] = useFonts({
+    Inter_300Light,
     Inter_400Regular,
+    Inter_500Medium,
     Inter_600SemiBold,
     Inter_700Bold,
+    Inter_800ExtraBold,
   });
 
   const [token, setToken] = useState();
@@ -93,6 +106,8 @@ function App() {
   const [selectedCountry, setSelectedCountry] = useState(null); // full country object { value, label, countryID, ... }
   const [isPodcastsActive, setIsPodcastsActive] = useState(false);
   const [isVideosActive, setIsVideosActive] = useState(false);
+  const [pendingDeepLink, setPendingDeepLink] = useState(null);
+  const [requireBiometricsSetup, setRequireBiometricsSetup] = useState(false);
 
   const [dropdownOptions, setDropdownOptions] = useState({
     isOpen: false,
@@ -158,35 +173,31 @@ function App() {
     checkCountry();
   }, [currencySymbol, country]);
 
-  const handleTokenCheck = async (data) => {
-    const [token, pinCode] = data;
-    const clearTokenIfNoPinOrBiometrics = async () => {
-      // If the client doesn't have biometrics enabled and doesn't have a pin code remove the
-      // token  from the local storage, so that re-authentication is required on next app launch
-      const hasBiometrics = await localStorage.getItem("biometrics-enabled");
-      // await localStorage.removeItem("has-declined-biometrics");
-      if (!hasBiometrics && !pinCode && token && !__DEV__) {
-        await localStorage.removeItem("token");
-        setToken(null);
-      }
-    };
-    clearTokenIfNoPinOrBiometrics();
-  };
-
   useEffect(() => {
     SplashScreen.preventAutoHideAsync();
     async function checkToken() {
-      const token = await localStorage.getItem("token");
-      setToken(token);
+      const storedToken = await localStorage.getItem("token");
+      const { token, pinCode } =
+        await resolveStoredSessionOnColdStart(storedToken);
 
-      const pinCode = await localStorage.getItem("pin-code");
       setUserPin(pinCode);
-
+      setToken(token);
       return [token, pinCode];
     }
     checkToken().then((data) => {
-      handleTokenCheck(data);
-      // SplashScreen.hideAsync();
+      const [tokenFromCheck] = data;
+      Linking.getInitialURL().then((url) => {
+        if (url && !tokenFromCheck) {
+          setPendingDeepLink(url);
+          // Decide which auth screen to show first:
+          // - Welcome: no country selected yet
+          // - Login: country already chosen
+          localStorage.getItem("country").then((storedCountry) => {
+            const hasCountry = !!storedCountry;
+            setInitialAuthRouteName(hasCountry ? "Login" : "Welcome");
+          });
+        }
+      });
     });
   }, []);
 
@@ -202,22 +213,28 @@ function App() {
     checkIsTmpUser();
   }, [token]);
 
-  // Hide the splash screen when the fonts finish loading
+  // Hide splash once Inter is ready (or failed — fall back to system fonts)
+  useEffect(() => {
+    if (fontsLoaded || fontError) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded, fontError]);
+
   const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
+    if (fontsLoaded || fontError) {
       await SplashScreen.hideAsync();
     }
-  }, [fontsLoaded]);
-
-  if (!fontsLoaded) {
-    return null;
-  }
+  }, [fontsLoaded, fontError]);
 
   // if (error) {
   //   return (
   //     <View style={styles.container}>{JSON.stringify(error, null, 2)}</View>
   //   );
   // }
+
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
 
   const contextValues = {
     token,
@@ -256,6 +273,10 @@ function App() {
     setIsPodcastsActive,
     isVideosActive,
     setIsVideosActive,
+    pendingDeepLink,
+    setPendingDeepLink,
+    requireBiometricsSetup,
+    setRequireBiometricsSetup,
   };
 
   return (

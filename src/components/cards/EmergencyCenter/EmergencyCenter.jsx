@@ -1,10 +1,11 @@
 import React from "react";
-import { View, StyleSheet, Image, Linking, Platform } from "react-native";
+import { View, StyleSheet, Linking, Platform } from "react-native";
 
 import { AppText } from "../../texts/";
-import { AppButton } from "../../buttons";
+import { NewButton } from "../../buttons";
 import { appStyles } from "#styles";
 import { useGetTheme } from "#hooks";
+import { CachedImage } from "../../images";
 
 /**
  * EmergencyCenter
@@ -53,10 +54,10 @@ export const EmergencyCenter = ({
       style={[styles.emergencyCenter, { backgroundColor: colors.card }, style]}
     >
       {image && (
-        <Image
-          className="emergency-center__image"
+        <CachedImage
           source={image && { uri: image }}
           style={styles.image}
+          resizeMode="cover"
         />
       )}
       <AppText style={[styles.textHeading, { color: colors.text }]}>
@@ -70,24 +71,21 @@ export const EmergencyCenter = ({
       </AppText>
       <View style={styles.buttonsContainer}>
         {phone ? (
-          <AppButton
-            color="red"
+          <NewButton
             size="sm"
             label={btnLabelCall}
             onPress={() => handlePress("phone", true)}
           />
         ) : null}
         {link ? (
-          <AppButton
-            color="purple"
+          <NewButton
             size="sm"
             label={btnLabelLink}
             onPress={() => handlePress()}
           />
         ) : null}
         {showCustomButton ? (
-          <AppButton
-            color="purple"
+          <NewButton
             size="sm"
             label={btnLabelCustom}
             onPress={() => handlePress()}
@@ -120,8 +118,6 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     height: 200,
     marginBottom: 8,
-    objectFit: "cover",
-    objectPosition: "center",
     width: "100%",
   },
 

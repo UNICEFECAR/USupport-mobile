@@ -21,12 +21,7 @@ export const AppText = ({
       style={[
         styles.text,
         styles[namedStyle],
-        {
-          color:
-            namedStyle === "h1" || namedStyle === "h2" || namedStyle === "h3"
-              ? colors.text
-              : colors.textSecondary,
-        },
+        { color: colors?.text ?? appStyles.colorTextMain_0e202f },
         black && { color: colors.textTertiary },
         isBold && styles.bold,
         isSemibold && styles.semibold,
@@ -45,39 +40,39 @@ const styles = StyleSheet.create({
   text: {
     flexWrap: "wrap",
     flexShrink: 1,
-    color: appStyles.colorGray_66768d,
+    // Color is set dynamically via theme, removed hardcoded color
     fontSize: 16,
-    fontFamily: "Nunito-Regular",
+    fontFamily: appStyles.fontRegular,
     lineHeight: 24,
   },
   h1: {
     fontSize: 40,
     lineHeight: 48,
-    fontFamily: "Nunito-SemiBold",
+    fontFamily: appStyles.fontSemiBold,
     // color: appStyles.colorBlue_3d527b,
   },
   h2: {
     fontSize: 32,
     lineHeight: 38,
-    fontFamily: "Nunito-SemiBold",
+    fontFamily: appStyles.fontSemiBold,
     // color: appStyles.colorBlue_3d527b,
   },
   h3: {
     fontSize: 20,
     lineHeight: 24,
-    fontFamily: "Nunito-SemiBold",
+    fontFamily: appStyles.fontSemiBold,
     // color: appStyles.colorBlue_3d527b,
   },
   smallText: {
     fontSize: 12,
-    fontFamily: "Nunito-Regular",
+    fontFamily: appStyles.fontRegular,
     lineHeight: 18,
   },
   bold: {
-    fontFamily: "Nunito-Bold",
+    fontFamily: appStyles.fontBold,
   },
   semibold: {
-    fontFamily: "Nunito-SemiBold",
+    fontFamily: appStyles.fontSemiBold,
   },
   underlined: { textDecorationLine: "underline" },
 });

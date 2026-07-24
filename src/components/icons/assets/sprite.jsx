@@ -29,6 +29,17 @@ const IconFilter = ({ color }) => {
   );
 };
 
+const IconReset = ({ color }) => {
+  return (
+    <Svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <Path
+        d="M12 6V3L8 7l4 4V8c2.76 0 5 2.24 5 5 0 .65-.12 1.26-.34 1.82l1.46 1.46A6.93 6.93 0 0 0 19 13c0-3.87-3.13-7-7-7Zm-7 7c0 3.87 3.13 7 7 7v3l4-4-4-4v3c-2.76 0-5-2.24-5-5 0-.65.12-1.26.34-1.82L5.88 6.72A6.93 6.93 0 0 0 5 13Z"
+        fill={color}
+      />
+    </Svg>
+  );
+};
+
 const IconPhoneEmergency = ({ color }) => {
   return (
     <Svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1463,6 +1474,126 @@ const EmoticonWorriedLg = ({}) => {
   );
 };
 
+const EmoticonHistorySm = ({}) => {
+  return (
+    <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+      <Circle cx="24" cy="24" r="24" fill="#F4B183" />
+      <Path
+        d="M3.61 23.9142C3.61 12.6987 12.7016 3.60811 23.9159 3.60811C35.1303 3.60811 44.2212 12.6987 44.2212 23.9142C44.2212 35.128 35.1303 44.2188 23.9159 44.2188C12.7016 44.2188 3.61 35.128 3.61 23.9142Z"
+        fill="white"
+      />
+      <Circle
+        cx="24"
+        cy="24"
+        r="8"
+        stroke="#1E3C4A"
+        strokeWidth="2"
+        fill="none"
+      />
+      <Path
+        d="M24 19V24L27 26"
+        stroke="#1E3C4A"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
+  );
+};
+
+const EmoticonHistoryLg = ({}) => {
+  return (
+    <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+      <Circle cx="32" cy="32" r="32" fill="#F4B183" />
+      <Path
+        d="M6 32.0009C6 17.64 17.6406 6 32.0001 6C46.3596 6 58 17.64 58 32.0009C58 46.3597 46.3596 58 32.0001 58C17.6406 58 6 46.3597 6 32.0009Z"
+        fill="white"
+      />
+      <Circle
+        cx="32"
+        cy="32"
+        r="11"
+        stroke="#1E3C4A"
+        strokeWidth="2.5"
+        fill="none"
+      />
+      <Path
+        d="M32 25V32L36 35"
+        stroke="#1E3C4A"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
+  );
+};
+
+const EmoticonInsightSm = ({}) => {
+  return (
+    <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+      <Defs>
+        <LinearGradient id="moodInsightGradSm" x1="0" y1="0" x2="48" y2="48">
+          <Stop offset="0%" stopColor="#2F80ED" />
+          <Stop offset="100%" stopColor="#56CCF2" />
+        </LinearGradient>
+      </Defs>
+      <Circle cx="24" cy="24" r="24" fill="url(#moodInsightGradSm)" />
+      <Circle cx="24" cy="24" r="20" fill="white" />
+      <Circle cx="18.5" cy="21" r="1.8" fill="#1E3C4A" />
+      <Circle cx="29.5" cy="21" r="1.8" fill="#1E3C4A" />
+      <Path
+        d="M16 28C17.8 31.5 20.8 33 24 33C27.2 33 30.2 31.5 32 28"
+        stroke="#1E3C4A"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+      <Circle
+        cx="35"
+        cy="14"
+        r="7"
+        fill="white"
+        stroke="url(#moodInsightGradSm)"
+        strokeWidth="1.8"
+      />
+      <Rect x="34.3" y="13" width="1.4" height="4.5" rx="0.7" fill="#2F80ED" />
+      <Circle cx="35" cy="11.5" r="1" fill="#2F80ED" />
+    </Svg>
+  );
+};
+
+const EmoticonInsightLg = ({}) => {
+  return (
+    <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+      <Defs>
+        <LinearGradient id="moodInsightGradLg" x1="0" y1="0" x2="64" y2="64">
+          <Stop offset="0%" stopColor="#2F80ED" />
+          <Stop offset="100%" stopColor="#56CCF2" />
+        </LinearGradient>
+      </Defs>
+      <Circle cx="32" cy="32" r="32" fill="url(#moodInsightGradLg)" />
+      <Circle cx="32" cy="32" r="26" fill="white" />
+      <Path
+        d="M22 38C24 42 28 44 32 44C36 44 40 42 42 38"
+        stroke="#1E3C4A"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
+      <Circle cx="25" cy="28" r="2.5" fill="#1E3C4A" />
+      <Circle cx="39" cy="28" r="2.5" fill="#1E3C4A" />
+      <Circle
+        cx="46"
+        cy="18"
+        r="9"
+        fill="white"
+        stroke="url(#moodInsightGradLg)"
+        strokeWidth="2.5"
+      />
+      <Rect x="45" y="16" width="2" height="6" rx="1" fill="#2F80ED" />
+      <Circle cx="46" cy="13.5" r="1.3" fill="#2F80ED" />
+    </Svg>
+  );
+};
+
 const IconPaymentHistory = ({ color = appStyles.colorGray_a6b4b8 }) => {
   return (
     <Svg viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2026,7 +2157,7 @@ const IconLocation = ({ color = "#000000" }) => {
   );
 };
 
-const IconPlay = ({ color = "#ffffff" }) => {
+const IconPlay = ({ color = "#ffffff", fill = "rgba(0, 0, 0, 0.7)" }) => {
   return (
     <Svg
       id="icon-play"
@@ -2038,7 +2169,7 @@ const IconPlay = ({ color = "#ffffff" }) => {
         cx="32"
         cy="32"
         r="30"
-        fill="rgba(0, 0, 0, 0.7)"
+        fill={fill}
         stroke="rgba(255, 255, 255, 0.3)"
         stroke-width="2"
       />
@@ -2125,8 +2256,86 @@ const IconPhone = ({ color }) => {
   );
 };
 
+const IconSeekBack = ({ size = 48, color = "#5FA8B8" }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Defs>
+      <LinearGradient id="grad" x1="0" y1="0" x2="1" y2="0">
+        <Stop offset="0%" stopColor="#7FC6C9" />
+        <Stop offset="100%" stopColor="#5FA8B8" />
+      </LinearGradient>
+    </Defs>
+
+    {/* Mirror of forward */}
+    <Path d="M11 6L5 12L11 18V6Z" fill="url(#grad)" />
+    <Path d="M19 6L13 12L19 18V6Z" fill="url(#grad)" />
+  </Svg>
+);
+
+const IconSeekForward = ({ size = 48 }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24">
+    <Defs>
+      <LinearGradient id="grad" x1="0" y1="0" x2="1" y2="0">
+        <Stop offset="0%" stopColor="#7FC6C9" />
+        <Stop offset="100%" stopColor="#5FA8B8" />
+      </LinearGradient>
+    </Defs>
+
+    <Path d="M13 6L19 12L13 18V6Z" fill="url(#grad)" />
+    <Path d="M5 6L11 12L5 18V6Z" fill="url(#grad)" />
+  </Svg>
+);
+
+const IconPause = ({ size = 48 }) => (
+  <Svg width={size} height={size} viewBox="0 0 64 64">
+    <Defs>
+      <LinearGradient id="pauseGradient" x1="0" y1="0" x2="1" y2="1">
+        <Stop offset="0%" stopColor="#EAF7FA" />
+        <Stop offset="100%" stopColor="#BFE3EA" />
+      </LinearGradient>
+    </Defs>
+
+    {/* Background */}
+    <Circle cx="32" cy="32" r="32" fill="url(#pauseGradient)" />
+
+    {/* Pause bars */}
+    <Rect x="22" y="18" width="6" height="28" rx="3" fill="#4F93A6" />
+    <Rect x="36" y="18" width="6" height="28" rx="3" fill="#4F93A6" />
+  </Svg>
+);
+
+const IconPlayGradient = ({ size = 48 }) => (
+  <Svg width={size} height={size} viewBox="0 0 64 64">
+    <Defs>
+      <LinearGradient id="playGradient" x1="0" y1="0" x2="1" y2="1">
+        <Stop offset="0%" stopColor="#D9EEF2" />
+        <Stop offset="100%" stopColor="#AFCFD6" />
+      </LinearGradient>
+    </Defs>
+
+    {/* Background */}
+    <Circle cx="32" cy="32" r="32" fill="url(#playGradient)" />
+
+    {/* Play triangle */}
+    <Path d="M26 20L46 32L26 44V20Z" fill="#4F93A6" />
+  </Svg>
+);
+
+const IconOrganization = ({ color }) => {
+  return (
+    <Svg viewBox="0 0 16 16" fill="none">
+      <Path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M9.111 4.663A2 2 0 1 1 6.89 1.337a2 2 0 0 1 2.222 3.326zm-.555-2.494A1 1 0 1 0 7.444 3.83a1 1 0 0 0 1.112-1.66zm2.61.03a1.494 1.494 0 0 1 1.895.188 1.513 1.513 0 0 1-.487 2.46 1.492 1.492 0 0 1-1.635-.326 1.512 1.512 0 0 1 .228-2.321zm.48 1.61a.499.499 0 1 0 .705-.708.509.509 0 0 0-.351-.15.499.499 0 0 0-.5.503.51.51 0 0 0 .146.356zM3.19 12.487H5v1.005H3.19a1.197 1.197 0 0 1-.842-.357 1.21 1.21 0 0 1-.348-.85v-1.81a.997.997 0 0 1-.71-.332A1.007 1.007 0 0 1 1 9.408V7.226c.003-.472.19-.923.52-1.258.329-.331.774-.52 1.24-.523H4.6a2.912 2.912 0 0 0-.55 1.006H2.76a.798.798 0 0 0-.54.232.777.777 0 0 0-.22.543v2.232h1v2.826a.202.202 0 0 0 .05.151.24.24 0 0 0 .14.05zm7.3-6.518a1.765 1.765 0 0 0-1.25-.523H6.76a1.765 1.765 0 0 0-1.24.523c-.33.335-.517.786-.52 1.258v3.178a1.06 1.06 0 0 0 .29.734 1 1 0 0 0 .71.332v2.323a1.202 1.202 0 0 0 .35.855c.18.168.407.277.65.312h2a1.15 1.15 0 0 0 1-1.167V11.47a.997.997 0 0 0 .71-.332 1.006 1.006 0 0 0 .29-.734V7.226a1.8 1.8 0 0 0-.51-1.258zM10 10.454H9v3.34a.202.202 0 0 1-.06.14.17.17 0 0 1-.14.06H7.19a.21.21 0 0 1-.2-.2v-3.34H6V7.226c0-.203.079-.398.22-.543a.798.798 0 0 1 .54-.232h2.48a.778.778 0 0 1 .705.48.748.748 0 0 1 .055.295v3.228zm2.81 3.037H11v-1.005h1.8a.24.24 0 0 0 .14-.05.2.2 0 0 0 .06-.152V9.458h1V7.226a.777.777 0 0 0-.22-.543.798.798 0 0 0-.54-.232h-1.29a2.91 2.91 0 0 0-.55-1.006h1.84a1.77 1.77 0 0 1 1.24.523c.33.335.517.786.52 1.258v2.182c0 .273-.103.535-.289.733-.186.199-.44.318-.711.333v1.81c0 .319-.125.624-.348.85a1.197 1.197 0 0 1-.842.357zM4 1.945a1.494 1.494 0 0 0-1.386.932A1.517 1.517 0 0 0 2.94 4.52 1.497 1.497 0 0 0 5.5 3.454c0-.4-.158-.784-.44-1.067A1.496 1.496 0 0 0 4 1.945zm0 2.012a.499.499 0 0 1-.5-.503.504.504 0 0 1 .5-.503.509.509 0 0 1 .5.503.504.504 0 0 1-.5.503z"
+        fill={color}
+      />
+    </Svg>
+  );
+};
+
 export {
   IconFilter,
+  IconReset,
   IconPhoneEmergency,
   IconPhone,
   IconComment,
@@ -2211,6 +2420,10 @@ export {
   EmoticonDepressedLg,
   EmoticonWorriedSm,
   EmoticonWorriedLg,
+  EmoticonHistorySm,
+  EmoticonHistoryLg,
+  EmoticonInsightSm,
+  EmoticonInsightLg,
   IconPaymentHistory,
   FaceId,
   IconLike,
@@ -2230,9 +2443,14 @@ export {
   IconCurrentLocation,
   IconWaze,
   IconGoogleMaps,
+  IconOrganization,
   IconLocation,
   IconPlay,
   IconSave,
   IconAccessibility,
   IconMap,
+  IconSeekBack,
+  IconSeekForward,
+  IconPause,
+  IconPlayGradient,
 };

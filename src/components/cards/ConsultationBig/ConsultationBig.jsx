@@ -1,4 +1,4 @@
-import { View, StyleSheet, Image, Pressable } from "react-native";
+import { View, StyleSheet, Pressable } from "react-native";
 import Config from "react-native-config";
 
 import { AppText } from "../../texts/AppText/AppText";
@@ -6,6 +6,7 @@ import { AppButton } from "../../buttons/AppButton/AppButton";
 import { Avatar } from "../../avatars/Avatar/Avatar";
 import LinearGradient from "../../LinearGradient";
 import { appStyles } from "#styles";
+import { CachedImage } from "../../images";
 import {
   checkIsFiveMinutesBefore,
   getDateView,
@@ -127,12 +128,13 @@ export const ConsultationBig = ({
             </View>
           )}
         </View>
-        <Image
+        <CachedImage
           source={{ uri: `${AMAZON_S3_BUCKET}/mascot-happy-blue` }}
           style={[
             styles.imageMascot,
             appStyles.screenWidth < 350 && styles.imageMascotSmall,
           ]}
+          resizeMode="contain"
         />
       </View>
     </LinearGradient>
@@ -158,7 +160,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   imageMascot: { height: 100, width: 128 },
-  imageMascotSmall: { resizeMode: "contain", width: 100 },
+  imageMascotSmall: { width: 100 },
   linearGradient: {
     borderRadius: 24,
     marginHorizontal: 4,

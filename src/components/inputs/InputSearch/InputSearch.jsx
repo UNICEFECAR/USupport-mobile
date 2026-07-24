@@ -48,10 +48,10 @@ export const InputSearch = ({ onChange, ...props }) => {
 
 const styles = StyleSheet.create({
   iconContainer: {
-    disaply: "flex",
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 11,
+    // Match client-ui: `.pre-input-wrapper { margin-left: $spacing_1_8 }`
+    marginLeft: 18,
   },
 });
 

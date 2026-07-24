@@ -1,6 +1,7 @@
 import React from "react";
 import propTypes from "prop-types";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { useTranslation } from "react-i18next";
 
 import { Icon } from "../../icons";
 import { AppText } from "../../texts";
@@ -14,14 +15,17 @@ export const Heading = ({
   hasGoBackArrow = true,
   handleGoBack,
   buttonComponent,
-  hasBackground = true,
+  hasBackground = false,
   hasCloseIcon = false,
   handleCloseIconPress,
+  headingNamedStyle = "h1",
   style,
   wrapperStyle,
   onLayout,
 }) => {
+  const { t } = useTranslation("screens", { keyPrefix: "screen" });
   const { colors, isHighContrast } = useGetTheme();
+  const actionColor = isHighContrast ? "#fff" : appStyles.colorPrimary_20809e;
 
   return (
     <View
@@ -34,24 +38,39 @@ export const Heading = ({
       ]}
       onLayout={onLayout}
     >
+      {hasGoBackArrow && !hasCloseIcon && (
+        <TouchableOpacity
+          onPress={handleGoBack}
+          style={styles.goBackRow}
+          hitSlop={appStyles.hitSlop}
+        >
+          <Icon
+            style={styles.goBackIcon}
+            name="arrow-chevron-back"
+            color={actionColor}
+          />
+          <AppText namedStyle="text" isBold style={styles.goBackText}>
+            {t("go_back")}
+          </AppText>
+        </TouchableOpacity>
+      )}
+
       <View style={[styles.container, style]}>
-        {hasGoBackArrow && !hasCloseIcon && (
-          <TouchableOpacity onPress={handleGoBack}>
-            <Icon
-              style={styles.backArrow}
-              name="arrow-chevron-back"
-              color={isHighContrast ? "#fff" : appStyles.colorPrimary_20809e}
-            />
-          </TouchableOpacity>
-        )}
-        <AppText style={styles.heading} namedStyle="h3">
-          {heading}
-        </AppText>
-        <View style={styles.button}>{buttonComponent}</View>
+        <View style={styles.headingRow}>
+          <AppText style={styles.heading} namedStyle={headingNamedStyle}>
+            {heading}
+          </AppText>
+          {buttonComponent ? (
+            <View style={styles.button}>{buttonComponent}</View>
+          ) : null}
+        </View>
         {hasCloseIcon && (
-          <TouchableOpacity onPress={handleCloseIconPress}>
+          <TouchableOpacity
+            onPress={handleCloseIconPress}
+            hitSlop={appStyles.hitSlop}
+          >
             <Icon
-              style={styles.backArrow}
+              style={styles.closeIcon}
               name="close-x"
               color={appStyles.colorPrimary_20809e}
               onPress={handleCloseIconPress}
@@ -60,10 +79,7 @@ export const Heading = ({
         )}
       </View>
       {subheading && (
-        <AppText
-          style={[styles.subheading, { color: colors.textSecondary }]}
-          namedStyle="text"
-        >
+        <AppText style={styles.subheading} namedStyle="text">
           {subheading}
         </AppText>
       )}
@@ -73,35 +89,52 @@ export const Heading = ({
 
 const styles = StyleSheet.create({
   wrapper: {
-    position: "absolute",
     top: 0,
     zIndex: 3,
-    width: appStyles.screenWidth,
-    paddingHorizontal: 16,
+    paddingTop: 32,
+    paddingBottom: 16,
   },
   container: {
-    alignItems: "center",
     flexDirection: "row",
-    justifyContent: "flex-start",
-    paddingBottom: 16,
-    paddingTop: 16,
+    alignItems: "flex-start",
+    justifyContent: "space-between",
   },
-  backArrow: {
-    marginRight: 10,
+  goBackRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 16,
+    alignSelf: "flex-start",
   },
-  heading: {
+  goBackIcon: {
     marginRight: 8,
+  },
+  goBackText: {
+    textTransform: "none",
+  },
+  headingRow: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    minWidth: 0,
   },
   button: {
     marginLeft: "auto",
     maxWidth: "40%",
     marginRight: 8,
-    // marginLeft: 12,
+  },
+  heading: {
+    textAlign: "left",
+    flexShrink: 1,
+    marginRight: 12,
   },
   subheading: {
     textAlign: "left",
     width: "100%",
     marginRight: 8,
+  },
+  closeIcon: {
+    marginLeft: 12,
   },
 });
 
@@ -131,6 +164,12 @@ Heading.propTypes = {
    * @default true
    */
   hasGoBackArrow: propTypes.bool,
+
+  /**
+   * Typography preset for the heading text.
+   * @default "h1"
+   */
+  headingNamedStyle: propTypes.oneOf(["h1", "h2", "h3", "text", "smallText"]),
 
   /**
    * Additional styles to apply to the component

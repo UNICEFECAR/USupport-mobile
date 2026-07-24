@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { StyleSheet } from "react-native";
 
 import { Screen } from "#components";
 import { ActivityHistory as ActivityHistoryBlock } from "#blocks";
@@ -57,5 +56,3 @@ export const ActivityHistory = ({ navigation, route }) => {
     </Screen>
   );
 };
-
-const styles = StyleSheet.create({});

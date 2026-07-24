@@ -25,7 +25,7 @@ const moodTrackerEndpoint = CMS_API_URL + "/mood-tracker-recomendations";
  * @param {string} queryObj.limit  - the number of documents to return
  * @param {number} queryObj.populate - whether to populate the data fully or not
  * @param {number} queryObj.startFrom - the starting index of the document to return
- * @param {string} queryObj.contains - the string to search for in the document title
+ * @param {string} queryObj.contains - substring to match in title, labels, category name, body, or body_ck
  * @param {string} queryObj.ageGroupId - the age group id to filter by
  * @param {string} queryObj.categoryId - the category id to filter by
  * @param {string} queryObj.decisionTreeSection - the decision tree section to filter by
@@ -54,8 +54,8 @@ function generateQuerryString(queryObj) {
   }
 
   if (queryObj.contains && queryObj.contains !== "") {
-    // Either the title or the label should contain the 'contains' string.
-    querry += `&filters[$or][0][title][$containsi]=${queryObj.contains}&filters[$or][1][labels][name][$containsi]=${queryObj.contains}&filters[$or][2][category][name][$containsi]=${queryObj.contains}`;
+    // Title, labels, category, richtext body, or CKEditor body_ck may contain the search string.
+    querry += `&filters[$or][0][title][$containsi]=${queryObj.contains}&filters[$or][1][labels][name][$containsi]=${queryObj.contains}&filters[$or][2][category][name][$containsi]=${queryObj.contains}&filters[$or][3][body][$containsi]=${queryObj.contains}&filters[$or][4][body_ck][$containsi]=${queryObj.contains}`;
   }
 
   if (queryObj.ageGroupId) {
@@ -123,7 +123,7 @@ function generateQuerryString(queryObj) {
  * @param {string} queryObj.limit  - the number of documents to return
  * @param {number} queryObj.populate - whether to populate the data fully or not
  * @param {number} queryObj.startFrom - the starting index of the document to return
- * @param {string} queryObj.contains - the string to search for in the document title
+ * @param {string} queryObj.contains - substring to match in title, labels, category name, body, or body_ck
  * @param {string} queryObj.ageGroupId - the age group id to filter by
  * @param {string} queryObj.categoryId - the category id to filter by
  * @param {number} queryObj.decisionTreeSection - the decision tree section number to filter by
@@ -419,6 +419,14 @@ async function getPodcastLocales(id) {
   return data;
 }
 
+async function addPodcastShareCount(id) {
+  return http.put(`${podcastsEndpoint}/addShareCount/${id}`);
+}
+
+async function addVideoShareCount(id) {
+  return http.put(`${videosEndpoint}/addShareCount/${id}`);
+}
+
 async function getRecommendedArticlesForCategory(payload) {
   const { data } = await http.put(
     `${articlesEndpoint}/recommended/category`,
@@ -543,6 +551,8 @@ export default {
   getPodcasts,
   getPodcastById,
   getPodcastLocales,
+  addPodcastShareCount,
+  addVideoShareCount,
   getRecommendedArticlesForCategory,
   getAssessmentResult,
   getMoodTrackerRecommendations,

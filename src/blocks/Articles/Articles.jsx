@@ -14,10 +14,12 @@ import {
   Block,
   InputSearch,
   Tabs,
+  TabsSkeleton,
   CardMedia,
+  CardMediaSkeleton,
   AppText,
-  Loading,
   TabsUnderlined,
+  TabsUnderlinedSkeleton,
 } from "#components";
 import { cmsSvc, adminSvc, localStorage, Context } from "#services";
 import {
@@ -50,6 +52,9 @@ export const Articles = ({
   showSearch = true,
   showCategories = true,
   openArticlesModal,
+  initialSearchValue = "",
+  externalSearchValue,
+  topSpacing = 100,
 }) => {
   const { i18n, t } = useTranslation("blocks", { keyPrefix: "articles" });
   const { isTmpUser } = useContext(Context);
@@ -197,8 +202,18 @@ export const Articles = ({
     setSelectedCategory(selectedCategoryFromFiltered);
   };
   //--------------------- Search Input ----------------------//
-  const [searchValue, setSearchValue] = useState("");
-  const debouncedSearchValue = useDebounce(searchValue, 500);
+  const [searchValue, setSearchValue] = useState(initialSearchValue || "");
+  const internalDebouncedSearchValue = useDebounce(searchValue, 500);
+
+  const debouncedSearchValue =
+    externalSearchValue !== undefined
+      ? externalSearchValue
+      : internalDebouncedSearchValue;
+  const hasSearch = !!debouncedSearchValue?.trim();
+
+  useEffect(() => {
+    setSearchValue(initialSearchValue || "");
+  }, [initialSearchValue]);
 
   const handleInputChange = (value) => {
     setSearchValue(value);
@@ -235,7 +250,11 @@ export const Articles = ({
     getArticlesIds
   );
 
-  const { data: articleCategoryIdsToShow } = useQuery(
+  const {
+    data: articleCategoryIdsToShow,
+    isLoading: isArticleCategoryIdsLoading,
+    isFetching: isArticleCategoryIdsFetching,
+  } = useQuery(
     [
       "articles-category-ids",
       usersLanguage,
@@ -282,7 +301,7 @@ export const Articles = ({
       limit: 6,
       contains: debouncedSearchValue,
       ageGroupId,
-      categoryId,
+      ...(!hasSearch && { categoryId }),
       // sortBy: sort ? sort : "createdAt",
       // sortOrder: sort ? "desc" : "desc",
       locale: usersLanguage,
@@ -356,7 +375,7 @@ export const Articles = ({
       limit: 6,
       contains: searchValue,
       ageGroupId: ageGroupId,
-      categoryId,
+      ...(!hasSearch && { categoryId }),
       locale: usersLanguage,
       sortBy: sort,
       sortOrder: sort ? "desc" : null,
@@ -435,8 +454,56 @@ export const Articles = ({
     };
   });
 
-  let areCategoriesAndAgeGroupsReady =
+  const areCategoriesAndAgeGroupsReady =
     categoriesQuery?.data?.length > 1 && ageGroupsQuery?.data?.length > 0;
+
+  const showAgeGroupsTabs =
+    showAgeGroups &&
+    categoriesQuery?.data?.length > 1 &&
+    ageGroupsQuery?.data?.length > 0 &&
+    ageGroups;
+
+  const showAgeGroupsSkeleton =
+    showAgeGroups &&
+    !showAgeGroupsTabs &&
+    (ageGroupsQuery.isLoading ||
+      ageGroupsQuery.isFetching ||
+      categoriesQuery.isLoading ||
+      categoriesQuery.isFetching ||
+      !categoriesQuery.data);
+
+  const showCategoryTabs =
+    showCategories &&
+    !hasSearch &&
+    areCategoriesAndAgeGroupsReady &&
+    categoriesToShow?.length > 2;
+
+  const isCategoriesPending =
+    categoriesQuery.isLoading ||
+    categoriesQuery.isFetching ||
+    ageGroupsQuery.isLoading ||
+    ageGroupsQuery.isFetching ||
+    !categories ||
+    articleIdsQuery.isLoading ||
+    articleIdsQuery.isFetching ||
+    (articleIdsQuery.data?.length > 0 &&
+      (isArticleCategoryIdsLoading ||
+        isArticleCategoryIdsFetching ||
+        articleCategoryIdsToShow === undefined));
+
+  const showCategorySkeleton =
+    showCategories && !hasSearch && !showCategoryTabs && isCategoriesPending;
+
+  const isArticlesQueryLoading = isTmpUser
+    ? isGuestArticlesLoading
+    : isArticlesLoading;
+
+  const showArticlesSkeleton =
+    isCategoriesPending ||
+    (isArticlesQueryLoading && !transformedArticles?.length);
+
+  const showArticlesNoResults =
+    !showArticlesSkeleton && !transformedArticles?.length;
 
   const renderArticle = ({ item, index }) => {
     const articleData = destructureArticleData(item.data ? item.data : item);
@@ -477,15 +544,15 @@ export const Articles = ({
 
   return (
     <>
-      <Block style={styles.blockWithMargin}>
-        {showAgeGroups &&
-        categoriesQuery?.data?.length > 1 &&
-        ageGroupsQuery?.data?.length > 0 &&
-        ageGroups ? (
+      <Block style={[styles.blockWithMargin, { marginTop: topSpacing }]}>
+        {showAgeGroupsTabs ? (
           <TabsUnderlined
             options={ageGroups}
             handleSelect={handleAgeGroupOnPress}
+            style={styles.ageGroupsTabs}
           />
+        ) : showAgeGroupsSkeleton ? (
+          <TabsUnderlinedSkeleton style={styles.ageGroupsTabs} count={3} />
         ) : null}
 
         {showSearch && areCategoriesAndAgeGroupsReady ? (
@@ -497,10 +564,7 @@ export const Articles = ({
         ) : null}
       </Block>
 
-      {showCategories &&
-      areCategoriesAndAgeGroupsReady &&
-      categoriesToShow &&
-      categoriesToShow.length > 2 ? (
+      {showCategoryTabs ? (
         <Tabs
           options={categoriesToShow}
           handleSelect={handleCategoryOnPress}
@@ -508,6 +572,8 @@ export const Articles = ({
           t={t}
           handleModalOpen={openArticlesModal}
         />
+      ) : showCategorySkeleton ? (
+        <TabsSkeleton style={styles.tabs} count={6} />
       ) : null}
 
       <Block style={styles.articlesBlock}>
@@ -526,28 +592,22 @@ export const Articles = ({
               }
             }}
             onEndReachedThreshold={0.2}
-            ListFooterComponent={
-              !isTmpUser ? (
-                // Logged-in user
-                isArticlesLoading && transformedArticles?.length === 0 ? (
-                  <View style={styles.loadingContainer}>
-                    <Loading />
-                  </View>
-                ) : isReady &&
-                  !isArticlesLoading &&
-                  transformedArticles?.length === 0 ? (
+            ListEmptyComponent={
+              showArticlesSkeleton ? (
+                <>
+                  <CardMediaSkeleton style={styles.cardMedia} />
+                  <CardMediaSkeleton style={styles.cardMedia} />
+                  <CardMediaSkeleton style={styles.cardMedia} />
+                </>
+              ) : !isTmpUser ? (
+                showArticlesNoResults && isReady && !isArticlesLoading ? (
                   <View style={styles.articlesNoResultsContainer}>
                     <AppText>{t("no_results")}</AppText>
                   </View>
                 ) : null
-              ) : // Guest
-              isGuestArticlesLoading && transformedArticles?.length === 0 ? (
-                <View style={styles.loadingContainer}>
-                  <Loading />
-                </View>
-              ) : isArticlesFetched &&
-                !isGuestArticlesLoading &&
-                transformedArticles?.length === 0 ? (
+              ) : showArticlesNoResults &&
+                isArticlesFetched &&
+                !isGuestArticlesLoading ? (
                 <View style={styles.articlesNoResultsContainer}>
                   <AppText>{t("no_results")}</AppText>
                 </View>
@@ -563,27 +623,36 @@ export const Articles = ({
 
 const styles = StyleSheet.create({
   articlesBlock: {
-    alignItems: "center",
+    width: "100%",
     paddingBottom: 50,
   },
   articlesNoResultsContainer: { padding: 100, textAlign: "center" },
-  blockWithMargin: { marginTop: 100 },
+  blockWithMargin: {
+    marginTop: 100,
+    paddingHorizontal: 16,
+    width: "100%",
+    alignItems: "flex-start",
+  },
+  ageGroupsTabs: {
+    justifyContent: "flex-start",
+  },
   cardMedia: { alignSelf: "center", marginTop: 24 },
   flashListWrapper: {
     height: "100%",
-    paddingHorizontal: 16,
-    width: appStyles.screenWidth,
+    // `Block` already applies horizontal padding (16).
+    // Using screenWidth here makes the list overflow its padded parent,
+    // which visually shifts content to the right on some devices.
+    width: "100%",
   },
   flashListWrapperWithPadding: {
     height: "100%",
     paddingBottom: 200,
-    paddingHorizontal: 16,
-    width: appStyles.screenWidth,
+    width: "100%",
   },
   loadingContainer: {
     alignItems: "center",
     paddingTop: 60,
   },
   searchInput: { alignSelf: "center", marginTop: 12 },
-  tabs: { marginTop: 24, zIndex: 2 },
+  tabs: { marginTop: 24, zIndex: 2, alignSelf: "flex-start" },
 });

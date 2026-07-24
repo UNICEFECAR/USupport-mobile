@@ -1,5 +1,6 @@
 import { Backdrop, AppText, Loading } from "#components";
 import { appStyles } from "#styles";
+import { useGetTheme } from "#hooks";
 import { useCallback } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
@@ -23,6 +24,7 @@ export const ArticleCategories = ({
   const { t } = useTranslation("backdrops", {
     keyPrefix: "article-categories",
   });
+  const { colors, isHighContrast } = useGetTheme();
   const handleCategoryOnPress = useCallback(
     (index) => {
       const categoriesCopy = [...allCategories];
@@ -62,7 +64,14 @@ export const ArticleCategories = ({
               <AppText
                 style={[
                   styles.tabText,
-                  category?.isSelected && styles.tabTextSelected,
+                  category?.isSelected
+                    ? [
+                        styles.tabTextSelected,
+                        isHighContrast
+                          ? styles.tabTextSelectedHC
+                          : { color: colors.text },
+                      ]
+                    : { color: colors.inputText },
                 ]}
               >
                 {category.label}
@@ -89,6 +98,9 @@ const styles = StyleSheet.create({
   tabTextSelected: {
     color: appStyles.colorGray_66768d,
     fontFamily: appStyles.fontBold,
+  },
+  tabTextSelectedHC: {
+    color: appStyles.colorHighContrast_ffff00,
   },
   wrapper: {
     alignSelf: "center",

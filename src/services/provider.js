@@ -107,13 +107,17 @@ async function getAllProviders(
   campaignId,
   limit = 5,
   offset,
-  filtersQueryString
+  filtersQueryString,
+  randomSeed
 ) {
-  const response = await http.get(
-    `${API_ENDPOINT}/all?offset=${offset}&limit=${limit}&${filtersQueryString}&${
-      campaignId ? `campaignId=${campaignId}` : ""
-    }`
-  );
+  let query = `${API_ENDPOINT}/all?offset=${offset}&limit=${limit}&${filtersQueryString}`;
+  if (campaignId) {
+    query += `&campaignId=${campaignId}`;
+  }
+  if (randomSeed) {
+    query += `&randomSeed=${randomSeed}`;
+  }
+  const response = await http.get(query);
   return response;
 }
 
@@ -310,13 +314,22 @@ async function getConsultationsTime(consultationId) {
   return res;
 }
 
-async function getQuestionTags() {
-  const res = await http.get(`${API_ENDPOINT}/my-qa/tags`);
+async function getQuestionTags(languageId) {
+  const res = await http.get(
+    `${API_ENDPOINT}/my-qa/tags?languageId=${languageId}`
+  );
   return res;
 }
 
 async function joinConsultation(payload) {
   const response = await http.put(`${API_ENDPOINT}/consultation/join`, payload);
+  return response;
+}
+
+async function getProviderStatusById(providerId) {
+  const response = await http.get(
+    `${API_ENDPOINT}/status?providerId=${providerId}`
+  );
   return response;
 }
 
@@ -356,5 +369,6 @@ const exportedFunctions = {
   getConsultationsTime,
   getQuestionTags,
   joinConsultation,
+  getProviderStatusById,
 };
 export default exportedFunctions;

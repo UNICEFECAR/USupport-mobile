@@ -27,3 +27,6 @@ export * from "./charts";
 export * from "./map";
 export * from "./progress";
 export * from "./others";
+export * from "./images";
+
+export { default as LinearGradient } from "./LinearGradient";

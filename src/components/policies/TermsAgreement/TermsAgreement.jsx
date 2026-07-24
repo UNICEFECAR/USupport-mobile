@@ -23,7 +23,11 @@ export const TermsAgreement = ({
 
   return (
     <View style={[styles.container, style]}>
-      <CheckBox isChecked={isChecked} setIsChecked={setIsChecked} />
+      <CheckBox
+        isChecked={isChecked}
+        setIsChecked={setIsChecked}
+        style={styles.checkbox}
+      />
       <AppText>
         <AppText namedStyle="text" style={{ color: colors.text }}>
           {textOne}
@@ -62,11 +66,13 @@ export const TermsAgreement = ({
 };
 
 const styles = StyleSheet.create({
+  checkbox: {
+    marginTop: 4,
+  },
   container: {
-    alignItems: "center",
+    alignItems: "flex-start",
     alignSelf: "flex-start",
     flexDirection: "row",
-    marginHorizontal: 40,
   },
   purpleText: {
     color: appStyles.colorSecondary_9749fa,

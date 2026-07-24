@@ -2,19 +2,10 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { View, StyleSheet, TouchableOpacity, Platform } from "react-native";
 
-import {
-  Backdrop,
-  AppText,
-  Icon,
-  Like,
-  Label,
-  Avatar,
-  Line,
-} from "#components";
+import { Backdrop, AppText, Icon, Like, Label, Avatar } from "#components";
 import { appStyles } from "#styles";
 import { isDateToday } from "#utils";
 import Config from "react-native-config";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 const { AMAZON_S3_BUCKET } = Config;
 
@@ -35,10 +26,13 @@ export const QuestionDetails = ({
 }) => {
   const { t } = useTranslation("backdrops", { keyPrefix: "question-details" });
 
-  const isInMyQuestions = question.isAskedByCurrentClient;
-  const providerInfo = question.providerData;
+  const isInMyQuestions = question?.isAskedByCurrentClient;
+  const providerInfo = question?.providerData;
 
-  const imageUrl = AMAZON_S3_BUCKET + "/" + (providerInfo.image || "default");
+  const imageUrl =
+    providerInfo?.image && AMAZON_S3_BUCKET
+      ? `${AMAZON_S3_BUCKET}/${providerInfo.image}`
+      : null;
 
   const getDateText = (dateString) => {
     const date = new Date(dateString);
@@ -54,85 +48,112 @@ export const QuestionDetails = ({
     }
   };
 
+  const providerId =
+    providerInfo?.providerId || providerInfo?.provider_detail_id;
+
   return (
     <Backdrop isOpen={isOpen} onClose={onClose}>
       <View style={styles.dateContainer}>
-        <Icon name="calendar" color="#92989B" />
+        <Icon name="calendar" color={appStyles.colorGray_92989b} />
         <AppText style={styles.dateContainerText}>
-          {getDateText(question.questionCreatedAt)}
+          {getDateText(question.answerCreatedAt || question.questionCreatedAt)}
         </AppText>
       </View>
-      {isInMyQuestions ? (
-        <AppText>{question.question}</AppText>
-      ) : (
-        <AppText namedStyle="h3" style={styles.headingText}>
-          {question.answerTitle}
-        </AppText>
-      )}
-      <View style={styles.providerWrapper}>
-        {question.answerId ? (
-          <View style={styles.bottomContainer}>
-            <View style={styles.answerByContainer}>
-              <TouchableWithoutFeedback
-                onPress={() => handleProviderClick(providerInfo.providerId)}
-              >
-                <Avatar
-                  image={imageUrl && { uri: imageUrl }}
-                  size="xs"
-                  style={styles.avatar}
-                />
-              </TouchableWithoutFeedback>
-              <AppText
-                onPress={() => handleProviderClick(providerInfo.providerId)}
-              >
-                {providerInfo.name} {providerInfo.surname}{" "}
-                {t("date_answered", {
-                  date: getDateText(question.answerCreatedAt),
-                })}
-              </AppText>
-            </View>
-          </View>
+
+      <View style={styles.content}>
+        {isInMyQuestions && !!question?.question ? (
+          <AppText style={styles.questionText}>{question.question}</AppText>
         ) : null}
 
-        <TouchableOpacity onPress={() => handleSchedulePress(question)}>
-          <View style={styles.scheduleButton}>
-            <Icon name="calendar" color="#20809e" />
-          </View>
-        </TouchableOpacity>
-      </View>
+        <View style={styles.headingRow}>
+          {!question?.answerId ? (
+            <AppText namedStyle="h3" style={styles.headingText}>
+              {question?.question}
+            </AppText>
+          ) : (
+            <AppText namedStyle="h3" style={styles.headingText}>
+              {question?.answerTitle}
+            </AppText>
+          )}
 
-      {question.answerId && isInMyQuestions ? (
-        <AppText
-          namedStyle="h3"
-          style={[styles.headingText, styles.marginTop12]}
-        >
-          {question.answerTitle}
-        </AppText>
-      ) : null}
-      <Line style={styles.line} />
-      <View style={styles.subheadingWrapper}>
-        {question.tags ? (
+          {question?.answerId ? (
+            <Like
+              handleClick={handleLike}
+              likes={question.likes || 0}
+              dislikes={question.dislikes || 0}
+              answerId={question.answerId}
+              isLiked={question.isLiked}
+              isDisliked={question.isDisliked}
+            />
+          ) : null}
+        </View>
+
+        {question?.tags?.length ? (
           <View style={styles.labelsContainer}>
             {question.tags.map((label, index) => {
               return (
-                <Label text={`#${label}`} key={index} style={styles.label} />
+                <Label
+                  text={label}
+                  key={index}
+                  paletteIndex={index}
+                  style={styles.labelChip}
+                />
               );
             })}
           </View>
         ) : null}
-        {question.answerId ? (
-          <Like
-            handleClick={handleLike}
-            likes={question.likes}
-            dislikes={question.dislikes}
-            answerId={question.answerId}
-            isLiked={question.isLiked}
-            isDisliked={question.isDisliked}
-          />
+
+        {!!question?.answerText ? (
+          <AppText style={styles.answerText}>{question.answerText}</AppText>
+        ) : null}
+
+        {question?.answerId ? (
+          <View style={styles.bottomContainer}>
+            <View style={styles.answeredByContainer}>
+              <AppText style={styles.answeredByText}>
+                {t("answered_by")}
+              </AppText>
+
+              <TouchableOpacity
+                onPress={() => providerId && handleProviderClick(providerId)}
+                disabled={!providerId}
+                hitSlop={appStyles.hitSlop}
+              >
+                <Avatar
+                  image={imageUrl ? { uri: imageUrl } : undefined}
+                  size="xs"
+                  style={styles.avatar}
+                />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => providerId && handleProviderClick(providerId)}
+                disabled={!providerId}
+                hitSlop={appStyles.hitSlop}
+              >
+                <AppText style={styles.providerName}>
+                  {providerInfo?.name} {providerInfo?.surname}
+                </AppText>
+              </TouchableOpacity>
+            </View>
+
+            <TouchableOpacity
+              onPress={() => {
+                onClose?.();
+                handleSchedulePress?.(question);
+              }}
+              hitSlop={appStyles.hitSlop}
+            >
+              <View style={styles.scheduleButton}>
+                <Icon name="calendar" color={appStyles.colorPrimary_20809e} />
+                <AppText style={styles.scheduleButtonText}>
+                  {t("schedule_consultation")}
+                </AppText>
+              </View>
+            </TouchableOpacity>
+          </View>
         ) : null}
       </View>
-
-      <AppText style={styles.answerText}>{question.answerText}</AppText>
 
       <>
         <View
@@ -146,9 +167,20 @@ export const QuestionDetails = ({
 };
 
 const styles = StyleSheet.create({
-  answerByContainer: { flexDirection: "row", marginTop: 12 },
   answerText: { marginTop: 18 },
-  avatar: { marginHorizontal: 4 },
+  answeredByContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    flexWrap: "wrap",
+    flex: 1,
+    paddingRight: 12,
+  },
+  answeredByText: { color: appStyles.colorGray_92989b },
+  avatar: { marginHorizontal: 6 },
+  content: {
+    paddingTop: 14,
+  },
   dateContainer: {
     alignItems: "center",
     flexDirection: "row",
@@ -159,51 +191,43 @@ const styles = StyleSheet.create({
     color: appStyles.colorGray_92989b,
     marginLeft: 4,
   },
-  headingText: {
-    color: appStyles.colorPrimary_20809e,
+  headingRow: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    gap: 12,
+    marginTop: 8,
   },
-  label: {
-    borderWidth: 0,
-    marginVertical: 0,
-    paddingHorizontal: 0,
-    paddingVertical: 0,
-    margin: 2,
+  headingText: {
+    flex: 1,
   },
   labelsContainer: {
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
-    alignItems: "center",
+    alignItems: "flex-start",
     justifyContent: "flex-start",
     gap: 6,
-    maxWidth: "70%",
+    marginTop: 10,
   },
-  marginTop12: {
-    marginTop: 12,
+  labelChip: {
+    borderRadius: 4,
+    paddingVertical: 2,
   },
-  scheduleButton: { flexDirection: "row", marginTop: 12 },
+  questionText: { marginTop: 6 },
+  providerName: { marginTop: 0 },
+  bottomContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 16,
+  },
+  scheduleButton: { flexDirection: "row", alignItems: "center" },
   scheduleButtonText: {
     color: appStyles.colorPrimary_20809e,
     fontFamily: appStyles.fontBold,
     marginLeft: 12,
-  },
-  providerWrapper: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  likeWrapper: {
-    marginTop: 12,
-  },
-  line: {
-    marginTop: 12,
-  },
-  subheadingWrapper: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginRight: 12,
   },
 });

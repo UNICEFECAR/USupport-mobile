@@ -1,18 +1,25 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useMemo, useState, useCallback } from "react";
 import {
   StyleSheet,
-  SafeAreaView,
   Platform,
   View,
   StatusBar,
-  Image,
+  useWindowDimensions,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+  useSafeAreaInsets,
+  SafeAreaView,
+} from "react-native-safe-area-context";
+import Config from "react-native-config";
 
 import { ButtonOnlyIcon } from "../../buttons";
-import spiralBackground from "../../../assets/spiral_background.png";
+import { CachedImageBackground } from "../../images";
 import { HeaderNavigation } from "../../headings";
+import { JoinConsultation } from "#backdrops";
+import { RequireDataAgreement } from "#modals";
+import { NotificationsDropdownPanel } from "../NotificationsDropdownPanel";
+import { ProfileMenuPanel } from "../ProfileMenuPanel";
 import {
   useCheckHasUnreadNotifications,
   useGetTheme,
@@ -20,6 +27,11 @@ import {
 } from "#hooks";
 import { Context } from "#services";
 import { appStyles } from "#styles";
+
+const { AMAZON_S3_BUCKET } = Config;
+
+const pageMobileHero = `${AMAZON_S3_BUCKET}/page-hero-new`;
+const pageTabletHero = `${AMAZON_S3_BUCKET}/page-tablet-hero`;
 
 // Main wrapper for every screen
 export function Screen({
@@ -29,18 +41,51 @@ export function Screen({
   backgroundColor,
   outsideComponent,
   hasEmergencyButton = true,
-  hasSpiralBackground = true,
+  backgroundImage,
   hasHeaderNavigation = false,
   t,
 }) {
-  const { colors, isDarkMode } = useGetTheme();
+  const { colors, isDarkMode, isHighContrast } = useGetTheme();
   const { isTmpUser, token, handleRegistrationModalOpen, hasCheckedTmpUser } =
     useContext(Context);
   const navigation = useNavigation();
+  const { width } = useWindowDimensions();
 
   const [hasUnreadNotifications, setHasUnreadNotifications] = useState();
 
+  const [isNotificationsPanelOpen, setIsNotificationsPanelOpen] =
+    useState(false);
+  const [isProfilePanelOpen, setIsProfilePanelOpen] = useState(false);
+  const [headerNavLayoutHeight, setHeaderNavLayoutHeight] = useState(96);
+  const [selectedConsultation, setSelectedConsultation] = useState();
+  const [isJoinConsultationOpen, setIsJoinConsultationOpen] = useState(false);
+  const [isRequireDataAgreementOpen, setIsRequireDataAgreementOpen] =
+    useState(false);
+
+  const openJoinConsultation = useCallback((consultation) => {
+    setSelectedConsultation(consultation);
+    setIsJoinConsultationOpen(true);
+  }, []);
+  const closeJoinConsultation = useCallback(
+    () => setIsJoinConsultationOpen(false),
+    []
+  );
+  const openRequireDataAgreement = useCallback(
+    () => setIsRequireDataAgreementOpen(true),
+    []
+  );
+  const closeRequireDataAgreement = useCallback(
+    () => setIsRequireDataAgreementOpen(false),
+    []
+  );
+
   const { top: topInset, bottom: bottomInset } = useSafeAreaInsets();
+  // Match web `Page` behavior: the hero/background image is only shown in light mode.
+  const showBackgroundImage = backgroundImage !== false && !isDarkMode;
+  const backgroundImageSource = useMemo(() => {
+    if (width >= 768) return { uri: pageTabletHero };
+    return { uri: pageMobileHero };
+  }, [width]);
 
   const onCheckHasUnreadNotificationsSuccess = (data) => {
     setHasUnreadNotifications(data);
@@ -82,7 +127,7 @@ export function Screen({
         style={[
           styles.screenChildren,
           style,
-          Platform.OS === "android" && { paddingBottom: bottomInset },
+          { paddingBottom: bottomInset },
         ]}
       >
         {children}
@@ -90,19 +135,20 @@ export function Screen({
           <ButtonOnlyIcon
             style={[
               styles.emergencyButton,
-              Platform.OS === "android" && { bottom: 16 + bottomInset },
+              { bottom: 16 + bottomInset },
             ]}
             onPress={() => handleSosCenterClick()}
             color="red"
+            iconColor={appStyles.colorWhite_ff}
           />
         )}
       </View>
 
-      {hasSpiralBackground && (
-        <Image
-          source={spiralBackground}
-          style={styles.spiralImage}
-          resizeMode="stretch"
+      {showBackgroundImage && (
+        <CachedImageBackground
+          source={backgroundImageSource}
+          style={styles.backgroundImage}
+          resizeMode="cover"
         />
       )}
 
@@ -122,7 +168,44 @@ export function Screen({
           hasUnreadNotifications={hasUnreadNotifications}
           isTmpUser={isTmpUser}
           handleRegistrationModalOpen={handleRegistrationModalOpen}
+          onPressNotifications={() => {
+            setIsProfilePanelOpen(false);
+            setIsNotificationsPanelOpen(true);
+          }}
+          onPressProfile={() => {
+            setIsNotificationsPanelOpen(false);
+            setIsProfilePanelOpen(true);
+          }}
+          onHeaderLayout={setHeaderNavLayoutHeight}
         />
+      ) : null}
+      {hasHeaderNavigation ? (
+        <>
+          <NotificationsDropdownPanel
+            isOpen={isNotificationsPanelOpen}
+            onClose={() => setIsNotificationsPanelOpen(false)}
+            navigation={navigation}
+            panelTop={headerNavLayoutHeight}
+            openJoinConsultation={openJoinConsultation}
+            openRequireDataAgreement={openRequireDataAgreement}
+            isTmpUser={isTmpUser}
+          />
+          <ProfileMenuPanel
+            isOpen={isProfilePanelOpen}
+            onClose={() => setIsProfilePanelOpen(false)}
+            navigation={navigation}
+            panelTop={headerNavLayoutHeight}
+          />
+          <JoinConsultation
+            isOpen={isJoinConsultationOpen}
+            onClose={closeJoinConsultation}
+            consultation={selectedConsultation}
+          />
+          <RequireDataAgreement
+            isOpen={isRequireDataAgreementOpen}
+            onClose={closeRequireDataAgreement}
+          />
+        </>
       ) : null}
       {outsideComponent}
     </SafeAreaView>
@@ -131,13 +214,13 @@ export function Screen({
 
 const styles = StyleSheet.create({
   screen: {
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     flex: 1,
     position: "relative",
   },
   screenBackground: { backgroundColor: appStyles.colorWhite_ff },
   screenChildren: {
     flex: 1,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   radialGradient: {
     position: "absolute",
@@ -154,5 +237,12 @@ const styles = StyleSheet.create({
     zIndex: 998,
     elevation: 998,
   },
-  spiralImage: { width: "100%", position: "absolute", bottom: 0, zIndex: -1 },
+  backgroundImage: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: -1,
+  },
 });

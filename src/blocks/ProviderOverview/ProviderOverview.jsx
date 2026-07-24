@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
-import { Block, Loading, AppButton } from "#components";
+import { Block, Loading, NewButton } from "#components";
 
 import { ProviderDetails } from "../ProviderDetails/ProviderDetails";
 
@@ -20,13 +20,13 @@ const { AMAZON_S3_BUCKET } = Config;
  *
  * @return {jsx}
  */
-export const ProviderOverview = ({ providerId }) => {
+export const ProviderOverview = ({ providerId, openScheduleBackdrop }) => {
   const { t } = useTranslation("blocks", { keyPrefix: "provider-overview" });
   const { currencySymbol, activeCoupon } = useContext(Context);
 
   const { data: provider, isLoading } = useGetProviderDataById(
     providerId,
-    activeCoupon?.campaignId
+    activeCoupon?.campaignId || null
   );
 
   const image = AMAZON_S3_BUCKET + "/" + (provider?.image || "default");
@@ -43,6 +43,19 @@ export const ProviderOverview = ({ providerId }) => {
           t={t}
           image={image}
           currencySymbol={currencySymbol}
+          activeCoupon={activeCoupon}
+          buttonComponent={
+            openScheduleBackdrop ? (
+              <NewButton
+                label={t("button_label")}
+                iconName="calendar"
+                iconColor="#ffffff"
+                size="lg"
+                isFullWidth
+                onPress={openScheduleBackdrop}
+              />
+            ) : null
+          }
         />
       )}
     </Block>
@@ -53,6 +66,7 @@ const styles = StyleSheet.create({
   block: {
     position: "relative",
     flexGrow: 1,
+    paddingBottom: 70,
   },
   loadingContainer: {
     width: "100%",

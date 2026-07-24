@@ -26,6 +26,10 @@ export function DropdownBackdrop() {
       isOpen={isOpen}
       onClose={closeDropdown}
       heading={heading}
+      layerIndex={2000}
+      overlayStyles={{
+        backgroundColor: isDarkMode ? "rgba(0,0,0,0.55)" : "rgba(0,0,0,0.35)",
+      }}
       style={{
         height: appStyles.screenHeight * 0.35,
       }}

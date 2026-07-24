@@ -13,18 +13,78 @@ const systemFonts = [
   ...(Constants.systemFonts ?? []),
 ];
 
+function decodeBasicHtmlEntities(input) {
+  if (typeof input !== "string") return "";
+  return input
+    .replaceAll("&nbsp;", " ")
+    .replaceAll("&lt;", "<")
+    .replaceAll("&gt;", ">")
+    .replaceAll("&amp;", "&")
+    .replaceAll("&quot;", '"')
+    .replaceAll("&#39;", "'");
+}
+
+function normalizeHtml(input) {
+  if (typeof input !== "string") return "";
+
+  // Some APIs store newlines as the literal characters "\n" or "\r\n".
+  // Convert those into real newline characters early.
+  const unescapedNewlines = input
+    .replaceAll("\\r\\n", "\n")
+    .replaceAll("\\n", "\n")
+    .replaceAll("\\r", "\n");
+
+  // Some payloads contain a stray "\" at the beginning of lines after
+  // serialization. Strip it only when it is the first non-whitespace char.
+  const cleanedLineStarts = unescapedNewlines.replace(
+    /(^|\n)([ \t]*)\\(?=\S)/g,
+    "$1$2"
+  );
+
+  // Strapi / CKEditor content is sometimes stored as escaped HTML.
+  // If it's escaped, decode first so `RenderHtml` can actually parse tags.
+  const looksEscaped =
+    cleanedLineStarts.includes("&lt;") && cleanedLineStarts.includes("&gt;");
+  const looksLikeRealHtml = /<\/?[a-z][\s\S]*>/i.test(cleanedLineStarts);
+  const decoded =
+    looksEscaped && !looksLikeRealHtml
+      ? decodeBasicHtmlEntities(cleanedLineStarts)
+      : cleanedLineStarts;
+
+  // If we still don't have HTML tags, treat as plain text and preserve newlines.
+  if (!/<\/?[a-z][\s\S]*>/i.test(decoded)) {
+    const escapedText = decoded
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;");
+    return `<p>${escapedText.replace(/\r?\n/g, "<br />")}</p>`;
+  }
+
+  return decoded;
+}
+
 export const CKRenderer = ({ data }) => {
   const { colors, isDarkMode } = useGetTheme();
+  const html = normalizeHtml(data);
+
+  if (!html) return null;
+
   return (
     <RenderHtml
       systemFonts={systemFonts}
       contentWidth={appStyles.screenWidth * 0.9}
       source={{
-        html: `<html><body>${data}</body></html>`,
+        html: `<html><body>${html}</body></html>`,
       }}
       baseStyle={{
         color: isDarkMode ? "#ffffff" : colors.text || "#000000",
         fontFamily: "Inter_400Regular",
+        textAlign: "justify",
+      }}
+      renderersProps={{
+        a: {
+          // Match web behavior (open in new tab). RN defaults to opening via Linking.
+        },
       }}
       renderers={{
         tr: (props) => {
@@ -109,6 +169,9 @@ export const CKRenderer = ({ data }) => {
           marginBottom: 8,
           fontFamily: "Inter_400Regular",
         },
+        br: {
+          height: 0,
+        },
         img: {
           margin: 0,
         },
@@ -173,11 +236,24 @@ export const CKRenderer = ({ data }) => {
           fontFamily: "Inter_600SemiBold",
         },
         a: {
-          fontFamily: "Inter_400Regular",
+          fontFamily: "Inter_600SemiBold",
+          color: appStyles.colorPrimary_20809e,
+          textDecorationLine: "underline",
+        },
+        blockquote: {
+          marginTop: 12,
+          marginBottom: 12,
+          paddingVertical: 12,
+          paddingHorizontal: 16,
+          borderLeftWidth: 4,
+          borderLeftColor: appStyles.colorPrimary_20809e,
+          backgroundColor: "rgba(32, 128, 158, 0.08)",
+          borderTopRightRadius: 8,
+          borderBottomRightRadius: 8,
         },
         table: {
           borderWidth: 0.5,
-          borderColor: colors.border || "#ccc",
+          borderColor: appStyles.colorBlue_3d527b,
           borderCollapse: "collapse",
           marginTop: 8,
           marginBottom: 8,

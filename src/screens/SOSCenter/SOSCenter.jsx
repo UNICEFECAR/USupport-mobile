@@ -17,12 +17,14 @@ export const SOSCenter = ({ navigation }) => {
 
   return (
     <Screen hasEmergencyButton={false}>
-      <Heading
-        heading={t("heading")}
-        subheading={t("subheading")}
-        handleGoBack={() => navigation.goBack()}
-      />
-      <ScrollView style={{ marginTop: 112 }}>
+      <Block>
+        <Heading
+          heading={t("heading")}
+          subheading={t("subheading")}
+          handleGoBack={() => navigation.goBack()}
+        />
+      </Block>
+      <ScrollView>
         <SOSCenterBlock navigation={navigation} />
       </ScrollView>
     </Screen>

@@ -1,8 +1,11 @@
 import React from "react";
-import { StyleSheet, Switch, View } from "react-native";
+import { Platform, StyleSheet, Switch, View } from "react-native";
+
 import { AppText } from "../../texts/AppText";
 import { appStyles } from "#styles";
 import { useGetTheme } from "#hooks";
+
+import { CustomSwitch } from "./CustomSwitch";
 
 /**
  * Toggle
@@ -18,9 +21,37 @@ export const Toggle = ({
   labelStyle,
   style,
   wrapperStyles,
+  disabled,
+  value: valueProp,
+  onValueChange: onValueChangeProp,
   ...props
 }) => {
   const { colors } = useGetTheme();
+  const value = isToggled ?? valueProp ?? false;
+  const onValueChange = handleToggle ?? onValueChangeProp;
+
+  const switchElement =
+    Platform.OS === "ios" ? (
+      <CustomSwitch
+        value={value}
+        onValueChange={onValueChange}
+        disabled={disabled}
+        style={style}
+      />
+    ) : (
+      <Switch
+        trackColor={{
+          false: appStyles.colorGray_ea,
+          true: appStyles.colorSecondary_9749fa,
+        }}
+        thumbColor={appStyles.colorWhite_ff}
+        onValueChange={onValueChange}
+        value={value}
+        disabled={disabled}
+        style={style}
+        {...props}
+      />
+    );
 
   return (
     <View style={wrapperStyles}>
@@ -32,20 +63,7 @@ export const Toggle = ({
           {label}
         </AppText>
       )}
-      <Switch
-        trackColor={{
-          false: appStyles.colorGray_ea,
-          true: appStyles.colorSecondary_9749fa,
-        }}
-        thumbColor={appStyles.colorWhite_ff}
-        ios_backgroundColor={
-          isToggled ? appStyles.colorSecondary_9749fa : appStyles.colorGray_ea
-        }
-        onValueChange={handleToggle}
-        value={isToggled}
-        style={style}
-        {...props}
-      />
+      {switchElement}
     </View>
   );
 };

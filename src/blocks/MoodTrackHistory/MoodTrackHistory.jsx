@@ -1,78 +1,113 @@
 import React, { useState, useMemo, useContext } from "react";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  useWindowDimensions,
+} from "react-native";
 import { useTranslation } from "react-i18next";
 
 import {
   AppText,
-  Block,
   Emoticon,
   Icon,
+  LinearGradient,
   Loading,
   MoodTrackLineChart,
   MoodTrackDetails,
   CardMedia,
+  TransparentModal,
+  NotFoundCard,
+  CHART_BOTTOM_GRIDLINE_Y,
+  getDotXPositions,
+  getMoodChartHorizontalLineY,
 } from "#components";
 import {
   useGetMoodTrackEntries,
   useSwipe,
   useGetMoodTrackerRecommendations,
+  useGetTheme,
 } from "#hooks";
 import { Context } from "#services";
+import { appStyles } from "#styles";
 
-/**
- * MoodTrackerHistory
- *
- * MoodTrackerHistory block
- *
- * @return {JSX.Element}
- */
-export const MoodTrackHistory = ({ navigation }) => {
+const EMOTICON_ITEM_HEIGHT = 44;
+
+export const MoodTrackHistory = ({ navigation, header, onHowItWorksPress }) => {
+  const { width: windowWidth } = useWindowDimensions();
   const { t, i18n } = useTranslation("blocks", {
     keyPrefix: "mood-track-history",
   });
   const language = i18n.language;
   const { country } = useContext(Context);
-  const IS_RO = country === "RO";
+  const { colors, isDarkMode, isHighContrast } = useGetTheme();
+  const isLightTheme = colors.background === appStyles.colorWhite_ff;
+  const isRomania = country === "RO";
+
+  const chartGlassGradient = useMemo(
+    () => ({
+      degrees: 145,
+      locations: [0, 100],
+      colors:
+        isLightTheme && !isHighContrast
+          ? ["rgba(255, 255, 255, 0.72)", "rgba(245, 248, 255, 0.58)"]
+          : colors.cardMediaGradient,
+    }),
+    [isLightTheme, isHighContrast, colors.cardMediaGradient]
+  );
+
+  const chartWidth = useMemo(() => {
+    const blockHorizontalPadding = 32;
+    const cardHorizontalPadding = 24;
+    const emoticonRailWidth = 42;
+    const emoticonRailGap = 12;
+    return Math.max(
+      160,
+      Math.floor(
+        windowWidth -
+          blockHorizontalPadding -
+          cardHorizontalPadding -
+          emoticonRailWidth -
+          emoticonRailGap
+      )
+    );
+  }, [windowWidth]);
 
   const [pageNum, setPageNum] = useState(0);
-  const limit = `pageNum_${pageNum}_limitToLoad_5`;
-
-  const [loadedPages, setLoadedPages] = useState([]);
-  const [moodTrackerData, setMoodTrackerData] = useState({});
+  const [loadedPageNumbers, setLoadedPageNumbers] = useState([]);
+  const pageSize = 6;
+  const pageCacheKey = `pageNum_${pageNum}_pageSize_${pageSize}`;
+  const [entriesByPageKey, setEntriesByPageKey] = useState({});
   const [selectedItemId, setSelectedItemId] = React.useState(null);
   const [lastMood, setLastMood] = useState(null);
 
-  const limitToLoad = 5;
-
   const onSuccess = (data) => {
     const { curEntries, prevEntries, hasMore } = data;
+    const prevPageCacheKey = `pageNum_${pageNum + 1}_pageSize_${pageSize}`;
+    const prevEntriesCopy = [...prevEntries];
 
-    let dataCopy = { ...moodTrackerData };
-
-    if (!dataCopy[limit] || pageNum === 0) {
-      dataCopy[limit] = {
-        entries: curEntries,
-        hasMore: prevEntries.length > 0,
-      };
-    }
-    const prevPageLimit = `pageNum_${pageNum + 1}_limitToLoad_${limitToLoad}`;
-
-    if (prevEntries.length < limitToLoad) {
-      prevEntries.push(
-        ...curEntries.slice(0, limitToLoad - prevEntries.length)
+    if (prevEntriesCopy.length < pageSize) {
+      prevEntriesCopy.push(
+        ...curEntries.slice(0, pageSize - prevEntriesCopy.length)
       );
     }
 
-    dataCopy[prevPageLimit] = { entries: prevEntries, hasMore };
-    let loadedPagesCopy = [...loadedPages];
-    loadedPagesCopy.push(pageNum);
-    setLoadedPages(loadedPagesCopy);
+    setEntriesByPageKey((prev) => ({
+      ...prev,
+      [pageCacheKey]: {
+        entries: curEntries,
+        hasMore: prevEntriesCopy.length > 0,
+      },
+      [prevPageCacheKey]: { entries: prevEntriesCopy, hasMore },
+    }));
 
-    if (curEntries.length > 0 && !lastMood && IS_RO) {
+    setLoadedPageNumbers((prev) =>
+      prev.includes(pageNum) ? prev : [...prev, pageNum]
+    );
+
+    if (curEntries.length > 0 && isRomania) {
       setLastMood(curEntries[curEntries.length - 1]?.mood);
     }
-
-    setMoodTrackerData(dataCopy);
   };
 
   const {
@@ -81,39 +116,76 @@ export const MoodTrackHistory = ({ navigation }) => {
   } = useGetMoodTrackerRecommendations(lastMood, language);
 
   const enabled = useMemo(() => {
-    return !loadedPages.includes(pageNum);
-  }, [loadedPages, pageNum]);
+    return !loadedPageNumbers.includes(pageNum);
+  }, [loadedPageNumbers, pageNum]);
 
-  useGetMoodTrackEntries(pageNum, onSuccess, enabled);
-  const emoticons = [
-    { name: "happy", label: "Perfect", value: 4 },
-    { name: "good", label: "Happy", value: 3 },
-    { name: "sad", label: "Sad", value: 2 },
-    { name: "depressed", label: "Depressed", value: 1 },
-    { name: "worried", label: "Worried", value: 0 },
-  ];
+  useGetMoodTrackEntries(pageSize, pageNum, onSuccess, enabled);
+  const emoticons = ["happy", "good", "sad", "depressed", "worried"];
 
   const renderEmoticons = () => {
-    return emoticons.map((emoticon, index) => {
-      return <Emoticon name={emoticon.name} key={index} size="xs" />;
+    return emoticons.map((name, index) => {
+      const centerY = getMoodChartHorizontalLineY(index);
+      const top = centerY - EMOTICON_ITEM_HEIGHT / 2;
+      return (
+        <View
+          style={[styles.emoticonItem, { top, height: EMOTICON_ITEM_HEIGHT }]}
+          key={index}
+        >
+          <Emoticon name={name} size="sm" style={styles.emoticon} />
+        </View>
+      );
     });
   };
 
   const renderDates = () => {
-    return moodTrackerData[limit]?.entries.map((mood, index) => {
+    const entries = entriesByPageKey[pageCacheKey]?.entries || [];
+    if (!entries.length) {
+      return null;
+    }
+
+    const dotXPositions = getDotXPositions(entries.length, chartWidth);
+    const labelWidth = Math.min(
+      76,
+      Math.max(44, Math.floor(chartWidth / Math.max(entries.length * 1.35, 1)))
+    );
+
+    return entries.map((mood, index) => {
       const dateText = `${
         mood.time.getDate() > 9
           ? mood.time.getDate()
           : `0${mood.time.getDate()}`
-      }.${
-        mood.time.getMonth() + 1 > 9
-          ? mood.time.getMonth() + 1
-          : `0${mood.time.getMonth() + 1}`
+      } ${t(`month_${mood.time.getMonth() + 1}`)}`;
+      const hourText = `${mood.time.getHours()}:${
+        mood.time.getMinutes() > 9
+          ? mood.time.getMinutes()
+          : `0${mood.time.getMinutes()}`
       }`;
+      const dotX = dotXPositions[index] ?? chartWidth / 2;
 
       return (
-        <View key={index}>
-          <AppText namedStyle="small-text">{dateText}</AppText>
+        <View
+          style={[
+            styles.dateItem,
+            {
+              position: "absolute",
+              left: dotX - labelWidth / 2,
+              width: labelWidth,
+            },
+          ]}
+          key={index}
+        >
+          <AppText
+            namedStyle="small-text"
+            style={[styles.dateLine, { color: colors.textSecondary }]}
+          >
+            {dateText}
+          </AppText>
+          <AppText
+            namedStyle="small-text"
+            style={[styles.timeLine, { color: colors.text }]}
+          >
+            {hourText}
+          </AppText>
         </View>
       );
     });
@@ -124,7 +196,9 @@ export const MoodTrackHistory = ({ navigation }) => {
   };
 
   const handleMoodClick = (index) => {
-    setSelectedItemId(moodTrackerData[limit].entries[index].mood_tracker_id);
+    setSelectedItemId(
+      entriesByPageKey[pageCacheKey].entries[index].mood_tracker_id
+    );
   };
 
   const onSwipeLeft = () => {
@@ -133,94 +207,210 @@ export const MoodTrackHistory = ({ navigation }) => {
     }
   };
   const onSwipeRight = () => {
-    if (moodTrackerData[limit].hasMore) {
+    if (entriesByPageKey[pageCacheKey].hasMore) {
       handlePageChange(true);
     }
   };
 
   const { onTouchStart, onTouchEnd } = useSwipe(onSwipeLeft, onSwipeRight, 30);
 
+  const navActionColor =
+    isHighContrast || isDarkMode
+      ? colors.text
+      : colors.primary || appStyles.colorPrimary_20809e;
+
+  const chartHasMore = !!(entriesByPageKey[pageCacheKey]?.hasMore ?? false);
+  const showChartNavPrev = chartHasMore;
+  const showChartNavNext = pageNum > 0;
+  const showChartNavRow = showChartNavPrev || showChartNavNext;
+
   return (
-    <Block style={styles.block}>
-      {!moodTrackerData[limit] ? (
+    <View style={styles.block}>
+      {header}
+      {!entriesByPageKey[pageCacheKey] ? (
         <View style={styles.loadingContainer}>
           <Loading />
         </View>
-      ) : moodTrackerData[limit].entries.length === 0 ? (
+      ) : entriesByPageKey[pageCacheKey].entries.length === 0 ? (
         <View style={styles.loadingContainer}>
-          <AppText>{t("no_result")}</AppText>
+          <NotFoundCard
+            mode="illustrated"
+            headingText={t("no_result")}
+            descriptionLine1={t("no_result_line1")}
+            descriptionLine2={t("no_result_line2")}
+            primaryLabel={t("no_result_primary")}
+            secondaryLabel={t("no_result_secondary")}
+            onPrimaryClick={() => navigation.goBack()}
+            onSecondaryClick={onHowItWorksPress}
+            style={{ width: "100%" }}
+          />
         </View>
       ) : (
         <>
           <View onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
-            <View style={styles.chartContainer}>
-              <View style={styles.emoticonsContainer}>
-                <View
-                  style={[
-                    styles.loadPreviusContainer,
-                    !moodTrackerData[limit].hasMore && styles.disabled,
-                  ]}
-                >
-                  <TouchableOpacity
-                    onPress={() =>
-                      moodTrackerData[limit].hasMore
-                        ? handlePageChange(true)
-                        : {}
-                    }
-                    disabled={!moodTrackerData[limit].hasMore}
-                  >
-                    <Icon name="arrow-chevron-back" size="sm" color="#20809E" />
-                  </TouchableOpacity>
-                </View>
-                {renderEmoticons()}
-              </View>
-              <View style={styles.lineChartContainer}>
-                <View style={styles.datesContainer}>
-                  {renderDates()}
+            <View
+              style={[
+                styles.chartCardOuter,
+                isLightTheme && !isHighContrast
+                  ? styles.liquidGlassShadowLight
+                  : appStyles.cardMediaShadowDark,
+              ]}
+            >
+              <LinearGradient
+                gradient={chartGlassGradient}
+                style={[
+                  styles.chartCardInner,
+                  {
+                    borderColor: isHighContrast
+                      ? colors.textSecondary
+                      : colors.cardMediaGradientBorder,
+                  },
+                  isHighContrast && styles.chartCardHC,
+                ]}
+              >
+                <View style={styles.chartContainer}>
                   <View
                     style={[
-                      styles.loadNextContainer,
-                      pageNum === 0 && styles.disabled,
+                      styles.emoticonsContainer,
+                      {
+                        backgroundColor: isDarkMode
+                          ? "rgba(255,255,255,0.04)"
+                          : "rgba(104, 77, 253, 0.06)",
+                      },
                     ]}
                   >
-                    <TouchableOpacity
-                      onPress={() => (pageNum === 0 ? {} : handlePageChange())}
-                      disabled={pageNum === 0}
+                    {renderEmoticons()}
+                  </View>
+                  <View style={styles.lineChartContainer}>
+                    <MoodTrackLineChart
+                      data={entriesByPageKey[pageCacheKey]?.entries || []}
+                      handleSelectItem={handleMoodClick}
+                      selectedItemId={selectedItemId}
+                      width={chartWidth}
+                    />
+                    <View
+                      style={[styles.datesTrack, { width: chartWidth }]}
+                      pointerEvents="none"
                     >
-                      <Icon
-                        name="arrow-chevron-forward"
-                        size="sm"
-                        color="#20809E"
-                        style={styles.icon}
-                      />
-                    </TouchableOpacity>
+                      {renderDates()}
+                    </View>
                   </View>
                 </View>
-                <MoodTrackLineChart
-                  data={moodTrackerData[limit]?.entries || []}
-                  handleSelectItem={handleMoodClick}
-                  selectedItemId={selectedItemId}
-                  hidePointsAtIndex={[1, 2, 3, 4, 5]}
-                />
-              </View>
+                {showChartNavRow ? (
+                  <View
+                    style={[
+                      styles.chartNavRow,
+                      {
+                        borderTopColor: isHighContrast
+                          ? colors.textSecondary
+                          : colors.cardMediaSeparator ||
+                            "rgba(15, 32, 47, 0.12)",
+                      },
+                    ]}
+                  >
+                    <View style={styles.chartNavSideStart}>
+                      {showChartNavPrev ? (
+                        <TouchableOpacity
+                          style={[
+                            styles.navButton,
+                            isDarkMode && styles.navButtonDark,
+                            isHighContrast && styles.navButtonHC,
+                          ]}
+                          onPress={() =>
+                            entriesByPageKey[pageCacheKey].hasMore
+                              ? handlePageChange(true)
+                              : null
+                          }
+                          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                        >
+                          <Icon
+                            name="arrow-chevron-back"
+                            size="md"
+                            color={navActionColor}
+                          />
+                          <AppText
+                            namedStyle="small-text"
+                            style={[
+                              styles.navButtonLabel,
+                              { color: navActionColor },
+                            ]}
+                          >
+                            {t("previous")}
+                          </AppText>
+                        </TouchableOpacity>
+                      ) : null}
+                    </View>
+                    <View style={styles.chartNavSideEnd}>
+                      {showChartNavNext ? (
+                        <TouchableOpacity
+                          style={[
+                            styles.navButton,
+                            isDarkMode && styles.navButtonDark,
+                            isHighContrast && styles.navButtonHC,
+                          ]}
+                          onPress={() => handlePageChange()}
+                          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                        >
+                          <AppText
+                            namedStyle="small-text"
+                            style={[
+                              styles.navButtonLabel,
+                              { color: navActionColor },
+                            ]}
+                          >
+                            {t("next")}
+                          </AppText>
+                          <Icon
+                            name="arrow-chevron-forward"
+                            size="md"
+                            color={navActionColor}
+                          />
+                        </TouchableOpacity>
+                      ) : null}
+                    </View>
+                  </View>
+                ) : null}
+              </LinearGradient>
             </View>
           </View>
-          {moodTrackerData[limit]?.entries.find(
-            (x) => x.mood_tracker_id === selectedItemId
-          ) ? (
-            <MoodTrackDetails
-              mood={moodTrackerData[limit]?.entries.find(
-                (x) => x.mood_tracker_id === selectedItemId
-              )}
-              handleClose={() => setSelectedItemId(null)}
-              t={t}
-            />
-          ) : null}
+          {(() => {
+            const selectedMood = entriesByPageKey[pageCacheKey]?.entries.find(
+              (x) => x.mood_tracker_id === selectedItemId
+            );
+
+            if (!selectedMood) return null;
+
+            const dateText = `${
+              selectedMood.time.getDate() > 9
+                ? selectedMood.time.getDate()
+                : `0${selectedMood.time.getDate()}`
+            } ${t(`month_${selectedMood.time.getMonth() + 1}`)}`;
+            const hourText = `${selectedMood.time.getHours()}:${
+              selectedMood.time.getMinutes() > 9
+                ? selectedMood.time.getMinutes()
+                : `0${selectedMood.time.getMinutes()}`
+            }`;
+
+            return (
+              <TransparentModal
+                isOpen={!!selectedMood}
+                handleClose={() => setSelectedItemId(null)}
+                heading={`${dateText} ${hourText}`}
+                hasCloseIcon={true}
+              >
+                <MoodTrackDetails
+                  mood={selectedMood}
+                  handleClose={() => setSelectedItemId(null)}
+                  t={t}
+                />
+              </TransparentModal>
+            );
+          })()}
         </>
       )}
-      {IS_RO && lastMood && (
+      {isRomania && (
         <React.Fragment>
-          {moodTrackerRecommendations?.hasRecommendations && (
+          {lastMood && (
             <View style={{ paddingTop: 18 }}>
               <AppText namedStyle="h3">{t("recommendations")}</AppText>
             </View>
@@ -230,13 +420,13 @@ export const MoodTrackHistory = ({ navigation }) => {
             <View style={[styles.loadingContainer, { height: 100 }]}>
               <Loading />
             </View>
-          ) : !moodTrackerRecommendations?.hasRecommendations ? (
+          ) : moodTrackerRecommendations?.hasRecommendations ? null : (
             <View style={{ paddingTop: 16 }}>
               <AppText style={{ textAlign: "center" }} namedStyle="h4">
                 {t("no_recommendations")}
               </AppText>
             </View>
-          ) : null}
+          )}
 
           {moodTrackerRecommendations?.articles?.length > 0 && (
             <View style={{ paddingTop: 16 }}>
@@ -260,11 +450,8 @@ export const MoodTrackHistory = ({ navigation }) => {
                     readingTime={article.readingTime}
                     categoryName={article.categoryName}
                     contentType="articles"
-                    // isLikedByUser={isLikedByUser}
-                    // isDislikedByUser={isDislikedByUser}
                     likes={article.likes}
                     dislikes={article.dislikes}
-                    // isRead={readArticleIds.includes(article.id)}
                     t={t}
                     onPress={() => {
                       navigation.push("ArticleInformation", {
@@ -294,11 +481,8 @@ export const MoodTrackHistory = ({ navigation }) => {
                     readingTime={podcast.readingTime}
                     categoryName={podcast.categoryName}
                     contentType="podcasts"
-                    // isLikedByUser={isLikedByUser}
-                    // isDislikedByUser={isDislikedByUser}
                     likes={podcast.likes}
                     dislikes={podcast.dislikes}
-                    // isRead={readArticleIds.includes(article.id)}
                     t={t}
                     onPress={() => {
                       navigation.push("PodcastInformation", {
@@ -345,49 +529,133 @@ export const MoodTrackHistory = ({ navigation }) => {
           )}
         </React.Fragment>
       )}
-    </Block>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   block: {
-    paddingBottom: 40,
+    paddingHorizontal: 16,
+    marginBottom: 100,
+  },
+  liquidGlassShadowLight: {
+    shadowColor: "rgb(95, 108, 145)",
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.14,
+    shadowRadius: 16,
+    elevation: 4,
+  },
+  chartCardOuter: {
+    width: "100%",
+    marginTop: 16,
+    overflow: "visible",
+  },
+  chartCardInner: {
+    width: "100%",
+    borderRadius: 16,
+    borderWidth: 1,
+    overflow: "hidden",
+    paddingVertical: 14,
+    paddingHorizontal: 12,
+  },
+  chartCardHC: {
+    borderWidth: 2,
   },
   chartContainer: {
     flexDirection: "row",
-    marginTop: 20,
+    alignItems: "flex-start",
+    width: "100%",
   },
-  datesContainer: {
+  dateItem: {
     alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between",
   },
-  disabled: {
-    opacity: 0.4,
+  dateLine: {
+    textAlign: "center",
+    fontSize: 11,
+    fontWeight: "500",
+    letterSpacing: 0.2,
+  },
+  timeLine: {
+    textAlign: "center",
+    fontSize: 13,
+    fontWeight: "600",
+    marginTop: 2,
+    letterSpacing: 0.15,
+  },
+  datesTrack: {
+    position: "relative",
+    alignSelf: "flex-start",
+    marginTop: 4,
+    minHeight: 42,
+  },
+  emoticon: {
+    transform: [{ scale: 0.82 }],
+  },
+  emoticonItem: {
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    left: 0,
+    right: 0,
   },
   emoticonsContainer: {
-    flexDirection: "column",
-    height: 240,
-    justifyContent: "space-between",
+    height: Math.ceil(CHART_BOTTOM_GRIDLINE_Y + EMOTICON_ITEM_HEIGHT / 2 + 8),
+    marginRight: 12,
+    position: "relative",
+    width: 42,
+    borderRadius: 14,
+    overflow: "hidden",
   },
-  icon: { marginRight: 16 },
   lineChartContainer: {
+    flex: 1,
     flexDirection: "column",
-  },
-  loadNextContainer: {
-    height: 40,
-    justifyContent: "center",
-  },
-  loadPreviusContainer: {
-    alignItems: "center",
-    height: 40,
-    justifyContent: "center",
-    width: 15,
+    minWidth: 0,
   },
   loadingContainer: {
     alignItems: "center",
-    height: 200,
     justifyContent: "center",
     width: "100%",
+    paddingVertical: 16,
+    minHeight: 200,
+  },
+  chartNavRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+    marginTop: 8,
+    paddingTop: 12,
+    paddingBottom: 2,
+    paddingHorizontal: 2,
+    borderTopWidth: StyleSheet.hairlineWidth * 2,
+  },
+  chartNavSideStart: {
+    flex: 1,
+    alignItems: "flex-start",
+    justifyContent: "center",
+  },
+  chartNavSideEnd: {
+    flex: 1,
+    alignItems: "flex-end",
+    justifyContent: "center",
+  },
+  navButton: {
+    alignItems: "center",
+    flexDirection: "row",
+    gap: 4,
+    paddingVertical: 6,
+    paddingHorizontal: 8,
+  },
+  navButtonLabel: {
+    color: appStyles.colorPrimary_20809e,
+  },
+  navButtonDark: {
+    backgroundColor: "rgba(255, 255, 255, 0.06)",
+    borderRadius: 8,
+  },
+  navButtonHC: {
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: appStyles.colorHighContrast_ffff00,
   },
 });

@@ -7,11 +7,13 @@ import {
   Platform,
   KeyboardAvoidingView,
   View,
+  Keyboard,
+  useWindowDimensions,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useQueryClient } from "@tanstack/react-query";
 
-import { Screen, AppButton } from "#components";
+import { AppText, Screen } from "#components";
 import { Consultations as ConsultationsBlock, GiveSuggestion } from "#blocks";
 
 import {
@@ -20,6 +22,7 @@ import {
   SelectConsultation,
   ConfirmConsultation,
   JoinConsultation,
+  DeviceTest,
 } from "#backdrops";
 
 import { RequireDataAgreement } from "#modals";
@@ -52,8 +55,11 @@ export const Consultations = ({ navigation }) => {
     useContext(Context);
 
   const { bottom: bottomInset } = useSafeAreaInsets();
+  const { height: windowHeight } = useWindowDimensions();
   const addCountryEventMutation = useAddCountryEvent();
   const queryClient = useQueryClient();
+  const scrollViewRef = useRef(null);
+  const [giveSuggestionLayout, setGiveSuggestionLayout] = useState(null);
 
   const clientDataQuery = useGetClientData()[0];
   const clientData = clientDataQuery.data;
@@ -94,6 +100,10 @@ export const Consultations = ({ navigation }) => {
     setSelectedConsultation(consultation);
   };
   const closeJoinConsultation = () => setIsJoinConsultationOpen(false);
+
+  const [isDeviceTestOpen, setIsDeviceTestOpen] = useState(false);
+  const openDeviceTest = () => setIsDeviceTestOpen(true);
+  const closeDeviceTest = () => setIsDeviceTestOpen(false);
 
   // Require data agreement modal
   const [isRequireDataAgreementOpen, setIsRequireDataAgreementOpen] =
@@ -207,6 +217,30 @@ export const Consultations = ({ navigation }) => {
       : new Date(selectedSlot.current);
   }, [isWithCampaign, selectedSlot.current]);
 
+  const handleGiveSuggestionFocus = () => {
+    if (
+      Platform.OS !== "android" ||
+      !giveSuggestionLayout ||
+      !scrollViewRef.current
+    ) {
+      return;
+    }
+
+    const subscription = Keyboard.addListener("keyboardDidShow", (e) => {
+      subscription.remove();
+      const keyboardHeight = e.endCoordinates.height;
+      const visibleHeight = windowHeight - keyboardHeight;
+      const scrollY = Math.max(
+        0,
+        giveSuggestionLayout.y +
+          giveSuggestionLayout.height -
+          visibleHeight +
+          56
+      );
+      scrollViewRef.current?.scrollTo({ y: scrollY, animated: true });
+    });
+  };
+
   return (
     <Screen
       style={[
@@ -224,31 +258,52 @@ export const Consultations = ({ navigation }) => {
       t={t}
     >
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "position" : null}
+        behavior={Platform.OS === "ios" ? "position" : "height"}
       >
         <ScrollView
+          ref={scrollViewRef}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
               onRefresh={() => onRefresh()}
             />
           }
+          keyboardShouldPersistTaps="handled"
         >
+          <AppText namedStyle="h2" style={styles.heading}>
+            {t("heading")}
+          </AppText>
           <ConsultationsBlock
             openJoinConsultation={openJoinConsultation}
             openEditConsultation={openEditConsultation}
+            openDeviceTest={openDeviceTest}
             isTmpUser={isTmpUser}
             navigation={navigation}
             currencySymbol={currencySymbol}
+            onScheduleConsultationClick={handleScheduleConsultationClick}
           />
-          <GiveSuggestion navigation={navigation} type="consultations" />
-          <View style={{ marginBottom: 85 }} />
+          {/* <View
+            onLayout={(e) => setGiveSuggestionLayout(e.nativeEvent.layout)}
+            collapsable={false}
+          >
+            <GiveSuggestion
+              navigation={navigation}
+              type="consultations"
+              onTextareaFocus={handleGiveSuggestionFocus}
+            />
+          </View> */}
+          {/* <View style={{ marginBottom: 85 }} /> */}
         </ScrollView>
       </KeyboardAvoidingView>
       <JoinConsultation
         isOpen={isJoinConsultationOpen}
         onClose={closeJoinConsultation}
         consultation={selectedConsultation}
+      />
+      <DeviceTest
+        isOpen={isDeviceTestOpen}
+        onClose={closeDeviceTest}
+        isInDashboard
       />
       {selectedConsultationProviderId && (
         <SelectConsultation
@@ -301,30 +356,18 @@ export const Consultations = ({ navigation }) => {
         onClose={closeRequireDataAgreement}
         onSuccess={handleDataAgreementSucess}
       />
-
-      {!isKeyboardShown && (
-        <AppButton
-          label={t("button_label")}
-          size="lg"
-          style={[
-            styles.button,
-            {
-              bottom: Platform.OS === "ios" ? 70 : 115 + bottomInset,
-            },
-          ]}
-          onPress={handleScheduleConsultationClick}
-        />
-      )}
     </Screen>
   );
 };
 
 const styles = StyleSheet.create({
-  button: {
-    alignSelf: "center",
-    position: "absolute",
-  },
   screen: {
     paddingTop: 48,
+  },
+  heading: {
+    marginTop: 16,
+    marginBottom: 4,
+    textAlign: "left",
+    paddingHorizontal: 16,
   },
 });
