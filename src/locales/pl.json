@@ -572,12 +572,6 @@
       "no_match": "Brak konsultantów spełniających Twoje kryteria",
       "book_session": "Umów sesję",
       "free": "Wolny",
-      "coupon": "Kupon",
-      "tab_paid": "Płatne",
-      "tab_coupon": "Kupon",
-      "tab_free": "Bezpłatnie",
-      "enter_coupon_to_see_providers": "Wprowadź kupon powyżej, aby zobaczyć konsultantów",
-      "error_invalid_coupon": "Nieprawidłowy kupon",
       "earliest_available_slot": "Pierwsza dostępna konsultacja:",
       "sunday": "Niedz.",
       "monday": "Pon.",
@@ -600,6 +594,12 @@
       "coupon_paragraph_two": "",
       "max_price": "",
       "providers_free_consultation_label": "",
+      "coupon": "Kupon",
+      "tab_paid": "Płatne",
+      "tab_coupon": "Kupon",
+      "tab_free": "Bezpłatnie",
+      "enter_coupon_to_see_providers": "Wprowadź kupon powyżej, aby zobaczyć konsultantów",
+      "error_invalid_coupon": "Nieprawidłowy kupon",
       "coupon_note": "Tym razem wpisaliśmy za Ciebie kod na darmową sesję! Umów się z jednym z naszych konsultantów i zrób pierwszy krok, aby zadbać o swoje samopoczucie.",
       "choose-the-provider": "Wybierz specjalistę, z którym chcesz rozmawiać przez wideo, audio lub czat. Czasami może minąć kilka sesji, zanim znajdziesz specjalistę odpowiedniego do Twoich potrzeb i preferowanego podejścia.",
       "choose_provider": "Wybierz konsultanta/kę, z którym chcesz porozmawiać w ramach konsultacji wideo, audio lub tekstowej. Znalezienie konsultanta/ki, który/a będzie dobrze dopasowany/a do Twoich potrzeb i preferowanego podejścia, może czasami zająć trochę czasu."
@@ -1090,7 +1090,7 @@
       "heading": "Więcej artykułów",
       "no_results": "Brak podobnych artykułów dla aktualnie wybranego języka. ",
       "read_more": "Czytaj więcej",
-      "min_read": "min czytać",
+      "min_read": "min. czytania",
       "by": "Przez {{creator}}",
       "check_article": "Cześć, sprawdź ten artykuł",
       "share_success": "Artykuł został udostępniony",
@@ -1323,6 +1323,10 @@
       "subheading": "Szczegółowy przegląd profilu wybranej organizacji",
       "emergency_button_label": "Emergency help"
     },
+    "organization-overview-screen": {
+      "heading": "Przegląd organizacji",
+      "subheading": "Szczegółowy przegląd profilu wybranej organizacji"
+    },
     "children-rights-screen": {
       "back": "Wstecz",
       "continue": "Kontynuuj",
@@ -1432,10 +1436,6 @@
       "min_read": "min czytania",
       "read_more": "Czytaj więcej",
       "to_dashboard": "Przejdź do pulpitu"
-    },
-    "organization-overview-screen": {
-      "heading": "Przegląd organizacji",
-      "subheading": "Szczegółowy przegląd profilu wybranej organizacji"
     }
   },
   "backdrops": {
