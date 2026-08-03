@@ -302,8 +302,7 @@ export const Articles = ({
       contains: debouncedSearchValue,
       ageGroupId,
       ...(!hasSearch && { categoryId }),
-      // sortBy: sort ? sort : "createdAt",
-      // sortOrder: sort ? "desc" : "desc",
+      ...(isPLCountry && { sortBy: "createdAt", sortOrder: "desc" }),
       locale: usersLanguage,
       populate: true,
       ids: articleIdsQuery.data,
@@ -377,8 +376,7 @@ export const Articles = ({
       ageGroupId: ageGroupId,
       ...(!hasSearch && { categoryId }),
       locale: usersLanguage,
-      sortBy: sort,
-      sortOrder: sort ? "desc" : null,
+      ...(isPLCountry && { sortBy: "createdAt", sortOrder: "desc" }),
       populate: true,
       ids: articleIdsQuery.data,
     });
@@ -411,6 +409,8 @@ export const Articles = ({
       selectedCategory?.value === "all" ? null : selectedCategory?.id || null,
     searchValue: debouncedSearchValue,
     availableCategories,
+    // PL shows articles newest first rather than through the recommendation algorithm.
+    orderByNewest: isPLCountry,
   });
 
   useEffect(() => {

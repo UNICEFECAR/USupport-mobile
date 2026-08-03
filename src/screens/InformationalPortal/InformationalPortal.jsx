@@ -46,7 +46,7 @@ import { destructureArticleData, getLikesAndDislikesForContent } from "#utils";
  */
 export const InformationalPortal = ({ navigation, route }) => {
   const { isDarkMode } = useGetTheme();
-  const { t } = useTranslation("screens", {
+  const { t, i18n } = useTranslation("screens", {
     keyPrefix: "informational-portal-screen",
   });
   const { t: tArticlesScreen } = useTranslation("screens", {
@@ -132,7 +132,7 @@ export const InformationalPortal = ({ navigation, route }) => {
         limit: 1,
         sortBy: "read_count",
         sortOrder: "desc",
-        locale: "en",
+        locale: i18n.language,
         populate: true,
         ids,
       });
