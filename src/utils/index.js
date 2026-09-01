@@ -11,3 +11,8 @@ export * from "./getBrandingLogoUrl";
 export * from "./sessionPersistence";
 export * from "./savedCredentials";
 export * from "./countryChange";
+export * from "./peerSupport";
+export {
+  BASE_PROVIDER_TYPES,
+  getProviderTypeFilterOptions,
+} from "./specializations";

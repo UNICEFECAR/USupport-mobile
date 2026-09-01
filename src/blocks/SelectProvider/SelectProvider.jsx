@@ -272,7 +272,7 @@ export const SelectProvider = ({
               : provider.consultationPrice
         }
         provider={provider}
-        specializations={provider.specializations.map((x) => t(x))}
+        specializationKeys={provider.specializations}
         surname={provider.surname}
         style={styles.providerItem}
         t={t}

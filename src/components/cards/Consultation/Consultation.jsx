@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { Avatar } from "../../avatars/Avatar/Avatar";
 import { AppText } from "../../texts/AppText/AppText";
 import { Icon } from "../../icons/Icon";
+import { PeerSupportBadge } from "../../labels/PeerSupportBadge";
 import LinearGradient from "../../LinearGradient";
 import { appStyles } from "#styles";
 import { NewButton } from "../../buttons/NewButton/NewButton";
@@ -15,31 +16,13 @@ import {
   getDayOfTheWeek,
   getDateView,
   checkIsFiveMinutesBefore,
+  getDisplaySpecializations,
+  isPeerSupportProvider,
+  parseSpecializationKeys,
 } from "#utils";
 import { useGetTheme } from "#hooks";
 
 const { AMAZON_S3_BUCKET } = Config;
-
-const formatSpecializations = (value, t) => {
-  if (!value) return "";
-
-  let list;
-
-  if (Array.isArray(value)) {
-    list = value;
-  } else if (typeof value === "string") {
-    const trimmed = value.trim();
-    const withoutBraces = trimmed.replace(/^\{|\}$/g, "");
-    list = withoutBraces.split(",").map((item) => item.trim());
-  } else {
-    list = [value];
-  }
-
-  return list
-    .filter(Boolean)
-    .map((key) => t(key))
-    .join(", ");
-};
 
 /**
  * Consultation
@@ -174,9 +157,13 @@ export const Consultation = ({
     : "";
   const displayTimeText = buttonAction === "join" ? t("active") : rawTimeText;
 
-  const specializationsText = formatSpecializations(rawSpecializations, (key) =>
-    tProviderOverview(key, { defaultValue: key })
-  );
+  const specializationKeys = parseSpecializationKeys(rawSpecializations);
+  const showPeerBadge =
+    renderIn === "client" && isPeerSupportProvider(specializationKeys);
+  const specializationsText = getDisplaySpecializations(
+    specializationKeys,
+    (key) => tProviderOverview(key, { defaultValue: key })
+  ).join(", ");
 
   const hasActions =
     (!overview && !suggested && buttonAction === "join") ||
@@ -257,6 +244,14 @@ export const Consultation = ({
             >
               {name}
             </AppText>
+            {showPeerBadge && (
+              <PeerSupportBadge
+                style={styles.peerBadge}
+                label={tProviderOverview("peer_support", {
+                  defaultValue: "U-FRIEND",
+                })}
+              />
+            )}
             {!!specializationsText && (
               <AppText
                 style={[
@@ -321,8 +316,7 @@ export const Consultation = ({
               namedStyle="smallText"
               style={[
                 styles.statusBadgeLabel,
-                statusModifier === "upcoming" &&
-                  styles.statusBadgeTextUpcoming,
+                statusModifier === "upcoming" && styles.statusBadgeTextUpcoming,
                 statusModifier === "live" && styles.statusBadgeTextLive,
                 statusModifier === "completed" &&
                   styles.statusBadgeTextCompleted,
@@ -597,6 +591,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   specializations: {
+    marginTop: 4,
+  },
+  peerBadge: {
     marginTop: 4,
   },
   sponsorImage: {

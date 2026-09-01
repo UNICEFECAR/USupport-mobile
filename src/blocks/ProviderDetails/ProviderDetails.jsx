@@ -2,8 +2,13 @@ import React, { useCallback, useMemo, useState, useEffect } from "react";
 import { Platform, View, StyleSheet } from "react-native";
 import YoutubeIframe from "react-native-youtube-iframe";
 
-import { Avatar, AppText, Icon } from "#components";
-import { getDateView, getDayOfTheWeek } from "#utils";
+import { Avatar, AppText, Icon, PeerSupportBadge } from "#components";
+import {
+  getDateView,
+  getDayOfTheWeek,
+  getDisplaySpecializations,
+  isPeerSupportProvider,
+} from "#utils";
 import { useGetTheme } from "#hooks";
 import { appStyles } from "#styles";
 import LinearGradient from "../../components/LinearGradient";
@@ -56,11 +61,10 @@ export const ProviderDetails = ({
     return provider[option]?.join(", ");
   };
 
-  const renderSpecializations = useCallback(() => {
-    if (provider) {
-      return provider.specializations.map((x) => t(x))?.join(", ");
-    }
-  }, [provider]);
+  const specializationsText = provider?.specializations?.length
+    ? getDisplaySpecializations(provider.specializations, t).join(", ")
+    : "";
+  const isPeerSupport = isPeerSupportProvider(provider?.specializations);
 
   const renderWorkWith = useCallback(() => {
     if (provider) {
@@ -159,12 +163,20 @@ export const ProviderDetails = ({
             >
               {displayName}
             </AppText>
-            <AppText
-              namedStyle="smallText"
-              style={[styles.specializations, { color: colors.text }]}
-            >
-              {renderSpecializations()}
-            </AppText>
+            {isPeerSupport && (
+              <PeerSupportBadge
+                label={t("peer_support")}
+                style={styles.peerBadge}
+              />
+            )}
+            {!!specializationsText && (
+              <AppText
+                namedStyle="smallText"
+                style={[styles.specializations, { color: colors.text }]}
+              >
+                {specializationsText}
+              </AppText>
+            )}
             <View style={styles.badges}>
               {isFree ? (
                 <View style={styles.badgeFree}>
@@ -311,6 +323,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   specializations: { opacity: 0.8, marginTop: 2 },
+  peerBadge: { marginTop: 4 },
   badges: { flexDirection: "row", flexWrap: "wrap", gap: 6, marginTop: 6 },
   badgeFree: {
     paddingVertical: 2,

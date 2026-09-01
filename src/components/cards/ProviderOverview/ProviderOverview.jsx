@@ -6,7 +6,14 @@ import { Avatar } from "../../avatars/Avatar/Avatar";
 import { Icon } from "../../icons/Icon";
 import { AppText } from "../../texts/AppText/AppText";
 import { NewButton } from "../../buttons/NewButton/NewButton";
-import { getDayOfTheWeek, getDateView } from "#utils";
+import { PeerSupportBadge } from "../../labels/PeerSupportBadge";
+import {
+  getDateView,
+  getDayOfTheWeek,
+  getDisplaySpecializations,
+  isPeerSupportProvider,
+  resolveSpecializationKeys,
+} from "#utils";
 import { appStyles } from "#styles";
 import { useGetTheme } from "#hooks";
 import LinearGradient from "../../LinearGradient";
@@ -35,6 +42,8 @@ export const ProviderOverview = ({
   t,
   currencySymbol,
   specializations,
+  specializationKeys,
+  isPeerSupport,
   style,
   liquidGlass = false,
 }) => {
@@ -43,6 +52,19 @@ export const ProviderOverview = ({
   const displayName = patronym
     ? `${name} ${patronym} ${surname}`
     : `${name} ${surname}`;
+
+  const resolvedSpecializationKeys = resolveSpecializationKeys(
+    specializationKeys,
+    specializations
+  );
+  const showPeerBadge =
+    isPeerSupport ??
+    (resolvedSpecializationKeys
+      ? isPeerSupportProvider(resolvedSpecializationKeys)
+      : false);
+  const displaySpecializations = resolvedSpecializationKeys
+    ? getDisplaySpecializations(resolvedSpecializationKeys, t)
+    : (specializations ?? []);
 
   const imageURI = AMAZON_S3_BUCKET + "/" + image;
   const isLightTheme = colors.background === appStyles.colorWhite_ff;
@@ -145,9 +167,15 @@ export const ProviderOverview = ({
                 </View>
               )}
             </View>
-            {!!specializations?.length && (
+            {showPeerBadge && (
+              <PeerSupportBadge
+                style={styles.peerBadge}
+                label={t ? t("peer_support") : "U-FRIEND"}
+              />
+            )}
+            {!!displaySpecializations?.length && (
               <AppText numberOfLines={2} style={styles.typesText}>
-                {specializations.join(", ")}
+                {displaySpecializations.join(", ")}
               </AppText>
             )}
           </View>
@@ -289,6 +317,10 @@ const styles = StyleSheet.create({
     color: "#1a2340",
     fontFamily: appStyles.fontMedium,
     textTransform: "uppercase",
+  },
+  peerBadge: {
+    marginTop: 4,
+    marginBottom: 2,
   },
   typesText: {
     paddingTop: 4,
