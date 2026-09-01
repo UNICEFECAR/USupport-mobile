@@ -339,6 +339,8 @@ export const ArticlesDashboard = ({
     sortFilter: "read_count",
     availableCategories,
     enabled: !isTmpUser,
+    // PL shows articles newest first rather than through the recommendation algorithm.
+    orderByNewest: isPLCountry,
   });
 
   useEffect(() => {

@@ -15,6 +15,9 @@ import { cmsSvc, clientSvc, adminSvc } from "#services";
  *
  * UI pagination:
  *   final.slice(0, page * limit)
+ *
+ * `orderByNewest` bypasses the recommendation pipeline entirely and returns a single
+ * list sorted by creation date, newest first (used for PL).
  */
 
 export const useRecommendedArticles = ({
@@ -25,6 +28,7 @@ export const useRecommendedArticles = ({
   searchValue = "",
   availableCategories = [],
   enabled = true,
+  orderByNewest = false,
 }) => {
   const { i18n } = useTranslation();
 
@@ -133,6 +137,40 @@ export const useRecommendedArticles = ({
     setPipelineLoading(true);
     setInitializing(false);
     resetAll();
+
+    // NEWEST FIRST MODE — no recommendations, plain reverse-chronological list
+    if (orderByNewest) {
+      (async () => {
+        try {
+          const { data } = await cmsSvc.getArticles({
+            ids: countryArticles,
+            locale: i18n.language,
+            populate: true,
+            sortBy: "createdAt",
+            sortOrder: "desc",
+            limit: 5000,
+            ...(categoryIdFilter && { categoryId: categoryIdFilter }),
+            ...(ageGroupId && { ageGroupId }),
+            ...(searchValue && { contains: searchValue }),
+          });
+
+          setStage1(
+            data.data.map((article) => ({
+              data: { ...article, id: article.id },
+              recommendationScore: 0,
+              categoryWeight: 0,
+            }))
+          );
+        } catch (e) {
+          console.warn("Newest-first article fetch failed:", e);
+          setStage1([]);
+        } finally {
+          setPipelineLoading(false);
+        }
+      })();
+
+      return;
+    }
 
     // CATEGORY FILTER MODE
     if (categoryIdFilter) {
@@ -248,6 +286,7 @@ export const useRecommendedArticles = ({
     })();
   }, [
     enabled,
+    orderByNewest,
     loadingCountry,
     loadingInteractions,
     categoryIdFilter,
