@@ -35,8 +35,22 @@
     <package android:name="com.linkedin.android" />
     <package android:name="com.zhiliaoapp.musically" />
   </queries>
-  <application android:name=".MainApplication" android:label="@string/app_name" android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher_round" android:allowBackup="false" android:theme="@style/AppTheme">
+  <!--
+    android:enableOnBackInvokedCallback="false"
+      Apps targeting API 36 opt in to the predictive back system by default, which routes the
+      back gesture through OnBackInvokedCallback. React Native 0.76's BackHandler still relies on
+      the legacy onBackPressed path, so JS back handlers (video/podcast modals, Jitsi meeting)
+      would stop firing. Keep the legacy dispatch until RN provides predictive back support.
+  -->
+  <application android:name=".MainApplication" android:label="@string/app_name" android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher_round" android:allowBackup="false" android:theme="@style/AppTheme" android:enableOnBackInvokedCallback="false">
     <meta-data android:name="android.app.role.COMMUNICATION" android:value="true"/>
+    <!--
+      Android 16 ignores fixed screenOrientation / resizeableActivity / aspect-ratio restrictions
+      on displays >= sw600dp. The app is designed portrait-only, so keep the restriction until the
+      large-screen layouts have been designed and tested.
+      NOTE: this opt-out is temporary — it stops working once the app targets API 37.
+    -->
+    <property android:name="android.window.PROPERTY_COMPAT_ALLOW_RESTRICTED_RESIZABILITY" android:value="true"/>
     <service android:name="app.notifee.core.ForegroundService" android:foregroundServiceType="mediaPlayback|microphone" tools:replace="android:foregroundServiceType" />
 
     <provider android:name="androidx.core.content.FileProvider" android:authorities="${applicationId}.provider" android:grantUriPermissions="true" android:exported="false">

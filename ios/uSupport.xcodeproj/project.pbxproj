@@ -8,15 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		027710DE42402B24DA53091B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = CA1278E7656DA22DE0A24BB2 /* PrivacyInfo.xcprivacy */; };
-		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		13B07FC01A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		201B13A6DAFC49359AF6D292 /* Nunito_700Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 40F7FAE054D24FE7BB9D3CCF /* Nunito_700Bold.ttf */; };
 		2F28C4CCF17740399E91B000 /* Nunito_400Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47838F837A0943FEB659201C /* Nunito_400Regular.ttf */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
 		43001CCB29EEDDFF00B32A2A /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 43001CCA29EEDDFF00B32A2A /* Config.xcconfig */; };
-		43001CD129EEEAE800B32A2A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
-		43001CD229EEEAE800B32A2A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		43001CD629EEEAE800B32A2A /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 		43001CD729EEEAE800B32A2A /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 43001CCA29EEDDFF00B32A2A /* Config.xcconfig */; };
 		43001CD829EEEAE800B32A2A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 43926DB829E5675A005505FD /* GoogleService-Info.plist */; };
@@ -31,6 +27,8 @@
 		43C1F6B92DD7DA4F00613CC3 /* Nunito_600SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43C1F6B12DD7DA4F00613CC3 /* Nunito_600SemiBold.ttf */; };
 		43C1F6BA2DD7DA4F00613CC3 /* Nunito_400Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43C1F6AF2DD7DA4F00613CC3 /* Nunito_400Regular.ttf */; };
 		43C1F7732DD8E2BD00613CC3 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
+		43D1A0022DD9000000613CC3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D1A0012DD9000000613CC3 /* AppDelegate.swift */; };
+		43D1A0032DD9000000613CC3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D1A0012DD9000000613CC3 /* AppDelegate.swift */; };
 		6367CBD9FB5723EFB6C8B98D /* libPods-USupportCommonPods-USupportDev.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 88E9631D1E442397507AF705 /* libPods-USupportCommonPods-USupportDev.a */; };
 		7AEACF7E2A484DF79AF385B7 /* Nunito_800ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 24BDE77CA84248E68D4B140E /* Nunito_800ExtraBold.ttf */; };
 		7C216B4A016A4CA78A8ACE36 /* Nunito_600SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 455746177A1E497895FBC062 /* Nunito_600SemiBold.ttf */; };
@@ -47,11 +45,8 @@
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		0FACCAF018F9DBEEC026AA3A /* libPods-USupportCommonPods-USupport.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-USupportCommonPods-USupport.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* uSupport.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = uSupport.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = USupportmobile/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = USupportmobile/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = USupportmobile/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = USupportmobile/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = USupportmobile/main.m; sourceTree = "<group>"; };
 		15CA9C11B0013284BB58B11B /* Pods-USupport.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-USupport.debug.xcconfig"; path = "Target Support Files/Pods-USupport/Pods-USupport.debug.xcconfig"; sourceTree = "<group>"; };
 		169985E3B7369C892AB53E01 /* Pods-USupport.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-USupport.release.xcconfig"; path = "Target Support Files/Pods-USupport/Pods-USupport.release.xcconfig"; sourceTree = "<group>"; };
 		24BDE77CA84248E68D4B140E /* Nunito_800ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Nunito_800ExtraBold.ttf; path = ../src/assets/fonts/Nunito_800ExtraBold.ttf; sourceTree = "<group>"; };
@@ -96,6 +91,7 @@
 		43C1F7432DD8CA4300613CC3 /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = index.js; path = ../src/assets/index.js; sourceTree = "<group>"; };
 		43C1F74A2DD8CA4400613CC3 /* Loading.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Loading.json; path = ../src/assets/Loading.json; sourceTree = "<group>"; };
 		43C724CD299D64110018940A /* USupportDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = USupportDebug.entitlements; path = USupportmobile/USupportDebug.entitlements; sourceTree = "<group>"; };
+		43D1A0012DD9000000613CC3 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = USupportmobile/AppDelegate.swift; sourceTree = "<group>"; };
 		455746177A1E497895FBC062 /* Nunito_600SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Nunito_600SemiBold.ttf; path = ../src/assets/fonts/Nunito_600SemiBold.ttf; sourceTree = "<group>"; };
 		47838F837A0943FEB659201C /* Nunito_400Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Nunito_400Regular.ttf; path = ../src/assets/fonts/Nunito_400Regular.ttf; sourceTree = "<group>"; };
 		6689BC320FC3C48F81D9FBD2 /* Pods-USupportCommonPods-USupportDev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-USupportCommonPods-USupportDev.release.xcconfig"; path = "Target Support Files/Pods-USupportCommonPods-USupportDev/Pods-USupportCommonPods-USupportDev.release.xcconfig"; sourceTree = "<group>"; };
@@ -143,11 +139,9 @@
 				43C724CD299D64110018940A /* USupportDebug.entitlements */,
 				BB2F792B24A3F905000567C9 /* Supporting */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
-				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
-				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
+				43D1A0012DD9000000613CC3 /* AppDelegate.swift */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				13B07FB71A68108700A75B9A /* main.m */,
 				43C1F6B42DD7DA4F00613CC3 /* fonts */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
 				DDEF392E36C86269A03F286B /* PrivacyInfo.xcprivacy */,
@@ -175,7 +169,7 @@
 				43C1F6B22DD7DA4F00613CC3 /* Nunito_700Bold.ttf */,
 				43C1F6B32DD7DA4F00613CC3 /* Nunito_800ExtraBold.ttf */,
 			);
-			path = fonts;
+			path = USupportmobile/fonts;
 			sourceTree = "<group>";
 		};
 		43C1F6FB2DD8C29D00613CC3 /* fonts */ = {
@@ -835,11 +829,16 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/.xcode.env",
+				"$(SRCROOT)/.xcode.env.local",
+				"$(SRCROOT)/USupportmobile/USupportmobileDebug.entitlements",
+				"$(SRCROOT)/Pods/Target Support Files/Pods-USupportCommonPods-USupport/expo-configure-project.sh",
 			);
 			name = "[Expo] Configure project";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"$(SRCROOT)/Pods/Target Support Files/Pods-USupportCommonPods-USupport/ExpoModulesProvider.swift",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -854,11 +853,16 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/.xcode.env",
+				"$(SRCROOT)/.xcode.env.local",
+				"$(SRCROOT)/USupportmobile/USupportmobileDebug.entitlements",
+				"$(SRCROOT)/Pods/Target Support Files/Pods-USupportCommonPods-USupportDev/expo-configure-project.sh",
 			);
 			name = "[Expo] Configure project";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"$(SRCROOT)/Pods/Target Support Files/Pods-USupportCommonPods-USupportDev/ExpoModulesProvider.swift",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -890,8 +894,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
-				13B07FC01A68108700A75B9A /* main.m in Sources */,
+				43D1A0022DD9000000613CC3 /* AppDelegate.swift in Sources */,
 				D94544C8DDDF103EECAF8129 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -900,8 +903,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				43001CD129EEEAE800B32A2A /* AppDelegate.mm in Sources */,
-				43001CD229EEEAE800B32A2A /* main.m in Sources */,
+				43D1A0032DD9000000613CC3 /* AppDelegate.swift in Sources */,
 				E603E0317A23476CFA70DB54 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1014,7 +1016,7 @@
 				);
 				INFOPLIST_FILE = "USupportDev-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = USupportDev;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1053,7 +1055,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = K288UMKCNF;
 				INFOPLIST_FILE = "USupportDev-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = USupportDev;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1129,7 +1131,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD = "";
 				LDPLUSPLUS = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1195,7 +1197,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD = "";
 				LDPLUSPLUS = "";
 				LD_RUNPATH_SEARCH_PATHS = (

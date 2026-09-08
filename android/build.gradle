@@ -2,22 +2,43 @@
 
 buildscript {
     ext {
-        buildToolsVersion = '34.0.0'
+        buildToolsVersion = '36.0.0'
         minSdkVersion = Integer.parseInt(findProperty('android.minSdkVersion') ?: '24')
-        compileSdkVersion = 35
-        targetSdkVersion = Integer.parseInt(findProperty('android.targetSdkVersion') ?: '35')
-        kotlinVersion = findProperty('android.kotlinVersion') ?: '1.9.24'
-        gradlePluginVersion = '8.4.2'
+        compileSdkVersion = 36
+        targetSdkVersion = Integer.parseInt(findProperty('android.targetSdkVersion') ?: '36')
+        // Versions required by React Native 0.81 / Expo SDK 54
+        // (see @react-native/gradle-plugin/gradle/libs.versions.toml).
+        kotlinVersion = findProperty('android.kotlinVersion') ?: '2.1.20'
+        gradlePluginVersion = '8.11.0'
 
-        ndkVersion = "26.1.10909125"
+        // NDK r27 is the first version that can emit 16 KB-aligned ELF segments, via the
+        // ANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES switch injected into every subproject below.
+        // (r28+ makes 16 KB the default and the switch becomes unnecessary.)
+        ndkVersion = "27.1.12297006"
     }
-    
+
     subprojects { subproject ->
         afterEvaluate{
             if((subproject.plugins.hasPlugin('android') || subproject.plugins.hasPlugin('android-library'))) {
                 android {
                     compileSdkVersion rootProject.ext.compileSdkVersion
                     buildToolsVersion rootProject.ext.buildToolsVersion
+
+                    // Google Play requires 16 KB page size support for apps targeting Android 15+.
+                    // Every module that compiles native code from source must link its .so with
+                    // 16 KB-aligned LOAD segments; this switch does that for CMake-based modules
+                    // (expo-modules-core, expo-av, reanimated, worklets, rnscreens, ...).
+                    // Modules with no native build simply ignore it.
+                    defaultConfig {
+                        externalNativeBuild {
+                            cmake {
+                                arguments "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON"
+                            }
+                            ndkBuild {
+                                arguments "APP_SUPPORT_FLEXIBLE_PAGE_SIZES=true"
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -29,10 +50,10 @@ buildscript {
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$gradlePluginVersion"
-        classpath 'com.google.gms:google-services:4.3.15'
+        classpath 'com.google.gms:google-services:4.4.2'
         classpath('com.android.tools.build:gradle')
         classpath('com.facebook.react:react-native-gradle-plugin')
-        classpath('org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion')
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
         classpath('de.undercouch:gradle-download-task:5.0.1')
         classpath 'com.google.firebase:firebase-crashlytics-gradle:3.0.3'
         // NOTE: Do not place your application dependencies here; they belong
@@ -49,15 +70,20 @@ allprojects {
     configurations.all {
         resolutionStrategy {
             force "com.facebook.react:react-native:" + REACT_NATIVE_VERSION
-        }
-    }
 
-    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
-        kotlinOptions {
-            freeCompilerArgs += [
-                "-P",
-                "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true"
-            ]
+            // 16 KB page size support (Google Play requirement for apps targeting Android 15+).
+            // expo-camera pulls barcode-scanning 17.2.0, whose libbarhopper_v3.so is 4 KB-aligned;
+            // 17.3.0 is 16 KB-aligned.
+            force "com.google.mlkit:barcode-scanning:17.3.0"
+
+            // Deliberately NOT forced here, because forcing them cannot work today:
+            //  * fbjni 0.7.0 does ship 16 KB libfbjni.so/libc++_shared.so, but react-android
+            //    0.76.9 bundles its own 4 KB copies of both and wins the native-library merge.
+            //  * Fresco's 16 KB releases (libanimation-decoder-gif.so, libavif_android.so) need
+            //    kotlin-stdlib 2.x, unreadable by the Kotlin 1.9.24 compiler this project pins
+            //    for expo-modules-core's Compose compiler.
+            // Both resolve with the React Native 0.77+ / Expo SDK upgrade, which is also the only
+            // fix for libhermes / libhermestooling / libjsi / libreactnative.
         }
     }
 
