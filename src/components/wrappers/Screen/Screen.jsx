@@ -31,7 +31,9 @@ import { appStyles } from "#styles";
 const { AMAZON_S3_BUCKET } = Config;
 
 const pageMobileHero = `${AMAZON_S3_BUCKET}/page-hero-new`;
+const pageMobileHeroDark = `${AMAZON_S3_BUCKET}/page-hero-new-dark`;
 const pageTabletHero = `${AMAZON_S3_BUCKET}/page-tablet-hero`;
+const pageTabletHeroDark = `${AMAZON_S3_BUCKET}/page-tablet-hero-dark`;
 
 // Main wrapper for every screen
 export function Screen({
@@ -81,11 +83,12 @@ export function Screen({
 
   const { top: topInset, bottom: bottomInset } = useSafeAreaInsets();
   // Match web `Page` behavior: the hero/background image is only shown in light mode.
-  const showBackgroundImage = backgroundImage !== false && !isDarkMode;
+  const showBackgroundImage = backgroundImage !== false;
   const backgroundImageSource = useMemo(() => {
-    if (width >= 768) return { uri: pageTabletHero };
-    return { uri: pageMobileHero };
-  }, [width]);
+    if (width >= 768)
+      return { uri: isDarkMode ? pageTabletHeroDark : pageTabletHero };
+    return { uri: isDarkMode ? pageMobileHeroDark : pageMobileHero };
+  }, [width, isDarkMode]);
 
   const onCheckHasUnreadNotificationsSuccess = (data) => {
     setHasUnreadNotifications(data);
@@ -124,19 +127,12 @@ export function Screen({
         translucent={Platform.OS === "android" ? true : false}
       />
       <View
-        style={[
-          styles.screenChildren,
-          style,
-          { paddingBottom: bottomInset },
-        ]}
+        style={[styles.screenChildren, style, { paddingBottom: bottomInset }]}
       >
         {children}
         {hasEmergencyButton && (
           <ButtonOnlyIcon
-            style={[
-              styles.emergencyButton,
-              { bottom: 16 + bottomInset },
-            ]}
+            style={[styles.emergencyButton, { bottom: 16 + bottomInset }]}
             onPress={() => handleSosCenterClick()}
             color="red"
             iconColor={appStyles.colorWhite_ff}

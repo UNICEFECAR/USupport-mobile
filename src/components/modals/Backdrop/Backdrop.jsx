@@ -96,10 +96,23 @@ export const Backdrop = ({
     };
   });
 
+  // The sheet is `position: absolute; bottom: 0`, so whether it has to be
+  // lifted for the keyboard depends on whether the window itself gets resized.
+  // Up to Android 14 `windowSoftInputMode="adjustResize"` shrinks the window,
+  // so the sheet already sits on top of the keyboard - lifting it again leaves
+  // a keyboard-sized gray gap and pushes the inputs off screen. From Android 15
+  // edge-to-edge is enforced for apps targeting SDK 35+, the window keeps its
+  // full height and the keyboard draws over it, so we have to do the lift.
+  // This cannot be measured: `useWindowDimensions()` on Android reports the
+  // display metrics and does not shrink with the keyboard in either case.
+  const androidResizesWindow =
+    Platform.OS === "android" && Number(Platform.Version) < 35;
+  const shouldMoveSheet =
+    !androidResizesWindow &&
+    (Platform.OS === "ios" ||
+      (overlayVariant === "auth" && hasKeyboardListener));
+
   const onShowKeyboard = (height) => {
-    const shouldMoveSheet =
-      Platform.OS === "ios" ||
-      (overlayVariant === "auth" && hasKeyboardListener);
     if (shouldMoveSheet) {
       const clampedHeight = Math.min(height || 0, appStyles.screenHeight * 0.8);
       backdropBottom.value = withSpring(
@@ -113,9 +126,6 @@ export const Backdrop = ({
     }
   };
   const onHideKeyboard = () => {
-    const shouldMoveSheet =
-      Platform.OS === "ios" ||
-      (overlayVariant === "auth" && hasKeyboardListener);
     if (shouldMoveSheet && !isClosing.current) {
       backdropBottom.value = withSpring(0, appStyles.springConfig);
     }
@@ -226,12 +236,20 @@ export const Backdrop = ({
           },
           backdropStyle,
           style,
-          // Bound the sheet to the live viewport so the inner ScrollView is
-          // properly sized when the Android keyboard resizes the window
-          // (windowSoftInputMode="adjustResize"). Without this, a backdrop
-          // sized with `height: "auto"` will overflow above the visible
-          // area and hide form fields.
-          { maxHeight: Math.max(0, windowHeight - topInset) },
+          // Android only: bound the sheet to the space actually left by the
+          // keyboard so the inner ScrollView is properly sized. Without this a
+          // backdrop sized with `height: "auto"` overflows above the visible
+          // area and hides the form fields, because `windowHeight` does not
+          // shrink on Android even when the window is resized. iOS sizes the
+          // sheet purely from the `style` prop, as it did before.
+          Platform.OS === "android"
+            ? {
+                maxHeight: Math.max(
+                  0,
+                  windowHeight - topInset - (keyboardHeight || 0)
+                ),
+              }
+            : null,
           shrinkBackdrop ? { height: appStyles.screenHeight * 0.3 } : {},
         ]}
       >

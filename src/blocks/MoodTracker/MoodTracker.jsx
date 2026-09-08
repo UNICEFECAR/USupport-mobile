@@ -34,7 +34,12 @@ import { showToast } from "#utils";
 import { appStyles } from "#styles";
 import { localStorage, Context } from "#services";
 import { HowItWorksMoodTrack } from "#modals";
-import { mascotHappyPurpleFull, mascotHappyPurpleLight } from "#assets";
+
+import Config from "react-native-config";
+const { AMAZON_S3_BUCKET } = Config;
+
+const mascotHappyPurpleFull = `${AMAZON_S3_BUCKET}/mascot_happy_purple_full`;
+const mascotHappyPurpleLight = `${AMAZON_S3_BUCKET}/mascot_happy_purple_full_light`;
 
 /**
  * MoodTracker

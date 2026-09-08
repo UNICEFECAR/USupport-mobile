@@ -49,9 +49,11 @@ export async function clearSavedCredentials() {
 export async function hasSavedCredentialsForCountry(countryId) {
   const server = getKeychainServerForCountry(countryId);
   try {
-    if (await Keychain.hasInternetCredentials(server)) return true;
+    if (await Keychain.hasInternetCredentials({ server })) return true;
     if (server !== LEGACY_KEYCHAIN_SERVER) {
-      return await Keychain.hasInternetCredentials(LEGACY_KEYCHAIN_SERVER);
+      return await Keychain.hasInternetCredentials({
+        server: LEGACY_KEYCHAIN_SERVER,
+      });
     }
   } catch {}
   return false;

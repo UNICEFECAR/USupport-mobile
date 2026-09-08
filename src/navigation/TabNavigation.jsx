@@ -235,11 +235,30 @@ export const TabNavigation = () => {
       >
         {renderScreens()}
       </CurvedBottomBar.Navigator>
+
+      {/**
+       * Adjustment for Android 16
+       */}
+      {isShown && Platform.OS === "android" && bottomInset > 0 ? (
+        <View
+          pointerEvents="none"
+          style={[
+            styles.bottomInsetFiller,
+            { height: bottomInset, backgroundColor: colors.navigation },
+          ]}
+        />
+      ) : null}
     </View>
   );
 };
 
 export const styles = StyleSheet.create({
+  bottomInsetFiller: {
+    bottom: 0,
+    left: 0,
+    position: "absolute",
+    right: 0,
+  },
   btnCircle: {
     borderColor: "transparent",
     borderRadius: 50,
