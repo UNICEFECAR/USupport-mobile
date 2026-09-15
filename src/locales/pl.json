@@ -134,6 +134,7 @@
       "not_conducted": "Nie przeprowadzono",
       "registration_needed": "Aby umówić się na konsultacje, musisz się zarejestrować.",
       "free": "Wolny",
+      "coupon": "Kupon",
       "button_label": "",
       "emergency_button_label": "",
       "join_button_label_tooltip": "Możesz dołączyć do konsultacji 5 minut przed rozpoczęciem",
@@ -1286,7 +1287,8 @@
       "coupon_paragraph_two": "Jeśli otrzymałeś/aś kod kuponu z kampanii w mediach społecznościowych lub od partnera, skopiuj go i wklej poniżej. Po przesłaniu kodu kuponu zobaczysz wszystkich konsultantów, którzy go obsługują i ich dostępność. Kupon może obsługiwać jedną lub więcej sesji. Platforma wskaże, czy kupon wygasł lub osiągnął maksymalną liczbę wykorzystanych sesji.",
       "max_price": "Cena maksymalna",
       "providers_free_consultation_label": "Tylko bezpłatna konsultacja",
-      "coupon_note": "Tym razem wpisaliśmy za Ciebie kod na darmową sesję! Umów się z jednym z naszych konsultantów i zrób pierwszy krok, aby zadbać o swoje samopoczucie."
+      "coupon_note": "Tym razem wpisaliśmy za Ciebie kod na darmową sesję! Umów się z jednym z naszych konsultantów i zrób pierwszy krok, aby zadbać o swoje samopoczucie.",
+      "consultations_unavailable_note": "Konsultacje ze specjalistami nie są obecnie dostępne. Poinformujemy o wznowieniu konsultacji na tej stronie."
     },
     "share-platform-screen": {
       "heading": "Udostępnianie aplikacji",

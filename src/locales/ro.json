@@ -134,6 +134,7 @@
       "not_conducted": "Nu a avut loc",
       "registration_needed": "Pentru a programa consultații trebuie să vă înregistrați.",
       "free": "Gratuit",
+      "coupon": "Cupon",
       "button_label": "Programați o consultație",
       "emergency_button_label": "Ajutor de urgență",
       "join_button_label_tooltip": "Puteți intra la consultație cu 5 minute înainte de începere",
@@ -1271,7 +1272,8 @@
       "coupon_paragraph_two": "Dacă ați primit un cod de cupon de la o campanie de social media sau de la un partener, vă rugăm să îl copiați și să îl lipiți mai jos. După ce trimiteți codul cuponului, veți vedea toți furnizorii care îl acceptă și disponibilitatea acestora. Un cupon poate acoperi una sau mai multe sesiuni. Platforma va indica dacă cuponul a expirat sau s-a folosit numărul maxim de sesiuni.",
       "max_price": "Preț maxim",
       "providers_free_consultation_label": "Doar consultație gratuită",
-      "coupon_note": "De data aceasta, am introdus pentru tine un cod pentru o sesiune gratuita! Programeaza o intalnire cu unul dintre consultantii nostri si fa primul pas catre imbunatatirea starii tale de bine."
+      "coupon_note": "De data aceasta, am introdus pentru tine un cod pentru o sesiune gratuita! Programeaza o intalnire cu unul dintre consultantii nostri si fa primul pas catre imbunatatirea starii tale de bine.",
+      "consultations_unavailable_note": "Consultațiile cu specialiști nu sunt disponibile momentan. Vă vom anunța pe această pagină când consultațiile vor fi reluate."
     },
     "share-platform-screen": {
       "heading": "Distribuiți aplicația",

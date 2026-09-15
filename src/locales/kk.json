@@ -134,6 +134,7 @@
       "not_conducted": "Өткізілмеді",
       "registration_needed": "Консультацияны жоспарлау үшін сізге тіркелу керек.",
       "free": "Бос",
+      "coupon": "Купон",
       "button_label": "",
       "emergency_button_label": "",
       "join_button_label_tooltip": "Сіз консультацияға басталғанға дейін 5 минут бұрын қосыла аласыз",
@@ -1284,7 +1285,8 @@
       "coupon_paragraph_two": "Егер Сіз әлеуметтік желілер арқылы немесе серіктесімізден купон кодын алсаңыз, кодты көшіріп, төменде қойыңыз. Купон кодын жібергеннен кейін Сіз оны қолдайтын барлық консультанттарды және олардың қолжетімділігін көресіз. Купон бір немесе бірнеше сеансты қамтамасыз ете алады. Платформа купонның мерзімі өткенін немесе барлық сеанстардың қолданылғанын көрсетеді.",
       "max_price": "Ең жоғары баға",
       "providers_free_consultation_label": "Тек тегін консультация",
-      "coupon_note": "This time, we've entered a code for you for a free session! Schedule an appointment with one of our consultants and take the first step towards improving your well-being."
+      "coupon_note": "This time, we've entered a code for you for a free session! Schedule an appointment with one of our consultants and take the first step towards improving your well-being.",
+      "consultations_unavailable_note": "Қазіргі уақытта мамандардың консультациялары уақытша қолжетімсіз. Консультациялар қайта басталғаны туралы ақпарат осы бетте қосымша жарияланатын болады."
     },
     "share-platform-screen": {
       "heading": "Қосымшамен бөлісу",

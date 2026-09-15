@@ -17,10 +17,16 @@ import {
 import { useTranslation } from "react-i18next";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { Screen, Heading, Block } from "#components";
+import { Screen, Heading, Block, AppText, Icon } from "#components";
 import { SelectProvider as SelectProviderBlock } from "#blocks";
 import { FilterProviders } from "#backdrops";
-import { useGetProvidersData, useError, useCheckActiveCampaign } from "#hooks";
+import {
+  useGetProvidersData,
+  useError,
+  useCheckActiveCampaign,
+  useGetTheme,
+} from "#hooks";
+import { appStyles } from "#styles";
 
 import {
   Context,
@@ -47,10 +53,12 @@ export const SelectProvider = ({ navigation, route }) => {
 
   const { activeCoupon, setActiveCoupon, country, selectedCountry } =
     useContext(Context);
+  const { colors, isDarkMode } = useGetTheme();
   const [selectedBillingType, setSelectedBillingType] = useState(null);
   const prevHasActiveCampaignRef = useRef(undefined);
 
   const { data: isKzCountry } = useQuery(["country-min-price"], fetchCountry);
+  const isKazakhstan = country === "KZ" || isKzCountry === true;
   const couponsAvailableByCountry = !!selectedCountry?.hasCoupons;
   const { data: hasActiveCampaign, isLoading: isActiveCampaignLoading } =
     useCheckActiveCampaign(couponsAvailableByCountry);
@@ -410,6 +418,38 @@ export const SelectProvider = ({ navigation, route }) => {
               handleGoBack={handleGoBack}
               wrapperStyle={{ paddingTop: 0 }}
             />
+            {isKazakhstan && (
+              <View
+                style={[
+                  styles.unavailableNote,
+                  {
+                    backgroundColor: isDarkMode
+                      ? "rgba(140, 144, 235, 0.16)"
+                      : "rgba(106, 79, 251, 0.08)",
+                    borderColor: isDarkMode
+                      ? "rgba(140, 144, 235, 0.35)"
+                      : "rgba(106, 79, 251, 0.22)",
+                  },
+                ]}
+                accessibilityRole="text"
+              >
+                <Icon
+                  name="info"
+                  size="md"
+                  color={
+                    isDarkMode
+                      ? colors.tabUnderlinedBorder
+                      : appStyles.colorPurple
+                  }
+                />
+                <AppText
+                  namedStyle="text"
+                  style={styles.unavailableNoteText}
+                >
+                  {t("consultations_unavailable_note")}
+                </AppText>
+              </View>
+            )}
           </Block>
 
           <SelectProviderBlock
@@ -453,5 +493,19 @@ export const SelectProvider = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   screen: {
     paddingTop: 18,
+  },
+  unavailableNote: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: 12,
+    marginTop: 16,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    borderRadius: 16,
+    borderWidth: 1,
+  },
+  unavailableNoteText: {
+    flex: 1,
+    lineHeight: 22,
   },
 });

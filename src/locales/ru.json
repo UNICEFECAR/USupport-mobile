@@ -134,6 +134,7 @@
       "not_conducted": "Не проводилась",
       "registration_needed": "Чтобы запланировать консультацию, Вам необходимо зарегистрироваться.",
       "free": "Свободно",
+      "coupon": "Купон",
       "button_label": "",
       "emergency_button_label": "",
       "join_button_label_tooltip": "Вы можете присоединиться к консультации за 5 минут до начала",
@@ -1284,7 +1285,8 @@
       "coupon_paragraph_two": "Если Вы получили код купона через социальные сети или от нашего партнера, пожалуйста, скопируйте и вставьте его ниже. После того, как Вы отправите код купона, Вы увидите всех консультантов, которые его поддерживают, и их доступность. Купон может предоставлять один или несколько сеансов. Платформа укажет, истек ли срок действия купона или все сеансы использованы.",
       "max_price": "Максимальная цена",
       "providers_free_consultation_label": "Только бесплатная консультация",
-      "coupon_note": "This time, we've entered a code for you for a free session! Schedule an appointment with one of our consultants and take the first step towards improving your well-being."
+      "coupon_note": "This time, we've entered a code for you for a free session! Schedule an appointment with one of our consultants and take the first step towards improving your well-being.",
+      "consultations_unavailable_note": "Консультации со специалистами не доступны на данный момент. Мы сообщим о возобновлении консультаций на этой странице."
     },
     "share-platform-screen": {
       "heading": "Поделиться приложением",
