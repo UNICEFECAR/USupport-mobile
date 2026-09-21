@@ -1,4 +1,4 @@
-import { Dimensions, Platform } from "react-native";
+import { Dimensions, Platform, Test } from "react-native";
 
 export default {
   screenWidth: Dimensions.get("window").width,
