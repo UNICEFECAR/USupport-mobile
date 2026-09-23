@@ -285,6 +285,7 @@ export const Dashboard = ({ navigation }) => {
     });
   };
   const handleScheduleConsultation = () => {
+    if (!clientData) return;
     if (!clientData.dataProcessing) {
       openRequireDataAgreement(true);
     } else {

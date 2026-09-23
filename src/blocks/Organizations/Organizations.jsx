@@ -241,6 +241,7 @@ export const Organizations = ({
 
   const handleModalCtaClick = () => {
     setIsPersonalizationModalOpen(false);
+    if (!clientData) return;
     if (!clientData.dataProcessing) {
       setIsBaselineAssesmentModalOpen(true);
     } else if (latestAssessment?.status === "in_progress") {
@@ -297,6 +298,7 @@ export const Organizations = ({
       <BaselineAssesmentModal
         open={isBaselineAssesmentModalOpen}
         setOpen={setIsBaselineAssesmentModalOpen}
+        navigation={navigation}
       />
       <KeyboardAvoidingView
         behavior="padding"

@@ -18,7 +18,11 @@ import { localStorage, cmsSvc } from "#services";
  *
  * @return {jsx}
  */
-export const TermsOfUse = ({ navigation }) => {
+export const TermsOfUse = ({
+  navigation,
+  isModal = false,
+  handleModalClose,
+}) => {
   const { i18n, t } = useTranslation("blocks", { keyPrefix: "terms-of-use" });
   const { isHighContrast } = useGetTheme();
 
@@ -62,7 +66,12 @@ export const TermsOfUse = ({ navigation }) => {
   return (
     <React.Fragment>
       <Block>
-        <Heading heading={t("heading")} handleGoBack={handleGoBack} />
+        <Heading
+          heading={t("heading")}
+          handleGoBack={handleGoBack}
+          hasCloseIcon={isModal}
+          handleCloseIconPress={handleModalClose}
+        />
       </Block>
       <ScrollView>
         <Block>

@@ -286,6 +286,8 @@ export const MoodTracker = ({
       handleRegistrationModalOpen();
       return;
     }
+    // Client data may still be loading (or failed to load)
+    if (!clientData) return;
     if (!clientData.dataProcessing) {
       openRequireDataAgreement(false);
       return;
@@ -318,6 +320,8 @@ export const MoodTracker = ({
       handleRegistrationModalOpen();
       return;
     }
+    // Client data may still be loading (or failed to load)
+    if (!clientData) return;
     if (!clientData.dataProcessing) {
       openRequireDataAgreement(false);
       return;

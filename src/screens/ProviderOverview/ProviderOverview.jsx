@@ -60,6 +60,7 @@ export const ProviderOverview = ({ navigation, route }) => {
 
   // Open modals
   const openScheduleBackdrop = () => {
+    if (!clientData) return;
     if (!clientData.dataProcessing) {
       openRequireDataAgreement();
     } else {
