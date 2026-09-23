@@ -28,6 +28,7 @@ export const QuestionDetails = ({
 
   const isInMyQuestions = question?.isAskedByCurrentClient;
   const providerInfo = question?.providerData;
+  const isProviderActive = providerInfo?.status !== "inactive";
 
   const imageUrl =
     providerInfo?.image && AMAZON_S3_BUCKET
@@ -137,20 +138,22 @@ export const QuestionDetails = ({
               </TouchableOpacity>
             </View>
 
-            <TouchableOpacity
-              onPress={() => {
-                onClose?.();
-                handleSchedulePress?.(question);
-              }}
-              hitSlop={appStyles.hitSlop}
-            >
-              <View style={styles.scheduleButton}>
-                <Icon name="calendar" color={appStyles.colorPrimary_20809e} />
-                <AppText style={styles.scheduleButtonText}>
-                  {t("schedule_consultation")}
-                </AppText>
-              </View>
-            </TouchableOpacity>
+            {isProviderActive && (
+              <TouchableOpacity
+                onPress={() => {
+                  onClose?.();
+                  handleSchedulePress?.(question);
+                }}
+                hitSlop={appStyles.hitSlop}
+              >
+                <View style={styles.scheduleButton}>
+                  <Icon name="calendar" color={appStyles.colorPrimary_20809e} />
+                  <AppText style={styles.scheduleButtonText}>
+                    {t("schedule_consultation")}
+                  </AppText>
+                </View>
+              </TouchableOpacity>
+            )}
           </View>
         ) : null}
       </View>

@@ -43,6 +43,8 @@ export const Answer = ({
   const { colors, isHighContrast } = useGetTheme();
   const isLightTheme = colors.background === appStyles.colorWhite_ff;
   const providerInfo = question.providerData;
+  const isProviderActive = providerInfo?.status !== "inactive";
+
   const isAskedByCurrentClient = question.isAskedByCurrentClient;
 
   const imageUrl = AMAZON_S3_BUCKET + "/" + (providerInfo.image || "default");
@@ -251,26 +253,28 @@ export const Answer = ({
             </View>
 
             <View style={styles.bottomRow}>
-              <TouchableOpacity
-                onPress={() => handleSchedulePress(question)}
-                style={styles.scheduleTouchable}
-              >
-                <View style={styles.scheduleButton}>
-                  <Icon
-                    name="calendar"
-                    color={isHighContrast ? "#ffff00" : "#8A4BF3"}
-                  />
-                  <AppText
-                    namedStyle="text"
-                    style={[
-                      styles.scheduleText,
-                      isHighContrast && styles.colorHighContrast,
-                    ]}
-                  >
-                    {t("schedule_consultation")}
-                  </AppText>
-                </View>
-              </TouchableOpacity>
+              {isProviderActive && (
+                <TouchableOpacity
+                  onPress={() => handleSchedulePress(question)}
+                  style={styles.scheduleTouchable}
+                >
+                  <View style={styles.scheduleButton}>
+                    <Icon
+                      name="calendar"
+                      color={isHighContrast ? "#ffff00" : "#8A4BF3"}
+                    />
+                    <AppText
+                      namedStyle="text"
+                      style={[
+                        styles.scheduleText,
+                        isHighContrast && styles.colorHighContrast,
+                      ]}
+                    >
+                      {t("schedule_consultation")}
+                    </AppText>
+                  </View>
+                </TouchableOpacity>
+              )}
 
               <View style={styles.likeContainer}>
                 <Like
