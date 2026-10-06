@@ -13,4 +13,5 @@ export { default as localStorage } from "./storage.js";
 export { default as Context } from "./context.js";
 export { default as paymentsSvc } from "./payments.js";
 export { default as organizationSvc } from "./organizations.js";
+export { default as appVersionSvc } from "./appVersion.js";
 export * from "./log.js";

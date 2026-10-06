@@ -1731,6 +1731,15 @@
       "give_permission": "I give permission ",
       "cancel": "Cancel"
     },
+    "update-app": {
+      "heading": "Update available",
+      "text": "A new version of uSupport ({{version}}) is available. Update now to get the latest features and improvements.",
+      "heading_forced": "Update required",
+      "text_forced": "This version of uSupport is no longer supported. Please update to version {{version}} to continue using the app.",
+      "whats_new": "What's new",
+      "update_button": "Update now",
+      "later_button": "Later"
+    },
     "require-registration": {
       "heading": "You need to register to use this feature",
       "text": "You need to create an anonymous or regular account to use all the app features.",

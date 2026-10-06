@@ -124,8 +124,8 @@ android {
         applicationId 'org.unicef.ecar.usupport'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 86
-        versionName "1.0.38"
+        versionCode 87
+        versionName "1.0.39"
     }
 
     signingConfigs {

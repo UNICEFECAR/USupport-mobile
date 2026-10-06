@@ -1723,6 +1723,15 @@
       "give_permission": "Udzielam uprawnienia ",
       "cancel": "Anuluj"
     },
+    "update-app": {
+      "heading": "Dostępna aktualizacja",
+      "text": "Dostępna jest nowa wersja uSupport ({{version}}). Zaktualizuj aplikację, aby korzystać z najnowszych funkcji i ulepszeń.",
+      "heading_forced": "Wymagana aktualizacja",
+      "text_forced": "Ta wersja uSupport nie jest już obsługiwana. Zaktualizuj aplikację do wersji {{version}}, aby kontynuować.",
+      "whats_new": "Co nowego",
+      "update_button": "Aktualizuj",
+      "later_button": "Później"
+    },
     "require-registration": {
       "heading": "Aby korzystać z tej funkcji, należy się zarejestrować",
       "text": "Aby korzystać ze wszystkich funkcji aplikacji, musisz utworzyć anonimowe lub zwykłe konto.",

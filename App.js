@@ -18,7 +18,11 @@ const STRIPE_PUBLIC_KEY = Config.STRIPE_PUBLIC_KEY || "";
 
 import { Navigation } from "#navigation";
 import { localStorage, Context, userSvc } from "#services";
-import { NoInternetModal, RequireRegistration } from "#modals";
+import {
+  NoInternetModal,
+  RequireRegistration,
+  UpdateAppModal,
+} from "#modals";
 import { DropdownBackdrop } from "#backdrops";
 import {
   FIVE_MINUTES,
@@ -293,6 +297,7 @@ function App() {
                     isInConsultation={isInConsultation}
                   >
                     <NoInternetModal theme={theme} isVisible={!isConnected} />
+                    <UpdateAppModal />
                     <DropdownBackdrop
                       onClose={() =>
                         setDropdownOptions((options) => ({

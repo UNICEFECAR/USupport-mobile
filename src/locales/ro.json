@@ -1708,6 +1708,15 @@
       "give_permission": "Dau permisiunea  ",
       "cancel": "Anulare"
     },
+    "update-app": {
+      "heading": "Actualizare disponibilă",
+      "text": "O nouă versiune uSupport ({{version}}) este disponibilă. Actualizează acum pentru a beneficia de cele mai noi funcții și îmbunătățiri.",
+      "heading_forced": "Actualizare necesară",
+      "text_forced": "Această versiune uSupport nu mai este acceptată. Te rugăm să actualizezi la versiunea {{version}} pentru a continua.",
+      "whats_new": "Ce este nou",
+      "update_button": "Actualizează",
+      "later_button": "Mai târziu"
+    },
     "require-registration": {
       "heading": "Trebuie să vă înregistrați pentru a utiliza această funcție",
       "text": "Trebuie să creați un cont anonim sau obișnuit pentru a utiliza toate funcțiile aplicației.",
