@@ -8,7 +8,7 @@ import { AppText } from "../../texts";
 
 import { appStyles } from "#styles";
 
-import { getDayOfTheWeek, getDateView } from "#utils";
+import { getDayOfTheWeek, getDateView, getTimeAsString } from "#utils";
 import Config from "react-native-config";
 import { IconWifiOff, IconWifiOn } from "../../icons/assets/sprite";
 // import { IconCheckCircle, IconForbidden } from "../../icons/assets/sprite";
@@ -32,21 +32,27 @@ export const ConsultationInformation = ({
   style,
   showPriceBadge = true,
   isProviderInSession = false,
+  connectionQuality = "good",
   t,
 }) => {
   const { colors, isDarkMode } = useGetTheme();
   const dayOfWeek = t(getDayOfTheWeek(startDate));
   const dateText = `${dayOfWeek} ${getDateView(startDate).slice(0, 5)}`;
 
+  // A dropped connection on either side means the provider can't be reached, even if they are in the session
+  const isConnected = isProviderInSession && connectionQuality !== "lost";
+  const statusColor = !isConnected
+    ? "red"
+    : connectionQuality === "poor"
+      ? appStyles.colorOrange_fb6514
+      : appStyles.colorGreen_7ec680;
+
   const imageUrl = AMAZON_S3_BUCKET + "/" + (providerImage || "default");
 
-  const startHour = startDate.getHours();
-  const endHour = endDate.getHours();
-  const timeText = startDate
-    ? `${startHour < 10 ? `0${startHour}` : startHour}:00 - ${
-        endHour < 10 ? `0${endHour}` : endHour
-      }:00`
-    : "";
+  const timeText =
+    startDate && endDate
+      ? `${getTimeAsString(startDate)} - ${getTimeAsString(endDate)}`
+      : "";
 
   return (
     <View style={[styles.container, style]}>
@@ -66,12 +72,10 @@ export const ConsultationInformation = ({
                 justifyContent: "center",
                 alignItems: "center",
 
-                backgroundColor: isProviderInSession
-                  ? appStyles.colorGreen_7ec680
-                  : "red",
+                backgroundColor: statusColor,
               }}
             >
-              {isProviderInSession ? <IconWifiOn /> : <IconWifiOff />}
+              {isConnected ? <IconWifiOn /> : <IconWifiOff />}
             </View>
           </View>
           <View style={styles.dateContainer}>
@@ -171,6 +175,11 @@ ConsultationInformation.propTypes = {
    * Name of the provider
    * */
   providerName: PropTypes.string,
+
+  /**
+   * Health of the call from both sides: "good" | "poor" | "lost"
+   * */
+  connectionQuality: PropTypes.oneOf(["good", "poor", "lost"]),
 
   /**
    * Additional classes

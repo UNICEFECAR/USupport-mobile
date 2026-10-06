@@ -16,10 +16,8 @@ import {
   PermissionsAndroid,
 } from "react-native";
 import { useTranslation } from "react-i18next";
-import { io } from "socket.io-client";
 import { useKeepAwake } from "@sayem314/react-native-keep-awake";
 import notifee, { AndroidImportance } from "@notifee/react-native";
-import Config from "react-native-config";
 
 import {
   AppText,
@@ -41,9 +39,10 @@ import {
   useDebounce,
   useGetAllChatHistoryData,
   useGetClientData,
+  useConsultationSocket,
 } from "#hooks";
 
-import { localStorage, Context } from "#services";
+import { localStorage, Context, messageSvc } from "#services";
 import { showToast, ONE_HOUR, getDateView, systemMessageTypes } from "#utils";
 import { appStyles } from "#styles";
 
@@ -51,7 +50,8 @@ import { SafetyFeedback } from "../SafetyFeedback";
 import { JitsiMeeting } from "../JitsiMeeting/JitsiMeeting";
 import { Loading } from "../../components/loaders";
 
-const { SOCKET_IO_URL } = Config;
+// On a bad connection a request can hang for a long time, so the message can be retried meanwhile
+const SEND_MESSAGE_TIMEOUT = 15000;
 
 /**
  * Consultation
@@ -168,10 +168,17 @@ export const Consultation = ({ navigation, route }) => {
 
   const onGetChatDataSuccess = (data) => {
     setIsProviderInSession(checkHasProviderJoined(data.messages));
-    setMessages((prev) => ({
-      ...prev,
-      currentSession: data.messages,
-    }));
+    setMessages((prev) => {
+      // Keep messages sent from this device that are not saved yet (still sending or failed)
+      const savedTimes = new Set(data.messages.map((message) => message.time));
+      const unsavedMessages = prev.currentSession.filter(
+        (message) => message.status && !savedTimes.has(message.time)
+      );
+      return {
+        ...prev,
+        currentSession: [...data.messages, ...unsavedMessages],
+      };
+    });
   };
 
   const chatDataQuery = useGetChatData(
@@ -298,45 +305,6 @@ export const Consultation = ({ navigation, route }) => {
   const leaveConsultationMutation = useLeaveConsultation();
 
   const flatListRef = useRef();
-  const socketRef = useRef();
-
-  // TODO: Send a consultation add services request only when the provider leaves the consultation
-  useEffect(() => {
-    localStorage.getItem("language").then((language) => {
-      localStorage.getItem("country").then((country) => {
-        socketRef.current = io(SOCKET_IO_URL, {
-          path: "/api/v1/ws/socket.io",
-          transports: ["websocket"],
-          secure: true,
-          rememberUpgrade: true,
-        });
-        socketRef.current?.emit("join chat", {
-          country,
-          language,
-          chatId: consultation?.chatId,
-          userType: "client",
-        });
-
-        socketRef.current.on("typing", (type) => {
-          if (!isProviderTyping && type == "typing") {
-            setIsProviderTyping(true);
-          } else if (type === "stop") {
-            setIsProviderTyping(false);
-          }
-        });
-
-        socketRef.current?.on("receive message", receiveMessage);
-      });
-    });
-
-    return () => {
-      if (socketRef.current) {
-        socketRef.current.disconnect();
-        socketRef.current.off();
-      }
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const receiveMessage = (message) => {
     setHasUnreadMessages(true);
@@ -347,6 +315,12 @@ export const Consultation = ({ navigation, route }) => {
       setIsProviderInSession(true);
     }
     setMessages((messages) => {
+      // The same message arrives twice when its sender retried it while the first attempt was still in flight
+      const isDuplicate = messages.currentSession.some(
+        (x) => x.time === message.time && x.content === message.content
+      );
+      if (isDuplicate) return messages;
+
       return {
         ...messages,
         currentSession: [...messages.currentSession, message],
@@ -354,30 +328,83 @@ export const Consultation = ({ navigation, route }) => {
     });
   };
 
-  const handleSendMessage = async (content, type = "text") => {
-    if (hasUnreadMessages) {
-      setHasUnreadMessages(false);
-    }
+  const { socketRef, leaveChat, isPeerPresent, connectionStatus, callQuality } =
+    useConsultationSocket({
+      chatId: consultation.chatId,
+      receiveMessage,
+      setIsProviderTyping,
+    });
+
+  const updateMessageStatus = (time, status) => {
+    setMessages((prev) => ({
+      ...prev,
+      currentSession: prev.currentSession.map((message) => {
+        // Only messages sent from this device have a status, saved ones are left untouched
+        if (message.time !== time || !message.status) return message;
+        if (status) return { ...message, status };
+
+        const { status: _sentStatus, ...sentMessage } = message;
+        return sentMessage;
+      }),
+    }));
+  };
+
+  const sendMessage = async (message) => {
+    const { status, ...messageToSend } = message;
+    updateMessageStatus(message.time, "sending");
 
     const language = await localStorage.getItem("language");
     const country = await localStorage.getItem("country");
+
+    const timeout = setTimeout(
+      () => updateMessageStatus(message.time, "failed"),
+      SEND_MESSAGE_TIMEOUT
+    );
+
+    messageSvc
+      .sendMessage({ message: messageToSend, chatId: consultation.chatId })
+      .then(() => {
+        clearTimeout(timeout);
+        updateMessageStatus(message.time, null);
+
+        socketRef.current?.emit("send message", {
+          language,
+          country,
+          chatId: consultation.chatId,
+          to: "provider",
+          message: messageToSend,
+        });
+      })
+      .catch((err) => {
+        clearTimeout(timeout);
+        console.error("Failed to send the message", {
+          chatId: consultation.chatId,
+          status: err?.response?.status,
+          error: err?.response?.data?.error || err?.message,
+        });
+        updateMessageStatus(message.time, "failed");
+      });
+  };
+
+  const handleSendMessage = (content, type = "text") => {
+    if (hasUnreadMessages) {
+      setHasUnreadMessages(false);
+    }
 
     const message = {
       content,
       type,
       time: JSON.stringify(new Date().getTime()),
+      senderId: clientId,
+      status: "sending",
     };
-    sendMessageMutation.mutate({
-      message,
-      chatId: consultation.chatId,
-    });
-    socketRef.current.emit("send message", {
-      language,
-      country,
-      chatId: consultation.chatId,
-      to: "provider",
-      message,
-    });
+
+    // Shown right away, with its status updated as it is being sent
+    setMessages((prev) => ({
+      ...prev,
+      currentSession: [...prev.currentSession, message],
+    }));
+    sendMessage(message);
     flatListRef.current?.scrollToOffset({ animated: true, offset: 0 });
   };
 
@@ -393,7 +420,12 @@ export const Consultation = ({ navigation, route }) => {
     setIsChatShown(!isChatShown);
   };
 
+  // Jitsi reports both "conference left" and "ready to close" when the call ends
+  const hasLeftRef = useRef(false);
   const leaveConsultation = async () => {
+    if (hasLeftRef.current) return;
+    hasLeftRef.current = true;
+
     const language = await localStorage.getItem("language");
     const country = await localStorage.getItem("country");
 
@@ -416,13 +448,14 @@ export const Consultation = ({ navigation, route }) => {
       message: leaveMessage,
     });
 
-    socketRef.current.emit("send message", {
+    socketRef.current?.emit("send message", {
       language,
       country,
       chatId: consultation.chatId,
       to: "provider",
       message: leaveMessage,
     });
+    leaveChat();
   };
 
   const renderMessage = useCallback(
@@ -447,13 +480,22 @@ export const Consultation = ({ navigation, route }) => {
       } else {
         if (message.senderId === clientId) {
           return (
-            <Message
-              key={message.time}
-              message={message.content}
-              sent
-              date={new Date(Number(message.time))}
-              showDate={message.showDate}
-            />
+            <React.Fragment key={message.time}>
+              <Message
+                message={message.content}
+                sent
+                date={new Date(Number(message.time))}
+                showDate={message.showDate}
+                style={message.status ? styles.unsentMessage : null}
+              />
+              {message.status && (
+                <MessageStatus
+                  status={message.status}
+                  onRetry={() => sendMessage(message)}
+                  t={t}
+                />
+              )}
+            </React.Fragment>
           );
         } else {
           return (
@@ -486,7 +528,7 @@ export const Consultation = ({ navigation, route }) => {
       message: joinMessage,
     });
 
-    socketRef.current.emit("send message", {
+    socketRef.current?.emit("send message", {
       language,
       country,
       chatId: consultation.chatId,
@@ -499,7 +541,7 @@ export const Consultation = ({ navigation, route }) => {
     const language = await localStorage.getItem("language");
     const country = await localStorage.getItem("country");
 
-    socketRef.current.emit("typing", {
+    socketRef.current?.emit("typing", {
       to: "provider",
       language,
       country,
@@ -524,6 +566,10 @@ export const Consultation = ({ navigation, route }) => {
 
   const [isKeyboardShown, setIsKeyboardShown] = useState(false);
 
+  // The gateway knows whether the provider has the consultation open,
+  // the join/leave messages are a fallback until it reports it
+  const isProviderShownInSession = isPeerPresent ?? isProviderInSession;
+
   return isSafetyFeedbackShown ? (
     <SafetyFeedback
       answers={securityCheckAnswers}
@@ -546,7 +592,9 @@ export const Consultation = ({ navigation, route }) => {
             sendJoinConsultationMessage={sendJoinConsultationMessage}
             navigation={navigation}
             hasUnread={hasUnreadMessages}
-            isProviderInSession={isProviderInSession}
+            isProviderInSession={isProviderShownInSession}
+            connectionStatus={connectionStatus}
+            callQuality={callQuality}
             setIsProviderInSession={setIsProviderInSession}
             isChatShown={isChatShown}
             isKeyboardShown={isKeyboardShown}
@@ -685,6 +733,31 @@ export const Consultation = ({ navigation, route }) => {
   );
 };
 
+const MessageStatus = ({ status, onRetry, t }) =>
+  status === "failed" ? (
+    <View style={styles.messageStatus} accessibilityRole="alert">
+      <AppText namedStyle="smallText" style={styles.messageStatusFailed}>
+        {t("message_not_sent")}
+      </AppText>
+      <TouchableOpacity onPress={onRetry} hitSlop={styles.retryHitSlop}>
+        <AppText
+          namedStyle="smallText"
+          underlined
+          isSemibold
+          style={styles.messageStatusFailed}
+        >
+          {t("message_retry")}
+        </AppText>
+      </TouchableOpacity>
+    </View>
+  ) : (
+    <View style={styles.messageStatus}>
+      <AppText namedStyle="smallText" style={styles.messageStatusSending}>
+        {t("message_sending")}
+      </AppText>
+    </View>
+  );
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: appStyles.colorBlack_37,
@@ -723,4 +796,21 @@ const styles = StyleSheet.create({
   fs: {
     fontSize: 14,
   },
+  unsentMessage: {
+    marginBottom: 4,
+    opacity: 0.6,
+  },
+  messageStatus: {
+    alignSelf: "flex-end",
+    flexDirection: "row",
+    gap: 6,
+    marginBottom: 12,
+  },
+  messageStatusSending: {
+    color: appStyles.colorGray_66768d,
+  },
+  messageStatusFailed: {
+    color: appStyles.colorRed_eb5757,
+  },
+  retryHitSlop: { top: 10, bottom: 10, left: 10, right: 10 },
 });

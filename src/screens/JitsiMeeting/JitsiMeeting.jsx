@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useState, useEffect } from "react";
+import React, { useRef, useCallback, useState, useEffect, useMemo } from "react";
 import { JitsiMeeting as JitsiMeetingRoom } from "@jitsi/react-native-sdk";
 import {
   BackHandler,
@@ -10,14 +10,10 @@ import {
   AppState,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from "react-native-reanimated";
 import { Camera } from "expo-camera";
 
 import {
+  ConnectionStatus,
   Controls,
   Icon,
   TransparentModal,
@@ -39,6 +35,8 @@ export const JitsiMeeting = ({
   handleSendMessage,
   hasUnread,
   isProviderInSession,
+  connectionStatus = "online",
+  callQuality = "good",
   cameraGranted,
   microphoneGranted,
   // setIsProviderInSession,
@@ -58,7 +56,6 @@ export const JitsiMeeting = ({
     cameraGranted && joinWithVideo
   );
   const [shrinkVideo, setShrinkVideo] = useState(false);
-  const [areControlsShown, setAreControlsShown] = useState(true);
   const [isCancelConfirmationOpen, setIsCancelConfirmationOpen] =
     useState(false);
   const [isCameraPermissionModalOpen, setIsCameraPermissionModalOpen] =
@@ -108,8 +105,19 @@ export const JitsiMeeting = ({
     mainToolbarButtons: MAIN_TOOLBAR_BUTTONS,
   };
 
+  // A camera that starts off can only be turned on from the SDK's own toolbar, our camera button
+  // can't start it. So the toolbar is kept only for these calls, otherwise our controls replace it.
+  // The SDK reads its flags only when the meeting is created (on join, or when it's remounted after a
+  // permission is granted), so this is decided at that moment and kept even if the camera is turned on later
+  const isSdkToolbarEnabled = useMemo(
+    () => jitsiConfig.startWithVideoMuted,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [roomKey]
+  );
+
   const jitsiFlags = {
     ...baseJitsiFlags,
+    "toolbox.enabled": isSdkToolbarEnabled,
     "audioMute.enabled": currentMicrophoneGranted ? true : false,
     "audioOnly.enabled":
       !currentMicrophoneGranted || !currentCameraGranted ? true : false,
@@ -213,23 +221,6 @@ export const JitsiMeeting = ({
       leaveConsultation();
     },
   };
-
-  const handleControlsToggle = () => {
-    const value = areControlsShown ? -appStyles.screenWidth : 0;
-    controlsPosition.value = withSpring(value, appStyles.springConfig);
-    setAreControlsShown(!areControlsShown);
-  };
-  const controlsPosition = useSharedValue(0);
-  const controlsStyles = useAnimatedStyle(() => {
-    return {
-      zIndex: 11,
-      elevation: 11,
-      position: "absolute",
-      top: 0,
-      left: controlsPosition.value,
-      width: "100%",
-    };
-  });
 
   const disconnect = () => {
     setIsCancelConfirmationOpen(false);
@@ -376,22 +367,11 @@ export const JitsiMeeting = ({
           Platform.OS === "android" ? { paddingBottom: bottomInset } : null,
         ]}
       >
-        {areControlsShown ? (
-          <TouchableOpacity
-            onPress={handleControlsToggle}
-            style={[styles.controlsToggle, { top: 15 + topInset }]}
-          >
-            <Icon name="arrow-chevron-back" size="md" color="#ffffff" />
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            onPress={handleControlsToggle}
-            style={[styles.controlsToggle, { top: 20 + topInset }]}
-          >
-            <Icon name="arrow-chevron-forward" size="md" color="#ffffff" />
-          </TouchableOpacity>
-        )}
-        <Animated.View style={controlsStyles}>
+        {/* Covers the visible part of the video, which shrinks to the top half while the chat is open */}
+        <View
+          style={[styles.controls, isChatShown && styles.controlsWithChat]}
+          pointerEvents="box-none"
+        >
           <Controls
             consultation={consultation}
             isMicrophoneOn={isAudioEnabled}
@@ -400,25 +380,21 @@ export const JitsiMeeting = ({
             toggleCamera={toggleVideo}
             toggleChat={toggleChat}
             leaveConsultation={() => setIsCancelConfirmationOpen(true)}
-            handleClose={handleControlsToggle}
             isRoomConnecting={false}
+            isSdkToolbarEnabled={isSdkToolbarEnabled}
             hasUnread={hasUnread}
             isProviderInSession={isProviderInSession}
+            connectionQuality={callQuality}
             showCamera={showCameraInControls}
+            topInset={topInset}
+            bottomInset={isChatShown ? 0 : bottomInset}
             t={t}
-            style={[styles.controls, { marginTop: topInset }]}
           />
-        </Animated.View>
-        <View style={styles.chatIconView}>
-          <TouchableOpacity onPress={toggleChat}>
-            {hasUnread && <View style={styles.unread} />}
-            <Icon
-              style={styles.chatIcon}
-              name="comment"
-              size="md"
-              color={"white"}
-            />
-          </TouchableOpacity>
+          <ConnectionStatus
+            status={connectionStatus}
+            style={[styles.connectionStatus, { top: topInset + 72 }]}
+            t={t}
+          />
         </View>
         <JitsiMeetingRoom
           userInfo={{
@@ -496,40 +472,30 @@ const CameraPermissionModal = ({
 };
 
 const styles = StyleSheet.create({
-  chatIcon: {
-    alignItems: "center",
-    backgroundColor: appStyles.colorPrimary_20809e,
-    borderColor: appStyles.colorBlue_3d527b,
-    borderRadius: 45 / 2,
-    borderWidth: 0.5,
-    height: 45,
-    justifyContent: "center",
-    padding: 10,
-    width: 45,
-  },
-  chatIconView: {
-    bottom: 125,
-    left: 10,
+  connectionStatus: {
     position: "absolute",
-    zIndex: 3,
   },
   container: {
     flex: 1,
   },
   controls: {
-    elevation: 10,
-    zIndex: 10,
+    ...StyleSheet.absoluteFillObject,
+    elevation: 11,
+    zIndex: 11,
   },
-  controlsToggle: {
-    left: 20,
-    position: "absolute",
-    zIndex: 999,
+  controlsWithChat: {
+    bottom: "50%",
   },
   meetingFull: {
     flex: 1,
   },
+  // A fixed height, taller than the screen is wide, instead of half of the space left by the keyboard.
+  // The video SDK hides the status bar when its view gets wider than tall, and on Android a window
+  // without a status bar stops resizing for the keyboard. With the keyboard open the half-size view
+  // was wider than tall, so the window kept switching between resized and full height, and the chat
+  // jumped between above and behind the keyboard. The part below the chat is covered by it
   meetingShrunk: {
-    flex: 0.5,
+    height: Math.max(appStyles.screenHeight * 0.5, appStyles.screenWidth + 1),
   },
   messageIcon: {
     alignItems: "center",

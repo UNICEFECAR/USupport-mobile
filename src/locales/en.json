@@ -1160,7 +1160,21 @@
       "permissions_error_camera_subheading": "Camera permission is denied. Please go to settings and enable camera permissions to continue",
       "permissions_error_microphone": "Cannot start audio",
       "permissions_error_microphone_subheading": "Microphone permission is denied. Please go to settings and enable microphone permissions to continue",
-      "open_settings": "Open settings"
+      "open_settings": "Open settings",
+      "connection_lost": "Connection lost. Trying to reconnect…",
+      "connection_restored": "Connection restored",
+      "connection_poor": "Poor connection. Audio and video may lag",
+      "peer_connection_lost": "The provider's connection dropped. Waiting for them to reconnect…",
+      "peer_connection_restored": "The provider is back online",
+      "peer_connection_poor": "The provider's connection is poor. Audio and video may lag",
+      "message_sending": "Sending…",
+      "message_not_sent": "Not sent.",
+      "message_retry": "Retry",
+      "minutes_left": "{{minutes}} min left",
+      "call_status_waiting": "Waiting",
+      "call_status_disconnected": "Disconnected",
+      "call_status_weak": "Weak connection",
+      "typing": "Typing..."
     },
     "consultations-screen": {
       "heading": "Consultations",
@@ -1559,7 +1573,10 @@
       "error": "An error occured. Please try again",
       "permissions_error": "You have not granted permission to use the camera or microphone",
       "permissions_error_subheading": "Please grant permission to use the camera or microphone from the settings of your device, to join the consultation",
-      "open_settings": "Open settings"
+      "open_settings": "Open settings",
+      "button_description_1": "Video or voice only",
+      "button_description_2": "Chat in writing only",
+      "joining": "Joining…"
     },
     "device-test": {
       "heading": "Test audio & camera",

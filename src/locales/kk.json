@@ -1173,7 +1173,21 @@
       "permissions_error_camera_subheading": "Камераға рұқсат құлыпталған. Жалғастыру үшін параметрлерге өтіп, камера рұқсатын қосыңыз",
       "permissions_error_microphone": "Аудио бастау мүмкін емес",
       "permissions_error_microphone_subheading": "Микрофонға рұқсат құлыпталған. Жалғастыру үшін параметрлерге өтіп, микрофон рұқсатын қосыңыз",
-      "open_settings": "Параметрлерді ашу"
+      "open_settings": "Параметрлерді ашу",
+      "connection_lost": "Байланыс үзілді. Қайта қосылуға тырысып жатырмыз…",
+      "connection_restored": "Байланыс қалпына келтірілді",
+      "connection_poor": "Байланыс әлсіз. Дыбыс пен бейне кешігуі мүмкін",
+      "peer_connection_lost": "Провайдердің байланысы үзілді. Қайта қосылуын күтудеміз…",
+      "peer_connection_restored": "Провайдер қайта желіде",
+      "peer_connection_poor": "Провайдердің байланысы әлсіз. Дыбыс пен бейне кешігуі мүмкін",
+      "message_sending": "Жіберілуде…",
+      "message_not_sent": "Жіберілмеді.",
+      "message_retry": "Қайталау",
+      "minutes_left": "{{minutes}} мин қалды",
+      "call_status_waiting": "Күту",
+      "call_status_disconnected": "Байланыс жоқ",
+      "call_status_weak": "Әлсіз байланыс",
+      "typing": "Жазып жатыр..."
     },
     "consultations-screen": {
       "heading": "Консультациялар",
@@ -1549,7 +1563,10 @@
       "error": "Қате шықты. Өтінеміз, тағы бір көріңіз",
       "permissions_error": "Камера немесе микрофонды пайдалануға рұқсат берілмеген",
       "permissions_error_subheading": "Консультацияға қосылу үшін құрылғыңыздың параметрлерінен камераны немесе микрофонды пайдалануға рұқсат беріңіз",
-      "open_settings": "Параметрлерді ашу"
+      "open_settings": "Параметрлерді ашу",
+      "button_description_1": "Бейне немесе тек дауыс",
+      "button_description_2": "Тек жазбаша чат",
+      "joining": "Қосылуда…"
     },
     "device-test": {
       "heading": "Аудио мен камераны тексеру",

@@ -1160,7 +1160,21 @@
       "permissions_error_camera_subheading": "Permisiunea camerei este refuzată. Vă rugăm să accesați setările și să activați permisiunile camerei pentru a continua",
       "permissions_error_microphone": "Nu se poate porni audio-ul",
       "permissions_error_microphone_subheading": "Permisiunea microfonului este refuzată. Vă rugăm să accesați setările și să activați permisiunile microfonului pentru a continua",
-      "open_settings": "Deschide setările"
+      "open_settings": "Deschide setările",
+      "connection_lost": "Conexiunea s-a întrerupt. Încercăm să ne reconectăm…",
+      "connection_restored": "Conexiunea a fost restabilită",
+      "connection_poor": "Conexiune slabă. Sunetul și imaginea pot întârzia",
+      "peer_connection_lost": "Conexiunea furnizorului s-a întrerupt. Așteptăm să se reconecteze…",
+      "peer_connection_restored": "Furnizorul este din nou online",
+      "peer_connection_poor": "Conexiunea furnizorului este slabă. Sunetul și imaginea pot întârzia",
+      "message_sending": "Se trimite…",
+      "message_not_sent": "Nu a fost trimis.",
+      "message_retry": "Reîncearcă",
+      "minutes_left": "au mai rămas {{minutes}} min",
+      "call_status_waiting": "În așteptare",
+      "call_status_disconnected": "Deconectat",
+      "call_status_weak": "Conexiune slabă",
+      "typing": "Tastează..."
     },
     "consultations-screen": {
       "heading": "Consultații",
@@ -1536,7 +1550,10 @@
       "error": "A apărut o eroare. Vă rugăm să încercați din nou",
       "permissions_error": "Nu ați acordat permisiunea de a utiliza camera sau microfonul",
       "permissions_error_subheading": "Pentru a vă alătura consultației, acordați permisiunea de a utiliza camera sau microfonul din setările dispozitivului.",
-      "open_settings": "Deschide setările"
+      "open_settings": "Deschide setările",
+      "button_description_1": "Video sau doar audio",
+      "button_description_2": "Doar chat în scris",
+      "joining": "Se conectează…"
     },
     "device-test": {
       "heading": "Testează audio și camera",

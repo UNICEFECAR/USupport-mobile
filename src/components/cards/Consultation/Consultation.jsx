@@ -136,8 +136,11 @@ export const Consultation = ({
     }
   }
 
+  // Only scheduled (or already finished) consultations can be joined, e.g. a pending one is still being booked
+  const isJoinable = status === "scheduled" || status === "finished";
+
   let buttonLabel, buttonAction;
-  if (isFiveMinutesBefore) {
+  if (isFiveMinutesBefore && isJoinable) {
     buttonLabel = t("join");
     buttonAction = "join";
   } else if (today > endDate) {

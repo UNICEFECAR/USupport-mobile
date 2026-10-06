@@ -1175,7 +1175,21 @@
       "permissions_error_camera_subheading": "Odmówiono dostępu do kamery. Przejdź do ustawień i włącz uprawnienia kamery, aby kontynuować",
       "permissions_error_microphone": "Nie można uruchomić audio",
       "permissions_error_microphone_subheading": "Odmówiono dostępu do mikrofonu. Przejdź do ustawień i włącz uprawnienia mikrofonu, aby kontynuować",
-      "open_settings": "Otwórz ustawienia"
+      "open_settings": "Otwórz ustawienia",
+      "connection_lost": "Utracono połączenie. Próbujemy połączyć ponownie…",
+      "connection_restored": "Połączenie przywrócone",
+      "connection_poor": "Słabe połączenie. Dźwięk i obraz mogą się opóźniać",
+      "peer_connection_lost": "Połączenie specjalisty/ki zostało przerwane. Czekamy na ponowne połączenie…",
+      "peer_connection_restored": "Specjalista/ka jest ponownie online",
+      "peer_connection_poor": "Połączenie specjalisty/ki jest słabe. Dźwięk i obraz mogą się opóźniać",
+      "message_sending": "Wysyłanie…",
+      "message_not_sent": "Nie wysłano.",
+      "message_retry": "Ponów",
+      "minutes_left": "zostało {{minutes}} min",
+      "call_status_waiting": "Oczekiwanie",
+      "call_status_disconnected": "Brak połączenia",
+      "call_status_weak": "Słabe połączenie",
+      "typing": "Pisze..."
     },
     "consultations-screen": {
       "heading": "Konsultacje",
@@ -1551,7 +1565,10 @@
       "error": "Wystąpił błąd. Spróbuj ponownie",
       "permissions_error": "You have not granted permission to use the camera or microphone",
       "permissions_error_subheading": "Please grant permission to use the camera or microphone from the settings of your device, to join the consultation",
-      "open_settings": "Open settings"
+      "open_settings": "Open settings",
+      "button_description_1": "Wideo lub tylko głos",
+      "button_description_2": "Tylko czat tekstowy",
+      "joining": "Dołączanie…"
     },
     "device-test": {
       "heading": "Przetestuj audio i kamerę",

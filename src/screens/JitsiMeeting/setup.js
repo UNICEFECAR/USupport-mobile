@@ -13,6 +13,8 @@ export const baseJitsiConfig = {
   disableChat: true,
   disableInviteFunctions: true,
   disableShareVideo: true,
+  // The provider's name is shown in our controls, and the label would sit behind them
+  hideDisplayName: true,
 };
 
 export const baseJitsiFlags = {
@@ -23,7 +25,7 @@ export const baseJitsiFlags = {
   "pip-while-screen-sharing.enabled": true,
   "conference-timer.enabled": false,
   "close-captions.enabled": false,
-  "toolbox.enabled": true,
+  // "toolbox.enabled" is set in JitsiMeeting, depending on whether the camera starts on
   "prejoinpage.enabled": false,
   "lobby-mode.enabled": false,
   "meeting-name.enabled": false,
@@ -49,4 +51,7 @@ export const baseJitsiFlags = {
   "participants.enabled": false,
   "ios.permissions.enabled": false,
   "android.permissions.enabled": false,
+  // The SDK's CallKit wrapper spreads NativeModules.RNCallKit, which drops its
+  // methods under the New Architecture and breaks SDK startup on iOS devices
+  "call-integration.enabled": false,
 };

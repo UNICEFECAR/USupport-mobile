@@ -81,6 +81,8 @@ export default {
   colorRed_a63d3d: "#a63d3d",
   colorRed_ed5657: "#ed5657",
 
+  colorOrange_fb6514: "#fb6514",
+
   colorHighContrast_ffff00: "#ffff00",
 
   colorTextMain_0e202f: "#0e202f",

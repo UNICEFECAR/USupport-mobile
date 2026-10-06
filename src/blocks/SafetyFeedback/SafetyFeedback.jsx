@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, View, ScrollView, TouchableOpacity } from "react-native";
 
 import {
-  AppButton,
+  NewButton,
   Block,
   Icon,
   AppText,
@@ -244,25 +244,27 @@ export const SafetyFeedback = ({ navigation, consultationId, answers }) => {
           </>
         );
       })}
-      <AppButton
+      <NewButton
         label={t("button")}
         size="lg"
         disabled={!canSubmit}
         onPress={handleSubmit}
         loading={
-          updateconsultationSecurityCheckMutation.Loading ||
+          updateconsultationSecurityCheckMutation.isLoading ||
           createConsultationSecurityCheckMutation.isLoading
         }
-        style={[styles.marginTop40, styles.button]}
+        isFullWidth
+        style={styles.marginTop40}
       />
       {hasAnsweredBefore && (
-        <AppButton
+        <NewButton
           label={t("continue_button")}
           size="lg"
-          type="secondary"
+          type="outline"
           disabled={!canSubmit}
           onPress={handleSubmit}
-          style={[styles.marginTop40, styles.button]}
+          isFullWidth
+          style={styles.marginTop16}
         />
       )}
     </Block>
@@ -435,7 +437,6 @@ const styles = StyleSheet.create({
       appStyles.screenWidth / 2 < 160 ? appStyles.screenWidth / 2 - 24 : 160,
     marginTop: 8,
   },
-  button: { alignSelf: "center" },
   rating: {
     flexDirection: "row",
     width: "100%",

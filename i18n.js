@@ -25,6 +25,8 @@ i18n.use(initReactI18next).init({
   resources,
   fallbackLng: "en",
   lng: "en",
+  // Hermes has no Intl.PluralRules, which the default v4 format requires
+  compatibilityJSON: "v3",
 });
 
 export default i18n;

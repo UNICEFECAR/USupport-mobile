@@ -78,3 +78,4 @@ export * from "./useGetUserContentEngagements.js";
 export * from "./useCheckActiveCampaign.js";
 export * from "./useMediaPreview.js";
 export * from "./useAuthSessionOptions.js";
+export * from "./useConsultationSocket.js";

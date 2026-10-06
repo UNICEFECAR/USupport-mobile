@@ -37,7 +37,9 @@ export const ConsultationBig = ({
   const { providerName, timestamp, image, status, price } = consultation;
   const imageUrl = AMAZON_S3_BUCKET + "/" + (image || "default");
 
-  const isLive = checkIsFiveMinutesBefore(timestamp);
+  // Only scheduled (or already finished) consultations can be joined, e.g. a pending one is still being booked
+  const isJoinable = status === "scheduled" || status === "finished";
+  const isLive = isJoinable && checkIsFiveMinutesBefore(timestamp);
 
   const startDate = new Date(timestamp);
   const ordinal = getOrdinal(startDate?.getDate());

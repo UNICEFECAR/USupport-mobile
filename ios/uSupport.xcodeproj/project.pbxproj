@@ -15,11 +15,11 @@
 		43001CCB29EEDDFF00B32A2A /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 43001CCA29EEDDFF00B32A2A /* Config.xcconfig */; };
 		43001CD629EEEAE800B32A2A /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 		43001CD729EEEAE800B32A2A /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 43001CCA29EEDDFF00B32A2A /* Config.xcconfig */; };
-		43001CD829EEEAE800B32A2A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 43926DB829E5675A005505FD /* GoogleService-Info.plist */; };
+		43001CD829EEEAE800B32A2A /* USupportmobile/GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 43926DB829E5675A005505FD /* USupportmobile/GoogleService-Info.plist */; };
 		43001CD929EEEAE800B32A2A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		43001CDA29EEEAE800B32A2A /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
 		43001CE429EEF1F000B32A2A /* USupportDev-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 43001CE329EEEAE800B32A2A /* USupportDev-Info.plist */; };
-		43926DB929E5675A005505FD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 43926DB829E5675A005505FD /* GoogleService-Info.plist */; };
+		43926DB929E5675A005505FD /* USupportmobile/GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 43926DB829E5675A005505FD /* USupportmobile/GoogleService-Info.plist */; };
 		43C1F6B52DD7DA4F00613CC3 /* Nunito_700Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43C1F6B22DD7DA4F00613CC3 /* Nunito_700Bold.ttf */; };
 		43C1F6B62DD7DA4F00613CC3 /* Nunito_300Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43C1F6AE2DD7DA4F00613CC3 /* Nunito_300Light.ttf */; };
 		43C1F6B72DD7DA4F00613CC3 /* Nunito_500Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43C1F6B02DD7DA4F00613CC3 /* Nunito_500Medium.ttf */; };
@@ -58,7 +58,7 @@
 		43001CE229EEEAE800B32A2A /* USupportDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = USupportDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		43001CE329EEEAE800B32A2A /* USupportDev-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "USupportDev-Info.plist"; path = "/Users/georgipavlov/Desktop/projects/usupportme/USupport-mobile/ios/USupportDev-Info.plist"; sourceTree = "<absolute>"; };
 		43183A5729A36F5D00474D8D /* USupport.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = USupport.entitlements; path = USupportmobile/USupport.entitlements; sourceTree = "<group>"; };
-		43926DB829E5675A005505FD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "USupportmobile/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		43926DB829E5675A005505FD /* USupportmobile/GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "USupportmobile/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		43C1F6AE2DD7DA4F00613CC3 /* Nunito_300Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Nunito_300Light.ttf; sourceTree = "<group>"; };
 		43C1F6AF2DD7DA4F00613CC3 /* Nunito_400Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Nunito_400Regular.ttf; sourceTree = "<group>"; };
 		43C1F6B02DD7DA4F00613CC3 /* Nunito_500Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Nunito_500Medium.ttf; sourceTree = "<group>"; };
@@ -142,7 +142,7 @@
 				43D1A0012DD9000000613CC3 /* AppDelegate.swift */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				43C1F6B42DD7DA4F00613CC3 /* fonts */,
+				43C1F6B42DD7DA4F00613CC3 /* USupportmobile/fonts */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
 				DDEF392E36C86269A03F286B /* PrivacyInfo.xcprivacy */,
 			);
@@ -159,7 +159,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		43C1F6B42DD7DA4F00613CC3 /* fonts */ = {
+		43C1F6B42DD7DA4F00613CC3 /* USupportmobile/fonts */ = {
 			isa = PBXGroup;
 			children = (
 				43C1F6AE2DD7DA4F00613CC3 /* Nunito_300Light.ttf */,
@@ -273,7 +273,7 @@
 				43C1F74A2DD8CA4400613CC3 /* Loading.json */,
 				43C1F7122DD8C29D00613CC3 /* assets */,
 				43001CCA29EEDDFF00B32A2A /* Config.xcconfig */,
-				43926DB829E5675A005505FD /* GoogleService-Info.plist */,
+				43926DB829E5675A005505FD /* USupportmobile/GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* USupport */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
@@ -449,7 +449,7 @@
 				43C1F7732DD8E2BD00613CC3 /* main.jsbundle in Resources */,
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				43001CCB29EEDDFF00B32A2A /* Config.xcconfig in Resources */,
-				43926DB929E5675A005505FD /* GoogleService-Info.plist in Resources */,
+				43926DB929E5675A005505FD /* USupportmobile/GoogleService-Info.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
 				9E4C0414961D07D30BA9C95B /* PrivacyInfo.xcprivacy in Resources */,
@@ -468,7 +468,7 @@
 			files = (
 				43001CD629EEEAE800B32A2A /* Expo.plist in Resources */,
 				43001CD729EEEAE800B32A2A /* Config.xcconfig in Resources */,
-				43001CD829EEEAE800B32A2A /* GoogleService-Info.plist in Resources */,
+				43001CD829EEEAE800B32A2A /* USupportmobile/GoogleService-Info.plist in Resources */,
 				43001CD929EEEAE800B32A2A /* Images.xcassets in Resources */,
 				43C1F6B52DD7DA4F00613CC3 /* Nunito_700Bold.ttf in Resources */,
 				43C1F6B62DD7DA4F00613CC3 /* Nunito_300Light.ttf in Resources */,
@@ -923,7 +923,7 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = K288UMKCNF;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5DSXDX2N9P;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -946,7 +946,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.unicef.ecar.usupport;
 				PRODUCT_NAME = uSupport;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = uSupport_Development_25/26;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = uSupport_Development_26/27;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
@@ -964,11 +964,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = USupportmobile/USupportmobile.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = K288UMKCNF;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5DSXDX2N9P;
 				INFOPLIST_FILE = USupportmobile/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = USupport;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
@@ -986,7 +986,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.unicef.ecar.usupport;
 				PRODUCT_NAME = uSupport;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = uSupport_Development_25/26;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = uSupport_Production_26/27;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;

@@ -13,7 +13,6 @@ import {
   NotFoundCard,
 } from "#components";
 import { useGetTheme, useGetLanguages } from "#hooks";
-import { localStorage } from "#services";
 import appStyles from "../../styles/appStyles";
 
 /**
@@ -50,16 +49,7 @@ export const MyQA = ({
   const { data: languages } = useGetLanguages();
 
   useEffect(() => {
-    async function checkLocalLang() {
-      const localLang = await localStorage.getItem("language");
-      const language = languages.find((x) => x.alpha2 === localLang);
-      if (language) {
-        setSelectedLanguage(language.language_id);
-      }
-    }
-
     if (languages?.length) {
-      checkLocalLang();
       setShouldFetchQuestions(true);
     }
   }, [languages]);
