@@ -80,7 +80,8 @@ export const MyQA = ({ navigation }) => {
   ]);
   const [providerId, setProviderId] = useState(null);
   const [filterTag, setFilterTag] = useState();
-  const [selectedLanguage, setSelectedLanguage] = useState();
+  // Questions in all languages are shown until the user picks one
+  const [selectedLanguage, setSelectedLanguage] = useState("all");
   const [shouldFetchQuestions, setShouldFetchQuestions] = useState(false);
 
   const [isKeyboardShown, setIsKeyboardShown] = useState(false);

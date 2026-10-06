@@ -44,7 +44,7 @@ export const Answer = ({
   const isLightTheme = colors.background === appStyles.colorWhite_ff;
   const providerInfo = question.providerData;
   const isProviderActive = providerInfo?.status !== "inactive";
-
+  console.log(isProviderActive);
   const isAskedByCurrentClient = question.isAskedByCurrentClient;
 
   const imageUrl = AMAZON_S3_BUCKET + "/" + (providerInfo.image || "default");
@@ -109,6 +109,12 @@ export const Answer = ({
           ? date.getMonth() + 1
           : `0${date.getMonth() + 1}`
       }.${date.getFullYear()}`;
+    }
+  };
+
+  const redirectToProviderProfile = () => {
+    if (isProviderActive) {
+      handleProviderClick(providerInfo?.providerId);
     }
   };
 
@@ -228,9 +234,7 @@ export const Answer = ({
               <AppText namedStyle="text" style={styles.authorPrefix}>
                 {t("answer_by")}
               </AppText>
-              <TouchableWithoutFeedback
-                onPress={() => handleProviderClick(providerInfo?.providerId)}
-              >
+              <TouchableWithoutFeedback onPress={redirectToProviderProfile}>
                 <Avatar
                   image={imageUrl && { uri: imageUrl }}
                   size="xs"
@@ -239,7 +243,7 @@ export const Answer = ({
               </TouchableWithoutFeedback>
               <AppText
                 namedStyle="text"
-                onPress={() => handleProviderClick(providerInfo?.providerId)}
+                onPress={redirectToProviderProfile}
                 style={styles.authorName}
                 numberOfLines={1}
               >
