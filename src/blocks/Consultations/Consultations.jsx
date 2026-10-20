@@ -1,9 +1,16 @@
-import React, { useCallback, useMemo, useRef } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { Platform, StyleSheet, View } from "react-native";
+import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 
 import { AppText, Consultation, NewButton } from "#components";
-import { ONE_HOUR, showToast } from "#utils";
+import { FIVE_MINUTES, ONE_HOUR, showToast } from "#utils";
 import {
   useGetAllConsultations,
   useAcceptConsultation,
@@ -43,6 +50,25 @@ const getPastConsultations = (consultations, currentDateTs) => {
     .sort((a, b) => b.timestamp - a.timestamp);
 };
 
+// Avoid long timers (React Native warns about them on Android)
+const MAX_TIMER_DELAY = 60 * 1000;
+
+/**
+ * Get the closest future moment at which a consultation changes state
+ * (join becomes available, consultation starts or consultation ends)
+ */
+const getNextStateChangeTs = (consultations, currentDateTs) => {
+  let next = null;
+  consultations?.forEach(({ timestamp }) => {
+    [timestamp - FIVE_MINUTES, timestamp, timestamp + ONE_HOUR + 1].forEach(
+      (ts) => {
+        if (ts > currentDateTs && (next === null || ts < next)) next = ts;
+      }
+    );
+  });
+  return next;
+};
+
 /**
  * Consultations
  *
@@ -75,6 +101,40 @@ export const Consultations = ({
   };
 
   const consultationsQuery = useGetAllConsultations(!isTmpUser);
+  const isFocused = useIsFocused();
+
+  // The current time used to split consultations and enable the join button.
+  // Kept in state so the list re-renders when a consultation changes state.
+  const [nowTs, setNowTs] = useState(() => Date.now());
+
+  // Refetch the consultations each time the screen is focused
+  useFocusEffect(
+    useCallback(() => {
+      setNowTs(Date.now());
+      if (!isTmpUser) consultationsQuery.refetch({ cancelRefetch: false });
+    }, [isTmpUser])
+  );
+
+  // While the screen is focused, re-render (and refetch) at the moment the
+  // next consultation becomes joinable, starts or ends
+  useEffect(() => {
+    if (!isFocused || isTmpUser) return;
+
+    const nextTs = getNextStateChangeTs(consultationsQuery.data, nowTs);
+    if (!nextTs) return;
+
+    const delay = Math.min(nextTs - Date.now(), MAX_TIMER_DELAY);
+    const timeout = setTimeout(
+      () => {
+        const currentTs = Date.now();
+        setNowTs(currentTs);
+        if (currentTs >= nextTs) consultationsQuery.refetch();
+      },
+      Math.max(delay, 0)
+    );
+
+    return () => clearTimeout(timeout);
+  }, [consultationsQuery.data, isFocused, isTmpUser, nowTs]);
 
   const handleOpenEdit = (consultation) => {
     openEditConsultation(consultation);
@@ -162,7 +222,6 @@ export const Consultations = ({
   const renderAllConsultations = useMemo(() => {
     if (isTmpUser) return <AppText>{t("registration_needed")}</AppText>;
 
-    const nowTs = new Date().getTime();
     const consultations = consultationsQuery.data || [];
     const upcoming = getUpcomingConsultations(consultations, nowTs) || [];
     const past = getPastConsultations(consultations, nowTs) || [];
@@ -261,6 +320,7 @@ export const Consultations = ({
     i18n.language,
     isTmpUser,
     isDarkMode,
+    nowTs,
     onScheduleConsultationClick,
     renderList,
     t,

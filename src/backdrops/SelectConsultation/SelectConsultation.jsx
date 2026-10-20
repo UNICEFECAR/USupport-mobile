@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { View, StyleSheet, Pressable, Platform } from "react-native";
@@ -6,7 +6,7 @@ import { View, StyleSheet, Pressable, Platform } from "react-native";
 import { AppText, Backdrop, Error, Header, Loading } from "#components";
 import { appStyles } from "#styles";
 
-import { useGetProviderDataById } from "#hooks";
+import { useGetProviderDataById, useGetTheme } from "#hooks";
 import { getTimestampFromUTC, parseUTCDate } from "#utils";
 import { providerSvc, Context, localStorage } from "#services";
 
@@ -34,6 +34,37 @@ export const SelectConsultation = ({
     keyPrefix: "select-consultation",
   });
   const { activeCoupon } = useContext(Context);
+  const { colors, isDarkMode, isHighContrast } = useGetTheme();
+
+  const timeChipThemeStyles = useMemo(() => {
+    if (isHighContrast) {
+      return {
+        chip: {
+          backgroundColor: colors.card,
+          borderColor: appStyles.colorHighContrast_ffff00,
+        },
+        chipSelected: {
+          borderWidth: 2,
+          backgroundColor: "rgba(255, 255, 0, 0.12)",
+        },
+        text: { color: colors.text },
+      };
+    }
+    if (isDarkMode) {
+      return {
+        chip: {
+          backgroundColor: "rgba(38, 58, 105, 0.5)",
+          borderColor: "rgba(137, 157, 209, 0.3)",
+        },
+        chipSelected: {
+          borderColor: colors.tabUnderlinedBorder,
+          backgroundColor: "rgba(140, 144, 235, 0.2)",
+        },
+        text: { color: colors.text },
+      };
+    }
+    return { chip: null, chipSelected: null, text: null };
+  }, [colors, isDarkMode, isHighContrast]);
 
   const [startDate, setStartDate] = useState(null);
   const [currentDay, setCurrentDay] = useState(new Date().getTime());
@@ -161,12 +192,17 @@ export const SelectConsultation = ({
               onPress={() => handleChooseSlot(option.value)}
               style={({ pressed }) => [
                 styles.timeChip,
+                timeChipThemeStyles.chip,
                 isSingleOption ? styles.timeChipSingle : null,
                 isSelected ? styles.timeChipSelected : null,
+                isSelected ? timeChipThemeStyles.chipSelected : null,
                 pressed ? styles.timeChipPressed : null,
               ]}
             >
-              <AppText namedStyle="text" style={styles.timeChipText}>
+              <AppText
+                namedStyle="text"
+                style={[styles.timeChipText, timeChipThemeStyles.text]}
+              >
                 {option.label}
               </AppText>
             </Pressable>

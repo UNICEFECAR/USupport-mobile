@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
+  Keyboard,
   Modal,
   Platform,
   SafeAreaView,
@@ -22,10 +23,18 @@ import { NewButton } from "../buttons/NewButton/NewButton";
 import { Error } from "../errors/Error";
 import { useGetTheme } from "#hooks";
 import { appStyles } from "#styles";
+import { useKeyboard } from "../../hooks/useKeyboard";
 
 /** Matches web base-modal: max-width 61.6rem, min-width 34.3rem (at 10px/rem) */
 const MODAL_MAX_WIDTH = 616;
 const MODAL_MIN_WIDTH = 343;
+
+// On Android the RN Modal is its own dialog window, which is resized when the
+// keyboard opens on every version (unlike the activity window, see Backdrop),
+// so the card is already above the keyboard - padding it again leaves only
+// half the space. On iOS the keyboard draws over the modal and we have to make
+// room for it ourselves.
+const SHOULD_AVOID_KEYBOARD = Platform.OS === "ios";
 
 /**
  * Map legacy AppButton `secondaryCtaType` to NewButton `type` (web Modal secondary is outline).
@@ -60,6 +69,17 @@ export function TransparentModal({
 }) {
   const { width: windowWidth } = useWindowDimensions();
   const { isDarkMode, isHighContrast, colors } = useGetTheme();
+  const keyboardHeight = useKeyboard(!!isOpen);
+  const isKeyboardShown = keyboardHeight > 0;
+
+  // While the keyboard is open the first tap outside of an input only hides it
+  const handleOverlayPress = () => {
+    if (isKeyboardShown) {
+      Keyboard.dismiss();
+    } else {
+      handleClose?.();
+    }
+  };
 
   const hasFooter = !!(ctaLabel || secondaryCtaLabel);
   const showErrorInFooter = hasFooter && !!errorMessage;
@@ -106,8 +126,18 @@ export function TransparentModal({
        * is box-none so taps pass through overlay to backdrop.
        */}
       <GestureHandlerRootView style={styles.gestureRoot}>
-        <View style={styles.wrapper}>
-          <TouchableWithoutFeedback onPress={handleClose}>
+        {/* The keyboard padding goes on the wrapper, not on SafeAreaView - on
+            iOS SafeAreaView sets its padding natively from the safe area
+            insets and ignores the one from the style */}
+        <View
+          style={[
+            styles.wrapper,
+            SHOULD_AVOID_KEYBOARD && isKeyboardShown
+              ? { paddingBottom: keyboardHeight }
+              : null,
+          ]}
+        >
+          <TouchableWithoutFeedback onPress={handleOverlayPress}>
             <View style={StyleSheet.absoluteFill} />
           </TouchableWithoutFeedback>
           <SafeAreaView style={styles.safeAreaView} pointerEvents="box-none">
@@ -118,116 +148,128 @@ export function TransparentModal({
               backgroundColor="transparent"
               translucent={Platform.OS === "android"}
             />
-            <View
-              style={[
-                styles.content,
-                {
-                  backgroundColor: modalBg,
-                  width: cardWidth,
-                  maxWidth: MODAL_MAX_WIDTH,
-                  minWidth: Math.min(MODAL_MIN_WIDTH, windowWidth - 32),
-                },
-                style,
-              ]}
+            <TouchableWithoutFeedback
+              onPress={Keyboard.dismiss}
+              accessible={false}
             >
-              {heading ? (
-                <View style={styles.header}>
-                  <AppText
-                    style={[styles.modalHeading, { color: headingColor }]}
+              <View
+                style={[
+                  styles.content,
+                  isKeyboardShown && styles.contentWithKeyboard,
+                  {
+                    backgroundColor: modalBg,
+                    width: cardWidth,
+                    maxWidth: MODAL_MAX_WIDTH,
+                    minWidth: Math.min(MODAL_MIN_WIDTH, windowWidth - 32),
+                  },
+                  style,
+                ]}
+              >
+                {heading ? (
+                  <View style={styles.header}>
+                    <AppText
+                      style={[styles.modalHeading, { color: headingColor }]}
+                    >
+                      {heading}
+                    </AppText>
+                  </View>
+                ) : null}
+
+                {hasCloseIcon ? (
+                  <TouchableOpacity
+                    onPress={handleClose}
+                    style={styles.closeIcon}
+                    hitSlop={12}
+                    accessibilityRole="button"
+                    accessibilityLabel="Close"
                   >
-                    {heading}
+                    <Icon name="close-x" size="md" color={closeIconColor} />
+                  </TouchableOpacity>
+                ) : null}
+
+                {text ? (
+                  <AppText
+                    namedStyle="text"
+                    style={[
+                      styles.leadText,
+                      {
+                        color: introTextColor,
+                      },
+                    ]}
+                  >
+                    {text}
                   </AppText>
-                </View>
-              ) : null}
+                ) : null}
 
-              {hasCloseIcon ? (
-                <TouchableOpacity
-                  onPress={handleClose}
-                  style={styles.closeIcon}
-                  hitSlop={12}
-                  accessibilityRole="button"
-                  accessibilityLabel="Close"
-                >
-                  <Icon name="close-x" size="md" color={closeIconColor} />
-                </TouchableOpacity>
-              ) : null}
-
-              {text ? (
-                <AppText
-                  namedStyle="text"
-                  style={[
-                    styles.leadText,
-                    {
-                      color: introTextColor,
-                    },
-                  ]}
-                >
-                  {text}
-                </AppText>
-              ) : null}
-
-              {scrollableBody ? (
-                <ScrollView
-                  style={styles.body}
-                  contentContainerStyle={styles.bodyContent}
-                  showsVerticalScrollIndicator={false}
-                  nestedScrollEnabled
-                >
-                  {children}
-                  {showErrorInBody ? (
-                    <Error style={styles.errorInBody} message={errorMessage} />
-                  ) : null}
-                </ScrollView>
-              ) : (
-                <View style={[styles.body, styles.bodyContent]}>
-                  {children}
-                  {showErrorInBody ? (
-                    <Error style={styles.errorInBody} message={errorMessage} />
-                  ) : null}
-                </View>
-              )}
-
-              {hasFooter ? (
-                <View
-                  style={[
-                    styles.footerWrapper,
-                    { borderTopColor: footerBorderColor },
-                  ]}
-                >
-                  <View style={styles.footerInner}>
-                    {showErrorInFooter ? (
+                {scrollableBody ? (
+                  <ScrollView
+                    style={styles.body}
+                    contentContainerStyle={styles.bodyContent}
+                    showsVerticalScrollIndicator={false}
+                    nestedScrollEnabled
+                  >
+                    {children}
+                    {showErrorInBody ? (
                       <Error
-                        style={styles.footerError}
+                        style={styles.errorInBody}
                         message={errorMessage}
                       />
                     ) : null}
-                    <View style={styles.footerButtonsRow}>
-                      {ctaLabel ? (
-                        <NewButton
-                          label={ctaLabel}
-                          onPress={ctaHandleClick}
-                          size="lg"
-                          disabled={isCtaDisabled}
-                          loading={isCtaLoading}
-                          // color={ctaColor}
-                          style={styles.footerButton}
+                  </ScrollView>
+                ) : (
+                  <View style={[styles.body, styles.bodyContent]}>
+                    {children}
+                    {showErrorInBody ? (
+                      <Error
+                        style={styles.errorInBody}
+                        message={errorMessage}
+                      />
+                    ) : null}
+                  </View>
+                )}
+
+                {hasFooter ? (
+                  <View
+                    style={[
+                      styles.footerWrapper,
+                      { borderTopColor: footerBorderColor },
+                    ]}
+                  >
+                    <View style={styles.footerInner}>
+                      {showErrorInFooter ? (
+                        <Error
+                          style={styles.footerError}
+                          message={errorMessage}
                         />
                       ) : null}
-                      {secondaryCtaLabel ? (
-                        <NewButton
-                          label={secondaryCtaLabel}
-                          onPress={secondaryCtaHandleClick}
-                          size="lg"
-                          disabled={isSecondaryCtaDisabled}
-                          type={getSecondaryNewButtonType(secondaryCtaType)}
-                          style={styles.footerButton}
-                        />
-                      ) : null}
+                      <View style={styles.footerButtonsRow}>
+                        {ctaLabel ? (
+                          <NewButton
+                            label={ctaLabel}
+                            onPress={ctaHandleClick}
+                            size="lg"
+                            disabled={isCtaDisabled}
+                            loading={isCtaLoading}
+                            // color={ctaColor}
+                            style={styles.footerButton}
+                          />
+                        ) : null}
+                        {secondaryCtaLabel ? (
+                          <NewButton
+                            label={secondaryCtaLabel}
+                            onPress={secondaryCtaHandleClick}
+                            size="lg"
+                            disabled={isSecondaryCtaDisabled}
+                            type={getSecondaryNewButtonType(secondaryCtaType)}
+                            style={styles.footerButton}
+                          />
+                        ) : null}
+                      </View>
                     </View>
                   </View>
-                </View>
-              ) : null}
-            </View>
+                ) : null}
+              </View>
+            </TouchableWithoutFeedback>
           </SafeAreaView>
         </View>
       </GestureHandlerRootView>
@@ -270,6 +312,10 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 2, height: 2 },
     elevation: 6,
   },
+  /** Less space is left above the keyboard, so let the card use more of it */
+  contentWithKeyboard: {
+    maxHeight: "95%",
+  },
   /** base-modal__header + base-modal__header--no-close */
   header: {
     position: "relative",
@@ -307,6 +353,8 @@ const styles = StyleSheet.create({
   },
   body: {
     minHeight: 0,
+    // Shrink (and scroll) the body first so the footer CTA and error stay visible
+    flexShrink: 1,
     marginTop: 8,
     paddingBottom: 8,
   },

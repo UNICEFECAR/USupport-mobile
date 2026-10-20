@@ -126,6 +126,16 @@ export function Screen({
         backgroundColor={"transparent"}
         translucent={Platform.OS === "android" ? true : false}
       />
+      {/* Rendered before the content (not after with zIndex: -1) so it's
+          behind it by tree order - the zIndex reordering made the content
+          flicker over the background on Android */}
+      {showBackgroundImage && (
+        <CachedImageBackground
+          source={backgroundImageSource}
+          style={styles.backgroundImage}
+          resizeMode="cover"
+        />
+      )}
       <View
         style={[styles.screenChildren, style, { paddingBottom: bottomInset }]}
       >
@@ -139,14 +149,6 @@ export function Screen({
           />
         )}
       </View>
-
-      {showBackgroundImage && (
-        <CachedImageBackground
-          source={backgroundImageSource}
-          style={styles.backgroundImage}
-          resizeMode="cover"
-        />
-      )}
 
       {hasHeaderNavigation ? (
         <HeaderNavigation
@@ -239,6 +241,5 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    zIndex: -1,
   },
 });

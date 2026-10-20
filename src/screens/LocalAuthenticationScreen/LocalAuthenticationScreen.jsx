@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Platform, StyleSheet, View, TouchableOpacity } from "react-native";
+import { Platform, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { useTranslation } from "react-i18next";
 import * as LocalAuthentication from "expo-local-authentication";
 import BcryptReactNative from "bcrypt-react-native";
@@ -10,6 +10,8 @@ import { localStorage } from "#services";
 import { appStyles } from "#styles";
 import { useGetTheme } from "#hooks";
 
+const PIN_LENGTH = 4;
+
 export function LocalAuthenticationScreen({
   userPin,
   setHasAuthenticatedWithPin,
@@ -18,38 +20,8 @@ export function LocalAuthenticationScreen({
   const { t } = useTranslation("screens", {
     keyPrefix: "local-authentication-screen",
   });
-  const [data, setData] = useState([
-    {
-      name: "first",
-      value: "",
-      reference: useRef(null),
-      previousIndex: null,
-      nextIndex: 1,
-    },
-    {
-      name: "second",
-      value: "",
-      reference: useRef(null),
-      previousIndex: 0,
-      nextIndex: 2,
-    },
-    {
-      name: "third",
-      value: "",
-      reference: useRef(null),
-      previousIndex: 1,
-      nextIndex: 3,
-    },
-    {
-      name: "fourth",
-      value: "",
-      reference: useRef(null),
-      previousIndex: 2,
-      nextIndex: null,
-    },
-  ]);
-
-  const pinValue = useRef();
+  const [pin, setPin] = useState("");
+  const inputRef = useRef(null);
 
   const [isPinVisible, setIsPinVisible] = useState(false);
   const [error, setError] = useState(false);
@@ -84,27 +56,20 @@ export function LocalAuthenticationScreen({
       }
     };
     biometricAuth();
-    data[0].reference.current?.focus();
+    inputRef.current?.focus();
   }, []);
 
-  const changeText = async (currentIndex, text, nextIndex) => {
-    const dataCopy = [...data];
-    if (text !== "") {
-      nextIndex !== null
-        ? dataCopy[nextIndex].reference.current?.focus()
-        : null;
-    }
-    dataCopy[currentIndex].value = text;
-    pinValue.current = dataCopy.map((x) => x.value).join("");
-    setData(dataCopy);
+  const changeText = async (text) => {
+    const newPin = text.replace(/\D/g, "").slice(0, PIN_LENGTH);
+    setPin(newPin);
 
-    if (!nextIndex) {
+    if (newPin.length === PIN_LENGTH) {
       const areEqual = await BcryptReactNative.compareSync(
-        String(pinValue.current),
+        String(newPin),
         userPin
       );
       if (!areEqual) {
-        clearPinBoxes();
+        clearPin();
         setError(true);
       } else {
         setHasAuthenticatedWithPin(true);
@@ -112,23 +77,9 @@ export function LocalAuthenticationScreen({
     }
   };
 
-  const clearPinBoxes = () => {
-    let dataCopy = [...data];
-    dataCopy.forEach((item, index) => {
-      dataCopy[index].value = "";
-    });
-    data[0].reference.current?.focus();
-    setData([...dataCopy]);
-  };
-
-  // This function changes the focus to the previous input box
-  // if the backspace/delete key is pressed when there is no
-  // text in the current box
-  const goToPreviousBox = (previousIndex, keyValue) => {
-    const dataCopy = [...data];
-    previousIndex !== null && keyValue === "Backspace"
-      ? dataCopy[previousIndex].reference.current?.focus()
-      : null;
+  const clearPin = () => {
+    setPin("");
+    inputRef.current?.focus();
   };
 
   return (
@@ -146,31 +97,32 @@ export function LocalAuthenticationScreen({
           <AppText style={styles.enterPin}>{t("enter_pin")}</AppText>
         </View>
         <View style={styles.pinContainer}>
-          {data.map((box, index) => {
-            return (
-              <TextInput
-                autoFocus={index === 0 ? true : false}
-                key={index}
-                value={box.value}
-                secureTextEntry={!isPinVisible}
-                ref={box.reference}
-                keyboardType={"numeric"}
-                maxLength={1}
-                onChangeText={(newText) =>
-                  changeText(index, newText, box.nextIndex)
-                }
-                onKeyPress={({ nativeEvent: { key: keyValue } }) =>
-                  goToPreviousBox(box.previousIndex, keyValue)
-                }
+          {Array.from({ length: PIN_LENGTH }, (_, index) => (
+            <View
+              key={index}
+              style={[styles.box, { backgroundColor: colors.card }]}
+            >
+              <Text
+                style={[styles.boxText, isHighContrast ? styles.boxTextHC : {}]}
                 maxFontSizeMultiplier={appStyles.maxFontSizeMultiplier}
-                style={[
-                  styles.textInput,
-                  isHighContrast ? styles.textInputHC : {},
-                  { backgroundColor: colors.card },
-                ]}
-              />
-            );
-          })}
+              >
+                {pin[index] ? (isPinVisible ? pin[index] : "•") : ""}
+              </Text>
+            </View>
+          ))}
+          {/* A single input laid over the boxes; the boxes only display its characters */}
+          <TextInput
+            autoFocus
+            ref={inputRef}
+            value={pin}
+            onChangeText={changeText}
+            secureTextEntry
+            keyboardType="number-pad"
+            maxLength={PIN_LENGTH}
+            caretHidden
+            contextMenuHidden
+            style={styles.hiddenInput}
+          />
         </View>
 
         {error ? (
@@ -221,20 +173,31 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     textAlign: "center",
   },
-  textInput: {
+  box: {
     backgroundColor: appStyles.colorWhite_ff,
     margin: 5,
     borderRadius: 19,
     width: 64,
     height: 64,
-    textAlign: "center",
-    fontSize: 30,
-    fontWeight: "700",
-    color: "#5F549B",
+    justifyContent: "center",
+    alignItems: "center",
     ...appStyles.shadow2,
   },
-  textInputHC: {
+  boxText: {
+    textAlign: "center",
+    fontSize: 30,
+    lineHeight: 36,
+    fontWeight: "700",
+    color: "#5F549B",
+  },
+  boxTextHC: {
     color: "#ffff00",
+  },
+  hiddenInput: {
+    ...StyleSheet.absoluteFillObject,
+    color: "transparent",
+    backgroundColor: "transparent",
+    opacity: 0.011,
   },
   errorMessage: {
     textAlign: "center",

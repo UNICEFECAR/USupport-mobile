@@ -1,9 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
-import { TextInput, View, StyleSheet } from "react-native";
+import {
+  Keyboard,
+  Platform,
+  Pressable,
+  Text,
+  TextInput,
+  View,
+  StyleSheet,
+} from "react-native";
 import { Backdrop, AppText, TransparentModal } from "#components";
 import { useTranslation } from "react-i18next";
 import { appStyles } from "#styles";
 import { ReportIssue } from "#modals";
+
+const CODE_LENGTH = 4;
 
 export default function CodeVerification({
   isOpen,
@@ -28,63 +38,38 @@ export default function CodeVerification({
     }
   }, [isOpen]);
 
-  const [data, setData] = useState([
-    {
-      name: "first",
-      value: "",
-      reference: useRef(null),
-      previousIndex: null,
-      nextIndex: 1,
-    },
-    {
-      name: "second",
-      value: "",
-      reference: useRef(null),
-      previousIndex: 0,
-      nextIndex: 2,
-    },
-    {
-      name: "third",
-      value: "",
-      reference: useRef(null),
-      previousIndex: 1,
-      nextIndex: 3,
-    },
-    {
-      name: "fourth",
-      value: "",
-      reference: useRef(null),
-      previousIndex: 2,
-      nextIndex: null,
-    },
-  ]);
+  const [code, setCode] = useState("");
+  const inputRef = useRef(null);
 
-  useEffect(() => {
-    if (isOpen) {
-      data[0].reference.current?.focus();
+  const focusInput = () => {
+    const input = inputRef.current;
+    if (!input) return;
+    // When the keyboard was closed (back button, swipe down) or the focus
+    // happened before the modal was on screen, the input is still focused but
+    // without a keyboard - focus() is a no-op then, so refocus it from scratch
+    if (input.isFocused() && !Keyboard.isVisible()) {
+      input.blur();
     }
-  }, [isOpen]);
-
-  const pinValue = useRef();
-
-  const changeText = async (currentIndex, text, nextIndex) => {
-    const dataCopy = [...data];
-    if (text !== "") {
-      nextIndex !== null
-        ? dataCopy[nextIndex].reference.current?.focus()
-        : null;
-    }
-    dataCopy[currentIndex].value = text;
-    pinValue.current = dataCopy.map((x) => x.value).join("");
-
-    setData(dataCopy);
+    input.focus();
   };
 
-  const goToPreviousBox = (previousIndex, keyValue) => {
-    const dataCopy = [...data];
-    previousIndex !== null && keyValue === "Backspace"
-      ? dataCopy[previousIndex].reference.current?.focus()
-      : null;
+  useEffect(() => {
+    if (!isOpen) return;
+    setCode("");
+    // Wait for the modal/backdrop to be on screen, otherwise the input is
+    // focused but the keyboard doesn't open
+    const timeout = setTimeout(focusInput, 400);
+    return () => clearTimeout(timeout);
+  }, [isOpen]);
+
+  const changeText = (text) => {
+    const newCode = text.replace(/\D/g, "").slice(0, CODE_LENGTH);
+    setCode(newCode);
+
+    // Automatically submit once the whole code is entered
+    if (newCode.length === CODE_LENGTH && !isMutating) {
+      handleRegister(newCode);
+    }
   };
 
   const handleResendCode = () => {
@@ -93,28 +78,42 @@ export default function CodeVerification({
 
   const goBack = handleGoBack ?? onClose;
 
+  // A single hidden input behind the boxes; the boxes only display its
+  // characters and focus it on press
   const pinInputs = (
-    <View style={styles.codeContainer}>
-      {data.map((box, index) => {
-        return (
-          <TextInput
-            key={box.name}
-            value={box.value}
-            ref={box.reference}
-            keyboardType={"numeric"}
-            maxLength={1}
-            onChangeText={(newText) =>
-              changeText(index, newText, box.nextIndex)
-            }
-            onKeyPress={({ nativeEvent: { key: keyValue } }) =>
-              goToPreviousBox(box.previousIndex, keyValue)
-            }
+    <Pressable
+      style={styles.codeContainer}
+      onPress={focusInput}
+      accessible={false}
+    >
+      {Array.from({ length: CODE_LENGTH }, (_, index) => (
+        <View key={index} style={styles.box}>
+          <Text
+            style={styles.boxText}
             maxFontSizeMultiplier={appStyles.maxFontSizeMultiplier}
-            style={styles.textInput}
-          />
-        );
-      })}
-    </View>
+          >
+            {code[index] || ""}
+          </Text>
+        </View>
+      ))}
+      {/* Touches go to the Pressable - a tap on the already focused input
+          itself wouldn't reopen a closed keyboard */}
+      <View style={styles.hiddenInputWrapper} pointerEvents="none">
+        <TextInput
+          ref={inputRef}
+          value={code}
+          onChangeText={changeText}
+          keyboardType="number-pad"
+          maxLength={CODE_LENGTH}
+          textContentType="oneTimeCode"
+          autoComplete={
+            Platform.OS === "android" ? "sms-otp" : "one-time-code"
+          }
+          caretHidden
+          style={styles.hiddenInput}
+        />
+      </View>
+    </Pressable>
   );
 
   const footerContent = (
@@ -153,11 +152,10 @@ export default function CodeVerification({
           heading={t("heading")}
           text={t("text")}
           ctaLabel={t("send")}
-          ctaHandleClick={() => handleRegister(pinValue.current)}
+          ctaHandleClick={() => handleRegister(code)}
           isCtaLoading={isMutating}
           errorMessage={submitError}
           hasCloseIcon={false}
-          scrollableBody={false}
         >
           {pinInputs}
           {footerContent}
@@ -180,10 +178,11 @@ export default function CodeVerification({
         heading={t("heading")}
         text={t("text")}
         ctaLabel={t("send")}
-        ctaHandleClick={() => handleRegister(pinValue.current)}
+        ctaHandleClick={() => handleRegister(code)}
         errorMessage={submitError}
         isCtaLoading={isMutating}
         footerComponent={footerContent}
+        hasKeyboardListener
       >
         {pinInputs}
       </Backdrop>
@@ -203,17 +202,31 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  textInput: {
+  box: {
     backgroundColor: appStyles.colorWhite_ff,
     margin: 5,
     borderRadius: 19,
     width: 64,
     height: 64,
+    justifyContent: "center",
+    alignItems: "center",
+    ...appStyles.shadow2,
+  },
+  boxText: {
     textAlign: "center",
     fontSize: 30,
+    lineHeight: 36,
     fontWeight: "700",
     color: "#5F549B",
-    ...appStyles.shadow2,
+  },
+  hiddenInputWrapper: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  hiddenInput: {
+    ...StyleSheet.absoluteFillObject,
+    color: "transparent",
+    backgroundColor: "transparent",
+    opacity: 0.011,
   },
   footer: {
     marginTop: 12,
