@@ -1802,5 +1802,15 @@
       "articles": "Content",
       "mood": "Mood"
     }
+  },
+  "consultationReport": {
+    "title": "Report a problem",
+    "message_label": "Describe the problem",
+    "send": "Send report",
+    "close": "Close",
+    "success_title": "Report submitted",
+    "success": "Your report has been sent to the country admin.",
+    "error": "Your report could not be sent. Please try again.",
+    "settings": "Settings"
   }
 }

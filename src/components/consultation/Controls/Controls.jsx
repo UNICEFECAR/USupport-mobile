@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Trans } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
+import Svg, { Path } from "react-native-svg";
 import PropTypes from "prop-types";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import Config from "react-native-config";
@@ -15,14 +16,10 @@ import { appStyles } from "#styles";
 const { AMAZON_S3_BUCKET } = Config;
 
 const TIME_LEFT_REFRESH_INTERVAL = 30000;
-const BUTTON_SIZE = 52;
-// The video SDK places the self view in the bottom right corner: an 80px thumbnail with 8px of margins.
-// The buttons sit on the same line, centered in the space to the left of it
+const BUTTON_SIZE = 44;
+// The SDK thumbnail occupies the bottom right; keep the five-button dock centred above it.
 const SELF_VIEW_SIZE = 80;
 const SELF_VIEW_MARGIN = 8;
-const DOCK_HEIGHT = BUTTON_SIZE + 12;
-const DOCK_BOTTOM_OFFSET = SELF_VIEW_MARGIN + (SELF_VIEW_SIZE - DOCK_HEIGHT) / 2;
-const DOCK_RIGHT_OFFSET = SELF_VIEW_SIZE + 2 * SELF_VIEW_MARGIN;
 // With the SDK's toolbar (48px buttons with margins), which shows up when the video is tapped and moves
 // the self view up, the buttons sit above the toolbar on the left
 const DOCK_BOTTOM_OFFSET_WITH_TOOLBAR = 76;
@@ -104,10 +101,12 @@ export const Controls = ({
   connectionQuality = "good",
   showCamera = true,
   isSdkToolbarEnabled = false,
+  onReportProblem,
   topInset = 0,
   bottomInset = 0,
   t,
 }) => {
+  const { t: reportT } = useTranslation("consultationReport");
   const timestamp =
     consultation.timestamp || new Date(consultation.time).getTime();
   const startDate = new Date(timestamp);
@@ -212,7 +211,7 @@ export const Controls = ({
                 bottom: bottomInset + DOCK_BOTTOM_OFFSET_WITH_TOOLBAR,
                 left: 12,
               }
-            : { bottom: bottomInset + DOCK_BOTTOM_OFFSET },
+            : { bottom: bottomInset + SELF_VIEW_SIZE + SELF_VIEW_MARGIN },
         ]}
         pointerEvents="box-none"
       >
@@ -234,6 +233,26 @@ export const Controls = ({
             onPress={toggleChat}
             hasBadge={hasUnread}
           />
+          <TouchableOpacity
+            accessibilityRole="button"
+            accessibilityLabel={reportT("title")}
+            style={[styles.button, { backgroundColor: BUTTON_ON_COLOR }]}
+            onPress={onReportProblem}
+          >
+            <Svg
+              width={24}
+              height={24}
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#fff"
+              strokeWidth={2}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              accessible={false}
+            >
+              <Path d="M5 21V4m0 0c4-4 10 4 14 0v10c-4 4-10-4-14 0" />
+            </Svg>
+          </TouchableOpacity>
           <ControlButton
             iconName="hang-up"
             color={appStyles.colorRed_eb5757}
@@ -294,7 +313,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     left: 0,
     position: "absolute",
-    right: DOCK_RIGHT_OFFSET,
+    right: 0,
   },
   dock: {
     backgroundColor: SURFACE_COLOR,
@@ -302,7 +321,7 @@ const styles = StyleSheet.create({
     borderRadius: BUTTON_SIZE / 2 + 6,
     borderWidth: 1,
     flexDirection: "row",
-    gap: 10,
+    gap: 6,
     padding: 6,
   },
   button: {

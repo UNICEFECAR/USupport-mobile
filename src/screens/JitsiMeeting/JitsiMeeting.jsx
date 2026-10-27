@@ -1,4 +1,10 @@
-import React, { useRef, useCallback, useState, useEffect, useMemo } from "react";
+import React, {
+  useRef,
+  useCallback,
+  useState,
+  useEffect,
+  useMemo,
+} from "react";
 import { JitsiMeeting as JitsiMeetingRoom } from "@jitsi/react-native-sdk";
 import {
   BackHandler,
@@ -21,6 +27,8 @@ import {
   AppButton,
 } from "#components";
 import { appStyles } from "#styles";
+
+import { ReportConsultationProblem } from "../../modals/ReportConsultationProblem/ReportConsultationProblem";
 
 import { baseJitsiConfig, baseJitsiFlags } from "./setup";
 
@@ -48,6 +56,7 @@ export const JitsiMeeting = ({
   const { top: topInset, bottom: bottomInset } = useSafeAreaInsets();
   const jitsiMeeting = useRef(null);
 
+  const [isReportOpen, setIsReportOpen] = useState(false);
   const [roomKey, setRoomKey] = useState(1);
   const [isAudioEnabled, setIsAudioEnabled] = useState(
     microphoneGranted && joinWithMicrophone
@@ -372,7 +381,24 @@ export const JitsiMeeting = ({
           style={[styles.controls, isChatShown && styles.controlsWithChat]}
           pointerEvents="box-none"
         >
+          {isReportOpen && (
+            <ReportConsultationProblem
+              consultationId={
+                consultation.consultationId || consultation.consultation_id
+              }
+              onClose={() => setIsReportOpen(false)}
+              getCallContext={() => ({
+                clientPresent: null,
+                providerPresent: isProviderInSession ?? null,
+                connectionState: connectionStatus,
+                connectionQuality: callQuality,
+                cameraOn: isVideoEnabled,
+                microphoneOn: isAudioEnabled,
+              })}
+            />
+          )}
           <Controls
+            onReportProblem={() => setIsReportOpen(true)}
             consultation={consultation}
             isMicrophoneOn={isAudioEnabled}
             isCameraOn={isVideoEnabled}

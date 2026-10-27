@@ -1779,5 +1779,15 @@
       "articles": "Conținut",
       "mood": "Stare de spirit"
     }
+  },
+  "consultationReport": {
+    "title": "Raportează o problemă",
+    "message_label": "Descrie problema",
+    "send": "Trimite raportul",
+    "close": "Închide",
+    "success_title": "Raport trimis",
+    "success": "Raportul tău a fost trimis administratorului de țară.",
+    "error": "Raportul nu a putut fi trimis. Încearcă din nou.",
+    "settings": "Setări"
   }
 }

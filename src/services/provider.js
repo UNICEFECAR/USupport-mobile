@@ -333,7 +333,16 @@ async function getProviderStatusById(providerId) {
   return response;
 }
 
+async function submitProblemReport(payload) {
+  const response = await http.post(
+    `${API_ENDPOINT}/consultation/problem-reports`,
+    payload
+  );
+  return response;
+}
+
 const exportedFunctions = {
+  submitProblemReport,
   addAvailableSlot,
   addTemplateAvailability,
   blockSlot,
