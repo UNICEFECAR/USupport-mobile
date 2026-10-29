@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Pressable, useWindowDimensions } from "react-native";
+import { StyleSheet, View, Pressable } from "react-native";
 import Config from "react-native-config";
 
 import { Avatar } from "../../avatars/Avatar/Avatar";
@@ -8,9 +8,11 @@ import { AppText } from "../../texts/AppText/AppText";
 import { NewButton } from "../../buttons/NewButton/NewButton";
 import { PeerSupportBadge } from "../../labels/PeerSupportBadge";
 import {
+  getConsultationEndDate,
   getDateView,
   getDayOfTheWeek,
   getDisplaySpecializations,
+  getTimeAsString,
   isPeerSupportProvider,
   resolveSpecializationKeys,
 } from "#utils";
@@ -34,6 +36,7 @@ export const ProviderOverview = ({
   freeLabel,
   price,
   earliestAvailableSlot,
+  earliestAvailableSlotDurationMinutes,
   onPress,
   handleViewProfile,
   handleBookSession,
@@ -48,7 +51,6 @@ export const ProviderOverview = ({
   liquidGlass = false,
 }) => {
   const { colors, isDarkMode, isHighContrast } = useGetTheme();
-  const { width } = useWindowDimensions();
   const displayName = patronym
     ? `${name} ${patronym} ${surname}`
     : `${name} ${surname}`;
@@ -78,20 +80,23 @@ export const ProviderOverview = ({
       ? `${dayOfWeek} ${getDateView(earliestSlot).slice(0, 5)}`
       : "";
 
-  const startHour = earliestSlot?.getHours();
-  const endHour = startHour != null ? startHour + 1 : null;
-  const timeText =
-    startHour != null && endHour != null
-      ? `${startHour < 10 ? `0${startHour}` : startHour}:00 - ${
-          endHour < 10 ? `0${endHour}` : endHour
-        }:00`
-      : "";
+  // Real start minutes and real length: this used to print `HH:00 - HH+1:00`
+  // for every slot, so a 03:30-04:00 slot read 03:00-04:00.
+  const timeText = earliestSlot
+    ? `${getTimeAsString(earliestSlot)} - ${getTimeAsString(
+        getConsultationEndDate(
+          earliestSlot,
+          earliestAvailableSlotDurationMinutes
+        )
+      )}`
+    : "";
 
   const resolvedViewProfile = handleViewProfile || onPress;
   const showActions = !!resolvedViewProfile || !!handleBookSession;
   const showFreeBadge = !price;
-  // Match client-ui card title color.
-  const nameColor = "#6a4ffb";
+  const slotBoxBackground = isDarkMode
+    ? "rgba(255, 255, 255, 0.06)"
+    : "rgba(106, 79, 251, 0.06)";
 
   const glassGradient = React.useMemo(
     () => ({
@@ -126,12 +131,11 @@ export const ProviderOverview = ({
         style: [
           styles.providerOverview,
           { backgroundColor: colors.card },
-          appStyles.shadow2,
+          isLightTheme && !isHighContrast
+            ? styles.liquidGlassShadowLight
+            : appStyles.shadow2,
         ],
       };
-
-  const isWide = width >= 1024;
-  const divider = colors.inputBorder || dividerColor(isDarkMode);
 
   return (
     <View style={[styles.container, style]}>
@@ -147,11 +151,11 @@ export const ProviderOverview = ({
               <AppText
                 numberOfLines={2}
                 namedStyle="paragraph"
-                style={[styles.nameText, { color: nameColor }]}
+                style={[styles.nameText, { color: colors.text }]}
               >
                 {displayName}
               </AppText>
-              {showFreeBadge && (
+              {showFreeBadge && !!freeLabel && (
                 <View
                   style={[styles.freeBadge, isDarkMode && styles.freeBadgeDark]}
                 >
@@ -159,10 +163,10 @@ export const ProviderOverview = ({
                     namedStyle="smallText"
                     style={[
                       styles.freeBadgeText,
-                      { color: isDarkMode ? colors.text : "#1a2340" },
+                      isDarkMode && styles.freeBadgeTextDark,
                     ]}
                   >
-                    {(freeLabel || "").toUpperCase()}
+                    {freeLabel}
                   </AppText>
                 </View>
               )}
@@ -181,71 +185,61 @@ export const ProviderOverview = ({
           </View>
         </Pressable>
 
-        {(!!earliestAvailableSlot || showActions) && (
-          <View style={[styles.bottom, { borderTopColor: divider }]}>
-            {!!earliestAvailableSlot && (
-              <View style={styles.earliest}>
-                <AppText namedStyle="text" style={styles.earliestLabel}>
-                  {t ? t("earliest_available_slot") : "Earliest available slot"}
-                </AppText>
-                <View style={styles.earliestWrapper}>
-                  <View style={styles.earliestRow}>
-                    <Icon
-                      name="calendar"
-                      size="sm"
-                      color={appStyles.colorGray_66768d}
-                    />
-                    <AppText
-                      namedStyle="text"
-                      style={[styles.earliestBold, { color: colors.text }]}
-                    >
-                      {dateText}
-                    </AppText>
-                  </View>
-                  <View style={styles.earliestRow}>
-                    <Icon
-                      name="time"
-                      size="sm"
-                      color={appStyles.colorGray_66768d}
-                    />
-                    <AppText
-                      namedStyle="text"
-                      style={[styles.earliestBold, { color: colors.text }]}
-                    >
-                      {timeText}
-                    </AppText>
-                  </View>
-                </View>
-              </View>
-            )}
+        {!!earliestAvailableSlot && (
+          <View
+            style={[styles.earliest, { backgroundColor: slotBoxBackground }]}
+          >
+            <AppText
+              namedStyle="text"
+              style={[styles.earliestLabel, { color: colors.textSecondary }]}
+            >
+              {t ? t("next_available_session") : "Next available session"}
+            </AppText>
+            <View style={styles.earliestRow}>
+              <Icon
+                name="calendar"
+                size="md"
+                color={appStyles.colorGray_66768d}
+              />
+              <AppText
+                namedStyle="text"
+                style={[styles.earliestBold, { color: colors.text }]}
+              >
+                {dateText}
+              </AppText>
+            </View>
+            <View style={styles.earliestRow}>
+              <Icon name="time" size="md" color={appStyles.colorGray_66768d} />
+              <AppText
+                namedStyle="text"
+                style={[styles.earliestBold, { color: colors.text }]}
+              >
+                {timeText}
+              </AppText>
+            </View>
+          </View>
+        )}
 
-            {showActions && (
-              <View style={[styles.actions, { borderTopColor: divider }]}>
-                <View
-                  style={[styles.actionsRow, isWide && styles.actionsRowWide]}
-                >
-                  {!!resolvedViewProfile && (
-                    <NewButton
-                      label={viewProfileLabel}
-                      type="outline"
-                      size="md"
-                      onPress={resolvedViewProfile}
-                      style={styles.actionHalf}
-                    />
-                  )}
-                  {!!handleBookSession && (
-                    <NewButton
-                      label={
-                        bookSessionLabel ||
-                        (t ? t("book_session") : "Book session")
-                      }
-                      size="md"
-                      onPress={handleBookSession}
-                      style={styles.actionHalf}
-                    />
-                  )}
-                </View>
-              </View>
+        {showActions && (
+          <View style={styles.actions}>
+            {!!handleBookSession && (
+              <NewButton
+                label={
+                  bookSessionLabel || (t ? t("book_session") : "Book session")
+                }
+                size="md"
+                onPress={handleBookSession}
+                style={styles.actionButton}
+              />
+            )}
+            {!!resolvedViewProfile && (
+              <NewButton
+                label={viewProfileLabel}
+                type="outline"
+                size="md"
+                onPress={resolvedViewProfile}
+                style={styles.actionButton}
+              />
             )}
           </View>
         )}
@@ -254,17 +248,15 @@ export const ProviderOverview = ({
   );
 };
 
-const dividerColor = (isDarkMode) => (isDarkMode ? "#344054" : "#cdd8e1");
-
 const styles = StyleSheet.create({
   container: { width: "100%", alignItems: "center" },
   providerOverview: {
-    padding: 16,
+    padding: 20,
     alignItems: "stretch",
     width: "100%",
     textAlign: "left",
     position: "relative",
-    borderRadius: 16,
+    borderRadius: 20,
     borderWidth: 1,
     borderColor: "transparent",
     maxWidth: 420,
@@ -273,13 +265,13 @@ const styles = StyleSheet.create({
   liquidGlassShadowLight: {
     shadowColor: "rgb(95, 108, 145)",
     shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.14,
+    shadowOpacity: 0.1,
     shadowRadius: 16,
     elevation: 4,
   },
   top: {
     flexDirection: "row",
-    alignItems: "flex-start",
+    alignItems: "center",
     width: "100%",
   },
   topTextContainer: {
@@ -289,58 +281,46 @@ const styles = StyleSheet.create({
   nameRow: {
     flexDirection: "row",
     alignItems: "flex-start",
-    gap: 6,
+    gap: 8,
     width: "100%",
   },
   nameText: {
-    fontFamily: appStyles.fontSemiBold,
-    fontWeight: "600",
-    // client-ui: `.paragraph` with line-height ~1.4
-    paddingTop: 4,
-    lineHeight: 22,
+    fontFamily: appStyles.fontBold,
+    fontWeight: "700",
+    fontSize: 18,
+    lineHeight: 24,
     flex: 1,
   },
   freeBadge: {
-    position: "absolute",
-    top: -20,
-    right: 16,
-    backgroundColor: "rgba(151, 107, 255, 0.25)",
-    paddingVertical: 2,
-    paddingHorizontal: 8,
-    borderRadius: 999,
-    ...appStyles.shadow1,
+    backgroundColor: "#e6f6ea",
+    paddingVertical: 3,
+    paddingHorizontal: 10,
+    borderRadius: 8,
   },
   freeBadgeDark: {
-    backgroundColor: "rgba(193, 215, 224, 0.12)",
+    backgroundColor: "rgba(52, 168, 83, 0.2)",
   },
   freeBadgeText: {
-    color: "#1a2340",
+    padding: 0,
+    color: "#1e7b34",
     fontFamily: appStyles.fontMedium,
-    textTransform: "uppercase",
+  },
+  freeBadgeTextDark: {
+    color: "#8fdca4",
   },
   peerBadge: {
-    marginTop: 4,
-    marginBottom: 2,
+    marginTop: 6,
   },
   typesText: {
-    paddingTop: 4,
-    // client-ui `.text` with provider-overview__types: line-height 1.4 + muted look
+    paddingTop: 6,
     lineHeight: 22,
     opacity: 0.8,
   },
-  bottom: {
-    marginTop: 12,
-    paddingTop: 12,
-    borderTopWidth: 1,
-    width: "100%",
-  },
   earliest: {
-    flexDirection: "column",
-    gap: 4,
-  },
-  earliestWrapper: {
-    flexDirection: "column",
-    gap: 6,
+    marginTop: 20,
+    padding: 16,
+    borderRadius: 14,
+    gap: 10,
   },
   earliestLabel: {
     paddingTop: 0,
@@ -348,27 +328,21 @@ const styles = StyleSheet.create({
   earliestRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
+    gap: 12,
   },
   earliestBold: {
     flex: 1,
+    paddingTop: 0,
     fontFamily: appStyles.fontBold,
+    fontSize: 18,
   },
   actions: {
-    marginTop: 16,
-    paddingTop: 16,
-    borderTopWidth: 1,
+    marginTop: 20,
+    gap: 12,
     width: "100%",
   },
-  actionsRow: {
-    flexDirection: "column",
-    gap: 12,
-  },
-  actionsRowWide: {
-    flexDirection: "row",
-  },
-  actionHalf: {
-    flex: 1,
+  actionButton: {
+    width: "100%",
     minWidth: 0,
   },
 });

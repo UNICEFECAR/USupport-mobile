@@ -606,7 +606,18 @@
       "providers_free_consultation_label": "",
       "coupon_note": "Acestă dată, am introdus un cod pentru dvs. pentru o sesiune gratuită! Programăm o consultație cu unul dintre consultanții noștri și facem primul pas spre îmbunătățirea bunăstării dumneavoastră.",
       "choose-the-provider": "Alegeți specialistul cu care doriți să vorbiți prin video, audio sau text. Uneori poate dura câteva ședințe până găsiți un specialist potrivit nevoilor și abordării preferate.",
-      "choose_provider": "Alegeți furnizorul cu care doriți să discutați în cadrul unei consultații video, audio sau text. Uneori poate fi nevoie de timp pentru a găsi un furnizor care se potrivește nevoilor dvs. și abordării preferate.."
+      "choose_provider": "Alegeți furnizorul cu care doriți să discutați în cadrul unei consultații video, audio sau text. Uneori poate fi nevoie de timp pentru a găsi un furnizor care se potrivește nevoilor dvs. și abordării preferate..",
+      "tab_providers": "Psihologi",
+      "tab_u_friend": "U-Friend",
+      "filters": "Filtre",
+      "connect_by": "Conectează-te prin video, audio sau text.",
+      "available_providers": "Furnizori disponibili",
+      "available_u_friends": "U-Friends disponibili",
+      "available_count": "{{count}} disponibili",
+      "next_available_session": "Următoarea sesiune disponibilă",
+      "view_profile": "Vezi profilul",
+      "no_u_friends": "Nu există U-Friends care să corespundă criteriilor tale",
+      "available_psychologists": "Psihologi disponibili"
     },
     "share-platform": {
       "button_label_share_text": "Partajați pe",
@@ -1287,7 +1298,8 @@
       "max_price": "Preț maxim",
       "providers_free_consultation_label": "Doar consultație gratuită",
       "coupon_note": "De data aceasta, am introdus pentru tine un cod pentru o sesiune gratuita! Programeaza o intalnire cu unul dintre consultantii nostri si fa primul pas catre imbunatatirea starii tale de bine.",
-      "consultations_unavailable_note": "Consultațiile cu specialiști nu sunt disponibile momentan. Vă vom anunța pe această pagină când consultațiile vor fi reluate."
+      "consultations_unavailable_note": "Consultațiile cu specialiști nu sunt disponibile momentan. Vă vom anunța pe această pagină când consultațiile vor fi reluate.",
+      "subheading_short": "Găsește pe cineva cu care te simți confortabil să vorbești."
     },
     "share-platform-screen": {
       "heading": "Distribuiți aplicația",

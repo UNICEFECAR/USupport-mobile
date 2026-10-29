@@ -10,7 +10,7 @@ import { IconWifiOff, IconWifiOn } from "../../icons/assets/sprite";
 import { Avatar } from "../../avatars";
 import { AppText } from "../../texts";
 
-import { ONE_HOUR, getTimeAsString } from "#utils";
+import { getConsultationEndDate, getTimeAsString } from "#utils";
 import { appStyles } from "#styles";
 
 const { AMAZON_S3_BUCKET } = Config;
@@ -110,7 +110,10 @@ export const Controls = ({
   const timestamp =
     consultation.timestamp || new Date(consultation.time).getTime();
   const startDate = new Date(timestamp);
-  const endDate = new Date(timestamp + ONE_HOUR);
+  const endDate = getConsultationEndDate(
+    timestamp,
+    consultation.durationMinutes ?? consultation.duration_minutes
+  );
 
   const [now, setNow] = useState(Date.now());
   useEffect(() => {

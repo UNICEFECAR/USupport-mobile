@@ -4,9 +4,11 @@ import YoutubeIframe from "react-native-youtube-iframe";
 
 import { Avatar, AppText, Icon, PeerSupportBadge } from "#components";
 import {
+  getConsultationEndDate,
   getDateView,
   getDayOfTheWeek,
   getDisplaySpecializations,
+  getTimeAsString,
   isPeerSupportProvider,
 } from "#utils";
 import { useGetTheme } from "#hooks";
@@ -94,11 +96,12 @@ export const ProviderDetails = ({
     const earliestSlot = new Date(provider.earliestAvailableSlot);
     const dayOfWeek = t(getDayOfTheWeek(earliestSlot));
     const dateText = `${dayOfWeek} ${getDateView(earliestSlot).slice(0, 5)}`;
-    const startHour = earliestSlot.getHours();
-    const endHour = startHour + 1;
-    const timeText = `${startHour < 10 ? `0${startHour}` : startHour}:00 - ${
-      endHour < 10 ? `0${endHour}` : endHour
-    }:00`;
+    const timeText = `${getTimeAsString(earliestSlot)} - ${getTimeAsString(
+      getConsultationEndDate(
+        earliestSlot,
+        provider.earliestAvailableSlotDurationMinutes
+      )
+    )}`;
     return { dateText, timeText };
   };
 

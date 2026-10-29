@@ -606,7 +606,18 @@
       "error_invalid_coupon": "Nieprawidłowy kupon",
       "coupon_note": "Tym razem wpisaliśmy za Ciebie kod na darmową sesję! Umów się z jednym z naszych konsultantów i zrób pierwszy krok, aby zadbać o swoje samopoczucie.",
       "choose-the-provider": "Wybierz specjalistę, z którym chcesz rozmawiać przez wideo, audio lub czat. Czasami może minąć kilka sesji, zanim znajdziesz specjalistę odpowiedniego do Twoich potrzeb i preferowanego podejścia.",
-      "choose_provider": "Wybierz konsultanta/kę, z którym chcesz porozmawiać w ramach konsultacji wideo, audio lub tekstowej. Znalezienie konsultanta/ki, który/a będzie dobrze dopasowany/a do Twoich potrzeb i preferowanego podejścia, może czasami zająć trochę czasu."
+      "choose_provider": "Wybierz konsultanta/kę, z którym chcesz porozmawiać w ramach konsultacji wideo, audio lub tekstowej. Znalezienie konsultanta/ki, który/a będzie dobrze dopasowany/a do Twoich potrzeb i preferowanego podejścia, może czasami zająć trochę czasu.",
+      "tab_providers": "Psycholodzy",
+      "tab_u_friend": "U-Friend",
+      "filters": "Filtry",
+      "connect_by": "Połącz się przez wideo, audio lub tekst.",
+      "available_providers": "Dostępni konsultanci",
+      "available_u_friends": "Dostępni U-Friends",
+      "available_count": "dostępni: {{count}}",
+      "next_available_session": "Najbliższa dostępna sesja",
+      "view_profile": "Zobacz profil",
+      "no_u_friends": "Brak U-Friends spełniających Twoje kryteria",
+      "available_psychologists": "Dostępni psycholodzy"
     },
     "share-platform": {
       "button_label_share_text": "Udostępnij na",
@@ -1302,7 +1313,8 @@
       "max_price": "Cena maksymalna",
       "providers_free_consultation_label": "Tylko bezpłatna konsultacja",
       "coupon_note": "Tym razem wpisaliśmy za Ciebie kod na darmową sesję! Umów się z jednym z naszych konsultantów i zrób pierwszy krok, aby zadbać o swoje samopoczucie.",
-      "consultations_unavailable_note": "Konsultacje ze specjalistami nie są obecnie dostępne. Poinformujemy o wznowieniu konsultacji na tej stronie."
+      "consultations_unavailable_note": "Konsultacje ze specjalistami nie są obecnie dostępne. Poinformujemy o wznowieniu konsultacji na tej stronie.",
+      "subheading_short": "Znajdź kogoś, z kim czujesz się komfortowo rozmawiać."
     },
     "share-platform-screen": {
       "heading": "Udostępnianie aplikacji",

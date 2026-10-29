@@ -50,7 +50,7 @@ import {
   useAddCountryEvent,
 } from "#hooks";
 
-import { ONE_HOUR, showToast, parseUTCDate } from "#utils";
+import { getConsultationEndDate, showToast, parseUTCDate } from "#utils";
 
 const { AMAZON_S3_BUCKET } = Config;
 
@@ -111,7 +111,10 @@ export const Dashboard = ({ navigation }) => {
     if (consultationsQuery?.data) {
       return consultationsQuery.data
         ?.filter((consultation) => {
-          const endTime = consultation.timestamp + ONE_HOUR;
+          const endTime = getConsultationEndDate(
+            consultation.timestamp,
+            consultation.durationMinutes
+          ).getTime();
           return (
             consultation.timestamp >= currentDateTs ||
             (currentDateTs >= consultation.timestamp &&
@@ -183,6 +186,8 @@ export const Dashboard = ({ navigation }) => {
   const [consultationId, setConsultationId] = useState();
 
   const selectedSlot = useRef();
+  // The booked slot's own length, for the confirmation's end time.
+  const selectedSlotDuration = useRef();
 
   // Modal state variables
   const [
@@ -265,6 +270,7 @@ export const Dashboard = ({ navigation }) => {
         navigation.navigate("Checkout", {
           consultationId: consultationId,
           selectedSlot: selectedSlot.current,
+          selectedSlotDuration: selectedSlotDuration.current,
         });
       } else {
         scheduleConsultationMutation.mutate(selectedConsultationId);
@@ -276,8 +282,9 @@ export const Dashboard = ({ navigation }) => {
   };
   const blockSlotMutation = useBlockSlot(onBlockSlotSuccess, onBlockSlotError);
 
-  const handleBlockSlot = (slot, price) => {
+  const handleBlockSlot = (slot, price, durationMinutes) => {
     selectedSlot.current = slot;
+    selectedSlotDuration.current = durationMinutes;
     consultationPrice.current = price;
     blockSlotMutation.mutate({
       slot,
@@ -520,8 +527,9 @@ export const Dashboard = ({ navigation }) => {
           ctaStyle={styles.marginBottom85}
           consultation={{
             startDate: time,
-            endDate: new Date(
-              new Date(time).setHours(new Date(time).getHours() + 1)
+            endDate: getConsultationEndDate(
+              time,
+              selectedSlotDuration.current
             ),
           }}
         />

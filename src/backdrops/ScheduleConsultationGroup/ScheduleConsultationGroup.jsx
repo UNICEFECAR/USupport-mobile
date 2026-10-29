@@ -4,7 +4,7 @@ import { SelectConsultation } from "../SelectConsultation";
 import { ConfirmConsultation } from "../ConfirmConsultation";
 import { RequireDataAgreement } from "#modals";
 import { useBlockSlot, useScheduleConsultation } from "#hooks";
-import { parseUTCDate } from "#utils";
+import { getConsultationEndDate, parseUTCDate } from "#utils";
 
 /**
  * ScheduleConsultationGroup
@@ -28,12 +28,15 @@ export const ScheduleConsultationGroup = ({
 
   const consultationPrice = useRef();
   const selectedSlot = useRef();
+  // The booked slot's own length, for the confirmation's end time.
+  const selectedSlotDuration = useRef();
 
   const onBlockSlotSuccess = (consultationId) => {
     if (consultationPrice.current && consultationPrice.current > 0) {
       navigation.navigate("Checkout", {
         consultationId: consultationId,
         selectedSlot: selectedSlot.current,
+        selectedSlotDuration: selectedSlotDuration.current,
       });
     } else {
       scheduleConsultationMutation.mutate(consultationId);
@@ -45,8 +48,9 @@ export const ScheduleConsultationGroup = ({
   };
   const blockSlotMutation = useBlockSlot(onBlockSlotSuccess, onBlockSlotError);
 
-  const handleBlockSlot = (slot, price) => {
+  const handleBlockSlot = (slot, price, durationMinutes) => {
     selectedSlot.current = slot;
+    selectedSlotDuration.current = durationMinutes;
     consultationPrice.current = price;
     blockSlotMutation.mutate({
       slot,
@@ -79,8 +83,8 @@ export const ScheduleConsultationGroup = ({
     blockSlotMutation.isLoading || scheduleConsultationMutation.isLoading;
 
   const time = useMemo(() => {
-    return selectedSlot.current?.campaign_id
-      ? parseUTCDate(selectedSlot.current?.time)
+    return selectedSlot.current?.time
+      ? parseUTCDate(selectedSlot.current.time)
       : new Date(selectedSlot.current);
   }, [selectedSlot.current]);
 
@@ -102,8 +106,9 @@ export const ScheduleConsultationGroup = ({
           ctaStyle={isInMyQA ? { marginBottom: 85 } : {}}
           consultation={{
             startDate: time,
-            endDate: new Date(
-              new Date(time).setHours(new Date(time).getHours() + 1)
+            endDate: getConsultationEndDate(
+              time,
+              selectedSlotDuration.current
             ),
           }}
         />

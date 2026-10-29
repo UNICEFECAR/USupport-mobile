@@ -43,7 +43,12 @@ import {
 } from "#hooks";
 
 import { localStorage, Context, messageSvc } from "#services";
-import { showToast, ONE_HOUR, getDateView, systemMessageTypes } from "#utils";
+import {
+  showToast,
+  getConsultationEndDate,
+  getDateView,
+  systemMessageTypes,
+} from "#utils";
 import { appStyles } from "#styles";
 
 import { SafetyFeedback } from "../SafetyFeedback";
@@ -195,7 +200,11 @@ export const Consultation = ({ navigation, route }) => {
   );
 
   useEffect(() => {
-    const endTime = new Date(consultation.timestamp + ONE_HOUR);
+    // Session-end reminders count down to the real end, not start + an hour.
+    const endTime = getConsultationEndDate(
+      consultation.timestamp,
+      consultation.durationMinutes
+    );
     let isTenMinAlertShown,
       isFiveMinAlertShown = false;
 

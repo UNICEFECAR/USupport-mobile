@@ -166,7 +166,13 @@ async function blockSlot(clientId, providerId, slotTimestamp) {
       typeof slotTimestamp === "object"
         ? {
             campaign_id: slotTimestamp.campaign_id,
-            time: JSON.stringify(slotTimestamp.time.getTime() / 1000),
+            // Name the pool explicitly. The server still reads an object with
+            // no ids as an organization slot for older builds, but that is a
+            // compatibility fallback, not something to rely on.
+            organization_id: slotTimestamp.organization_id,
+            time: JSON.stringify(
+              new Date(slotTimestamp.time).getTime() / 1000
+            ),
           }
         : JSON.stringify(slotTimestamp / 1000),
   });

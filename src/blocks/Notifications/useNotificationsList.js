@@ -10,7 +10,7 @@ import { appStyles } from "#styles";
 import {
   getDateView,
   getTimeAsString,
-  ONE_HOUR,
+  getConsultationEndDate,
   showToast,
   checkIsFiveMinutesBefore,
 } from "#utils";
@@ -260,7 +260,9 @@ export function useNotificationsList({
       time = notification.content.time;
       date = getDateView(time);
       startHour = getTimeAsString(new Date(time));
-      endHour = getTimeAsString(new Date(time + ONE_HOUR));
+      endHour = getTimeAsString(
+        getConsultationEndDate(time, notification.content.duration_minutes)
+      );
     }
 
     let newDate, newStartHour, newEndHour;
@@ -268,7 +270,14 @@ export function useNotificationsList({
       const newTime = notification.content.newConsultationTime;
       newDate = getDateView(newTime);
       newStartHour = getTimeAsString(new Date(newTime));
-      newEndHour = getTimeAsString(new Date(newTime + ONE_HOUR));
+      newEndHour = getTimeAsString(
+        getConsultationEndDate(
+          newTime,
+          // A reschedule can change the length, so the new range has its own.
+          notification.content.new_consultation_duration_minutes ??
+            notification.content.duration_minutes
+        )
+      );
     }
 
     const handleNotificationClick = (
@@ -429,7 +438,10 @@ export function useNotificationsList({
             }
             icon="calendar"
           >
-            {checkIsFiveMinutesBefore(notification.content.time) ? (
+            {checkIsFiveMinutesBefore(
+              notification.content.time,
+              notification.content.duration_minutes
+            ) ? (
               <AppButton
                 size="sm"
                 label={t("join")}
@@ -567,7 +579,10 @@ export function useNotificationsList({
           />
         );
       case "consultation_started":
-        const canJoin = checkIsFiveMinutesBefore(notification.content.time);
+        const canJoin = checkIsFiveMinutesBefore(
+          notification.content.time,
+          notification.content.duration_minutes
+        );
         return (
           <Notification
             t={t}

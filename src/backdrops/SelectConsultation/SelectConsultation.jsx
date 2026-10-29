@@ -7,7 +7,12 @@ import { AppText, Backdrop, Error, Header, Loading } from "#components";
 import { appStyles } from "#styles";
 
 import { useGetProviderDataById, useGetTheme } from "#hooks";
-import { getTimestampFromUTC, parseUTCDate } from "#utils";
+import {
+  getConsultationEndDate,
+  getTimeAsString,
+  getTimestampFromUTC,
+  parseUTCDate,
+} from "#utils";
 import { providerSvc, Context, localStorage } from "#services";
 
 /**
@@ -102,6 +107,8 @@ export const SelectConsultation = ({
       if (x.time) {
         return {
           time: parseUTCDate(x.time),
+          // The provider set this slot's length; the client books it as is.
+          duration_minutes: x.duration_minutes,
           organization_id: x.organization_id,
           campaign_id: x.campaign_id,
         };
@@ -164,14 +171,9 @@ export const SelectConsultation = ({
         const value = slot.time
           ? slot.time.getTime()
           : new Date(slot).getTime();
-        const getDoubleDigitHour = (hour) =>
-          hour === 24 ? "00" : hour < 10 ? `0${hour}` : hour;
-
-        const displayStartHours = getDoubleDigitHour(slotLocal.getHours());
-        const displayStartMinutes = getDoubleDigitHour(slotLocal.getMinutes());
-        const displayEndHours = getDoubleDigitHour(slotLocal.getHours() + 1);
-        const displayEndMinutes = getDoubleDigitHour(slotLocal.getMinutes());
-        const label = `${displayStartHours}:${displayStartMinutes} - ${displayEndHours}:${displayEndMinutes}`;
+        // Computed from a real end Date, so 23:30 + 30 reads 00:00, not 24:00.
+        const slotEnd = getConsultationEndDate(slotLocal, slot.duration_minutes);
+        const label = `${getTimeAsString(slotLocal)} - ${getTimeAsString(slotEnd)}`;
 
         return { label: label, value };
       },
@@ -234,7 +236,12 @@ export const SelectConsultation = ({
       }
     }
     const time = slotObject || selectedSlot;
-    handleBlockSlot(time, providerData.consultationPrice);
+
+    const selectedSlotDuration = availableSlots.find(
+      (slot) => new Date(slot.time).getTime() === selectedSlot
+    )?.duration_minutes;
+
+    handleBlockSlot(time, providerData.consultationPrice, selectedSlotDuration);
   };
 
   return (

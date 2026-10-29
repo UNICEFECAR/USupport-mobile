@@ -10,7 +10,7 @@ import { Platform, StyleSheet, View } from "react-native";
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 
 import { AppText, Consultation, NewButton } from "#components";
-import { FIVE_MINUTES, ONE_HOUR, showToast } from "#utils";
+import { FIVE_MINUTES, getConsultationEndDate, showToast } from "#utils";
 import {
   useGetAllConsultations,
   useAcceptConsultation,
@@ -25,7 +25,10 @@ import { appStyles } from "#styles";
 const getUpcomingConsultations = (consultations, currentDateTs) => {
   return consultations
     ?.filter((consultation) => {
-      const endTime = consultation.timestamp + ONE_HOUR;
+      const endTime = getConsultationEndDate(
+        consultation.timestamp,
+        consultation.durationMinutes
+      ).getTime();
       return (
         consultation.timestamp >= currentDateTs ||
         (currentDateTs >= consultation.timestamp && currentDateTs <= endTime)
@@ -40,7 +43,10 @@ const getUpcomingConsultations = (consultations, currentDateTs) => {
 const getPastConsultations = (consultations, currentDateTs) => {
   return consultations
     ?.filter((consultation) => {
-      const endTime = consultation.timestamp + ONE_HOUR;
+      const endTime = getConsultationEndDate(
+        consultation.timestamp,
+        consultation.durationMinutes
+      ).getTime();
       return (
         endTime < currentDateTs &&
         (consultation.status === "finished" ||
@@ -59,8 +65,9 @@ const MAX_TIMER_DELAY = 60 * 1000;
  */
 const getNextStateChangeTs = (consultations, currentDateTs) => {
   let next = null;
-  consultations?.forEach(({ timestamp }) => {
-    [timestamp - FIVE_MINUTES, timestamp, timestamp + ONE_HOUR + 1].forEach(
+  consultations?.forEach(({ timestamp, durationMinutes }) => {
+    const endTs = getConsultationEndDate(timestamp, durationMinutes).getTime();
+    [timestamp - FIVE_MINUTES, timestamp, endTs + 1].forEach(
       (ts) => {
         if (ts > currentDateTs && (next === null || ts < next)) next = ts;
       }

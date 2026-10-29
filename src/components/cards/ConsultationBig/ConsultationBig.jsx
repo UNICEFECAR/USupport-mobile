@@ -12,6 +12,7 @@ import {
   getDateView,
   getMonthName,
   getOrdinal,
+  getTimeAsString,
   showToast,
 } from "#utils";
 
@@ -34,12 +35,13 @@ export const ConsultationBig = ({
   t,
 }) => {
   const { colors } = useGetTheme();
-  const { providerName, timestamp, image, status, price } = consultation;
+  const { providerName, timestamp, image, status, price, durationMinutes } = consultation;
   const imageUrl = AMAZON_S3_BUCKET + "/" + (image || "default");
 
   // Only scheduled (or already finished) consultations can be joined, e.g. a pending one is still being booked
   const isJoinable = status === "scheduled" || status === "finished";
-  const isLive = isJoinable && checkIsFiveMinutesBefore(timestamp);
+  const isLive =
+    isJoinable && checkIsFiveMinutesBefore(timestamp, durationMinutes);
 
   const startDate = new Date(timestamp);
   const ordinal = getOrdinal(startDate?.getDate());
@@ -48,8 +50,7 @@ export const ConsultationBig = ({
     getMonthName(startDate).toLowerCase()
   )}`;
 
-  const time = startDate.getHours();
-  const timeText = startDate ? `${time < 10 ? `0${time}` : time}:00` : "";
+  const timeText = startDate ? getTimeAsString(startDate) : "";
 
   return (
     <LinearGradient

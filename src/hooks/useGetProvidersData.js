@@ -104,6 +104,8 @@ export default function useGetProvidersData(
         workWith: providerData.work_with || [],
         totalConsultations: providerData.total_consultations || 0,
         earliestAvailableSlot: providerData.earliest_available_slot || "",
+        earliestAvailableSlotDurationMinutes:
+          providerData.earliest_available_slot_duration_minutes,
         latestAvailableSlot: providerData.latest_available_slot || "",
         couponPrice: providerData.price_per_coupon || 0,
       };

@@ -14,6 +14,7 @@ import {
   useAddCountryEvent,
 } from "#hooks";
 import { Context } from "#services";
+import { getConsultationEndDate } from "#utils";
 
 /**
  * ProviderOverview
@@ -51,6 +52,8 @@ export const ProviderOverview = ({ navigation, route }) => {
 
   const consultationPrice = useRef();
   const selectedSlot = useRef();
+  // The booked slot's own length, for the confirmation's end time.
+  const selectedSlotDuration = useRef();
 
   // Modal state variables
   const [isScheduleBackdropOpen, setIsScheduleBackdropOpen] = useState(false);
@@ -96,6 +99,7 @@ export const ProviderOverview = ({ navigation, route }) => {
       navigation.navigate("Checkout", {
         consultationId,
         selectedSlot: selectedSlot.current,
+        selectedSlotDuration: selectedSlotDuration.current,
       });
     } else {
       scheduleConsultationMutation.mutate(consultationId);
@@ -124,8 +128,9 @@ export const ProviderOverview = ({ navigation, route }) => {
     onScheduleConsultationError
   );
 
-  const handleBlockSlot = (slot, price) => {
+  const handleBlockSlot = (slot, price, durationMinutes) => {
     selectedSlot.current = slot;
+    selectedSlotDuration.current = durationMinutes;
     consultationPrice.current = price;
     blockSlotMutation.mutate({
       slot,
@@ -180,8 +185,9 @@ export const ProviderOverview = ({ navigation, route }) => {
           onClose={closeConfirmConsultationBackdrop}
           consultation={{
             startDate: time,
-            endDate: new Date(
-              new Date(time).setHours(new Date(time).getHours() + 1)
+            endDate: getConsultationEndDate(
+              time,
+              selectedSlotDuration.current
             ),
           }}
         />

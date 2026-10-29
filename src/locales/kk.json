@@ -606,7 +606,18 @@
       "providers_free_consultation_label": "",
       "coupon_note": "This time, we've entered a code for you for a free session! Schedule an appointment with one of our consultants and take the first step towards improving your well-being.",
       "choose-the-provider": "Бейне, аудио немесе мәтіндік чат арқылы сөйлескіңіз келетін маманды таңдаңыз. Қажеттіліктеріңізге және қалаған тәсіліңізге сәйкес маман табу үшін кейде бірнеше сеанс қажет болуы мүмкін.",
-      "choose_provider": "Аудио, бейне, немесе мәтіндік консультация арқылы сөйлескіңіз келетін консультантты таңдаңыз. Кейде Сіздің қажеттіліктеріңіз бен бағытыңызға сәйкес келетін консультантты табу үшін уақыт қажет болуы мүмкін."
+      "choose_provider": "Аудио, бейне, немесе мәтіндік консультация арқылы сөйлескіңіз келетін консультантты таңдаңыз. Кейде Сіздің қажеттіліктеріңіз бен бағытыңызға сәйкес келетін консультантты табу үшін уақыт қажет болуы мүмкін.",
+      "tab_providers": "Психологтар",
+      "tab_u_friend": "U-Friend",
+      "filters": "Сүзгілер",
+      "connect_by": "Бейне, аудио немесе мәтін арқылы байланысыңыз.",
+      "available_providers": "Қолжетімді консультанттар",
+      "available_u_friends": "Қолжетімді U-Friend",
+      "available_count": "{{count}} қолжетімді",
+      "next_available_session": "Келесі қолжетімді сеанс",
+      "view_profile": "Профильді қарау",
+      "no_u_friends": "Талаптарыңызға сай келетін U-Friend жоқ",
+      "available_psychologists": "Қолжетімді психологтар"
     },
     "share-platform": {
       "button_label_share_text": "Бөлісу",
@@ -1300,7 +1311,8 @@
       "max_price": "Ең жоғары баға",
       "providers_free_consultation_label": "Тек тегін консультация",
       "coupon_note": "This time, we've entered a code for you for a free session! Schedule an appointment with one of our consultants and take the first step towards improving your well-being.",
-      "consultations_unavailable_note": "Қазіргі уақытта мамандардың консультациялары уақытша қолжетімсіз. Консультациялар қайта басталғаны туралы ақпарат осы бетте қосымша жарияланатын болады."
+      "consultations_unavailable_note": "Қазіргі уақытта мамандардың консультациялары уақытша қолжетімсіз. Консультациялар қайта басталғаны туралы ақпарат осы бетте қосымша жарияланатын болады.",
+      "subheading_short": "Өзіңізді еркін сезінетін адамды табыңыз."
     },
     "share-platform-screen": {
       "heading": "Қосымшамен бөлісу",

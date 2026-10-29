@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
 import { Backdrop, ConsultationInformation, ButtonSelector } from "#components";
-import { ONE_HOUR } from "#utils";
+import { getConsultationEndDate } from "#utils";
 
 export const EditConsultation = ({
   isOpen,
@@ -15,11 +15,12 @@ export const EditConsultation = ({
   currencySymbol,
 }) => {
   const { t } = useTranslation("backdrops", { keyPrefix: "edit-consultation" });
-  const { providerName, timestamp, image, price } = consultation;
+  const { providerName, timestamp, image, price, durationMinutes } =
+    consultation;
 
   const imageUrl = image || "default";
   const startDate = new Date(timestamp);
-  const endDate = new Date(timestamp + ONE_HOUR);
+  const endDate = getConsultationEndDate(timestamp, durationMinutes);
   const today = new Date().getTime();
 
   const startsInLessThan24Hours = (startDate - today) < 24 * 60 * 60 * 1000;

@@ -16,7 +16,9 @@ import {
   getDayOfTheWeek,
   getDateView,
   checkIsFiveMinutesBefore,
+  getConsultationEndDate,
   getDisplaySpecializations,
+  getTimeAsString,
   isPeerSupportProvider,
   parseSpecializationKeys,
 } from "#utils";
@@ -104,14 +106,18 @@ export const Consultation = ({
   const imageUrl = AMAZON_S3_BUCKET + "/" + (image || "default");
 
   const startDate = new Date(timestamp);
-  const endDate = new Date(
-    new Date(timestamp).setHours(new Date(timestamp).getHours() + 1)
+  const endDate = getConsultationEndDate(
+    timestamp,
+    consultation?.durationMinutes
   );
   const dayOfWeek = t(getDayOfTheWeek(startDate));
   const dateText = `${dayOfWeek} ${getDateView(startDate).slice(0, 5)}`;
 
   const today = new Date().getTime();
-  const isFiveMinutesBefore = checkIsFiveMinutesBefore(timestamp);
+  const isFiveMinutesBefore = checkIsFiveMinutesBefore(
+    timestamp,
+    consultation?.durationMinutes
+  );
 
   const isPast = consultation
     ? new Date(timestamp).getTime() < new Date().getTime()
@@ -151,12 +157,9 @@ export const Consultation = ({
     buttonAction = renderIn === "client" ? "edit" : "cancel";
   }
 
-  const startHour = startDate.getHours();
-  const endHour = startHour + 1;
+  // Built from the same real start and end as everything else on the card.
   const rawTimeText = startDate
-    ? `${startHour < 10 ? `0${startHour}` : startHour}:00 - ${
-        endHour < 10 ? `0${endHour}` : endHour
-      }:00`
+    ? `${getTimeAsString(startDate)} - ${getTimeAsString(endDate)}`
     : "";
   const displayTimeText = buttonAction === "join" ? t("active") : rawTimeText;
 

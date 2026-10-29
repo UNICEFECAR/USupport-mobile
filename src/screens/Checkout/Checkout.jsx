@@ -8,7 +8,12 @@ import Config from "react-native-config";
 import { paymentsSvc, providerSvc, clientSvc } from "#services";
 import { Screen, AppButton, Loading, Heading, Block } from "#components";
 import { ConfirmConsultation } from "#backdrops";
-import { getDateView, getTime, FIVE_MINUTES } from "#utils";
+import {
+  getConsultationEndDate,
+  getDateView,
+  getTime,
+  FIVE_MINUTES,
+} from "#utils";
 import { showToast, hideToast } from "../../utils/showToast";
 
 const { AMAZON_S3_BUCKET } = Config;
@@ -41,6 +46,13 @@ export function Checkout({ navigation, route }) {
   const params = route.params;
   const consultationId = params?.consultationId;
   const selectedSlot = params?.selectedSlot;
+  // Passed by the booking flows. Accepting a provider's suggestion arrives
+  // without it, but that consultation is already in the consultations cache.
+  const selectedSlotDuration =
+    params?.selectedSlotDuration ??
+    queryClient
+      .getQueryData(["all-consultations"])
+      ?.find((x) => x.consultationId === consultationId)?.durationMinutes;
   const entryTime = params?.entryTime;
   const campaignId = params?.campaignId;
 
@@ -278,10 +290,9 @@ export function Checkout({ navigation, route }) {
           customMascotImage={statusData?.mascotToUse}
           consultation={{
             startDate: new Date(selectedSlot),
-            endDate: new Date(
-              new Date(selectedSlot).setHours(
-                new Date(selectedSlot).getHours() + 1
-              )
+            endDate: getConsultationEndDate(
+              new Date(selectedSlot),
+              selectedSlotDuration
             ),
           }}
         />

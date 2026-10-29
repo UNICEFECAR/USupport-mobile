@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import { Backdrop, ConsultationInformation } from "#components";
 import { localStorage } from "#services";
-import { ONE_HOUR, showToast } from "#utils";
+import { ONE_HOUR, getConsultationEndDate, showToast } from "#utils";
 import { useCancelConsultation } from "#hooks";
 
 export const CancelConsultation = ({
@@ -22,10 +22,11 @@ export const CancelConsultation = ({
 
   const [error, setError] = useState();
 
-  const { providerName, timestamp, image, price } = consultation;
+  const { providerName, timestamp, image, price, durationMinutes } =
+    consultation;
 
   const startDate = new Date(timestamp);
-  const endDate = new Date(timestamp + ONE_HOUR);
+  const endDate = getConsultationEndDate(timestamp, durationMinutes);
 
   const isConsultationLessThan24HoursBefore =
     new Date().getTime() + 24 * ONE_HOUR >= startDate.getTime();

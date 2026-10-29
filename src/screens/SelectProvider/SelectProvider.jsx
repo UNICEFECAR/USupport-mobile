@@ -18,7 +18,10 @@ import { useTranslation } from "react-i18next";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { Screen, Heading, Block, AppText, Icon } from "#components";
-import { SelectProvider as SelectProviderBlock } from "#blocks";
+import {
+  SelectProvider as SelectProviderBlock,
+  PROVIDER_CATEGORIES,
+} from "#blocks";
 import { FilterProviders } from "#backdrops";
 import {
   useGetProvidersData,
@@ -55,10 +58,15 @@ export const SelectProvider = ({ navigation, route }) => {
     useContext(Context);
   const { colors, isDarkMode } = useGetTheme();
   const [selectedBillingType, setSelectedBillingType] = useState(null);
+  const [providerCategory, setProviderCategory] = useState(
+    PROVIDER_CATEGORIES.PROVIDERS
+  );
   const prevHasActiveCampaignRef = useRef(undefined);
 
   const { data: isKzCountry } = useQuery(["country-min-price"], fetchCountry);
   const isKazakhstan = country === "KZ" || isKzCountry === true;
+  // The Providers / U-Friend split is only available in Armenia
+  const isArmenia = country?.toUpperCase() === "AM";
   const couponsAvailableByCountry = !!selectedCountry?.hasCoupons;
   const { data: hasActiveCampaign, isLoading: isActiveCampaignLoading } =
     useCheckActiveCampaign(couponsAvailableByCountry);
@@ -415,6 +423,7 @@ export const SelectProvider = ({ navigation, route }) => {
                     })
                   : t("heading")
               }
+              subheading={t("subheading_short")}
               handleGoBack={handleGoBack}
               wrapperStyle={{ paddingTop: 0 }}
             />
@@ -454,6 +463,9 @@ export const SelectProvider = ({ navigation, route }) => {
 
           <SelectProviderBlock
             providers={providersData}
+            providerCategory={providerCategory}
+            setProviderCategory={setProviderCategory}
+            showCategoryTabs={isArmenia}
             navigation={navigation}
             activeCoupon={effectiveActiveCoupon}
             setActiveCoupon={setActiveCoupon}
@@ -468,7 +480,6 @@ export const SelectProvider = ({ navigation, route }) => {
             selectedBillingType={selectedBillingType}
             setSelectedBillingType={setSelectedBillingType}
             handleFilterClick={handleFilterClick}
-            filterButtonLabel={t("button_label")}
             hasActiveCampaign={canUseCoupons}
           />
 

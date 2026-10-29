@@ -606,7 +606,18 @@
       "providers_free_consultation_label": "",
       "coupon_note": "This time, we've entered a code for you for a free session! Schedule an appointment with one of our consultants and take the first step towards improving your well-being.",
       "choose-the-provider": "Выберите специалиста, с которым хотите общаться по видео, аудио или в чате. Иногда может потребоваться несколько сессий, чтобы найти специалиста, который подходит вам по потребностям и предпочтительному формату работы.",
-      "choose_provider": "Выберите консультанта, с которым хотите поговорить на аудио/видео консультации. Иногда может потребоваться время, чтобы найти консультанта, который хорошо соответствует Вашим потребностям и предпочитаемому Вами подходу."
+      "choose_provider": "Выберите консультанта, с которым хотите поговорить на аудио/видео консультации. Иногда может потребоваться время, чтобы найти консультанта, который хорошо соответствует Вашим потребностям и предпочитаемому Вами подходу.",
+      "tab_providers": "Психологи",
+      "tab_u_friend": "U-Friend",
+      "filters": "Фильтры",
+      "connect_by": "Общайтесь по видео, аудио или в переписке.",
+      "available_providers": "Доступные консультанты",
+      "available_u_friends": "Доступные U-Friend",
+      "available_count": "{{count}} доступно",
+      "next_available_session": "Ближайшая доступная сессия",
+      "view_profile": "Смотреть профиль",
+      "no_u_friends": "Нет U-Friend, соответствующих Вашим критериям",
+      "available_psychologists": "Доступные психологи"
     },
     "share-platform": {
       "button_label_share_text": "Поделиться на",
@@ -1300,7 +1311,8 @@
       "max_price": "Максимальная цена",
       "providers_free_consultation_label": "Только бесплатная консультация",
       "coupon_note": "This time, we've entered a code for you for a free session! Schedule an appointment with one of our consultants and take the first step towards improving your well-being.",
-      "consultations_unavailable_note": "Консультации со специалистами не доступны на данный момент. Мы сообщим о возобновлении консультаций на этой странице."
+      "consultations_unavailable_note": "Консультации со специалистами не доступны на данный момент. Мы сообщим о возобновлении консультаций на этой странице.",
+      "subheading_short": "Найдите того, с кем Вам будет комфортно говорить."
     },
     "share-platform-screen": {
       "heading": "Поделиться приложением",

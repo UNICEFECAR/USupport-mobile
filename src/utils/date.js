@@ -1,5 +1,29 @@
 const ONE_HOUR = 60 * 60 * 1000;
+const ONE_MINUTE = 60 * 1000;
 const FIVE_MINUTES = 5 * 60 * 1000;
+
+/** A consultation with no recorded length predates per-slot durations: an hour. */
+const DEFAULT_DURATION_MINUTES = 60;
+
+/**
+ * When a consultation ends.
+ *
+ * Consultations are 30 or 60 minutes long, so the end is the start plus the
+ * real length - never a hard-coded hour.
+ *
+ * @param {number|Date|string} start
+ * @param {number} [durationMinutes] defaults to the legacy hour
+ * @returns {Date}
+ */
+function getConsultationEndDate(start, durationMinutes) {
+  const startMs =
+    start instanceof Date ? start.getTime() : new Date(start).getTime();
+  const minutes =
+    Number(durationMinutes) > 0
+      ? Number(durationMinutes)
+      : DEFAULT_DURATION_MINUTES;
+  return new Date(startMs + minutes * ONE_MINUTE);
+}
 
 /**
  * Get the day of the week from a Date object
@@ -59,16 +83,16 @@ const getTimeFromDate = (date) => {
 };
 
 /**
- * Function to check if a given timestamp is in 5 minutes or less than the current time
- * and if the current time is earlier than an hour after the timestamp
+ * Is it currently between five minutes before the consultation and its end?
  *
- * @param {number} - the timestamp in milliseconds
+ * @param {number} timestamp the start, in milliseconds
+ * @param {number} [durationMinutes] defaults to the legacy hour
  *
  * @returns {boolean}
  */
-function checkIsFiveMinutesBefore(timestamp) {
+function checkIsFiveMinutesBefore(timestamp, durationMinutes) {
   const currentTime = new Date().getTime();
-  const endTime = timestamp + ONE_HOUR;
+  const endTime = getConsultationEndDate(timestamp, durationMinutes).getTime();
 
   return currentTime >= timestamp - FIVE_MINUTES && currentTime <= endTime;
 }
@@ -244,6 +268,11 @@ const parseUTCDate = (dateString) => {
       return dateString;
     }
 
+    // The availability API now returns slot times as epoch milliseconds.
+    if (typeof dateString === "number") {
+      return new Date(dateString);
+    }
+
     // Handle ISO 8601 format (e.g., "2026-01-18T03:00:00.000Z")
     if (
       dateString.includes("T") &&
@@ -279,6 +308,9 @@ export {
   isDateYesterday,
   getOrdinal,
   ONE_HOUR,
+  ONE_MINUTE,
   FIVE_MINUTES,
+  DEFAULT_DURATION_MINUTES,
+  getConsultationEndDate,
   parseUTCDate,
 };

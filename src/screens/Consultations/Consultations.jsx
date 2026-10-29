@@ -37,7 +37,7 @@ import {
   useAddCountryEvent,
 } from "#hooks";
 
-import { parseUTCDate } from "#utils";
+import { getConsultationEndDate, parseUTCDate } from "#utils";
 
 /**
  * Consultations
@@ -134,6 +134,8 @@ export const Consultations = ({ navigation }) => {
 
   const consultationPrice = useRef();
   const selectedSlot = useRef();
+  // The booked slot's own length, for the confirmation's end time.
+  const selectedSlotDuration = useRef();
 
   // Refresh Logic
   const [refreshing, setRefreshing] = useState(false);
@@ -175,9 +177,10 @@ export const Consultations = ({ navigation }) => {
   };
   const blockSlotMutation = useBlockSlot(onBlockSlotSuccess, onBlockSlotError);
 
-  const handleBlockSlot = (slot, price) => {
+  const handleBlockSlot = (slot, price, durationMinutes) => {
     consultationPrice.current = price;
     selectedSlot.current = slot;
+    selectedSlotDuration.current = durationMinutes;
     blockSlotMutation.mutate({
       slot,
       providerId: selectedConsultationProviderId,
@@ -345,8 +348,9 @@ export const Consultations = ({ navigation }) => {
           ctaStyle={{ marginBottom: 85 }}
           consultation={{
             startDate: time,
-            endDate: new Date(
-              new Date(time).setHours(new Date(time).getHours() + 1)
+            endDate: getConsultationEndDate(
+              time,
+              selectedSlotDuration.current
             ),
           }}
         />
