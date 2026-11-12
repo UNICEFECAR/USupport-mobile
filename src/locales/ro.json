@@ -250,7 +250,7 @@
       "depressed": "Deprimat",
       "worried": "Îngrijorat",
       "history": "Istoric",
-      "welcome-heading": "Welcome",
+      "welcome-heading": "Bine ați venit",
       "heading": "Urmărirea stării de spirit",
       "mood_tracker": "Urmărirea stării de spirit",
       "how_it_works": "Cum funcționează",
@@ -1013,8 +1013,8 @@
       "explore_card_description": "Găsiți organizații și resurse de sănătate mintală în zona dvs.",
       "explore_button_label": "Explorați organizațiile",
       "user_guide_heading": "Vrei sa afli mai multe despre:",
-      "emergency_services": "Sevicii de urgenta",
-      "emergency_services_description": "Sevicii de urgenta",
+      "emergency_services": "Servicii de urgență",
+      "emergency_services_description": "Servicii de urgență",
       "map": "Harta serviciilor de sanatate mintala si suport psiho-emotional disponibile in Bucuresti",
       "map_description": "Harta serviciilor de suport (București)",
       "rights": "Drepturile copiilor si adolescentilor de a accesa servicii pentru sanatate mintala si suport psiho-emotional",
@@ -1673,7 +1673,7 @@
     },
     "user-guide": {
       "heading": "Vrei sa afli mai multe despre:",
-      "emergency_services": "Sevicii de urgenta",
+      "emergency_services": "Servicii de urgență",
       "map": "Harta serviciilor de suport (București)",
       "rights": "Drepturile copiilor și adolescenților"
     },

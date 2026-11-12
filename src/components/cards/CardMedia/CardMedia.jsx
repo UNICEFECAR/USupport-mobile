@@ -334,7 +334,6 @@ export const CardMedia = ({
             <AppText
               namedStyle="text"
               id="description"
-              numberOfLines={2}
               style={[styles.descriptionText, { color: colors.text }]}
             >
               {description}
