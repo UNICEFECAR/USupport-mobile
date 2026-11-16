@@ -5,7 +5,12 @@ import React, {
   useContext,
   useMemo,
 } from "react";
-import { StyleSheet, View } from "react-native";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { FlashList } from "@shopify/flash-list";
@@ -55,6 +60,9 @@ export const Articles = ({
   initialSearchValue = "",
   externalSearchValue,
   topSpacing = 100,
+  // Information portal already scrolls this block. A nested full-height
+  // list leaves a large empty region under the cards.
+  useParentScroll = false,
 }) => {
   const { i18n, t } = useTranslation("blocks", { keyPrefix: "articles" });
   const { isTmpUser } = useContext(Context);
@@ -288,6 +296,7 @@ export const Articles = ({
   }, [categories, articleCategoryIdsToShow]);
 
   const [hasMoreGuest, setHasMoreGuest] = useState(true);
+  const [isLoadingMoreGuest, setIsLoadingMoreGuest] = useState(false);
 
   const getArticlesData = async () => {
     const ageGroupId = ageGroupsQuery.data.find((x) => x.isSelected).id;
@@ -542,6 +551,40 @@ export const Articles = ({
     );
   };
 
+  const canLoadMoreArticles = isTmpUser ? hasMoreGuest : hasMore;
+
+  const handleLoadMoreArticles = async () => {
+    if (!isTmpUser) {
+      if (hasMore) loadMore();
+      return;
+    }
+    if (!hasMoreGuest || isLoadingMoreGuest) return;
+    setIsLoadingMoreGuest(true);
+    try {
+      await getMoreArticles();
+    } finally {
+      setIsLoadingMoreGuest(false);
+    }
+  };
+
+  const articlesEmptyState = showArticlesSkeleton ? (
+    <>
+      <CardMediaSkeleton style={styles.cardMedia} />
+      <CardMediaSkeleton style={styles.cardMedia} />
+      <CardMediaSkeleton style={styles.cardMedia} />
+    </>
+  ) : !isTmpUser ? (
+    showArticlesNoResults && isReady && !isArticlesLoading ? (
+      <View style={styles.articlesNoResultsContainer}>
+        <AppText>{t("no_results")}</AppText>
+      </View>
+    ) : null
+  ) : showArticlesNoResults && isArticlesFetched && !isGuestArticlesLoading ? (
+    <View style={styles.articlesNoResultsContainer}>
+      <AppText>{t("no_results")}</AppText>
+    </View>
+  ) : null;
+
   return (
     <>
       <Block style={[styles.blockWithMargin, { marginTop: topSpacing }]}>
@@ -576,46 +619,48 @@ export const Articles = ({
         <TabsSkeleton style={styles.tabs} count={6} />
       ) : null}
 
-      <Block style={styles.articlesBlock}>
-        <View style={styles.flashListWrapper}>
-          <FlashList
-            estimatedItemSize={25}
-            showsVerticalScrollIndicator={false}
-            keyExtractor={(_item, index) => index.toString()}
-            data={transformedArticles || []}
-            renderItem={renderArticle}
-            onEndReached={() => {
-              if (!isTmpUser && hasMore) {
-                loadMore();
-              } else if (isTmpUser && hasMoreGuest) {
-                getMoreArticles();
-              }
-            }}
-            onEndReachedThreshold={0.2}
-            ListEmptyComponent={
-              showArticlesSkeleton ? (
-                <>
-                  <CardMediaSkeleton style={styles.cardMedia} />
-                  <CardMediaSkeleton style={styles.cardMedia} />
-                  <CardMediaSkeleton style={styles.cardMedia} />
-                </>
-              ) : !isTmpUser ? (
-                showArticlesNoResults && isReady && !isArticlesLoading ? (
-                  <View style={styles.articlesNoResultsContainer}>
-                    <AppText>{t("no_results")}</AppText>
-                  </View>
-                ) : null
-              ) : showArticlesNoResults &&
-                isArticlesFetched &&
-                !isGuestArticlesLoading ? (
-                <View style={styles.articlesNoResultsContainer}>
-                  <AppText>{t("no_results")}</AppText>
-                </View>
-              ) : null
-            }
-            contentContainerStyle={styles.flashListWrapperWithPadding}
-          />
-        </View>
+      <Block
+        style={[styles.articlesBlock, useParentScroll && styles.articlesBlockEmbedded]}
+      >
+        {useParentScroll ? (
+          <View style={styles.articlesList}>
+            {transformedArticles?.length
+              ? transformedArticles.map((item, index) =>
+                  renderArticle({ item, index })
+                )
+              : articlesEmptyState}
+            {transformedArticles?.length && canLoadMoreArticles ? (
+              <TouchableOpacity
+                style={styles.loadMoreBtn}
+                onPress={handleLoadMoreArticles}
+                disabled={isLoadingMoreGuest}
+                accessibilityRole="button"
+              >
+                {isLoadingMoreGuest ? (
+                  <ActivityIndicator />
+                ) : (
+                  <AppText namedStyle="text" isSemibold>
+                    {t("view_more")}
+                  </AppText>
+                )}
+              </TouchableOpacity>
+            ) : null}
+          </View>
+        ) : (
+          <View style={styles.flashListWrapper}>
+            <FlashList
+              estimatedItemSize={25}
+              showsVerticalScrollIndicator={false}
+              keyExtractor={(_item, index) => index.toString()}
+              data={transformedArticles || []}
+              renderItem={renderArticle}
+              onEndReached={handleLoadMoreArticles}
+              onEndReachedThreshold={0.2}
+              ListEmptyComponent={articlesEmptyState}
+              contentContainerStyle={styles.flashListWrapperWithPadding}
+            />
+          </View>
+        )}
       </Block>
     </>
   );
@@ -625,6 +670,18 @@ const styles = StyleSheet.create({
   articlesBlock: {
     width: "100%",
     paddingBottom: 50,
+  },
+  articlesBlockEmbedded: {
+    paddingBottom: 0,
+  },
+  articlesList: {
+    width: "100%",
+    paddingBottom: 80,
+  },
+  loadMoreBtn: {
+    alignSelf: "center",
+    paddingVertical: 16,
+    paddingHorizontal: 24,
   },
   articlesNoResultsContainer: { padding: 100, textAlign: "center" },
   blockWithMargin: {

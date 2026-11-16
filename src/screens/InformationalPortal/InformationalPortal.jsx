@@ -289,6 +289,7 @@ export const InformationalPortal = ({ navigation, route }) => {
                 showCategories={true}
                 externalSearchValue={debouncedSearchValue}
                 topSpacing={0}
+                useParentScroll
               />
             </>
           )}
