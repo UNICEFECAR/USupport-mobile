@@ -51,6 +51,13 @@ export const QuestionDetails = ({
 
   const providerId =
     providerInfo?.providerId || providerInfo?.provider_detail_id;
+  const canOpenProviderProfile = isProviderActive && !!providerId;
+
+  const redirectToProviderProfile = () => {
+    if (canOpenProviderProfile) {
+      handleProviderClick(providerId);
+    }
+  };
 
   return (
     <Backdrop isOpen={isOpen} onClose={onClose}>
@@ -116,8 +123,8 @@ export const QuestionDetails = ({
               </AppText>
 
               <TouchableOpacity
-                onPress={() => providerId && handleProviderClick(providerId)}
-                disabled={!providerId}
+                onPress={redirectToProviderProfile}
+                disabled={!canOpenProviderProfile}
                 hitSlop={appStyles.hitSlop}
               >
                 <Avatar
@@ -128,8 +135,8 @@ export const QuestionDetails = ({
               </TouchableOpacity>
 
               <TouchableOpacity
-                onPress={() => providerId && handleProviderClick(providerId)}
-                disabled={!providerId}
+                onPress={redirectToProviderProfile}
+                disabled={!canOpenProviderProfile}
                 hitSlop={appStyles.hitSlop}
               >
                 <AppText style={styles.providerName}>

@@ -31,8 +31,8 @@ export const MyQA = ({
   setTabs,
   handleFilterTags,
   filterTag,
-  userQuestionsLoading,
-  allQuestionsLoading,
+  isLoading,
+  visibleQuestionsCount,
   handleProviderClick,
   selectedLanguage,
   setSelectedLanguage,
@@ -44,7 +44,6 @@ export const MyQA = ({
 }) => {
   const { t, i18n } = useTranslation("blocks", { keyPrefix: "my-qa" });
   const { isHighContrast } = useGetTheme();
-  const selectedTab = tabs.find((x) => x.isSelected)?.value;
 
   const { data: languages } = useGetLanguages();
 
@@ -85,10 +84,7 @@ export const MyQA = ({
   };
 
   const renderQuestions = useCallback(() => {
-    if (
-      (selectedTab === "your_questions" && userQuestionsLoading) ||
-      (selectedTab !== "your_questions" && allQuestionsLoading)
-    ) {
+    if (isLoading) {
       return (
         <>
           <AnswerSkeleton style={styles.answer} />
@@ -144,25 +140,27 @@ export const MyQA = ({
       );
     }
 
-    return filteredQuestions.map((question, index) => {
-      return (
-        <Answer
-          question={question}
-          key={index}
-          style={styles.answer}
-          handleLike={handleLike}
-          handleReadMore={handleReadMore}
-          handleSchedulePress={handleSchedulePress}
-          handleProviderClick={handleProviderClick}
-          t={t}
-        />
-      );
-    });
+    return filteredQuestions
+      .slice(0, visibleQuestionsCount)
+      .map((question, index) => {
+        return (
+          <Answer
+            question={question}
+            key={index}
+            style={styles.answer}
+            handleLike={handleLike}
+            handleReadMore={handleReadMore}
+            handleSchedulePress={handleSchedulePress}
+            handleProviderClick={handleProviderClick}
+            t={t}
+          />
+        );
+      });
   }, [
     questions,
     i18n.language,
-    userQuestionsLoading,
-    allQuestionsLoading,
+    isLoading,
+    visibleQuestionsCount,
     searchValue,
     filterTag,
   ]);

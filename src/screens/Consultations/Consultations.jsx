@@ -184,6 +184,7 @@ export const Consultations = ({ navigation }) => {
     blockSlotMutation.mutate({
       slot,
       providerId: selectedConsultationProviderId,
+      rescheduledConsultationId: selectedConsultationId,
     });
   };
 

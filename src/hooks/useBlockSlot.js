@@ -17,7 +17,8 @@ export default function useBlockSlot(onSuccess, onError) {
     const response = await providerSvc.blockSlot(
       null,
       data.providerId,
-      data.slot
+      data.slot,
+      data.rescheduledConsultationId
     );
     return response.data.consultation_id;
   };
