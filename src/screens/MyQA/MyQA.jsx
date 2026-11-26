@@ -38,6 +38,7 @@ import { Context } from "#services";
 const { AMAZON_S3_BUCKET } = Config;
 
 const myQaHeroImage = `${AMAZON_S3_BUCKET}/my-qa-mobile`;
+const QUESTIONS_BATCH_SIZE = 10;
 
 /**
  * MyQA
@@ -63,7 +64,6 @@ export const MyQA = ({ navigation }) => {
   const [isFilterQuestionsBackdropOpen, setIsFilterQuestionsBackdropOpen] =
     useState(false);
   const [selectedQuestion, setSelectedQuestion] = useState();
-  const [questions, setQuestions] = useState([]);
   const [tabs, setTabs] = useState([
     { label: "All", value: "all", isSelected: true },
     { label: "Most popular", value: "most_popular", isSelected: false },
@@ -104,47 +104,71 @@ export const MyQA = ({ navigation }) => {
     rollback();
   };
 
-  const onMutate = ({ vote, answerId }) => {
-    const rollbackCopy = JSON.parse(JSON.stringify([...questions]));
+  const selectedTab = tabs.find((tab) => tab.isSelected).value;
+  const isYourQuestionsTab = selectedTab === "your_questions";
 
-    const questionsCopy = [...questions];
+  const userQuestionsQuery = useGetClientQuestions(
+    isYourQuestionsTab && shouldFetchQuestions,
+    selectedLanguage
+  );
+  const allQuestionsQuery = useGetQuestions(
+    selectedTab,
+    !isYourQuestionsTab,
+    selectedLanguage
+  );
+
+  // Read the questions straight from the query cache so there is no render
+  // where the request has finished but the list is still empty
+  const activeQuestionsQuery = isYourQuestionsTab
+    ? userQuestionsQuery
+    : allQuestionsQuery;
+  const questions = activeQuestionsQuery.data || [];
+  const activeQuestionsQueryKey = isYourQuestionsTab
+    ? ["getClientQuestions", selectedLanguage]
+    : ["getQuestions", selectedTab, selectedLanguage];
+
+  const onMutate = ({ vote, answerId }) => {
+    const queryKey = activeQuestionsQueryKey;
+    const previousQuestions = queryClient.getQueryData(queryKey);
     const isLike = vote === "like" || vote === "remove-like";
 
-    for (let i = 0; i < questionsCopy.length; i++) {
-      if (questionsCopy[i].answerId === answerId) {
+    queryClient.setQueryData(queryKey, (oldQuestions = []) =>
+      oldQuestions.map((oldQuestion) => {
+        if (oldQuestion.answerId !== answerId) return oldQuestion;
+
+        const question = { ...oldQuestion };
         if (isLike) {
-          if (questionsCopy[i].isLiked) {
-            questionsCopy[i].likes--;
+          if (question.isLiked) {
+            question.likes--;
           } else {
-            questionsCopy[i].likes++;
+            question.likes++;
           }
 
-          if (questionsCopy[i].isDisliked) {
-            questionsCopy[i].dislikes--;
+          if (question.isDisliked) {
+            question.dislikes--;
           }
         } else {
-          if (questionsCopy[i].isDisliked) {
-            questionsCopy[i].dislikes--;
+          if (question.isDisliked) {
+            question.dislikes--;
           } else {
-            questionsCopy[i].dislikes++;
+            question.dislikes++;
           }
-          if (questionsCopy[i].isLiked) {
-            questionsCopy[i].likes--;
+          if (question.isLiked) {
+            question.likes--;
           }
         }
-        questionsCopy[i].isLiked = questionsCopy[i].isLiked ? false : isLike;
-        questionsCopy[i].isDisliked = !isLike
-          ? questionsCopy[i].isDisliked
+        question.isLiked = question.isLiked ? false : isLike;
+        question.isDisliked = !isLike
+          ? question.isDisliked
             ? false
             : !isLike
           : !isLike;
-      }
-    }
-
-    setQuestions(questionsCopy);
+        return question;
+      })
+    );
 
     return () => {
-      setQuestions(rollbackCopy);
+      queryClient.setQueryData(queryKey, previousQuestions);
     };
   };
 
@@ -156,37 +180,30 @@ export const MyQA = ({ navigation }) => {
 
   const addCountryEventMutation = useAddCountryEvent();
 
-  const isUserQuestionsEnabled =
-    tabs.filter((tab) => tab.value === "your_questions" && tab.isSelected)
-      .length > 0 &&
-    shouldFetchQuestions &&
-    !!selectedLanguage;
-
-  const userQuestionsQuery = useGetClientQuestions(
-    isUserQuestionsEnabled,
-    selectedLanguage
-  );
-  const allQuestionsQuery = useGetQuestions(
-    tabs.find((tab) => tab.isSelected).value,
-    !isUserQuestionsEnabled,
-    selectedLanguage
-  );
-
   useEffect(() => {
     if (isTmpUser) {
       setTabs(tabs.filter((tab) => tab.value !== "your_questions"));
     }
   }, [isTmpUser]);
 
-  useEffect(() => {
-    if (isUserQuestionsEnabled && userQuestionsQuery.data) {
-      setQuestions(userQuestionsQuery.data);
-    }
+  // Mount the answer cards in batches instead of all at once
+  const [visibleQuestionsCount, setVisibleQuestionsCount] =
+    useState(QUESTIONS_BATCH_SIZE);
 
-    if (!isUserQuestionsEnabled && allQuestionsQuery.data) {
-      setQuestions(allQuestionsQuery.data);
+  useEffect(() => {
+    setVisibleQuestionsCount(QUESTIONS_BATCH_SIZE);
+  }, [selectedTab, selectedLanguage, filterTag, searchValue]);
+
+  const handleScroll = ({ nativeEvent }) => {
+    const { layoutMeasurement, contentOffset, contentSize } = nativeEvent;
+    const isCloseToBottom =
+      layoutMeasurement.height + contentOffset.y >=
+      contentSize.height - layoutMeasurement.height;
+
+    if (isCloseToBottom && visibleQuestionsCount < questions.length) {
+      setVisibleQuestionsCount((count) => count + QUESTIONS_BATCH_SIZE);
     }
-  }, [tabs, userQuestionsQuery.data, allQuestionsQuery.data]);
+  };
 
   const handleLike = (vote, answerId) => {
     if (isTmpUser) {
@@ -283,6 +300,8 @@ export const MyQA = ({ navigation }) => {
           keyboardShouldPersistTaps="handled"
           style={styles.scrollView}
           contentContainerStyle={{ paddingBottom: scrollContentBottomPadding }}
+          onScroll={handleScroll}
+          scrollEventThrottle={200}
         >
           <InformationPortalHero
             navigation={navigation}
@@ -306,8 +325,8 @@ export const MyQA = ({ navigation }) => {
             handleReadMore={handleSetIsQuestionDetailsOpen}
             handleFilterTags={() => setIsFilterQuestionsBackdropOpen(true)}
             filterTag={filterTag}
-            userQuestionsLoading={userQuestionsQuery.isLoading}
-            allQuestionsLoading={allQuestionsQuery.isLoading}
+            isLoading={activeQuestionsQuery.isLoading}
+            visibleQuestionsCount={visibleQuestionsCount}
             handleProviderClick={handleProviderClick}
             selectedLanguage={selectedLanguage}
             setSelectedLanguage={setSelectedLanguage}
@@ -342,7 +361,13 @@ export const MyQA = ({ navigation }) => {
         <QuestionDetails
           isOpen={isQuestionDetailsOpen}
           onClose={() => setIsQuestionDetailsOpen(false)}
-          question={selectedQuestion}
+          question={
+            (selectedQuestion?.answerId &&
+              questions.find(
+                (question) => question.answerId === selectedQuestion.answerId
+              )) ||
+            selectedQuestion
+          }
           handleLike={handleLike}
           handleSchedulePress={handleScheduleConsultationPress}
           handleProviderClick={handleProviderClick}

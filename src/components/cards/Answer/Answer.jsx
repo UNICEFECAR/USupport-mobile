@@ -24,6 +24,19 @@ import { useGetTheme } from "#hooks";
 
 const { AMAZON_S3_BUCKET } = Config;
 
+// Resolved once per app run instead of a synchronous native lookup per card render
+const ExpoBlurView = (() => {
+  try {
+    // expo-blur requires a native view manager registered as `ExpoBlurView`.
+    // If the dev client hasn't been rebuilt with expo-blur, this will be missing.
+    if (!UIManager.getViewManagerConfig?.("ExpoBlurView")) return null;
+    // eslint-disable-next-line global-require
+    return require("expo-blur").BlurView;
+  } catch (e) {
+    return null;
+  }
+})();
+
 /**
  * Answer
  *
@@ -44,7 +57,6 @@ export const Answer = ({
   const isLightTheme = colors.background === appStyles.colorWhite_ff;
   const providerInfo = question.providerData;
   const isProviderActive = providerInfo?.status !== "inactive";
-  console.log(isProviderActive);
   const isAskedByCurrentClient = question.isAskedByCurrentClient;
 
   const imageUrl = AMAZON_S3_BUCKET + "/" + (providerInfo.image || "default");
@@ -81,22 +93,9 @@ export const Answer = ({
     return out;
   }, [question?.tags]);
 
-  const canRenderExpoBlur = (() => {
-    try {
-      // expo-blur requires a native view manager registered as `ExpoBlurView`.
-      // If the dev client hasn't been rebuilt with expo-blur, this will be missing.
-      return !!UIManager.getViewManagerConfig?.("ExpoBlurView");
-    } catch (e) {
-      return false;
-    }
-  })();
-
   const shouldRenderBlur =
-    !isHighContrast && Platform.OS !== "web" && canRenderExpoBlur;
-  const BlurViewComponent = shouldRenderBlur
-    ? // eslint-disable-next-line global-require
-      require("expo-blur").BlurView
-    : null;
+    !isHighContrast && Platform.OS !== "web" && !!ExpoBlurView;
+  const BlurViewComponent = shouldRenderBlur ? ExpoBlurView : null;
 
   const getDateText = (dateString) => {
     const date = new Date(dateString);

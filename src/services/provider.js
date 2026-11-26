@@ -157,11 +157,18 @@ async function getAvailableSlotsForSingleDay(
  * @param {number} slotTimestamp the timestamp of the slot
  * @returns {Promise} resolving to and object with the "consultation_id"
  */
-async function blockSlot(clientId, providerId, slotTimestamp) {
+async function blockSlot(
+  clientId,
+  providerId,
+  slotTimestamp,
+  rescheduledConsultationId
+) {
   const response = await http.post(`${API_ENDPOINT}/consultation/block`, {
     bookedFrom: "mobile",
     clientId,
     providerId,
+    // The consultation being moved, so it does not block its own new time.
+    ...(rescheduledConsultationId ? { rescheduledConsultationId } : {}),
     time:
       typeof slotTimestamp === "object"
         ? {

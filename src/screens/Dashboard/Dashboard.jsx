@@ -290,6 +290,9 @@ export const Dashboard = ({ navigation }) => {
     blockSlotMutation.mutate({
       slot,
       providerId: selectedConsultationProviderId,
+      rescheduledConsultationId: isEditingConsultation
+        ? selectedConsultationId
+        : undefined,
     });
   };
   const handleScheduleConsultation = () => {
