@@ -21,6 +21,7 @@ import { Screen, Heading, Block, AppText, Icon } from "#components";
 import {
   SelectProvider as SelectProviderBlock,
   PROVIDER_CATEGORIES,
+  PolandPilotBanner,
 } from "#blocks";
 import { FilterProviders } from "#backdrops";
 import {
@@ -459,6 +460,7 @@ export const SelectProvider = ({ navigation, route }) => {
                 </AppText>
               </View>
             )}
+            <PolandPilotBanner style={styles.pilotBanner} />
           </Block>
 
           <SelectProviderBlock
@@ -518,5 +520,8 @@ const styles = StyleSheet.create({
   unavailableNoteText: {
     flex: 1,
     lineHeight: 22,
+  },
+  pilotBanner: {
+    marginTop: 16,
   },
 });

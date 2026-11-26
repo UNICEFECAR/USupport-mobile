@@ -21,6 +21,7 @@ import {
   BaselineAssessmentDashboard,
   ConsultationsDashboard,
   MoodTracker,
+  PolandPilotBanner,
 } from "#blocks";
 
 import {
@@ -421,6 +422,7 @@ export const Dashboard = ({ navigation }) => {
           }
           keyboardShouldPersistTaps="handled"
         >
+          <PolandPilotBanner style={styles.pilotBanner} />
           <View
             onLayout={(e) => setMoodTrackerLayout(e.nativeEvent.layout)}
             collapsable={false}
@@ -556,6 +558,11 @@ export const Dashboard = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   keyboardAvoid: { flex: 1 },
+  pilotBanner: {
+    marginHorizontal: 16,
+    marginTop: 8,
+    marginBottom: 4,
+  },
   alignSelfStart: { alignSelf: "flex-start" },
   colorTextBlue: { color: appStyles.colorBlue_263238 },
   marginBottom85: { marginBottom: 85 },

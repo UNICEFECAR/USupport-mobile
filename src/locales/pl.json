@@ -1095,6 +1095,11 @@
       "download_pdf": "Pobierz wyniki (PDF)",
       "download_success": "PDF został pomyślnie pobrany",
       "download_pdf_footer": "Wygenerowano przez aplikację kliencką USupport"
+    },
+    "poland-pilot-banner": {
+      "title": "Pilotaż uSupport w Polsce został zakończony.",
+      "body": "Faza pilotażowa uSupport w Polsce zakończyła się 31 października 2026 r., dlatego konsultacje psychologiczne są obecnie niedostępne. Dziękujemy wszystkim, którzy korzystali z serwisu. Wszelkie informacje o ewentualnej kontynuacji usługi będą publikowane na tej stronie.",
+      "helplines": "Potrzebujesz wsparcia teraz? Zadzwoń pod numer <a1>116 123</a1> (Kryzysowy Telefon Zaufania), <a2>800 70 2222</a2> (całodobowe Centrum Wsparcia dla osób dorosłych w kryzysie psychicznym) lub <a3>116 111</a3> (Telefon Zaufania dla Dzieci i Młodzieży). W sytuacji zagrożenia życia dzwoń pod <a4>112</a4>."
     }
   },
   "screens": {
